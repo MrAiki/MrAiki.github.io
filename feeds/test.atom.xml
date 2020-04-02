@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - test</title><link href="/" rel="alternate"></link><link href="/feeds/test.atom.xml" rel="self"></link><id>/</id><updated>2020-04-02T18:20:00+09:00</updated><entry><title>First Post By Pelican</title><link href="/first-post-by-pelican.html" rel="alternate"></link><published>2020-04-02T18:00:00+09:00</published><updated>2020-04-02T18:20:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-02:/first-post-by-pelican.html</id><summary type="html">&lt;p class="first last"&gt;pelican + github.io test&lt;/p&gt;
+</summary><content type="html">&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello World&amp;quot;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;桃山みらい&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="test"></category><category term="test"></category></entry></feed>
