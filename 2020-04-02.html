@@ -12,17 +12,21 @@
 <link rel="canonical" href="/2020-04-02.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="test" />
-        <meta name="description" content="日報はじめてみた" />
+        <meta name="keywords" content="SLA,SSE,test,pelican,githubio" />
+        <meta name="description" content="GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。 GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。 Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法 GitHub Pagesで静的サイトを簡単に作る Python製 Pelican を使ってサクッとブログを公開する Pelicanのテーマ集 テーマ導入時にハマったので参考にしたissue comment 今日は（というか3月末）からSLAの高速化作業とまとめをしていた。 格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。 SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。 StackOverFlowの記事 では _mm_set_epi32 のコストが高い旨記述あり。 _mm_loadu_si128 の使用に置き換えた。 他の記事 で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。 gccとVC にはgccとVisual Studioの挙動の差異について色々と書いてあった。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="2020-04-02"/>
         <meta property="og:url" content="/2020-04-02.html"/>
-        <meta property="og:description" content="日報はじめてみた"/>
+        <meta property="og:description" content="GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。 GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。 Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法 GitHub Pagesで静的サイトを簡単に作る Python製 Pelican を使ってサクッとブログを公開する Pelicanのテーマ集 テーマ導入時にハマったので参考にしたissue comment 今日は（というか3月末）からSLAの高速化作業とまとめをしていた。 格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。 SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。 StackOverFlowの記事 では _mm_set_epi32 のコストが高い旨記述あり。 _mm_loadu_si128 の使用に置き換えた。 他の記事 で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。 gccとVC にはgccとVisual Studioの挙動の差異について色々と書いてあった。"/>
         <meta property="article:published_time" content="2020-04-02" />
-            <meta property="article:section" content="test" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="SLA" />
+            <meta property="article:tag" content="SSE" />
             <meta property="article:tag" content="test" />
+            <meta property="article:tag" content="pelican" />
+            <meta property="article:tag" content="githubio" />
             <meta property="article:author" content="aiki" />
 
 
@@ -37,8 +41,8 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-        <link href="/feeds/test.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog test ATOM Feed"/>
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
 </head>
 <body>
 
@@ -57,7 +61,7 @@ Aiki's Blog            </a>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                         <li class="active">
-                            <a href="/category/test.html">Test</a>
+                            <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
@@ -99,17 +103,33 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
+	<a href="/tag/sla.html">SLA</a>
+        /
+	<a href="/tag/sse.html">SSE</a>
+        /
 	<a href="/tag/test.html">test</a>
+        /
+	<a href="/tag/pelican.html">pelican</a>
+        /
+	<a href="/tag/githubio.html">githubio</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。</p>
-<p>今日は（というか3月末）からSLAの高速化作業とまとめをしていた。</p>
-<blockquote>
+                <p>GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
+GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。</p>
 <ul class="simple">
-<li>[gccとVC](<a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html">http://herumi.in.coocan.jp/prog/gcc-and-vc.html</a>)</li>
+<li><a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d">Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法</a></li>
+<li><a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514">GitHub Pagesで静的サイトを簡単に作る</a></li>
+<li><a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d">Python製 Pelican を使ってサクッとブログを公開する</a></li>
+<li><a class="reference external" href="http://www.pelicanthemes.com">Pelicanのテーマ集</a></li>
+<li><a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986">テーマ導入時にハマったので参考にしたissue comment</a></li>
 </ul>
-</blockquote>
+<p>今日は（というか3月末）からSLAの高速化作業とまとめをしていた。</p>
+<p>格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。
+SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
+<a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions">StackOverFlowの記事</a> では <cite>_mm_set_epi32</cite> のコストが高い旨記述あり。 <cite>_mm_loadu_si128</cite> の使用に置き換えた。
+<a class="reference external" href="https://stackoverflow.com/questions/24446516/performance-worsens-when-using-sse-simple-addition-of-integer-arrays">他の記事</a> で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。</p>
+<p><a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html">gccとVC</a> にはgccとVisual Studioの挙動の差異について色々と書いてあった。</p>
 
             </div>
             <!-- /.entry-content -->
