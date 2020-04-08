@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>2020-04-08 - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/2020-04-08.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="SLA,Lossless Audio,ロスレス音声" />
+        <meta name="description" content="古いロスレス音声コーデックの調査 ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが Hydrogenaudioでの比較 よりも古い内容を扱っている。 Lossless Compression of Audio 見つけたロスレス音声コーデックを一覧する。というかほぼ Really Rare Wares 様へのリンク。 RKAU(RK Audio) 古い比較において優秀な圧縮率を誇っていた。当時のMonkey&#39;s Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。 RKAUのホームページ（魚拓） を見ても特に情報なし。 AudioZip これも圧縮率が比較的優秀。 AudioZipのホームページ（魚拓） を見てもこちらも特に情報なし。 WavArc こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。 WaveZip 圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 WaveZipのデータシート によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。 WaveZipの概要 が比較サイトに掲載されていた。どうやら …" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="2020-04-08"/>
+        <meta property="og:url" content="/2020-04-08.html"/>
+        <meta property="og:description" content="古いロスレス音声コーデックの調査 ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが Hydrogenaudioでの比較 よりも古い内容を扱っている。 Lossless Compression of Audio 見つけたロスレス音声コーデックを一覧する。というかほぼ Really Rare Wares 様へのリンク。 RKAU(RK Audio) 古い比較において優秀な圧縮率を誇っていた。当時のMonkey&#39;s Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。 RKAUのホームページ（魚拓） を見ても特に情報なし。 AudioZip これも圧縮率が比較的優秀。 AudioZipのホームページ（魚拓） を見てもこちらも特に情報なし。 WavArc こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。 WaveZip 圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 WaveZipのデータシート によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。 WaveZipの概要 が比較サイトに掲載されていた。どうやら …"/>
+        <meta property="article:published_time" content="2020-04-08" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="SLA" />
+            <meta property="article:tag" content="Lossless Audio" />
+            <meta property="article:tag" content="ロスレス音声" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/2020-04-08.html"
+                       rel="bookmark"
+                       title="Permalink to 2020-04-08">
+                        2020-04-08
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-04-08T16:45:00+09:00"> Wed 08 April 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/sla.html">SLA</a>
+        /
+	<a href="/tag/lossless-audio.html">Lossless Audio</a>
+        /
+	<a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <div class="section" id="id2">
+<h2>古いロスレス音声コーデックの調査</h2>
+<p>ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが <a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison">Hydrogenaudioでの比較</a> よりも古い内容を扱っている。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html">Lossless Compression of Audio</a></li>
+</ul>
+<p>見つけたロスレス音声コーデックを一覧する。というかほぼ <a class="reference external" href="https://www.rarewares.org/rrw/about.php">Really Rare Wares</a> 様へのリンク。</p>
+<div class="section" id="rkau-rk-audio">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/rkau.php">RKAU(RK Audio)</a></h3>
+<p>古い比較において優秀な圧縮率を誇っていた。当時のMonkey's Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html">RKAUのホームページ（魚拓）</a> を見ても特に情報なし。</li>
+</ul>
+</div>
+<div class="section" id="audiozip">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/audiozip.php">AudioZip</a></h3>
+<p>これも圧縮率が比較的優秀。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm">AudioZipのホームページ（魚拓）</a> を見てもこちらも特に情報なし。</li>
+</ul>
+</div>
+<div class="section" id="wavarc">
+<h3><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/wavarc/0readme.html">WavArc</a></h3>
+<p>こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。</p>
+</div>
+<div class="section" id="wavezip">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/wavezip.php">WaveZip</a></h3>
+<p>圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 <a class="reference external" href="https://www.rarewares.org/rrw/files/lossless/musi_txt.txt">WaveZipのデータシート</a> によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。</p>
+<p><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#wavezip">WaveZipの概要</a> が比較サイトに掲載されていた。どうやら、入力波形を近似波形と誤差波形に分けて符号化するようだ。WaveZipではHu</p>
+</div>
+<div class="section" id="lpac-ltac">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/lpac.php">LPAC/LTAC</a></h3>
+<p>LPACはMPEG4-ALSの前身。LPACの前身がLTAC。LPACの平均的な圧縮率は優秀なようだ。 <a class="reference external" href="https://web.archive.org/web/20060213124711/http://www.nue.tu-berlin.de/wer/liebchen/lpac.html">LPAC（魚拓）</a> に以前公開していたサイトあり。</p>
+<p>LTAC(Lossless Transform Audio Compression)は名前の通り変換符号化に基づくロスレス音声圧縮コーデック、LPAC(Lossless Predictive Audio Compression)は予測に基づくロスレス音声圧縮コーデック。</p>
+<p>LPACに ベルリン工科大学、Real Networks、NTT の改良が加わってMPEG4-ALSが出来上がり、それ以降LPACの開発は停止されている。この経緯については <a class="reference external" href="https://web.archive.org/web/20060212123059/http://www.nue.tu-berlin.de/forschung/projekte/lossless/mp4als.html">MPEG4-ALS（魚拓）</a> に記述あり。</p>
+</div>
+<div class="section" id="shorten">
+<h3><a class="reference external" href="https://archive.is/Z8k97">Shorten（魚拓）</a></h3>
+<p>おそらくロスレス音声の最古参にして基礎。なんと執筆時点（2020-04-08）でもbrewでインストールできた（ <a class="reference external" href="https://linux.die.net/man/1/shorten">Shortenのmanページ</a> もあるから各Linuxディストリビューションで使えるものと想像する）。エンコード速度はピカイチ。</p>
+<p><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=9797AA37C32F12179AF0803D8C2B22D2?doi=10.1.1.53.7337&amp;rep=rep1&amp;type=pdf">Shortenの論文</a> （テクニカルレポート）もある。この論文で、今のロスレス音声につながる重要な事実に幾つか触れている。</p>
+<ul class="simple">
+<li>音声信号は準定常（短い区間では定常とみなせる）だからブロックに分けてエンコード/デコードすべき。</li>
+<li>音声のモデル化には線形予測(LPC, Linear Predictive Coding)が使える。</li>
+<li>残差信号はガウス分布よりもラプラス分布に従っていると見える。その符号化にはライス符号を使うのが良い。</li>
+</ul>
+<p>この時点で既にラプラス分布を仮定したパラメータ設定を行っているからかなりの慧眼。他のロスレス音声コーデックはShortenを発展させたものに過ぎないと見える。</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>所感</h2>
+<p>どうも2000年代前半までは各自でロスレス音声コーデックを作り、各自で最強を謳っていたらしい。</p>
+<p>歴史を雑にまとめると、1994年にShortenの論文が出てから、それよりも圧縮率の良いもの、圧縮速度（展開速度）が早いものが開発されて混沌に突入し上記のコーデックが現れた。その後、Monkey's Audio, WavPack, FLAC, LPAC（MPEG4-ALS）が生き残り、2000年以降はLa（更新停止）, TAK, TTA, ALAC（更新停止）, WMAL(Windows Media Audio Lossless), 2010年以降はOptimFROGが出現しているようだ。</p>
+<p>気になるのは比較サイトの <a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#rice">Rice Coding, AKA Rice Packing, Elias Gamma codes and other approaches</a> である。Rice符号よりも効率の良いとされるPod符号の紹介がある。要観察。</p>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
