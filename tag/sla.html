@@ -69,6 +69,33 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-16.html">2020-04-16</a></h2>
+                <div class="summary"><div class="section" id="lms">
+<h2>LMSフィルターの挙動観察</h2>
+<p><span class="formula"><span class="mathrm">E</span>[<span class="mathrm">sign</span>[<i>e</i>(<i>n</i>)]<i>x</i>(<i>n</i> − <i>m</i>)]</span> の挙動を追いたい。色々な信号に対して、</p>
+<ul class="simple">
+<li><span class="formula"><i>m</i></span> が十分大きいとき、0に近づくかどうか</li>
+</ul>
+<p>を知りたい。もし0に近づくならば有効な過程として解法に使える。
+しかしその前に、LMSフィルター自体の挙動を追いたい。</p>
+<ul class="simple">
+<li>残差はどの様に減る？残差の時系列は？<ul>
+<li>ステップサイズにより収束の度合い（残差の分布）が違う...</li>
+<li>当然、フィルタ次数でも収束の度合い（残差の分布）が違う</li>
+</ul>
+</li>
+<li>残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？<ul>
+<li>これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。</li>
+<li>単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
+</ul>
+</li>
+<li><span class="formula"><span class="mathrm">E</span>[<span class="mathrm">sign</span>[<i>e</i>(<i>n</i>)]<i>x</i>(<i>n</i> − <i>m</i>)]</span>, <span class="formula"><span class="mathrm">E</span>[<i>e</i>(<i>n</i>)<i>x</i>(<i>n</i> − <i>m</i>)]</span> は両方とも0。<ul>
+<li>逐次計算していったら、音源非依存で0に近づいていく …</li></ul></li></ul></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-16.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-10.html">2020-04-10</a></h2>
                 <div class="summary"><div class="section" id="id2">
 <h2>続・古いロスレス音声コーデックの調査</h2>
