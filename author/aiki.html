@@ -68,6 +68,27 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-17.html">2020-04-17</a></h2>
+                <div class="summary"><p>LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> が結構まとまっている。</li>
+<li><a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf">最尤推定による近似的手法</a> は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。</li>
+</ul>
+<p>ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4時間飛ばす。</p>
+<div class="figure">
+<img alt="" src="IMG_3828.png" />
+</div>
+<p>あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習をL1にしているやつが、やっぱりいた。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://winsty.net/papers/onndl.pdf">Online Robust Non-negative Dictionary Learning for Visual Tracking</a> パーティクルフィルターを使っておる。</li>
+</ul>
+<p>上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust Huber adaptive filter」だけど中身を読めず…</p>
+<p>また …</p>
+                    <a class="btn btn-default btn-xs" href="/2020-04-17.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-16.html">2020-04-16</a></h2>
                 <div class="summary"><div class="section" id="lms">
 <h2>LMSフィルターの挙動観察</h2>
