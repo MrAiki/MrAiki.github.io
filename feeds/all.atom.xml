@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2020-04-17T23:00:00+09:00</updated><entry><title>2020-04-17</title><link href="/2020-04-17.html" rel="alternate"></link><published>2020-04-17T23:00:00+09:00</published><updated>2020-04-17T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-17:/2020-04-17.html</id><summary type="html">&lt;p&gt;LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2020-04-17T23:00:00+09:00</updated><entry><title>2020-04-17</title><link href="/2020-04-17.html" rel="alternate"></link><published>2020-04-17T23:00:00+09:00</published><updated>2020-04-17T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-17:/2020-04-17.html</id><summary type="html">&lt;div class="section" id="lad-least-absolute-deviation"&gt;
+&lt;h2&gt;LAD(LEast Absolute Deviation)&lt;/h2&gt;
+&lt;p&gt;LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; が結構まとまっている。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf"&gt;最尤推定による近似的手法&lt;/a&gt; は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。&lt;/li&gt;
@@ -12,8 +14,9 @@
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://winsty.net/papers/onndl.pdf"&gt;Online Robust Non-negative Dictionary Learning for Visual Tracking&lt;/a&gt; パーティクルフィルターを使っておる。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust Huber adaptive filter」だけど中身を読めず…&lt;/p&gt;
-&lt;p&gt;また …&lt;/p&gt;</summary><content type="html">&lt;p&gt;LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。&lt;/p&gt;
+&lt;p&gt;上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust Huber …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="lad-least-absolute-deviation"&gt;
+&lt;h2&gt;LAD(LEast Absolute Deviation)&lt;/h2&gt;
+&lt;p&gt;LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; が結構まとまっている。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf"&gt;最尤推定による近似的手法&lt;/a&gt; は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。&lt;/li&gt;
@@ -28,6 +31,7 @@
 &lt;/ul&gt;
 &lt;p&gt;上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust Huber adaptive filter」だけど中身を読めず…&lt;/p&gt;
 &lt;p&gt;また、 &lt;a class="reference external" href="https://www.ml.uni-saarland.de/Lectures/CVX-SS10/ConvexOptimization-07-07-10.pdf"&gt;Convex Optimization and Modeling&lt;/a&gt; を読んでたらHuber損失はL1とL2の中間的な性質を示すようで、0に集中しなくなりそうな印象を受けた。&lt;/p&gt;
+&lt;/div&gt;
 </content><category term="雑記"></category><category term="SLA"></category><category term="Lossless Audio"></category><category term="ロスレス音声"></category><category term="スパース符号化"></category><category term="L1ノルム"></category><category term="LAD"></category></entry><entry><title>2020-04-16</title><link href="/2020-04-16.html" rel="alternate"></link><published>2020-04-16T23:20:00+09:00</published><updated>2020-04-16T23:20:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-16:/2020-04-16.html</id><summary type="html">&lt;div class="section" id="lms"&gt;
 &lt;h2&gt;LMSフィルターの挙動観察&lt;/h2&gt;
 &lt;p&gt;&lt;span class="formula"&gt;&lt;span class="mathrm"&gt;E&lt;/span&gt;[&lt;span class="mathrm"&gt;sign&lt;/span&gt;[&lt;i&gt;e&lt;/i&gt;(&lt;i&gt;n&lt;/i&gt;)]&lt;i&gt;x&lt;/i&gt;(&lt;i&gt;n&lt;/i&gt; − &lt;i&gt;m&lt;/i&gt;)]&lt;/span&gt; の挙動を追いたい。色々な信号に対して、&lt;/p&gt;
