@@ -68,6 +68,26 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-20.html">2020-04-20</a></h2>
+                <div class="summary"><div class="section" id="irls">
+<h2>IRLSの更新式について</h2>
+<p>MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 <tt class="docutils literal">newcommand</tt> を行えばずっと使えるみたい。便利。</p>
+<div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>逐次的更新の件について。IRLSでは以下の評価関数 <span class="math">\(J(\ve{\beta})\)</span> の最小化を考える。</p>
+<div class="math">
+\begin{equation*}
+J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-20.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-19.html">2020-04-19</a></h2>
                 <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares-2">
 <h2>IRLS(Iteratively Reweighted Least Squares) その2</h2>
@@ -132,9 +152,9 @@ Aiki's Blog            </a>
                 <h2><a href="/2020-04-16.html">2020-04-16</a></h2>
                 <div class="summary"><div class="section" id="lms">
 <h2>LMSフィルターの挙動観察</h2>
-<p><span class="formula"><span class="mathrm">E</span>[<span class="mathrm">sign</span>[<i>e</i>(<i>n</i>)]<i>x</i>(<i>n</i> − <i>m</i>)]</span> の挙動を追いたい。色々な信号に対して、</p>
+<p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
 <ul class="simple">
-<li><span class="formula"><i>m</i></span> が十分大きいとき、0に近づくかどうか</li>
+<li><span class="math">\(m\)</span> が十分大きいとき、0に近づくかどうか</li>
 </ul>
 <p>を知りたい。もし0に近づくならば有効な過程として解法に使える。
 しかしその前に、LMSフィルター自体の挙動を追いたい。</p>
@@ -149,8 +169,7 @@ Aiki's Blog            </a>
 <li>単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
 </ul>
 </li>
-<li><span class="formula"><span class="mathrm">E</span>[<span class="mathrm">sign</span>[<i>e</i>(<i>n</i>)]<i>x</i>(<i>n</i> − <i>m</i>)]</span>, <span class="formula"><span class="mathrm">E</span>[<i>e</i>(<i>n</i>)<i>x</i>(<i>n</i> − <i>m</i>)]</span> は両方とも0。<ul>
-<li>逐次計算していったら、音源非依存で0に近づいていく …</li></ul></li></ul></div>
+<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span>, <span class="math">\(\mathrm{E}[e(n)x(n-m)]\)</span> は両方とも0 …</li></ul></div>
                     <a class="btn btn-default btn-xs" href="/2020-04-16.html">more ...</a>
                 </div>
             </article>
