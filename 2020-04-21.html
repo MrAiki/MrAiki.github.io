@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="SLA,Lossless Audio,ロスレス音声,スパース符号化,L1ノルム,LAD,IRLS" />
-        <meta name="description" content="いろいろなTODO 優先度が大きい順に。 残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察をすべし。\(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 → 確かめるべし。\(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 メッセージパッシング使えない？ 何らかの確率モデル化をせよ、というふうに受け取った。 AMP, Survay-Propagation（三村さん、樺島さん）がありえる …" />
+        <meta name="description" content="いろいろなTODO 優先度が大きい順に。 残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察をすべし。\(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 → 確かめるべし。\(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 440.0Hzのsin波に対する各タップの平均勾配変化 ボイス対する各タップの平均勾配変化 ピアノ演奏に対する各タップの平均勾配変化 メッセージパッシング使えない？ 何らかの確率モデル化をせよ、というふうに受け取った。 AMP …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="2020-04-21"/>
         <meta property="og:url" content="/2020-04-21.html"/>
-        <meta property="og:description" content="いろいろなTODO 優先度が大きい順に。 残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察をすべし。\(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 → 確かめるべし。\(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 メッセージパッシング使えない？ 何らかの確率モデル化をせよ、というふうに受け取った。 AMP, Survay-Propagation（三村さん、樺島さん）がありえる …"/>
+        <meta property="og:description" content="いろいろなTODO 優先度が大きい順に。 残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察をすべし。\(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 → 確かめるべし。\(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 440.0Hzのsin波に対する各タップの平均勾配変化 ボイス対する各タップの平均勾配変化 ピアノ演奏に対する各タップの平均勾配変化 メッセージパッシング使えない？ 何らかの確率モデル化をせよ、というふうに受け取った。 AMP …"/>
         <meta property="article:published_time" content="2020-04-21" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="SLA" />
@@ -144,13 +144,16 @@ Aiki's Blog            </a>
 </li>
 </ul>
 <div class="figure">
-<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" />
+<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" />
+<p class="caption">440.0Hzのsin波に対する各タップの平均勾配変化</p>
 </div>
 <div class="figure">
-<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" />
+<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ボイス対する各タップの平均勾配変化</p>
 </div>
 <div class="figure">
-<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" />
+<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ピアノ演奏に対する各タップの平均勾配変化</p>
 </div>
 <ul class="simple">
 <li>メッセージパッシング使えない？<ul>
