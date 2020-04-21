@@ -37,6 +37,7 @@
     <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
 
     <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
     <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
 
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
@@ -66,6 +67,11 @@ Aiki's Blog            </a>
                         </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -127,7 +133,7 @@ Aiki's Blog            </a>
 </ul>
 <p>ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4時間飛ばす。</p>
 <div class="figure">
-<img alt="" src="IMG_3828.png" />
+<img alt="最尤推定の計算のあがき" src="./images/IMG_3828.png" />
 </div>
 <p>あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習をL1にしているやつが、やっぱりいた。</p>
 <ul class="simple">

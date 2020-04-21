@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>2020-04-16 - Aiki's Blog</title>
+    <title>2020-04-21 - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,23 +9,26 @@
 
 
 
-<link rel="canonical" href="/2020-04-16.html">
+<link rel="canonical" href="/2020-04-21.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="SLA,Lossless Audio,ロスレス音声,スパース符号化" />
-        <meta name="description" content="LMSフィルターの挙動観察 \(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\) の挙動を追いたい。色々な信号に対して、 \(m\) が十分大きいとき、0に近づくかどうか を知りたい。もし0に近づくならば有効な過程として解法に使える。 しかしその前に、LMSフィルター自体の挙動を追いたい。 残差はどの様に減る？残差の時系列は？ ステップサイズにより収束の度合い（残差の分布）が違う... 当然、フィルタ次数でも収束の度合い（残差の分布）が違う 残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？ これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。 単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い） \(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\), \(\mathrm{E}[e(n)x(n-m)]\) は両方とも0 …" />
+        <meta name="keywords" content="SLA,Lossless Audio,ロスレス音声,スパース符号化,L1ノルム,LAD,IRLS" />
+        <meta name="description" content="いろいろなTODO 優先度が大きい順に。 残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察をすべし。\(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 → 確かめるべし。\(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 メッセージパッシング使えない？ 何らかの確率モデル化をせよ、というふうに受け取った。 AMP, Survay-Propagation（三村さん、樺島さん）がありえる …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="2020-04-16"/>
-        <meta property="og:url" content="/2020-04-16.html"/>
-        <meta property="og:description" content="LMSフィルターの挙動観察 \(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\) の挙動を追いたい。色々な信号に対して、 \(m\) が十分大きいとき、0に近づくかどうか を知りたい。もし0に近づくならば有効な過程として解法に使える。 しかしその前に、LMSフィルター自体の挙動を追いたい。 残差はどの様に減る？残差の時系列は？ ステップサイズにより収束の度合い（残差の分布）が違う... 当然、フィルタ次数でも収束の度合い（残差の分布）が違う 残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？ これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。 単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い） \(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\), \(\mathrm{E}[e(n)x(n-m)]\) は両方とも0 …"/>
-        <meta property="article:published_time" content="2020-04-16" />
+        <meta property="og:title" content="2020-04-21"/>
+        <meta property="og:url" content="/2020-04-21.html"/>
+        <meta property="og:description" content="いろいろなTODO 優先度が大きい順に。 残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察をすべし。\(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 → 確かめるべし。\(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 メッセージパッシング使えない？ 何らかの確率モデル化をせよ、というふうに受け取った。 AMP, Survay-Propagation（三村さん、樺島さん）がありえる …"/>
+        <meta property="article:published_time" content="2020-04-21" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="SLA" />
             <meta property="article:tag" content="Lossless Audio" />
             <meta property="article:tag" content="ロスレス音声" />
             <meta property="article:tag" content="スパース符号化" />
+            <meta property="article:tag" content="L1ノルム" />
+            <meta property="article:tag" content="LAD" />
+            <meta property="article:tag" content="IRLS" />
             <meta property="article:author" content="aiki" />
 
 
@@ -87,10 +90,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/2020-04-16.html"
+                    <a href="/2020-04-21.html"
                        rel="bookmark"
-                       title="Permalink to 2020-04-16">
-                        2020-04-16
+                       title="Permalink to 2020-04-21">
+                        2020-04-21
                     </a>
                 </h1>
             </header>
@@ -100,7 +103,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-04-16T23:20:00+09:00"> Thu 16 April 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-04-21T12:10:00+09:00"> Tue 21 April 2020</time>
     </span>
 
 
@@ -115,46 +118,89 @@ Aiki's Blog            </a>
 	<a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
         /
 	<a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+        /
+	<a href="/tag/l1norumu.html">L1ノルム</a>
+        /
+	<a href="/tag/lad.html">LAD</a>
+        /
+	<a href="/tag/irls.html">IRLS</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <div class="section" id="lms">
-<h2>LMSフィルターの挙動観察</h2>
-<p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
+                <div class="section" id="todo">
+<h2>いろいろなTODO</h2>
+<p>優先度が大きい順に。</p>
 <ul class="simple">
-<li><span class="math">\(m\)</span> が十分大きいとき、0に近づくかどうか</li>
+<li>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察をすべし。<span class="math">\(m\)</span> が大きいときは無視できるのでは？<ul>
+<li>なお、長時間平均値は0に収束していることを見た。</li>
+<li>→ 確かめるべし。<span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。<ul>
+<li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
+<li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
+<li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
+<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。</li>
 </ul>
-<p>を知りたい。もし0に近づくならば有効な過程として解法に使える。
-しかしその前に、LMSフィルター自体の挙動を追いたい。</p>
+</li>
+</ul>
+</li>
+</ul>
+<div class="figure">
+<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" />
+</div>
+<div class="figure">
+<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" />
+</div>
+<div class="figure">
+<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" />
+</div>
 <ul class="simple">
-<li>残差はどの様に減る？残差の時系列は？<ul>
-<li>ステップサイズにより収束の度合い（残差の分布）が違う...</li>
-<li>当然、フィルタ次数でも収束の度合い（残差の分布）が違う</li>
+<li>メッセージパッシング使えない？<ul>
+<li>何らかの確率モデル化をせよ、というふうに受け取った。</li>
+<li>AMP, Survay-Propagation（三村さん、樺島さん）がありえる。</li>
+<li>→ AMP, Survay-Propagationについて調査すべし。</li>
 </ul>
 </li>
-<li>残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？<ul>
-<li>これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。</li>
-<li>単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
+<li>周波数領域に一旦飛ばすのはあり？<ul>
+<li>ありだけど計算量が高い。圧縮率が上がるのであれば大アリ。</li>
 </ul>
 </li>
-<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span>, <span class="math">\(\mathrm{E}[e(n)x(n-m)]\)</span> は両方とも0。<ul>
-<li>逐次計算していったら、音源非依存で0に近づいていく</li>
-<li>当然だよな…そもそもの過程として入力と雑音は無相関と仮定しているのだから。<ul>
-<li>仮定しているのだからは正しくなくて、無相関にするようにフィルタ係数を更新しているが正しい。</li>
-<li>無相関になったときに勾配が0で最急勾配法が止まる。</li>
+<li>確率的PCAとか使えない？辞書は小さくて済む。</li>
+<li>線形ダイナミクスにより上手く定式化できない？</li>
+<li>出す学会については HND 先生に聞くこと。<ul>
+<li>相談する機会はどこかで絶対に必要。</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>なんか絶対値誤差最小化ってどっかで見たよな…と思っていたら、<ul>
-<li><a class="reference external" href="https://en.wikipedia.org/wiki/Least_absolute_deviations">https://en.wikipedia.org/wiki/Least_absolute_deviations</a></li>
-<li>修士のときに一回戦っていた。</li>
-<li><a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> が結構まとまっている。</li>
+<div class="section" id="id2">
+<h3>優先度低</h3>
+<ul class="simple">
+<li>著作権処理済み音源データベースについて相談<ul>
+<li>→ 自分で情報をまとめて、申し込んでいいかというところまで進めるべし。</li>
+<li><a class="reference external" href="https://staff.aist.go.jp/m.goto/PAPER/SIGMUS200205goto.pdf">RWC 研究用音楽データベース: 音楽ジャンルデータベースと楽器音データベース</a></li>
+<li><a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/index-j.html">RWC研究用音楽データベース</a></li>
+<li>→ 進めた。動けるようになったら書類をまとめていく。</li>
 </ul>
 </li>
-<li><span class="math">\(L_{1}\)</span> ノルム最小化を近接オペレータの繰り返し適用で解けんじゃね？と思っている<ul>
-<li><a class="reference external" href="https://yamagensakam.hatenablog.com/entry/2018/02/14/075106">近接勾配法とproximal operator</a> を読んだが、パラメータ正則化だけだな</li>
-<li>パラメータ正則化はあるけど、残差をスパースにするのがない。なんで？</li>
+<li>Donohoさんなどが圧縮センシングの文脈で既にやりきってない？<ul>
+<li>ありえる。調査すべし。</li>
+<li>→ ライス大学では成果をすべて公開しているから見るだけ見たほうが良い。</li>
+<li>→ <a class="reference external" href="http://dsp.rice.edu/cs/">http://dsp.rice.edu/cs/</a> を見よ。<ul>
+<li><a class="reference external" href="https://hal.archives-ouvertes.fr/hal-00424165/document">Compressed sensing block MAP-LMS adaptive filter for sparse channel estimation and a bayesian Cramer-Rao bound</a> 残差はガウス分布としてるけどクラメル-ラオ下限との絡みを述べている。何か重要そう。</li>
+<li><a class="reference external" href="http://www.dbabacan.info/papers/babacan_CS.pdf">Bayesian Compressive Sensing Using Laplace Priors</a> これもパラメータの事前分布にラプラス分布を導入してベイズ推定するもの。残差ではないはず。</li>
+<li>「L1」, 「Laplace」, 「residual」, 「lossless」で検索したけどスパース解を求めるものばかり。今のところはセーフ？</li>
+<li>→ 継続して調査はする。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>分散行列、ヘッセ行列、フィッシャー情報行列、自然勾配</h2>
+<ul class="simple">
+<li>ガウス分布の最尤推定で、分散行列の逆行列はフィッシャー情報行列に一致する<ul>
+<li>お？じゃあラプラス分布は？</li>
+<li>絶対値関数入ってるけど、NNのデルタ則を導くときみたいに連続関数で近似して微分して後で極限取るみたいなのはできる。式変形チャレンジしてみるべし。符号関数はシグモイド関数で近似できる。後で温度パラメータの極限を取る。</li>
 </ul>
 </li>
 </ul>
