@@ -1,5 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2020-04-21T12:10:00+09:00</updated><entry><title>2020-04-21</title><link href="/2020-04-21.html" rel="alternate"></link><published>2020-04-21T12:10:00+09:00</published><updated>2020-04-21T12:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-21:/2020-04-21.html</id><summary type="html">&lt;div class="section" id="todo"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2020-04-21T12:10:00+09:00</updated><entry><title>2020-04-21</title><link href="/2020-04-21.html" rel="alternate"></link><published>2020-04-21T12:10:00+09:00</published><updated>2020-04-21T12:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-21:/2020-04-21.html</id><summary type="html">&lt;div class="section" id="signed-lms2"&gt;
+&lt;h2&gt;Signed-LMSの目的関数の2回微分&lt;/h2&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;勇気を出してやってみる。&lt;/p&gt;
+&lt;p&gt;符号関数を &lt;span class="math"&gt;\(\tanh(Tx)\)&lt;/span&gt; で近似して微分してみる（&lt;span class="math"&gt;\(T\)&lt;/span&gt; : 温度パラメータ）と、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx))
+\end …&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="signed-lms2"&gt;
+&lt;h2&gt;Signed-LMSの目的関数の2回微分&lt;/h2&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;勇気を出してやってみる。&lt;/p&gt;
+&lt;p&gt;符号関数を &lt;span class="math"&gt;\(\tanh(Tx)\)&lt;/span&gt; で近似して微分してみる（&lt;span class="math"&gt;\(T\)&lt;/span&gt; : 温度パラメータ）と、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx))
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(T \to \infty\)&lt;/span&gt; ならしめれば符号関数に近づく（極限と微分操作を交換したけどやかましいことは暗黙で...）。さて、 &lt;span class="math"&gt;\(1 - \tanh^{2}(Tx)\)&lt;/span&gt; に注目すると、&lt;span class="math"&gt;\(T\)&lt;/span&gt; の極限では &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; を除き至るところ0を取るが、&lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; において1を取る。よってこれはインパルス関数になる。&lt;/p&gt;
+&lt;p&gt;符号関数を微分するとインパルス関数が出てくることについては &lt;a class="reference external" href="https://teenaka.at.webry.info/201301/article_10.html"&gt;超関数的微分_δ関数関連（２）&lt;/a&gt; を見るのが早いかも。以下では、その話に従って、&lt;span class="math"&gt;\(\frac{d}{dx} \mathrm{sign}(x) = 2\delta(x)\)&lt;/span&gt; とする。&lt;/p&gt;
+&lt;p&gt;さて、今一度評価関数 &lt;span class="math"&gt;\(\mathrm{E}[|\varepsilon(n)|]\)&lt;/span&gt; の偏微分と2階の偏導関数を考える。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\parfrac{}{h(m)} \mathrm{E}[|\varepsilon(n)|] &amp;amp;= \mathrm{E}\left[ \parfrac{}{h(m)} |\varepsilon(n)| \right] \\
+&amp;amp;= \mathrm{E}\left[ \left\{ \parfrac{}{h(m)} \varepsilon(n) \right\} \mathrm{sign}[\varepsilon(n)] \right] \\
+&amp;amp;= -\mathrm{E}\left[ \mathrm{sign}[\varepsilon(n)]  x(n - m) \right] \\
+\frac{\partial^{2}}{\partial h(m) \partial h(k)} \mathrm{E}[|\varepsilon(n)|] &amp;amp;= - \parfrac{}{h(k)} \mathrm{E}\left[ \mathrm{sign}[\varepsilon(n)]  x(n - m) \right] \\
+&amp;amp;= - \mathrm{E}\left[ \left\{ \parfrac{}{h(k)} \varepsilon(n) \right\} 2\delta(\varepsilon(n)) x(n - m) \right] \\
+&amp;amp;= 2\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;ここで &lt;span class="math"&gt;\(\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]\)&lt;/span&gt; に注目する。これは &lt;span class="math"&gt;\(\varepsilon(n) = 0\)&lt;/span&gt; のときだけ和を取る演算だ。&lt;span class="math"&gt;\(\sum\)&lt;/span&gt; を用いると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;という計算に該当する。厳密計算は &lt;span class="math"&gt;\(\varepsilon(n) = 0\)&lt;/span&gt; なる &lt;span class="math"&gt;\(n\)&lt;/span&gt; を見つけたら足していく感じでいいと思うけど、今は &lt;span class="math"&gt;\(\varepsilon(n)\)&lt;/span&gt; はラプラス分布に従うと仮定している。だからラプラス分布に従って &lt;span class="math"&gt;\(P(\varepsilon(n) = 0) = \frac{1}{2\lambda}\)&lt;/span&gt; （分散 &lt;span class="math"&gt;\(2\lambda^{2}\)&lt;/span&gt; ）の重み付けをして計算してしまって良いように見えるのだがどうなんだろう。なんか怪しくて考え続けている。&lt;/p&gt;
+&lt;p&gt;もし適応フィルタに組み込むなら、残差が0になったら上の式に従ってヘッセ行列を更新し、ニュートン法を使い続ける。これは試してみたい。問題はヘッセ行列が逆行列を持つかというところ…4-20で半正定値であることは確認したが正定値とは限らない。共役勾配法を検討する必要があるかも。&lt;span class="math"&gt;\(\ve{X}\ve{X}^{\mathsf{T}}\)&lt;/span&gt; は正則になるとは思えない…。（軽く試したけどすぐにだめな例が見つかった。）&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="todo"&gt;
 &lt;h2&gt;いろいろなTODO&lt;/h2&gt;
 &lt;p&gt;優先度が大きい順に。&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -15,46 +67,15 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="figure"&gt;
+&lt;div class="figure align-center"&gt;
 &lt;img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;440.0Hzのsin波に対する各タップの平均勾配変化&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class="figure"&gt;
+&lt;div class="figure align-center"&gt;
 &lt;img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;ボイス対する各タップの平均勾配変化&lt;/p&gt;
 &lt;/div&gt;
-&lt;div class="figure"&gt;
-&lt;img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;ピアノ演奏に対する各タップの平均勾配変化&lt;/p&gt;
-&lt;/div&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;メッセージパッシング使えない？&lt;ul&gt;
-&lt;li&gt;何らかの確率モデル化をせよ、というふうに受け取った。&lt;/li&gt;
-&lt;li&gt;AMP …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="todo"&gt;
-&lt;h2&gt;いろいろなTODO&lt;/h2&gt;
-&lt;p&gt;優先度が大きい順に。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;残差勾配 &lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; の挙動観察をすべし。&lt;span class="math"&gt;\(m\)&lt;/span&gt; が大きいときは無視できるのでは？&lt;ul&gt;
-&lt;li&gt;なお、長時間平均値は0に収束していることを見た。&lt;/li&gt;
-&lt;li&gt;→ 確かめるべし。&lt;span class="math"&gt;\(m\)&lt;/span&gt; をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。&lt;ul&gt;
-&lt;li&gt;ガチャガチャ弄ってるってるけど示唆があんまりない。&lt;/li&gt;
-&lt;li&gt;低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。&lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; は &lt;span class="math"&gt;\(m\)&lt;/span&gt; を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。&lt;/li&gt;
-&lt;li&gt;同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="figure"&gt;
-&lt;img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;440.0Hzのsin波に対する各タップの平均勾配変化&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="figure"&gt;
-&lt;img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;ボイス対する各タップの平均勾配変化&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="figure"&gt;
+&lt;div class="figure align-center"&gt;
 &lt;img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;ピアノ演奏に対する各タップの平均勾配変化&lt;/p&gt;
 &lt;/div&gt;
@@ -103,12 +124,14 @@
 &lt;/div&gt;
 &lt;div class="section" id="id3"&gt;
 &lt;h2&gt;分散行列、ヘッセ行列、フィッシャー情報行列、自然勾配&lt;/h2&gt;
+&lt;p&gt;これはもう夜遅いので明日に回す。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;ガウス分布の最尤推定で、分散行列の逆行列はフィッシャー情報行列に一致する&lt;ul&gt;
 &lt;li&gt;お？じゃあラプラス分布は？&lt;/li&gt;
 &lt;li&gt;絶対値関数入ってるけど、NNのデルタ則を導くときみたいに連続関数で近似して微分して後で極限取るみたいなのはできる。式変形チャレンジしてみるべし。符号関数はシグモイド関数で近似できる。後で温度パラメータの極限を取る。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;いろんな論文で自然勾配をどうやって定義しているか要観察。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
