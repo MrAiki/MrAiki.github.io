@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2020-04-20T14:10:00+09:00</updated><entry><title>2020-04-20</title><link href="/2020-04-20.html" rel="alternate"></link><published>2020-04-20T14:10:00+09:00</published><updated>2020-04-20T14:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-20:/2020-04-20.html</id><summary type="html">&lt;div class="section" id="irls"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog</title><link href="/" rel="alternate"></link><link href="/feeds/all.atom.xml" rel="self"></link><id>/</id><updated>2020-04-21T12:00:00+09:00</updated><entry><title>2020-04-20</title><link href="/2020-04-20.html" rel="alternate"></link><published>2020-04-20T14:10:00+09:00</published><updated>2020-04-21T12:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-20:/2020-04-20.html</id><summary type="html">&lt;div class="section" id="irls"&gt;
 &lt;h2&gt;IRLSの更新式について&lt;/h2&gt;
 &lt;p&gt;MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 &lt;tt class="docutils literal"&gt;newcommand&lt;/tt&gt; を行えばずっと使えるみたい。便利。&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -28,7 +28,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …&lt;/div&gt;&lt;/div&gt;</summar
 J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})^{2}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;ここで &lt;span class="math"&gt;\(M\)&lt;/span&gt; は観測数。これは二次式だから評価関数は凸関数になる。（TODO:凸関数か確認）早速 &lt;span class="math"&gt;\(\ve{\beta}\)&lt;/span&gt; で偏微分してみると、&lt;/p&gt;
+&lt;p&gt;ここで &lt;span class="math"&gt;\(M\)&lt;/span&gt; は観測数。これは二次式だから評価関数は凸関数になる。早速 &lt;span class="math"&gt;\(\ve{\beta}\)&lt;/span&gt; で偏微分してみると、&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 \parfrac{}{\ve{\beta}} J(\ve{\beta}) &amp;amp;= \sum^{M}_{i = 1} w_{i} 2 \left(- \frac{\partial}{\partial \ve{\beta}} \innerp{\ve{\beta}}{\ve{x}_{i}} \right) (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}}) \\
@@ -180,7 +180,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
 &amp;amp;= || \ve{W}^{1/2} \ve{X}^{\mathsf{T}} \ve{v} ||_{2}^{2} \geq 0
 \end{align*}
 &lt;/div&gt;
-&lt;p&gt;だから、ヘッセ行列は半正定値行列で、極小値が最小値になる。
+&lt;p&gt;だから、&lt;span class="math"&gt;\(\ve{W}\)&lt;/span&gt; が半正定値（&lt;span class="math"&gt;\(\iff\)&lt;/span&gt; すべての重みが非負）ならばヘッセ行列は半正定値行列で、極小値が最小値になる。また、&lt;span class="math"&gt;\(J(\ve{\beta})\)&lt;/span&gt; は凸関数（半正定値だから狭義の凸関数ではない）。
 もう少しヘッセ行列を見る。ヘッセ行列を上手く使えたらニュートン法で解けそうな気がして。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}

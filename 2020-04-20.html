@@ -137,7 +137,7 @@ Aiki's Blog            </a>
 J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})^{2}
 \end{equation*}
 </div>
-<p>ここで <span class="math">\(M\)</span> は観測数。これは二次式だから評価関数は凸関数になる。（TODO:凸関数か確認）早速 <span class="math">\(\ve{\beta}\)</span> で偏微分してみると、</p>
+<p>ここで <span class="math">\(M\)</span> は観測数。これは二次式だから評価関数は凸関数になる。早速 <span class="math">\(\ve{\beta}\)</span> で偏微分してみると、</p>
 <div class="math">
 \begin{align*}
 \parfrac{}{\ve{\beta}} J(\ve{\beta}) &amp;= \sum^{M}_{i = 1} w_{i} 2 \left(- \frac{\partial}{\partial \ve{\beta}} \innerp{\ve{\beta}}{\ve{x}_{i}} \right) (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}}) \\
@@ -289,7 +289,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
 &amp;= || \ve{W}^{1/2} \ve{X}^{\mathsf{T}} \ve{v} ||_{2}^{2} \geq 0
 \end{align*}
 </div>
-<p>だから、ヘッセ行列は半正定値行列で、極小値が最小値になる。
+<p>だから、<span class="math">\(\ve{W}\)</span> が半正定値（<span class="math">\(\iff\)</span> すべての重みが非負）ならばヘッセ行列は半正定値行列で、極小値が最小値になる。また、<span class="math">\(J(\ve{\beta})\)</span> は凸関数（半正定値だから狭義の凸関数ではない）。
 もう少しヘッセ行列を見る。ヘッセ行列を上手く使えたらニュートン法で解けそうな気がして。</p>
 <div class="math">
 \begin{equation*}
