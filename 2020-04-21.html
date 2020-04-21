@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="SLA,Lossless Audio,ロスレス音声,スパース符号化,L1ノルム,LAD,IRLS" />
-        <meta name="description" content="Signed-LMSの目的関数の2回微分 \begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 勇気を出してやってみる。 符号関数を \(\tanh(Tx)\) で近似して微分してみる（\(T\) : 温度パラメータ）と、 \begin{equation*} \frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx)) \end …" />
+        <meta name="description" content="残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察 \(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 \(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 440.0Hzのsin波に対する各タップの平均勾配変化 ボイス対する各タップの平均勾配変化 ピアノ演奏に対する各タップの平均勾配変化 Signed-LMSの目的関数の2回微分 勇気を出してやってみる。 \begin{equation*} \newcommand\innerp[2 …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="2020-04-21"/>
         <meta property="og:url" content="/2020-04-21.html"/>
-        <meta property="og:description" content="Signed-LMSの目的関数の2回微分 \begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 勇気を出してやってみる。 符号関数を \(\tanh(Tx)\) で近似して微分してみる（\(T\) : 温度パラメータ）と、 \begin{equation*} \frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx)) \end …"/>
+        <meta property="og:description" content="残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察 \(m\) が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。 \(m\) をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。 ガチャガチャ弄ってるってるけど示唆があんまりない。 低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) は \(m\) を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。 同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。 440.0Hzのsin波に対する各タップの平均勾配変化 ボイス対する各タップの平均勾配変化 ピアノ演奏に対する各タップの平均勾配変化 Signed-LMSの目的関数の2回微分 勇気を出してやってみる。 \begin{equation*} \newcommand\innerp[2 …"/>
         <meta property="article:published_time" content="2020-04-21" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="SLA" />
@@ -127,8 +127,32 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <div class="section" id="signed-lms2">
+                <div class="section" id="mathrm-e-varepsilon-n-x-n-m">
+<h2>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察</h2>
+<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。
+<span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。</p>
+<ul class="simple">
+<li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
+<li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
+<li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
+<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。</li>
+</ul>
+<div class="figure align-center">
+<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" />
+<p class="caption">440.0Hzのsin波に対する各タップの平均勾配変化</p>
+</div>
+<div class="figure align-center">
+<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ボイス対する各タップの平均勾配変化</p>
+</div>
+<div class="figure align-center">
+<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ピアノ演奏に対する各タップの平均勾配変化</p>
+</div>
+</div>
+<div class="section" id="signed-lms2">
 <h2>Signed-LMSの目的関数の2回微分</h2>
+<p>勇気を出してやってみる。</p>
 <div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -136,7 +160,6 @@ Aiki's Blog            </a>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<p>勇気を出してやってみる。</p>
 <p>符号関数を <span class="math">\(\tanh(Tx)\)</span> で近似して微分してみる（<span class="math">\(T\)</span> : 温度パラメータ）と、</p>
 <div class="math">
 \begin{equation*}
@@ -166,34 +189,15 @@ Aiki's Blog            </a>
 <p>もし適応フィルタに組み込むなら、残差が0になったら上の式に従ってヘッセ行列を更新し、ニュートン法を使い続ける。これは試してみたい。問題はヘッセ行列が逆行列を持つかというところ…4-20で半正定値であることは確認したが正定値とは限らない。共役勾配法を検討する必要があるかも。<span class="math">\(\ve{X}\ve{X}^{\mathsf{T}}\)</span> は正則になるとは思えない…。（軽く試したけどすぐにだめな例が見つかった。）</p>
 </div>
 <div class="section" id="todo">
-<h2>いろいろなTODO</h2>
-<p>優先度が大きい順に。</p>
+<h2>TODO</h2>
+<p>これはもう夜遅いので明日に回す。</p>
 <ul class="simple">
-<li>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察をすべし。<span class="math">\(m\)</span> が大きいときは無視できるのでは？<ul>
-<li>なお、長時間平均値は0に収束していることを見た。</li>
-<li>→ 確かめるべし。<span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。<ul>
-<li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
-<li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
-<li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
-<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。</li>
+<li>ガウス分布の最尤推定で、分散行列の逆行列はフィッシャー情報行列に一致する<ul>
+<li>じゃあラプラス分布は？</li>
 </ul>
 </li>
-</ul>
-</li>
-</ul>
-<div class="figure align-center">
-<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" />
-<p class="caption">440.0Hzのsin波に対する各タップの平均勾配変化</p>
-</div>
-<div class="figure align-center">
-<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" />
-<p class="caption">ボイス対する各タップの平均勾配変化</p>
-</div>
-<div class="figure align-center">
-<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
-<p class="caption">ピアノ演奏に対する各タップの平均勾配変化</p>
-</div>
-<ul class="simple">
+<li>いろんな論文で自然勾配をどうやって定義しているか要観察。</li>
+<li>OMPを使う。</li>
 <li>メッセージパッシング使えない？<ul>
 <li>何らかの確率モデル化をせよ、というふうに受け取った。</li>
 <li>AMP, Survay-Propagation（三村さん、樺島さん）がありえる。</li>
@@ -235,18 +239,6 @@ Aiki's Blog            </a>
 </li>
 </ul>
 </div>
-</div>
-<div class="section" id="id3">
-<h2>分散行列、ヘッセ行列、フィッシャー情報行列、自然勾配</h2>
-<p>これはもう夜遅いので明日に回す。</p>
-<ul class="simple">
-<li>ガウス分布の最尤推定で、分散行列の逆行列はフィッシャー情報行列に一致する<ul>
-<li>お？じゃあラプラス分布は？</li>
-<li>絶対値関数入ってるけど、NNのデルタ則を導くときみたいに連続関数で近似して微分して後で極限取るみたいなのはできる。式変形チャレンジしてみるべし。符号関数はシグモイド関数で近似できる。後で温度パラメータの極限を取る。</li>
-</ul>
-</li>
-<li>いろんな論文で自然勾配をどうやって定義しているか要観察。</li>
-</ul>
 </div>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
