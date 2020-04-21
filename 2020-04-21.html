@@ -160,13 +160,13 @@ Aiki's Blog            </a>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<p>符号関数を <span class="math">\(\tanh(Tx)\)</span> で近似して微分してみる（<span class="math">\(T\)</span> : 温度パラメータ）と、</p>
+<p>符号関数を <span class="math">\(\tanh(Tx)\)</span> で近似して微分してみる（<span class="math">\(T\)</span> は温度パラメータで、<span class="math">\(\tanh(Tx)\)</span> を <span class="math">\(T \to \infty\)</span> ならしめれば符号関数に近づく）と、</p>
 <div class="math">
 \begin{equation*}
 \frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx))
 \end{equation*}
 </div>
-<p><span class="math">\(T \to \infty\)</span> ならしめれば符号関数に近づく（極限と微分操作を交換したけどやかましいことは暗黙で...）。さて、 <span class="math">\(1 - \tanh^{2}(Tx)\)</span> に注目すると、<span class="math">\(T\)</span> の極限では <span class="math">\(x = 0\)</span> を除き至るところ0を取るが、<span class="math">\(x = 0\)</span> において1を取る。よってこれはインパルス関数になる。</p>
+<p>さて、 <span class="math">\(1 - \tanh^{2}(Tx)\)</span> に注目すると、<span class="math">\(T\)</span> の極限では <span class="math">\(x = 0\)</span> を除き0を取るが、<span class="math">\(x = 0\)</span> において1を取る。よってこれはインパルス関数になる（極限と微分操作を交換したけどやかましいことは暗黙で...）。</p>
 <p>符号関数を微分するとインパルス関数が出てくることについては <a class="reference external" href="https://teenaka.at.webry.info/201301/article_10.html">超関数的微分_δ関数関連（２）</a> を見るのが早いかも。以下では、その話に従って、<span class="math">\(\frac{d}{dx} \mathrm{sign}(x) = 2\delta(x)\)</span> とする。</p>
 <p>さて、今一度評価関数 <span class="math">\(\mathrm{E}[|\varepsilon(n)|]\)</span> の偏微分と2階の偏導関数を考える。</p>
 <div class="math">

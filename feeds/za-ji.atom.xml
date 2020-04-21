@@ -60,13 +60,13 @@
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;符号関数を &lt;span class="math"&gt;\(\tanh(Tx)\)&lt;/span&gt; で近似して微分してみる（&lt;span class="math"&gt;\(T\)&lt;/span&gt; : 温度パラメータ）と、&lt;/p&gt;
+&lt;p&gt;符号関数を &lt;span class="math"&gt;\(\tanh(Tx)\)&lt;/span&gt; で近似して微分してみる（&lt;span class="math"&gt;\(T\)&lt;/span&gt; は温度パラメータで、&lt;span class="math"&gt;\(\tanh(Tx)\)&lt;/span&gt; を &lt;span class="math"&gt;\(T \to \infty\)&lt;/span&gt; ならしめれば符号関数に近づく）と、&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx))
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(T \to \infty\)&lt;/span&gt; ならしめれば符号関数に近づく（極限と微分操作を交換したけどやかましいことは暗黙で...）。さて、 &lt;span class="math"&gt;\(1 - \tanh^{2}(Tx)\)&lt;/span&gt; に注目すると、&lt;span class="math"&gt;\(T\)&lt;/span&gt; の極限では &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; を除き至るところ0を取るが、&lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; において1を取る。よってこれはインパルス関数になる。&lt;/p&gt;
+&lt;p&gt;さて、 &lt;span class="math"&gt;\(1 - \tanh^{2}(Tx)\)&lt;/span&gt; に注目すると、&lt;span class="math"&gt;\(T\)&lt;/span&gt; の極限では &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; を除き0を取るが、&lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; において1を取る。よってこれはインパルス関数になる（極限と微分操作を交換したけどやかましいことは暗黙で...）。&lt;/p&gt;
 &lt;p&gt;符号関数を微分するとインパルス関数が出てくることについては &lt;a class="reference external" href="https://teenaka.at.webry.info/201301/article_10.html"&gt;超関数的微分_δ関数関連（２）&lt;/a&gt; を見るのが早いかも。以下では、その話に従って、&lt;span class="math"&gt;\(\frac{d}{dx} \mathrm{sign}(x) = 2\delta(x)\)&lt;/span&gt; とする。&lt;/p&gt;
 &lt;p&gt;さて、今一度評価関数 &lt;span class="math"&gt;\(\mathrm{E}[|\varepsilon(n)|]\)&lt;/span&gt; の偏微分と2階の偏導関数を考える。&lt;/p&gt;
 &lt;div class="math"&gt;
