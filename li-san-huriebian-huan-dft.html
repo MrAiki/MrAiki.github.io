@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>離散フーリエ変換（DFT） - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/li-san-huriebian-huan-dft.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="DFT,信号処理" />
+        <meta name="description" content="（Q****にマジギレして移行） 離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int …" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="離散フーリエ変換（DFT）"/>
+        <meta property="og:url" content="/li-san-huriebian-huan-dft.html"/>
+        <meta property="og:description" content="（Q****にマジギレして移行） 離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int …"/>
+        <meta property="article:published_time" content="2020-04-23" />
+            <meta property="article:section" content="記事" />
+            <meta property="article:tag" content="DFT" />
+            <meta property="article:tag" content="信号処理" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 記事 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/li-san-huriebian-huan-dft.html"
+                       rel="bookmark"
+                       title="Permalink to 離散フーリエ変換（DFT）">
+                        離散フーリエ変換（DFT）
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-04-23T12:00:00+09:00"> Thu 23 April 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/dft.html">DFT</a>
+        /
+	<a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>（Q****にマジギレして移行）</p>
+<p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
+<h2>準備：時間領域で離散化すると、周波数領域では周期的になる</h2>
+<p><span class="math">\(f(t)\)</span>を離散化した信号を<span class="math">\(g(t)\)</span>とおく。離散化には、サンプリング周期<span class="math">\(t_{s}\)</span>の周期的デルタ関数<span class="math">\(\delta_{t_{s}}(t)\)</span>を用いて</p>
+<div class="math">$$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$</div>
+<p>とする。デルタ関数<span class="math">\(\delta(t)\)</span>は関数<span class="math">\(f(t)\)</span>に対して次が成り立つ（超）関数である：</p>
+<div class="math">$$
+\int^{\infty}_{-\infty} f(t) \delta(t) dt = f(0)
+$$</div>
+<p><span class="math">\(t_{s}\)</span>の逆数はサンプリングレート（<span class="math">\(f_{s} = 1/t_{s}\)</span>）そのものである。また、周期的デルタ関数の（複素）フーリエ級数は、</p>
+<div class="math">$$
+\begin{aligned}
+\delta_{t_{s}}(t) &amp;= \sum_{n=-\infty}^{\infty} c_{n} \exp(j\omega_{s}t)dt \\
+c_{n} &amp;= \frac{1}{t_{s}} \int^{t_{s}/2}_{-t_{s}/2} \delta_{t_{s}}(t) \exp(-jn\omega_{s}t)dt
+\end{aligned}
+$$</div>
+<p>と表せる。ここで<span class="math">\(\omega_{s}=2\pi/t_{s}\)</span>（サンプリング角周波数）である。<span class="math">\(c_{n}\)</span>の計算を考えると、積分範囲<span class="math">\([-t_{s}/2, t_{s}/2]\)</span>に唯一つのインパルスが存在する事に留意すれば、次の結果を得る：</p>
+<div class="math">$$
+c_{n} = \frac{1}{t_{s}} \int^{t_{s}/2}_{-t_{s}/2} \delta(t) \exp(-jn\omega_{s}t)dt = \frac{1}{t_{s}}\exp(0) = \frac{1}{t_{s}}
+$$</div>
+<p>よって、周期的デルタ関数の複素フーリエ級数は、</p>
+<div class="math">$$
+\delta_{t_s}(t) = \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \exp(j n \omega_{s} t) = \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \exp(j 2\pi n t)
+$$</div>
+<p>であり、この結果を用いると、<span class="math">\(g(t)\)</span>のフーリエ変換<span class="math">\({\cal F}[g(t)]\)</span>は、</p>
+<div class="math">$$
+\begin{split}
+{\cal F}[g(t)] &amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} {\cal F} \left[ f(t) \exp(j n \omega_{s} t) \right] \\
+&amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \int_{-\infty}^{\infty} f(t) \exp[ -j (\omega - n\omega_{s}) t] dt 
+\\
+&amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} F(\omega - n\omega_{s})
+\end{split} 
+$$</div>
+<p>ここで、<span class="math">\(F(\omega)\)</span>は<span class="math">\(f(t)\)</span>をフーリエ変換した結果を表している。この結果は、離散化した信号のフーリエ変換は周波数領域で<strong>周期<span class="math">\(\omega_{s}\)</span>で<span class="math">\(F(\omega)\)</span>を繰り返す</strong>事を示している。</p>
+<h2>離散フーリエ変換・離散フーリエ逆変換</h2>
+<h3>離散化の仮定</h3>
+<p>時間領域で離散化した信号<span class="math">\(f[n]\)</span>を次の様に定義する：</p>
+<div class="math">$$
+f[n] = f(nt_{s}) \quad n = 0,...,N-1
+$$</div>
+<p>ここで、<span class="math">\(N\)</span>はサンプリング個数である。重要な仮定として、<span class="math">\(f(t)\)</span>は<span class="math">\(N\)</span>このサンプリング期間で周期的であるとする。即ち、<span class="math">\(f(t)\)</span>の周期を<span class="math">\(T\)</span>とおくと、</p>
+<div class="math">$$
+T = Nt_{s}
+$$</div>
+<p>が成立する。更に、<strong>周波数領域についても<span class="math">\(\omega_{s}\)</span>を<span class="math">\(N\)</span>分割</strong> し、</p>
+<div class="math">$$
+\omega_{k} = \frac{\omega_{s}}{N} k = \frac{2\pi}{Nt_{s}}k \quad k = 0,...,N-1
+$$</div>
+<p>として、周波数領域で離散化した信号<span class="math">\(F[k]\)</span>を次の様に定義する：</p>
+<div class="math">$$
+F[k] = F(\omega_{k}) \quad k = 0,...,N-1
+$$</div>
+<p>分割の個数<span class="math">\(N\)</span>が時間領域と周波数領域で異なる場合、変換対が対称にならないので高速フーリエ変換の時に不都合が生じる。</p>
+<h3>離散フーリエ変換の導出</h3>
+<p>離散化の仮定のもとで、フーリエ変換は次の様に計算できる：</p>
+<div class="math">$$
+F[k] = \int_{-\infty}^{\infty} f(t) \exp(-j\omega_{k}t) dt = \int_{-\infty}^{\infty} f(t) \exp\left(-j\frac{2\pi k}{Nt_{s}} t \right) dt
+$$</div>
+<p><span class="math">\(f(t)\)</span>は周期<span class="math">\(T\)</span>で繰り返すので、積分範囲は1周期分とする（なぜ一周期か：フーリエ係数の仮定から。係数は1周期の積分で良い。三角関数の完全性を見よ）：</p>
+<div class="math">$$
+F[k] = \int^{T}_{0} f(t) \exp \left(-j \frac{2\pi k}{Nt_{s}} t \right)dt
+$$</div>
+<p><span class="math">\(t = nt_{s}\)</span>と変数変換すると（<span class="math">\(n\)</span>を積分変数とする）、</p>
+<div class="math">$$
+F[k] = t_{s}\int^{N}_{0} f(nt_{s}) \exp \left(-j \frac{2\pi k}{N} n\right)dn
+$$</div>
+<p>この積分は、次の和で近似できる。</p>
+<div class="math">$$
+F[k] \approx t_{s}\sum^{N-1}_{n=0} f(nt_{s}) \exp \left(-j \frac{2\pi k}{N} n\right) = t_{s} \sum^{N-1}_{n=0} f[n] \exp \left(-j \frac{2\pi nk}{N} \right)
+$$</div>
+<p>この式が離散フーリエ変換の式となる。逆変換については、複素フーリエ級数</p>
+<div class="math">$$
+\left\{ \begin{array}{l}
+f(nt_{s})  = \displaystyle \sum_{k=-\infty}^{\infty} c_{n} \exp(j\omega_{k}kn t) \\
+c_{n} = \displaystyle \frac{1}{T} \int^{T}_{0} f(t) \exp(-j n\omega_{k} t) dt
+\end{array} \right.   
+$$</div>
+<p>から、<span class="math">\(c_{n}\)</span>を消去すると、</p>
+<div class="math">$$
+f(nt_{s}) = \sum_{k=-\infty}^{\infty} \left\{ \frac{1}{T} \int^{T}_{0} f(t) \exp\left( -j \frac{2\pi kt}{T} \right) dt \right\} \exp\left( \frac{j2\pi k}{T} nt_{s} \right) \\
+f(nt_{s}) = \frac{\omega_{s}}{2 \pi N} \sum_{k=-\infty}^{\infty} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
+$$</div>
+<p><span class="math">\(F[k]\)</span>の周期は<span class="math">\(\omega_{s}\)</span>なので、1周期分は<span class="math">\(k = 0,...,N-1\)</span>となる。再び1周期分のみを考えると、</p>
+<div class="math">$$
+f[n] = \frac{\omega_{s}}{2 \pi N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
+$$</div>
+<p>この式が離散フーリエ逆変換の式となる。変換の式をまとめると、</p>
+<div class="math">$$
+\left\{ \begin{array}{l}
+\displaystyle F[k] = t_{s} \sum^{N-1}_{n=0} f[n] \exp \left(-j \frac{2\pi nk}{N} \right) \\
+\displaystyle f[n] = \frac{\omega_{s}}{2 \pi N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
+\end{array} \right.   
+$$</div>
+<p>これがフーリエ変換対となり、一方に他方を代入するとちゃんと逆に戻る事が確認できる：</p>
+<div class="math">$$
+\begin{split}
+f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi nk}{N}\right) \\
+&amp;= \frac{2\pi t_{s}}{2\pi t_{s}N}\sum_{k=0}^{N-1}\left\{ \sum^{N-1}_{n^\prime=0} f[n^\prime] \exp \left(-j \frac{2\pi n^\prime k}{N} \right) \right\} \exp\left(j\frac{2\pi nk}{N}\right) \\
+&amp;= \frac{1}{N} \sum_{n^{\prime}=0}^{N-1} f[n^\prime] \sum_{k=0}^{N-1} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right]
+\end{split} 
+$$</div>
+<p><span class="math">\(\sum_{k=0}^{N-1} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right]\)</span>の値ついては<span class="math">\(k\)</span>の積分</p>
+<div class="math">$$
+\int^{N}_{0} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] dk
+$$</div>
+<p>と考えれば、<span class="math">\(n=n^\prime\)</span>の時は明らかに<span class="math">\(N\)</span>であり、残りの<span class="math">\(n \neq n^\prime\)</span>の時は</p>
+<div class="math">$$
+\begin{split} 
+\int^{N}_{0} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] dk 
+&amp;= - \frac{1}{j(n-n^\prime)\frac{2\pi}{N}} 
+\left[ \exp\left[ -j(n-n^\prime)\frac{2\pi k}{N} \right] \right]_{0}^{N} \\
+&amp;= - \frac{1}{j(n-n^\prime)\frac{2\pi}{N}} \left\{ \exp[-j2(n-n^\prime)\pi] - \exp(0)\right\} \\
+&amp;= 0
+\end{split} 
+$$</div>
+<p>となるので、最終的に</p>
+<div class="math">$$
+\frac{1}{N} \sum_{n^{\prime}=0}^{N-1} f[n^\prime] \sum_{k=0}^{N-1} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] = \frac{1}{N} f[n] N = f[n]
+$$</div>
+<p>を得る。
+また<span class="math">\(t_{s}=1\)</span>とおくと、<span class="math">\(\omega_{s} = 2\pi\)</span>となって、DFTのよく見る変換式が得られる：</p>
+<div class="math">$$
+\left\{ \begin{array}{l}
+\displaystyle F[k] = \sum^{N-1}_{n=0} f[n] \exp \left(-j \frac{2\pi nk}{N} \right) \\
+\displaystyle f[n] = \frac{1}{N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
+\end{array} \right.   
+$$</div>
+<p>これらの式を実装するのは簡単である。じゃあ、実装しようか…（暗黒微笑）</p>
+<p>（デルタ関数から導く方法だと、どうしても正規化定数<span class="math">\(1/N\)</span>が出てこない。正規化定数は本質的では無いとかいうけど、計算上は無視できない。）</p>
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

@@ -52,6 +52,9 @@ Aiki's Blog            </a>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                         <li >
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -74,6 +77,23 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
+            <article>
+                <h2><a href="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html">LPC（Linear Predictive Coding, 線形予測符号化）</a></h2>
+                <div class="summary"><p>（Q****にマジギレして移行）</p>
+<p>線形予測分析等とも言及される。</p>
+<p>英語版で決定的に簡単な資料は<a href="http://www.emptyloop.com/technotes/A%20tutorial%20on%20linear%20prediction%20and%20Levinson-Durbin.pdf">ここ</a>で見れます。ここの解説はその日本語訳以下の何かです。英語が読める人はそっちを見たほうが絶対早いです。</p>
+<p>ここよりも良い資料が有ります：（<a href="http://aidiary.hatenablog.com/entry/20120415/1334458954" title="人工知能に関する断創録 - 線形予測分析（LPC）">人工知能に関する断創録</a>）</p>
+<h2>アルゴリズムの導出</h2>
+<h3>問題設定</h3>
+<p>時間について離散化した信号が<span class="math">\(y_{0}, y_{1}, ..., y_{n}\)</span>として得られたとする。ここで、<span class="math">\(y_{n}\)</span>を直前の<span class="math">\(y_{i}\ (i=0,...,n-1)\)</span>によって予測する事を考える。</p>
+<p>予測にあたって、線形予測では<span class="math">\(k\)</span>個の係数<span class="math">\(a_{1},...,a_{k}\)</span>を用いた単純な線形結合
+</p>
+<div class="math">$$
+-a_{1}y_{n-1} - a_{2}y_{n-2} - ... - a_{k}y_ …</div>
+                    <a class="btn btn-default btn-xs" href="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
             <article>
                 <h2><a href="/2020-04-21.html">2020-04-21</a></h2>
                 <div class="summary"><div class="section" id="mathrm-e-varepsilon-n-x-n-m">
@@ -100,7 +120,7 @@ Aiki's Blog            </a>
 </div>
 </div>
 <div class="section" id="signed-lms2">
-<h2>Signed-LMSの目的関数の2回微分</h2>
+<h2>Signed-LMSの目的関数の2階微分</h2>
 <p>勇気を出してやってみる。</p>
 <div class="math">
 \begin{equation*}
