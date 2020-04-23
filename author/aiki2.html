@@ -77,6 +77,29 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-19.html">2020-04-19</a></h2>
+                <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares-2">
+<h2>IRLS(Iteratively Reweighted Least Squares) その2</h2>
+<p>理論ばっかり追っていて悶々してきたので、IRLSでL1残差最小化が解けないか実験してみる。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb">第5章 厳密解から近似解へ</a> に『スパースモデリング』5章のPython実装あり。</li>
+<li><a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irlsの概要">スパースモデリング：第3章 追跡アルゴリズム</a> は『スパースモデリング』3章のPython実装。</li>
+</ul>
+<p>IRLSの実装は <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> を参考に。Pythonで簡単にできた。</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
+
+<span class="c1"># IRLS法によりPhi @ x = yのスパース解を求める</span>
+<span class="k">def</span> <span class="nf">irls_update</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
+    <span class="n">EPSILON</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">8.0</span><span class="p">)</span>
+    <span class="c1"># 重みの計算</span>
+    <span class="n">weight</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">Phi</span> <span class="err">@</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="c1"># 小さくなりすぎた重みは打ち切る</span>
+    <span class="n">weight</span><span class="p">[</span><span class="n">weight</span> <span class="o">&lt;</span> <span class="n">EPSILON …</span></pre></div></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-19.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-18.html">2020-04-18</a></h2>
                 <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares">
 <h2>IRLS(Iteratively Reweighted Least Squares)</h2>

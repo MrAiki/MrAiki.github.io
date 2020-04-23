@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>デジタル信号処理の礎 - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/dezitaruxin-hao-chu-li-nochu.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="ポエム" />
+        <meta name="description" content="まえがき 本稿はデジタル信号処理の礎となる理論を固めるべく書かれた。 準備（むしろ補足か？） ベクトル/行列演算について フーリエ変換について なぜ三角関数の和なのか？三角関数でいいのか？ 離散フーリエ変換（DFT） 畳み込み演算 図形的な意味とフーリエ変換による畳込み インパルス関数 超関数（ディラックデルタ関数）について 信号の標本化 標本化信号の作り方 エリアシング 標本化定理 信号の復元 \begin{equation*} \def\vector#1{\mbox{\boldmath $#1$}} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand{\rev}[1]{\frac{1}{#1}} \newcommand{\pdiff}[2]{\frac{\partial #1}{\partial …" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="デジタル信号処理の礎"/>
+        <meta property="og:url" content="/dezitaruxin-hao-chu-li-nochu.html"/>
+        <meta property="og:description" content="まえがき 本稿はデジタル信号処理の礎となる理論を固めるべく書かれた。 準備（むしろ補足か？） ベクトル/行列演算について フーリエ変換について なぜ三角関数の和なのか？三角関数でいいのか？ 離散フーリエ変換（DFT） 畳み込み演算 図形的な意味とフーリエ変換による畳込み インパルス関数 超関数（ディラックデルタ関数）について 信号の標本化 標本化信号の作り方 エリアシング 標本化定理 信号の復元 \begin{equation*} \def\vector#1{\mbox{\boldmath $#1$}} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand{\rev}[1]{\frac{1}{#1}} \newcommand{\pdiff}[2]{\frac{\partial #1}{\partial …"/>
+        <meta property="article:published_time" content="2020-04-23" />
+            <meta property="article:section" content="記事" />
+            <meta property="article:tag" content="ポエム" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 記事 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/dezitaruxin-hao-chu-li-nochu.html"
+                       rel="bookmark"
+                       title="Permalink to デジタル信号処理の礎">
+                        デジタル信号処理の礎
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-04-23T18:00:00+09:00"> Thu 23 April 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/poemu.html">ポエム</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <div class="section" id="id2">
+<h2>まえがき</h2>
+<p>本稿はデジタル信号処理の礎となる理論を固めるべく書かれた。</p>
+<!-- デジタル信号処理は以下の分野を包括している:
+
+.. - 集合論
+.. - 線型代数
+.. - 関数解析
+.. - 複素関数
+.. - 確率・統計 -->
+<!-- 実用の工学上では、これらの分野の理論を深く扱うことはない。しかし、その基礎は確かに以上の分野の深い知識を動員している。 -->
+<ul class="simple">
+<li>準備（むしろ補足か？）<ul>
+<li>ベクトル/行列演算について</li>
+<li>フーリエ変換について<ul>
+<li>なぜ三角関数の和なのか？三角関数でいいのか？</li>
+<li>離散フーリエ変換（DFT）</li>
+</ul>
+</li>
+<li>畳み込み演算<ul>
+<li>図形的な意味とフーリエ変換による畳込み</li>
+</ul>
+</li>
+<li>インパルス関数<ul>
+<li>超関数（ディラックデルタ関数）について</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>信号の標本化<ul>
+<li>標本化信号の作り方</li>
+<li>エリアシング</li>
+<li>標本化定理</li>
+<li>信号の復元</li>
+</ul>
+</li>
+</ul>
+<div class="math">
+\begin{equation*}
+\def\vector#1{\mbox{\boldmath $#1$}}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand{\rev}[1]{\frac{1}{#1}}
+\newcommand{\pdiff}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\ddiff}[2]{\frac{d#1}{d#2}}
+\newcommand{\vvec}[1]{\left[\begin{array}{c}#1\end{array}\right]}
+\newcommand{\dmatrix}[2]{\left|\begin{array}{#1}#2\end{array}\right|}
+\newcommand{\inversion}[1]{#1^{\!\mbox{\sf\tiny T}}}
+\newcommand{\ifdiv}[2]{\left\{\begin{array}{#1}#2\end{array}\right.}
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id3">
+<h2>フーリエ変換について</h2>
+<p>フーリエ変換が天下りに与えられて次の言明に対して違和感を抱いたことは無いだろうか？</p>
+<pre class="literal-block">
+任意の周期関数は三角関数の和で表現できる
+</pre>
+<p>といった手合いである。この言明に対しては、次の疑問が浮かぶかもしれない:</p>
+<ul class="simple">
+<li>任意の周期関数に対して成り立つのか？</li>
+<li>何故三角関数を用いる必要があるのか？三角関数である必然性は？</li>
+</ul>
+<p>本稿では、この疑問に対して数学的に一応の解答を与えたい。細かい解説は後にして、解答としては次の様になる。</p>
+<ul class="simple">
+<li><strong>任意の区分的になめらかな周期関数は三角関数の和で表現できる</strong></li>
+<li><strong>三角関数は連続関数を表現できる能力を持っている</strong></li>
+</ul>
+<p>以下、これらの項目の証明を試みる。</p>
+<div class="section" id="id4">
+<h3>関数はベクトル</h3>
+<p>形式的に見れば、 <strong>関数はベクトル</strong> である。関数は入力と出力を決める規則であることから、 <a class="reference internal" href="#id5">式1</a> の様に、その出力を並べることで、関数をベクトルとして見ることが出来る。</p>
+<div class="math" id="id5">
+\begin{align*}
+ f(x) = \vvec{ f(-\infty) \\ \vdots \\ f(0) \\ \vdots \\ f(\infty) }
+\end{align*}
+</div>
+<p>関数をベクトルとみなすと、そこに線型代数の知見を持ち込むことができる。まず、関数による基底（関数基底）によって空間を張ることができる。関数によって張られた空間は特に <strong>関数空間</strong> と呼ばれる。
+また、2つの関数 <span class="math">\(f,g\)</span> の <strong>内積</strong> <span class="math">\(\innerp{f}{g}\)</span> を式 <a class="reference internal" href="#id6">式2</a> の様に積分を用いて表すことが出来る。</p>
+<div class="math" id="id6">
+\begin{align*}
+ \innerp{f}{g} &amp;=
+   \left[ f(-L) \dots f(0) \dots f(L) \right]
+   \vvec{ g(-L) \\ \vdots \\ g(0) \\ \vdots \\ g(L) } \\
+ &amp;= f(-L)g(-L) + \dots + f(0)g(0) + \dots + f(L)g(L) \\
+ &amp;= \int_{-L}^{L} f(x)g(x) dx
+\end{align*}
+</div>
+<p>ここで <span class="math">\(L\)</span> は積分範囲を決める定数である <a class="footnote-reference" href="#functioninnerprodrange" id="id7">[1]</a>。また、関数自分自身の内積 <span class="math">\(\innerp{f}{f}\)</span> を <strong>ノルム</strong> という <a class="footnote-reference" href="#functioninnerprodnorm" id="id8">[2]</a>。</p>
+<table class="docutils footnote" frame="void" id="functioninnerprodrange" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[1]</a></td><td>形式的に見た際には積分範囲は無限 <span class="math">\([-\infty,\infty]\)</span> になることが多いが、定数関数同士の内積を考えれば分かるように、内積値が発散してしまう場合がある。その場合は、積分範囲を限定して議論を行う。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="functioninnerprodnorm" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[2]</a></td><td><span class="math">\(L\)</span> に基づいてノルム値を <span class="math">\(1\)</span> にする操作を行うことがある。この操作を <strong>正規化</strong> という。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id9">
+<h3>三角関数の直交性</h3>
+<p>関数をベクトルとして考えた時、異なる周波数を持つ三角関数は互いに直交（<span class="math">\(\iff\)</span> 内積値が <span class="math">\(0\)</span> になる）する。この事を計算により確かめていく。</p>
+<p>尚、内積計算時の積分範囲は全て <span class="math">\([-\pi, \pi]\)</span> とする。何故なら、周期関数が直交しているかどうかを判定するには1周期分の内積を取り、その結果が <span class="math">\(0\)</span> になるかどうかを見れば良いからである。またその周期は、周波数を決める定数は全て整数であることにより決まり、最長の周波数は <span class="math">\(\sin(x), \cos(x)\)</span> が持つ <span class="math">\(2\pi\)</span> である。積分範囲を <span class="math">\([-\pi, \pi]\)</span> とすれば、一番長い周期を加味して内積を計算できる。</p>
+<div class="section" id="sin">
+<h4>正弦波（sin）の直交性</h4>
+<p>素直に内積を計算する。三角関数の和の公式</p>
+<div class="math">
+\begin{align*}
+\cos\{(n+m)x\} &amp;= \cos(nx)\cos(mx) - \sin(nx)\sin(mx) \\
+\cos\{(n-m)x\} &amp;= \cos(nx)\cos(mx) + \sin(nx)\sin(mx) \\
+\implies \sin(nx)\sin(mx) &amp;= \frac{\cos\{(n-m)x\} - \cos\{(n+m)x\}}{2}
+\end{align*}
+</div>
+<p>を用いて <span class="math">\(\sin\)</span> の積を <span class="math">\(\cos\)</span> の和に分割して積分を行うのがポイントである。</p>
+<div class="math">
+\begin{align*}
+\innerp{\sin(nx)}{\sin(mx)}
+&amp;= \int_{-\pi}^{\pi} \sin(nx) \sin(mx) dx \\
+&amp;= \int_{-\pi}^{\pi} \frac{\cos\{(n-m)x\} - \cos\{(n+m)x\}}{2} dx \\
+&amp;= \frac{1}{2(n-m)} \left[ \sin\{(n-m)x\} \right]_{-\pi}^{\pi} - \frac{1}{2(n+m)} \left[ \sin\{(n+m)x\} \right]_{-\pi}^{\pi} \\
+&amp;= \frac{1}{2(n-m)} \left[ \sin\{(n-m)\pi\} - \sin\{-(n-m)\pi\} \right] - \frac{1}{2(n+m)} \left[ \sin\{(n+m)\pi\} - \sin\{-(n+m)\pi\} \right] \\
+&amp;= \frac{\sin\{(n-m)\pi\}}{n-m} - \frac{\sin\{(n+m)\pi\}}{n+m}
+\end{align*}
+</div>
+<p>ここで、最後の結果の右辺第二項は、<span class="math">\(n+m\)</span> が整数になることから <span class="math">\(0\)</span> になる。一方の右辺第一項は <span class="math">\(n \neq m\)</span> の時は右辺第二項と同様に <span class="math">\(0\)</span> となる。 <span class="math">\(n = m\)</span> の時は、 <span class="math">\(n-m \to 0\)</span> なる極限を考えることで計算結果が確かめられる:</p>
+<div class="math" id="id10">
+\begin{align*}
+\lim_{(n-m) \to 0} \frac{\sin\{(n-m)\pi\}}{n-m}
+&amp;= \lim_{\alpha \to 0} \frac{\sin\alpha\pi}{\alpha} \\
+&amp;= \lim_{\alpha \to 0} \frac{\ddiff{\sin\alpha\pi}{\alpha}}{\ddiff{\alpha}{\alpha}} = \lim_{\alpha \to 0} \pi \cos\alpha\pi \\
+&amp;= \pi
+\end{align*}
+</div>
+<p>以上の結果をまとめると、</p>
+<div class="math" id="id11">
+\begin{align*}
+\innerp{\sin(nx)}{\sin(mx)} = \ifdiv{cc}{ 0 &amp; (n \neq m) \\ \pi &amp; (n = m) }
+\end{align*}
+</div>
+<p>この結果は、2つの意味で重要である。</p>
+<ol class="arabic simple">
+<li>（今確かめている様に、）異なる周波数を持つ正弦波は互いに直交する。</li>
+<li><span class="math">\(n=m\)</span> の時の結果は、 <span class="math">\(\sin\)</span> のノルム値は <span class="math">\(\pi\)</span> であることを示している。</li>
+</ol>
+</div>
+<div class="section" id="cos">
+<h4>余弦波（cos）の直交性</h4>
+<p>計算方針は <span class="math">\(\sin\)</span> の時と同様である。三角関数の和の公式より、</p>
+<div class="math">
+\begin{equation*}
+\cos(mx)\cos(nx) = \frac{\cos\{(n-m)x\} + \cos\{(n+m)x\}}{2}
+\end{equation*}
+</div>
+<p>が成立するため、</p>
+<div class="math">
+\begin{align*}
+\innerp{\cos(nx)}{\cos(mx)}
+&amp;= \int_{-\pi}^{\pi} \cos(nx) \cos(mx) dx \\
+&amp;= \int_{-\pi}^{\pi} \frac{\cos\{(n-m)x\} + \cos\{(n+m)x\}}{2} dx \\
+&amp;= \frac{1}{2(n-m)} \left[ \sin\{(n-m)\pi\} - \sin\{-(n-m)\pi\} \right] + \frac{1}{2(n+m)} \left[ \sin\{(n+m)\pi\} - \sin\{-(n+m)\pi\} \right] \\
+&amp;= \frac{\sin\{(n-m)\pi\}}{n-m} + \frac{\sin\{(n+m)\pi\}}{n+m}
+\end{align*}
+</div>
+<p>と、<span class="math">\(\sin\)</span> の内積計算時とほぼ同様の結果が得られる。最終結果の第一項に関しては式 <a class="reference internal" href="#id10">式3</a> と同様に考えることで、次の結果が得られる。</p>
+<div class="math" id="id12">
+\begin{align*}
+\innerp{\cos(nx)}{\cos(mx)} = \ifdiv{cc}{ 0 &amp; (n \neq m) \\ \pi &amp; (n = m) }
+\end{align*}
+</div>
+<p><span class="math">\(\cos\)</span> のノルムも <span class="math">\(\sin\)</span> と同様 <span class="math">\(\pi\)</span> であることが示されている。</p>
+</div>
+<div class="section" id="id13">
+<h4>正弦波と余弦波の直交性</h4>
+<p>最後に <span class="math">\(\sin\)</span> と <span class="math">\(\cos\)</span> の直交性を確かめる。
+三角関数の和の公式により、</p>
+<div class="math">
+\begin{align*}
+\sin\{(n+m)x\} &amp;= \sin(nx)\cos(mx) + \cos(nx)\sin(mx) \\
+\sin\{(n-m)x\} &amp;= \sin(nx)\cos(mx) - \cos(nx)\sin(mx) \\
+\implies \sin(nx)\cos(mx) &amp;= \frac{\sin\{(n+m)x\} + \sin\{(n-m)x\}}{2}
+\end{align*}
+</div>
+<p>が成立するため、</p>
+<div class="math">
+\begin{align*}
+\innerp{\sin(mx)}{\cos(mx)}
+&amp;= \int_{-\pi}^{\pi} \sin(nx) \cos(mx) dx \\
+&amp;= \int_{-\pi}^{\pi} \frac{\sin\{(n+m)x\} + \sin\{(n-m)x\}}{2} dx \\
+&amp;= \frac{1}{2(n+m)} \left[ \cos\{(n+m)\pi\} - \cos\{-(n+m)\pi\} \right] + \frac{1}{2(n-m)} \left[ \cos\{(n-m)\pi\} - \cos\{-(n-m)\pi\} \right] \\
+&amp;= 0
+\end{align*}
+</div>
+<p>従って、如何なる周波数に対しても正弦波と余弦波は直交していること</p>
+<div class="math" id="id14">
+\begin{equation*}
+\innerp{\sin(nx)}{\cos(mx)} = 0
+\end{equation*}
+</div>
+<p>が確かめられた。</p>
+</div>
+</div>
+<div class="section" id="id15">
+<h3>フーリエ係数</h3>
+<p>次の様に信号 <span class="math">\(f(x)\)</span> がフーリエ級数展開されていたとする。</p>
+<div class="math">
+\begin{equation*}
+f(x) = \frac{1}{2} a_{0} + \sum_{k=1}^{\infty} a_{k} \cos(kx) + \sum_{k=1}^{\infty} b_{k} \sin(kx)
+\end{equation*}
+</div>
+<p>上式における係数 <span class="math">\(a_{0}, a_{1}, ..., b_{1}, b_{2}, ...\)</span> はフーリエ級数と呼ばれる。
+フーリエ係数は、周波数成分への重み付けと説明される事が多い。一方、上記のように関数をベクトルとみなすと、信号を三角関数基底で表した際の一次結合係数とも捉え直す事ができる。</p>
+<p>係数を取り出すには、上記の直交性（ <a class="reference internal" href="#id11">式4</a>, <a class="reference internal" href="#id12">式5</a>, <a class="reference internal" href="#id14">式6</a> ）を使用すれば良い。<span class="math">\(\innerp{f(x)}{\sin(nx)} \ n \in \mathbb{N}\)</span> を計算すると、</p>
+<div class="math">
+\begin{align*}
+\innerp{f(x)}{\sin(nx)}
+&amp;= \innerp{\frac{1}{2} a_{0} + \sum_{k=1}^{\infty} a_{k} \cos(kx) + \sum_{k=1}^{\infty} b_{k}\sin(kx)}{\sin(nx)} \\
+&amp;= \innerp{\frac{1}{2} a_{0}}{\sin(nx)} + \innerp{\sum_{k=1}^{\infty} a_{k} \cos(kx)}{\sin(nx)} + \innerp{\sum_{k=1}^{\infty} b_{k}\sin(kx)}{\sin(nx)} \quad (\because 内積の線形性) \\
+&amp;= \frac{1}{2} a_{0} \innerp{1}{\sin(nx)} + \sum_{k=1}^{\infty} \innerp{a_{k}\cos(kx)}{\sin(nx)} + \sum_{k=1}^{\infty} \innerp{b_{k}\sin(kx)}{\sin(nx)} \quad (\because 内積の線形性) \\
+&amp;= \frac{1}{2} a_{0} \innerp{\cos(0)}{\sin(nx)} + \sum_{k=1}^{\infty} a_{k} \innerp{\cos(kx)}{\sin(nx)} + \sum_{k=1}^{\infty} b_{k} \innerp{\sin(kx)}{\sin(nx)} \\
+&amp;= \pi b_{n} \quad (\because 三角関数の直交性)
+\end{align*}
+</div>
+<p>よって、</p>
+<div class="math" id="id16">
+\begin{equation*}
+b_{n} = \frac{1}{\pi} \innerp{f(x)}{\sin(nx)}
+\end{equation*}
+</div>
+<p>全く同様にして <span class="math">\(\innerp{f(x)}{\cos(nx)} \ n \in \mathbb{N}\)</span> を計算することで、次の結果が得られる <a class="footnote-reference" href="#fouriorcoefwhendc" id="id17">[3]</a> 。</p>
+<div class="math" id="id18">
+\begin{equation*}
+a_{n} = \frac{1}{\pi} \innerp{f(x)}{\cos(nx)}
+\end{equation*}
+</div>
+<p><a class="reference internal" href="#id16">式7</a>, <a class="reference internal" href="#id18">式8</a> の結果を見ると、 <strong>係数を取り出すには、関数基底と内積を取って、基底のノルムで割れば良い</strong> 事が分かる。</p>
+<table class="docutils footnote" frame="void" id="fouriorcoefwhendc" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[3]</a></td><td><span class="math">\(a_{0}\)</span> を求める際には、<span class="math">\(\cos(0)=1\)</span> と <span class="math">\(f(x)\)</span> の内積を取れば良い。<span class="math">\(\int_{-\pi}^{\pi} {1} dx = 2\pi\)</span> により、<span class="math">\(a_{0}\)</span> に乗じられている <span class="math">\(\frac{1}{2}\)</span> が実は無意味では無いことが分かるだろう。</td></tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id19">
+<h3>収束定理</h3>
+<p>いよいよ問題の核心について考えることが出来る。上記までの議論で、三角関数は基底をなすことが示された <a class="footnote-reference" href="#abouttrianglefuncorthonarity" id="id20">[4]</a>。それでは、三角関数によって構築された基底（三角関数基底）は、如何なる関数でも表現できるのだろうか？というのが次の疑問となる。</p>
+<p>この疑問に対する答えがフーリエ級数の <strong>収束定理</strong> （以下、単純に収束定理）である。収束定理とは、次の有限項のフーリエ級数展開</p>
+<div class="math" id="id21">
+\begin{equation*}
+S_{N}(x) = \frac{1}{2} a_{0} + \sum_{n=1}^{N} \left\{ a_{n} \cos(nx) + b_{n} \sin(nx) \right\}
+\end{equation*}
+</div>
+<p>を用いて信号 <span class="math">\(f(x)\)</span> を近似（<span class="math">\(S_{N}(x) \approx f(x)\)</span> ）することを考え、<span class="math">\(N\)</span> の極限 <span class="math">\(N \to \infty\)</span> を取った時に、<span class="math">\(S_{N}(x)\)</span> と <span class="math">\(f(x)\)</span> が一致する、というものである。</p>
+<div class="math" id="id22">
+\begin{equation*}
+\lim_{N \to \infty} \left\{ S_{N}(x) - f(x) \right\} = 0
+\end{equation*}
+</div>
+<p><cite>式10</cite> が証明されれば、理論的観点から、安心してフーリエ級数を使用できると言って良い。ここで、予め注意してほしいのが、<cite>式10</cite> の <span class="math">\(f(x)\)</span> は任意の関数では成立せず、定理が成り立つための制約条件が存在することである。</p>
+<p>以下、収束定理の証明及び、 <span class="math">\(f(x)\)</span> に課すべき制約条件を見ていく。</p>
+<table class="docutils footnote" frame="void" id="abouttrianglefuncorthonarity" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id20">[4]</a></td><td>この事実は自明ではない。全く適当に選んだ関数の集合（関数族）が基底になることはまず無い。</td></tr>
+</tbody>
+</table>
+<div class="section" id="id23">
+<h4>ディリクレ核</h4>
+<p>収束定理 <a class="reference internal" href="#id22">式10</a> が成立することを示すため、まず有限項のフーリエ級数展開の <a class="reference internal" href="#id21">式9</a> に注目する。 <a class="reference internal" href="#id21">式9</a> の各フーリエ係数 <span class="math">\(a_{0}, a_{1}, ..., b_{1}, b_{2}, ...\)</span> は、 <a class="reference internal" href="#id16">式7</a>, <a class="reference internal" href="#id18">式8</a> により、近似対象の関数 <span class="math">\(f(x)\)</span> によって表すことが出来る。</p>
+<div class="math">
+\begin{align*}
+S_{N}(x)
+&amp;= \frac{1}{2} a_{0} + \sum_{n=1}^{N} \left\{ a_{n} \cos(nx) + b_{n} \sin(nx) \right\} \\
+&amp;= \frac{1}{2} \frac{1}{\pi} \innerp{1}{f(x)} + \sum_{n=1}^{N} \left\{ \frac{1}{\pi} \innerp{\cos(ny)}{f(y)} \cos(nx) + \frac{1}{\pi} \innerp{\sin(ny)}{f(y)} \sin(nx) \right\} \\
+&amp;= \frac{1}{2\pi} \int_{-\pi}^{\pi} f(y) dy + \sum_{n=1}^{N} \left\{ \frac{1}{\pi} \int_{-\pi}^{\pi} \cos(ny)f(y) dy \cos(nx) + \frac{1}{\pi} \int_{-\pi}^{\pi} \sin(ny)f(y) dy \sin(nx) \right\} \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} f(y) \left[ \frac{1}{2} + \sum_{n=1}^{N} \left\{ \cos(ny)\cos(nx) + \sin(ny)\sin(nx) \right\} \right] dy \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} f(y) \left[ \frac{1}{2} + \sum_{n=1}^{N} \cos\left\{n(y-x)\right\} \right] dy \quad (\because \cos の加法定理を使用)
+\end{align*}
+</div>
+<p>ここで、 <span class="math">\(z=y-x\)</span> と積分の変数変換を行う。積分範囲は <span class="math">\([-\pi,\pi]\)</span> から <span class="math">\([-\pi-x,\pi-x]\)</span> に変化するが、周期関数を1周期分積分している状態で、積分範囲を左右にずらしても積分の結果は変わらないため、次の結果が得られる。</p>
+<div class="math" id="id24">
+\begin{align*}
+S_{N}(x)
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} f(z+x) \left[ \frac{1}{2} + \sum_{n=1}^{N} \cos(nz) \right] dz \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} f(z+x) D_{N}(z) dz
+\end{align*}
+</div>
+<p><cite>式11</cite> で導入した</p>
+<div class="math" id="id25">
+\begin{equation*}
+D_{N}(x) = \frac{1}{2} + \sum_{n=1}^{N} \cos(nx)
+\end{equation*}
+</div>
+<p>を <strong>ディリクレ核(Dirichlet kernel)</strong> という。以下に述べるように、ディリクレ核にはいくつか重要な性質がある。</p>
+<div class="section" id="id26">
+<h5>ディリクレ核の一周期分の積分</h5>
+<p>定義 <a class="reference internal" href="#id25">式12</a> より明らかにディリクレ核は周期関数である。周期 <span class="math">\(2\pi\)</span> の積分を実行すると、</p>
+<div class="math" id="id27">
+\begin{align*}
+\int_{-\pi}^{\pi} D_{N}(x) dx
+&amp;= \int_{-\pi}^{\pi} \left\{ \frac{1}{2} + \sum_{n=1}^{N} \cos(nx) \right\} dx \\
+&amp;= \int_{-\pi}^{\pi} \frac{1}{2} dx + \int_{-\pi}^{\pi} \sum_{n=1}^{N} \cos(nx) dx
+= \int_{-\pi}^{\pi} \frac{1}{2} dx + \sum_{n=1}^{N} \int_{-\pi}^{\pi} \cos(nx) dx \\
+&amp;= \int_{-\pi}^{\pi} \frac{1}{2} dx \quad (\because 三角関数の一周期分の積分値は0) \\
+&amp;= \frac{2\pi}{2} = \pi
+\end{align*}
+</div>
+</div>
+<div class="section" id="id28">
+<h5>ディリクレ核のsin関数による表現</h5>
+<p>ディリクレ核は、若干技巧的ではあるが、和を持たない形式に変形することができる。<span class="math">\(D_{N}(x)\)</span> の左から <span class="math">\(2\sin\left(\frac{1}{2}x\right)\)</span> を乗じると、</p>
+<div class="math">
+\begin{align*}
+2\sin\left(\frac{1}{2}x\right) D_{N}(x)
+&amp;= 2\sin\left(\frac{1}{2}x\right) \left[ \frac{1}{2} + \sum_{n=1}^{N} \cos(nx) \right] \\
+&amp;= \sin\left(\frac{1}{2}x\right) + 2\sin\left(\frac{1}{2}x\right) \cos(x) + 2\sin\left(\frac{1}{2}x\right) \cos(2x) + ... + 2\sin\left(\frac{1}{2}x\right) \cos(Nx)
+\end{align*}
+</div>
+<p>ここで、三角関数の和の公式 <span class="math">\(\sin(nx)\cos(mx) = \frac{\sin\{(n+m)x\} + \sin\{(n-m)x\}}{2}\)</span> を用いれば、</p>
+<div class="math">
+\begin{align*}
+2\sin\left(\frac{1}{2}x\right) D_{N}(x)
+&amp;= \sin\left(\frac{1}{2}x\right) + \left[ \sin\left\{\left(\frac{1}{2} - 1\right)x\right\} + \sin\left\{\left(\frac{1}{2} + 1\right)x\right\} \right] \\
+&amp;\quad + \left[ \sin\left\{\left(\frac{1}{2} - 2\right)x\right\} + \sin\left\{\left(\frac{1}{2} + 2\right)x\right\} \right] + ... + \left[ \sin\left\{\left(\frac{1}{2} - N\right)x\right\} + \sin\left\{\left(\frac{1}{2} + N\right)x\right\} \right] \\
+&amp;= \sin\left(\frac{1}{2}x\right) + \sin\left(-\frac{1}{2}x\right) + \sin\left(\frac{3}{2}x\right) \\
+&amp;\quad + \sin\left(-\frac{3}{2}x\right) + \sin\left(\frac{5}{2}x\right) + ... + \sin\left\{\left(\frac{1}{2} - N\right)x\right\} + \sin\left\{\left(\frac{1}{2} + N\right)x\right\} \\
+&amp;= \sin\left\{\left(\frac{1}{2} + N\right)x\right\}
+\end{align*}
+</div>
+<p>従って、ディリクレ核を <span class="math">\(\sin\)</span> のみで表現することが出来る:</p>
+<div class="math" id="id29">
+\begin{equation*}
+D_{N}(x) = \frac{\sin\left\{\left(\frac{1}{2} + N\right)x\right\}}{2\sin\left(\frac{1}{2}x\right)}
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id30">
+<h5>ディリクレ核の畳み込み</h5>
+<p><cite>式11</cite> を改めて眺めると、この式は積分範囲 <span class="math">\([-\pi,\pi]\)</span> において <strong>関数にディリクレ核を畳み込んでいる</strong> 式に捉え直せる。</p>
+<div class="math">
+\begin{equation*}
+S_{N}(x) = \frac{1}{\pi} \ f(x) \ast D_{N}(x)
+\end{equation*}
+</div>
+<p>先取りして収束定理が成り立つと仮定すると、<span class="math">\(N\)</span> の極限 <span class="math">\(N \to \infty\)</span> に於いて次が成り立つ:</p>
+<div class="math">
+\begin{align*}
+\lim_{N \to \infty} S_{N}(x) &amp;= \lim_{N \to \infty} \frac{1}{\pi} \ f(x) \ast D_{N}(x) = f(x) \\
+\therefore \lim_{N \to \infty} f(x) \ast D_{N}(x) &amp;= \pi f(x)
+\end{align*}
+</div>
+<p>畳み込みの結果、畳込み対象の関数 <span class="math">\(f(x)\)</span> が表れている。即ちこの結果は、 <span class="math">\(N\)</span> の極限においてディリクレ関数はインパルス関数に近い振る舞いをすることを示している。</p>
+<!-- 他にもディリクレ核には種々の性質が成り立つため、後に補足を行う。 -->
+</div>
+</div>
+<div class="section" id="id31">
+<h4>リーマン・ルベーグの補題</h4>
+<p>収束定理の証明のためには、もう一つ <strong>リーマン・ルベーグの補題</strong> なる命題が必要である。この節では、リーマン・ルベーグの補題の証明を行う。</p>
+<dl class="docutils">
+<dt>リーマン・ルベーグの補題</dt>
+<dd><blockquote class="first">
+区分的に連続な関数 <span class="math">\(f(x)\)</span> と <span class="math">\(\sin(Nx)\)</span> の積を積分区間  <span class="math">\([a,b]\)</span> で積分したものは、<span class="math">\(N \to \infty\)</span> とすると <span class="math">\(0\)</span> に収束する。</blockquote>
+<div class="last math" id="id32">
+\begin{equation*}
+\lim_{N \to \infty} \int_{a}^{b} f(x) \sin(Nx) dx = 0
+\end{equation*}
+</div>
+</dd>
+</dl>
+<p>（証明）部分積分を用いることにより、</p>
+<div class="math">
+\begin{align*}
+\int_{a}^{b} f(x) \sin(Nx) dx
+&amp;= \int_{a}^{b} f(x) \left\{ -\frac{1}{N} \cos(Nx) \right\}^{\prime} dx \\
+&amp;= \left[ -\frac{1}{N} f(x) \cos(Nx) \right]_{a}^{b} - \int_{a}^{b} -\frac{1}{N} f^{\prime}(x) \cos(Nx) dx \quad (\because 部分積分) \\
+&amp;= -\frac{1}{N} \left[ f(x) \cos(Nx) \right]_{a}^{b} + \frac{1}{N} \int_{a}^{b} f^{\prime}(x) \cos(Nx) dx
+\end{align*}
+</div>
+<p>と変形できる。このまま <span class="math">\(N \to \infty\)</span> なる極限をとれば、いずれの項も <span class="math">\(0\)</span> に収束するように見える。しかしそれは <strong>関数</strong> <span class="math">\(f(x)\)</span> <strong>の微分</strong> <span class="math">\(f^{\prime}(x)\)</span> <strong>が区間</strong> <span class="math">\([a,b]\)</span> <strong>で発散しない（区分的なめらかな）ときのみ</strong> 真である。この条件を関数 <span class="math">\(f(x)\)</span> に付加した時、命題は成立する。</p>
+<p>では一般に、 <span class="math">\(f(x)\)</span> が区分的に連続であること <strong>のみ</strong> を仮定して証明を行う。この時は区分的なめらかな関数 <span class="math">\(g(x)\)</span> を用いて命題が成立することを用いて、<span class="math">\(f(x)\)</span> を <span class="math">\(g(x)\)</span> に近づけることで命題の成立を示す。積分区間 <span class="math">\([a,b]\)</span> を <span class="math">\(M\)</span> 分割し、区間の小さい方から順に <span class="math">\(x_{1}, x_{2}, ..., x_{M}\)</span> となるようにする（当然 <span class="math">\(x_{1} = a, x_{M} = b\)</span> が成立する）。この上で <span class="math">\(f(x)\)</span> を次のように構成する:</p>
+<div class="math">
+\begin{equation*}
+f(x) = g(x_{k+1}) \quad (k = 1,...,M-1, \ x_{k} \leq x \leq x_{k+1})
+\end{equation*}
+</div>
+<p>構成法から見えるように、分割数 <span class="math">\(M\)</span> を増やしていけば、<span class="math">\(f(x)\)</span> と <span class="math">\(g(x)\)</span> の差は小さくなっていくのが分かる（TODO:図を書こう）。即ち、任意の <span class="math">\(\varepsilon &gt; 0\)</span> に対して、 <span class="math">\(|f(x) - g(x)| &lt; \varepsilon\)</span> を成立させる <span class="math">\(M\)</span> が存在する。</p>
+<p>そしてこの <span class="math">\(f(x)\)</span> を用いたとき、</p>
+<div class="math">
+\begin{align*}
+\left| \int_{a}^{b} f(x) \sin(Nx) dx \right|
+&amp;= \left| \int_{a}^{b} \left\{ f(x) - g(x) + g(x) \right\} \sin(Nx) dx \right| \\
+&amp;\leq \left| \int_{a}^{b} \left\{ f(x) - g(x) \right\} \sin(Nx) dx \right| + \left| \int_{a}^{b} g(x) \sin(Nx) dx \right| \\
+&amp;\leq \int_{a}^{b} \left| f(x) - g(x) \right| \left| \sin(Nx) \right| dx + \left| \int_{a}^{b} g(x) \sin(Nx) dx \right| \\
+&amp;\leq \int_{a}^{b} \left| f(x) - g(x) \right| dx + \left| \int_{a}^{b} g(x) \sin(Nx) dx \right| \\
+&amp;&lt; \int_{a}^{b} \varepsilon dx + \left| \int_{a}^{b} g(x) \sin(Nx) dx \right| = \varepsilon(b - a) + \left| \int_{a}^{b} g(x) \sin(Nx) dx \right|
+\end{align*}
+</div>
+<p>ここで、 <span class="math">\(\displaystyle\left| \int_{a}^{b} g(x) \sin(Nx) dx \right| &lt; \varepsilon\)</span> となる様に <span class="math">\(N\)</span> を十分大きく取る（ <span class="math">\(g(x)\)</span> は区分的なめらかなので成立する）と、</p>
+<div class="math">
+\begin{equation*}
+\left| \int_{a}^{b} f(x) \sin(Nx) dx \right|  &lt; \varepsilon(b-a) + \varepsilon = \varepsilon(b - a + 1)
+\end{equation*}
+</div>
+<p>即ち、任意の <span class="math">\(\varepsilon\)</span> に対して上式を成り立たせる <span class="math">\(N\)</span> が存在するので、 <a class="reference internal" href="#id33">式16</a> が成り立つ。</p>
+<div class="math" id="id33">
+\begin{equation*}
+\lim_{N \to \infty} \left| \int_{a}^{b} f(x) \sin(Nx) dx \right| = 0
+\end{equation*}
+</div>
+<p><a class="reference internal" href="#id33">式16</a> は、リーマン・ルベーグの補題（ <a class="reference internal" href="#id32">式15</a> ）が成立していることをそのまま示している。何故なら、ある関数の絶対値が <span class="math">\(0\)</span> に収束することと、関数が <span class="math">\(0\)</span> に収束することは同値だからである。</p>
+</div>
+<div class="section" id="id34">
+<h4>収束定理の証明</h4>
+<p>ここまでの結果を利用して、収束定理を示そう。まず <a class="reference internal" href="#id24">式11</a> より、ディリクレ核を使用して <span class="math">\(S_{N}(x)\)</span> を書き直すと、</p>
+<div class="math">
+\begin{equation*}
+S_{N}(x) - f(x) = \frac{1}{\pi} \int_{-\pi}^{\pi} f(x+z) D_{N}(x) dx - f(x)
+\end{equation*}
+</div>
+<p>ここで、ディリクレ核の性質（ <a class="reference internal" href="#id27">式13</a>, <a class="reference internal" href="#id29">式14</a> ）を用いると、</p>
+<div class="math">
+\begin{align*}
+S_{N}(x) - f(x)
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x+z) D_{N}(z) dz - 1 \times f(x) \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} f(x+z) D_{N}(z) dz - \frac{1}{\pi} \int_{-\pi}^{\pi} D_{N}(z) dz f(x) \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} \left\{ f(x+z) - f(x) \right\} D_{N}(z) dz \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} \left\{ f(x+z) - f(x) \right\} \frac{\sin\left\{\left( \frac{1}{2} + N \right)z\right\}}{2\sin\left(\frac{1}{2}z\right)} dz \\
+&amp;= \frac{1}{\pi} \int_{-\pi}^{\pi} \frac{ f(x+z) - f(x) }{2\sin\left(\frac{1}{2}z\right)} \sin\left\{\left( \frac{1}{2} + N \right)z\right\} dz
+\end{align*}
+</div>
+<p>ここでリーマン・ルベーグの補題を用いる。ただし、そのためには、<span class="math">\(\displaystyle\frac{ f(x+z) - f(x) }{2\sin\left(\frac{1}{2}z\right)}\)</span> が区分的に連続でなければならない。この分数は <span class="math">\(z = 0\)</span> の時、分母 <span class="math">\(2\sin\left(\frac{1}{2}z\right)\)</span> が <span class="math">\(0\)</span> になるので、<span class="math">\(z=0\)</span> においても発散しないことを示す必要がある。以下の極限を考えると、</p>
+<div class="math">
+\begin{align*}
+\lim_{z \to 0} \frac{ f(x+z) - f(x) }{2\sin\left(\frac{1}{2}z\right)}
+&amp;= \lim_{z \to 0} \frac{ f(x+z) - f(x) }{z} \frac{z}{2\sin\left(\frac{1}{2}z\right)} \\
+&amp;= \lim_{z \to 0} \frac{ f(x+z) - f(x) }{z} \lim_{z \to 0} \frac{\ddiff{z}{z}}{\ddiff{2\sin\left(\frac{1}{2}z\right)}{z}} \quad (\because ロピタルの定理) \\
+&amp;= \lim_{z \to 0} \frac{ f(x+z) - f(x) }{z} \frac{1}{2\frac{1}{2}} \\
+&amp;= f^{\prime}(x)
+\end{align*}
+</div>
+<p>より、 <span class="math">\(f^{\prime}(x)\)</span> が発散しない、即ち <strong>関数</strong> <span class="math">\(f(x)\)</span> <strong>が区分的になめらか</strong> であれば、リーマン・ルベーグの補題を使用することで、収束定理</p>
+<div class="math">
+\begin{equation*}
+\lim_{N \to \infty} \left\{ S_{N}(x) - f(x) \right\} = 0
+\end{equation*}
+</div>
+<p>が成立する。</p>
+</div>
+</div>
+<div class="section" id="id35">
+<h3>三角関数の完全性</h3>
+<p>フーリエ級数の収束定理を用いることで、三角関数基底によって基底は全て揃うのか？という問に答えを与える事ができる。この性質を、 <strong>三角関数の完全性</strong> という。</p>
+<dl class="docutils">
+<dt>三角関数の完全性</dt>
+<dd>定数、<span class="math">\(\sin\)</span> 、<span class="math">\(\cos\)</span> によって全ての関数基底が揃っている。</dd>
+</dl>
+<p>証明は背理法による。</p>
+<p>（証明）基底が揃っていない場合には次の仮定が成り立つ。</p>
+<dl class="docutils">
+<dt>仮定</dt>
+<dd>定数、<span class="math">\(\sin\)</span> 、<span class="math">\(\cos\)</span> の全てに直交している連続関数基底が存在する。</dd>
+</dl>
+<p>この命題の矛盾を導くことで、三角関数基底の完全性を示す。</p>
+<p>まず、「定数、sin、cosの全てに直交している連続関数」を <span class="math">\(h(x)\)</span> とおく。その定義から、以下が成り立つ：</p>
+<div class="math">
+\begin{align*}
+\ifdiv{ll}{
+   \innerp{h(x)}{1} = \displaystyle\int_{-\pi}^{\pi} h(x) dx = 0 &amp; \\
+   \innerp{h(x)}{\cos(nx)} = \displaystyle\int_{-\pi}^{\pi} h(x) \cos(nx) dx = 0 &amp; (n \in \mathbb{N}) \\
+   \innerp{h(x)}{\sin(nx)} = \displaystyle\int_{-\pi}^{\pi} h(x) \sin(nx) dx = 0 &amp; (n \in \mathbb{N})
+}
+\end{align*}
+</div>
+<p>これらの条件を満たす自明な関数に <span class="math">\(h(x) = 0\)</span> があるが、 <span class="math">\(h(x) = 0\)</span> は関数空間の零ベクトルに対応し空間を生成しない（この関数をスカラー倍しても同じ関数しか出てこない）ため、基底とはならない。従って、 <span class="math">\(h(x) = 0\)</span> 以外の関数で考える。</p>
+<p>この前提の上で、<span class="math">\(h(x)\)</span> をフーリエ係数展開 <span class="math">\(S_{N}(x)\)</span> によって表現すると、</p>
+<div class="math">
+\begin{align*}
+S_{N}(x)
+&amp;= \frac{1}{2} a_{0} + \sum_{n=1}^{N} \left\{ a_{n} \cos(nx) + b_{n} \sin(nx) \right\} \\
+&amp;= \frac{1}{2} \frac{1}{\pi} \innerp{1}{h(x)} + \sum_{n=1}^{N} \left\{ \frac{1}{\pi} \innerp{\cos(ny)}{h(y)} \cos(nx) + \frac{1}{\pi} \innerp{\sin(ny)}{h(y)} \sin(nx) \right\} \\
+&amp;= \frac{1}{2\pi} \int_{-\pi}^{\pi} h(y) dy + \sum_{n=1}^{N} \left\{ \frac{1}{\pi} \int_{-\pi}^{\pi} \cos(ny)h(y) dy \cos(nx) + \frac{1}{\pi} \int_{-\pi}^{\pi} \sin(ny)h(y) dy \sin(nx) \right\} \\
+&amp;= 0
+\end{align*}
+</div>
+<p>フーリエ級数の収束定理を用いると、 <span class="math">\(\displaystyle\lim_{N \to \infty} S_{N} = h(x) = 0\)</span> 。この結果は、 <span class="math">\(h(x) = 0\)</span> 以外の関数で考えていることに矛盾する。従って、冒頭で述べた三角関数の完全性が成り立つ。</p>
+</div>
+<div class="section" id="id36">
+<h3>フーリエ変換</h3>
+<p>周期 <span class="math">\(T\)</span> の実関数 <span class="math">\(f : \mathbb{R} \to \mathbb{R}\)</span> に対して、 （複素）フーリエ級数展開は、</p>
+<div class="math">
+\begin{equation*}
+\left\{ \begin{array}{l}
+  f(t)  = \displaystyle\sum_{n = -\infty}^{\infty} c_{n} \exp(j n\omega_{0}t) \\
+  c_{n} = \displaystyle\frac{1}{T} \int^{T/2}_{-T/2} f(t) \exp(-j n\omega_{0} t) dt
+  \end{array} \right.
+\end{equation*}
+</div>
+<p>となる。 ここで <span class="math">\(j\)</span> は虚数単位（<span class="math">\(j = \sqrt{-1}\)</span> ）、 <span class="math">\(\omega_{0} = 2\pi/T\)</span> である。 フーリエ級数展開により、 様々な周期関数 <span class="math">\(f\)</span> は周波数領域（異なる周波数を持つ三角関数の和）で表現できることは周知である。 今、 <span class="math">\(c_{n}\)</span> を消去すると、</p>
+<div class="math">
+\begin{equation*}
+f(t) = \sum_{n=-\infty}^{\infty} \frac{1}{T} \left\{ \int^{T/2}_{-T/2} f(t) \exp(-jn\omega_{0}t)dt \right\} \exp(jn\omega_{0}t)
+\end{equation*}
+</div>
+<p>更に、 <span class="math">\(F(n\omega_{0}) = \displaystyle\int^{T/2}_{-T/2} f(t) \exp(-jn\omega_{0}t) dt\)</span> とおくと、</p>
+<div class="math">
+\begin{equation*}
+f(t) = \sum_{n=-\infty}^{\infty} \frac{1}{T} F(n\omega_{0}) \exp(jn\omega_{0}t) = \frac{1}{2\pi} \sum_{n=-\infty}^{\infty} \omega_{0} F(n\omega_{0}) \exp(j n \omega_{0}t)
+\end{equation*}
+</div>
+<!-- &=& \frac{1}{2\pi} \sum^{\infty}_{n = -\infty} \omega_{0} F(\omega) \exp(j \omega t) \quad (\omega = n \omega_{0}) -->
+<p>となる。 今、 <span class="math">\(T \to \infty\)</span> ならしめ周期を無限大にすると <span class="math">\(\omega_{0}\)</span> は <span class="math">\(0\)</span> に収束するので、<span class="math">\(\omega_{0}\)</span> を区間幅とした区分求積法により、 次の積分と等しくなる:</p>
+<div class="math">
+\begin{equation*}
+\left\{ \begin{array}{l}
+  f(t)  = \displaystyle\frac{1}{2\pi}\int_{-\infty}^{\infty} F(\omega) \exp(j \omega t) d\omega \\
+  F(\omega) = \displaystyle \int^{\infty}_{-\infty} f(t) \exp(-j\omega t) dt
+  \end{array} \right.
+\end{equation*}
+</div>
+<p>ここで <span class="math">\(F(\omega)\)</span> は <span class="math">\(f(t)\)</span> のフーリエ変換、 <span class="math">\(f(t)\)</span> は <span class="math">\(F(\omega)\)</span> のフーリエ逆変換（逆フーリエ変換）と呼ばれる。 非周期的な関数は周期無限の関数とも考えられるので、 フーリエ変換によって、 様々な関数の周波数領域表現を得る事ができる。 但し、<span class="math">\(F(\omega)\)</span> の収束を保証するため、 <span class="math">\(f(t)\)</span> は絶対可積分:</p>
+<div class="math">
+\begin{equation*}
+\int_{-\infty}^{\infty} |f(t)| dt &lt; \infty \quad （(-\infty、 \infty)における積分値が有界）
+\end{equation*}
+</div>
+<p>でなくてはならない。 もし、 上の積分が有界な値を取るならば、</p>
+<div class="math">
+\begin{align*}
+F(\omega)
+&amp;= \int^{\infty}_{-\infty} f(t) \exp(-j\omega t) dt \\
+&amp;&lt; \int^{\infty}_{-\infty} |f(t) \exp(-j\omega t)| dt &lt; \int^{\infty}_{-\infty} |f(t)||\exp(-j\omega t)| dt \\
+&amp;= \int^{\infty}_{-\infty} |f(t)| dt \quad （\because オイラーの公式より |\exp(-j\omega t)| = \sqrt{\cos^{2} \omega t + \sin^{2} \omega t} = 1）
+\end{align*}
+</div>
+<p>となって <span class="math">\(F(\omega)\)</span> もまた有界である事が分かる。</p>
+<div class="section" id="id37">
+<h4>ラプラス変換</h4>
+<p>実関数 <span class="math">\(f(t)\)</span> に収束因子 <span class="math">\(\exp(-\sigma t)\)</span> （<span class="math">\(\sigma\)</span> は非負実数）を乗じた関数 <span class="math">\(f(t)\exp(-\sigma t)\)</span> のフーリエ変換</p>
+<div class="math">
+\begin{equation*}
+\int^{\infty}_{-\infty} f(t)\exp(-\sigma t) \exp(-j\omega t) dt = \displaystyle \int^{\infty}_{-\infty} f(t)\exp(-st) dt = F(s) \quad （s = \sigma + j\omega）
+\end{equation*}
+</div>
+<p>を <strong>（両側）ラプラス変換</strong> と呼ぶ。 ラプラス変換は、 <span class="math">\(s\)</span> が複素数であることにより、 周波数領域だけ（<span class="math">\(\sigma = 0\)</span> とした時。 フーリエ変換と等価となる）でなく、 複素数領域で過渡的な（振動の減衰/増大）現象をも解析の対象とすることができる。 また、<span class="math">\(F(s)\)</span> から <span class="math">\(f(t)\)</span> に変換するラプラス逆変換（逆ラプラス変換）は、 次の式で定義される:</p>
+<div class="math">
+\begin{equation*}
+f(t) = \frac{1}{2\pi j} \lim_{\omega \to \infty} \int^{c + j\omega}_{c - j\omega} F(s) \exp(st) ds
+\end{equation*}
+</div>
+<p>以後、 実関数 <span class="math">\(f(t)\)</span> のラプラス変換を <span class="math">\(\mathcal{L}[f(t)]( = F(s))\)</span> 、<span class="math">\(F(s)\)</span> のラプラス逆変換を <span class="math">\(\mathcal{L}^{-1}[F(s)]( = f(t))\)</span> と表す。</p>
+<p>工学的な応用の場面では、 ラプラス変換の積分範囲は <span class="math">\([0, \infty)\)</span> とする事が多い:</p>
+<div class="math">
+\begin{equation*}
+F(s) = \int^{\infty}_{0} f(t)\exp(-st) dt
+\end{equation*}
+</div>
+<p>これを特に片側ラプラス変換と呼ぶ。 ラプラス変換は演算子法の一種であり、 様々な関数の変換結果（ラプラス変換対）をまとめたラプラス変換表を参照しながら、 微分方程式を代数的、 かつ簡易に解くことができる。</p>
+</div>
+<div class="section" id="id38">
+<h4>伝達関数</h4>
+<p>1つの入力かつ1つの出力があるシステム（一入力一出力システム）を考える。 入力の振る舞いを表す実関数を <span class="math">\(x(t)\)</span> 、 それに対する出力も実関数 <span class="math">\(y(t)\)</span> と表せるとする。 ここで``振る舞いを表す実関数''とは、 線形微分方程式で記述されているラプラス変換可能な関数を意味する。 従って <span class="math">\(x(t), y(t)\)</span> のラプラス変換 <span class="math">\(X(s)、 Y(s)\)</span> は、 微分演算子の存在によりそれぞれ <span class="math">\(s\)</span> の多項式で表現できる事が分かる。</p>
+<!-- :math:`x(t), y(t)` それぞれのラプラス変換の結果を :math:`{\cal L}[x(t)] = X(s)` 、 :math:`{\cal L}[y(t)] = Y(s)` とした時、 -->
+<p>そして、 出力と入力のラプラス変換の比を <strong>伝達関数(Transfer function)</strong> と呼ぶ。  伝達関数を <span class="math">\(G(s)\)</span> とすると、</p>
+<div class="math">
+\begin{equation*}
+G(s) = \frac{Y(s)}{X(s)}
+\end{equation*}
+</div>
+<p>と表すことができる。 伝達関数 <span class="math">\(G(s)\)</span> は入力と出力の関係をひとまとめにし、 システムの特性（性質）を代表している事が分かる。 出力 <span class="math">\(y(t)\)</span> の振る舞いは <span class="math">\(Y(s) = G(s)X(s)\)</span> から両辺ラプラス逆変換を施すことにより求めることができる。 また、 <span class="math">\(G(s)\)</span> 自体の様子（分母分子の多項式の係数）から、 システムの安定性を判定することもできる。 この様に、 伝達関数はシステムの特性を観察する際に大いに役立ち、 古典制御理論の中心をなす概念となっている。</p>
+</div>
+<div class="section" id="id39">
+<h4>安定性解析の概要</h4>
+<p>伝達関数からシステムの安定性を解析する事を考える。 まず、 システムが <strong>安定(stable)</strong> であるとは、 任意の時間で有界な任意の入力 <span class="math">\(x(t)\)</span> （<span class="math">\({}^{\forall} t. |x(t)| &lt; \infty\)</span> ）に対して、 その出力 <span class="math">\(y(t)\)</span> もまた任意の時間で有界である時を言う <a class="footnote-reference" href="#aboutstatibility" id="id40">[5]</a> 。</p>
+<table class="docutils footnote" frame="void" id="aboutstatibility" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id40">[5]</a></td><td>厳密には、 リペアノフの意味で安定と言う。</td></tr>
+</tbody>
+</table>
+<p>逆に安定で無い、 即ち出力が有界でない時間がある（<span class="math">\({}^{\exists} t. |y(t)| = \infty\)</span> ）システムを不安定(unstable)と言う。 任意の入力 <span class="math">\(x(t)\)</span> に対してその出力 <span class="math">\(y(t)\)</span> の挙動を調べる事は不可能だが、 実際には、 入力 <span class="math">\(x(t)\)</span> を単位ステップ関数</p>
+<div class="math">
+\begin{equation*}
+x(t) =
+\left\{ \begin{array}{ll}
+  0 &amp; t &lt; 0 \\
+  1 &amp; t \geq 0
+\end{array} \right.
+\end{equation*}
+</div>
+<p>とした時の出力 <span class="math">\(y(t)\)</span> が有界な値に収束すれば安定となる事が示されている。</p>
+<p>それでは伝達関数 <span class="math">\(G(s)\)</span> からシステムの安定性を判定する事を考える。 入力 <span class="math">\(x(t)\)</span> 、 出力 <span class="math">\(y(t)\)</span> それぞれのラプラス変換の結果を <span class="math">\(\mathcal{L}[x(t)] = X(s)\)</span> 、 <span class="math">\({\cal L}[y(t)] = Y(s)\)</span> とした時、 伝達関数は <span class="math">\(s\)</span> の多項式の比なので、一般に次の形で表せる:</p>
+<div class="math">
+\begin{align*}
+G(s)
+&amp;= \frac{Y(s)}{X(s)} = \frac{b_{m}s^{m} + b_{m-1}s^{m-1} + \dots + b_{1}s + b_{0}}{s^{n} + a_{n-1}s^{n-1} + \dots + a_{1}s + a_{0}} \\
+&amp;= \frac{b_{m}(s-z_{1})(s-z_{2})\dots(s-z_{m})}{(s-p_{1})(s-p_{2})\dots(s-p_{n})}
+\end{align*}
+</div>
+<p>（現実には <span class="math">\(n \geq m\)</span> であることが多く、 その場合 <strong>プロパー</strong> であると呼ばれる）。 ここで、 <span class="math">\(Y(s) = 0\)</span> の根 <span class="math">\(z_{1}, \dots, z_{m}\)</span> をこのシステムの零点(zero)、 <span class="math">\(X(s)=0\)</span> の根 <span class="math">\(p_{1}、\dots、p_{n}\)</span> をこのシステムの極(pole)と呼ぶ <a class="footnote-reference" href="#aboutsystemcharapoly" id="id41">[6]</a> 。</p>
+<table class="docutils footnote" frame="void" id="aboutsystemcharapoly" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id41">[6]</a></td><td><span class="math">\(X(s)\)</span> 自身をそのシステムの特性多項式(characteristic polynominal)、 また <span class="math">\(X(s)=0\)</span> を特性方程式(characteristic equation)と呼ぶ</td></tr>
+</tbody>
+</table>
+<p>安定性の判定の為入力を単位ステップ関数とすると、 出力のラプラス変換 <span class="math">\(Y(s)\)</span> は</p>
+<div class="math">
+\begin{equation*}
+Y(s) = G(s)X(s) = G(s)\frac{1}{s} = \frac{b_{m}(s-z_{1})(s-z_{2})\dots(s-z_{m})}{s(s-p_{1})(s-p_{2})\dots(s-p_{n})}
+\end{equation*}
+</div>
+<p>となり、 この式を部分分数分解すると、 一般に</p>
+<div class="math">
+\begin{equation*}
+Y(s) = \frac{A}{s} + \sum_{k=1}^{n} \frac{B_{k}}{s-p_{k}}
+\end{equation*}
+</div>
+<p>と表わすことができ（<span class="math">\(A、 B_{k}\)</span> :係数）、 これを両辺ラプラス逆変換することで、 出力の一般解</p>
+<div class="math">
+\begin{equation*}
+y(t) = A + \sum_{k=1}^{n} B_{k} \exp(p_{k}t)
+\end{equation*}
+</div>
+<p>を得る。 更に <span class="math">\(p_{k}\)</span> は一般に複素数なので、 実数係数 <span class="math">\(\sigma_{k}, \omega_{k}\)</span> を用いて <span class="math">\(p_{k} = \sigma_{k} + j \omega_{k}\)</span> と表し <span class="math">\(y(t)\)</span> を変形すると、</p>
+<div class="math">
+\begin{align*}
+y(t)
+&amp;= A + \sum_{k=1}^{n} B_{k} \exp[(\sigma_{k} + j \omega_{k})t] \\
+&amp;= A + \sum_{k=1}^{n} B_{k} \exp(\sigma_{k}t) (\cos\omega_{k}t + j\sin\omega_{k}t) \quad （\because オイラーの公式）
+\end{align*}
+</div>
+<p>となる。 今、 ある <span class="math">\(\sigma_{i}\ (i=1, \dots, n)\)</span> が一つでも正ならば、 時間の極限 <span class="math">\(t\to \infty\)</span> をとると <span class="math">\(y(t)\)</span> は発散してしまい、 システムが不安定となることが分かる。
+従って <strong>システムが安定となる為には全ての極の実数部が負</strong> （<span class="math">\({}^{\forall} k. \sigma_{k} &lt; 0\)</span> ） <strong>となる事が必要十分</strong> であることが分かる。この時は特に <span class="math">\(y(t)\)</span> は <span class="math">\(A\)</span> に収束する（<span class="math">\(\displaystyle\lim_{t \to \infty} y(t) = A\)</span> ）ので、 システムは <strong>漸近安定</strong> であると言う。</p>
+<p>伝達関数に基づくシステムの安定性解析は、 本質的には以上の様に極の実部を調べることにより行われる。 しかし実際複雑な（<span class="math">\(n, m\)</span> が大きい）システムでは方程式を解き極を計算するのが困難となるので、 方程式を解かずともシステムの安定/不安定を判別する手法が存在する <a class="footnote-reference" href="#aboutstatibilitycheck" id="id42">[7]</a> 。</p>
+<table class="docutils footnote" frame="void" id="aboutstatibilitycheck" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id42">[7]</a></td><td>伝達関数の係数から判定する手法として、 ラウスの安定判別法や、 フルビッツの安定判別法がある</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id43">
+<h3>ギブス現象</h3>
+<p><strong>ギブス現象(Gibbs phenomenon)</strong> とは、 不連続な点を含む周期関数のフーリエ級数近似において、 不連続点付近では級数和の絶対値が原関数のとる値の絶対値よりも大きくなってしまう現象のことである。 その原因は、 不連続な関数を連続な関数基底で近似してしまう事による。</p>
+<p>ギブス現象の例を数式で観察してみる。 今、不連続点を含む、区分的に連続微分可能な周期 <span class="math">\(T\)</span> の実関数 <span class="math">\(f(x)\)</span> を考える。 その <span class="math">\(N\)</span> 次までの複素フーリエ級数近似 <span class="math">\(S_{N}(x)\)</span> は:</p>
+<div class="math">
+\begin{align*}
+S_{N}(x)
+&amp;= \sum^{N}_{n = -N} c_{n} \exp(jn\omega_{0}x)\quad (\omega_{0} = \frac{2\pi}{T}) \\
+c_{n}
+&amp;= \frac{1}{T} \int^{T/2}_{-T/2} f(t)\exp(-jn\omega_{0}t) {\rm dt}
+\end{align*}
+</div>
+<p>となる。 ところで、 ギブス現象は不連続点付近で <span class="math">\(S_{N}(x)\)</span> が飛び出る事によって認知される。 <span class="math">\(S_{N}(x)\)</span> が三角関数の和で表現されている事に注目すると、 その飛び出た点は、<span class="math">\(S_{N}(x)\)</span> の極値であると捉える事ができる。 従って、 <span class="math">\(S_{N}(x)\)</span> を <span class="math">\(x\)</span> によって微分すると:</p>
+<div class="math">
+\begin{align*}
+\ddiff{}{x}S_{N}(x)
+&amp;= \sum_{n = -N}^{N} c_{n} \ddiff{}{x}\exp(jn\omega_{0}x) \quad (\because 項別微分) \\
+&amp;= j \omega_{0} \sum^{N}_{n = -N} n c_{n} \exp(jn\omega_{0}x) \\
+&amp;= j \omega_{0} \sum^{N}_{n = -N} n c_{n} \left\{ \cos(n\omega_{0}x) + j \sin(n\omega_{0}x) \right\} \quad (\because オイラーの公式) \\
+&amp;= j \omega_{0} \sum^{N}_{n = -N} n c_{n} \cos(n\omega_{0}x) - \omega_{0} \sum^{N}_{n = -N} n c_{n} \sin(n\omega_{0}x)
+\end{align*}
+</div>
+<p><span class="math">\(c_{n}\)</span> の実部を <span class="math">\({\rm Re}[c_{n}]\)</span> 、 虚部を <span class="math">\({\rm Im}[c_{n}]\)</span> と表すと、</p>
+<div class="math">
+\begin{align*}
+\ddiff{}{x}S_{N}(x)
+&amp;= - \omega_{0} \left[ \sum^{N}_{n = -N} n \left\{ {\rm Im}[c_{n}]\cos(n\omega_{0}x) + {\rm Re}[c_{n}]\sin(n\omega_{0}x) \right\} \right. \\
+\ &amp; \quad - \left. j \sum^{N}_{n = -N} n \left\{ {\rm Re}[c_{n}]\cos(n\omega_{0}x) + {\rm Im}[c_{n}]\sin(n\omega_{0}x) \right\} \right]
+\end{align*}
+</div>
+<p>ここで、 <span class="math">\(c_{-n} = c_{n}^{\ast}\)</span> (<span class="math">\(c_{n}\)</span> の複素共役)を用いると、 <span class="math">\({\rm Im}[c_{-n}] = -{\rm Im}[c_{n}]\)</span> 、 <span class="math">\({\rm Re}[c_{-n}] = {\rm Re}[c_{n}]\)</span> であることより、 以下の様に、 虚部を含まない形に整理できる。</p>
+<div class="math">
+\begin{align*}
+\ddiff{}{x}S_{N}(x)
+&amp;= - \omega_{0} \left[ \sum^{N}_{n = 1} n \left\{ {\rm Im}[c_{n}]\cos(n\omega_{0}x) + {\rm Re}[c_{n}]\sin(n\omega_{0}x) \right\} \right. \\
+\ &amp; \quad + \sum^{N}_{k = 1} (-k) \left\{ {\rm Im}[c_{-k}]\cos(k\omega_{0}x) - {\rm Re}[c_{-k}]\sin(k\omega_{0}x) \right\} \\
+\ &amp; \quad - j \sum^{N}_{n = 1} n    \left\{ {\rm Re}[c_{n}]\cos(n\omega_{0}x) - {\rm Im}[c_{n}]\sin(n\omega_{0}x) \right\} \\
+\ &amp; \quad - j \left. \sum^{N}_{k = 1} (-k) \left\{ {\rm Re}[c_{-k}]\cos(k\omega_{0}x) + {\rm Im}[c_{-k}]\sin(k\omega_{0}x) \right\} \right] \\
+&amp;= -2\omega_{0} \sum^{N}_{n=1} n \left\{ {\rm Im}[c_{n}]\cos(n\omega_{0}x) + {\rm Re}[c_{n}]\sin(n\omega_{0}x) \right\}
+\end{align*}
+</div>
+<p><span class="math">\(\displaystyle\ddiff{}{x}S_{N}(x)\)</span> を <span class="math">\(0\)</span> とおくと、 <span class="math">\(n &gt; 0\)</span> より、 極値条件の一つとして</p>
+<div class="math">
+\begin{equation*}
+{\rm Im}[c_{n}]\cos(n\omega_{0}x) + {\rm Re}[c_{n}]\sin(n\omega_{0}x) = 0 \quad (n = 1, \cdots, N)
+\end{equation*}
+</div>
+<p>があり、 これを <span class="math">\(x\)</span> について解くと、</p>
+<div class="math">
+\begin{equation*}
+x = -\frac{1}{n\omega_{0}} \tan^{-1}\left( \frac{ {\rm Im}[c_{n}] }{ {\rm Re}[c_{n}] } \right) \quad (n = 1, \cdots, N)
+\end{equation*}
+</div>
+<p>が得られる。</p>
+<p>ギブス現象の例として、 今、<span class="math">\(f(t)\)</span> として周期 <span class="math">\(2\pi\)</span> の矩形波を仮定する:</p>
+<div class="math">
+\begin{equation*}
+f(t) =
+\left\{
+  \begin{array}{ll}
+    1  &amp; (0 \leq x &lt; \pi) \\
+    -1 &amp; (\pi \leq x &lt; 2\pi)
+  \end{array}
+\right.
+\end{equation*}
+</div>
+<p>定義のとおり、<span class="math">\(f(t)\)</span> は奇関数であるため <span class="math">\({\rm Re}[c_{n}] = 0\)</span> であり、 また <span class="math">\({\rm Im}[c_{n}]\)</span> は:</p>
+<div class="math">
+\begin{align*}
+{\rm Im}[c_{n}]
+&amp;= - \frac{1}{2\pi} \int^{\pi}_{-\pi} f(t) \sin(nt) {\rm dt} \quad (\omega_{0} = \frac{2\pi}{2\pi} = 1) \\
+&amp;= \frac{1}{n\pi} \left[ \cos(nx) \right]^{\pi}_{0} = - \frac{1}{n\pi} \left\{ 1 - (-1)^{n} \right\}
+\end{align*}
+</div>
+<p>この結果より <span class="math">\(\tan^{-1}({\rm Im}[c_{n}]/{\rm Re}[c_{n}])\)</span> を考えると、 <span class="math">\({\rm Im}[c_{n}]/{\rm Re}[c_{n}] \to -\infty\)</span> より、 極値条件は、</p>
+<div class="math">
+\begin{equation*}
+x = - \frac{1}{n} \left( - \frac{\pi}{2} \right) = \frac{\pi}{2n} \quad (n = 1、\cdots、N)
+\end{equation*}
+</div>
+<p>となる。 この結果を用いて、 不連続点 <span class="math">\(x = 0\)</span> における近似 <span class="math">\(S_{N}(x)\)</span> の値を計算する事を考える。 <span class="math">\(x = 0\)</span> に最も近い極値を与える <span class="math">\(x\)</span> の値は、 <span class="math">\(n = N\)</span> の時、 即ち <span class="math">\(x = \displaystyle\frac{\pi}{2N}\)</span> となるので、</p>
+<div class="math">
+\begin{align*}
+S_{N}\left(\frac{\pi}{2N}\right)
+&amp;= \sum_{n = -N}^{N} c_{n} \exp\left(j\frac{n\pi}{2N}\right) \\
+&amp;= \frac{2}{\pi} \sum_{n = 1}^{N} \frac{1}{n} \{ 1 - (-1)^{n} \} \sin\left(\frac{n\pi}{2N}\right) \\
+&amp;= \frac{4}{\pi} \sum_{k = 1}^{N} \frac{1}{2k-1} \sin\left(\frac{2k-1}{2N}\pi \right) \quad(n = 2k - 1) \\
+&amp;= \frac{2}{\pi} \frac{\pi}{N} \sum_{k = 1}^{N} \frac{1}{\frac{2k-1}{2N}\pi} \sin\left(\frac{2k-1}{2N}\pi \right)
+\end{align*}
+</div>
+<p>ここで区分求積法を用いる。 分割幅 <span class="math">\(|\Delta|\)</span> を <span class="math">\(\displaystyle\frac{\pi}{N}\)</span> とすると、</p>
+<div class="math">
+\begin{align*}
+S_{N}\left(\frac{\pi}{2N}\right)
+&amp;= \frac{2}{\pi} |\Delta| \sum_{k=1}^{N}\frac{1}{\frac{2k-1}{2}|\Delta|}\sin\left(\frac{2k-1}{2}|\Delta|\right) \\
+\therefore \lim_{N\to \infty} S_{N}\left( \frac{\pi}{2N} \right)
+&amp;= \frac{2}{\pi} \int^{\pi}_{0} \frac{\sin(y)}{y} {\rm dy} \approx 1.17834\cdots
+\end{align*}
+</div>
+<p>従って、 <span class="math">\(N\)</span> の極限をとっても目標値 <span class="math">\(1\)</span> に収束できない事が確認できた。  ここで、</p>
+<div class="math">
+\begin{equation*}
+\int^{\pi}_{0} \frac{\sin(y)}{y} {\rm dy} = 1.851937052\cdots
+\end{equation*}
+</div>
+<p>の結果はギブス定数を用いている。</p>
+</div>
+<div class="section" id="id44">
+<h3>エイリアシング（折り返し歪み）</h3>
+<p>エイリアシングは、 連続値（アナログ）信号をPCで扱うために離散（デジタル）化するA/D変換を行った際や、 デジタル化した画像に縮小処理などのフィルターに掛けた際に発生しうる現象であり、
+本来音声や画像には見られなかった干渉縞（偽解像、 モアレ）が発生してしまう。</p>
+<p>この現象は、 A/D変換においては標本化（サンプリング）の周波数設定、 フィルター処理においてはフィルターそのものが原因である。</p>
+<p>A/D変換におけるエイリアシングの発生の概要を見ていく。 そもそも標本化とは、 連続値信号 <span class="math">\(f(t)\)</span> をある間隔（サンプリング周期） <span class="math">\(T\)</span> での（ディラック）インパルス関数で表現する事を指す（ <a class="reference internal" href="#id45">図1</a> ）。</p>
+<div class="figure">
+<img alt="sampling.png" id="id45" src="images/sampling.png" />
+<p class="caption">周期インパルス関数による標本化</p>
+</div>
+<p>インパルス関数 <span class="math">\(\delta(t)\)</span> は</p>
+<div class="math">
+\begin{equation*}
+\int^{\infty}_{-\infty} f(t)\delta(t) {\rm dt} = f(0)
+\end{equation*}
+</div>
+<p>を満たす超関数であり、 標本化信号 <span class="math">\(g(t)\)</span> は、 <span class="math">\(f(t)\)</span> とインパルス関数を周期 <span class="math">\(T\)</span> で並べた周期的デルタ関数 <span class="math">\(\delta_{T}(t)\)</span>:</p>
+<div class="math">
+\begin{equation*}
+\delta_{T}(t) = \sum^{\infty}_{n = -\infty} \delta(t - nT)
+\end{equation*}
+</div>
+<p>との積で表現できる:</p>
+<div class="math">
+\begin{equation*}
+g(t) = f(t)\delta_{T}(t) = \sum^{\infty}_{n=-\infty}f(t)\delta(t-nT)
+\end{equation*}
+</div>
+<p>数値計算上、 和の無限は扱うことができないので、 ここで信号 <span class="math">\(f(t)\)</span> は、 標本化する区間で周期性を持つと仮定する。 ここでは、 <span class="math">\(f(t)\)</span> はサンプリング間隔の <span class="math">\(N\)</span> 倍の周期 <span class="math">\(NT\)</span> を持つとする:</p>
+<div class="math">
+\begin{equation*}
+g(t) = \sum^{N-1}_{n=0}f(t)\delta(t-nT)
+\end{equation*}
+</div>
+<p>その仮定の基で、 標本化信号 <span class="math">\(g(t)\)</span> のフーリエ変換 <span class="math">\(\mathcal{F}[g(t)]\)</span> を求めると:</p>
+<div class="math">
+\begin{align*}
+\mathcal{F}[g(t)]
+&amp;= \int^{\infty}_{-\infty} f(t) \delta_{T}(t) \exp(-j\omega t) {\rm dt} \\
+&amp;= \sum^{N-1}_{n = 0} \int^{\infty}_{-\infty} f(t)\delta(t - nT) \exp(-j\omega t) {\rm dt} \\
+&amp;= \sum^{N-1}_{n = 0} f(nT) \exp(-jn\omega T)
+\end{align*}
+</div>
+<p>ここで$j$は虚数単位、 <span class="math">\(\omega\)</span> は角周波数であり、 この式は離散フーリエ変換(DFT)の式に他ならない。</p>
+<p>また、 <span class="math">\(g(t)\)</span> の周波数特性を見やすくするために、 <span class="math">\(\delta_{T}(t)\)</span> をフーリエ級数展開する。 <span class="math">\(\delta_{T}(t)\)</span> の複素フーリエ級数展開の式は:</p>
+<div class="math">
+\begin{align*}
+\delta_{T}(t)
+&amp;= \sum^{\infty}_{n = -\infty} c_{n} \exp(jn\omega_{0}t) \quad (\omega_{0} = \frac{2\pi}{T}) \\
+c_{n}
+&amp;= \frac{1}{T} \int^{T/2}_{-T/2} \delta_{T}(t)\exp(-jn\omega_{0}t) {\rm dt}
+\end{align*}
+</div>
+<p><span class="math">\(c_{n}\)</span> を計算するとき、 積分範囲には唯一つのインパルスが存在する事に留意すると、 次のようになる:</p>
+<div class="math">
+\begin{align*}
+c_{n}
+&amp;= \frac{1}{T} \int^{T/2}_{-T/2} \delta(t)\exp(-jn\omega_{0}t) {\rm dt} \\
+&amp;= \frac{1}{T} \exp(0) = \frac{1}{T} \\
+\therefore \delta_{T}(t) &amp;=
+\frac{1}{T} \sum^{\infty}_{n = -\infty} \exp(jn\omega_{0} t)
+\end{align*}
+</div>
+<p>この結果から <span class="math">\(g(t)\)</span> の周波数特性を計算する。 <span class="math">\(\mathcal{F}[f(t)] = F(\omega)\)</span> と書くと、</p>
+<div class="math">
+\begin{align*}
+\mathcal{F}[g(t)]
+&amp;= \mathcal{F}[f(t) \frac{1}{T} \sum^{\infty}_{n = -\infty} \exp(jn\omega_{0} t)] \\
+&amp;= \frac{1}{T} \sum^{\infty}_{n = -\infty} \mathcal{F}[f(t)\exp(jn\omega_{0}t)] \quad (\because フーリエ変換の線形性) \\
+&amp;= \frac{1}{T} \sum^{\infty}_{n = -\infty} \int^{\infty}_{-\infty} f(t) \exp\left[ -j(\omega - n\omega_{0})t \right] {\rm dt} \\
+&amp;= \frac{1}{T} \sum^{\infty}_{n = -\infty} F(\omega - n\omega_{0})
+\end{align*}
+</div>
+<p>従って、 <span class="math">\(f(t)\)</span> の周波数特性 <span class="math">\(F(\omega)\)</span> を <span class="math">\(\omega_{0}\)</span> ずつずらして和をとったものとなる。 典型的な信号の周波数は高周波成分になるに従って振幅（パワー、 ゲイン）が減衰する事が知られているので、 原信号と離散化信号の周波数スペクトル <span class="math">\(|F(\omega)|\)</span> の概要図は <a class="reference internal" href="#id46">図2</a> のようになる。</p>
+<div class="figure">
+<img alt="tenkei_spectral.png" id="id46" src="images/tenkei_spectral.png" />
+<p class="caption">典型的な信号のスペクトルの例</p>
+</div>
+<p><span class="math">\(|F(\omega)|\)</span> は明らかに偶関数であり、 この時、 <span class="math">\(|{\cal F}[g(t)]|\)</span> のある山 <span class="math">\(|F(\omega - i\omega_{0})|(i \in \mathbb{Z})\)</span> において、 隣の山 <span class="math">\(|F(\omega - (i \pm 1) \omega_{0})|\)</span> と交差する周波数は <span class="math">\(\displaystyle \frac{\omega_{0}}{2}k (k:奇数)\)</span> となる。</p>
+<p>すると、 <span class="math">\(|{\cal F}[g(t)]|\)</span> はそれらの山の和を取るので、 結果 <span class="math">\(\displaystyle \frac{\omega_{0}}{2}k \pm \beta\)</span> の周波数成分のパワーが隣の山のスペクトルと区別できなくなってしまう（ <a class="reference internal" href="#id47">図3</a> ）。 特に、原信号 <span class="math">\(f(t)\)</span> では弱かった高周波成分のスペクトルが強調されてしまい、 離散化後の信号においてそれが干渉縞等によって現れてしまう。 この現象をエイリアシングと呼ぶ。</p>
+<div class="figure">
+<img alt="aliasing_occur.png" id="id47" src="images/aliasing_occur.png" />
+<p class="caption">エイリアシングが発生してしまうサンプリングの例</p>
+</div>
+<p>エイリアシングを防ぐには、原理的には、原信号 <span class="math">\(f(t)\)</span> の周波数 <span class="math">\(\omega_{f} = \displaystyle\frac{2\pi}{NT}\)</span> の2倍以上の周波数成分をローパスフィルターなどでカットし、かつ、サンプリング周波数を <span class="math">\(2\omega_{f}\)</span> （ナイキストレート）より大きくとれば良い（ <a class="reference internal" href="#id48">図4</a> ）</p>
+<div class="figure">
+<img alt="escape_aliasing.png" id="id48" src="images/escape_aliasing.png" />
+<p class="caption">エイリアシングを回避したサンプリングの例</p>
+</div>
+</div>
+<div class="section" id="id49">
+<h3>信号の復元</h3>
+<p>フーリエ変換対の結果から、標本化した波形をアナログ信号に一意に復元する結果が得られる。
+改めてフーリエ逆変換の結果</p>
+<div class="math">
+\begin{equation*}
+f(t) = \frac{1}{2\pi} \int^{\infty}_{-\infty} F(\omega) \exp(j\omega t) d\omega
+\end{equation*}
+</div>
+<p>を眺め、その意味をもう一度立ち戻って考えてみると、これは無限の周波数帯域を使用して信号を復元している式にも見える。
+この式をサンプリング周波数で帯域制限して信号を復元する事を考えることで、標本化した信号をアナログ信号に復元する式が得られる。</p>
+<p>まず フーリエ変換の結果 <span class="math">\(F(\omega)\)</span> を標本化信号によって表すことを考える。区分求積法の援用により、</p>
+<div class="math">
+\begin{align*}
+F(\omega) &amp;= \int^{\infty}_{-\infty} f(t) \exp(-j\omega t) dt \\
+&amp;= \lim_{f_{s} \to \infty} \sum_{n=-\infty}^{\infty} \frac{1}{f_{s}} f\left(\frac{n}{f_{s}}\right) \exp\left(-j\omega\frac{n}{f_{s}}\right)
+\end{align*}
+</div>
+<p>と形式的に表すことが出来る。ここで、<span class="math">\(f_{s}\)</span> はサンプリング周波数（サンプリングレート）である。この結果をフーリエ逆変換の式に代入すると、</p>
+<div class="math">
+\begin{align*}
+f(t) &amp;= \frac{1}{2\pi} \int^{\infty}_{-\infty} F(\omega) \exp(j\omega t) d\omega \\
+&amp;= \frac{1}{2\pi} \int^{\infty}_{-\infty} \left\{ \lim_{f_{s} \to \infty} \sum_{n=-\infty}^{\infty} \frac{1}{f_{s}} f\left(\frac{n}{f_{s}}\right) \exp\left(-j\omega\frac{n}{f_{s}}\right) \right\} \exp(j\omega t) d\omega \\
+&amp;= \frac{1}{2\pi} \lim_{f_{s} \to \infty} \sum_{n=-\infty}^{\infty} \frac{1}{f_{s}} f\left(\frac{n}{f_{s}}\right) \int^{\infty}_{-\infty} \exp\left[j\omega \left( t - \frac{n}{f_{s}} \right) \right] d\omega
+\end{align*}
+</div>
+<p>ここで、最後の式変形の所で積分演算の線形性を用いて、和の順序を交換している。得られた最後の結果の積分</p>
+<div class="math">
+\begin{equation*}
+\int^{\infty}_{-\infty} \exp\left[j\omega \left( t - \frac{n}{f_{s}} \right) \right] d\omega
+\end{equation*}
+</div>
+<p>に注目する。積分範囲 <span class="math">\([-\infty, \infty]\)</span> は無限になっているが、実際に得られるスペクトルは、標本化の結果 <span class="math">\([-\omega_{0}/2, \omega_{0}/2]\)</span> の範囲に制限されていなければならない。従って、帯域制限を加味して積分を計算すると、</p>
+<div class="math">
+\begin{align*}
+\int^{\omega_{0}/2}_{-\omega_{0}/2} \exp\left[j\omega \left( t - \frac{n}{f_{s}} \right) \right] d\omega &amp;= \frac{1}{j\left( t - \frac{n}{f_{s}} \right)} \left[ \exp \left\{ j\omega\left( t - \frac{n}{f_{s}} \right) \right\} \right]^{\omega_{0}/2}_{-\omega_{0}/2} \\
+&amp;= \frac{1}{j\left( t - \frac{n}{f_{s}} \right)} \left[ \exp \left\{ j\frac{\omega_{0}}{2} \left( t - \frac{n}{f_{s}} \right) \right\} - \exp \left\{ -j\frac{\omega_{0}}{2} \left( t - \frac{n}{f_{s}} \right) \right\} \right] \\
+&amp;= \frac{1}{j\left( t - \frac{n}{f_{s}} \right)} j2 \sin \left[ \frac{\omega_{0}}{2} \left( t - \frac{n}{f_{s}} \right) \right] = \frac{2 \sin \left[ \pi f_{s} \left( t - \frac{n}{f_{s}} \right) \right]}{t - \frac{n}{f_{s}}}
+\end{align*}
+</div>
+<p>ここで、最後の式変形の所でオイラーの公式</p>
+<div class="math">
+\begin{equation*}
+\exp(jx) - \exp(-jx) = \cos(x) + j\sin(x) - \left\{ \cos(x) - j\sin(x) \right\} = j2\sin(x)
+\end{equation*}
+</div>
+<p>を用いている。続けて、帯域制限を加味した積分結果を代入する。 極限 <span class="math">\(\displaystyle\lim_{f_{s} \to \infty}\)</span> は帯域制限の結果考慮する必要が無くなる事に留意すると、</p>
+<div class="math" id="id50">
+\begin{align*}
+f(t) &amp;= \frac{1}{2\pi} \sum_{n=-\infty}^{\infty} \frac{1}{f_{s}} f\left(\frac{n}{f_{s}}\right) \frac{2 \sin \left[ \pi f_{s} \left( t - \frac{n}{f_{s}} \right) \right]}{t - \frac{n}{f_{s}}} \\
+&amp;= \sum_{n=-\infty}^{\infty} f\left(\frac{n}{f_{s}}\right) \frac{\sin \left[ \pi f_{s} \left( t - \frac{n}{f_{s}} \right) \right]}{ \pi f_{s} \left( t - \frac{n}{f_{s}} \right)} \\
+&amp;= \sum_{n=-\infty}^{\infty} f\left(\frac{n}{f_{s}}\right) \mathrm{sinc} \left[ f_{s} \left( t - \frac{n}{f_{s}} \right) \right]
+\end{align*}
+</div>
+<p>ここで、</p>
+<div class="math">
+\begin{equation*}
+\mathrm{sinc}(x) = \frac{\sin(\pi x)}{\pi x}
+\end{equation*}
+</div>
+<p>は <strong>シンク関数(Sinc function)</strong> と呼ばれる。シンク関数の概形は次のようになっており、 <span class="math">\(x=0\)</span> で最大値 <span class="math">\(1\)</span> をとる（ <span class="math">\(\because\)</span> ロピタルの定理より、 <span class="math">\(\displaystyle \lim_{x \to 0} \frac{\sin(\pi x)}{\pi x} = \lim_{x \to 0} \frac{\frac{d \sin(\pi x)}{dx}}{\frac{d \pi x}{dx}} = \lim_{x \to 0} \frac{\pi \cos(\pi x)}{\pi} = 1\)</span> ）。</p>
+<p><a class="reference internal" href="#id50">式17</a> の結果から、 元のアナログ信号 <span class="math">\(f(t)\)</span> はシンク関数の畳み込み演算によって完全に復元される事 <a class="footnote-reference" href="#noteonsignalreconstruction" id="id51">[8]</a> が示された。</p>
+<table class="docutils footnote" frame="void" id="noteonsignalreconstruction" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id51">[8]</a></td><td>と言っても、無限和 <span class="math">\(\sum_{n=-\infty}^{\infty}\)</span> は計算機で計算できないため、現実的には完全な復元は不可能である。</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="id52">
+<h2>参考文献</h2>
+<ul class="simple">
+<li>『フーリエ変換・FFT入門』 <a class="reference external" href="http://www.maroon.dti.ne.jp/koten-kairo/works/fft/fft_start.html">http://www.maroon.dti.ne.jp/koten-kairo/works/fft/fft_start.html</a><ul>
+<li>この記事は、上記記事の補足に過ぎないと思われる。</li>
+</ul>
+</li>
+</ul>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>
