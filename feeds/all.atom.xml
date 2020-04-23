@@ -524,7 +524,7 @@ $$&lt;/div&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;この2点を満たす識別面ならば、 丁度クラス間の中心を区切ることが出来、適切な識別面といえる。 また、図に示す様に、サポートベクトル間の距離を&lt;strong&gt;マージン&lt;/strong&gt;（余白）という。 SVMは、このマージンを最大化することが目的となる。&lt;/p&gt;
-&lt;p&gt;&lt;img alt="マージン" src="margin.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="マージン" src="./images/margin.png"&gt;&lt;/p&gt;
 &lt;p&gt;それでは、 マージンの定式化を考える。&lt;span class="math"&gt;\(n\)&lt;/span&gt;次元空間上に&lt;span class="math"&gt;\(N\)&lt;/span&gt;個存在するサンプルを&lt;span class="math"&gt;\(\boldsymbol{x}\_{i} \in \mathbb{R}^{n} \ (i=1, \dots, N)\)&lt;/span&gt;と書き、またそのデータに対応する二値ラベルを&lt;span class="math"&gt;\(y_{i} \in \{-1, 1\}\ (i=1, \dots, N)\)&lt;/span&gt;とかく。全てのサンプルが正しく識別されている時には、 &lt;/p&gt;
 &lt;div class="math"&gt;$$
 \begin{aligned}
