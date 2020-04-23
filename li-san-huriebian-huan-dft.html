@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="DFT,信号処理" />
-        <meta name="description" content="（Q****にマジギレして移行） 離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int …" />
+        <meta name="description" content="離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int^{\infty}_ …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="離散フーリエ変換（DFT）"/>
         <meta property="og:url" content="/li-san-huriebian-huan-dft.html"/>
-        <meta property="og:description" content="（Q****にマジギレして移行） 離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int …"/>
+        <meta property="og:description" content="離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int^{\infty}_ …"/>
         <meta property="article:published_time" content="2020-04-23" />
             <meta property="article:section" content="記事" />
             <meta property="article:tag" content="DFT" />
@@ -115,8 +115,7 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>（Q****にマジギレして移行）</p>
-<p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
+                <p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
 <h2>準備：時間領域で離散化すると、周波数領域では周期的になる</h2>
 <p><span class="math">\(f(t)\)</span>を離散化した信号を<span class="math">\(g(t)\)</span>とおく。離散化には、サンプリング周期<span class="math">\(t_{s}\)</span>の周期的デルタ関数<span class="math">\(\delta_{t_{s}}(t)\)</span>を用いて</p>
 <div class="math">$$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$</div>

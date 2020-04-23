@@ -79,26 +79,24 @@ Aiki's Blog            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/zui-da-entoropimoderu.html">最大エントロピーモデル</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p>最大エントロピーモデルの導出過程、学習の更新則、素性選択についての理論的側面を述べる。記述の大部分は<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>を参照し、一部<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>も参照している。</p>
+                <div class="summary"><p>最大エントロピーモデルの導出過程、学習の更新則、素性選択についての理論的側面を述べる。記述の大部分は<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>を参照し、一部<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>も参照している。</p>
 <p>最大エントロピーモデルは、データの特徴を <strong>素性関数(feature function)</strong> によって記述し、素性関数がある <strong>制約(constraint)</strong> を満たし、かつ、モデルを表現する確率分布のエントロピーが最大となる（最大エントロピー原理を満たす）モデルである。</p>
 <p>エントロピーを最大にする事により、制約を満たしながら最大エントロピーモデルの確率分布が最も一様に分布する様になり、未知データに対する確率を無下に<span class="math">\(0\)</span>にすることが無くなるため、高い汎用性（汎化性能）が期待できる。</p>
 <h2>モデルを表現する確率分布の導出</h2>
-<p>まず、サンプル（事例）データのドメイン（定義域）を<span class="math">\(X\)</span>、データに付与されたラベルのドメインを<span class="math">\(Y\)</span>と書く。例えば、次に来る単語を予測させたい場合には、サンプル<span class="math">\(X\)</span>は1つ前までの単語の並び …</p>
+<p>まず、サンプル（事例）データのドメイン（定義域）を<span class="math">\(X\)</span>、データに付与されたラベルのドメインを<span class="math">\(Y\)</span>と書く。例えば、次に来る単語を予測させたい場合には、サンプル<span class="math">\(X\)</span>は1つ前までの単語の並び、ラベル<span class="math">\(Y …</span></p>
                     <a class="btn btn-default btn-xs" href="/zui-da-entoropimoderu.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/svmsapotobekutorumashin.html">SVM（サポートベクトルマシン）</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p><strong>SVM(Support Vector Machine, サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
+                <div class="summary"><p><strong>SVM(Support Vector Machine, サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
 <p>SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（<strong>識別面</strong>）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。 </p>
 <p>本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support Vector Regression, サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。</p>
 <p>SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>を挙げる。</p>
 <h2>線形SVM</h2>
 <h3>マージンの定式化</h3>
-<p>識別の例として、まずは図にあるような、2次元空間<span class="math">\(X\times Z\)</span>に存在する2クラスのサンプルデータ（以下サンプル …</p>
+<p>識別の例として、まずは図にあるような、2次元空間<span class="math">\(X\times Z\)</span>に存在する2クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け …</p>
                     <a class="btn btn-default btn-xs" href="/svmsapotobekutorumashin.html">more ...</a>
                 </div>
             </article>

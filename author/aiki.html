@@ -78,45 +78,41 @@ Aiki's Blog            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/zui-da-entoropimoderu.html">最大エントロピーモデル</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p>最大エントロピーモデルの導出過程、学習の更新則、素性選択についての理論的側面を述べる。記述の大部分は<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>を参照し、一部<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>も参照している。</p>
+                <div class="summary"><p>最大エントロピーモデルの導出過程、学習の更新則、素性選択についての理論的側面を述べる。記述の大部分は<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>を参照し、一部<sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>も参照している。</p>
 <p>最大エントロピーモデルは、データの特徴を <strong>素性関数(feature function)</strong> によって記述し、素性関数がある <strong>制約(constraint)</strong> を満たし、かつ、モデルを表現する確率分布のエントロピーが最大となる（最大エントロピー原理を満たす）モデルである。</p>
 <p>エントロピーを最大にする事により、制約を満たしながら最大エントロピーモデルの確率分布が最も一様に分布する様になり、未知データに対する確率を無下に<span class="math">\(0\)</span>にすることが無くなるため、高い汎用性（汎化性能）が期待できる。</p>
 <h2>モデルを表現する確率分布の導出</h2>
-<p>まず、サンプル（事例）データのドメイン（定義域）を<span class="math">\(X\)</span>、データに付与されたラベルのドメインを<span class="math">\(Y\)</span>と書く。例えば、次に来る単語を予測させたい場合には、サンプル<span class="math">\(X\)</span>は1つ前までの単語の並び …</p>
+<p>まず、サンプル（事例）データのドメイン（定義域）を<span class="math">\(X\)</span>、データに付与されたラベルのドメインを<span class="math">\(Y\)</span>と書く。例えば、次に来る単語を予測させたい場合には、サンプル<span class="math">\(X\)</span>は1つ前までの単語の並び、ラベル<span class="math">\(Y …</span></p>
                     <a class="btn btn-default btn-xs" href="/zui-da-entoropimoderu.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/svmsapotobekutorumashin.html">SVM（サポートベクトルマシン）</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p><strong>SVM(Support Vector Machine, サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
+                <div class="summary"><p><strong>SVM(Support Vector Machine, サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
 <p>SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（<strong>識別面</strong>）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。 </p>
 <p>本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support Vector Regression, サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。</p>
 <p>SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>を挙げる。</p>
 <h2>線形SVM</h2>
 <h3>マージンの定式化</h3>
-<p>識別の例として、まずは図にあるような、2次元空間<span class="math">\(X\times Z\)</span>に存在する2クラスのサンプルデータ（以下サンプル …</p>
+<p>識別の例として、まずは図にあるような、2次元空間<span class="math">\(X\times Z\)</span>に存在する2クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け …</p>
                     <a class="btn btn-default btn-xs" href="/svmsapotobekutorumashin.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/mcmcmarukohulian-suo-montekarurofa.html">MCMC（マルコフ連鎖モンテカルロ）法</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p>本稿ではMCMC法の解説のため、MC法による積分の計算方法（モンテカルロ積分）から、MCMCによる手法の概要を見ていく。MCMC法は有名かつ知り尽くされた手法で、多くの良質な説明資料 <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup><sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup> が存在している。従ってここの説明は読まずに、資料を見てもらった方が理解が早いかもしれない。</p>
+                <div class="summary"><p>本稿ではMCMC法の解説のため、MC法による積分の計算方法（モンテカルロ積分）から、MCMCによる手法の概要を見ていく。MCMC法は有名かつ知り尽くされた手法で、多くの良質な説明資料 <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup><sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup> が存在している。従ってここの説明は読まずに、資料を見てもらった方が理解が早いかもしれない。</p>
 <p>一般に <strong>MC（Monte-Calro, モンテカルロ）法</strong> は、サンプリング（サンプルを乱数から生成すること）によってシミュレーションや数値計算を行う手法である。特に確率分布が関わる積分値<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup> を近似的に求めるMC法はモンテカルロ積分と呼ばれる。モンテカルロ積分は確率的な推論の一種であり、大数の法則<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> によって、十分なサンプル数をとれば近似精度をいくらでも良くする事ができる。サンプリングの手間がある為、近似分布をあらかじめ仮定する様な決定論的な推論よりも遥かに推論が遅い。しかし、MCは近似分布が求められないような場合にも適用可能であり、汎用性が高いと言える。</p>
 <p>MC法によって原理的には任意の解を求められるが、十分なサンプル数の要求というのが大きな問題を孕んでいる。サンプリングの自由度（範囲及び次元）が大きくなると、解の計算にあまり寄与しない（無駄な）サンプルが増えてしまう。計算を現実的かつ効率的に行うためには、サンプルの選択が重要になる。</p>
-<p>そして …</p>
+<p>そして <strong>MCMC（Markov …</strong></p>
                     <a class="btn btn-default btn-xs" href="/mcmcmarukohulian-suo-montekarurofa.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html">LPC（Linear Predictive Coding, 線形予測符号化）</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p>線形予測分析等とも言及される。</p>
+                <div class="summary"><p>線形予測分析等とも言及される。</p>
 <p>英語版で決定的に簡単な資料は<a href="http://www.emptyloop.com/technotes/A%20tutorial%20on%20linear%20prediction%20and%20Levinson-Durbin.pdf">ここ</a>で見れます。ここの解説はその日本語訳以下の何かです。英語が読める人はそっちを見たほうが絶対早いです。</p>
 <p>ここよりも良い資料が有ります：（<a href="http://aidiary.hatenablog.com/entry/20120415/1334458954" title="人工知能に関する断創録 - 線形予測分析（LPC）">人工知能に関する断創録</a>）</p>
 <h2>アルゴリズムの導出</h2>
@@ -125,21 +121,20 @@ Aiki's Blog            </a>
 <p>予測にあたって、線形予測では<span class="math">\(k\)</span>個の係数<span class="math">\(a_{1},...,a_{k}\)</span>を用いた単純な線形結合
 </p>
 <div class="math">$$
--a_{1}y_{n-1} - a_{2}y_{n-2} - ... - a_{k}y_ …</div>
+-a_{1}y_{n-1} - a_{2}y_{n-2} - ... - a_{k}y_{n-k} = - \sum_ …</div>
                     <a class="btn btn-default btn-xs" href="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/li-san-huriebian-huan-dft.html">離散フーリエ変換（DFT）</a></h2>
-                <div class="summary"><p>（Q****にマジギレして移行）</p>
-<p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
+                <div class="summary"><p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
 <h2>準備：時間領域で離散化すると、周波数領域では周期的になる</h2>
 <p><span class="math">\(f(t)\)</span>を離散化した信号を<span class="math">\(g(t)\)</span>とおく。離散化には、サンプリング周期<span class="math">\(t_{s}\)</span>の周期的デルタ関数<span class="math">\(\delta_{t_{s}}(t)\)</span>を用いて</p>
 <div class="math">$$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$</div>
 <p>とする。デルタ関数<span class="math">\(\delta(t)\)</span>は関数<span class="math">\(f(t)\)</span>に対して次が成り立つ（超）関数である：</p>
 <div class="math">$$
-\int …</div>
+\int^{\infty}_ …</div>
                     <a class="btn btn-default btn-xs" href="/li-san-huriebian-huan-dft.html">more ...</a>
                 </div>
             </article>
