@@ -202,11 +202,11 @@ $$&lt;/div&gt;
   &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\delta_{i}f_{i}(x,y) \right]
 \end{align}
 $$&lt;/div&gt;
-&lt;p&gt;素性&lt;span class="math"&gt;\(f_{i}(x,y)\)&lt;/span&gt;の&lt;span class="math"&gt;\(i\)&lt;/span&gt;についての和&lt;span class="math"&gt;\(f^{\\#}(x,y) = \sum_{i=1}^{n}f_{i}(x,y)\)&lt;/span&gt;を用いると、&lt;/p&gt;
+&lt;p&gt;素性&lt;span class="math"&gt;\(f_{i}(x,y)\)&lt;/span&gt;の&lt;span class="math"&gt;\(i\)&lt;/span&gt;についての和&lt;span class="math"&gt;\(f^{\#}(x,y) = \sum_{i=1}^{n}f_{i}(x,y)\)&lt;/span&gt;を用いると、&lt;/p&gt;
 &lt;div class="math"&gt;$$
   L(P_{\Lambda+\Delta})-L(P_{\Lambda}) = \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\delta_{i}f^{\#}(x,y) \right]
 $$&lt;/div&gt;
-&lt;p&gt;と書ける。今&lt;span class="math"&gt;\(f_{i}(x,y)/f^{\\#}(x,y)\)&lt;/span&gt;は確率分布となることから、&lt;span class="math"&gt;\(\sum_{i}\frac{f_{i}(x,y)}{f^{\\#}(x,y)}\delta_{i}f^{\\#}(x,y)\)&lt;/span&gt;は&lt;span class="math"&gt;\(\delta_{i}f^{\\#}(x,y)\)&lt;/span&gt;についての平均と読み取れる。更に&lt;span class="math"&gt;\(\exp\)&lt;/span&gt;は明らかに凸関数であることから、イェンセンの不等式&lt;span class="math"&gt;\(\exp(E[X]) \leq E[\exp(X)]\)&lt;/span&gt;を用いて最終的な下限の式を得る。&lt;/p&gt;
+&lt;p&gt;と書ける。今&lt;span class="math"&gt;\(f_{i}(x,y)/f^{\#}(x,y)\)&lt;/span&gt;は確率分布となることから、&lt;span class="math"&gt;\(\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\delta_{i}f^{\#}(x,y)\)&lt;/span&gt;は&lt;span class="math"&gt;\(\delta_{i}f^{\#}(x,y)\)&lt;/span&gt;についての平均と読み取れる。更に&lt;span class="math"&gt;\(\exp\)&lt;/span&gt;は明らかに凸関数であることから、イェンセンの不等式&lt;span class="math"&gt;\(\exp(E[X]) \leq E[\exp(X)]\)&lt;/span&gt;を用いて最終的な下限の式を得る。&lt;/p&gt;
 &lt;div class="math"&gt;$$
 \begin{align}
   L(P_{\Lambda+\Delta})-L(P_{\Lambda}) &amp;amp;\geq \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\exp\left[ \delta_{i}f^{\#}(x,y) \right] \\
@@ -220,7 +220,7 @@ $$&lt;/div&gt;
   &amp;amp;= E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right]
 \end{align}
 $$&lt;/div&gt;
-&lt;p&gt;この式を&lt;span class="math"&gt;\(0\)&lt;/span&gt;とおき&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について解くことで変化量を求める事ができる。この式は&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について閉じた形をしていないので、基本的には数値解析によって極値を求める。しかし、もしも任意の&lt;span class="math"&gt;\((x,y)\)&lt;/span&gt;に対し &lt;span class="math"&gt;\(f^{\\#}(x,y) = C\)&lt;/span&gt;（定数）となるならば、&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について解く事ができ、次の結果を得る。&lt;/p&gt;
+&lt;p&gt;この式を&lt;span class="math"&gt;\(0\)&lt;/span&gt;とおき&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について解くことで変化量を求める事ができる。この式は&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について閉じた形をしていないので、基本的には数値解析によって極値を求める。しかし、もしも任意の&lt;span class="math"&gt;\((x,y)\)&lt;/span&gt;に対し &lt;span class="math"&gt;\(f^{\#}(x,y) = C\)&lt;/span&gt;（定数）となるならば、&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について解く事ができ、次の結果を得る。&lt;/p&gt;
 &lt;div class="math"&gt;$$
 \begin{align}
   &amp;amp; E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right] = 0 \\
@@ -228,7 +228,7 @@ $$&lt;/div&gt;
   &amp;amp;\iff \delta_{i} = \frac{1}{C} \log \left( \frac{E_{\tilde{P}}[f_{i}]}{E_{P}[f_{i}]} \right)
 \end{align}
 $$&lt;/div&gt;
-&lt;p&gt;任意の&lt;span class="math"&gt;\((x,y)\)&lt;/span&gt;で&lt;span class="math"&gt;\(f^{\\#}(x,y)\)&lt;/span&gt;が定数にならない場合でも、実は&lt;span class="math"&gt;\(C = \displaystyle\max_{x,y} f^{\\#}(x,y)\)&lt;/span&gt;とし、新しい素性&lt;span class="math"&gt;\(f_{n+1}(x,y)\)&lt;/span&gt;を&lt;span class="math"&gt;\(f_{n+1}(x,y) = C - f^{\\#}(x,y)\)&lt;/span&gt;とおけば、変更後の和&lt;span class="math"&gt;\(f^{\\#\prime}(x,y)\)&lt;/span&gt;は&lt;span class="math"&gt;\(f^{\\#\prime}(x,y)=C\)&lt;/span&gt;となる事が知られている。&lt;span class="math"&gt;\(f^{\\#\prime}(x,y)\)&lt;/span&gt;について検算を行ってみると,&lt;/p&gt;
+&lt;p&gt;任意の&lt;span class="math"&gt;\((x,y)\)&lt;/span&gt;で&lt;span class="math"&gt;\(f^{\#}(x,y)\)&lt;/span&gt;が定数にならない場合でも、実は&lt;span class="math"&gt;\(C = \displaystyle\max_{x,y} f^{\#}(x,y)\)&lt;/span&gt;とし、新しい素性&lt;span class="math"&gt;\(f_{n+1}(x,y)\)&lt;/span&gt;を&lt;span class="math"&gt;\(f_{n+1}(x,y) = C - f^{\#}(x,y)\)&lt;/span&gt;とおけば、変更後の和&lt;span class="math"&gt;\(f^{\#\prime}(x,y)\)&lt;/span&gt;は&lt;span class="math"&gt;\(f^{\#\prime}(x,y)=C\)&lt;/span&gt;となる事が知られている。&lt;span class="math"&gt;\(f^{\#\prime}(x,y)\)&lt;/span&gt;について検算を行ってみると,&lt;/p&gt;
 &lt;div class="math"&gt;$$
 \begin{align}
   f^{\#\prime}(x,y) &amp;amp;= \sum_{i=1}^{n+1} f_{i}(x,y) = \sum_{i=1}^{n} f_{i}(x,y) + f_{n+1}(x,y)  \\

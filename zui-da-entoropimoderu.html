@@ -311,11 +311,11 @@ $$</div>
   &amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\delta_{i}f_{i}(x,y) \right]
 \end{align}
 $$</div>
-<p>素性<span class="math">\(f_{i}(x,y)\)</span>の<span class="math">\(i\)</span>についての和<span class="math">\(f^{\\#}(x,y) = \sum_{i=1}^{n}f_{i}(x,y)\)</span>を用いると、</p>
+<p>素性<span class="math">\(f_{i}(x,y)\)</span>の<span class="math">\(i\)</span>についての和<span class="math">\(f^{\#}(x,y) = \sum_{i=1}^{n}f_{i}(x,y)\)</span>を用いると、</p>
 <div class="math">$$
   L(P_{\Lambda+\Delta})-L(P_{\Lambda}) = \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\delta_{i}f^{\#}(x,y) \right]
 $$</div>
-<p>と書ける。今<span class="math">\(f_{i}(x,y)/f^{\\#}(x,y)\)</span>は確率分布となることから、<span class="math">\(\sum_{i}\frac{f_{i}(x,y)}{f^{\\#}(x,y)}\delta_{i}f^{\\#}(x,y)\)</span>は<span class="math">\(\delta_{i}f^{\\#}(x,y)\)</span>についての平均と読み取れる。更に<span class="math">\(\exp\)</span>は明らかに凸関数であることから、イェンセンの不等式<span class="math">\(\exp(E[X]) \leq E[\exp(X)]\)</span>を用いて最終的な下限の式を得る。</p>
+<p>と書ける。今<span class="math">\(f_{i}(x,y)/f^{\#}(x,y)\)</span>は確率分布となることから、<span class="math">\(\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\delta_{i}f^{\#}(x,y)\)</span>は<span class="math">\(\delta_{i}f^{\#}(x,y)\)</span>についての平均と読み取れる。更に<span class="math">\(\exp\)</span>は明らかに凸関数であることから、イェンセンの不等式<span class="math">\(\exp(E[X]) \leq E[\exp(X)]\)</span>を用いて最終的な下限の式を得る。</p>
 <div class="math">$$
 \begin{align}
   L(P_{\Lambda+\Delta})-L(P_{\Lambda}) &amp;\geq \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\exp\left[ \delta_{i}f^{\#}(x,y) \right] \\
@@ -329,7 +329,7 @@ $$</div>
   &amp;= E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right]
 \end{align}
 $$</div>
-<p>この式を<span class="math">\(0\)</span>とおき<span class="math">\(\delta_{i}\)</span>について解くことで変化量を求める事ができる。この式は<span class="math">\(\delta_{i}\)</span>について閉じた形をしていないので、基本的には数値解析によって極値を求める。しかし、もしも任意の<span class="math">\((x,y)\)</span>に対し <span class="math">\(f^{\\#}(x,y) = C\)</span>（定数）となるならば、<span class="math">\(\delta_{i}\)</span>について解く事ができ、次の結果を得る。</p>
+<p>この式を<span class="math">\(0\)</span>とおき<span class="math">\(\delta_{i}\)</span>について解くことで変化量を求める事ができる。この式は<span class="math">\(\delta_{i}\)</span>について閉じた形をしていないので、基本的には数値解析によって極値を求める。しかし、もしも任意の<span class="math">\((x,y)\)</span>に対し <span class="math">\(f^{\#}(x,y) = C\)</span>（定数）となるならば、<span class="math">\(\delta_{i}\)</span>について解く事ができ、次の結果を得る。</p>
 <div class="math">$$
 \begin{align}
   &amp; E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right] = 0 \\
@@ -337,7 +337,7 @@ $$</div>
   &amp;\iff \delta_{i} = \frac{1}{C} \log \left( \frac{E_{\tilde{P}}[f_{i}]}{E_{P}[f_{i}]} \right)
 \end{align}
 $$</div>
-<p>任意の<span class="math">\((x,y)\)</span>で<span class="math">\(f^{\\#}(x,y)\)</span>が定数にならない場合でも、実は<span class="math">\(C = \displaystyle\max_{x,y} f^{\\#}(x,y)\)</span>とし、新しい素性<span class="math">\(f_{n+1}(x,y)\)</span>を<span class="math">\(f_{n+1}(x,y) = C - f^{\\#}(x,y)\)</span>とおけば、変更後の和<span class="math">\(f^{\\#\prime}(x,y)\)</span>は<span class="math">\(f^{\\#\prime}(x,y)=C\)</span>となる事が知られている。<span class="math">\(f^{\\#\prime}(x,y)\)</span>について検算を行ってみると,</p>
+<p>任意の<span class="math">\((x,y)\)</span>で<span class="math">\(f^{\#}(x,y)\)</span>が定数にならない場合でも、実は<span class="math">\(C = \displaystyle\max_{x,y} f^{\#}(x,y)\)</span>とし、新しい素性<span class="math">\(f_{n+1}(x,y)\)</span>を<span class="math">\(f_{n+1}(x,y) = C - f^{\#}(x,y)\)</span>とおけば、変更後の和<span class="math">\(f^{\#\prime}(x,y)\)</span>は<span class="math">\(f^{\#\prime}(x,y)=C\)</span>となる事が知られている。<span class="math">\(f^{\#\prime}(x,y)\)</span>について検算を行ってみると,</p>
 <div class="math">$$
 \begin{align}
   f^{\#\prime}(x,y) &amp;= \sum_{i=1}^{n+1} f_{i}(x,y) = \sum_{i=1}^{n} f_{i}(x,y) + f_{n+1}(x,y)  \\
