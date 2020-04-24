@@ -77,6 +77,61 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-21.html">2020-04-21</a></h2>
+                <div class="summary"><div class="section" id="mathrm-e-varepsilon-n-x-n-m">
+<h2>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察</h2>
+<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。
+<span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。</p>
+<ul class="simple">
+<li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
+<li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
+<li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
+<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。</li>
+</ul>
+<div class="figure align-center">
+<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" />
+<p class="caption">440.0Hzのsin波に対する各タップの平均勾配変化</p>
+</div>
+<div class="figure align-center">
+<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ボイス対する各タップの平均勾配変化</p>
+</div>
+<div class="figure align-center">
+<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ピアノ演奏に対する各タップの平均勾配変化</p>
+</div>
+</div>
+<div class="section" id="signed-lms2">
+<h2>Signed-LMSの目的関数の2階微分</h2>
+<p>勇気を出してやってみる。</p>
+<div class="math">
+\begin{equation*}
+\newcommand\innerp[2 …</div></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-21.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/2020-04-20.html">2020-04-20</a></h2>
+                <div class="summary"><div class="section" id="irls">
+<h2>IRLSの更新式について</h2>
+<p>MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 <tt class="docutils literal">newcommand</tt> を行えばずっと使えるみたい。便利。</p>
+<div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>逐次的更新の件について。IRLSでは以下の評価関数 <span class="math">\(J(\ve{\beta})\)</span> の最小化を考える。</p>
+<div class="math">
+\begin{equation*}
+J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-20.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-19.html">2020-04-19</a></h2>
                 <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares-2">
 <h2>IRLS(Iteratively Reweighted Least Squares) その2</h2>

@@ -1,5 +1,124 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-04-22T12:10:00+09:00</updated><entry><title>2020-04-22</title><link href="/2020-04-22.html" rel="alternate"></link><published>2020-04-22T11:34:00+09:00</published><updated>2020-04-22T12:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-22:/2020-04-22.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-04-24T11:40:00+09:00</updated><entry><title>2020-04-24</title><link href="/2020-04-24.html" rel="alternate"></link><published>2020-04-24T11:40:00+09:00</published><updated>2020-04-24T11:40:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-24:/2020-04-24.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;div class="section" id="lms-filter"&gt;
+&lt;h2&gt;LMS Filterの挙動観察&lt;/h2&gt;
+&lt;p&gt;今日はJupyterを使って残差・残差勾配を観察していく。もう夜遅いのでnotebook上げるの挑戦できず。
+勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった…3時間ほど飛ばす。&lt;/p&gt;
+&lt;p&gt;ラプラス分布の観測分散が怪しい...&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution"&gt;Deriving Mean and Variance of Laplace Distribution&lt;/a&gt; に1次元の場合がある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;ヘッセ行列を使うケースの観察がまだ。評価がまとまったら結果共有に入りたい。&lt;/li&gt;
+&lt;li&gt;OMPを使う。&lt;/li&gt;
+&lt;li&gt;メッセージパッシング使えない？&lt;ul&gt;
+&lt;li&gt;何らかの確率モデル化をせよ、というふうに受け取った。&lt;/li&gt;
+&lt;li&gt;AMP, Survay-Propagation …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;div class="section" id="lms-filter"&gt;
+&lt;h2&gt;LMS Filterの挙動観察&lt;/h2&gt;
+&lt;p&gt;今日はJupyterを使って残差・残差勾配を観察していく。もう夜遅いのでnotebook上げるの挑戦できず。
+勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった…3時間ほど飛ばす。&lt;/p&gt;
+&lt;p&gt;ラプラス分布の観測分散が怪しい...&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution"&gt;Deriving Mean and Variance of Laplace Distribution&lt;/a&gt; に1次元の場合がある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;ヘッセ行列を使うケースの観察がまだ。評価がまとまったら結果共有に入りたい。&lt;/li&gt;
+&lt;li&gt;OMPを使う。&lt;/li&gt;
+&lt;li&gt;メッセージパッシング使えない？&lt;ul&gt;
+&lt;li&gt;何らかの確率モデル化をせよ、というふうに受け取った。&lt;/li&gt;
+&lt;li&gt;AMP, Survay-Propagation（三村さん、樺島さん）がありえる。&lt;/li&gt;
+&lt;li&gt;→ AMP, Survay-Propagationについて調査すべし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;いろんな論文で自然勾配をどうやって定義しているか要観察。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="Hessian"></category></entry><entry><title>2020-04-23</title><link href="/2020-04-23.html" rel="alternate"></link><published>2020-04-23T23:00:00+09:00</published><updated>2020-04-23T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/2020-04-23.html</id><content type="html">&lt;p&gt;評価の前に古い記事の以降とPythonの環境整備。
+PythonはJupyterを使う。Vimキーバインドで。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/nakasan/items/ec7741f075f1062350f4#jupyterコマンドモードのショートカットキーまとめ"&gt;Jupyterコマンドモードのショートカットキーまとめ&lt;/a&gt; がよくまとまっていた。これ読んで進めていく。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Jupyter"></category></entry><entry><title>2020-04-22</title><link href="/2020-04-22.html" rel="alternate"></link><published>2020-04-22T11:34:00+09:00</published><updated>2020-04-22T12:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-22:/2020-04-22.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
@@ -72,8 +191,6 @@
 &lt;h2&gt;TODO&lt;/h2&gt;
 &lt;p&gt;評価のことを考えて行きたい。固定した信号（答えが分かっている信号。乱数固定。）を使ったときに、誤差平面と勾配はどうなっている？フィルタの次元は2ぐらいにして、フィルタを固定して各統計量がどうなっているかプロットする。まずは絶対値残差と勾配の観察が重要に思える（もちろん、2次の最小化ケースも重要）。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;古いQiita記事を移行せねば…&lt;/li&gt;
-&lt;li&gt;Jupiterええな。使ってみるか&lt;/li&gt;
 &lt;li&gt;評価がまとまったら結果共有に入りたい。&lt;/li&gt;
 &lt;li&gt;OMPを使う。&lt;/li&gt;
 &lt;li&gt;メッセージパッシング使えない？&lt;ul&gt;
