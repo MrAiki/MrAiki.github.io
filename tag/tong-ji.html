@@ -55,6 +55,9 @@ Aiki's Blog            </a>
                             <a href="/category/ji-shi.html">記事</a>
                         </li>
                         <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li >
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -79,10 +82,8 @@ Aiki's Blog            </a>
         <div class="col-sm-9">
             <article>
                 <h2><a href="/mcmcmarukohulian-suo-montekarurofa.html">MCMC（マルコフ連鎖モンテカルロ）法</a></h2>
-                <div class="summary"><p>本稿ではMCMC法の解説のため、MC法による積分の計算方法（モンテカルロ積分）から、MCMCによる手法の概要を見ていく。MCMC法は有名かつ知り尽くされた手法で、多くの良質な説明資料 <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup><sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup><sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup><sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup> が存在している。従ってここの説明は読まずに、資料を見てもらった方が理解が早いかもしれない。</p>
-<p>一般に <strong>MC（Monte-Calro, モンテカルロ）法</strong> は、サンプリング（サンプルを乱数から生成すること）によってシミュレーションや数値計算を行う手法である。特に確率分布が関わる積分値<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup> を近似的に求めるMC法はモンテカルロ積分と呼ばれる。モンテカルロ積分は確率的な推論の一種であり、大数の法則<sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup> によって、十分なサンプル数をとれば近似精度をいくらでも良くする事ができる。サンプリングの手間がある為、近似分布をあらかじめ仮定する様な決定論的な推論よりも遥かに推論が遅い。しかし、MCは近似分布が求められないような場合にも適用可能であり、汎用性が高いと言える。</p>
-<p>MC法によって原理的には任意の解を求められるが、十分なサンプル数の要求というのが大きな問題を孕んでいる。サンプリングの自由度（範囲及び次元）が大きくなると、解の計算にあまり寄与しない（無駄な）サンプルが増えてしまう。計算を現実的かつ効率的に行うためには、サンプルの選択が重要になる。</p>
-<p>そして <strong>MCMC（Markov …</strong></p>
+                <div class="summary"><p class="first last">MCMC法の概要について。実装はなく、ちょっと理論寄り。</p>
+
                     <a class="btn btn-default btn-xs" href="/mcmcmarukohulian-suo-montekarurofa.html">more ...</a>
                 </div>
             </article>

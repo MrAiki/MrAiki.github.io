@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="LPC,信号処理,ロスレス音声" />
-        <meta name="description" content="線形予測分析等とも言及される。 英語版で決定的に簡単な資料はここで見れます。ここの解説はその日本語訳以下の何かです。英語が読める人はそっちを見たほうが絶対早いです。 ここよりも良い資料が有ります：（人工知能に関する断創録） アルゴリズムの導出 問題設定 時間について離散化した信号が\(y_{0}, y_{1}, ..., y_{n}\)として得られたとする。ここで、\(y_{n}\)を直前の\(y_{i}\ (i=0,...,n-1)\)によって予測する事を考える。 予測にあたって、線形予測では\(k\)個の係数\(a_{1},...,a_{k}\)を用いた単純な線形結合 $$ -a_{1}y_{n-1} - a_{2}y_{n-2} - ... - a_{k}y_{n-k} = - \sum_ …" />
+        <meta name="description" content="線形予測符号化についての理論的概要とかんたんな実装例。ハイパー古い技術。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="LPC（Linear Predictive Coding, 線形予測符号化）"/>
         <meta property="og:url" content="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html"/>
-        <meta property="og:description" content="線形予測分析等とも言及される。 英語版で決定的に簡単な資料はここで見れます。ここの解説はその日本語訳以下の何かです。英語が読める人はそっちを見たほうが絶対早いです。 ここよりも良い資料が有ります：（人工知能に関する断創録） アルゴリズムの導出 問題設定 時間について離散化した信号が\(y_{0}, y_{1}, ..., y_{n}\)として得られたとする。ここで、\(y_{n}\)を直前の\(y_{i}\ (i=0,...,n-1)\)によって予測する事を考える。 予測にあたって、線形予測では\(k\)個の係数\(a_{1},...,a_{k}\)を用いた単純な線形結合 $$ -a_{1}y_{n-1} - a_{2}y_{n-2} - ... - a_{k}y_{n-k} = - \sum_ …"/>
+        <meta property="og:description" content="線形予測符号化についての理論的概要とかんたんな実装例。ハイパー古い技術。"/>
         <meta property="article:published_time" content="2020-04-23" />
             <meta property="article:section" content="記事" />
             <meta property="article:tag" content="LPC" />
@@ -61,6 +61,9 @@ Aiki's Blog            </a>
             <ul class="nav navbar-nav">
                         <li class="active">
                             <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -119,40 +122,50 @@ Aiki's Blog            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>線形予測分析等とも言及される。</p>
-<p>英語版で決定的に簡単な資料は<a href="http://www.emptyloop.com/technotes/A%20tutorial%20on%20linear%20prediction%20and%20Levinson-Durbin.pdf">ここ</a>で見れます。ここの解説はその日本語訳以下の何かです。英語が読める人はそっちを見たほうが絶対早いです。</p>
-<p>ここよりも良い資料が有ります：（<a href="http://aidiary.hatenablog.com/entry/20120415/1334458954" title="人工知能に関する断創録 - 線形予測分析（LPC）">人工知能に関する断創録</a>）</p>
+<p>英語版で決定的に簡単な資料は<a class="reference external" href="http://www.emptyloop.com/technotes/A%20tutorial%20on%20linear%20prediction%20and%20Levinson-Durbin.pdf">ここ</a>で見れます。ここの解説はその日本語訳以下の何かです。英語が読める人はそっちを見たほうが絶対早いです。</p>
+<p>ここよりも良い資料が有ります：（<a class="reference external" href="http://aidiary.hatenablog.com/entry/20120415/1334458954">人工知能に関する断創録</a>）</p>
+<div class="section" id="id1">
 <h2>アルゴリズムの導出</h2>
+<div class="section" id="id2">
 <h3>問題設定</h3>
 <p>時間について離散化した信号が<span class="math">\(y_{0}, y_{1}, ..., y_{n}\)</span>として得られたとする。ここで、<span class="math">\(y_{n}\)</span>を直前の<span class="math">\(y_{i}\ (i=0,...,n-1)\)</span>によって予測する事を考える。</p>
-<p>予測にあたって、線形予測では<span class="math">\(k\)</span>個の係数<span class="math">\(a_{1},...,a_{k}\)</span>を用いた単純な線形結合
-</p>
-<div class="math">$$
+<p>予測にあたって、線形予測では<span class="math">\(k\)</span>個の係数<span class="math">\(a_{1},...,a_{k}\)</span>を用いた単純な線形結合</p>
+<div class="math">
+\begin{equation*}
 -a_{1}y_{n-1} - a_{2}y_{n-2} - ... - a_{k}y_{n-k} = - \sum_{i=1}^{k} a_{i} y_{n-i}
-$$</div>
-<p>
-によって<span class="math">\(y_{n}\)</span>を近似する：
-</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>によって<span class="math">\(y_{n}\)</span>を近似する：</p>
+<div class="math">
+\begin{equation*}
 y_{n} \approx - \sum_{i=1}^{k} a_{i} y_{n-i}
-$$</div>
-<p>
-（係数に負号<span class="math">\(-\)</span>が付いているのは、システムのフィードバック係数として捉えた時は負を付けるのが常識となっているからと考えられる。全ての係数の符号を反転させれば通常の和に戻るので、以下の導出にとって本質的な問題にならない。）</p>
+\end{equation*}
+</div>
+<p>（係数に負号<span class="math">\(-\)</span>が付いているのは、システムのフィードバック係数として捉えた時は負を付けるのが常識となっているからと考えられる。全ての係数の符号を反転させれば通常の和に戻るので、以下の導出にとって本質的な問題にならない。）</p>
 <p>予測の<strong>誤差</strong>は、全ての<span class="math">\(n\)</span>における<strong>二乗誤差</strong>の和<span class="math">\(E\)</span>によって測る：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 E &amp;= \sum_{n=-\infty}^{\infty} \left[ y_{n} - \left\{ -\sum_{i=1}^{k} a_{i} y_{n-i} \right\} \right]^{2} \\
 &amp;= \sum_{n=-\infty}^{\infty} \left\{ y_{n} + \sum_{i=1}^{k}a_{i}y_{n-i} \right\}^{2}
 \end{split}
-$$</div>
+\end{equation*}
+</div>
 <p>ここで<span class="math">\(a_{0} = 1\)</span>と定義すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 E = \sum_{n=-\infty}^{\infty} \left\{\sum_{i=0}^{k}a_{i}y_{n-i}\right\}^{2}
-$$</div>
+\end{equation*}
+</div>
 <p>とまとめられる。後は、この<span class="math">\(E\)</span>を最小化するように係数<span class="math">\(a_{1},...,a_{k}\)</span>を定めれば良い。</p>
+</div>
+<div class="section" id="id3">
 <h3>誤差の最小化</h3>
+<div class="section" id="id4">
 <h4>偏微分</h4>
 <p>誤差の最小化を考える。常套手段ではあるが、<span class="math">\(E\)</span>を<span class="math">\(a_{j} \ (j=1,...,k)\)</span>によって偏微分し、その結果を<span class="math">\(0\)</span>とおいて解くことを考える。まず、<span class="math">\(E\)</span>の偏微分は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 \frac{\partial E}{\partial a_{j}} &amp;= \sum_{n=-\infty}^{\infty} \frac{\partial}{\partial a_{j}} \left\{\sum_{i=0}^{k}a_{i}y_{n-i} \right\}^{2} \\
 &amp;= \sum_{n=-\infty}^{\infty} \frac{\partial}{\partial a_{j}} \left\{ a_{0}y_{n} + ... + a_{j}y_{n-j} + ... + a_{k}y_{n-k} \right\}^{2} \\
@@ -160,175 +173,208 @@ $$</div>
 &amp;= 2 \sum_{i=0}^{k}a_{i} \sum_{n=-\infty}^{\infty} y_{n-j} y_{n-i} \quad (\because \text{和の順序交換}) \\
 &amp;= 2 \sum_{i=0}^{k}a_{i} \sum_{n^{\prime}=-\infty}^{\infty} y_{n^{\prime}} y_{n^{\prime}+j-i} \quad (n^{\prime} = n-j \ \text{とおいた})
 \end{split}
-$$</div>
+\end{equation*}
+</div>
 <p>ここで、<span class="math">\(R_{l}\)</span>を次の式で定義する：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 R_{l} = \sum_{n=-\infty}^{\infty} y_{n} y_{n+l}
-$$</div>
-<p>（<strong>自己相関</strong> という。）<span class="math">\(R_{l}\)</span>を用いることで、偏微分の結果は、</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>（<strong>自己相関</strong>
+という。）<span class="math">\(R_{l}\)</span>を用いることで、偏微分の結果は、</p>
+<div class="math">
+\begin{equation*}
 \frac{\partial E}{\partial a_{j}} = 2 \sum_{i=0}^{k} a_{i}R_{|j-i|}
-$$</div>
+\end{equation*}
+</div>
 <p>と表せる。</p>
 <p>次に、<span class="math">\(\displaystyle\frac{\partial E}{\partial a_{j}} = 0\ (j=1,...,k)\)</span>とおいて解く事を考える。和の前に付いている係数<span class="math">\(2\)</span>は両辺<span class="math">\(2\)</span>で割ることで消すことが出来る。その上で<span class="math">\(j=1,...,k\)</span>での式を並べてみると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 a_{0}R_{|0-1|} + a_{1}R_{|1-1|} + ... + a_{k}R_{|k-1|} &amp;= 0 \\
 a_{0}R_{|0-2|} + a_{1}R_{|1-2|} + ... + a_{k}R_{|k-2|} &amp;= 0 \\
 \vdots \\
 a_{0}R_{|0-k|} + a_{1}R_{|1-k|} + ... + a_{k}R_{|k-k|} &amp;= 0 \\
 \end{split}
-$$</div>
+\end{equation*}
+</div>
 <p>より、行列形式で</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{bmatrix}
 R_{1} &amp; R_{0} &amp; R_{1} &amp; ... &amp; R_{k-1} \\
 R_{2} &amp; R_{1} &amp; R_{0} &amp; ... &amp; R_{k-2} \\
 \vdots &amp;      &amp;  &amp; \ddots   &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; R_{k-2} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; R_{k-2} &amp; ... &amp; R_{0}
 \end{bmatrix}
 \begin{bmatrix}
-1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} 
+1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k}
 \end{bmatrix}
 = \vec{0}
-$$</div>
+\end{equation*}
+</div>
 <p>と表せられる。以下、</p>
-<div class="math">$$
-M = 
+<div class="math">
+\begin{equation*}
+M =
 \begin{bmatrix}
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} \\
 R_{2} &amp; R_{1} &amp; ... &amp; R_{k-2} \\
 \vdots &amp;      &amp;  \ddots &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0}
 \end{bmatrix}
-\ , \  
-\vec{a}_{k} = 
+\ , \
+\vec{a}_{k} =
 \begin{bmatrix}
-1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} 
+1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k}
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>として、<span class="math">\(M\vec{a}_{k} = \vec{0}\)</span>を解くことを考える。</p>
+</div>
+<div class="section" id="levinson-durbin-levinson-durbin-recursion">
 <h4>Levinson-Durbin再帰（Levinson-Durbin recursion）へ</h4>
 <p>上までで求まった連立方程式<span class="math">\(M\vec{a}\_{k+1} = \vec{0}\)</span>をもう少し整理していく。数値解法的には、<span class="math">\(M\)</span>は正方行列にしておくのが望ましい。そこで、<span class="math">\(M\)</span>の一番上の行に<span class="math">\([R_{0} R_{1} ... R_{k}]\)</span>を追加すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{align*}
 \begin{split}
-M\vec{a}_{k} &amp;= 
+M\vec{a}_{k} &amp;=
 \begin{bmatrix}
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} \\
 R_{2} &amp; R_{1} &amp; ... &amp; R_{k-2} \\
 \vdots &amp;      &amp;  \ddots &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0}
 \end{bmatrix}
 \begin{bmatrix}
-1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} 
+1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k}
 \end{bmatrix}
 \\&amp;=
 \begin{bmatrix}
 R_{0} &amp; R_{1} &amp; ... &amp; R_{k}   \\
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} \\
 \vdots &amp;       &amp; \ddots   &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0}
 \end{bmatrix}
 \begin{bmatrix}
-1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} 
+1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k}
 \end{bmatrix}
 -\begin{bmatrix}
-\sum_{i=0}^{k}a_{i}R_{i} \\ 0 \\ 0 \\ \vdots \\ 0 
+\sum_{i=0}^{k}a_{i}R_{i} \\ 0 \\ 0 \\ \vdots \\ 0
 \end{bmatrix}
 = \vec{0}
 \end{split}
-$$</div>
+\end{align*}
+</div>
 <p>と変形できる。よって、次の連立方程式を解くことに帰着できる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{bmatrix}
 R_{0} &amp; R_{1} &amp; ... &amp; R_{k}   \\
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} \\
 \vdots &amp;       &amp; \ddots   &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0}
 \end{bmatrix}
 \begin{bmatrix}
-1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} 
+1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k}
 \end{bmatrix}
 =\begin{bmatrix}
-\sum_{i=0}^{k}a_{i}R_{i} \\ 0 \\ 0 \\ \vdots \\ 0 
+\sum_{i=0}^{k}a_{i}R_{i} \\ 0 \\ 0 \\ \vdots \\ 0
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>この連立方程式を高速に解くアルゴリズムが、Levinson-Durbin再帰法である。以下、<span class="math">\(e_{k} = \sum_{i=0}^{k} a_{i} R_{i}\)</span>とし、また行列<span class="math">\(N_{k}\)</span>を次で定義する：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{k} =
 \begin{bmatrix}
 R_{0} &amp; R_{1} &amp; ... &amp; R_{k}   \\
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} \\
 \vdots &amp;       &amp; \ddots   &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0}
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
+</div>
+</div>
+<div class="section" id="levinson-durbin">
 <h3>Levinson-Durbin再帰</h3>
 <p>このアルゴリズムは、数学的帰納法によく似ている：</p>
-<ol>
+<ol class="arabic simple">
 <li><span class="math">\(k=1\)</span>の場合で係数を求める</li>
 <li>一般の<span class="math">\(k\)</span>で係数が求まったとし、その結果から<span class="math">\(k+1\)</span>で係数を求める</li>
 </ol>
-<p>（<a href="http://www.emptyloop.com/technotes/A%20tutorial%20on%20linear%20prediction%20and%20Levinson-Durbin.pdf">参考資料</a>で筆者は、「Levinson-Durbin帰納法と言ったほうがいいんじゃないか」と書いてあった。）ここでは、1.および2.の場合の解をそれぞれ見ていく。</p>
+<p>（<a class="reference external" href="http://www.emptyloop.com/technotes/A%20tutorial%20on%20linear%20prediction%20and%20Levinson-Durbin.pdf">参考資料</a>で筆者は、「Levinson-Durbin帰納法と言ったほうがいいんじゃないか」と書いてあった。）ここでは、1.および2.の場合の解をそれぞれ見ていく。</p>
+<div class="section" id="k-1">
 <h4>k=1の時</h4>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \vec{a}_{1}=
 \begin{bmatrix}
- 1 \\ 
+ 1 \\
  a_{1}
 \end{bmatrix}
-,\ 
+,\
 N_{1}\vec{a}_{1}=
 \begin{bmatrix}
- e_{1} \\ 
+ e_{1} \\
  0
 \end{bmatrix}
-,\ 
+,\
 N_{1}=
 \begin{bmatrix}
- R_{0} &amp; R_{1} \\ 
+ R_{0} &amp; R_{1} \\
  R_{1} &amp; R_{0}
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>より、実際に<span class="math">\(N_{1}\vec{a}_{1}\)</span>を計算してみると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{1}\vec{a}_{1}=
 \begin{bmatrix}
- R_{0} + R_{1}a_{1} \\ 
+ R_{0} + R_{1}a_{1} \\
  R_{1} + R_{0}a_{1}
 \end{bmatrix}=
 \begin{bmatrix}
- e_{1} \\ 
+ e_{1} \\
  0
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>より、<span class="math">\(e_{1} = R_{0} + R_{1}a_{1}\)</span>、及び<span class="math">\(R_{1} + R_{0}a_{1} = 0\)</span>から<span class="math">\(a_{1} = -\displaystyle\frac{R_{1}}{R_{0}}\)</span>と求められる。（<span class="math">\(R_{0} = \displaystyle\sum_{n=-\infty}^{\infty}y_{n}^{2} &gt; 0\)</span>より、至る所ゼロ除算の心配はない）</p>
+</div>
+<div class="section" id="k">
 <h4>一般のkの時</h4>
 <p>仮定として、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{k}\vec{a}_{k}=
 \begin{bmatrix}
 R_{0} &amp; R_{1} &amp; ... &amp; R_{k}   \\
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} \\
 \vdots &amp;       &amp; \ddots   &amp; \vdots  \\
-R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} 
+R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0}
 \end{bmatrix}
 \begin{bmatrix}
-1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} 
+1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k}
 \end{bmatrix}
 =\begin{bmatrix}
-e_{k} \\ 0 \\ 0 \\ \vdots \\ 0 
+e_{k} \\ 0 \\ 0 \\ \vdots \\ 0
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>が成立していたとする。<span class="math">\(k+1\)</span>の時、行列<span class="math">\(N_{k+1}\)</span>は</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{k+1}=
 \begin{bmatrix}
 R_{0} &amp; R_{1} &amp; ... &amp; R_{k} &amp; R_{k+1}   \\
 R_{1} &amp; R_{0} &amp; ... &amp; R_{k-1} &amp; R_{k} \\
 \vdots &amp;       &amp; \ddots  &amp; &amp; \vdots  \\
 R_{k} &amp; R_{k-1} &amp; ... &amp; R_{0} &amp; R_{1} \\
-R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0} 
+R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0}
 \end{bmatrix}=
 \left[
 \begin{array}{cccc|c}
@@ -336,24 +382,28 @@ R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0}
  &amp; N_{k} &amp; &amp; &amp; R_{k} \\
  &amp; &amp; &amp; &amp; \vdots  \\
  &amp; &amp; &amp; &amp; R_{1} \\\hline
-R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0} 
+R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0}
 \end{array}
 \right]
-$$</div>
+\end{equation*}
+</div>
 <p>となり、<span class="math">\(N_{k}\)</span>の行・列共に1つ増えた行列となる。</p>
 <p>一方の<span class="math">\(\vec{a}_{k+1}\)</span>は未知である。そこで、技巧的ではあるが次<span class="math">\(\vec{a}\_{k}\)</span>を<span class="math">\(0\)</span>を追加する事で拡張した次のベクトル<span class="math">\(\vec{u}\_{k+1}, \vec{v}\_{k+1}\)</span>を用いる事を考える：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \vec{u}_{k+1}=
 \begin{bmatrix}
 1 \\ a_{1} \\ a_{2} \\ \vdots \\ a_{k} \\ 0
-\end{bmatrix}\ ,\ 
+\end{bmatrix}\ ,\
 \vec{v}_{k+1}=
 \begin{bmatrix}
-0 \\ a_{k} \\ \vdots \\ a_{2} \\ a_{1} \\ 1 
+0 \\ a_{k} \\ \vdots \\ a_{2} \\ a_{1} \\ 1
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(\vec{u}\_{k+1}, \vec{v}\_{k+1}\)</span>は互いに要素を反転したベクトルである（互いに<strong>一次独立</strong>で有ることにも注目）。これら<span class="math">\(\vec{u}\_{k+1}, \vec{v}\_{k+1}\)</span>を用いて<span class="math">\(N\_{k+1}\vec{u}\_{k+1}\)</span>と<span class="math">\(N_{k+1}\vec{v}\_{k+1}\)</span>を計算すると、まず<span class="math">\(N\_{k+1}\vec{u}\_{k+1}\)</span>は</p>
-<div class="math">$$
+<div class="math">
+\begin{align*}
 \begin{split}
 N_{k+1}\vec{u}_{k+1}&amp;=
 \left[
@@ -362,7 +412,7 @@ N_{k+1}\vec{u}_{k+1}&amp;=
  &amp; N_{k} &amp; &amp; &amp; R_{k} \\
  &amp; &amp; &amp; &amp; \vdots  \\
  &amp; &amp; &amp; &amp; R_{1} \\\hline
-R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0} 
+R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0}
 \end{array}
 \right]
 \begin{bmatrix}
@@ -376,27 +426,35 @@ R_{k+1} &amp; R_{k} &amp; ... &amp; R_{1} &amp; R_{0}
 e_{k} \\ 0 \\ \vdots \\ 0 \\  \displaystyle\sum_{j=0}^{k} a_{j} R_{k+1-j}
 \end{bmatrix}
 \end{split}
-$$</div>
+\end{align*}
+</div>
 <p>であり、もう一方の<span class="math">\(N\_{k+1}\vec{v}\_{k+1}\)</span>は、<span class="math">\(N\_{k+1}\)</span>が<strong>対称行列</strong>なので<span class="math">\(N\_{k+1}\vec{u}\_{k+1}\)</span>の結果を反転したベクトルとなる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{k+1}\vec{v}_{k+1}=
 \begin{bmatrix}
 \displaystyle\sum_{j=0}^{k} a_{j} R_{k+1-j} \\ 0 \\ \vdots \\ 0 \\ e_{k}
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>そして、<span class="math">\(\vec{a}\_{k+1}\)</span>は<span class="math">\(\vec{u}\_{k+1}\)</span>と<span class="math">\(\vec{v}\_{k+1}\)</span>の線形結合で表現できる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \vec{a}_{k+1} = \vec{u}_{k+1} + \lambda \vec{v}_{k+1} \quad (\lambda : 実数)
-$$</div>
+\end{equation*}
+</div>
 <p>これは、実際に<span class="math">\(N\_{k+1}(\vec{u}\_{k+1} + \lambda \vec{v}\_{k+1})\)</span>を計算することで確かめられる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{k+1}(\vec{u}_{k+1} + \lambda \vec{v}_{k+1}) = N_{k+1}\vec{u}_{k+1} + N_{k+1}\lambda \vec{v}_{k+1}=
 \begin{bmatrix}
 e_{k} + \lambda \displaystyle\sum_{j=0}^{k} a_{j} R_{k+1-j} \\ 0 \\ \vdots \\ 0 \\ \displaystyle\sum_{j=0}^{k} a_{j} R_{k+1-j} + \lambda e_{k}
-\end{bmatrix} 
-$$</div>
+\end{bmatrix}
+\end{equation*}
+</div>
 <p>ここで<span class="math">\(\lambda = - \displaystyle\frac{\sum_{j=0}^{k} a_{j} R_{k+1-j}}{e_{k}}\)</span>とすれば、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 N_{k+1}(\vec{u}_{k+1} + \lambda \vec{v}_{k+1}) =
 \begin{bmatrix}
 e_{k} - \lambda^{2} e_{k} \\ 0 \\ \vdots \\ 0 \\ \displaystyle\sum_{j=0}^{k} a_{j} R_{k+1-j} - \displaystyle\sum_{j=0}^{k} a_{j} R_{k+1-j}
@@ -404,85 +462,118 @@ e_{k} - \lambda^{2} e_{k} \\ 0 \\ \vdots \\ 0 \\ \displaystyle\sum_{j=0}^{k} a_{
 \begin{bmatrix}
 (1-\lambda^{2}) e_{k} \\ 0 \\ \vdots  \\ 0
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>となって<span class="math">\(e\_{k+1}\)</span>が求まる。同時に右辺の結果を与える<span class="math">\(\lambda\)</span>は唯一つしか存在しないので、この時の<span class="math">\(\vec{u}\_{k+1} + \lambda \vec{v}\_{k+1}\)</span>は<span class="math">\(\vec{a}\_{k+1}\)</span>と一致する。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id5">
 <h2>アルゴリズム</h2>
 <p>以上の導出結果をまとめると、</p>
-<ol>
-<li><span class="math">\(k=1\)</span>の時：
-<div class="math">$$
+<ol class="arabic">
+<li><p class="first"><span class="math">\(k=1\)</span>の時：</p>
+<div class="math">
+\begin{equation*}
 a_{1} = - \frac{R_{1}}{R_{0}} \ , \ e_{1} = R_{0} + R_{1}a_{1}
-$$</div>
+\end{equation*}
+</div>
 </li>
-<li><span class="math">\(k\)</span>が求まった時、<span class="math">\(k+1\)</span>は：</li>
+<li><p class="first"><span class="math">\(k\)</span>が求まった時、<span class="math">\(k+1\)</span>は：</p>
+</li>
 </ol>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \lambda = - \displaystyle\frac{\sum_{j=0}^{k}a_{j}R_{k+1-j}}{e_{k}} \ , \ e_{k+1} = (1-\lambda^{2})e_{k}\ ,\ \vec{a}_{k+1} = \vec{u}_{k+1} + \lambda \vec{v}_{k+1}
-$$</div>
+\end{equation*}
+</div>
 <p>ここで、</p>
-<div class="math">$$
-R_{l} = \sum_{n=-\infty}^{\infty} y_{n}y_{n+l}\ ,\ 
+<div class="math">
+\begin{equation*}
+R_{l} = \sum_{n=-\infty}^{\infty} y_{n}y_{n+l}\ ,\
 \vec{u}_{k+1}=
 \begin{bmatrix}
 1 \\ a_{1} \\ \vdots \\ a_{k} \\ 0
-\end{bmatrix}\ ,\ 
+\end{bmatrix}\ ,\
 \vec{v}_{k+1}=
 \begin{bmatrix}
-0 \\ a_{k} \\ \vdots \\ a_{1} \\ 1 
+0 \\ a_{k} \\ \vdots \\ a_{1} \\ 1
 \end{bmatrix}
-$$</div>
+\end{equation*}
+</div>
 <p>となる。</p>
 <p>自己相関<span class="math">\(R_{l}\)</span>は過去から未来までの無限の信号和になっているので現実の計算機では計算出来ない。実際には自己相関の代わりに次の<strong>標本自己相関</strong><span class="math">\(\tilde{R}\_{l}\)</span>を用いる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \tilde{R}_{l} = \sum_{i=0}^{n} y_{i}y_{i-l} \quad (l = 0, ..., k)
-$$</div>
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id6">
 <h2>補足</h2>
+<div class="section" id="id7">
 <h3>周波数特性の導出</h3>
 <p>近似式は誤差項<span class="math">\(e_{n}\)</span>を用いて次の等式で書き表せる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 y_{n} = - a_{1}y_{n-1} - a_{2}y_{n-2} - \dots -a_{k}y_{n-k} + e_{n} \\
 y_{n} = - \sum_{i=1}^{k} a_{i}y_{n-k} + e_{n}
 \end{split}
-$$</div>
+\end{equation*}
+</div>
 <p>この式を両辺z変換すると、次の伝達関数を得る：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 Y(z) = - \sum_{i=1}^{k} a_{i}z^{-i}Y(z) + E(z) \\
 \iff \frac{Y(z)}{E(z)} = \frac{1}{1+ \sum_{i=1}^{k}a_{i}z^{-i}}
 \end{split}
-$$</div>
+\end{equation*}
+</div>
 <p>この結果は、予測誤差を入力することで出力音声が得られるシステムを表している。人間の声帯から発せられた音声を<span class="math">\(E(z)\)</span>とすれば、この伝達関数は声道の共鳴する特性をモデル化していると考えることができる。共鳴が発生する周波数では伝達関数のパワー（振幅、ゲイン）が高くなり、この結果からフォルマント分析を行うことができる。</p>
 <p>伝達関数の周波数特性を求めるには、z変換の結果に<span class="math">\(z=\exp(j\omega), (\omega=2\pi f:角周波数)\)</span>を代入する：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 \frac{Y(z)}{E(z)} = \frac{1}{1+ \sum_{i=1}^{k} a_{i} \exp(-j i \omega) }
 \end{split}
-$$</div>
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id8">
 <h3>標本自己相関の計算</h3>
 <p>標本自己相関は自分自身との相関を計算するので<span class="math">\(O(N^{2})\)</span>の計算量があるが、ウィーナー・ヒンチンの定理（信号のパワースペクトラムは、その自己相関に等しい）を使って自己相関を計算すれば、実質FFTと同等の計算量<span class="math">\(O(N \log N)\)</span>で抑えることもできる。但し、巡回畳み込みや、パワースペクトラムの平均処理を考慮する必要がある。</p>
+</div>
+</div>
+<div class="section" id="id9">
 <h2>参考資料リスト</h2>
-<ul>
-<li>LPCについて：<a href="http://ahclab.naist.jp/lecture/2014/sp/material/sp2nd-2.pdf">東京大学 音情報処理論</a></li>
-<li>ウィーナー・ヒンチンの定理：<a href="http://manabukano.brilliant-future.net/lecture/appliedmathF2/slide/Slide07_PowerSpctrum.pdf">京都大学 工業数学</a></li>
+<ul class="simple">
+<li>LPCについて：<a class="reference external" href="http://ahclab.naist.jp/lecture/2014/sp/material/sp2nd-2.pdf">東京大学
+音情報処理論</a></li>
+<li>ウィーナー・ヒンチンの定理：<a class="reference external" href="http://manabukano.brilliant-future.net/lecture/appliedmathF2/slide/Slide07_PowerSpctrum.pdf">京都大学
+工業数学</a></li>
 </ul>
+</div>
+<div class="section" id="id10">
 <h2>実装</h2>
-<p>実装はC言語です（リファレンスはLLで書くべきだった...）</p>
-<div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;float.h&gt;</span><span class="cp"></span>
-
+<p>実装はC言語です（リファレンスはLLで書くべきだった…）</p>
+<pre class="code c literal-block">
+<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;math.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;float.h&gt;</span><span class="cp">
+</span>
 <span class="cm">/* （標本）自己相関の計算 */</span>
-<span class="k">static</span> <span class="kt">int</span> 
+<span class="k">static</span> <span class="kt">int</span>
 <span class="nf">calc_auto_correlation</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">auto_corr</span><span class="p">,</span> <span class="k">const</span> <span class="kt">double</span> <span class="o">*</span><span class="n">data</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">num_sample</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">max_order</span><span class="p">);</span>
 
 <span class="cm">/* Levinson-Durbin再帰計算 */</span>
-<span class="k">static</span> <span class="kt">int</span> 
+<span class="k">static</span> <span class="kt">int</span>
 <span class="nf">levinson_durbin_recursion</span><span class="p">(</span><span class="kt">double</span> <span class="o">*</span><span class="n">lpc_coef</span><span class="p">,</span> <span class="k">const</span> <span class="kt">double</span> <span class="o">*</span><span class="n">auto_corr</span><span class="p">,</span> <span class="k">const</span> <span class="kt">size_t</span> <span class="n">max_order</span><span class="p">);</span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span> 
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="kt">int</span> <span class="n">num_sample</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span> <span class="cm">/* サンプル数 */</span>
   <span class="kt">int</span> <span class="n">max_delay</span>  <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>  <span class="cm">/* LPC係数の数 */</span>
@@ -508,7 +599,7 @@ $$</div>
     <span class="k">if</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">max_delay</span><span class="p">)</span> <span class="p">{</span>
       <span class="cm">/* 最初のmax_delayステップ分は元信号を単純コピー */</span>
       <span class="n">predict</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">i_sample</span><span class="p">];</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span> 
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
       <span class="cm">/* 以降は予測 */</span>
       <span class="n">predict</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
       <span class="k">for</span> <span class="p">(</span><span class="n">i_delay</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">i_delay</span> <span class="o">&lt;=</span> <span class="n">max_delay</span><span class="p">;</span> <span class="n">i_delay</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -542,10 +633,10 @@ $$</div>
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
   <span class="p">}</span>
 
-  <span class="cm">/* </span>
-<span class="cm">   * 0次自己相関（信号の二乗和）が0に近い場合、入力信号は無音と判定</span>
-<span class="cm">   * =&gt; 予測誤差, LPC係数は全て0として無音出力システムを予測.</span>
-<span class="cm">   */</span>
+  <span class="cm">/*
+   * 0次自己相関（信号の二乗和）が0に近い場合、入力信号は無音と判定
+   * =&gt; 予測誤差, LPC係数は全て0として無音出力システムを予測.
+   */</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">fabs</span><span class="p">(</span><span class="n">auto_corr</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">FLT_EPSILON</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">i_delay</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_delay</span> <span class="o">&lt;</span> <span class="n">max_order</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span> <span class="o">++</span><span class="n">i_delay</span><span class="p">)</span> <span class="p">{</span>
       <span class="n">lpc_coef</span><span class="p">[</span><span class="n">i_delay</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
@@ -567,8 +658,8 @@ $$</div>
   <span class="n">e_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">auto_corr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
   <span class="n">a_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span> <span class="n">auto_corr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">auto_corr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
   <span class="n">e_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">auto_corr</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">auto_corr</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">a_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-  <span class="n">u_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span> <span class="n">u_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span> 
-  <span class="n">v_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span> <span class="n">v_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span> 
+  <span class="n">u_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span> <span class="n">u_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+  <span class="n">v_vec</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span> <span class="n">v_vec</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span><span class="p">;</span>
 
   <span class="cm">/* 再帰処理 */</span>
   <span class="k">for</span> <span class="p">(</span><span class="n">delay</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">delay</span> <span class="o">&lt;</span> <span class="n">max_order</span><span class="p">;</span> <span class="n">delay</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
@@ -597,7 +688,7 @@ $$</div>
   <span class="n">memcpy</span><span class="p">(</span><span class="n">lpc_coef</span><span class="p">,</span> <span class="n">a_vec</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">double</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_order</span> <span class="o">+</span> <span class="mi">1</span><span class="p">));</span>
 
   <span class="n">free</span><span class="p">(</span><span class="n">u_vec</span><span class="p">);</span> <span class="n">free</span><span class="p">(</span><span class="n">v_vec</span><span class="p">);</span>
-  <span class="n">free</span><span class="p">(</span><span class="n">a_vec</span><span class="p">);</span> <span class="n">free</span><span class="p">(</span><span class="n">e_vec</span><span class="p">);</span> 
+  <span class="n">free</span><span class="p">(</span><span class="n">a_vec</span><span class="p">);</span> <span class="n">free</span><span class="p">(</span><span class="n">e_vec</span><span class="p">);</span>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
@@ -626,14 +717,15 @@ $$</div>
 
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
-
-
+</pre>
+</div>
+<div class="section" id="id11">
 <h2>実験</h2>
-<p>実際に走らせた結果のグラフは以下。
-<img alt="result" src="./images/lpc_result.png"></p>
-<p>原信号が簡単すぎたのか、係数は少なめでも十分に予測できている。しかし、適当な係数の数の取り方を決める手法がないと、実信号で使い物になりそうにない。とりあえず、自己相関を使いこなしたN. Wiener is GOD.（結言）</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+<p>実際に走らせた結果のグラフは以下。 <img alt="result" src="./images/lpc_result.png" /></p>
+<p>原信号が簡単すぎたのか、係数は少なめでも十分に予測できている。しかし、適当な係数の数の取り方を決める手法がないと、実信号で使い物になりそうにない。とりあえず、自己相関を使いこなしたN.
+Wiener is GOD.（結言）</p>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";

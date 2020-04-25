@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="DFT,信号処理" />
-        <meta name="description" content="離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int^{\infty}_ …" />
+        <meta name="description" content="教科書で出てくる離散フーリエ変換の式が出てくるところまでの導出。超関数に関しては不完全。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="離散フーリエ変換（DFT）"/>
         <meta property="og:url" content="/li-san-huriebian-huan-dft.html"/>
-        <meta property="og:description" content="離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。 準備：時間領域で離散化すると、周波数領域では周期的になる \(f(t)\)を離散化した信号を\(g(t)\)とおく。離散化には、サンプリング周期\(t_{s}\)の周期的デルタ関数\(\delta_{t_{s}}(t)\)を用いて $$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$ とする。デルタ関数\(\delta(t)\)は関数\(f(t)\)に対して次が成り立つ（超）関数である： $$ \int^{\infty}_ …"/>
+        <meta property="og:description" content="教科書で出てくる離散フーリエ変換の式が出てくるところまでの導出。超関数に関しては不完全。"/>
         <meta property="article:published_time" content="2020-04-23" />
             <meta property="article:section" content="記事" />
             <meta property="article:tag" content="DFT" />
@@ -60,6 +60,9 @@ Aiki's Blog            </a>
             <ul class="nav navbar-nav">
                         <li class="active">
                             <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -116,134 +119,191 @@ Aiki's Blog            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
+<div class="section" id="id1">
 <h2>準備：時間領域で離散化すると、周波数領域では周期的になる</h2>
 <p><span class="math">\(f(t)\)</span>を離散化した信号を<span class="math">\(g(t)\)</span>とおく。離散化には、サンプリング周期<span class="math">\(t_{s}\)</span>の周期的デルタ関数<span class="math">\(\delta_{t_{s}}(t)\)</span>を用いて</p>
-<div class="math">$$ g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s}) $$</div>
+<div class="math">
+\begin{equation*}
+g(t) = f(t) \delta_{t_s}(t) = \sum_{n=-\infty}^{\infty} f(t) \delta(t - nt_{s})
+\end{equation*}
+</div>
 <p>とする。デルタ関数<span class="math">\(\delta(t)\)</span>は関数<span class="math">\(f(t)\)</span>に対して次が成り立つ（超）関数である：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \int^{\infty}_{-\infty} f(t) \delta(t) dt = f(0)
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(t_{s}\)</span>の逆数はサンプリングレート（<span class="math">\(f_{s} = 1/t_{s}\)</span>）そのものである。また、周期的デルタ関数の（複素）フーリエ級数は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
 \delta_{t_{s}}(t) &amp;= \sum_{n=-\infty}^{\infty} c_{n} \exp(j\omega_{s}t)dt \\
 c_{n} &amp;= \frac{1}{t_{s}} \int^{t_{s}/2}_{-t_{s}/2} \delta_{t_{s}}(t) \exp(-jn\omega_{s}t)dt
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>と表せる。ここで<span class="math">\(\omega_{s}=2\pi/t_{s}\)</span>（サンプリング角周波数）である。<span class="math">\(c_{n}\)</span>の計算を考えると、積分範囲<span class="math">\([-t_{s}/2, t_{s}/2]\)</span>に唯一つのインパルスが存在する事に留意すれば、次の結果を得る：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 c_{n} = \frac{1}{t_{s}} \int^{t_{s}/2}_{-t_{s}/2} \delta(t) \exp(-jn\omega_{s}t)dt = \frac{1}{t_{s}}\exp(0) = \frac{1}{t_{s}}
-$$</div>
+\end{equation*}
+</div>
 <p>よって、周期的デルタ関数の複素フーリエ級数は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \delta_{t_s}(t) = \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \exp(j n \omega_{s} t) = \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \exp(j 2\pi n t)
-$$</div>
+\end{equation*}
+</div>
 <p>であり、この結果を用いると、<span class="math">\(g(t)\)</span>のフーリエ変換<span class="math">\({\cal F}[g(t)]\)</span>は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 {\cal F}[g(t)] &amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} {\cal F} \left[ f(t) \exp(j n \omega_{s} t) \right] \\
-&amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \int_{-\infty}^{\infty} f(t) \exp[ -j (\omega - n\omega_{s}) t] dt 
+&amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} \int_{-\infty}^{\infty} f(t) \exp[ -j (\omega - n\omega_{s}) t] dt
 \\
 &amp;= \frac{1}{t_{s}} \sum_{n=-\infty}^{\infty} F(\omega - n\omega_{s})
-\end{split} 
-$$</div>
-<p>ここで、<span class="math">\(F(\omega)\)</span>は<span class="math">\(f(t)\)</span>をフーリエ変換した結果を表している。この結果は、離散化した信号のフーリエ変換は周波数領域で<strong>周期<span class="math">\(\omega_{s}\)</span>で<span class="math">\(F(\omega)\)</span>を繰り返す</strong>事を示している。</p>
+\end{split}
+\end{equation*}
+</div>
+<p>ここで、<span class="math">\(F(\omega)\)</span>は<span class="math">\(f(t)\)</span>をフーリエ変換した結果を表している。この結果は、離散化した信号のフーリエ変換は周波数領域で<strong>周期</strong> <span class="math">\(\omega_{s}\)</span> <strong>で</strong> <span class="math">\(F(\omega)\)</span> <strong>を繰り返す</strong>事を示している。</p>
+</div>
+<div class="section" id="id2">
 <h2>離散フーリエ変換・離散フーリエ逆変換</h2>
+<div class="section" id="id3">
 <h3>離散化の仮定</h3>
 <p>時間領域で離散化した信号<span class="math">\(f[n]\)</span>を次の様に定義する：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 f[n] = f(nt_{s}) \quad n = 0,...,N-1
-$$</div>
+\end{equation*}
+</div>
 <p>ここで、<span class="math">\(N\)</span>はサンプリング個数である。重要な仮定として、<span class="math">\(f(t)\)</span>は<span class="math">\(N\)</span>このサンプリング期間で周期的であるとする。即ち、<span class="math">\(f(t)\)</span>の周期を<span class="math">\(T\)</span>とおくと、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 T = Nt_{s}
-$$</div>
-<p>が成立する。更に、<strong>周波数領域についても<span class="math">\(\omega_{s}\)</span>を<span class="math">\(N\)</span>分割</strong> し、</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>が成立する。更に、<strong>周波数領域についても</strong><span class="math">\(\omega_{s}\)</span><strong>を</strong><span class="math">\(N\)</span><strong>分割</strong>
+し、</p>
+<div class="math">
+\begin{equation*}
 \omega_{k} = \frac{\omega_{s}}{N} k = \frac{2\pi}{Nt_{s}}k \quad k = 0,...,N-1
-$$</div>
+\end{equation*}
+</div>
 <p>として、周波数領域で離散化した信号<span class="math">\(F[k]\)</span>を次の様に定義する：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 F[k] = F(\omega_{k}) \quad k = 0,...,N-1
-$$</div>
+\end{equation*}
+</div>
 <p>分割の個数<span class="math">\(N\)</span>が時間領域と周波数領域で異なる場合、変換対が対称にならないので高速フーリエ変換の時に不都合が生じる。</p>
+</div>
+<div class="section" id="id4">
 <h3>離散フーリエ変換の導出</h3>
 <p>離散化の仮定のもとで、フーリエ変換は次の様に計算できる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 F[k] = \int_{-\infty}^{\infty} f(t) \exp(-j\omega_{k}t) dt = \int_{-\infty}^{\infty} f(t) \exp\left(-j\frac{2\pi k}{Nt_{s}} t \right) dt
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(f(t)\)</span>は周期<span class="math">\(T\)</span>で繰り返すので、積分範囲は1周期分とする（なぜ一周期か：フーリエ係数の仮定から。係数は1周期の積分で良い。三角関数の完全性を見よ）：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 F[k] = \int^{T}_{0} f(t) \exp \left(-j \frac{2\pi k}{Nt_{s}} t \right)dt
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(t = nt_{s}\)</span>と変数変換すると（<span class="math">\(n\)</span>を積分変数とする）、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 F[k] = t_{s}\int^{N}_{0} f(nt_{s}) \exp \left(-j \frac{2\pi k}{N} n\right)dn
-$$</div>
+\end{equation*}
+</div>
 <p>この積分は、次の和で近似できる。</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 F[k] \approx t_{s}\sum^{N-1}_{n=0} f(nt_{s}) \exp \left(-j \frac{2\pi k}{N} n\right) = t_{s} \sum^{N-1}_{n=0} f[n] \exp \left(-j \frac{2\pi nk}{N} \right)
-$$</div>
+\end{equation*}
+</div>
 <p>この式が離散フーリエ変換の式となる。逆変換については、複素フーリエ級数</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \left\{ \begin{array}{l}
 f(nt_{s})  = \displaystyle \sum_{k=-\infty}^{\infty} c_{n} \exp(j\omega_{k}kn t) \\
 c_{n} = \displaystyle \frac{1}{T} \int^{T}_{0} f(t) \exp(-j n\omega_{k} t) dt
-\end{array} \right.   
-$$</div>
+\end{array} \right.
+\end{equation*}
+</div>
 <p>から、<span class="math">\(c_{n}\)</span>を消去すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{align*}
 f(nt_{s}) = \sum_{k=-\infty}^{\infty} \left\{ \frac{1}{T} \int^{T}_{0} f(t) \exp\left( -j \frac{2\pi kt}{T} \right) dt \right\} \exp\left( \frac{j2\pi k}{T} nt_{s} \right) \\
 f(nt_{s}) = \frac{\omega_{s}}{2 \pi N} \sum_{k=-\infty}^{\infty} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
-$$</div>
+\end{align*}
+</div>
 <p><span class="math">\(F[k]\)</span>の周期は<span class="math">\(\omega_{s}\)</span>なので、1周期分は<span class="math">\(k = 0,...,N-1\)</span>となる。再び1周期分のみを考えると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 f[n] = \frac{\omega_{s}}{2 \pi N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
-$$</div>
+\end{equation*}
+</div>
 <p>この式が離散フーリエ逆変換の式となる。変換の式をまとめると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \left\{ \begin{array}{l}
 \displaystyle F[k] = t_{s} \sum^{N-1}_{n=0} f[n] \exp \left(-j \frac{2\pi nk}{N} \right) \\
 \displaystyle f[n] = \frac{\omega_{s}}{2 \pi N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
-\end{array} \right.   
-$$</div>
+\end{array} \right.
+\end{equation*}
+</div>
 <p>これがフーリエ変換対となり、一方に他方を代入するとちゃんと逆に戻る事が確認できる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{split}
 f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi nk}{N}\right) \\
 &amp;= \frac{2\pi t_{s}}{2\pi t_{s}N}\sum_{k=0}^{N-1}\left\{ \sum^{N-1}_{n^\prime=0} f[n^\prime] \exp \left(-j \frac{2\pi n^\prime k}{N} \right) \right\} \exp\left(j\frac{2\pi nk}{N}\right) \\
 &amp;= \frac{1}{N} \sum_{n^{\prime}=0}^{N-1} f[n^\prime] \sum_{k=0}^{N-1} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right]
-\end{split} 
-$$</div>
+\end{split}
+\end{equation*}
+</div>
 <p><span class="math">\(\sum_{k=0}^{N-1} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right]\)</span>の値ついては<span class="math">\(k\)</span>の積分</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \int^{N}_{0} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] dk
-$$</div>
+\end{equation*}
+</div>
 <p>と考えれば、<span class="math">\(n=n^\prime\)</span>の時は明らかに<span class="math">\(N\)</span>であり、残りの<span class="math">\(n \neq n^\prime\)</span>の時は</p>
-<div class="math">$$
-\begin{split} 
-\int^{N}_{0} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] dk 
-&amp;= - \frac{1}{j(n-n^\prime)\frac{2\pi}{N}} 
+<div class="math">
+\begin{equation*}
+\begin{split}
+\int^{N}_{0} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] dk
+&amp;= - \frac{1}{j(n-n^\prime)\frac{2\pi}{N}}
 \left[ \exp\left[ -j(n-n^\prime)\frac{2\pi k}{N} \right] \right]_{0}^{N} \\
 &amp;= - \frac{1}{j(n-n^\prime)\frac{2\pi}{N}} \left\{ \exp[-j2(n-n^\prime)\pi] - \exp(0)\right\} \\
 &amp;= 0
-\end{split} 
-$$</div>
+\end{split}
+\end{equation*}
+</div>
 <p>となるので、最終的に</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \frac{1}{N} \sum_{n^{\prime}=0}^{N-1} f[n^\prime] \sum_{k=0}^{N-1} \exp\left[ -j (n-n^\prime) \frac{2\pi k}{N} \right] = \frac{1}{N} f[n] N = f[n]
-$$</div>
+\end{equation*}
+</div>
 <p>を得る。
 また<span class="math">\(t_{s}=1\)</span>とおくと、<span class="math">\(\omega_{s} = 2\pi\)</span>となって、DFTのよく見る変換式が得られる：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \left\{ \begin{array}{l}
 \displaystyle F[k] = \sum^{N-1}_{n=0} f[n] \exp \left(-j \frac{2\pi nk}{N} \right) \\
 \displaystyle f[n] = \frac{1}{N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
-\end{array} \right.   
-$$</div>
+\end{array} \right.
+\end{equation*}
+</div>
 <p>これらの式を実装するのは簡単である。じゃあ、実装しようか…（暗黒微笑）</p>
 <p>（デルタ関数から導く方法だと、どうしても正規化定数<span class="math">\(1/N\)</span>が出てこない。正規化定数は本質的では無いとかいうけど、計算上は無視できない。）</p>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+</div>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";

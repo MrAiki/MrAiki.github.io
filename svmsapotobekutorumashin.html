@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="機械学習" />
-        <meta name="description" content="SVM(Support Vector Machine, サポートベクトルマシン)は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。 SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（識別面）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。 本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support Vector Regression, サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。 SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍12を挙げる。 線形SVM マージンの定式化 識別の例として、まずは図にあるような、2次元空間\(X\times Z\)に存在する2クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け …" />
+        <meta name="description" content="SVMの導入のところまで。SVRも一応。カーネル法に関しては触れるだけ。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="SVM（サポートベクトルマシン）"/>
         <meta property="og:url" content="/svmsapotobekutorumashin.html"/>
-        <meta property="og:description" content="SVM(Support Vector Machine, サポートベクトルマシン)は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。 SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（識別面）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。 本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support Vector Regression, サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。 SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍12を挙げる。 線形SVM マージンの定式化 識別の例として、まずは図にあるような、2次元空間\(X\times Z\)に存在する2クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け …"/>
+        <meta property="og:description" content="SVMの導入のところまで。SVRも一応。カーネル法に関しては触れるだけ。"/>
         <meta property="article:published_time" content="2020-04-23" />
             <meta property="article:section" content="記事" />
             <meta property="article:tag" content="機械学習" />
@@ -59,6 +59,9 @@ Aiki's Blog            </a>
             <ul class="nav navbar-nav">
                         <li class="active">
                             <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -112,63 +115,99 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p><strong>SVM(Support Vector Machine, サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
-<p>SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（<strong>識別面</strong>）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。 </p>
-<p>本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support Vector Regression, サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。</p>
-<p>SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>を挙げる。</p>
+                <p><strong>SVM(Support Vector Machine,
+サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
+<p>SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（<strong>識別面</strong>）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。</p>
+<p>本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support
+Vector Regression,
+サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。</p>
+<p>SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍 <a class="footnote-reference" href="#id33" id="id1">[1]</a>, <a class="footnote-reference" href="#id34" id="id2">[2]</a> を挙げる。</p>
+<div class="section" id="id3">
 <h2>線形SVM</h2>
+<div class="section" id="id4">
 <h3>マージンの定式化</h3>
 <p>識別の例として、まずは図にあるような、2次元空間<span class="math">\(X\times Z\)</span>に存在する2クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け<span class="math">\(y=\{-1, 1\}\)</span>がなされており、識別面（2次元空間では直線）<span class="math">\(ax+bz+c=0\)</span>の上半領域（<span class="math">\(ax+bz+c&gt;0\)</span>）にラベル<span class="math">\(y=1\)</span>のサンプルが、下半領域（<span class="math">\(ax+bz+c&lt;0\)</span>）にラベル<span class="math">\(y=-1\)</span>のサンプルが分布するようにする。</p>
-<p><img alt="2クラス分離の例" src="./images/2class_separation.png"></p>
-<p>更に、<span class="math">\(n\)</span>次元空間の元（ベクトル）<span class="math">\(\boldsymbol{x} \in \mathbb{R}^{n}\)</span>で表されるサンプルに対しても一般化でき、<span class="math">\(n\)</span>次元の係数ベクトル<span class="math">\(\boldsymbol{w} \in \mathbb{R}^{n}\)</span>を用いることで、 識別面は</p>
-<div class="math">$$
+<div class="figure">
+<img alt="2クラス分離の例" src="./images/2class_separation.png" />
+<p class="caption">2クラス分離の例</p>
+</div>
+<p>更に、<span class="math">\(n\)</span>次元空間の元（ベクトル）<span class="math">\(\boldsymbol{x} \in \mathbb{R}^{n}\)</span>で表されるサンプルに対しても一般化でき、<span class="math">\(n\)</span>次元の係数ベクトル<span class="math">\(\boldsymbol{w} \in \mathbb{R}^{n}\)</span>を用いることで、
+識別面は</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x} + b = 0
  \end{aligned}
-$$</div>
-<p>と表現できる。ここで<span class="math">\(b \in \mathbb{R}\)</span>は切片（しきい値、 バイアス）である。</p>
-<p>概要でも述べたとおり、識別面は異なるラベルが付いたサンプルを互いに分離さえできていれば良いので、識別面の候補は無限に存在してしまう（上の2次元の例でも明らかである）。しかし、 その全てが適切な識別面とは限らない。 SVMでは、次の2点を最適な識別面の条件とする。</p>
-<ul>
-<li>
-<p>各クラスの、最も識別面に近いサンプル（<strong>サポートベクトル</strong>）までの距離を最大にする。</p>
-</li>
-<li>
-<p>また、 その距離を各クラスで同一にする。</p>
-</li>
+\end{equation*}
+</div>
+<p>と表現できる。ここで<span class="math">\(b \in \mathbb{R}\)</span>は切片（しきい値、
+バイアス）である。</p>
+<p>概要でも述べたとおり、識別面は異なるラベルが付いたサンプルを互いに分離さえできていれば良いので、識別面の候補は無限に存在してしまう（上の2次元の例でも明らかである）。しかし、
+その全てが適切な識別面とは限らない。
+SVMでは、次の2点を最適な識別面の条件とする。</p>
+<ul class="simple">
+<li>各クラスの、最も識別面に近いサンプル（<strong>サポートベクトル</strong>）までの距離を最大にする。</li>
+<li>また、 その距離を各クラスで同一にする。</li>
 </ul>
-<p>この2点を満たす識別面ならば、 丁度クラス間の中心を区切ることが出来、適切な識別面といえる。 また、図に示す様に、サポートベクトル間の距離を<strong>マージン</strong>（余白）という。 SVMは、このマージンを最大化することが目的となる。</p>
-<p><img alt="マージン" src="./images/margin.png"></p>
-<p>それでは、 マージンの定式化を考える。<span class="math">\(n\)</span>次元空間上に<span class="math">\(N\)</span>個存在するサンプルを<span class="math">\(\boldsymbol{x}\_{i} \in \mathbb{R}^{n} \ (i=1, \dots, N)\)</span>と書き、またそのデータに対応する二値ラベルを<span class="math">\(y_{i} \in \{-1, 1\}\ (i=1, \dots, N)\)</span>とかく。全てのサンプルが正しく識別されている時には、 </p>
-<div class="math">$$
+<p>この2点を満たす識別面ならば、
+丁度クラス間の中心を区切ることが出来、適切な識別面といえる。
+また、図に示す様に、サポートベクトル間の距離を<strong>マージン</strong>（余白）という。
+SVMは、このマージンを最大化することが目的となる。</p>
+<div class="figure">
+<img alt="マージン" src="./images/margin.png" />
+<p class="caption">マージン</p>
+</div>
+<p>それでは、
+マージンの定式化を考える。<span class="math">\(n\)</span>次元空間上に<span class="math">\(N\)</span>個存在するサンプルを<span class="math">\(\boldsymbol{x}\_{i} \in \mathbb{R}^{n} \ (i=1, \dots, N)\)</span>と書き、またそのデータに対応する二値ラベルを<span class="math">\(y_{i} \in \{-1, 1\}\ (i=1, \dots, N)\)</span>とかく。全てのサンプルが正しく識別されている時には、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \geq 0 \quad (i = 1, \dots, N)
 \end{aligned}
-$$</div>
-<p>が明らかに成立する。 そして、異なる2クラスのサポートベクトル<span class="math">\(\boldsymbol{x}\_{s}, \boldsymbol{x}\_{t}\)</span>が</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>が明らかに成立する。
+そして、異なる2クラスのサポートベクトル<span class="math">\(\boldsymbol{x}\_{s}, \boldsymbol{x}\_{t}\)</span>が</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{s} + b = l , \quad \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{t} + b = -l\end{aligned}
-$$</div>
-<p>が成立すると仮定する<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">3</a></sup>と（<span class="math">\(l&gt;0\)</span>）、 <span class="math">\(\boldsymbol{x}\_{s}\)</span>と<span class="math">\(\boldsymbol{x}\_{t}\)</span>の、識別面に対して平行な距離がマージンとして計算できる。マージンを<span class="math">\(\gamma\)</span>と書くと、 平面の単位法ベクトルは<span class="math">\(\boldsymbol{w}/||\boldsymbol{w}||\)</span>（<span class="math">\(||\boldsymbol{w}|| = \sqrt{\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}}\)</span>）で与えられるので、マージンは </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>が成立すると仮定する <a class="footnote-reference" href="#id35" id="id5">[3]</a> と（<span class="math">\(l&gt;0\)</span>）、
+<span class="math">\(\boldsymbol{x}\_{s}\)</span>と<span class="math">\(\boldsymbol{x}\_{t}\)</span>の、識別面に対して平行な距離がマージンとして計算できる。マージンを<span class="math">\(\gamma\)</span>と書くと、
+平面の単位法ベクトルは<span class="math">\(\boldsymbol{w}/||\boldsymbol{w}||\)</span>（<span class="math">\(||\boldsymbol{w}|| = \sqrt{\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}}\)</span>）で与えられるので、マージンは</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp;  \boldsymbol{w}^{\mathsf{T}}(\boldsymbol{x}_{t} + \gamma \frac{\boldsymbol{w}}{||\boldsymbol{w}||}) + b = \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{s} + b \nonumber \\
   &amp;\iff \gamma \frac{\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}}{||\boldsymbol{w}||} = \gamma ||\boldsymbol{w}|| = (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{s}+b) - (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{t}+b) = 2l \nonumber \\
   &amp;\therefore \gamma = \frac{2l}{||\boldsymbol{w}||}\end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>で求められる。</p>
+</div>
+<div class="section" id="id6">
 <h3>マージン最大化</h3>
-<p>前節でも既に述べたが、 SVMの目的はマージン<span class="math">\(\gamma\)</span>を最大化することである。単純には<span class="math">\(\max \gamma\)</span>と書けるが、 最適化を行いやすくするため、<span class="math">\(1/\gamma\)</span>の最小化に置き換え、 <span class="math">\(l\)</span>は最適化に関与しないので<span class="math">\(l=1\)</span>とし、更に<span class="math">\(||\boldsymbol{w}||\)</span>が最小化された時は<span class="math">\(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}\)</span>も最小化されるので、考えるべき最適化問題は次のように書ける: </p>
-<div class="math">$$
+<p>前節でも既に述べたが、
+SVMの目的はマージン<span class="math">\(\gamma\)</span>を最大化することである。単純には<span class="math">\(\max \gamma\)</span>と書けるが、
+最適化を行いやすくするため、<span class="math">\(1/\gamma\)</span>の最小化に置き換え、
+<span class="math">\(l\)</span>は最適化に関与しないので<span class="math">\(l=1\)</span>とし、更に<span class="math">\(||\boldsymbol{w}||\)</span>が最小化された時は<span class="math">\(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}\)</span>も最小化されるので、考えるべき最適化問題は次のように書ける:</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp; \max_{\scriptsize \boldsymbol{w}} \gamma = \frac{2l}{||\boldsymbol{w}||} \quad \text{subject to : } y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \geq l \nonumber \\
   &amp;\implies \min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} \quad \text{subject to : } y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \geq 1 \quad (i=1, \dots, N)\end{aligned}
-$$</div>
-<p>この最適化問題は、 凸計画問題 <sup id="fnref:4"><a class="footnote-ref" href="#fn:4">4</a></sup> であり、不等式制約付き非線形計画問題なので、 KKT条件(Karush-Kuhn-Tucker condition)を用いる。KKT条件はラグランジェの未定乗数法（等式制約）の一般化であり、次の定理で表される:</p>
-<hr>
+\end{equation*}
+</div>
+<p>この最適化問題は、 凸計画問題 <a class="footnote-reference" href="#id36" id="id7">[4]</a> であり、不等式制約付き非線形計画問題なので、 KKT条件(Karush-Kuhn-Tucker
+condition)を用いる。KKT条件はラグランジェの未定乗数法（等式制約）の一般化であり、次の定理で表される:</p>
+<hr class="docutils" />
+<div class="section" id="kkt">
 <h4>KKT条件</h4>
 <p><span class="math">\(\boldsymbol{v}^{\star}\)</span>を<span class="math">\(f(\boldsymbol{v})\)</span>に関しての最適化問題の最適解とするならば、次の条件を満たす最適重みベクトル<span class="math">\(\boldsymbol{\alpha}^{\star}=[\alpha_{1}^{\star}, \cdots, \alpha_{N}^{\star}]^{\mathsf{T}}\ (\alpha_{i} \geq 0)\)</span>が存在する。</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
       \left\{
         \begin{array}{ll}
@@ -177,200 +216,311 @@ $$</div>
         \end{array}
         \right.
 \end{aligned}
-$$</div>
-<p>ここで<span class="math">\(\boldsymbol{g}(\boldsymbol{v})\)</span>は制約条件式<span class="math">\(\boldsymbol{g}(\boldsymbol{v}) = [g_{1}(\boldsymbol{v}), \cdots, g_{N}(\boldsymbol{v})]^{\mathsf{T}}\)</span>, <span class="math">\({\cal L}\)</span>はラグランジアン（ラグランジェ関数）であり以下の様に表される。</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>ここで<span class="math">\(\boldsymbol{g}(\boldsymbol{v})\)</span>は制約条件式<span class="math">\(\boldsymbol{g}(\boldsymbol{v}) = [g_{1}(\boldsymbol{v}), \cdots, g_{N}(\boldsymbol{v})]^{\mathsf{T}}\)</span>,
+<span class="math">\({\cal L}\)</span>はラグランジアン（ラグランジェ関数）であり以下の様に表される。</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
         g_{i}(\boldsymbol{v}) &amp;\geq 0\ \ (i = 1, \dots, N) \\
         {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}) &amp;= f(\boldsymbol{v}) + \boldsymbol{\alpha}^{\mathsf{T}}\boldsymbol{g}(\boldsymbol{v})
 \end{aligned}
-$$</div>
-<p><span class="math">\({\cal L}\)</span>が凸関数ならば、最適点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点にあり、<span class="math">\(\displaystyle\max_{\scriptsize \boldsymbol{v}} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star})\)</span>を主問題とする時、<span class="math">\(\displaystyle\min_{\scriptsize \boldsymbol{\alpha}}{\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})\)</span>を主問題に対する双対問題という。<sup id="fnref:5"><a class="footnote-ref" href="#fn:5">5</a></sup></p>
-<hr>
-<p>それでは実際にKKT条件を適用し、最適化問題を主問題(式)から双対問題へ変換する事を考える。 まず制約条件から</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p><span class="math">\({\cal L}\)</span>が凸関数ならば、最適点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点にあり、<span class="math">\(\displaystyle\max_{\scriptsize \boldsymbol{v}} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star})\)</span>を主問題とする時、<span class="math">\(\displaystyle\min_{\scriptsize \boldsymbol{\alpha}}{\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})\)</span>を主問題に対する双対問題という。 <a class="footnote-reference" href="#id37" id="id8">[5]</a></p>
+<hr class="docutils" />
+<p>それでは実際にKKT条件を適用し、最適化問題を主問題(式)から双対問題へ変換する事を考える。
+まず制約条件から</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   g_{i}(\boldsymbol{w}) = 1 - y_{i} (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \leq 0\end{aligned}
-$$</div>
-<p>（最小化を考えているので、 符号が逆転している事に注意）より、ラグランジアンは、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>（最小化を考えているので、
+符号が逆転している事に注意）より、ラグランジアンは、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   {\cal L}(\boldsymbol{w}, \boldsymbol{\alpha}) &amp;=  \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} + \boldsymbol{\alpha}^{\mathsf{T}}\boldsymbol{g}(\boldsymbol{w})  \\
   &amp;= \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} + \sum_{i=1}^{N}\alpha_{i} \{ 1 - y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \}\end{aligned}
-$$</div>
-<p>と表現でき、 <span class="math">\({\cal L}(\boldsymbol{w},  \boldsymbol{\alpha})\)</span>の<span class="math">\(\boldsymbol{w}, b\)</span>による偏微分は、</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>と表現でき、
+<span class="math">\({\cal L}(\boldsymbol{w}, \boldsymbol{\alpha})\)</span>の<span class="math">\(\boldsymbol{w}, b\)</span>による偏微分は、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   \frac{\partial {\cal L}(\boldsymbol{w}, \boldsymbol{\alpha})}{\partial \boldsymbol{w}} = \boldsymbol{w} - \sum_{i=1}^{N} \alpha_{i}y_{i}\boldsymbol{x}_{i}, \quad \frac{\partial {\cal L}(\boldsymbol{w}, \boldsymbol{\alpha})}{\partial b} = \sum_{i=1}^{N}\alpha_{i}y_{i}\end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>となる。<span class="math">\(\displaystyle\frac{\partial {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\alpha})}{\partial \boldsymbol{w}} = \boldsymbol{0}\)</span>とおくことで最適時の係数<span class="math">\(\boldsymbol{w}^{\star}\)</span>が求まる:</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   \boldsymbol{w}^{\star} = \sum_{i=1}^{N} \alpha_{i}y_{i}\boldsymbol{x}_{i}\end{aligned}
-$$</div>
-<p>また、<span class="math">\(\displaystyle\frac{\partial {\cal L}(\boldsymbol{w}^{\star},  \boldsymbol{\alpha})}{\partial b} = 0\)</span>により双対変数<span class="math">\(\boldsymbol{\alpha}\)</span>の制約条件が得られる:</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>また、<span class="math">\(\displaystyle\frac{\partial {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\alpha})}{\partial b} = 0\)</span>により双対変数<span class="math">\(\boldsymbol{\alpha}\)</span>の制約条件が得られる:</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   \sum_{i=1}^{N} \alpha_{i}y_{i} = 0\end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>これらの関係式をラグランジアンに代入することで、 双対問題式を得る:</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   {\cal L}(\boldsymbol{w}^{\star}、 \boldsymbol{\alpha}) &amp;= \frac{1}{2} \boldsymbol{w}^{\star\mathsf{T}}\boldsymbol{w}^{\star} + \boldsymbol{\alpha}^{\mathsf{T}} \boldsymbol{g}(\boldsymbol{w}^{\star}) \\
   &amp;= \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{x}_{j}^{\mathsf{T}}\boldsymbol{x}_{i} + \sum_{i=1}^{N} \alpha_{i} \left\{ 1 - y_{i} \left( \sum_{j=1}^{N}\alpha_{j}y_{j}\boldsymbol{x}_{j}^{\mathsf{T}} \boldsymbol{x}_{i} + b \right) \right\} \\
   &amp;= \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{x}_{i}^{\mathsf{T}}\boldsymbol{x}_{j} + \sum_{i=1}^{N} \alpha_{i} - b\sum_{i=1}^{N} \alpha_{i} y_{i} - \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{x}_{i}^{\mathsf{T}} \boldsymbol{x}_{j} \\
   &amp;= \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{x}_{i}^{\mathsf{T}}\boldsymbol{x}_{j}\end{aligned}
-$$</div>
-<p>（途中の式変形において、内積の対称性（<span class="math">\(\boldsymbol{x}^{\mathsf{T}}\_{j}\boldsymbol{x}\_{i} = \boldsymbol{x}^{\mathsf{T}}\_{i}\boldsymbol{x}\_{j}\)</span>）を用いている。）よって、 双対問題は </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>（途中の式変形において、内積の対称性（<span class="math">\(\boldsymbol{x}^{\mathsf{T}}\_{j}\boldsymbol{x}\_{i} = \boldsymbol{x}^{\mathsf{T}}\_{i}\boldsymbol{x}\_{j}\)</span>）を用いている。）よって、
+双対問題は</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp; \max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{x}_{i}^{\mathsf{T}}\boldsymbol{x}_{j} \right] \\
   &amp; \text{subject to : } \alpha_{i} \geq 0, \ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N) \nonumber\end{aligned}
-$$</div>
-<p>と表現できる。双対問題は非負制約<span class="math">\(\alpha_{i} \geq 0\)</span>の中で<span class="math">\(\boldsymbol{\alpha}\)</span>を動かし、その最大値を得れば良いので、 主問題を直接解くよりも容易に、数値最適化によって解を求める（学習する）ことができる。実際の実装については後に述べる。</p>
+\end{equation*}
+</div>
+<p>と表現できる。双対問題は非負制約<span class="math">\(\alpha_{i} \geq 0\)</span>の中で<span class="math">\(\boldsymbol{\alpha}\)</span>を動かし、その最大値を得れば良いので、
+主問題を直接解くよりも容易に、数値最適化によって解を求める（学習する）ことができる。実際の実装については後に述べる。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
 <h2>非線形SVM</h2>
-<p>前節までの議論は、入力データと同じ空間（次元）で適切な識別面を発見するSVMであり、これを特に<strong>線形SVM</strong>という。 線形SVMの場合、識別面は入力データ空間の次元<span class="math">\(n\)</span>に対し<span class="math">\(n-1\)</span>次元の平面（<strong>超平面</strong>）であり（例:2次元空間では直線、3次元空間では平面）、図の様に、異なるクラスのサンプルが入り組んだ状態では識別面を構成できない（<strong>線形分離不可能</strong>）。</p>
-<p><img alt="線形分離不可能な例" src="./images/linearly_unseparatable.png"></p>
-<p>この場合、入力データの空間<span class="math">\(\mathbb{R}^{n}\)</span>から高次元空間<span class="math">\(\mathbb{R}^{h}\)</span>(<span class="math">\(h \gg n\)</span>)への高次元な非線形写像（<strong>特徴写像</strong>）<span class="math">\(\boldsymbol{\phi} : \mathbb{R}^{n} \to \mathbb{R}^{h}\)</span>を用いて高次元空間（特徴空間）へ写像すれば、線形分離不可能だったサンプルを一般位置<sup id="fnref:6"><a class="footnote-ref" href="#fn:6">6</a></sup>に写し、識別面を構成できる（線形分離可能）ようになる（図参照）。</p>
-<p><img alt="特徴空間で線形分離可能になる例" src="./images/linearly_separatable_in_high_dimension.png"></p>
-<p>図では、入力空間は1次元（数直線）、 特徴空間は2次元（平面）である。入力空間で線形分離不可能なサンプルが、 特徴写像によって一般位置に写され、線形分離可能になっている。</p>
-<p>この様に、 入力データ次元で線形分離不可能なサンプルを、特徴写像によって写して識別面を構成し、元の次元に戻すSVMを<strong>非線形SVM</strong>という。 この場合、識別面は曲がった形状を持つ（超曲面）。</p>
-<p>それでは非線形SVMの定式化を見ていく。特徴写像を用いてサンプルを写像することで、高次元空間内のサンプル（特徴サンプル）<span class="math">\(\boldsymbol{\phi}(\boldsymbol{x}_{i})\ (i =1, \dots, N)\)</span>が得られる。後は線形SVMの時と全く同様の議論を適用し、 双対問題は次の様に表現される:</p>
-<div class="math">$$
+<p>前節までの議論は、入力データと同じ空間（次元）で適切な識別面を発見するSVMであり、これを特に<strong>線形SVM</strong>という。
+線形SVMの場合、識別面は入力データ空間の次元<span class="math">\(n\)</span>に対し<span class="math">\(n-1\)</span>次元の平面（<strong>超平面</strong>）であり（例:2次元空間では直線、3次元空間では平面）、図の様に、異なるクラスのサンプルが入り組んだ状態では識別面を構成できない（<strong>線形分離不可能</strong>）。</p>
+<div class="figure">
+<img alt="線形分離不可能な例" src="./images/linearly_unseparatable.png" />
+<p class="caption">線形分離不可能な例</p>
+</div>
+<p>この場合、入力データの空間<span class="math">\(\mathbb{R}^{n}\)</span>から高次元空間<span class="math">\(\mathbb{R}^{h}\)</span>(<span class="math">\(h \gg n\)</span>)への高次元な非線形写像（<strong>特徴写像</strong>）<span class="math">\(\boldsymbol{\phi} : \mathbb{R}^{n} \to \mathbb{R}^{h}\)</span>を用いて高次元空間（特徴空間）へ写像すれば、線形分離不可能だったサンプルを一般位置 <a class="footnote-reference" href="#id38" id="id10">[6]</a> に写し、識別面を構成できる（線形分離可能）ようになる（図参照）。</p>
+<div class="figure">
+<img alt="特徴空間で線形分離可能になる例" src="./images/linearly_separatable_in_high_dimension.png" />
+<p class="caption">特徴空間で線形分離可能になる例</p>
+</div>
+<p>図では、入力空間は1次元（数直線）、
+特徴空間は2次元（平面）である。入力空間で線形分離不可能なサンプルが、
+特徴写像によって一般位置に写され、線形分離可能になっている。</p>
+<p>この様に、
+入力データ次元で線形分離不可能なサンプルを、特徴写像によって写して識別面を構成し、元の次元に戻すSVMを<strong>非線形SVM</strong>という。
+この場合、識別面は曲がった形状を持つ（超曲面）。</p>
+<p>それでは非線形SVMの定式化を見ていく。特徴写像を用いてサンプルを写像することで、高次元空間内のサンプル（特徴サンプル）<span class="math">\(\boldsymbol{\phi}(\boldsymbol{x}_{i})\ (i =1, \dots, N)\)</span>が得られる。後は線形SVMの時と全く同様の議論を適用し、
+双対問題は次の様に表現される:</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp;\max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{\phi}(\boldsymbol{x}_{i})^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{j}) \right] \\
   &amp;\text{subject to : } \alpha_{i} \geq 0,\ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N) \nonumber\end{aligned}
-$$</div>
-<p>さて、 この様にして非線形SVMが実現できるが、 一般に、入力次元<span class="math">\(n\)</span>はもとより特徴空間の次元<span class="math">\(h\)</span>は非常に大きくなる（<span class="math">\(\infty\)</span>次元にすらなりうる）。特徴写像<span class="math">\(\boldsymbol{\phi}\)</span>を構成する<span class="math">\(h\)</span>個の非線形な基底を用意するのは、非常に困難であり、 実用上大変な不便が生じる。 そこで、特徴写像同士の内積<span class="math">\(\boldsymbol{\phi}(\boldsymbol{x}\_{i})^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}\_{j})\)</span>の計算結果はノルムなので、その内積を計算するのではなく、 天下り的に、最初から内積値を与えてしまうやり方がある。 即ち、 特徴写像同士の内積値を、 <strong>カーネル関数</strong> <span class="math">\(K : \mathbb{R}^{n} \times \mathbb{R}^{n} \to \mathbb{R}\)</span>で定める:</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>さて、 この様にして非線形SVMが実現できるが、
+一般に、入力次元<span class="math">\(n\)</span>はもとより特徴空間の次元<span class="math">\(h\)</span>は非常に大きくなる（<span class="math">\(\infty\)</span>次元にすらなりうる）。特徴写像<span class="math">\(\boldsymbol{\phi}\)</span>を構成する<span class="math">\(h\)</span>個の非線形な基底を用意するのは、非常に困難であり、
+実用上大変な不便が生じる。
+そこで、特徴写像同士の内積<span class="math">\(\boldsymbol{\phi}(\boldsymbol{x}\_{i})^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}\_{j})\)</span>の計算結果はノルムなので、その内積を計算するのではなく、
+天下り的に、最初から内積値を与えてしまうやり方がある。 即ち、
+特徴写像同士の内積値を、 <strong>カーネル関数</strong>
+<span class="math">\(K : \mathbb{R}^{n} \times \mathbb{R}^{n} \to \mathbb{R}\)</span>で定める:</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = \langle \boldsymbol{\phi}(\boldsymbol{x}_{i}), \boldsymbol{\phi}(\boldsymbol{x}_{j}) \rangle = \boldsymbol{\phi}(\boldsymbol{x}_{i})^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{j})\end{aligned}
-$$</div>
-<p>ここで<span class="math">\(K\)</span>は入力データのみで記述されるので、特徴写像はカーネル関数の中に閉じ込められてしまい、 陽に現れない。 即ち、特徴写像を構成する必要がないというのが大きなメリットである。任意の関数がカーネルになるとは限らず、 マーサーの定理 <sup id="fnref:7"><a class="footnote-ref" href="#fn:7">7</a></sup>という条件をカーネル関数は満たす必要がある。代表的なカーネル関数を以下に挙げる:</p>
-<ul>
-<li>線形カーネル:   </li>
+\end{equation*}
+</div>
+<p>ここで<span class="math">\(K\)</span>は入力データのみで記述されるので、特徴写像はカーネル関数の中に閉じ込められてしまい、
+陽に現れない。
+即ち、特徴写像を構成する必要がないというのが大きなメリットである。任意の関数がカーネルになるとは限らず、
+マーサーの定理 <a class="footnote-reference" href="#id39" id="id11">[7]</a> という条件をカーネル関数は満たす必要がある。代表的なカーネル関数を以下に挙げる:</p>
+<ul class="simple">
+<li>線形カーネル:</li>
 </ul>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = \langle \boldsymbol{x}_{i}, \boldsymbol{x}_{j} \rangle
         \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>入力次元における標準内積もカーネルとなり、 線形カーネルと呼ばれる。</p>
-<ul>
-<li>ガウシアン（Radial Basis Function、 RBF:放射基底関数）カーネル:   </li>
+<ul class="simple">
+<li>ガウシアン（Radial Basis Function、 RBF:放射基底関数）カーネル:</li>
 </ul>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = \exp\left(-\frac{||\boldsymbol{x}_{i}-\boldsymbol{x}_{j}||^{2}}{2\sigma^{2}}\right)
         \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>分散パラメタ<span class="math">\(\sigma\)</span>を伴ってガウス関数に従った分布を示す。実用上よく用いられる。</p>
-<ul>
-<li>多項式カーネル:   </li>
+<ul class="simple">
+<li>多項式カーネル:</li>
 </ul>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = (\langle \boldsymbol{x}_{i}, \boldsymbol{x}_{j} \rangle + c)^{k}
         \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>正定数<span class="math">\(c\)</span>と多項式の次数<span class="math">\(k\)</span>によって構成されるカーネルである。ガウシアンカーネルよりも性能がパラメタに依存しない特徴を持つ。</p>
-<p>カーネル関数<span class="math">\(K\)</span>を用いる事で、 非線形SVMの双対問題は次で表される:</p>
-<div class="math">$$
+<p>カーネル関数<span class="math">\(K\)</span>を用いる事で、
+非線形SVMの双対問題は次で表される:</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp;\max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}K(\boldsymbol{x}_{i}、 \boldsymbol{x}_{j}) \right] \\
   &amp;\text{subject to : } \alpha_{i} \geq 0、\ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N) \nonumber\end{aligned}
-$$</div>
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id12">
 <h2>ソフトマージンSVM</h2>
-<p>前節までのSVMは、 マージンの内部にサンプルが入る事を一切許さないので、これを特に<strong>ハードマージンSVM</strong>ということがある。カーネルを用いた非線形ハードマージンSVMは、線形分離不可能なサンプルにでも強引に曲がりくねった識別面を構成する。これは実用に供する場合に問題になることがある。 例えば、データに雑音が乗っていたり、 一部のラベルを付け間違えたりする場合であり、これらは実データを扱う場合、 往々にして起こりうる事である。この様な雑音を拾いすぎてしまうとSVMの汎化性能<sup id="fnref:8"><a class="footnote-ref" href="#fn:8">8</a></sup>が悪化してしまうので、マージンの制約を緩め、一部のサンプルはマージンの内部に入っても良いようにSVMを改善する事を考える。マージンの内部にサンプルが入ることを許すSVMを<strong>ソフトマージンSVM</strong>と呼ぶことがある。</p>
-<p>ハードマージンSVMの制約を緩める事を考える。サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>に対応するスラック（緩衝）変数<span class="math">\(\eta_{i} \geq 0\ (i=1, \dots, N)\)</span>を用意して、 SVMの制約を </p>
-<div class="math">$$
+<p>前節までのSVMは、
+マージンの内部にサンプルが入る事を一切許さないので、これを特に<strong>ハードマージンSVM</strong>ということがある。カーネルを用いた非線形ハードマージンSVMは、線形分離不可能なサンプルにでも強引に曲がりくねった識別面を構成する。これは実用に供する場合に問題になることがある。
+例えば、データに雑音が乗っていたり、
+一部のラベルを付け間違えたりする場合であり、これらは実データを扱う場合、
+往々にして起こりうる事である。この様な雑音を拾いすぎてしまうとSVMの汎化性能 <a class="footnote-reference" href="#id40" id="id13">[8]</a> が悪化してしまうので、マージンの制約を緩め、一部のサンプルはマージンの内部に入っても良いようにSVMを改善する事を考える。マージンの内部にサンプルが入ることを許すSVMを<strong>ソフトマージンSVM</strong>と呼ぶことがある。</p>
+<p>ハードマージンSVMの制約を緩める事を考える。サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>に対応するスラック（緩衝）変数<span class="math">\(\eta_{i} \geq 0\ (i=1, \dots, N)\)</span>を用意して、
+SVMの制約を</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}\_{i}) + b) \geq 1 - \eta_{i} \quad (i = 1, \dots, N)\end{aligned}
-$$</div>
-<p>とする（最初から、サンプルは特徴写像<span class="math">\(\boldsymbol{\phi}\)</span>によって写像されている場合を考える）。スラック変数はサンプルがマージンに食い込んでいる距離を表しており、もちろん、 <span class="math">\(\eta_{i}\)</span>は小さい方が良く、<span class="math">\(\eta_{i} = 0\)</span>の時はハードマージンに一致する。 そして、<span class="math">\(\eta_{i}\)</span>も同時に最適化に組み込んでしまう事で、ソフトマージンSVMが実現できる。 多くの文献では、スラック変数のノルムの取り方で異なる2種類のソフトマージンSVMの式を提示している:</p>
-<h5>1ノルムソフトマージンSVM・主問題</h5>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>とする（最初から、サンプルは特徴写像<span class="math">\(\boldsymbol{\phi}\)</span>によって写像されている場合を考える）。スラック変数はサンプルがマージンに食い込んでいる距離を表しており、もちろん、
+<span class="math">\(\eta_{i}\)</span>は小さい方が良く、<span class="math">\(\eta_{i} = 0\)</span>の時はハードマージンに一致する。
+そして、<span class="math">\(\eta_{i}\)</span>も同時に最適化に組み込んでしまう事で、ソフトマージンSVMが実現できる。
+多くの文献では、スラック変数のノルムの取り方で異なる2種類のソフトマージンSVMの式を提示している:</p>
+<ul class="simple">
+<li>1ノルムソフトマージンSVM・主問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           &amp; \min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} + C_{1}\sum_{i=1}^{N} \eta_{i} \\ &amp; \text{subject to : } y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) \geq 1 - \eta_{i}, \ \eta_{i} \geq 0 \quad (i=1, \dots, N)
         \end{aligned}
-$$</div>
-<h5>2ノルムソフトマージンSVM・主問題</h5>
-<div class="math">$$
+\end{equation*}
+</div>
+<ul class="simple" id="svm-1">
+<li>2ノルムソフトマージンSVM・主問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           &amp;\min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} + \frac{C_{2}}{2}\sum_{i=1}^{N} \eta_{i}^{2} \quad \\ &amp;\text{subject to : } y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) \geq 1 - \eta_{i} \quad (i=1, \dots, N)
         \end{aligned}
-$$</div>
-<p>ここで、 <span class="math">\(C_{1},  C_{2}\)</span>はハードマージンとソフトマージンのトレードオフを与える定数<sup id="fnref:9"><a class="footnote-ref" href="#fn:9">9</a></sup>で、最適な値は実験等によって求める必要がある。 双対問題の導出は、前節までの議論と同様に、 KKT条件に当てはめる事により得られる:</p>
-<h4>1ノルムソフトマージンSVM・双対問題の導出</h4>
-<p>ラグランジアンは、 <span class="math">\(\beta_{i} \geq 0\)</span>なる双対変数を導入して、<span class="math">\(-\beta_{i}\eta_{i} \leq 0\)</span>より、 </p>
-<div class="math">$$
-    \begin{aligned}
-          {\cal L}(\boldsymbol{w}, \boldsymbol{\eta}, \boldsymbol{\alpha}, \boldsymbol{\beta}) = \frac{1}{2} \boldsymbol{w}^{\mathsf{T}} \boldsymbol{w} + C_{1} \sum_{i=1}^{N}\eta_{i} + \sum_{i=1}^{N} \alpha_{i} \left\{ 1 - \eta_{i} - y_{i}(\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) \right\} + \sum_{i=1}^{N}(-\beta_{i}\eta_{i})
-        \end{aligned}
-$$</div>
-<p>より、<span class="math">\({\cal L}(\boldsymbol{w}, \boldsymbol{\eta},  \boldsymbol{\alpha},  \boldsymbol{\beta})\)</span>の<span class="math">\(\boldsymbol{w}, b, \eta_{i},\)</span>による偏微分<span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}}, \frac{\partial \cal L}{\partial b}, \frac{\partial \cal L}{\partial \eta_{i}}\)</span>は、</p>
-<div class="math">$$
-    \begin{aligned}
-          \frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{w} - \sum_{i=1}^{N} y_{i} \alpha_{i} \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \frac{\partial \cal L}{\partial b} = \sum_{i=1}^{N}\alpha_{i}y_{i}, \quad \frac{\partial \cal L}{\partial \eta_{i}} = C_{1} - \alpha_{i} - \beta_{i}
-        \end{aligned}
-$$</div>
-<p><span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{0}, \frac{\partial \cal L}{\partial \eta_{i}} = 0\)</span>とおくことで、最適時パラメタは、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>ここで、
+<span class="math">\(C_{1}, C_{2}\)</span>はハードマージンとソフトマージンのトレードオフを与える定数 <a class="footnote-reference" href="#id41" id="id14">[9]</a> で、最適な値は実験等によって求める必要がある。
+双対問題の導出は、前節までの議論と同様に、
+KKT条件に当てはめる事により得られる:</p>
+<ul class="simple">
+<li>1ノルムソフトマージンSVM・双対問題の導出</li>
+</ul>
+<p>ラグランジアンは、
+<span class="math">\(\beta_{i} \geq 0\)</span>なる双対変数を導入して、<span class="math">\(-\beta_{i}\eta_{i} \leq 0\)</span>より、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned}
+      {\cal L}(\boldsymbol{w}, \boldsymbol{\eta}, \boldsymbol{\alpha}, \boldsymbol{\beta}) = \frac{1}{2} \boldsymbol{w}^{\mathsf{T}} \boldsymbol{w} + C_{1} \sum_{i=1}^{N}\eta_{i} + \sum_{i=1}^{N} \alpha_{i} \left\{ 1 - \eta_{i} - y_{i}(\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) \right\} + \sum_{i=1}^{N}(-\beta_{i}\eta_{i})
+    \end{aligned}
+\end{equation*}
+</div>
+<p>より、<span class="math">\({\cal L}(\boldsymbol{w}, \boldsymbol{\eta}, \boldsymbol{\alpha}, \boldsymbol{\beta})\)</span>の<span class="math">\(\boldsymbol{w}, b, \eta_{i},\)</span>による偏微分<span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}}, \frac{\partial \cal L}{\partial b}, \frac{\partial \cal L}{\partial \eta_{i}}\)</span>は、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned}
+      \frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{w} - \sum_{i=1}^{N} y_{i} \alpha_{i} \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \frac{\partial \cal L}{\partial b} = \sum_{i=1}^{N}\alpha_{i}y_{i}, \quad \frac{\partial \cal L}{\partial \eta_{i}} = C_{1} - \alpha_{i} - \beta_{i}
+    \end{aligned}
+\end{equation*}
+</div>
+<p><span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{0}, \frac{\partial \cal L}{\partial \eta_{i}} = 0\)</span>とおくことで、最適時パラメタは、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \boldsymbol{w}^{\star} = \sum_{i=1}^{N} y_{i} \alpha_{i} \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad C_{1} = \alpha_{i} + \beta_{i}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(\boldsymbol{w}^{\star}\)</span>をラグランジアンに代入すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\eta}^{\star}、 \boldsymbol{\alpha}、 \boldsymbol{\beta}) &amp;= \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) + \sum_{i=1}^{N} (C_{1} - \alpha_{i} - \beta_{i}) \eta_{i} \\
           &amp;= \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j})
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>制約条件<span class="math">\(\alpha_{i}, \beta_{i} \geq 0\)</span>を含めて考えると、<span class="math">\(\beta_{i} = C_{1} - \alpha_{i} \geq 0\)</span>より、<span class="math">\(\alpha_{i}\)</span>についての制約<span class="math">\(0 \leq \alpha_{i} \leq C_{1}\)</span>が得られ、結局、普通のSVMの双対問題に<span class="math">\(\alpha_{i}\)</span>についての制約を加えるだけで、1ノルムソフトマージンSVMが実現できる。</p>
-<h5>1ノルムソフトマージンSVM・双対問題</h5>
-<div class="math">$$
+<ul class="simple">
+<li>1ノルムソフトマージンSVM・双対問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
       &amp;\max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) \right] \\
       &amp;\text{subject to : } 0 \leq \alpha_{i} \leq C_{1}, \ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N) \nonumber\end{aligned}
-$$</div>
-<h4>2ノルムソフトマージンSVM・双対問題の導出</h4>
-<p>ラグランジアンは、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<ul class="simple" id="id15">
+<li>2ノルムソフトマージンSVM・双対問題の導出</li>
+</ul>
+<p>ラグランジアンは、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           {\cal L}(\boldsymbol{w}, \boldsymbol{\eta}, \boldsymbol{\alpha}) = \frac{1}{2} \boldsymbol{w}^{\mathsf{T}} \boldsymbol{w} + \frac{C_{2}}{2} \sum_{i=1}^{N}\eta_{i}^{2} + \sum_{i=1}^{N} \alpha_{i} \left\{ 1 - \eta_{i} - y_{i}(\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) \right\}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>より、<span class="math">\({\cal L}(\boldsymbol{w}, \boldsymbol{\eta}, \boldsymbol{\alpha})\)</span>の<span class="math">\(\boldsymbol{w}, b, \eta_{i}\)</span>による偏微分<span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}}, \frac{\partial \cal L}{\partial b}, \frac{\partial \cal L}{\partial \eta_{i}}\)</span>は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{w} - \sum_{i=1}^{N} y_{i} \alpha_{i} \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \frac{\partial \cal L}{\partial b} = \sum_{i=1}^{N}\alpha_{i}y_{i}, \quad \frac{\partial \cal L}{\partial \eta_{i}} = C_{2}\eta_{i} - \alpha_{i}
 \end{aligned}
-$$</div>
-<p><span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{0}, \frac{\partial \cal L}{\partial \eta_{i}} = 0\)</span>とおくことで、最適時パラメタは、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p><span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{0}, \frac{\partial \cal L}{\partial \eta_{i}} = 0\)</span>とおくことで、最適時パラメタは、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \boldsymbol{w}^{\star} = \sum_{i=1}^{N} y_{i} \alpha_{i} \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \eta_{i}^{\star} = \frac{\alpha_{i}}{C_{2}}
 \end{aligned}
-$$</div>
-<p>
-これをラグランジアンに代入すると、</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>これをラグランジアンに代入すると、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\eta}^{\star}, \boldsymbol{\alpha}) &amp;= \sum_{i=1}^{N} \alpha_{i} + \frac{1}{2C_{2}} \sum_{i=1}^{N} \alpha_{i}^{2} + \sum_{i=1}^{N} \alpha_{i} \left[ - \frac{\alpha_{i}}{C_{2}} - y_{i} \sum_{j=1}^{N} y_{j}\alpha_{j} K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) \right] + \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) \\
           &amp;= \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2C_{2}} \sum_{i=1}^{N} \alpha_{i}^{2} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j})
         \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>ここで<span class="math">\(y_{i}y_{j} \in \{-1, 1\}\)</span>に注目すれば、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\eta}^{\star}, \boldsymbol{\alpha}) = \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\left( K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) + \frac{1}{C_{2}}\delta_{ij} \right)
 \end{aligned}
-$$</div>
-<p>と整理できる。ここで<span class="math">\(\delta_{ij}\)</span>はディラックのデルタであり、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>と整理できる。ここで<span class="math">\(\delta_{ij}\)</span>はディラックのデルタであり、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
-          \delta_{ij} = 
+          \delta_{ij} =
           \left\{
             \begin{array}{ll}
               1 &amp; i = j \\
@@ -378,27 +528,47 @@ $$</div>
             \end{array}
             \right.
 \end{aligned}
-$$</div>
-<p>を満たす。 2ノルムソフトマージンSVMも、 結局、カーネル関数を簡単に書き換える事で実現できる。</p>
-<h5>2ノルムソフトマージンSVM・双対問題</h5>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>を満たす。 2ノルムソフトマージンSVMも、
+結局、カーネル関数を簡単に書き換える事で実現できる。</p>
+<ul class="simple" id="id16">
+<li>2ノルムソフトマージンSVM・双対問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
             &amp;\max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\left(K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) + \frac{1}{C_{2}}\delta_{ij} \right) \right] \\
             &amp;\text{subject to : } \alpha_{i} \geq 0, \ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1,\dots,N) \nonumber
 \end{aligned}
-$$</div>
-<h2>SVR</h2>
-<p>一般にSVMは識別器として用いられる事がほとんどだが、ラベルを実数とした回帰問題<sup id="fnref:10"><a class="footnote-ref" href="#fn:10">10</a></sup>にも適用することができる。SVMによる回帰モデルのことを、 <strong>SVR</strong>（Support Vector Regression, サポートベクトル回帰）という。 基本的な考え方としては、図の様に、識別面（回帰面）を中心に幅<span class="math">\(2\varepsilon\)</span>の"帯"に多くのサンプルが入るようにすれば良い。</p>
-<p><img alt="SVR" src="./images/svr.png"></p>
-<p>帯を考慮して制約を表現すると、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+</div>
+<div class="section" id="svr-support-vector-regression">
+<h2>SVR（Support Vector Regression, サポートベクトル回帰）</h2>
+<p>一般にSVMは識別器として用いられる事がほとんどだが、ラベルを実数とした回帰問題 <a class="footnote-reference" href="#id42" id="id17">[10]</a> にも適用することができる。SVMによる回帰モデルのことを、
+<strong>SVR</strong>（Support Vector Regression, サポートベクトル回帰）という。
+基本的な考え方としては、図の様に、識別面（回帰面）を中心に幅<span class="math">\(2\varepsilon\)</span>の“帯”に多くのサンプルが入るようにすれば良い。</p>
+<div class="figure">
+<img alt="SVR" src="./images/svr.png" />
+<p class="caption">SVR</p>
+</div>
+<p>帯を考慮して制約を表現すると、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   | y_{i} - (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i})+b) | \leq \varepsilon \quad (i = 1, \dots, N)
 \end{aligned}
-$$</div>
-<p>となる。 これはハードマージン的な制約であり、幅<span class="math">\(2\varepsilon\)</span>の帯に全てのサンプルが入る事を要求している。もちろん<span class="math">\(\varepsilon\)</span>を十分に大きくとれば全てのサンプルは帯に入るが、帯が広すぎるために自由度が大きく、 結果汎化性能の悪化に繋がってしまう。ラベルが実数となり、 雑音の影響をより受けやすくなることから、SVRにおいては、 最初からスラック変数を用いて、ソフトマージン的に定式化することが多い。</p>
-<p>スラック変数を用いて、帯から飛び出た距離<span class="math">\(\eta_{i}^{+}, \eta_{i}^{-} \geq 0\)</span>を次で定義する（図参照）: </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>となる。
+これはハードマージン的な制約であり、幅<span class="math">\(2\varepsilon\)</span>の帯に全てのサンプルが入る事を要求している。もちろん<span class="math">\(\varepsilon\)</span>を十分に大きくとれば全てのサンプルは帯に入るが、帯が広すぎるために自由度が大きく、
+結果汎化性能の悪化に繋がってしまう。ラベルが実数となり、
+雑音の影響をより受けやすくなることから、SVRにおいては、
+最初からスラック変数を用いて、ソフトマージン的に定式化することが多い。</p>
+<p>スラック変数を用いて、帯から飛び出た距離<span class="math">\(\eta_{i}^{+}, \eta_{i}^{-} \geq 0\)</span>を次で定義する（図参照）:</p>
+<div class="math">
+\begin{align*}
 \begin{aligned}
   \eta_{i}^{+} =
   \left\{ \begin{array}{ll}
@@ -410,59 +580,79 @@ $$</div>
   \left\{ \begin{array}{ll}
     (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i})+b) - y_{i} - \varepsilon &amp; y_{i} \leq (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i})+b) - \varepsilon \\
     0 &amp; otherwise
-    \end{array} \right. 
+    \end{array} \right.
 \end{aligned}
-$$</div>
-<p>なお、サンプルは帯からどちらか一方にしか飛び出ないので、<span class="math">\(\eta_{i}^{+}, \eta_{i}^{-}\)</span>のいずれか一方は必ず<span class="math">\(0\)</span>となり、サンプルが帯に収まっている時は両方共<span class="math">\(0\)</span>となる。スラック変数を用いる事で、 制約は次のように表現できる: </p>
-<div class="math">$$
+\end{align*}
+</div>
+<p>なお、サンプルは帯からどちらか一方にしか飛び出ないので、<span class="math">\(\eta_{i}^{+}, \eta_{i}^{-}\)</span>のいずれか一方は必ず<span class="math">\(0\)</span>となり、サンプルが帯に収まっている時は両方共<span class="math">\(0\)</span>となる。スラック変数を用いる事で、
+制約は次のように表現できる:</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   \left\{ \begin{array}{l}
     (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i})+b) - y_{i} \leq \varepsilon + \eta_{i}^{-} \\
     y_{i} - (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{i})+b) \leq \varepsilon + \eta_{i}^{+}
   \end{array} \right.
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>ソフトマージンの時と同様に考える事で、 最適化問題が定式化できる:</p>
-<h5>1ノルムSVR・主問題</h5>
-<div class="math">$$
+<ul class="simple">
+<li>1ノルムSVR・主問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           &amp;\min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} + C_{1}\sum_{i=1}^{N} (\eta_{i}^{+} + \eta_{i}^{-}) \\
           &amp;\text{subject to : } (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) - y_{i} \leq \varepsilon + \eta_{i}^{-}, \ y_{i} - (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \leq \varepsilon + \eta_{i}^{+} \quad (i=1,\dots,N)
 \end{aligned}
-$$</div>
-<h5>2ノルムSVR・主問題</h5>
-<div class="math">$$
+\end{equation*}
+</div>
+<ul class="simple" id="svr-1">
+<li>2ノルムSVR・主問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           &amp;\min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} + \frac{C_{2}}{2}\sum_{i=1}^{N} \left\{ (\eta_{i}^{+})^{2} + (\eta_{i}^{-})^{2} \right\} \\
           &amp;\text{subject to : } (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) - y_{i} \leq \varepsilon + \eta_{i}^{-}, \ y_{i} - (\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \leq \varepsilon + \eta_{i}^{+} \quad (i=1, \dots, N)
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>後はKKT条件にぶち込むだけの流れ作業である。よし、じゃあぶち込んでやるぜ！</p>
-<h4>1ノルムSVR・双対問題の導出</h4>
-<div class="math">$$
+<div class="section" id="svr">
+<h3>1ノルムSVR・双対問題の導出</h3>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \begin{split}
             &amp;{\cal L}(\boldsymbol{w}, \boldsymbol{\eta}^{+}, \boldsymbol{\eta}^{-}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-}, \boldsymbol{\beta}^{+}, \boldsymbol{\beta}^{-}) = \\
-          &amp;\frac{1}{2} \boldsymbol{w}^{\mathsf{T}} \boldsymbol{w} + C_{1} \sum_{i=1}^{N}(\eta_{i}^{+}+\eta_{i}^{-}) + \sum_{i=1}^{N}(-\beta_{i}^{+}\eta_{i}^{+} -\beta_{i}^{-}\eta_{i}^{-} ) \\ 
-          &amp;+ \sum_{i=1}^{N} \left[ \alpha_{i}^{-} \left\{ (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - y_{i} - \varepsilon - \eta_{i}^{-} \right\} + \alpha_{i}^{+} \left\{ y_{i} - (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - \varepsilon - \eta_{i}^{+} \right\} \right] 
+          &amp;\frac{1}{2} \boldsymbol{w}^{\mathsf{T}} \boldsymbol{w} + C_{1} \sum_{i=1}^{N}(\eta_{i}^{+}+\eta_{i}^{-}) + \sum_{i=1}^{N}(-\beta_{i}^{+}\eta_{i}^{+} -\beta_{i}^{-}\eta_{i}^{-} ) \\
+          &amp;+ \sum_{i=1}^{N} \left[ \alpha_{i}^{-} \left\{ (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - y_{i} - \varepsilon - \eta_{i}^{-} \right\} + \alpha_{i}^{+} \left\{ y_{i} - (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - \varepsilon - \eta_{i}^{+} \right\} \right]
           \end{split}
 \end{aligned}
-$$</div>
-<p>より、<span class="math">\({\cal L}(\boldsymbol{w},  \boldsymbol{\eta}^{+}, \boldsymbol{\eta}^{-}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-}, \boldsymbol{\beta}^{+}, \boldsymbol{\beta}^{-})\)</span>の<span class="math">\(\boldsymbol{w}, b, \eta_{i}^{+}, \eta_{i}^{-}\)</span>による偏微分<span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}}, \frac{\partial \cal L}{\partial b}, \frac{\partial \cal L}{\partial \eta_{i}^{+}}, \frac{\partial \cal L}{\partial \eta_{i}^{-}}\)</span>は、</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>より、<span class="math">\({\cal L}(\boldsymbol{w}, \boldsymbol{\eta}^{+}, \boldsymbol{\eta}^{-}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-}, \boldsymbol{\beta}^{+}, \boldsymbol{\beta}^{-})\)</span>の<span class="math">\(\boldsymbol{w}, b, \eta_{i}^{+}, \eta_{i}^{-}\)</span>による偏微分<span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}}, \frac{\partial \cal L}{\partial b}, \frac{\partial \cal L}{\partial \eta_{i}^{+}}, \frac{\partial \cal L}{\partial \eta_{i}^{-}}\)</span>は、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{w} + \sum_{i=1}^{N}(\alpha_{i}^{-} - \alpha_{i}^{+}) \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \frac{\partial \cal L}{\partial b} = \sum_{i=1}^{N}(\alpha_{i}^{-} - \alpha_{i}^{+}) \\
           \frac{\partial \cal L}{\partial \eta_{i}^{+}} = C_{1} - \alpha_{i}^{+} - \beta_{i}^{+}, \quad \frac{\partial \cal L}{\partial \eta_{i}^{-}} = C_{1} - \alpha_{i}^{-} - \beta_{i}^{-}
 \end{aligned}
-$$</div>
-<p>それぞれ<span class="math">\(0\)</span>とおくと、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>それぞれ<span class="math">\(0\)</span>とおくと、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \boldsymbol{w}^{\star} = \sum_{i=1}^{N} (\alpha_{i}^{+} - \alpha_{i}^{-}) \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \sum_{i=1}^{N}(\alpha_{i}^{-} - \alpha_{i}^{+}) = 0, \quad C_{1} = \alpha_{i}^{+} + \beta_{i}^{+} = \alpha_{i}^{-} + \beta_{i}^{-}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>これをラグランジアンに代入すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \begin{split}
             &amp;{\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\eta}^{+\star}, \boldsymbol{\eta}^{-\star}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-}, \boldsymbol{\beta}^{+}, \boldsymbol{\beta}^{-}) = \\
@@ -471,47 +661,64 @@ $$</div>
             &amp;+\sum_{i=1}^{N}\left[ \alpha_{i}^{-} (-\varepsilon-\eta_{i}^{-}-y_{i}) + \alpha_{i}^{+} (-\varepsilon-\eta_{i}^{+}+y_{i}) \right]
           \end{split}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(C_{1} = \alpha_{i}^{+} + \beta_{i}^{+} = \alpha_{i}^{-} + \beta_{i}^{-}\)</span>を用いて整理すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \begin{split}
             &amp;{\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\eta}^{+\star}, \boldsymbol{\eta}^{-\star}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-}, \boldsymbol{\beta}^{+}, \boldsymbol{\beta}^{-}) = \\
-            &amp;\sum_{i=1}^{N}(\alpha_{i}^{+}-\alpha_{i}^{-}) - \varepsilon\sum_{i=1}^{N}(\alpha_{i}^{-}+\alpha_{i}^{+}) - \frac{1}{2} \sum_{i、j=1}^{N} (\alpha_{i}^{+} - \alpha_{i}^{-})(\alpha_{j}^{+} - \alpha_{j}^{-})K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) 
+            &amp;\sum_{i=1}^{N}(\alpha_{i}^{+}-\alpha_{i}^{-}) - \varepsilon\sum_{i=1}^{N}(\alpha_{i}^{-}+\alpha_{i}^{+}) - \frac{1}{2} \sum_{i、j=1}^{N} (\alpha_{i}^{+} - \alpha_{i}^{-})(\alpha_{j}^{+} - \alpha_{j}^{-})K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j})
           \end{split}
         \end{aligned}
-$$</div>
-<p>ところで、上でも既に述べたが<span class="math">\(\eta_{i}^{+}, \eta_{i}^{-}\)</span>のどちらか一方は必ず<span class="math">\(0\)</span>となるので、その場合は対応する<span class="math">\(\alpha_{i}^{+}, \alpha_{i}^{-}\)</span>の制約条件はなくなり、従って、 <span class="math">\(\alpha_{i}^{+}, \alpha_{i}^{-}\)</span>のどちらか一方も<span class="math">\(0\)</span>となる。この事から<span class="math">\(\alpha_{i} = \alpha_{i}^{+} - \alpha_{i}^{-}\)</span>とおけば、<span class="math">\(\alpha_{i}^{-} + \alpha_{i}^{+} = |\alpha_{i}|\)</span>と表現できるので、双対問題は以下の様に表現できる。</p>
-<h5>1ノルムSVR・双対問題</h5>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>ところで、上でも既に述べたが<span class="math">\(\eta_{i}^{+}, \eta_{i}^{-}\)</span>のどちらか一方は必ず<span class="math">\(0\)</span>となるので、その場合は対応する<span class="math">\(\alpha_{i}^{+}, \alpha_{i}^{-}\)</span>の制約条件はなくなり、従って、
+<span class="math">\(\alpha_{i}^{+}, \alpha_{i}^{-}\)</span>のどちらか一方も<span class="math">\(0\)</span>となる。この事から<span class="math">\(\alpha_{i} = \alpha_{i}^{+} - \alpha_{i}^{-}\)</span>とおけば、<span class="math">\(\alpha_{i}^{-} + \alpha_{i}^{+} = |\alpha_{i}|\)</span>と表現できるので、双対問題は以下の様に表現できる。</p>
+<ul class="simple">
+<li>1ノルムSVR・双対問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           &amp;\max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N}y_{i}\alpha_{i} - \varepsilon\sum_{i=1}^{N}|\alpha_{i}| - \frac{1}{2} \sum_{i、j=1}^{N}\alpha_{i}\alpha_{j}K(\boldsymbol{x}_{i}、 \boldsymbol{x}_{j}) \right] \\
           &amp;\text{subject to : } \sum_{i=1}^{N}\alpha_{i} = 0, \ -C_{1} \leq \alpha_{i} \leq C_{1} \quad (i = 1、\dots、N) \nonumber
 \end{aligned}
-$$</div>
-<h4>2ノルムSVR・双対問題の導出</h4>
-<div class="math">$$
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id19">
+<span id="id18"></span><h3>2ノルムSVR・双対問題の導出</h3>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
             &amp;{\cal L}(\boldsymbol{w}, \boldsymbol{\eta}^{+}, \boldsymbol{\eta}^{-}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-}) = \\
             &amp;\frac{1}{2} \boldsymbol{w}^{\mathsf{T}} \boldsymbol{w} + \frac{C_{2}}{2} \sum_{i=1}^{N} \{ (\eta_{i}^{+})^{2} + (\eta_{i}^{-})^{2} \} \\
-            &amp;+\sum_{i=1}^{N} \left[ \alpha_{i}^{-} \left\{ (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - y_{i} - \varepsilon - \eta_{i}^{-} \right\} + \alpha_{i}^{+} \left\{ y_{i} - (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - \varepsilon - \eta_{i}^{+} \right\} \right] 
+            &amp;+\sum_{i=1}^{N} \left[ \alpha_{i}^{-} \left\{ (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - y_{i} - \varepsilon - \eta_{i}^{-} \right\} + \alpha_{i}^{+} \left\{ y_{i} - (\boldsymbol{w}^{\mathsf{T}} \boldsymbol{\phi}(\boldsymbol{x}_{i}) + b) - \varepsilon - \eta_{i}^{+} \right\} \right]
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>より、<span class="math">\({\cal L}(\boldsymbol{w}, \boldsymbol{\eta}^{+}, \boldsymbol{\eta}^{-}, \boldsymbol{\alpha}^{+}, \boldsymbol{\alpha}^{-})\)</span>の<span class="math">\(\boldsymbol{w}, b, \eta_{i}^{+}, \eta_{i}^{-}\)</span>による偏微分<span class="math">\(\displaystyle\frac{\partial \cal L}{\partial \boldsymbol{w}}, \frac{\partial \cal L}{\partial b}, \frac{\partial \cal L}{\partial \eta_{i}^{+}}, \frac{\partial \cal L}{\partial \eta_{i}^{-}}\)</span>は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \frac{\partial \cal L}{\partial \boldsymbol{w}} = \boldsymbol{w} + \sum_{i=1}^{N}(\alpha_{i}^{-} - \alpha_{i}^{+}) \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \frac{\partial \cal L}{\partial b} = \sum_{i=1}^{N}(\alpha_{i}^{-} - \alpha_{i}^{+}) \\
           \frac{\partial \cal L}{\partial \eta_{i}^{+}} = C_{2}\eta_{i}^{+} - \alpha_{i}^{+}, \quad \frac{\partial \cal L}{\partial \eta_{i}^{-}} = C_{2}\eta_{i}^{-} - \alpha_{i}^{-}
         \end{aligned}
-$$</div>
-<p>それぞれ<span class="math">\(0\)</span>とおくと、 </p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>それぞれ<span class="math">\(0\)</span>とおくと、</p>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \boldsymbol{w}^{\star} = \sum_{i=1}^{N} (\alpha_{i}^{+} - \alpha_{i}^{-}) \boldsymbol{\phi}(\boldsymbol{x}_{i}), \quad \sum_{i=1}^{N}(\alpha_{i}^{-} - \alpha_{i}^{+}) = 0, \quad \eta_{i}^{+\star} = \frac{\alpha_{i}^{+}}{C_{2}}, \quad \eta_{i}^{-\star} = \frac{\alpha_{i}^{-}}{C_{2}}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p><span class="math">\(\boldsymbol{w}^{\star}\)</span>をラグランジアンに代入すると、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           \begin{split}
             &amp;{\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\eta}^{+\star}, \boldsymbol{\eta}^{-\star}, \boldsymbol{\alpha}^{+},\boldsymbol{\alpha}^{-}) = \\
@@ -522,233 +729,423 @@ $$</div>
             &amp;-\varepsilon\sum_{i=1}^{N}(\alpha_{i}^{-} + \alpha_{i}^{+}) - \frac{1}{2C_{2}}\sum_{i=1}^{N}\left\{ (\alpha_{i}^{-})^{2} + (\alpha_{i}^{+})^{2} \right\}
           \end{split}
         \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>1ノルムSVRの時と同様に、<span class="math">\(\alpha_{i} = \alpha_{i}^{+} - \alpha_{i}^{-}\)</span>とおくと、<span class="math">\((\alpha_{i}^{+})^{2} + (\alpha_{i}^{-})^{2} = \alpha_{i}^{2}\)</span>が成り立つので、双対問題は以下の様に表現できる。</p>
-<h5>2ノルムSVR・双対問題</h5>
-<div class="math">$$
+<ul class="simple" id="id20">
+<li>2ノルムSVR・双対問題</li>
+</ul>
+<div class="math">
+\begin{equation*}
 \begin{aligned}
           &amp; \max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N}y_{i}\alpha_{i} - \varepsilon\sum_{i=1}^{N}|\alpha_{i}| - \frac{1}{2} \sum_{i, j=1}^{N}\alpha_{i}\alpha_{j}\left( K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) + \frac{1}{C_{2}} \right) \right] \\
           &amp; \text{subject to : } \sum_{i=1}^{N}\alpha_{i} = 0 \quad (i = 1, \dots, N) \nonumber
 \end{aligned}
-$$</div>
-<h1>実装の例</h1>
-<p>実装例は <a href="https://github.com/MrAiki/SimpleSVM">ここ</a> にある。本稿では要点を絞って見ていく。</p>
-<h2>学習</h2>
-<h3>学習則の導出</h3>
+\end{equation*}
+</div>
+</div>
+</div>
+<div class="section" id="id21">
+<h2>実装の例</h2>
+<p>実装例は <a class="reference external" href="https://github.com/MrAiki/SimpleSVM">ここ</a>
+にある。本稿では要点を絞って見ていく。</p>
+<div class="section" id="id22">
+<h3>学習</h3>
+<div class="section" id="id23">
+<h4>学習則の導出</h4>
 <p>SVMの学習は、双対問題</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp;\max_{\scriptsize \boldsymbol{\alpha}} \left[ \sum_{i=1}^{N} \alpha_{i} - \frac{1}{2} \sum_{i、j=1}^{N} \alpha_{i}\alpha_{j}y_{i}y_{j}\boldsymbol{\phi}(\boldsymbol{x}_{i})^{\mathsf{T}}\boldsymbol{\phi}(\boldsymbol{x}_{j}) \right] = \max_{\scriptsize \boldsymbol{\alpha}} {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\alpha}) \\
   &amp;\text{subject to : } \alpha_{i} \geq 0,\ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N)
 \end{aligned}
-$$</div>
-<p>を解けば良いことになる。 脚注<sup id="fnref2:4"><a class="footnote-ref" href="#fn:4">4</a></sup>で既に触れたが、SVMのマージン最大化は凸計画問題である。従って局所最適解が存在せず、極大値が大域的な最大値に一致する。
+\end{equation*}
+</div>
+<p>を解けば良いことになる。
+脚注 <a class="footnote-reference" href="#id43" id="id24">[11]</a> で既に触れたが、SVMのマージン最大化は凸計画問題である。従って局所最適解が存在せず、極大値が大域的な最大値に一致する。
 ソフトマージンに対応する時は、1ノルムソフトマージンの際には係数に値域<span class="math">\(0 \geq \alpha_{i} \geq C_{1}\ (i=1,...,N)\)</span>を設け、2ノルムの際にはカーネル関数<span class="math">\(K\)</span>を次のように書き換えれば良い：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) + \frac{\delta_{ij}}{C_{2}}
-$$</div>
-<p>ここでは簡単な<strong>最急勾配法</strong>によって解を求めることを考える。 最急勾配法の原理は単純である。<span class="math">\(F(\boldsymbol{\alpha}) = {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\alpha})\)</span> とおくと、その<span class="math">\(\boldsymbol{\alpha}\)</span>による偏微分<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}\)</span>は<strong>勾配</strong>、即ち<span class="math">\(F(\boldsymbol{\alpha})\)</span>の最も上昇する方向を指すベクトルとなるので、係数の更新量<span class="math">\(\Delta\boldsymbol{\alpha}\)</span>は学習率<span class="math">\(\eta &gt; 0\)</span>を用いて</p>
-<div class="math">$$
+\end{equation*}
+</div>
+<p>ここでは簡単な<strong>最急勾配法</strong>によって解を求めることを考える。
+最急勾配法の原理は単純である。<span class="math">\(F(\boldsymbol{\alpha}) = {\cal L}(\boldsymbol{w}^{\star}, \boldsymbol{\alpha})\)</span>
+とおくと、その<span class="math">\(\boldsymbol{\alpha}\)</span>による偏微分<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}\)</span>は<strong>勾配</strong>、即ち<span class="math">\(F(\boldsymbol{\alpha})\)</span>の最も上昇する方向を指すベクトルとなるので、係数の更新量<span class="math">\(\Delta\boldsymbol{\alpha}\)</span>は学習率<span class="math">\(\eta &gt; 0\)</span>を用いて</p>
+<div class="math">
+\begin{equation*}
 \Delta \boldsymbol{\alpha} = \eta \frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}
-$$</div>
-<p>とすれば良い<sup id="fnref:11"><a class="footnote-ref" href="#fn:11">11</a></sup>。学習の収束判定は、例えば<span class="math">\(||\Delta \boldsymbol{\alpha}||\)</span>が十分小さくなった時とすれば良く、その時は極大値が得られている。
+\end{equation*}
+</div>
+<p>とすれば良い <a class="footnote-reference" href="#id44" id="id25">[12]</a> 。学習の収束判定は、例えば<span class="math">\(||\Delta \boldsymbol{\alpha}||\)</span>が十分小さくなった時とすれば良く、その時は極大値が得られている。
 実際に<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}\)</span>を計算することを考える。<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \alpha_{i}}\ (i=1,...,N)\)</span>は、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
 \frac{\partial F(\boldsymbol{\alpha})}{\partial \alpha_{i}} &amp;= 1 - \frac{1}{2} \frac{\partial}{\partial \alpha_{i}} \left( \alpha_{1} \alpha_{1} y_{1} y_{1} \boldsymbol{x}_{1}^{\mathsf{T}} \boldsymbol{x}_{1} + ... + \alpha_{i} \alpha_{1} y_{i} y_{1} \boldsymbol{x}_{i}^{\mathsf{T}} \boldsymbol{x}_{1} + ... + \alpha_{i} \alpha_{N} y_{i} y_{N} \boldsymbol{x}_{i}^{\mathsf{T}} \boldsymbol{x}_{N} + ... + \alpha_{1} \alpha_{i} y_{1} y_{i} \boldsymbol{x}_{1}^{\mathsf{T}} \boldsymbol{x}_{i} + ... + \alpha_{N} \alpha_{i} y_{N} y_{i} \boldsymbol{x}_{N}^{\mathsf{T}} \boldsymbol{x}_{i} + ... + \alpha_{N} \alpha_{N} y_{N} y_{N} \boldsymbol{x}_{N}^{\mathsf{T}} \boldsymbol{x}_{N} \right) \\
     &amp;= 1 - \sum_{j=1}^{N} \alpha_{j} y_{i} y_{j} \boldsymbol{x}_{i}^{\mathsf{T}} \boldsymbol{x}_{j}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>よって、ステップ<span class="math">\(t\)</span>時の係数<span class="math">\(\alpha_{i}(t)\ (i=1,...,N)\)</span>について以下の更新規則に従って学習を行えば良い：</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \alpha_{i}(t+1) = \alpha_{i}(t) + \eta \left( 1 - \sum_{j=1}^{N} \alpha_{j} y_{i} y_{j} \boldsymbol{x}_{i}^{\mathsf{T}} \boldsymbol{x}_{j} \right)
-$$</div>
+\end{equation*}
+</div>
+</div>
+<div class="section" id="id26">
 <h4>実装</h4>
 <p>学習を行っている箇所を抜粋すると次の様になる：</p>
-<div class="highlight"><pre><span></span>    <span class="cm">/* 勾配値の計算 */</span>
-    <span class="n">diff_dist</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_x</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_x</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">diff_sum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-      <span class="k">for</span> <span class="p">(</span><span class="n">i_y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_y</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
-        <span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span>
-        <span class="n">kernel_val</span> <span class="o">=</span> <span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span> <span class="n">i_x</span><span class="p">,</span> <span class="n">i_y</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">==</span> <span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">kernel_val</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">/</span> <span class="n">soft_margin_C2</span><span class="p">);</span>
-        <span class="p">}</span>
-        <span class="n">diff_sum</span> <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span> <span class="o">*</span> <span class="n">kernel_val</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="n">diff_sum</span> <span class="o">*=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_x</span><span class="p">];</span>
-      <span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_x</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">;</span>
-      <span class="n">diff_dist</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">);</span>
+<pre class="code c literal-block">
+<span class="cm">/* 勾配値の計算 */</span>
+<span class="n">diff_dist</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_x</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_x</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">diff_sum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+  <span class="k">for</span> <span class="p">(</span><span class="n">i_y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_y</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span>
+    <span class="n">kernel_val</span> <span class="o">=</span> <span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span> <span class="n">i_x</span><span class="p">,</span> <span class="n">i_y</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">==</span> <span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">kernel_val</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">/</span> <span class="n">soft_margin_C2</span><span class="p">);</span>
     <span class="p">}</span>
+    <span class="n">diff_sum</span> <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span> <span class="o">*</span> <span class="n">kernel_val</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="n">diff_sum</span> <span class="o">*=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_x</span><span class="p">];</span>
+  <span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_x</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">;</span>
+  <span class="n">diff_dist</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">);</span>
+<span class="p">}</span>
 
-    <span class="cm">/* 双対係数の更新 */</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="cm">/* printf(&quot;dual_coef[%d]:%f -&gt; &quot;, i_sample, handle-&gt;dual_coef[i_sample]); */</span>
-      <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> 
-        <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">+</span> <span class="n">SMPSVM_MOMENT_RATE</span> <span class="o">*</span> <span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span> 
-      <span class="cm">/* printf(&quot;%f \n&quot;, handle-&gt;dual_coef[i_sample]); */</span>
+<span class="cm">/* 双対係数の更新 */</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">continue</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="cm">/* printf(&quot;dual_coef[%d]:%f -&gt; &quot;, i_sample, handle-&gt;dual_coef[i_sample]); */</span>
+  <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
+    <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">+</span> <span class="n">SMPSVM_MOMENT_RATE</span> <span class="o">*</span> <span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
+  <span class="cm">/* printf(&quot;%f \n&quot;, handle-&gt;dual_coef[i_sample]); */</span>
 
-      <span class="cm">/* 非数,無限チェック */</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">isnan</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span> <span class="o">||</span> <span class="n">isinf</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Detected NaN or Inf Dual-Coffience. </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-</pre></div>
-
-
+  <span class="cm">/* 非数,無限チェック */</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">isnan</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span> <span class="o">||</span> <span class="n">isinf</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Detected NaN or Inf Dual-Coffience. </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre>
 <p>既にコメントが付いているが、特筆すべき点について補足する。</p>
-<div class="highlight"><pre><span></span>        <span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span>
-        <span class="n">kernel_val</span> <span class="o">=</span> <span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span> <span class="n">i_x</span><span class="p">,</span> <span class="n">i_y</span><span class="p">);</span>
-</pre></div>
-
-
+<pre class="code c literal-block">
+<span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span>
+<span class="n">kernel_val</span> <span class="o">=</span> <span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span> <span class="n">i_x</span><span class="p">,</span> <span class="n">i_y</span><span class="p">);</span>
+</pre>
 <p>予め計算しておいたカーネル関数値をグラム行列から取り出している。学習中は何度もカーネル関数値を計算するため、グラム行列を用意しておくことで若干高速化できる。</p>
-<div class="highlight"><pre><span></span>        <span class="k">if</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">==</span> <span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">kernel_val</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">/</span> <span class="n">soft_margin_C2</span><span class="p">);</span>
-        <span class="p">}</span>
-</pre></div>
-
-
-<p>2ノルムソフトマージンのカーネル関数値を加味している。2ノルムソフトマージンを使用しない場合は<code>soft_margin_C2 == FLT_MAX</code>となっているため、無視できる。</p>
-<div class="highlight"><pre><span></span>      <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> 
-        <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">+</span> <span class="n">SMPSVM_MOMENT_RATE</span> <span class="o">*</span> <span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span> 
-</pre></div>
-
-
+<pre class="code c literal-block">
+<span class="k">if</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">==</span> <span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">kernel_val</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">/</span> <span class="n">soft_margin_C2</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+<p>2ノルムソフトマージンのカーネル関数値を加味している。2ノルムソフトマージンを使用しない場合は<tt class="docutils literal">soft_margin_C2 == FLT_MAX</tt>となっているため、無視できる。</p>
+<pre class="code c literal-block">
+<span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
+  <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">+</span> <span class="n">SMPSVM_MOMENT_RATE</span> <span class="o">*</span> <span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
+</pre>
 <p>係数更新を行っている。ここでは、単純な最急勾配分のみだけではなく、前回の勾配値に定数を乗じて加えた<strong>モーメント法</strong>を使用している。一般にモーメント法を使用したほうが学習が早くなることが知られている。</p>
+</div>
+</div>
+<div class="section" id="id27">
 <h3>制約条件の考慮</h3>
 <p>学習則は単純に見えても実装時に落とし穴になるのが制約条件である。</p>
+<div class="section" id="id28">
 <h4>正例と負例の双対係数の和を等しくする</h4>
 <p>KKT条件から導かれる<span class="math">\(\boldsymbol{\alpha}\)</span>についての制約</p>
-<div class="math">$$
-  \sum_{i=1}^{N} \alpha_{i}y_{i} = 0
-$$</div>
+<div class="math">
+\begin{equation*}
+\sum_{i=1}^{N} \alpha_{i}y_{i} = 0
+\end{equation*}
+</div>
 <p>を実現するのが案外難しい。上の制約から、</p>
-<div class="math">$$
+<div class="math">
+\begin{equation*}
 \begin{aligned}
   &amp;\sum_{y_{i}=1} \alpha_{i} - \sum_{y_{i}=-1} \alpha_{i} = 0  \\
-  &amp;\iff \sum_{y_{i}=1} \alpha_{i} = \sum_{y_{i}=-1} \alpha_{i} 
+  &amp;\iff \sum_{y_{i}=1} \alpha_{i} = \sum_{y_{i}=-1} \alpha_{i}
 \end{aligned}
-$$</div>
+\end{equation*}
+</div>
 <p>が導かれるため、正例と負例の双対係数の和は等しくなる事が分かる。
 本実装では、<span class="math">\(\alpha_{i}y_{i}\)</span>の平均を取り、全係数<span class="math">\(\alpha_{i}\ (i=1,...,N)\)</span>をその平均に寄せることで上記の制約を満たすように係数を修正している。</p>
-<div class="highlight"><pre><span></span>    <span class="cm">/* 制約1: 正例と負例の双対係数和を等しくする. */</span>
-    <span class="n">dual_coef_average</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">dual_coef_average</span> 
-        <span class="o">+=</span> <span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
-    <span class="p">}</span>
-    <span class="n">dual_coef_average</span> <span class="o">/=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="k">continue</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> 
-        <span class="o">-=</span> <span class="p">(</span><span class="n">dual_coef_average</span> <span class="o">/</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
-    <span class="p">}</span>
-</pre></div>
-
-
-<p>この制約を満たすための実装はこの限りではない。</p>
-<h4>双対係数は非負</h4>
-<p>双対係数は非負でなければならないため、負になった係数は全て0に修正してしまう。 学習が進むに連れて0の係数が増えていくが、それはSVMの持つスパース学習の効果が現れている状態である。学習が収束した時、0に潰れず非負値となった係数に対応するサンプルが<strong>サポートベクトル</strong>である。</p>
-<div class="highlight"><pre><span></span>    <span class="cm">/* 制約2: 双対係数は非負 */</span>
-    <span class="n">coef_dist</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0f</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-      <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">soft_margin_C1</span> <span class="p">)</span> <span class="p">{</span>
-        <span class="cm">/* C1ノルムの制約を適用 */</span>
-        <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">soft_margin_C1</span><span class="p">;</span>
-      <span class="p">}</span>
-      <span class="cm">/* ここで最終結果が出る. 前回との変化を計算 */</span>
-      <span class="n">coef_diff</span> <span class="o">=</span> <span class="n">pre_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">-</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">];</span>
-      <span class="n">coef_dist</span> <span class="o">+=</span> <span class="p">(</span><span class="n">coef_diff</span> <span class="o">*</span> <span class="n">coef_diff</span><span class="p">);</span>
-    <span class="p">}</span>
-</pre></div>
-
-
-<p>本実装では、非負条件に咥えて1ノルムソフトマージンの制約も追加で判定している。1ノルムソフトマージンを使用しない時は<code>soft_margin_C1 == FLT_MAX</code>となっているため、無視できる。</p>
-<h2>識別</h2>
-<p><a href="#マージンの定式化">マージンの定式化</a>で述べたが、SVMのクラス識別は出力値<span class="math">\(y\)</span>の正負によって判断する<sup id="fnref:12"><a class="footnote-ref" href="#fn:12">12</a></sup>。SVMの出力式</p>
-<div class="math">$$
-  g(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^{\mathsf{T}} \boldsymbol{x} + b
-$$</div>
-<p>に、KKT条件における最適条件<span class="math">\(\boldsymbol{w}^{\star} = \sum_{i=1}^{N} \alpha_{i}y_{i}\boldsymbol{x}_{i}\)</span>を代入すれば、次の<strong>双対表現</strong>が得られる：</p>
-<div class="math">$$
-  g(\boldsymbol{x}, \boldsymbol{w}^{\star}) = \sum_{i=1}^{N} \alpha_{i} y_{i} K(\boldsymbol{x}_{i}, \boldsymbol{x}) + b
-$$</div>
-<p>識別の際には、学習済みの係数<span class="math">\(\boldsymbol{\alpha}\)</span>を使用して上式を計算し、その正負を判定すれば良い。実装としては次の様になる：</p>
-<div class="highlight"><pre><span></span>  <span class="cm">/* ネットワーク出力計算 */</span>
-  <span class="n">network_output</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/* 係数が正に相当するサンプル（サポートベクトル）</span>
-<span class="cm">     * のみを計算する */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">network_output</span> 
-        <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
-        <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_function</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_data</span><span class="p">[</span><span class="n">i_sample</span><span class="p">],</span> <span class="n">normalized_data</span><span class="p">,</span> <span class="n">data_dim</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_parameter</span><span class="p">);</span>
-    <span class="p">}</span>
+<pre class="code c literal-block">
+<span class="cm">/* 制約1: 正例と負例の双対係数和を等しくする. */</span>
+<span class="n">dual_coef_average</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">dual_coef_average</span>
+    <span class="o">+=</span> <span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
+<span class="p">}</span>
+<span class="n">dual_coef_average</span> <span class="o">/=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="k">continue</span><span class="p">;</span>
   <span class="p">}</span>
+  <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
+    <span class="o">-=</span> <span class="p">(</span><span class="n">dual_coef_average</span> <span class="o">/</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
+<span class="p">}</span>
+</pre>
+<p>この制約を満たすための実装はこの限りではない。</p>
+</div>
+<div class="section" id="id29">
+<h4>双対係数は非負</h4>
+<p>双対係数は非負でなければならないため、負になった係数は全て0に修正してしまう。
+学習が進むに連れて0の係数が増えていくが、それはSVMの持つスパース学習の効果が現れている状態である。学習が収束した時、0に潰れず非負値となった係数に対応するサンプルが<strong>サポートベクトル</strong>である。</p>
+<pre class="code c literal-block">
+<span class="cm">/* 制約2: 双対係数は非負 */</span>
+<span class="n">coef_dist</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0f</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">soft_margin_C1</span> <span class="p">)</span> <span class="p">{</span>
+    <span class="cm">/* C1ノルムの制約を適用 */</span>
+    <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">soft_margin_C1</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="cm">/* ここで最終結果が出る. 前回との変化を計算 */</span>
+  <span class="n">coef_diff</span> <span class="o">=</span> <span class="n">pre_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">-</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">];</span>
+  <span class="n">coef_dist</span> <span class="o">+=</span> <span class="p">(</span><span class="n">coef_diff</span> <span class="o">*</span> <span class="n">coef_diff</span><span class="p">);</span>
+<span class="p">}</span>
+</pre>
+<p>本実装では、非負条件に咥えて1ノルムソフトマージンの制約も追加で判定している。1ノルムソフトマージンを使用しない時は<tt class="docutils literal">soft_margin_C1 == FLT_MAX</tt>となっているため、無視できる。</p>
+</div>
+</div>
+</div>
+<div class="section" id="id30">
+<h2>識別</h2>
+<p><a class="reference external" href="#マージンの定式化">マージンの定式化</a>で述べたが、SVMのクラス識別は出力値<span class="math">\(y\)</span>の正負によって判断する <a class="footnote-reference" href="#id45" id="id31">[13]</a> 。SVMの出力式</p>
+<div class="math">
+\begin{equation*}
+g(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^{\mathsf{T}} \boldsymbol{x} + b
+\end{equation*}
+</div>
+<p>に、KKT条件における最適条件<span class="math">\(\boldsymbol{w}^{\star} = \sum_{i=1}^{N} \alpha_{i}y_{i}\boldsymbol{x}_{i}\)</span>を代入すれば、次の<strong>双対表現</strong>が得られる：</p>
+<div class="math">
+\begin{equation*}
+g(\boldsymbol{x}, \boldsymbol{w}^{\star}) = \sum_{i=1}^{N} \alpha_{i} y_{i} K(\boldsymbol{x}_{i}, \boldsymbol{x}) + b
+\end{equation*}
+</div>
+<p>識別の際には、学習済みの係数<span class="math">\(\boldsymbol{\alpha}\)</span>を使用して上式を計算し、その正負を判定すれば良い。実装としては次の様になる：</p>
+<pre class="code c literal-block">
+<span class="cm">/* ネットワーク出力計算 */</span>
+<span class="n">network_output</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
+  <span class="cm">/* 係数が正に相当するサンプル（サポートベクトル）
+   * のみを計算する */</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">network_output</span>
+      <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
+      <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_function</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_data</span><span class="p">[</span><span class="n">i_sample</span><span class="p">],</span> <span class="n">normalized_data</span><span class="p">,</span> <span class="n">data_dim</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_parameter</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-  <span class="cm">/* 識別 */</span>
-  <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_output</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-</pre></div>
-
-
-<h1>脚注</h1>
-<div class="footnote">
-<hr>
-<ol>
-<li id="fn:1">
-<p>高村大也、 奥村学、 "言語処理のための機械学習入門"、 コロナ社、 2010&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
-</li>
-<li id="fn:2">
-<p>高橋治久、 堀田一弘、 "学習理論" コロナ社、 2009&#160;<a class="footnote-backref" href="#fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
-</li>
-<li id="fn:3">
-<p>くどいかもしれないが、 サポートベクトルは最も識別面に近いサンプルなので、この仮定により<span class="math">\(y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}+b) \geq l \quad (i=1, \dots, N)\)</span>が成り立つ。&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
-</li>
-<li id="fn:4">
-<p>（証明） <br> -   最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、 明らかに下に凸である。<br>
- -   制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、<div class="math">$$\begin{aligned} y_{i} \left[ \left( t\boldsymbol{w}^{\prime\mathsf{T}} + (1-t) \boldsymbol{w}^{\prime\prime\mathsf{T}} \right) \boldsymbol{x}\_{i} + b \right] = y_{i} \left[ t(\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} - \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i}) + \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b \right] \\
+<span class="cm">/* 識別 */</span>
+<span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_output</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</pre>
+</div>
+<div class="section" id="id32">
+<h2>脚注</h2>
+<table class="docutils footnote" frame="void" id="id33" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>高村大也、 奥村学、 “言語処理のための機械学習入門”、 コロナ社、 2010</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id34" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>高橋治久、 堀田一弘、 “学習理論” コロナ社、 2009</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id35" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>くどいかもしれないが、
+サポートベクトルは最も識別面に近いサンプルなので、この仮定により<span class="math">\(y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}+b) \geq l \quad (i=1, \dots, N)\)</span>が成り立つ。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id36" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td><p class="first">（証明） -
+最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、
+明らかに下に凸である。 -
+制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned} y_{i} \left[ \left( t\boldsymbol{w}^{\prime\mathsf{T}} + (1-t) \boldsymbol{w}^{\prime\prime\mathsf{T}} \right) \boldsymbol{x}\_{i} + b \right] = y_{i} \left[ t(\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} - \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i}) + \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b \right] \\
             = y_{i} \left[ t\left( (\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) - (\boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) \right) + \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b \right] \\
             = t y_{i} (\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) + (1-t) y_{i}(\boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) \\
-            \geq t + (1-t) = 1\end{aligned}$$</div> よって、<span class="math">\(t\boldsymbol{w}^{\prime} + (1-t) \boldsymbol{w}^{\prime\prime} \in W_{i}\)</span>より<span class="math">\(W_{i}\)</span>は凸集合。 最適化問題においては、 <span class="math">\(W_{i}\)</span>の共通部分<span class="math">\(\bigcap_{i=1}^{N} W_{i}\)</span>を考えれば良く、 <strong>凸集合の積集合もまた凸集合</strong> なので、 制約条件も凸集合となる。以上の2点より、 マージン最大化は凸計画問題。<br> （凸集合の積集合もまた凸集合であることの証明）2つの凸集合を<span class="math">\(A_{1},A_{2}\)</span>とする。 両者の集合の積<span class="math">\(A_{1}\cap A_{2}\)</span>が空集合ならば、 空集合は凸集合と定義されるので命題は成立する。 一般に<span class="math">\(A_{1}\cap A_{2}\)</span>から2点<span class="math">\(x,y\)</span>をとると, <span class="math">\(x, y\)</span>を結ぶ線分は、 <span class="math">\(A_{1}, A_{2}\)</span>は共に凸集合なので、 <span class="math">\(A_{1}\)</span>にも<span class="math">\(A_{2}\)</span>にも属していて飛び出ることはない。 これは集合の積<span class="math">\(A_{1}\cap A_{2}\)</span>が凸集合であることを示している。&#160;<a class="footnote-backref" href="#fnref:4" title="Jump back to footnote 4 in the text">&#8617;</a><a class="footnote-backref" href="#fnref2:4" title="Jump back to footnote 4 in the text">&#8617;</a></p>
-</li>
-<li id="fn:5">
-<p>（鞍点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事の証明） <br> <span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点なので、<div class="math">$$\begin{aligned} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) \leq {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star}) \leq {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}) \end{aligned}$$</div> を満たす。 従って右側の不等式から<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star}) \leq \boldsymbol{\alpha}^{\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star})\)</span>が任意の<span class="math">\(\boldsymbol{\alpha}\)</span>で成立する。 即ち<span class="math">\(\boldsymbol{\alpha} = \boldsymbol{0}\)</span>の時、 <span class="math">\(g_{i}(\boldsymbol{v}^{\star}) \geq 0\)</span>と併せて<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star}) = 0\)</span>が成立する。 更に、 ここで関係式 <div class="math">$$\begin{aligned} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star}) \leq \left( \frac{\partial {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})}{\partial \boldsymbol{v}} \right)^{\mathsf{T}} (\boldsymbol{v} - \boldsymbol{v}^{\star}) \end{aligned}$$</div> を用いる（証明は後術）と、 鞍点であることから<span class="math">\(\displaystyle\frac{\partial {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})}{\partial \boldsymbol{v}} = \boldsymbol{0}\)</span>であり、 また、 <span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star}) = 0\)</span>より、 <div class="math">$$\begin{aligned} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star}) &amp;= {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) - f(\boldsymbol{v}^{\star}) \leq 0 \iff f(\boldsymbol{v}^{\star}) \geq {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) \end{aligned}$$</div> が成り立つ。 更に、 もとより<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}) \geq 0\)</span>なので、 <div class="math">$$\begin{aligned} f(\boldsymbol{v}) \leq f(\boldsymbol{v}) + \boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}) = {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) \end{aligned}$$</div> 従って<span class="math">\(f(\boldsymbol{v}^{\star}) \geq f(\boldsymbol{v})\)</span>が任意の<span class="math">\(\boldsymbol{v}\)</span>で成立し、<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事が示された。<br> 次いで(＊)を証明する。<span class="math">\({\cal L}(\boldsymbol{v}, \boldsymbol{\alpha})\)</span>が凸関数ならば、 <span class="math">\({\cal L}(t\boldsymbol{v}^{\prime}+(1-t)\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) \geq t {\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) + (1-t) {\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star})\)</span>が<span class="math">\(t \in [0,1]\)</span>で成立する。 よって、<div class="math">$$t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) + {\cal L}(t\boldsymbol{v}^{\prime}+(1-t)\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) \iff {\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) + \frac{{\cal L}(\boldsymbol{v}^{\prime\prime} + t(\boldsymbol{v}^{\prime}-\boldsymbol{v}^{\prime\prime}), \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star})}{t} $$</div>ここで<span class="math">\(t \to 0\)</span>ならしめれば、 方向微分と勾配の関係式より、<div class="math">$${\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) \leq \left( \frac{\partial {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star})}{\partial \boldsymbol{v}} \right)^{\mathsf{T}} (\boldsymbol{v}^{\prime} - \boldsymbol{v}^{\prime\prime})$$</div>を得る。&#160;<a class="footnote-backref" href="#fnref:5" title="Jump back to footnote 5 in the text">&#8617;</a></p>
-</li>
-<li id="fn:6">
-<p>互いに同一平面上<strong>以外</strong>の位置にある事。 例えば、2次元空間では同一直線上以外の位置であり、3次元空間では同一平面上以外の位置である。異なるクラスのサンプルが一般位置にあれば、もとより線形分離可能である。&#160;<a class="footnote-backref" href="#fnref:6" title="Jump back to footnote 6 in the text">&#8617;</a></p>
-</li>
-<li id="fn:7">
-<p>有限個数<span class="math">\(N&lt;\infty\)</span>のサンプルに対し、<span class="math">\((\boldsymbol{G})\_{ij} = K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>、即ち<span class="math">\((i,j)\)</span>成分の値が<span class="math">\(K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>となっている行列<span class="math">\(\boldsymbol{G}\)</span>をグラム（カーネル）行列という。特徴写像が有限次元ならば、グラム行列が（有限）正定値行列ならば<span class="math">\(K\)</span>はカーネル関数となる。特徴写像が無限次元の場合のカーネル関数の条件がマーサーの定理である。<br> その内容は、入力空間<span class="math">\(X\subset \mathbb{R}^{n}\)</span>が有界閉集合（<span class="math">\(\iff\)</span>コンパクト）であるとし、対象な連続関数<span class="math">\(K\)</span>が正定値、即ち任意の二乗可積分（二乗積分可能）な関数<span class="math">\(f\)</span>に対し <div class="math">$$\begin{aligned}
-  \int_{X\times X}K(x, z)f(x)f(z)dxdz \geq 0\end{aligned}$$</div> ならば、ヒルベルト空間の正規直交基底<span class="math">\(\phi_{j}\ (j=1, 2, \dots)\)</span>で次式が一様収束するものが存在する場合、<span class="math">\(K\)</span>はカーネル関数である。 <div class="math">$$ \begin{aligned} K(x, z) = \sum_{j=1}^{\infty} \phi_{j}(x)\phi_{j}(z) \end{aligned} $$</div>&#160;<a class="footnote-backref" href="#fnref:7" title="Jump back to footnote 7 in the text">&#8617;</a></p>
-</li>
-<li id="fn:8">
-<p>サンプルに現れない未知のデータでももれなく識別できる能力&#160;<a class="footnote-backref" href="#fnref:8" title="Jump back to footnote 8 in the text">&#8617;</a></p>
-</li>
-<li id="fn:9">
-<p>双対問題において、 <span class="math">\(C_{1}, C_{2} \to \infty\)</span>とすると、ハードマージンSVMに一致することが分かる&#160;<a class="footnote-backref" href="#fnref:9" title="Jump back to footnote 9 in the text">&#8617;</a></p>
-</li>
-<li id="fn:10">
-<p>サンプルに最も当てはまる曲線（面）を探す問題。もう少し形式的に言うと、各サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>でのラベル<span class="math">\(y_{i}\)</span>の平均値を表す関数<span class="math">\(f\)</span>を学習する問題。&#160;<a class="footnote-backref" href="#fnref:10" title="Jump back to footnote 10 in the text">&#8617;</a></p>
-</li>
-<li id="fn:11">
-<p>ただし学習率<span class="math">\(\eta\)</span>の決め方は問題依存である。一般に、<span class="math">\(\eta\)</span>が小さすぎると学習が進行せず、大きすぎると極値を飛び越えてしまい学習が収束しない。&#160;<a class="footnote-backref" href="#fnref:11" title="Jump back to footnote 11 in the text">&#8617;</a></p>
-</li>
-<li id="fn:12">
-<p><span class="math">\(y = 0\)</span>の場合の判断を明確にしている書類がない。ここでは正と判定する。&#160;<a class="footnote-backref" href="#fnref:12" title="Jump back to footnote 12 in the text">&#8617;</a></p>
-</li>
-</ol>
+            \geq t + (1-t) = 1\end{aligned}
+\end{equation*}
 </div>
-<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+<p class="last">よって、<span class="math">\(t\boldsymbol{w}^{\prime} + (1-t) \boldsymbol{w}^{\prime\prime} \in W_{i}\)</span>より<span class="math">\(W_{i}\)</span>は凸集合。
+最適化問題においては、
+<span class="math">\(W_{i}\)</span>の共通部分<span class="math">\(\bigcap_{i=1}^{N} W_{i}\)</span>を考えれば良く、
+<strong>凸集合の積集合もまた凸集合</strong> なので、
+制約条件も凸集合となる。以上の2点より、 マージン最大化は凸計画問題。
+（凸集合の積集合もまた凸集合であることの証明）2つの凸集合を<span class="math">\(A_{1},A_{2}\)</span>とする。
+両者の集合の積<span class="math">\(A_{1}\cap A_{2}\)</span>が空集合ならば、
+空集合は凸集合と定義されるので命題は成立する。
+一般に<span class="math">\(A_{1}\cap A_{2}\)</span>から2点<span class="math">\(x,y\)</span>をとると,
+<span class="math">\(x, y\)</span>を結ぶ線分は、
+<span class="math">\(A_{1}, A_{2}\)</span>は共に凸集合なので、
+<span class="math">\(A_{1}\)</span>にも<span class="math">\(A_{2}\)</span>にも属していて飛び出ることはない。
+これは集合の積<span class="math">\(A_{1}\cap A_{2}\)</span>が凸集合であることを示している。</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id37" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[5]</a></td><td><p class="first">（鞍点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事の証明）
+<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点なので、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) \leq {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star}) \leq {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}) \end{aligned}
+\end{equation*}
+</div>
+<p>を満たす。
+従って右側の不等式から<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star}) \leq \boldsymbol{\alpha}^{\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star})\)</span>が任意の<span class="math">\(\boldsymbol{\alpha}\)</span>で成立する。
+即ち<span class="math">\(\boldsymbol{\alpha} = \boldsymbol{0}\)</span>の時、
+<span class="math">\(g_{i}(\boldsymbol{v}^{\star}) \geq 0\)</span>と併せて<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star}) = 0\)</span>が成立する。
+更に、 ここで関係式</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star}) \leq \left( \frac{\partial {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})}{\partial \boldsymbol{v}} \right)^{\mathsf{T}} (\boldsymbol{v} - \boldsymbol{v}^{\star}) \end{aligned}
+\end{equation*}
+</div>
+<p>を用いる（証明は後術）と、
+鞍点であることから<span class="math">\(\displaystyle\frac{\partial {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})}{\partial \boldsymbol{v}} = \boldsymbol{0}\)</span>であり、
+また、
+<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}^{\star}) = 0\)</span>より、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star}) &amp;= {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) - f(\boldsymbol{v}^{\star}) \leq 0 \iff f(\boldsymbol{v}^{\star}) \geq {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) \end{aligned}
+\end{equation*}
+</div>
+<p>が成り立つ。 更に、
+もとより<span class="math">\(\boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}) \geq 0\)</span>なので、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned} f(\boldsymbol{v}) \leq f(\boldsymbol{v}) + \boldsymbol{\alpha}^{\star\mathsf{T}}\boldsymbol{g}(\boldsymbol{v}) = {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star}) \end{aligned}
+\end{equation*}
+</div>
+<p>従って<span class="math">\(f(\boldsymbol{v}^{\star}) \geq f(\boldsymbol{v})\)</span>が任意の<span class="math">\(\boldsymbol{v}\)</span>で成立し、<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事が示された。
+次いで(＊)を証明する。<span class="math">\({\cal L}(\boldsymbol{v}, \boldsymbol{\alpha})\)</span>が凸関数ならば、
+<span class="math">\({\cal L}(t\boldsymbol{v}^{\prime}+(1-t)\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) \geq t {\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) + (1-t) {\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star})\)</span>が<span class="math">\(t \in [0,1]\)</span>で成立する。
+よって、</p>
+<div class="math">
+\begin{equation*}
+t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) + {\cal L}(t\boldsymbol{v}^{\prime}+(1-t)\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) \iff {\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) + \frac{{\cal L}(\boldsymbol{v}^{\prime\prime} + t(\boldsymbol{v}^{\prime}-\boldsymbol{v}^{\prime\prime}), \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star})}{t}
+\end{equation*}
+</div>
+<p>ここで<span class="math">\(t \to 0\)</span>ならしめれば、
+方向微分と勾配の関係式より、</p>
+<div class="math">
+\begin{equation*}
+{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) - {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star}) \leq \left( \frac{\partial {\cal L}(\boldsymbol{v}^{\prime\prime}, \boldsymbol{\alpha}^{\star})}{\partial \boldsymbol{v}} \right)^{\mathsf{T}} (\boldsymbol{v}^{\prime} - \boldsymbol{v}^{\prime\prime})
+\end{equation*}
+</div>
+<p class="last">を得る。</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id38" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id10">[6]</a></td><td>互いに同一平面上<strong>以外</strong>の位置にある事。
+例えば、2次元空間では同一直線上以外の位置であり、3次元空間では同一平面上以外の位置である。異なるクラスのサンプルが一般位置にあれば、もとより線形分離可能である。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id39" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id11">[7]</a></td><td><p class="first">有限個数<span class="math">\(N&lt;\infty\)</span>のサンプルに対し、<span class="math">\((\boldsymbol{G})\_{ij} = K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>、即ち<span class="math">\((i,j)\)</span>成分の値が<span class="math">\(K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>となっている行列<span class="math">\(\boldsymbol{G}\)</span>をグラム（カーネル）行列という。特徴写像が有限次元ならば、グラム行列が（有限）正定値行列ならば<span class="math">\(K\)</span>はカーネル関数となる。特徴写像が無限次元の場合のカーネル関数の条件がマーサーの定理である。
+その内容は、入力空間<span class="math">\(X\subset \mathbb{R}^{n}\)</span>が有界閉集合（<span class="math">\(\iff\)</span>コンパクト）であるとし、対象な連続関数<span class="math">\(K\)</span>が正定値、即ち任意の二乗可積分（二乗積分可能）な関数<span class="math">\(f\)</span>に対し</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned}
+  \int_{X\times X}K(x, z)f(x)f(z)dxdz \geq 0\end{aligned}
+\end{equation*}
+</div>
+<p>ならば、ヒルベルト空間の正規直交基底<span class="math">\(\phi_{j}\ (j=1, 2, \dots)\)</span>で次式が一様収束するものが存在する場合、<span class="math">\(K\)</span>はカーネル関数である。</p>
+<div class="last math">
+\begin{equation*}
+\begin{aligned} K(x, z) = \sum_{j=1}^{\infty} \phi_{j}(x)\phi_{j}(z) \end{aligned}
+\end{equation*}
+</div>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id40" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id13">[8]</a></td><td>サンプルに現れない未知のデータでももれなく識別できる能力</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id41" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id14">[9]</a></td><td>双対問題において、
+<span class="math">\(C_{1}, C_{2} \to \infty\)</span>とすると、ハードマージンSVMに一致することが分かる</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id42" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id17">[10]</a></td><td>サンプルに最も当てはまる曲線（面）を探す問題。もう少し形式的に言うと、各サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>でのラベル<span class="math">\(y_{i}\)</span>の平均値を表す関数<span class="math">\(f\)</span>を学習する問題。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id43" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id24">[11]</a></td><td><p class="first">（証明） -
+最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、
+明らかに下に凸である。 -
+制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、</p>
+<div class="math">
+\begin{equation*}
+\begin{aligned} y_{i} \left[ \left( t\boldsymbol{w}^{\prime\mathsf{T}} + (1-t) \boldsymbol{w}^{\prime\prime\mathsf{T}} \right) \boldsymbol{x}\_{i} + b \right] = y_{i} \left[ t(\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} - \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i}) + \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b \right] \\
+            = y_{i} \left[ t\left( (\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) - (\boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) \right) + \boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b \right] \\
+            = t y_{i} (\boldsymbol{w}^{\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) + (1-t) y_{i}(\boldsymbol{w}^{\prime\prime\mathsf{T}}\boldsymbol{x}\_{i} + b) \\
+            \geq t + (1-t) = 1\end{aligned}
+\end{equation*}
+</div>
+<p class="last">よって、<span class="math">\(t\boldsymbol{w}^{\prime} + (1-t) \boldsymbol{w}^{\prime\prime} \in W_{i}\)</span>より<span class="math">\(W_{i}\)</span>は凸集合。
+最適化問題においては、
+<span class="math">\(W_{i}\)</span>の共通部分<span class="math">\(\bigcap_{i=1}^{N} W_{i}\)</span>を考えれば良く、
+<strong>凸集合の積集合もまた凸集合</strong> なので、
+制約条件も凸集合となる。以上の2点より、 マージン最大化は凸計画問題。
+（凸集合の積集合もまた凸集合であることの証明）2つの凸集合を<span class="math">\(A_{1},A_{2}\)</span>とする。
+両者の集合の積<span class="math">\(A_{1}\cap A_{2}\)</span>が空集合ならば、
+空集合は凸集合と定義されるので命題は成立する。
+一般に<span class="math">\(A_{1}\cap A_{2}\)</span>から2点<span class="math">\(x,y\)</span>をとると,
+<span class="math">\(x, y\)</span>を結ぶ線分は、
+<span class="math">\(A_{1}, A_{2}\)</span>は共に凸集合なので、
+<span class="math">\(A_{1}\)</span>にも<span class="math">\(A_{2}\)</span>にも属していて飛び出ることはない。
+これは集合の積<span class="math">\(A_{1}\cap A_{2}\)</span>が凸集合であることを示している。</p>
+</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id44" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id25">[12]</a></td><td>ただし学習率<span class="math">\(\eta\)</span>の決め方は問題依存である。一般に、<span class="math">\(\eta\)</span>が小さすぎると学習が進行せず、大きすぎると極値を飛び越えてしまい学習が収束しない。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id45" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id31">[13]</a></td><td><span class="math">\(y = 0\)</span>の場合の判断を明確にしている書類がない。ここでは正と判定する。</td></tr>
+</tbody>
+</table>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";
