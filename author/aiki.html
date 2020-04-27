@@ -80,6 +80,30 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-27.html">2020-04-27</a></h2>
+                <div class="summary"><div class="section" id="lms-filter">
+<h2>LMS Filterの挙動観察中</h2>
+<p>引き続き観察中。勾配の計算ミスがあったりして厳しかった。</p>
+<p>問題は、やはりというかSignLMSでのヘッセ行列。<span class="math">\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)</span> の計算でインパルス応答の扱いをどうするのか...連続信号では厳密に0を取る確率は0だ。だからといって離散的に考えていいのか？</p>
+<p>誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。</p>
+<p>デジタル的に考えれば、残差が0になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
+残差が0になる確率は、離散ラプラス分布（ <a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf">参考資料</a> ）を元にサンプリング/もしくは重み付けで求める。（サンプリングの場合は[0,1]乱数を発生させて残差が0になる確率よりも小さければ採択する。まじのMC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。</p>
+<p>一旦残差0の重み付けで実験を進めているが、まだ残差0確率が怪しい感じ。（0.93とかいう現実離れした数値。実際の音声では約0.09とかそんなん）</p>
+<p>見やすいようにパラメータを2つにしている。2つにした時でも同じ出力を与える組み合わせがあり、それが直線上に並んでいる事がわかっている。</p>
+</div>
+<div class="section" id="todo">
+<h2>TODO</h2>
+<ul class="simple">
+<li>評価がまとまったら結果共有に入りたい。</li>
+<li>OMPを使う。</li>
+<li>パーティクルフィルター使えない？</li>
+<li>メッセージパッシング使えない？<ul>
+<li>何らかの確率モデル化をせよ …</li></ul></li></ul></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-27.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/lms-signed-lmsnoju-dong-guan-cha.html">LMS, Signed-LMSの挙動観察</a></h2>
                 <div class="summary"><p>入力信号を固定し、各フィルタ係数において、残差、残差勾配はどうなっているのか？ まずはいつもどおりのLMSフィルターからはじめ、Signed-LMSの解析を行ってみる。</p>
                     <a class="btn btn-default btn-xs" href="/lms-signed-lmsnoju-dong-guan-cha.html">more ...</a>
@@ -104,14 +128,9 @@ Aiki's Blog            </a>
 <li><a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution">Deriving Mean and Variance of Laplace Distribution</a> に1次元の場合がある。</li>
 </ul>
 </div>
-<div class="section" id="todo">
-<h2>TODO</h2>
-<ul class="simple">
-<li>ヘッセ行列を使うケースの観察がまだ。評価がまとまったら結果共有に入りたい。</li>
-<li>OMPを使う。</li>
-<li>メッセージパッシング使えない？<ul>
-<li>何らかの確率モデル化をせよ、というふうに受け取った。</li>
-<li>AMP, Survay-Propagation …</li></ul></li></ul></div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em …</script>
                     <a class="btn btn-default btn-xs" href="/2020-04-24.html">more ...</a>
                 </div>
             </article>
@@ -176,14 +195,6 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/li-san-huriebian-huan-dft.html">離散フーリエ変換（DFT）</a></h2>
-                <div class="summary"><p class="first last">教科書で出てくる離散フーリエ変換の式が出てくるところまでの導出。超関数に関しては不完全。</p>
-
-                    <a class="btn btn-default btn-xs" href="/li-san-huriebian-huan-dft.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -191,6 +202,8 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
                             href="/author/aiki.html">1</a></li>
                     <li class=""><a
                             href="/author/aiki2.html">2</a></li>
+                    <li class=""><a
+                            href="/author/aiki3.html">3</a></li>
                 <li class="next"><a
                         href="/author/aiki2.html">&raquo;</a></li>
         </ul>

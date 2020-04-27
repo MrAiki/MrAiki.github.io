@@ -1947,14 +1947,12 @@ Z_{m} = \{ (x_{1}, y_{1}), (x_{2}, y_{2}), \dots, (x_{m}, y_{m}) \}
 &lt;p&gt;素性の例を挙げると、&lt;span class="math"&gt;\(n\)&lt;/span&gt;個の単語列&lt;span class="math"&gt;\(w_{1},\dots,w_{n}\)&lt;/span&gt;から、直前の&lt;span class="math"&gt;\(N-1\)&lt;/span&gt;個の単語列&lt;span class="math"&gt;\(w_{n-N+1},\dots,w_{n-1}\)&lt;/span&gt;のみを用いて今の単語&lt;span class="math"&gt;\(w_{n}\)&lt;/span&gt;を予測する（&lt;span class="math"&gt;\(N\)&lt;/span&gt;-グラムの）場合は、素性は次の様に表現出来る。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
-\begin{align}
-  f_{x_{1}x_{2}\dots x_{N}}(w_{1},\dots,w_{n-1},w_{n}) =
-  \left\{
-    \begin{array}{ll}
-      1 &amp;amp; w_{n-N+1} = x_{1}, w_{n-N+2} = x_{2}, \dots, w_{n-1} = x_{N-1}, w_{n} = x_{N} \\
-      0 &amp;amp; {\rm otherwise}
-    \end{array} \right.
-\end{align}
+f_{x_{1}x_{2}\dots x_{N}}(w_{1},\dots,w_{n-1},w_{n}) =
+\left\{
+  \begin{array}{ll}
+    1 &amp;amp; w_{n-N+1} = x_{1}, w_{n-N+2} = x_{2}, \dots, w_{n-1} = x_{N-1}, w_{n} = x_{N} \\
+    0 &amp;amp; {\rm otherwise}
+  \end{array} \right.
 \end{equation*}
 &lt;/div&gt;
 &lt;p&gt;ここで&lt;span class="math"&gt;\(f\)&lt;/span&gt;のインデックス&lt;span class="math"&gt;\(x_{1}\dots x_{N}\)&lt;/span&gt;は整数との対応を適当に取ることで、容易に実現できる。&lt;/p&gt;
@@ -1968,20 +1966,17 @@ Z_{m} = \{ (x_{1}, y_{1}), (x_{2}, y_{2}), \dots, (x_{m}, y_{m}) \}
 &lt;p&gt;と表せる。モデルの確率分布は後で導出する。
 ある素性&lt;span class="math"&gt;\(f_{i}\)&lt;/span&gt;の分布&lt;span class="math"&gt;\(p\)&lt;/span&gt;による平均を&lt;span class="math"&gt;\(E_{p}[f_{i}]\)&lt;/span&gt;と書くと、経験分布とモデルの確率分布のそれぞれの平均は&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  E_{\tilde{P}}[f_{i}] &amp;amp;= \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) \\  E_{P}[f_{i}] &amp;amp;= \sum_{x,y} P(x,y) f_{i}(x,y)
-\end{align}
-\end{equation*}
+\begin{align*}
+E_{\tilde{P}}[f_{i}] &amp;amp;= \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) \\
+E_{P}[f_{i}] &amp;amp;= \sum_{x,y} P(x,y) f_{i}(x,y)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;と表せられ、従って制約を数式で表現すると,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  E_{\tilde{P}}[f_{i}] &amp;amp;= E_{P}[f_{i}] \ \ (i=1,\dots,n) \\
-  \iff \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) &amp;amp;= \sum_{x,y} P(x,y) f_{i}(x,y) \ \ (i=1,\dots,n)
-\end{align}
-\end{equation*}
+\begin{align*}
+E_{\tilde{P}}[f_{i}] &amp;amp;= E_{P}[f_{i}] \ \ (i=1,\dots,n) \\
+\iff \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) &amp;amp;= \sum_{x,y} P(x,y) f_{i}(x,y) \ \ (i=1,\dots,n)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となる。最大エントロピーモデルの候補となる集合&lt;span class="math"&gt;\({\cal P}\)&lt;/span&gt;は、全ての素性に関する制約を満たすモデルの集合となる:&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2006,22 +2001,18 @@ P^{\ast} = \underset{P \in {\cal P}}{\rm argmax}\ H(P)
 と呼ぶ。集合&lt;span class="math"&gt;\({\cal P}\)&lt;/span&gt;は無限集合だが最大エントロピー原理を満たすモデルは解析的に求められ、かつ一意に存在する（後術）。&lt;/p&gt;
 &lt;p&gt;最大エントロピー原理を満たすモデルの確率分布&lt;span class="math"&gt;\(P\)&lt;/span&gt;を求める事を考える。これは制約付き非線形最適化問題であることから、ラグランジェの未定定数法が適用できる。&lt;span class="math"&gt;\(P\)&lt;/span&gt;が満たすべき制約を列挙すると&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  1:&amp;amp; \quad E_{P}[f_{i}] = E_{\tilde{P}}[f_{i}] \ \ (i=1,\dots,n) \\
-  2:&amp;amp; \quad P(x,y) \geq 0 \\
-  3:&amp;amp; \quad \sum_{x,y}P(x,y) = 1
-\end{align}
-\end{equation*}
+\begin{align*}
+1:&amp;amp; \quad E_{P}[f_{i}] = E_{\tilde{P}}[f_{i}] \ \ (i=1,\dots,n) \\
+2:&amp;amp; \quad P(x,y) \geq 0 \\
+3:&amp;amp; \quad \sum_{x,y}P(x,y) = 1
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;であり（2,3は&lt;span class="math"&gt;\(P\)&lt;/span&gt;が確率分布となる為の条件）、&lt;span class="math"&gt;\(n\)&lt;/span&gt;個の制約に対応する未定定数を&lt;span class="math"&gt;\(\Lambda = \{\lambda_{1},\dots,\lambda_{n}\}\)&lt;/span&gt;と書くと、ラグランジアン（ラグランジュ関数）&lt;span class="math"&gt;\({\cal L}(P,\Lambda)\)&lt;/span&gt;は&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  {\cal L}(P, \Lambda) &amp;amp;= H(P) + \sum_{i=1}^{n} \lambda_{i} (E_{P}[f_{i}] - E_{\tilde{P}}[f_{i}]) \\
+\begin{align*}
+{\cal L}(P, \Lambda) &amp;amp;= H(P) + \sum_{i=1}^{n} \lambda_{i} (E_{P}[f_{i}] - E_{\tilde{P}}[f_{i}]) \\
 &amp;amp;= -\sum_{x,y}P(x,y)\log P(x,y) + \sum_{i=1}^{n} \lambda_{i} \left\{ \sum_{x,y} P(x,y) f_{i}(x,y) - \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) \right\}
-\end{align}
-\end{equation*}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;と書ける。最大値を得るため、&lt;span class="math"&gt;\(P(x,y)\)&lt;/span&gt;によって偏微分すると,&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2039,13 +2030,11 @@ P(x,y) = \exp \left[ -1 + \sum_{i=1}^{n} \lambda_{i} f_{i}(x,y) \right]
 &lt;span class="math"&gt;\(\sum_{x,y}P(x,y) = Z_{\Lambda}\)&lt;/span&gt;なる正規化項(normalization
 factor)を導入し&lt;span class="math"&gt;\(P(x,y)\)&lt;/span&gt;の&lt;span class="math"&gt;\(x,y\)&lt;/span&gt;についての総和が1になるようにする。従ってモデルの確率分布は次で表される:&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  P(x,y) &amp;amp;= \frac{ \exp \left[ -1 + \sum_{i=1}^{n} \lambda_{i} f_{i}(x,y) \right] }{ \sum_{x,y} \exp \left[ -1 + \sum_{i=1}^{n} \lambda_{i} f_{i}(x,y) \right] } \\
-  &amp;amp;= \frac{1}{Z_{\Lambda}} \exp \left[ \sum_{i} \lambda_{i} f_{i}(x,y) \right] \\
-  Z_{\Lambda} &amp;amp;= \sum_{x,y} \exp \left[ \sum_{i} \lambda_{i} f_{i}(x,y) \right]
-\end{align}
-\end{equation*}
+\begin{align*}
+P(x,y) &amp;amp;= \frac{ \exp \left[ -1 + \sum_{i=1}^{n} \lambda_{i} f_{i}(x,y) \right] }{ \sum_{x,y} \exp \left[ -1 + \sum_{i=1}^{n} \lambda_{i} f_{i}(x,y) \right] } \\
+&amp;amp;= \frac{1}{Z_{\Lambda}} \exp \left[ \sum_{i} \lambda_{i} f_{i}(x,y) \right] \\
+Z_{\Lambda} &amp;amp;= \sum_{x,y} \exp \left[ \sum_{i} \lambda_{i} f_{i}(x,y) \right]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;（以下、&lt;span class="math"&gt;\(\sum_{i=1}^{n} \equiv \sum_{i}\)&lt;/span&gt;とする）得られた確率分布はMRF(Markov
 Random
@@ -2079,36 +2068,30 @@ P^{\ast} = \underset{P \in {\cal P}}{\rm argmax} \ H(P)
 &lt;/div&gt;
 &lt;p&gt;を示す。&lt;span class="math"&gt;\(T \in {\cal Q}\)&lt;/span&gt;より&lt;span class="math"&gt;\(T(x,y) = \displaystyle\frac{1}{Z_{\Lambda}} \exp\left[ \sum_{i} \lambda_{i} f_{i}(x,y) \right]\)&lt;/span&gt;と表せるので、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  （左辺） &amp;amp;= \sum_{x,y} R(x,y) \left[ \sum_{i} \lambda_{i} f_{i}(x,y) - \log Z_{\Lambda} \right] = \sum_{i} \lambda_{i} \sum_{x,y} R(x,y) f_{i}(x,y) - \log Z_{\Lambda} \sum_{x,y}R(x,y) \\
-  &amp;amp;= \sum_{i} \lambda_{i} E_{R}[f_{i}] - \log Z_{\Lambda} \\
-  &amp;amp;= \sum_{i} \lambda_{i} E_{S}[f_{i}] - \log Z_{\Lambda} \ \ (\because E_{R}[f_{i}] = E_{\tilde{P}}[f_{i}] = E_{S}[f_{i}]） \\
-  &amp;amp;= \sum_{x,y} S(x,y) \left[\sum_{i} \lambda_{i} f_{i}(x,y) \right] - \sum_{x,y} S(x,y) \log Z_{\Lambda} \\
-  &amp;amp;= \sum_{x,y} S(x,y) \log T(x,y) = （右辺）
-\end{align}
-\end{equation*}
+\begin{align*}
+（左辺） &amp;amp;= \sum_{x,y} R(x,y) \left[ \sum_{i} \lambda_{i} f_{i}(x,y) - \log Z_{\Lambda} \right] = \sum_{i} \lambda_{i} \sum_{x,y} R(x,y) f_{i}(x,y) - \log Z_{\Lambda} \sum_{x,y}R(x,y) \\
+&amp;amp;= \sum_{i} \lambda_{i} E_{R}[f_{i}] - \log Z_{\Lambda} \\
+&amp;amp;= \sum_{i} \lambda_{i} E_{S}[f_{i}] - \log Z_{\Lambda} \ \ (\because E_{R}[f_{i}] = E_{\tilde{P}}[f_{i}] = E_{S}[f_{i}]） \\
+&amp;amp;= \sum_{x,y} S(x,y) \left[\sum_{i} \lambda_{i} f_{i}(x,y) \right] - \sum_{x,y} S(x,y) \log Z_{\Lambda} \\
+&amp;amp;= \sum_{x,y} S(x,y) \log T(x,y) = （右辺）
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;補助定理を用いて、定理の証明を行う。&lt;span class="math"&gt;\(P \in {\cal P}, P^{\ast} \in {\cal P} \cap {\cal Q}\)&lt;/span&gt;とすると,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  H(P^{\ast}) - H(P) &amp;amp;= -\sum_{x,y} P^{\ast}(x,y) \log P^{\ast}(x,y) + \sum_{x,y} P(x,y) \log P(x,y) \\
-  &amp;amp;= -\sum_{x,y} P(x,y) \log P^{\ast}(x,y) + \sum_{x,y} P(x,y) \log P(x,y) \ \ （\because 補助定理） \\
-  &amp;amp;= \sum_{x,y} P(x,y) \log \left[ \frac{P(x,y)}{P^{\ast}(x,y)} \right] \\
-  &amp;amp;= {\rm KL}(P || P^{\ast}) \geq 0\ \ （{\rm KL}:KLダイバージェンス）
-\end{align}
-\end{equation*}
+\begin{align*}
+H(P^{\ast}) - H(P) &amp;amp;= -\sum_{x,y} P^{\ast}(x,y) \log P^{\ast}(x,y) + \sum_{x,y} P(x,y) \log P(x,y) \\
+&amp;amp;= -\sum_{x,y} P(x,y) \log P^{\ast}(x,y) + \sum_{x,y} P(x,y) \log P(x,y) \ \ （\because 補助定理） \\
+&amp;amp;= \sum_{x,y} P(x,y) \log \left[ \frac{P(x,y)}{P^{\ast}(x,y)} \right] \\
+&amp;amp;= {\rm KL}(P || P^{\ast}) \geq 0\ \ （{\rm KL}:KLダイバージェンス）
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;よって&lt;span class="math"&gt;\(H(P^{\ast}) \geq H(P)\)&lt;/span&gt;が成立する。また&lt;span class="math"&gt;\(H(P^{\ast}) = H(P)\)&lt;/span&gt;ならばKLダイバージェンスの性質により&lt;span class="math"&gt;\(P^{\ast} = P\)&lt;/span&gt;となる。以上により、定理の成立が示された。&lt;/p&gt;
 &lt;p&gt;生成モデルの学習に関連して、最大エントロピー原理を満たすモデル&lt;span class="math"&gt;\(P^{\ast}\)&lt;/span&gt;は、経験確率分布&lt;span class="math"&gt;\(\tilde{P}\)&lt;/span&gt;が与えられた時に最大尤度を持つ事も示されている。モデルの尤度の式を導く事を考えると、まず経験確率分布&lt;span class="math"&gt;\(\tilde{P}\)&lt;/span&gt;に対するモデル&lt;span class="math"&gt;\(P\)&lt;/span&gt;の経験誤差はKLダイバージェンス&lt;span class="math"&gt;\({\rm KL}(\tilde{P} || P)\)&lt;/span&gt;で与えられる &lt;a class="footnote-reference" href="#id29" id="id8"&gt;[4]&lt;/a&gt; ので,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  {\rm KL}(\tilde{P} || P) &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{\tilde{P}(x,y)}{P(x,y)} \right] \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \tilde{P}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P(x,y)
-\end{align}
-\end{equation*}
+\begin{align*}
+{\rm KL}(\tilde{P} || P) &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{\tilde{P}(x,y)}{P(x,y)} \right] \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \tilde{P}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P(x,y)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;なる。大数の弱法則より、サンプル数の極限&lt;span class="math"&gt;\(m\to \infty\)&lt;/span&gt;を取ることにより経験確率分布は標的概念の確率分布に一致し、また経験誤差は汎化誤差に一致する。今&lt;span class="math"&gt;\({\rm KL}(\tilde{P} || P) \geq 0\)&lt;/span&gt;であり、かつ、&lt;span class="math"&gt;\(\tilde{P}\)&lt;/span&gt;は観測により固定されるので、経験誤差を最小にするには下段の式の第2項を最大化すれば良いことになる。そして、下段式の第2項は対数尤度（経験対数尤度）と呼ばれる。モデル&lt;span class="math"&gt;\(P\)&lt;/span&gt;の対数尤度を&lt;span class="math"&gt;\(L(P)\)&lt;/span&gt;と書くと、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2131,14 +2114,12 @@ P^{\ast} = \underset{Q \in {\cal Q}}{\rm argmax} \ L(Q)
 &lt;hr class="docutils" /&gt;
 &lt;p&gt;（証明）前の定理と同様の方針と、補助定理により,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  L(P^{\ast}) - L(P) &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log P^{\ast}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P(x,y) \\
-  &amp;amp;= \sum_{x,y} P^{\ast}(x,y) \log P^{\ast}(x,y) - \sum_{x,y} P^{\ast}(x,y) \log P(x,y) \ \ (\because 反射性 E_{\tilde{P}}[f_{i}] = E_{\tilde{P}}[f_{i}]により、\tilde{P} \in {\cal P}) \\
-  &amp;amp;= \sum_{x,y} P^{\ast}(x,y) \log \left[ \frac{P^{\ast}(x,y)}{P(x,y)} \right] \\
-  &amp;amp;= {\rm KL}(P^{\ast} || P) \geq 0
-\end{align}
-\end{equation*}
+\begin{align*}
+L(P^{\ast}) - L(P) &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log P^{\ast}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P(x,y) \\
+&amp;amp;= \sum_{x,y} P^{\ast}(x,y) \log P^{\ast}(x,y) - \sum_{x,y} P^{\ast}(x,y) \log P(x,y) \ \ (\because 反射性 E_{\tilde{P}}[f_{i}] = E_{\tilde{P}}[f_{i}]により、\tilde{P} \in {\cal P}) \\
+&amp;amp;= \sum_{x,y} P^{\ast}(x,y) \log \left[ \frac{P^{\ast}(x,y)}{P(x,y)} \right] \\
+&amp;amp;= {\rm KL}(P^{\ast} || P) \geq 0
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;よって&lt;span class="math"&gt;\(L(P^{\ast}) \geq L(P)\)&lt;/span&gt;であり、再びKLダイバージェンスの性質により、&lt;span class="math"&gt;\(L(P^{\ast}) = L(P)\)&lt;/span&gt;ならば&lt;span class="math"&gt;\(P^{\ast} = P\)&lt;/span&gt;が成り立つので唯一性も示される。従って定理の成立が示された。&lt;/p&gt;
 &lt;p&gt;定理1と2により、次の性質が成り立つ:&lt;/p&gt;
@@ -2154,24 +2135,20 @@ P^{\ast} = \underset{P \in {\cal P}}{\rm argmax} \ H(P) = \underset{Q \in {\cal 
 &lt;h2&gt;最大のエントロピーモデルの学習 - 反復スケーリング法&lt;/h2&gt;
 &lt;p&gt;最尤推定法に基づく最大エントロピーモデルの学習は、モデルの尤度が最大になるようにモデル&lt;span class="math"&gt;\(P\)&lt;/span&gt;のパラメタ&lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt;を調節してやれば良い。単純なアプローチとしては、対数尤度&lt;span class="math"&gt;\(L(P)\)&lt;/span&gt;をパラメタ&lt;span class="math"&gt;\(\Lambda=\{\lambda_{1},\cdots,\lambda_{n}\}\)&lt;/span&gt;で偏微分し、最急上昇法によって最大値を得る方法がある。実際に計算してみると,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \frac{\partial L(P)}{\partial \lambda_{i}} &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \frac{\partial}{\partial \lambda_{i}} \log P(x,y) \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \frac{\partial}{\partial \lambda_{i}} \left[ \sum_{j} \lambda_{j} f_{j}(x,y) - \log Z_{\Lambda} \right] \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left[ f_{i}(x,y) - \frac{1}{Z_{\Lambda}} \sum_{x^{\prime},y^{\prime}} f_{i}(x^{\prime},y^{\prime}) \exp \left( \sum_{j} \lambda_{j} f_{j}(x^{\prime},y^{\prime}) \right) \right] \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left( f_{i}(x,y) - E_{P}[f_{i}] \right) \\
-  &amp;amp;= E_{\tilde{P}}[f_{i}] - E_{P}[f_{i}]
-\end{align}
-\end{equation*}
+\begin{align*}
+\frac{\partial L(P)}{\partial \lambda_{i}} &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \frac{\partial}{\partial \lambda_{i}} \log P(x,y) \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \frac{\partial}{\partial \lambda_{i}} \left[ \sum_{j} \lambda_{j} f_{j}(x,y) - \log Z_{\Lambda} \right] \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left[ f_{i}(x,y) - \frac{1}{Z_{\Lambda}} \sum_{x^{\prime},y^{\prime}} f_{i}(x^{\prime},y^{\prime}) \exp \left( \sum_{j} \lambda_{j} f_{j}(x^{\prime},y^{\prime}) \right) \right] \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left( f_{i}(x,y) - E_{P}[f_{i}] \right) \\
+&amp;amp;= E_{\tilde{P}}[f_{i}] - E_{P}[f_{i}]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;であり（最適時には制約が満たされることが分かる）、ステップ&lt;span class="math"&gt;\(t\)&lt;/span&gt;におけるパラメタ&lt;span class="math"&gt;\(\lambda_{i}^{t}\)&lt;/span&gt;の更新規則は次の様に得られる:&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \lambda_{i}^{t+1} &amp;amp;= \lambda_{i}^{t} + \eta \frac{\partial L(P)}{\partial \lambda_{i}^{t}} \\
-  &amp;amp;= \lambda_{i}^{t} + \eta ( E_{\tilde{P}}[f_{i}] - E_{P}[f_{i}] )
-\end{align}
-\end{equation*}
+\begin{align*}
+\lambda_{i}^{t+1} &amp;amp;= \lambda_{i}^{t} + \eta \frac{\partial L(P)}{\partial \lambda_{i}^{t}} \\
+&amp;amp;= \lambda_{i}^{t} + \eta ( E_{\tilde{P}}[f_{i}] - E_{P}[f_{i}] )
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;ここで&lt;span class="math"&gt;\(\eta\)&lt;/span&gt;は収束の早さを決める学習率(learning
 rate)であり、ヒューリスティックに決める必要がある。
@@ -2180,19 +2157,17 @@ scaling)という学習手法が伝統的に用いられている。&lt;/p&gt;
 &lt;p&gt;反復スケーリング法の基本的な考え方は、まずパラメタ&lt;span class="math"&gt;\(\Lambda\)&lt;/span&gt;を&lt;span class="math"&gt;\(\Lambda+\Delta\)&lt;/span&gt;に変化させた時の対数尤度の変化量の下限&lt;span class="math"&gt;\(A(\Lambda,\Delta)\)&lt;/span&gt;を計算し、次にこの&lt;span class="math"&gt;\(A(\Lambda,\Delta)\)&lt;/span&gt;を最大にする&lt;span class="math"&gt;\(\Delta\)&lt;/span&gt;を求める事で、結果増加量を最大にするようにしている。この考え方には学習率の様なヒューリスティックは介在せず、かつ毎ステップの対数尤度の増加量を最大にするようにパラメタを更新できる。&lt;/p&gt;
 &lt;p&gt;それでは反復スケーリング法の更新式を導くことを考える。各パラメタの更新量を&lt;span class="math"&gt;\(\Delta=\{\delta_{1},\cdots,\delta_{n}\}\)&lt;/span&gt;と表すものとし、まず、パラメタ更新時の対数尤度の変化量&lt;span class="math"&gt;\(L(P_{\Lambda+\Delta})-L(P_{\Lambda})\)&lt;/span&gt;は,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  L(P_{\Lambda+\Delta})-L(P_{\Lambda}) &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log P_{\Lambda+\Delta}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P_{\Lambda}(x,y) \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{P_{\Lambda+\Delta}(x,y)}{P_{\Delta}(x,y)} \right] \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{Z_{\Lambda}}{Z_{\Lambda+\Delta}} \frac{\exp\left[ \sum_{i}(\lambda_{i} + \delta_{i}) f_{i}(x,y) \right]}{\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right] } \right] \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left[ \sum_{i} \delta_{i} f_{i}(x,y) - \log\left(\frac{Z_{\Lambda+\Delta}}{Z_{\Lambda}} \right) \right] \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) - \log \left(\frac{Z_{\Lambda+\Delta}}{Z_{\Lambda}} \right) \\
-  &amp;amp;\geq \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \frac{Z_{\Lambda+\Delta}}{Z_{\Lambda}} \ \ (\because -\log x \geq 1-x) \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \frac{\sum_{x,y}\exp\left[ \sum_{i}(\lambda_{i} + \delta_{i})f_{i}(x,y) \right]}{\sum_{x,y}\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right]} \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \frac{Z_{\Lambda}\sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\delta_{i}f_{i}(x,y) \right]}{Z_{\Lambda} \sum_{x,y}P_{\Lambda}(x,y)} \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\delta_{i}f_{i}(x,y) \right]
-\end{align}
-\end{equation*}
+\begin{align*}
+L(P_{\Lambda+\Delta})-L(P_{\Lambda}) &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log P_{\Lambda+\Delta}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P_{\Lambda}(x,y) \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{P_{\Lambda+\Delta}(x,y)}{P_{\Delta}(x,y)} \right] \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{Z_{\Lambda}}{Z_{\Lambda+\Delta}} \frac{\exp\left[ \sum_{i}(\lambda_{i} + \delta_{i}) f_{i}(x,y) \right]}{\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right] } \right] \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left[ \sum_{i} \delta_{i} f_{i}(x,y) - \log\left(\frac{Z_{\Lambda+\Delta}}{Z_{\Lambda}} \right) \right] \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) - \log \left(\frac{Z_{\Lambda+\Delta}}{Z_{\Lambda}} \right) \\
+&amp;amp;\geq \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \frac{Z_{\Lambda+\Delta}}{Z_{\Lambda}} \ \ (\because -\log x \geq 1-x) \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \frac{\sum_{x,y}\exp\left[ \sum_{i}(\lambda_{i} + \delta_{i})f_{i}(x,y) \right]}{\sum_{x,y}\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right]} \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \frac{Z_{\Lambda}\sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\delta_{i}f_{i}(x,y) \right]}{Z_{\Lambda} \sum_{x,y}P_{\Lambda}(x,y)} \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\exp\left[ \sum_{i}\delta_{i}f_{i}(x,y) \right]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;素性&lt;span class="math"&gt;\(f_{i}(x,y)\)&lt;/span&gt;の&lt;span class="math"&gt;\(i\)&lt;/span&gt;についての和&lt;span class="math"&gt;\(f^{\#}(x,y) = \sum_{i=1}^{n}f_{i}(x,y)\)&lt;/span&gt;を用いると、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2202,41 +2177,33 @@ L(P_{\Lambda+\Delta})-L(P_{\Lambda}) = \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta
 &lt;/div&gt;
 &lt;p&gt;と書ける。今&lt;span class="math"&gt;\(f_{i}(x,y)/f^{\#}(x,y)\)&lt;/span&gt;は確率分布となることから、&lt;span class="math"&gt;\(\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\delta_{i}f^{\#}(x,y)\)&lt;/span&gt;は&lt;span class="math"&gt;\(\delta_{i}f^{\#}(x,y)\)&lt;/span&gt;についての平均と読み取れる。更に&lt;span class="math"&gt;\(\exp\)&lt;/span&gt;は明らかに凸関数であることから、イェンセンの不等式&lt;span class="math"&gt;\(\exp(E[X]) \leq E[\exp(X)]\)&lt;/span&gt;を用いて最終的な下限の式を得る。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  L(P_{\Lambda+\Delta})-L(P_{\Lambda}) &amp;amp;\geq \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\exp\left[ \delta_{i}f^{\#}(x,y) \right] \\
-  &amp;amp;= A(\Lambda, \Delta)
-\end{align}
-\end{equation*}
+\begin{align*}
+L(P_{\Lambda+\Delta})-L(P_{\Lambda}) &amp;amp;\geq \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta_{i} f_{i}(x,y) + 1 - \sum_{x,y}P_{\Lambda}(x,y)\sum_{i}\frac{f_{i}(x,y)}{f^{\#}(x,y)}\exp\left[ \delta_{i}f^{\#}(x,y) \right] \\
+&amp;amp;= A(\Lambda, \Delta)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;次に&lt;span class="math"&gt;\(A(\Lambda, \Delta)\)&lt;/span&gt;を&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;で偏微分することで下限の最大化を考える。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \frac{\partial A(\Lambda, \Delta)}{\partial \delta_{i}} &amp;amp;= \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right] \\
-  &amp;amp;= E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right]
-\end{align}
-\end{equation*}
+\begin{align*}
+\frac{\partial A(\Lambda, \Delta)}{\partial \delta_{i}} &amp;amp;= \sum_{x,y} \tilde{P}(x,y) f_{i}(x,y) - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right] \\
+&amp;amp;= E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;この式を&lt;span class="math"&gt;\(0\)&lt;/span&gt;とおき&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について解くことで変化量を求める事ができる。この式は&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について閉じた形をしていないので、基本的には数値解析によって極値を求める。しかし、もしも任意の&lt;span class="math"&gt;\((x,y)\)&lt;/span&gt;に対し
 &lt;span class="math"&gt;\(f^{\#}(x,y) = C\)&lt;/span&gt;（定数）となるならば、&lt;span class="math"&gt;\(\delta_{i}\)&lt;/span&gt;について解く事ができ、次の結果を得る。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  &amp;amp; E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right] = 0 \\
-  &amp;amp;\implies \exp \left[C \delta_{i} \right] \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) = E_{\tilde{P}}[f_{i}] \iff \exp \left[C \delta_{i} \right] = \frac{E_{\tilde{P}}[f_{i}]}{E_{P}[f_{i}]} \\
-  &amp;amp;\iff \delta_{i} = \frac{1}{C} \log \left( \frac{E_{\tilde{P}}[f_{i}]}{E_{P}[f_{i}]} \right)
-\end{align}
-\end{equation*}
+\begin{align*}
+&amp;amp; E_{\tilde{P}}[f_{i}] - \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) \exp \left[ \delta_{i}f^{\#}(x,y) \right] = 0 \\
+&amp;amp;\implies \exp \left[C \delta_{i} \right] \sum_{x,y} P_{\Lambda}(x,y) f_{i}(x,y) = E_{\tilde{P}}[f_{i}] \iff \exp \left[C \delta_{i} \right] = \frac{E_{\tilde{P}}[f_{i}]}{E_{P}[f_{i}]} \\
+&amp;amp;\iff \delta_{i} = \frac{1}{C} \log \left( \frac{E_{\tilde{P}}[f_{i}]}{E_{P}[f_{i}]} \right)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;任意の&lt;span class="math"&gt;\((x,y)\)&lt;/span&gt;で&lt;span class="math"&gt;\(f^{\#}(x,y)\)&lt;/span&gt;が定数にならない場合でも、実は&lt;span class="math"&gt;\(C = \displaystyle\max_{x,y} f^{\#}(x,y)\)&lt;/span&gt;とし、新しい素性&lt;span class="math"&gt;\(f_{n+1}(x,y)\)&lt;/span&gt;を&lt;span class="math"&gt;\(f_{n+1}(x,y) = C - f^{\#}(x,y)\)&lt;/span&gt;とおけば、変更後の和&lt;span class="math"&gt;\(f^{\#\prime}(x,y)\)&lt;/span&gt;は&lt;span class="math"&gt;\(f^{\#\prime}(x,y)=C\)&lt;/span&gt;となる事が知られている。&lt;span class="math"&gt;\(f^{\#\prime}(x,y)\)&lt;/span&gt;について検算を行ってみると,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  f^{\#\prime}(x,y) &amp;amp;= \sum_{i=1}^{n+1} f_{i}(x,y) = \sum_{i=1}^{n} f_{i}(x,y) + f_{n+1}(x,y)  \\
-  &amp;amp;=  f^{\#}(x,y) + C - f^{\#}(x,y) = C
-\end{align}
-\end{equation*}
+\begin{align*}
+f^{\#\prime}(x,y) &amp;amp;= \sum_{i=1}^{n+1} f_{i}(x,y) = \sum_{i=1}^{n} f_{i}(x,y) + f_{n+1}(x,y)  \\
+&amp;amp;=  f^{\#}(x,y) + C - f^{\#}(x,y) = C
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となって、定数&lt;span class="math"&gt;\(C\)&lt;/span&gt;を取ることが確かめられた。&lt;/p&gt;
 &lt;/div&gt;
@@ -2246,23 +2213,19 @@ L(P_{\Lambda+\Delta})-L(P_{\Lambda}) = \sum_{x,y} \tilde{P}(x,y) \sum_{i} \delta
 Random Fields、条件付き確率場)のサブクラスとして捉えられる。&lt;/p&gt;
 &lt;p&gt;条件付き最大エントロピーモデルの確率分布&lt;span class="math"&gt;\(P_{\Lambda}(y|x)\)&lt;/span&gt;は、&lt;span class="math"&gt;\(P_{\Lambda}(x,y)\)&lt;/span&gt;とベイズの定理から得られる。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  P_{\Lambda}(y|x) &amp;amp;= \frac{P_{\Lambda}(x,y)}{P_{\Lambda}(x)} \\
-  &amp;amp;= \frac{\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right]}{Z_{\Lambda}} \left( \sum_{y} \frac{\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right]}{Z_{\Lambda}} \right)^{-1} \\
-  &amp;amp;= \frac{1}{Z_{\Lambda}(x)} \exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right] \\
-  Z_{\Lambda}(x) &amp;amp;= \sum_{y}\exp\left[\sum_{i}\lambda_{i}f_{i}(x,y)\right]
-\end{align}
-\end{equation*}
+\begin{align*}
+P_{\Lambda}(y|x) &amp;amp;= \frac{P_{\Lambda}(x,y)}{P_{\Lambda}(x)} \\
+&amp;amp;= \frac{\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right]}{Z_{\Lambda}} \left( \sum_{y} \frac{\exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right]}{Z_{\Lambda}} \right)^{-1} \\
+&amp;amp;= \frac{1}{Z_{\Lambda}(x)} \exp\left[ \sum_{i}\lambda_{i}f_{i}(x,y) \right] \\
+Z_{\Lambda}(x) &amp;amp;= \sum_{y}\exp\left[\sum_{i}\lambda_{i}f_{i}(x,y)\right]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;このモデルを用いた素性の平均&lt;span class="math"&gt;\(E_{P}[f_{i}]\)&lt;/span&gt;は次の様に計算できる。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  E_{P}[f_{i}] &amp;amp;= \sum_{x,y} P(x,y) f_{i}(x,y) = \sum_{x,y} P(y|x)P(x)f_{i}(x,y) \\
-  &amp;amp;= \sum_{x} P(x) \sum_{y} P(y|x) f_{i}(x,y)
-\end{align}
-\end{equation*}
+\begin{align*}
+E_{P}[f_{i}] &amp;amp;= \sum_{x,y} P(x,y) f_{i}(x,y) = \sum_{x,y} P(y|x)P(x)f_{i}(x,y) \\
+&amp;amp;= \sum_{x} P(x) \sum_{y} P(y|x) f_{i}(x,y)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;外側の&lt;span class="math"&gt;\(P(x)\)&lt;/span&gt;の和は、考えうる全ての入力&lt;span class="math"&gt;\(x \in X\)&lt;/span&gt;についての和を取らねばならず、その計算は現実的に不可能である。従って経験確率による近似&lt;span class="math"&gt;\(P(x) \approx \tilde{P}(x)\)&lt;/span&gt;を用いて、平均は&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2273,21 +2236,17 @@ E_{P}[f_{i}] \approx \sum_{x}\tilde{P}(x) \sum_{y} P(y|x) f_{i}(x,y)
 &lt;p&gt;とする。この近似を用いることで、&lt;span class="math"&gt;\(x\)&lt;/span&gt;については学習データに現れるものだけの和を取ればよく、また&lt;span class="math"&gt;\(y\)&lt;/span&gt;についても素性関数が非零の時のみ和を取れば良ため、計算の効率化が望める。&lt;/p&gt;
 &lt;p&gt;平均だけでなく、正規化項&lt;span class="math"&gt;\(Z_{\Lambda}(x)\)&lt;/span&gt;の計算もボトルネックな部分であり、効率化が望まれる。そこで、文献 &lt;a class="footnote-reference" href="#id30" id="id12"&gt;[5]&lt;/a&gt;  &lt;a class="footnote-reference" href="#id31" id="id13"&gt;[6]&lt;/a&gt; による効率的な正規化項の計算手法を見ていく。まず、素性関数の集合&lt;span class="math"&gt;\({\cal F}\)&lt;/span&gt;を次の2つに分割する:&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  {\cal F}_{m} &amp;amp;= \{ f_{i} | \forall{w,x,y} \ f_{i}(x,y) = f_{i}(w,y) \} \ \ \text{（周辺素性(marginalized feature)の集合）} \\
-  {\cal F}_{c} = {\cal F}_{m}^{c} &amp;amp;= \{ f_{i} | \exists{w,x,y} \ f_{i}(x,y) \neq f_{i}(w,y) \} \ \ \text{（条件付き素性(conditional feature)の集合）}
-\end{align}
-\end{equation*}
+\begin{align*}
+{\cal F}_{m} &amp;amp;= \{ f_{i} | \forall{w,x,y} \ f_{i}(x,y) = f_{i}(w,y) \} \ \ \text{（周辺素性(marginalized feature)の集合）} \\
+{\cal F}_{c} = {\cal F}_{m}^{c} &amp;amp;= \{ f_{i} | \exists{w,x,y} \ f_{i}(x,y) \neq f_{i}(w,y) \} \ \ \text{（条件付き素性(conditional feature)の集合）}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;周辺素性は&lt;span class="math"&gt;\(y\)&lt;/span&gt;の値のみによって決まる素性であり、&lt;span class="math"&gt;\(y\)&lt;/span&gt;の関数として捉えられる。集合演算の性質により、&lt;span class="math"&gt;\({\cal F}\_{m} \cap {\cal F}_{c} = \emptyset\)&lt;/span&gt;は自明に成り立つ。次に、&lt;span class="math"&gt;\(y\)&lt;/span&gt;の値域&lt;span class="math"&gt;\(Y\)&lt;/span&gt;についても次の分割を行う:&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  Y_{m} &amp;amp;= \{ y | \exists f_{i} \in {\cal F}_{m} \ f_{i}(y) \neq 0 \} \ \ \text{（周辺素性が活性化される$Y$の要素）} \\
-  Y(x) &amp;amp;= \{ y | \exists f_{i} \in {\cal F}_{c} \ f_{i}(x,y) \neq 0 \} \ \ \text{（$x$を固定した時に,条件付き素性が活性化される$Y$の要素）}
-\end{align}
-\end{equation*}
+\begin{align*}
+Y_{m} &amp;amp;= \{ y | \exists f_{i} \in {\cal F}_{m} \ f_{i}(y) \neq 0 \} \ \ \text{（周辺素性が活性化される$Y$の要素）} \\
+Y(x) &amp;amp;= \{ y | \exists f_{i} \in {\cal F}_{c} \ f_{i}(x,y) \neq 0 \} \ \ \text{（$x$を固定した時に,条件付き素性が活性化される$Y$の要素）}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;定義より&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2304,21 +2263,17 @@ z(y|x) = \exp\left[ \sum_{i}\lambda_{i} f_{i}(x,y) \right] \ ,\ z(y) = \exp\left
 &lt;/div&gt;
 &lt;p&gt;正規化項&lt;span class="math"&gt;\(Z_{\Lambda}(x)\)&lt;/span&gt;の計算式は次のように展開される。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  Z_{\Lambda}(x) &amp;amp;= \sum_{y \in Y}z(y|x) \\
-  &amp;amp;= \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y|x) + \sum_{y \in Y_{m} \cap Y(x)^{c}} z(y|x) + \sum_{y \in Y(x)} z(y|x) \\
-\end{align}
-\end{equation*}
+\begin{align*}
+Z_{\Lambda}(x) &amp;amp;= \sum_{y \in Y}z(y|x) \\
+&amp;amp;= \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y|x) + \sum_{y \in Y_{m} \cap Y(x)^{c}} z(y|x) + \sum_{y \in Y(x)} z(y|x) \\
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;ここで、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  y \in Y(x)^{c} &amp;amp;\implies z(y|x) = z(y) \\
-  &amp;amp;\because z(y|x) = \exp\left[ \sum_{f_{i} \in {\cal F}_{m}} \lambda_{i} f_{i}(y) + \sum_{f_{i} \in {\cal F}_{c}} \lambda_{i} 0 \right] = \exp \left[ \sum_{f_{i} \in {\cal F}_{m}} \lambda_{i} f_{i}(y) \right] = z(y)
-\end{align}
-\end{equation*}
+\begin{align*}
+y \in Y(x)^{c} &amp;amp;\implies z(y|x) = z(y) \\
+&amp;amp;\because z(y|x) = \exp\left[ \sum_{f_{i} \in {\cal F}_{m}} \lambda_{i} f_{i}(y) + \sum_{f_{i} \in {\cal F}_{c}} \lambda_{i} 0 \right] = \exp \left[ \sum_{f_{i} \in {\cal F}_{m}} \lambda_{i} f_{i}(y) \right] = z(y)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;が成立するので、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2328,13 +2283,11 @@ Z_{\Lambda}(x) =  \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y) + \sum_{y \in Y_{m} 
 &lt;/div&gt;
 &lt;p&gt;となり、さらに集合の包含関係に注目すれば、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \sum_{y \in Y} z(y) &amp;amp;= \sum_{y \in Y_{m} \cap Y(x)^{c}} z(y) + \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y) + \sum_{y \in Y(x)} z(y) \\
-  &amp;amp;= \sum_{y \in Y_{m}} z(y) + \sum_{y \in Y_{m}^{c}} z(y) \\
-  \therefore \sum_{y \in Y_{m} \cap Y(x)^{c}} z(y) + \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y) &amp;amp;= \sum_{y \in Y_{m}} z(y) + \sum_{y \in Y_{m}^{c}} z(y) - \sum_{y \in Y(x)} z(y)
-\end{align}
-\end{equation*}
+\begin{align*}
+\sum_{y \in Y} z(y) &amp;amp;= \sum_{y \in Y_{m} \cap Y(x)^{c}} z(y) + \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y) + \sum_{y \in Y(x)} z(y) \\
+&amp;amp;= \sum_{y \in Y_{m}} z(y) + \sum_{y \in Y_{m}^{c}} z(y) \\
+\therefore \sum_{y \in Y_{m} \cap Y(x)^{c}} z(y) + \sum_{y \in Y_{m}^{c} \cap Y(x)^{c}} z(y) &amp;amp;= \sum_{y \in Y_{m}} z(y) + \sum_{y \in Y_{m}^{c}} z(y) - \sum_{y \in Y(x)} z(y)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;が成立するので、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -2344,21 +2297,17 @@ Z_{\Lambda}(x) = \sum_{y \in Y_{m}^{c}} z(y) + \sum_{y \in Y_{m}} z(y) + \sum_{y
 &lt;/div&gt;
 &lt;p&gt;となり、更に&lt;span class="math"&gt;\(Y_{m}^{c}\)&lt;/span&gt;の要素の性質&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  y \in Y_{m}^{c} &amp;amp;\implies z(y) = 1 \\
-  &amp;amp;\because z(y) = \exp\left[ \sum_{f_{i} \in {\cal F}_{m}} \lambda 0 \right] = 1
-\end{align}
-\end{equation*}
+\begin{align*}
+y \in Y_{m}^{c} &amp;amp;\implies z(y) = 1 \\
+&amp;amp;\because z(y) = \exp\left[ \sum_{f_{i} \in {\cal F}_{m}} \lambda 0 \right] = 1
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;を用いて、次の最終結果を得る。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  Z_{\Lambda}(x) &amp;amp;= \sum_{y \in Y_{m}^{c}} 1 + \sum_{y \in Y_{m}} z(y) + \sum_{y \in Y(x)} \left\{ z(y|x) -z(y) \right\} \\
-  &amp;amp;= |Y-Y_{m}| + \sum_{y \in Y_{m}}z(y) + \sum_{y \in Y(x)} \left\{ z(y|x) -z(y) \right\}
-\end{align}
-\end{equation*}
+\begin{align*}
+Z_{\Lambda}(x) &amp;amp;= \sum_{y \in Y_{m}^{c}} 1 + \sum_{y \in Y_{m}} z(y) + \sum_{y \in Y(x)} \left\{ z(y|x) -z(y) \right\} \\
+&amp;amp;= |Y-Y_{m}| + \sum_{y \in Y_{m}}z(y) + \sum_{y \in Y(x)} \left\{ z(y|x) -z(y) \right\}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;ここで&lt;span class="math"&gt;\(Y-Y_{m}=Y \cap Y_{m}^{c}\)&lt;/span&gt;は集合演算の意味での差である。この計算式は、第1項と第2項は予め計算しておくことができ、しかも第3項については&lt;span class="math"&gt;\(Y\)&lt;/span&gt;の部分集合&lt;span class="math"&gt;\(Y(x)\)&lt;/span&gt;の和を考えれば良い。結果、ナイーブな計算（計算量&lt;span class="math"&gt;\(O(|X||Y|)\)&lt;/span&gt;）を行うよりも効率的（計算量&lt;span class="math"&gt;\(O(|X||Y(x)|+|X|)\)&lt;/span&gt;）に計算を行うことができる。&lt;/p&gt;
 &lt;/div&gt;
@@ -2384,68 +2333,56 @@ Z_{\Lambda}(x) = \sum_{y \in Y_{m}^{c}} z(y) + \sum_{y \in Y_{m}} z(y) + \sum_{y
 、近似的増分を最大にする&lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;を探索する問題に帰着される。&lt;/p&gt;
 &lt;p&gt;仮定の下で、素性集合&lt;span class="math"&gt;\({\cal F} \cup f\)&lt;/span&gt;に対するモデル&lt;span class="math"&gt;\(P_{{\cal F} \cup f}^{\alpha}\)&lt;/span&gt;の確率分布は次の様に書ける。&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  P_{ {\cal F} \cup f}^{\alpha}(y|x) &amp;amp;= \frac{1}{Z_{\alpha}(x)} P_{\cal F} (y|x) \exp \left[ \alpha f(x,y) \right] \\
-  Z_{\alpha}(x) &amp;amp;= \sum_{y} P_{\cal F}(y|x) \exp \left[ \alpha f(x,y) \right]
-\end{align}
-\end{equation*}
+\begin{align*}
+P_{ {\cal F} \cup f}^{\alpha}(y|x) &amp;amp;= \frac{1}{Z_{\alpha}(x)} P_{\cal F} (y|x) \exp \left[ \alpha f(x,y) \right] \\
+Z_{\alpha}(x) &amp;amp;= \sum_{y} P_{\cal F}(y|x) \exp \left[ \alpha f(x,y) \right]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;対数尤度の近似的増分&lt;span class="math"&gt;\(G_{{\cal F} \cup f}(\alpha)\)&lt;/span&gt;は,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  G_{{\cal F} \cup f}(\alpha) &amp;amp;= L(P_{{\cal F}\cup f}^{\alpha}) - L(P_{\cal F}) \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log P_{{\cal F} \cup f}^{\alpha}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P_{\cal F}(x,y) \\
-  &amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left\{ \log P_{\cal F}(x,y) + \alpha f(x,y) - \log Z_{\alpha}(x) - \log P_{\cal F}(x,y) \right\} \\
-  &amp;amp;= \alpha \sum_{x,y} \tilde{P}(x,y) f(x,y) - \sum_{x} \log Z_{\alpha}(x) \sum_{y} \tilde{P}(x,y) \\
-  &amp;amp;= \alpha E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) \log Z_{\alpha}(x)
-\end{align}
-\end{equation*}
+\begin{align*}
+G_{{\cal F} \cup f}(\alpha) &amp;amp;= L(P_{{\cal F}\cup f}^{\alpha}) - L(P_{\cal F}) \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \log P_{{\cal F} \cup f}^{\alpha}(x,y) - \sum_{x,y} \tilde{P}(x,y) \log P_{\cal F}(x,y) \\
+&amp;amp;= \sum_{x,y} \tilde{P}(x,y) \left\{ \log P_{\cal F}(x,y) + \alpha f(x,y) - \log Z_{\alpha}(x) - \log P_{\cal F}(x,y) \right\} \\
+&amp;amp;= \alpha \sum_{x,y} \tilde{P}(x,y) f(x,y) - \sum_{x} \log Z_{\alpha}(x) \sum_{y} \tilde{P}(x,y) \\
+&amp;amp;= \alpha E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) \log Z_{\alpha}(x)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となる、&lt;span class="math"&gt;\(G_{{\cal F} \cup f}(0) = 0\)&lt;/span&gt;は&lt;span class="math"&gt;\(Z_{0}(x) = 1\)&lt;/span&gt;より容易に確かめられる。増分最大化の為、偏微分&lt;span class="math"&gt;\(\frac{\partial G_{{\cal F} \cup f}}{\partial \alpha} = G_{{\cal F} \cup f}^{\prime}(\alpha)\)&lt;/span&gt;を計算すると,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  G_{{\cal F} \cup f}^{\prime}(\alpha) &amp;amp;= E_{\tilde{P}}[f] - \sum_{x} P(x) \frac{\partial \log Z_{\alpha}(x)}{\partial \alpha} \\
-  &amp;amp;= E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) \frac{1}{Z_{\alpha}(x)} \sum_{y} P_{\cal F}(y|x) \exp\left[ \alpha f(x,y) \right] f(x,y) \\
-  &amp;amp;= E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) \sum_{y} P_{ {\cal F} \cup f}^{\alpha}(y|x) f(x,y)\ \  (= E_{\tilde{P}}[f] - E_{P_{ {\cal F} \cup f}}[f]) \\
-  &amp;amp;= E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) Q_{ {\cal F} \cup f}^{\alpha} (f|x)
-\end{align}
-\end{equation*}
+\begin{align*}
+G_{{\cal F} \cup f}^{\prime}(\alpha) &amp;amp;= E_{\tilde{P}}[f] - \sum_{x} P(x) \frac{\partial \log Z_{\alpha}(x)}{\partial \alpha} \\
+&amp;amp;= E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) \frac{1}{Z_{\alpha}(x)} \sum_{y} P_{\cal F}(y|x) \exp\left[ \alpha f(x,y) \right] f(x,y) \\
+&amp;amp;= E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) \sum_{y} P_{ {\cal F} \cup f}^{\alpha}(y|x) f(x,y)\ \  (= E_{\tilde{P}}[f] - E_{P_{ {\cal F} \cup f}}[f]) \\
+&amp;amp;= E_{\tilde{P}}[f] - \sum_{x} \tilde{P}(x) Q_{ {\cal F} \cup f}^{\alpha} (f|x)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;ここで、文献にもあるように&lt;span class="math"&gt;\(Q_{ {\cal F} \cup f}^{\alpha} (h|x) = \sum_{y} P_{ {\cal F} \cup f}^{\alpha}(y|x) h(x,y)\)&lt;/span&gt;（分布&lt;span class="math"&gt;\(P_{ {\cal F} \cup f}\)&lt;/span&gt;による、&lt;span class="math"&gt;\(h\)&lt;/span&gt;の&lt;span class="math"&gt;\(y\)&lt;/span&gt;における平均）とおいている。&lt;span class="math"&gt;\(G_{{\cal F} \cup f}^{\prime}(0)\)&lt;/span&gt;の値は&lt;span class="math"&gt;\(P_{ {\cal F} \cup f}^{0}(y|x) = P_{\cal F}(y|x)\)&lt;/span&gt;により&lt;span class="math"&gt;\(G_{{\cal F}\cup f}^{\prime}(0) = E_{\tilde{P}}[f] - E_{P_{\cal F}}[f]\)&lt;/span&gt;となる。更に2階微分&lt;span class="math"&gt;\(G_{{\cal F} \cup f}^{\prime \prime}(\alpha)\)&lt;/span&gt;を計算すると,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    G_{{\cal F} \cup f}^{\prime \prime}(\alpha) &amp;amp;= - \sum_{x} P(x) \frac{1}{Z_{\alpha}^{2}(x)} \left[ \left\{ \sum_{y} P_{\cal F}(y|x) \exp\left[ \alpha f(x,y) \right] f^{2}(x,y) \right\} Z_{\alpha}(x) \right. \\
-    &amp;amp;  \left. - \left\{ \sum_{y} P_{\cal F}(y|x)\exp\left[ \alpha f(x,y) \right] f(x,y) \right\}^{2} \right] \\
-    &amp;amp;= - \sum_{x} \tilde{P}(x) \left[ Q_{ {\cal F} \cup f}^{\alpha} (f^{2}|x) - \left\{Q_{ {\cal F} \cup f}^{\alpha}(f|x) \right\}^{2} \right] \\
-    &amp;amp;= - \sum_{x} \tilde{P}(x) Q_{ {\cal F} \cup f}^{\alpha} \left( (f - Q_{ {\cal F} \cup f}^{\alpha}(f|x))^{2} | x \right)
-\end{align}
-\end{equation*}
+\begin{align*}
+G_{{\cal F} \cup f}^{\prime \prime}(\alpha) &amp;amp;= - \sum_{x} P(x) \frac{1}{Z_{\alpha}^{2}(x)} \left[ \left\{ \sum_{y} P_{\cal F}(y|x) \exp\left[ \alpha f(x,y) \right] f^{2}(x,y) \right\} Z_{\alpha}(x) \right. \\
+&amp;amp;  \left. - \left\{ \sum_{y} P_{\cal F}(y|x)\exp\left[ \alpha f(x,y) \right] f(x,y) \right\}^{2} \right] \\
+&amp;amp;= - \sum_{x} \tilde{P}(x) \left[ Q_{ {\cal F} \cup f}^{\alpha} (f^{2}|x) - \left\{Q_{ {\cal F} \cup f}^{\alpha}(f|x) \right\}^{2} \right] \\
+&amp;amp;= - \sum_{x} \tilde{P}(x) Q_{ {\cal F} \cup f}^{\alpha} \left( (f - Q_{ {\cal F} \cup f}^{\alpha}(f|x))^{2} | x \right)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;ここで最下段の式変形には、分散と平均の関係&lt;span class="math"&gt;\(E[(X-E[X])^{2}] = E[X^{2}] - \{E[X]\}^{2}\)&lt;/span&gt;を用いている。&lt;span class="math"&gt;\((f - Q_{ {\cal F} \cup f}^{\alpha}(f|x))^{2} \geq 0\)&lt;/span&gt;より、&lt;span class="math"&gt;\(G_{{\cal F} \cup f}^{\prime \prime}(\alpha) \leq 0\)&lt;/span&gt;が成立し、&lt;span class="math"&gt;\(G_{{\cal F} \cup f}(\alpha)\)&lt;/span&gt;は上に凸な関数であり、極大値がそのまま大域的な最大値となる事が分かる。&lt;/p&gt;
 &lt;p&gt;上述の議論により、&lt;span class="math"&gt;\(G_{{\cal F} \cup f}^{\prime}(\alpha^{\ast}) = 0\)&lt;/span&gt;を満たす&lt;span class="math"&gt;\(\alpha^{\ast}\)&lt;/span&gt;を得れば良いことになるが、解くべき式が&lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;について閉じた形をしていない為、数値解析的な手法を用いることになる。文献 &lt;a class="footnote-reference" href="#id38" id="id21"&gt;[13]&lt;/a&gt;  &lt;a class="footnote-reference" href="#id39" id="id22"&gt;[14]&lt;/a&gt;  &lt;a class="footnote-reference" href="#id40" id="id23"&gt;[15]&lt;/a&gt; によると、&lt;span class="math"&gt;\(G_{{\cal F} \cup f}^{\prime}(\alpha)\)&lt;/span&gt;は&lt;span class="math"&gt;\(\alpha\)&lt;/span&gt;に対して凸関数ではないが、&lt;span class="math"&gt;\(\exp(\alpha)\)&lt;/span&gt;に関しては下に凸の減少関数、かつ&lt;span class="math"&gt;\(\exp(-\alpha)\)&lt;/span&gt;に関しては上に凸の増加関数となる事が示されているので、&lt;span class="math"&gt;\(\exp(\alpha)、\exp(-\alpha)\)&lt;/span&gt;の数列に対してニュートン法を適用する事を考える。偏微分の連鎖律を用いることで,&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha)}{\partial \exp(\alpha)}  &amp;amp;= \frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha)}{\partial \alpha} \frac{\partial \alpha}{\partial \exp(\alpha)} \\
-  &amp;amp;= \frac{\log t}{t} G_{{\cal F} \cup f}^{\prime \prime}(\alpha) \ \ (t = \exp(\alpha)) \\
-  &amp;amp;= \frac{1}{t} G_{{\cal F} \cup f}^{\prime \prime}(\alpha) = \exp(-\alpha) G_{{\cal F} \cup f}^{\prime \prime}(\alpha)
-\end{align}
-\end{equation*}
+\begin{align*}
+\frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha)}{\partial \exp(\alpha)}  &amp;amp;= \frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha)}{\partial \alpha} \frac{\partial \alpha}{\partial \exp(\alpha)} \\
+&amp;amp;= \frac{\log t}{t} G_{{\cal F} \cup f}^{\prime \prime}(\alpha) \ \ (t = \exp(\alpha)) \\
+&amp;amp;= \frac{1}{t} G_{{\cal F} \cup f}^{\prime \prime}(\alpha) = \exp(-\alpha) G_{{\cal F} \cup f}^{\prime \prime}(\alpha)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;が成り立つので、ニュートン法の更新則は、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \exp(\alpha_{n+1}) &amp;amp;= \exp(\alpha_{n}) - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\partial \exp(\alpha_{n})}} = \exp(\alpha_{n}) \left[ 1 - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right] \\
-  \iff \alpha_{n+1} &amp;amp;= \alpha_{n} + \log \left[ 1 - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right] \\
-  \exp(-\alpha_{n+1}) &amp;amp;= \exp(-\alpha_{n}) - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\partial \exp(-\alpha_{n})}} = \exp(-\alpha_{n}) \left[ 1 + \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right] \\
-  \iff \alpha_{n+1} &amp;amp;= \alpha_{n} - \log \left[ 1 + \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right]
-\end{align}
-\end{equation*}
+\begin{align*}
+\exp(\alpha_{n+1}) &amp;amp;= \exp(\alpha_{n}) - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\partial \exp(\alpha_{n})}} = \exp(\alpha_{n}) \left[ 1 - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right] \\
+\iff \alpha_{n+1} &amp;amp;= \alpha_{n} + \log \left[ 1 - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right] \\
+\exp(-\alpha_{n+1}) &amp;amp;= \exp(-\alpha_{n}) - \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{\partial \exp(-\alpha_{n})}} = \exp(-\alpha_{n}) \left[ 1 + \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right] \\
+\iff \alpha_{n+1} &amp;amp;= \alpha_{n} - \log \left[ 1 + \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right]
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となる。最適値&lt;span class="math"&gt;\(\alpha^{\ast}\)&lt;/span&gt;が&lt;span class="math"&gt;\(\alpha^{\ast} &amp;gt; 0\)&lt;/span&gt;の場合（&lt;span class="math"&gt;\(E_{\tilde{P}}[f] &amp;gt; E_{P_{\cal F}}[f]\)&lt;/span&gt; &lt;a class="footnote-reference" href="#id41" id="id24"&gt;[16]&lt;/a&gt; ）には上の更新式を用いれば良く、&lt;span class="math"&gt;\(\alpha^{\ast} &amp;lt; 0\)&lt;/span&gt;の場合（&lt;span class="math"&gt;\(E_{\tilde{P}}[f] &amp;lt; E_{P_{\cal F}}[f]\)&lt;/span&gt;）には下の更新式を用いれば良い。&lt;/p&gt;
 &lt;/div&gt;
@@ -3842,12 +3779,10 @@ p_{ij} = q_{ij} \alpha(i \to j) \tag{4}
 &lt;/div&gt;
 &lt;p&gt;そして、詳細釣り合い条件から、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \frac{p_{ij}}{p_{ji}} = \frac{r_{j}}{r_{i}} &amp;amp;\iff \frac{q_{ij}\alpha(i \to j)}{q_{ji}\alpha(j \to i)} = \frac{r_{j}}{r_{i}} \\
-  &amp;amp;\iff \frac{\alpha(i \to j)}{\alpha(j \to i)} = \frac{r_{j}q_{ji}}{r_{i}q_{ij}}
-\end{align}
-\end{equation*}
+\begin{align*}
+\frac{p_{ij}}{p_{ji}} = \frac{r_{j}}{r_{i}} &amp;amp;\iff \frac{q_{ij}\alpha(i \to j)}{q_{ji}\alpha(j \to i)} = \frac{r_{j}}{r_{i}} \\
+&amp;amp;\iff \frac{\alpha(i \to j)}{\alpha(j \to i)} = \frac{r_{j}q_{ji}}{r_{i}q_{ij}}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となる。採択確率はこの条件を満たす様に設計する。メトロポリス-ヘイスティングス法では特に、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -3893,32 +3828,26 @@ q_{ij} = {\cal N}(i, \sigma^{2}\boldsymbol{I})
 熱浴法とも)は提案分布の変数を1個ずつ更新していく手法である。
 主に多次元確率分布 &lt;a class="footnote-reference" href="#id59" id="id27"&gt;[22]&lt;/a&gt; の推定に用いられる事が多い。説明のため、現在の状態を組&lt;span class="math"&gt;\(\boldsymbol{x} = (x_{1}, x_{2}, \dots, x_{d})\)&lt;/span&gt;と書く。状態の更新の際には、変数を1つ選び出し &lt;a class="footnote-reference" href="#id60" id="id28"&gt;[23]&lt;/a&gt; て&lt;span class="math"&gt;\(x_{i} \to x_{i}^{\prime}\)&lt;/span&gt;と遷移させる(&lt;span class="math"&gt;\(i=1,\dots,d\)&lt;/span&gt;)。更新後の状態を&lt;span class="math"&gt;\(\boldsymbol{x}^{\prime} = (x_{1}, \dots, x_{i-1}, x_{i}^{\prime}, x_{i+1}, \dots, x_{d})\)&lt;/span&gt;と書く。ここで、遷移確率&lt;span class="math"&gt;\(q(\boldsymbol{x}^{\prime}|\boldsymbol{x})\)&lt;/span&gt;は次で定義される:&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;amp;= \frac{r(\boldsymbol{x}^{\prime})}{\sum_{x_{i}} r(\boldsymbol{x})} \\
-  &amp;amp;= r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \quad (\because ベイズの定理)
-\end{align}
-\end{equation*}
+\begin{align*}
+q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;amp;= \frac{r(\boldsymbol{x}^{\prime})}{\sum_{x_{i}} r(\boldsymbol{x})} \\
+&amp;amp;= r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \quad (\because ベイズの定理)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;即ち、選択した変数&lt;span class="math"&gt;\(x_{i}\)&lt;/span&gt;以外を全て``固定’’した確率分布&lt;span class="math"&gt;\(r\)&lt;/span&gt;から&lt;span class="math"&gt;\(x_{i}^{\prime}\)&lt;/span&gt;を新しくサンプリングする。上記右辺が計算できる場合にのみ、ギブスサンプリングは適用可能となる。&lt;/p&gt;
 &lt;p&gt;この更新規則が詳細釣り合い条件を満たすことは、再びベイズの定理を用いて、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;amp;= r(\boldsymbol{x}) r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \\
-  &amp;amp;= r(\boldsymbol{x})\frac{r(\boldsymbol{x}^{\prime})}{\sum_{{x}_{i}}r(\boldsymbol{x})} = r(\boldsymbol{x}^{\prime}) \frac{r(\boldsymbol{x})}{\sum_{x_{i}^{\prime}}r(\boldsymbol{x}^{\prime})} \\
-  &amp;amp;= r(\boldsymbol{x}^{\prime}) q(\boldsymbol{x}|\boldsymbol{x}^{\prime})
-\end{align}
-\end{equation*}
+\begin{align*}
+r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;amp;= r(\boldsymbol{x}) r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \\
+&amp;amp;= r(\boldsymbol{x})\frac{r(\boldsymbol{x}^{\prime})}{\sum_{{x}_{i}}r(\boldsymbol{x})} = r(\boldsymbol{x}^{\prime}) \frac{r(\boldsymbol{x})}{\sum_{x_{i}^{\prime}}r(\boldsymbol{x}^{\prime})} \\
+&amp;amp;= r(\boldsymbol{x}^{\prime}) q(\boldsymbol{x}|\boldsymbol{x}^{\prime})
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;により確認できる。また、メトロポリス-ヘイスティングス法の採択確率の式から、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  \alpha(\boldsymbol{x} \to \boldsymbol{x}^{\prime}) &amp;amp;= \min \left(1, \frac{r(\boldsymbol{x}^{\prime})q(\boldsymbol{x}|\boldsymbol{x}^{\prime})}{r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x})} \right) \\
-  &amp;amp;= \min (1, 1) = 1
-\end{align}
-\end{equation*}
+\begin{align*}
+\alpha(\boldsymbol{x} \to \boldsymbol{x}^{\prime}) &amp;amp;= \min \left(1, \frac{r(\boldsymbol{x}^{\prime})q(\boldsymbol{x}|\boldsymbol{x}^{\prime})}{r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x})} \right) \\
+&amp;amp;= \min (1, 1) = 1
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となり、ギブスサンプリングはメトロポリス-ヘイスティングス法で採択確率を&lt;span class="math"&gt;\(1\)&lt;/span&gt;（必ず採択）するようにした特別の場合である事が分かる。採択/棄却の手順を踏まくくても良く、しかも遷移確率&lt;span class="math"&gt;\(q\)&lt;/span&gt;は予め計算できるので、高速な推定ができるようになっている。&lt;/p&gt;
 &lt;/div&gt;
@@ -3946,20 +3875,16 @@ P(\boldsymbol{x_{m}} = \boldsymbol{x}^{\ast}) = r(\boldsymbol{x})\left\{ 1-r(\bo
 &lt;/div&gt;
 &lt;p&gt;によって計算できる。また、初めて&lt;span class="math"&gt;\(\boldsymbol{x^{\ast}}\)&lt;/span&gt;がサンプリングできるまでの回数が&lt;span class="math"&gt;\(N \geq n\)&lt;/span&gt;回以内となる確率は、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-  P(\boldsymbol{x_{n}} = \boldsymbol{x}^{\ast}) + P(\boldsymbol{x_{n+1}} = \boldsymbol{x}^{\ast}) + \dots + P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) &amp;amp;=  \sum_{m=n}^{N} P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) \\
-  &amp;amp;= \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k}
-\end{align}
-\end{equation*}
+\begin{align*}
+P(\boldsymbol{x_{n}} = \boldsymbol{x}^{\ast}) + P(\boldsymbol{x_{n+1}} = \boldsymbol{x}^{\ast}) + \dots + P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) &amp;amp;=  \sum_{m=n}^{N} P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) \\
+&amp;amp;= \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;となる。
 ここでサンプル数の極限&lt;span class="math"&gt;\(N \to \infty\)&lt;/span&gt;をとると、初項&lt;span class="math"&gt;\(r(\boldsymbol{x}^{\ast})\)&lt;/span&gt;、項比&lt;span class="math"&gt;\(1-r(\boldsymbol{x}^{\ast})\)&lt;/span&gt;とした等比級数の和の公式より、&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
-\begin{align}
-  \lim_{N \to \infty} \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k} &amp;amp;= \frac{r(\boldsymbol{x}^{\ast})}{1-\left\{1-r(\boldsymbol{x}^{\ast})\right\}} = 1
-\end{align}
+\lim_{N \to \infty} \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k} = \frac{r(\boldsymbol{x}^{\ast})}{1-\left\{1-r(\boldsymbol{x}^{\ast})\right\}} = 1
 \end{equation*}
 &lt;/div&gt;
 &lt;p&gt;が得られる。即ち、サンプリングを無限に繰り返せば&lt;span class="math"&gt;\(\boldsymbol{x}^{\ast}\)&lt;/span&gt;が確率1で得られることが示された。この結果は、サンプルの関数列&lt;span class="math"&gt;\(f(\boldsymbol{x_{1}}), f(\boldsymbol{x_{2}}), \dots\)&lt;/span&gt;の中に少なくとも1つ&lt;span class="math"&gt;\(f(\boldsymbol{x}^{\ast})\)&lt;/span&gt;が存在する事と同値である。&lt;/p&gt;
@@ -4023,15 +3948,13 @@ p_{ij}^{(n)} = \sum_{r \in X} p_{ir}^{(k)}p_{rj}^{(n-k)} \quad 0 \leq k \leq n
 &lt;/div&gt;
 &lt;p&gt;（証明）&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    p_{ij}^{(n)} &amp;amp;= P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) =  \sum_{r \in X} P(\boldsymbol{x_{n}}=j, \boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 確率分布の周辺化) \\
-    &amp;amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r, \boldsymbol{x_{0}}=i) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because ベイズの定理) \\
-    &amp;amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because マルコフ性) \\
-    &amp;amp;= \sum_{r\in S} P(\boldsymbol{x_{n-k}}=j|\boldsymbol{x_{0}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 斉時性) \\
-    &amp;amp;= \sum_{r\in S} p_{rj}^{(n-k)}p_{ir}^{(k)}
-\end{align}
-\end{equation*}
+\begin{align*}
+p_{ij}^{(n)} &amp;amp;= P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) =  \sum_{r \in X} P(\boldsymbol{x_{n}}=j, \boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 確率分布の周辺化) \\
+&amp;amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r, \boldsymbol{x_{0}}=i) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because ベイズの定理) \\
+&amp;amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because マルコフ性) \\
+&amp;amp;= \sum_{r\in S} P(\boldsymbol{x_{n-k}}=j|\boldsymbol{x_{0}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 斉時性) \\
+&amp;amp;= \sum_{r\in S} p_{rj}^{(n-k)}p_{ir}^{(k)}
+\end{align*}
 &lt;/div&gt;
 &lt;hr class="docutils" /&gt;
 &lt;!-- 空白のためのコメント... --&gt;
@@ -4071,12 +3994,10 @@ T_{j} = \min_{n} \{ n &amp;gt; 0 | \boldsymbol{x_{n}} = j \}
 &lt;/div&gt;
 &lt;p&gt;即ち、離散時間マルコフ連鎖が初めて状態&lt;span class="math"&gt;\(j\)&lt;/span&gt;を訪れる時刻を表す。また、&lt;span class="math"&gt;\(T_{i}\)&lt;/span&gt;を用いて次の値を定義する:&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    f_{i} &amp;amp;= P(T_{i} &amp;lt; \infty | \boldsymbol{x_{0}} = i) = \sum_{n=1}^{\infty}P(T_{i} = n|\boldsymbol{x_{0}}=i) \\
-    m_{i} &amp;amp;= \mathrm{E}[T_{i}|\boldsymbol{x_{0}}=i] = \sum_{k=0}^{\infty} k P(T_{i}=k|\boldsymbol{x_{0}}=i)
-\end{align}
-\end{equation*}
+\begin{align*}
+f_{i} &amp;amp;= P(T_{i} &amp;lt; \infty | \boldsymbol{x_{0}} = i) = \sum_{n=1}^{\infty}P(T_{i} = n|\boldsymbol{x_{0}}=i) \\
+m_{i} &amp;amp;= \mathrm{E}[T_{i}|\boldsymbol{x_{0}}=i] = \sum_{k=0}^{\infty} k P(T_{i}=k|\boldsymbol{x_{0}}=i)
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;&lt;span class="math"&gt;\(f_{i}\)&lt;/span&gt;は将来状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;に戻ってくる確率を表しており、&lt;span class="math"&gt;\(f_{i}=1\)&lt;/span&gt;ならば確率&lt;span class="math"&gt;\(1\)&lt;/span&gt;で状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;を訪れる（無限にしばしば訪れる）ので状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;は再帰的であるという。&lt;span class="math"&gt;\(f_{i} &amp;lt; 1\)&lt;/span&gt;ならば状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;は過渡的であるという。また、&lt;span class="math"&gt;\(m_{i}\)&lt;/span&gt;は初期状態が&lt;span class="math"&gt;\(i\)&lt;/span&gt;の時に、再び状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;に戻るまでの時間の期待値を表しており、&lt;span class="math"&gt;\(m_{i} &amp;lt; \infty\)&lt;/span&gt;ならば状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;は正再帰的（有限時間で&lt;span class="math"&gt;\(i\)&lt;/span&gt;に戻る）であるといい、&lt;span class="math"&gt;\(m_{i} = \infty\)&lt;/span&gt;ならば状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;は零再帰的であるという。&lt;/p&gt;
 &lt;hr class="docutils" /&gt;
@@ -4104,14 +4025,12 @@ u_{k} = P(T_{j} = k|\boldsymbol{x_{0}} = i)
 &lt;/div&gt;
 &lt;p&gt;を（初期状態が&lt;span class="math"&gt;\(i\)&lt;/span&gt;で、初めて&lt;span class="math"&gt;\(j\)&lt;/span&gt;に訪れる時刻が&lt;span class="math"&gt;\(k\)&lt;/span&gt;となる確率）おく。この時、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    p_{ij}^{(1)} &amp;amp;= u_{1} \\
-    p_{ij}^{(2)} &amp;amp;= u_{2} + u_{1} p_{jj}^{(1)} \\
-    p_{ij}^{(3)} &amp;amp;= u_{3} + u_{2}p_{jj}^{(1)} + u_{1}p_{jj}^{(2)} \\
-    &amp;amp;\vdots
-\end{align}
-\end{equation*}
+\begin{align*}
+p_{ij}^{(1)} &amp;amp;= u_{1} \\
+p_{ij}^{(2)} &amp;amp;= u_{2} + u_{1} p_{jj}^{(1)} \\
+p_{ij}^{(3)} &amp;amp;= u_{3} + u_{2}p_{jj}^{(1)} + u_{1}p_{jj}^{(2)} \\
+&amp;amp;\vdots
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;の観察により、&lt;span class="math"&gt;\(n \geq 1\)&lt;/span&gt;なる&lt;span class="math"&gt;\(n\)&lt;/span&gt;に対して帰納的に&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -4127,30 +4046,26 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 &lt;/div&gt;
 &lt;p&gt;（状態&lt;span class="math"&gt;\(i\)&lt;/span&gt;から始まり、&lt;span class="math"&gt;\(j\)&lt;/span&gt;へいつかは訪れる確率は&lt;span class="math"&gt;\(1\)&lt;/span&gt;）が成り立つ。一方&lt;span class="math"&gt;\(p_{jj}^{(n)}\)&lt;/span&gt;は、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    p_{jj}^{(n)} &amp;amp;= P(\boldsymbol{x_{n}} = j|\boldsymbol{x_{0}}=j) \\
-    &amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j, T_{j} = k|\boldsymbol{x_{0}}=j) \quad (\because 確率分布の周辺化) \\
-    &amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|T_{j}=k, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because ベイズの定理) \\
-    &amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because T_{j} = k \implies \boldsymbol{x_{k}} = j) \\
-    &amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because マルコフ性) \\
-    &amp;amp;= \sum_{k=1}^{n}p_{jj}^{(n-k)} u_{k}
-\end{align}
-\end{equation*}
+\begin{align*}
+p_{jj}^{(n)} &amp;amp;= P(\boldsymbol{x_{n}} = j|\boldsymbol{x_{0}}=j) \\
+&amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j, T_{j} = k|\boldsymbol{x_{0}}=j) \quad (\because 確率分布の周辺化) \\
+&amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|T_{j}=k, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because ベイズの定理) \\
+&amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because T_{j} = k \implies \boldsymbol{x_{k}} = j) \\
+&amp;amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because マルコフ性) \\
+&amp;amp;= \sum_{k=1}^{n}p_{jj}^{(n-k)} u_{k}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;と展開できる。数列&lt;span class="math"&gt;\(p_{jj}^{(n)}\)&lt;/span&gt;の極限&lt;span class="math"&gt;\(\displaystyle\lim_{n \to \infty} p_{jj}^{(n)}\)&lt;/span&gt;を求める為、ここでは数列の
 &lt;strong&gt;母関数&lt;/strong&gt;を定義し、（片側）Z変換の最終値定理  &lt;a class="footnote-reference" href="#id61" id="id33"&gt;[24]&lt;/a&gt;
 を用いる。その為、今、&lt;span class="math"&gt;\(\displaystyle G(z) = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n},\ U(z) = \sum_{n=1}^{\infty}u_{n}z^{n}\)&lt;/span&gt;なる母関数を定義し、上式の両辺に&lt;span class="math"&gt;\(z^{n}\)&lt;/span&gt;を掛けて&lt;span class="math"&gt;\(n=1,2,\dots\)&lt;/span&gt;についての和を取ると、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    （左辺）\sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} &amp;amp;= \sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n} - p_{jj}^{(0)} \\
-    &amp;amp;= G(z) - 1 \\
-    （右辺）\sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}u_{k}z^{n} &amp;amp;= \sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}z^{n-k}u_{k}z^{k} \\
-    &amp;amp;= G(z)U(z) \\
-    \therefore G(z) &amp;amp;= \frac{1}{1-U(z)}
-\end{align}
-\end{equation*}
+\begin{align*}
+（左辺）\sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} &amp;amp;= \sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n} - p_{jj}^{(0)} \\
+&amp;amp;= G(z) - 1 \\
+（右辺）\sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}u_{k}z^{n} &amp;amp;= \sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}z^{n-k}u_{k}z^{k} \\
+&amp;amp;= G(z)U(z) \\
+\therefore G(z) &amp;amp;= \frac{1}{1-U(z)}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;ここで、右辺式の最後の式変形には冪級数の積の公式 &lt;a class="footnote-reference" href="#id62" id="id34"&gt;[25]&lt;/a&gt; を用いている。最終値定理を適用する事を考えると、この場合は、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -4161,14 +4076,12 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 &lt;p&gt;が成立する &lt;a class="footnote-reference" href="#id63" id="id35"&gt;[26]&lt;/a&gt;
 ので、&lt;span class="math"&gt;\(\displaystyle\lim_{n \to \infty} p_{jj}^{(n)}\)&lt;/span&gt;の結果として、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    \lim_{n \to \infty} p_{jj}^{(n)} &amp;amp;= \lim_{z \to 1}(1-z)G(z) = \lim_{z \to 1}\frac{1-z}{1-U(z)} \\
-    &amp;amp;= \lim_{z \to 1}\frac{\frac{d(1-z)}{dz}}{\frac{d(1-U(z))}{dz}} \quad (\because ロピタルの定理) \\
-    &amp;amp;= \lim_{z \to 1}\frac{1}{\frac{dU(z)}{dz}} = \frac{1}{m_{j}} = \pi_{j} \\
-    \because \lim_{z \to 1} \frac{dU(z)}{dz} &amp;amp;= \lim_{z \to 1}\sum_{n=1}^{\infty}n u_{n} z^{n-1} = \lim_{z \to 1}\sum_{n=0}^{\infty} n u_{n} z^{n} = \sum_{n=0}^{\infty}n u_{n} = m_{j}
-\end{align}
-\end{equation*}
+\begin{align*}
+\lim_{n \to \infty} p_{jj}^{(n)} &amp;amp;= \lim_{z \to 1}(1-z)G(z) = \lim_{z \to 1}\frac{1-z}{1-U(z)} \\
+&amp;amp;= \lim_{z \to 1}\frac{\frac{d(1-z)}{dz}}{\frac{d(1-U(z))}{dz}} \quad (\because ロピタルの定理) \\
+&amp;amp;= \lim_{z \to 1}\frac{1}{\frac{dU(z)}{dz}} = \frac{1}{m_{j}} = \pi_{j} \\
+\because \lim_{z \to 1} \frac{dU(z)}{dz} &amp;amp;= \lim_{z \to 1}\sum_{n=1}^{\infty}n u_{n} z^{n-1} = \lim_{z \to 1}\sum_{n=0}^{\infty} n u_{n} z^{n} = \sum_{n=0}^{\infty}n u_{n} = m_{j}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;が得られる。さて、この結果より、任意の正数&lt;span class="math"&gt;\(\epsilon &amp;gt; 0\)&lt;/span&gt;に対して&lt;span class="math"&gt;\(n \geq N\)&lt;/span&gt;なる全ての&lt;span class="math"&gt;\(n\)&lt;/span&gt;が&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -4178,15 +4091,13 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 &lt;/div&gt;
 &lt;p&gt;を同時に満たすような&lt;span class="math"&gt;\(N\)&lt;/span&gt;を取ることができる。今、&lt;span class="math"&gt;\(n \geq 2N\)&lt;/span&gt;に対し、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    |p_{ij}^{(n)} - \pi_{j}| &amp;amp;= | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \pi_{j}| = | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \sum_{k=1}^{\infty}u_{k}\pi_{j}| \\
-    &amp;amp;= |\sum_{k=1}^{n-N}u_{k}(p_{jj}^{(n-k)}-\pi_{j}) + \sum_{k=n-N+1}^{n} u_{k}(p_{jj}^{(n-k)} - \pi_{j}) -\sum_{k=n+1}^{\infty}u_{k}\pi_{j}| \\
-    &amp;amp;\leq \sum_{k=1}^{n-N}u_{k}|p_{jj}^{(n-k)}-\pi_{j}| + \sum_{k=n-N+1}^{n} u_{k}|p_{jj}^{(n-k)} - \pi_{j}| + \sum_{k=n+1}^{\infty}|u_{k}\pi_{j}| \\
-    &amp;amp;\leq \sum_{k=1}^{n-N}u_{k}\frac{\epsilon}{2} + \sum_{k=n-N+1}^{n} u_{k} + \sum_{k=n+1}^{\infty}u_{k} = \frac{\epsilon}{2}\sum_{k=1}^{n-N}u_{k} + \sum_{k=n-N+1}^{\infty} u_{k} \\
-    &amp;amp;\leq \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
-\end{align}
-\end{equation*}
+\begin{align*}
+|p_{ij}^{(n)} - \pi_{j}| &amp;amp;= | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \pi_{j}| = | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \sum_{k=1}^{\infty}u_{k}\pi_{j}| \\
+&amp;amp;= |\sum_{k=1}^{n-N}u_{k}(p_{jj}^{(n-k)}-\pi_{j}) + \sum_{k=n-N+1}^{n} u_{k}(p_{jj}^{(n-k)} - \pi_{j}) -\sum_{k=n+1}^{\infty}u_{k}\pi_{j}| \\
+&amp;amp;\leq \sum_{k=1}^{n-N}u_{k}|p_{jj}^{(n-k)}-\pi_{j}| + \sum_{k=n-N+1}^{n} u_{k}|p_{jj}^{(n-k)} - \pi_{j}| + \sum_{k=n+1}^{\infty}|u_{k}\pi_{j}| \\
+&amp;amp;\leq \sum_{k=1}^{n-N}u_{k}\frac{\epsilon}{2} + \sum_{k=n-N+1}^{n} u_{k} + \sum_{k=n+1}^{\infty}u_{k} = \frac{\epsilon}{2}\sum_{k=1}^{n-N}u_{k} + \sum_{k=n-N+1}^{\infty} u_{k} \\
+&amp;amp;\leq \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;よって、&lt;span class="math"&gt;\(\displaystyle \lim_{n \to \infty} p_{ij}^{(n)} = \pi_{j} = \lim_{n \to \infty} p_{jj}^{(n)}\)&lt;/span&gt;。&lt;/p&gt;
 &lt;p&gt;次に2.
@@ -4199,22 +4110,18 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 &lt;/div&gt;
 &lt;p&gt;を得る。また、&lt;span class="math"&gt;\(a_{j}(n) = P(\boldsymbol{x_{n}} = j)\)&lt;/span&gt;（時刻&lt;span class="math"&gt;\(n\)&lt;/span&gt;で状態&lt;span class="math"&gt;\(j\)&lt;/span&gt;を訪れる確率）とおくと、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    a_{j}(n) &amp;amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i)P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) = \sum_{i \in X}P(\boldsymbol{x_{0}}=i)p_{ij}^{(n)} \\
-    \therefore \lim_{n \to \infty} a_{j}(n) &amp;amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i) \lim_{n \to \infty}p_{ij}^{(n)} = \pi_{j} \sum_{i \in X} P(\boldsymbol{x_{0}} = i) = \pi_{j}
-\end{align}
-\end{equation*}
+\begin{align*}
+a_{j}(n) &amp;amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i)P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) = \sum_{i \in X}P(\boldsymbol{x_{0}}=i)p_{ij}^{(n)} \\
+\therefore \lim_{n \to \infty} a_{j}(n) &amp;amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i) \lim_{n \to \infty}p_{ij}^{(n)} = \pi_{j} \sum_{i \in X} P(\boldsymbol{x_{0}} = i) = \pi_{j}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;が成立し、チャップマン−コルモゴロフ方程式により、&lt;span class="math"&gt;\(n, m \geq0\)&lt;/span&gt;なる整数に対し、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}
-    a_{j}(m+n) &amp;amp;= \sum_{r \in X}P(\boldsymbol{x_{0}}=r)P(\boldsymbol{x_{m+n}}=j|\boldsymbol{x_{0}}=r) = \sum_{r \in X} P(\boldsymbol{x_{0}} = r) p_{rj}^{(m+n)} \\
-    &amp;amp;= \sum_{r \in X} P(\boldsymbol{x_{0}}=r) \sum_{i \in X} p_{ri}^{(m)}p_{ij}^{(n)} \quad (\because チャップマン-コルモゴロフ方程式を使用) \\
-    &amp;amp;= \sum_{i \in X}\sum_{r \in X}P(\boldsymbol{x_{0}}=r)p_{ri}^{(m)} p_{ij}^{(n)} = \sum_{i \in X} a_{i}(m) p_{ij}^{(n)}
-\end{align}
-\end{equation*}
+\begin{align*}
+a_{j}(m+n) &amp;amp;= \sum_{r \in X}P(\boldsymbol{x_{0}}=r)P(\boldsymbol{x_{m+n}}=j|\boldsymbol{x_{0}}=r) = \sum_{r \in X} P(\boldsymbol{x_{0}} = r) p_{rj}^{(m+n)} \\
+&amp;amp;= \sum_{r \in X} P(\boldsymbol{x_{0}}=r) \sum_{i \in X} p_{ri}^{(m)}p_{ij}^{(n)} \quad (\because チャップマン-コルモゴロフ方程式を使用) \\
+&amp;amp;= \sum_{i \in X}\sum_{r \in X}P(\boldsymbol{x_{0}}=r)p_{ri}^{(m)} p_{ij}^{(n)} = \sum_{i \in X} a_{i}(m) p_{ij}^{(n)}
+\end{align*}
 &lt;/div&gt;
 &lt;p&gt;この式の両辺を&lt;span class="math"&gt;\(m \to \infty\)&lt;/span&gt;ならしめれば、極限と和の交換法則より、&lt;/p&gt;
 &lt;div class="math"&gt;
@@ -4462,10 +4369,10 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
 &lt;tbody valign="top"&gt;
 &lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id34"&gt;[25]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;p class="first"&gt;2つの冪級数を&lt;span class="math"&gt;\(\displaystyle\sum_{n=0}^{\infty}a_{n}z^{n}, \sum_{n=0}^{\infty}b_{n}z^{n}\)&lt;/span&gt;とし、積の結果を&lt;span class="math"&gt;\(\displaystyle\sum_{n=0}^{\infty}c_{n}z^{n}\)&lt;/span&gt;とする。等号を立てると、&lt;/p&gt;
 &lt;div class="math"&gt;
-\begin{equation*}
-\begin{align}    \left(\sum_{n=0}^{\infty}a_{n}z^{n}\right)\left(\sum_{n=0}^{\infty}b_{n}z^{n} \right) = a_{0}b_{0}z^{0} + (a_{0}b_{1} + a_{1}b_{0})z^{1} + (a_{0}b_{2}+a_{1}b_{1}+a_{2}b_{0})z^{2} + \dots \\
-  = \sum_{n=0}^{\infty}c_{n}z^{n} = c_{0}z^{0} + c_{1}z^{1} + c_{2}z^{2} + \dots \end{align}
-\end{equation*}
+\begin{align*}
+\left(\sum_{n=0}^{\infty}a_{n}z^{n}\right)\left(\sum_{n=0}^{\infty}b_{n}z^{n} \right) &amp;amp;= a_{0}b_{0}z^{0} + (a_{0}b_{1} + a_{1}b_{0})z^{1} + (a_{0}b_{2}+a_{1}b_{1}+a_{2}b_{0})z^{2} + \dots \\
+  &amp;amp;= \sum_{n=0}^{\infty}c_{n}z^{n} = c_{0}z^{0} + c_{1}z^{1} + c_{2}z^{2} + \dots
+\end{align*}
 &lt;/div&gt;
 &lt;p class="last"&gt;係数比較により、&lt;span class="math"&gt;\(c_{0} = a_{0}b_{0},\ c_{1} = a_{0}b_{1} + a_{1}b_{0},\ \dots\)&lt;/span&gt;が成立し、よって&lt;span class="math"&gt;\(c_{n} = \displaystyle \sum_{k=0}^{n}a_{k}b_{n-k}\)&lt;/span&gt;となる。ここの例では、&lt;span class="math"&gt;\(a_{k} = u_{k}z^{k},\ b_{k} = p_{jj}^{(k)}z^{k}\)&lt;/span&gt;とおけば良い。&lt;/p&gt;
 &lt;/td&gt;&lt;/tr&gt;
@@ -4476,12 +4383,11 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
 &lt;tbody valign="top"&gt;
 &lt;tr&gt;&lt;td class="label"&gt;&lt;a class="fn-backref" href="#id35"&gt;[26]&lt;/a&gt;&lt;/td&gt;&lt;td&gt;&lt;p class="first"&gt;（証明）母関数（Z変換）を&lt;span class="math"&gt;\(F(z) = \displaystyle \sum_{n=0}^{\infty}a_{n}z^{n}\)&lt;/span&gt;とおくと、&lt;/p&gt;
 &lt;div class="last math"&gt;
-\begin{equation*}
-\begin{align}
-  \lim_{z \to 1} (1-z) F(z) = \lim_{z \to 1}(1-z) \sum_{n=0}^{\infty} a_{n}z^{n} = \lim_{z \to 1} \sum_{n=0}^{\infty} a_{n} (z^{n} - z^{n+1}) = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} a_{k} (z^{k} - z^{k+1}) \\
-  = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) z^{k} \quad (\because a_{-1} = 0, また a_{0}(z^{0}-z^{1}) + a_{1}(z^{1}-z^{2}) +\dots = a_{0}z^{0} + (a_{0}-a_{1})z^{1} + \dots) \\
-  = \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) = \lim_{n \to \infty} a_{n}\end{align}
-\end{equation*}
+\begin{align*}
+\lim_{z \to 1} (1-z) F(z) &amp;amp;= \lim_{z \to 1}(1-z) \sum_{n=0}^{\infty} a_{n}z^{n} = \lim_{z \to 1} \sum_{n=0}^{\infty} a_{n} (z^{n} - z^{n+1}) = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} a_{k} (z^{k} - z^{k+1}) \\
+&amp;amp;= \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) z^{k} \quad (\because a_{-1} = 0, また a_{0}(z^{0}-z^{1}) + a_{1}(z^{1}-z^{2}) +\dots = a_{0}z^{0} + (a_{0}-a_{1})z^{1} + \dots) \\
+&amp;amp;= \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) = \lim_{n \to \infty} a_{n}
+\end{align*}
 &lt;/div&gt;
 &lt;/td&gt;&lt;/tr&gt;
 &lt;/tbody&gt;

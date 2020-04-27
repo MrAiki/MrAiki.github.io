@@ -80,6 +80,14 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/li-san-huriebian-huan-dft.html">離散フーリエ変換（DFT）</a></h2>
+                <div class="summary"><p class="first last">教科書で出てくる離散フーリエ変換の式が出てくるところまでの導出。超関数に関しては不完全。</p>
+
+                    <a class="btn btn-default btn-xs" href="/li-san-huriebian-huan-dft.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-22.html">2020-04-22</a></h2>
                 <div class="summary"><div class="math">
 \begin{equation*}
@@ -294,28 +302,6 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/2020-04-02.html">2020-04-02</a></h2>
-                <div class="summary"><p>GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
-GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d">Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法</a></li>
-<li><a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514">GitHub Pagesで静的サイトを簡単に作る</a></li>
-<li><a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d">Python製 Pelican を使ってサクッとブログを公開する</a></li>
-<li><a class="reference external" href="http://www.pelicanthemes.com">Pelicanのテーマ集</a></li>
-<li><a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986">テーマ導入時にハマったので参考にしたissue comment</a></li>
-</ul>
-<p>今日は（というか3月末）からSLAの高速化作業とまとめをしていた。</p>
-<p>格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。
-SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
-<a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions">StackOverFlowの記事</a> では <cite>_mm_set_epi32</cite> のコストが高い旨記述あり。 <cite>_mm_loadu_si128</cite> の使用に置き換えた。
-<a class="reference external" href="https://stackoverflow.com/questions/24446516/performance-worsens-when-using-sse-simple-addition-of-integer-arrays">他の記事</a> で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。</p>
-<p><a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html">gccとVC</a> にはgccとVisual Studioの挙動の差異について色々と書いてあった。</p>
-
-                    <a class="btn btn-default btn-xs" href="/2020-04-02.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/aiki.html">&laquo;</a>
@@ -324,7 +310,10 @@ SSE化するときに、スカラー演算とベクトル演算が混じった�
                             href="/author/aiki.html">1</a></li>
                     <li class="active"><a
                             href="/author/aiki2.html">2</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
+                    <li class=""><a
+                            href="/author/aiki3.html">3</a></li>
+                <li class="next"><a
+                        href="/author/aiki3.html">&raquo;</a></li>
         </ul>
         </div>
         <div class="col-sm-3" id="sidebar">

@@ -240,12 +240,10 @@ p_{ij} = q_{ij} \alpha(i \to j) \tag{4}
 </div>
 <p>そして、詳細釣り合い条件から、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-  \frac{p_{ij}}{p_{ji}} = \frac{r_{j}}{r_{i}} &amp;\iff \frac{q_{ij}\alpha(i \to j)}{q_{ji}\alpha(j \to i)} = \frac{r_{j}}{r_{i}} \\
-  &amp;\iff \frac{\alpha(i \to j)}{\alpha(j \to i)} = \frac{r_{j}q_{ji}}{r_{i}q_{ij}}
-\end{align}
-\end{equation*}
+\begin{align*}
+\frac{p_{ij}}{p_{ji}} = \frac{r_{j}}{r_{i}} &amp;\iff \frac{q_{ij}\alpha(i \to j)}{q_{ji}\alpha(j \to i)} = \frac{r_{j}}{r_{i}} \\
+&amp;\iff \frac{\alpha(i \to j)}{\alpha(j \to i)} = \frac{r_{j}q_{ji}}{r_{i}q_{ij}}
+\end{align*}
 </div>
 <p>となる。採択確率はこの条件を満たす様に設計する。メトロポリス-ヘイスティングス法では特に、</p>
 <div class="math">
@@ -291,32 +289,26 @@ q_{ij} = {\cal N}(i, \sigma^{2}\boldsymbol{I})
 熱浴法とも)は提案分布の変数を1個ずつ更新していく手法である。
 主に多次元確率分布 <a class="footnote-reference" href="#id59" id="id27">[22]</a> の推定に用いられる事が多い。説明のため、現在の状態を組<span class="math">\(\boldsymbol{x} = (x_{1}, x_{2}, \dots, x_{d})\)</span>と書く。状態の更新の際には、変数を1つ選び出し <a class="footnote-reference" href="#id60" id="id28">[23]</a> て<span class="math">\(x_{i} \to x_{i}^{\prime}\)</span>と遷移させる(<span class="math">\(i=1,\dots,d\)</span>)。更新後の状態を<span class="math">\(\boldsymbol{x}^{\prime} = (x_{1}, \dots, x_{i-1}, x_{i}^{\prime}, x_{i+1}, \dots, x_{d})\)</span>と書く。ここで、遷移確率<span class="math">\(q(\boldsymbol{x}^{\prime}|\boldsymbol{x})\)</span>は次で定義される:</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-  q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;= \frac{r(\boldsymbol{x}^{\prime})}{\sum_{x_{i}} r(\boldsymbol{x})} \\
-  &amp;= r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \quad (\because ベイズの定理)
-\end{align}
-\end{equation*}
+\begin{align*}
+q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;= \frac{r(\boldsymbol{x}^{\prime})}{\sum_{x_{i}} r(\boldsymbol{x})} \\
+&amp;= r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \quad (\because ベイズの定理)
+\end{align*}
 </div>
 <p>即ち、選択した変数<span class="math">\(x_{i}\)</span>以外を全て``固定’’した確率分布<span class="math">\(r\)</span>から<span class="math">\(x_{i}^{\prime}\)</span>を新しくサンプリングする。上記右辺が計算できる場合にのみ、ギブスサンプリングは適用可能となる。</p>
 <p>この更新規則が詳細釣り合い条件を満たすことは、再びベイズの定理を用いて、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-  r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;= r(\boldsymbol{x}) r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \\
-  &amp;= r(\boldsymbol{x})\frac{r(\boldsymbol{x}^{\prime})}{\sum_{{x}_{i}}r(\boldsymbol{x})} = r(\boldsymbol{x}^{\prime}) \frac{r(\boldsymbol{x})}{\sum_{x_{i}^{\prime}}r(\boldsymbol{x}^{\prime})} \\
-  &amp;= r(\boldsymbol{x}^{\prime}) q(\boldsymbol{x}|\boldsymbol{x}^{\prime})
-\end{align}
-\end{equation*}
+\begin{align*}
+r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;= r(\boldsymbol{x}) r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \\
+&amp;= r(\boldsymbol{x})\frac{r(\boldsymbol{x}^{\prime})}{\sum_{{x}_{i}}r(\boldsymbol{x})} = r(\boldsymbol{x}^{\prime}) \frac{r(\boldsymbol{x})}{\sum_{x_{i}^{\prime}}r(\boldsymbol{x}^{\prime})} \\
+&amp;= r(\boldsymbol{x}^{\prime}) q(\boldsymbol{x}|\boldsymbol{x}^{\prime})
+\end{align*}
 </div>
 <p>により確認できる。また、メトロポリス-ヘイスティングス法の採択確率の式から、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-  \alpha(\boldsymbol{x} \to \boldsymbol{x}^{\prime}) &amp;= \min \left(1, \frac{r(\boldsymbol{x}^{\prime})q(\boldsymbol{x}|\boldsymbol{x}^{\prime})}{r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x})} \right) \\
-  &amp;= \min (1, 1) = 1
-\end{align}
-\end{equation*}
+\begin{align*}
+\alpha(\boldsymbol{x} \to \boldsymbol{x}^{\prime}) &amp;= \min \left(1, \frac{r(\boldsymbol{x}^{\prime})q(\boldsymbol{x}|\boldsymbol{x}^{\prime})}{r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x})} \right) \\
+&amp;= \min (1, 1) = 1
+\end{align*}
 </div>
 <p>となり、ギブスサンプリングはメトロポリス-ヘイスティングス法で採択確率を<span class="math">\(1\)</span>（必ず採択）するようにした特別の場合である事が分かる。採択/棄却の手順を踏まくくても良く、しかも遷移確率<span class="math">\(q\)</span>は予め計算できるので、高速な推定ができるようになっている。</p>
 </div>
@@ -344,20 +336,16 @@ P(\boldsymbol{x_{m}} = \boldsymbol{x}^{\ast}) = r(\boldsymbol{x})\left\{ 1-r(\bo
 </div>
 <p>によって計算できる。また、初めて<span class="math">\(\boldsymbol{x^{\ast}}\)</span>がサンプリングできるまでの回数が<span class="math">\(N \geq n\)</span>回以内となる確率は、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-  P(\boldsymbol{x_{n}} = \boldsymbol{x}^{\ast}) + P(\boldsymbol{x_{n+1}} = \boldsymbol{x}^{\ast}) + \dots + P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) &amp;=  \sum_{m=n}^{N} P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) \\
-  &amp;= \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k}
-\end{align}
-\end{equation*}
+\begin{align*}
+P(\boldsymbol{x_{n}} = \boldsymbol{x}^{\ast}) + P(\boldsymbol{x_{n+1}} = \boldsymbol{x}^{\ast}) + \dots + P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) &amp;=  \sum_{m=n}^{N} P(\boldsymbol{x_{N}} = \boldsymbol{x}^{\ast}) \\
+&amp;= \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k}
+\end{align*}
 </div>
 <p>となる。
 ここでサンプル数の極限<span class="math">\(N \to \infty\)</span>をとると、初項<span class="math">\(r(\boldsymbol{x}^{\ast})\)</span>、項比<span class="math">\(1-r(\boldsymbol{x}^{\ast})\)</span>とした等比級数の和の公式より、</p>
 <div class="math">
 \begin{equation*}
-\begin{align}
-  \lim_{N \to \infty} \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k} &amp;= \frac{r(\boldsymbol{x}^{\ast})}{1-\left\{1-r(\boldsymbol{x}^{\ast})\right\}} = 1
-\end{align}
+\lim_{N \to \infty} \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k} = \frac{r(\boldsymbol{x}^{\ast})}{1-\left\{1-r(\boldsymbol{x}^{\ast})\right\}} = 1
 \end{equation*}
 </div>
 <p>が得られる。即ち、サンプリングを無限に繰り返せば<span class="math">\(\boldsymbol{x}^{\ast}\)</span>が確率1で得られることが示された。この結果は、サンプルの関数列<span class="math">\(f(\boldsymbol{x_{1}}), f(\boldsymbol{x_{2}}), \dots\)</span>の中に少なくとも1つ<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が存在する事と同値である。</p>
@@ -421,15 +409,13 @@ p_{ij}^{(n)} = \sum_{r \in X} p_{ir}^{(k)}p_{rj}^{(n-k)} \quad 0 \leq k \leq n
 </div>
 <p>（証明）</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    p_{ij}^{(n)} &amp;= P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) =  \sum_{r \in X} P(\boldsymbol{x_{n}}=j, \boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 確率分布の周辺化) \\
-    &amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r, \boldsymbol{x_{0}}=i) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because ベイズの定理) \\
-    &amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because マルコフ性) \\
-    &amp;= \sum_{r\in S} P(\boldsymbol{x_{n-k}}=j|\boldsymbol{x_{0}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 斉時性) \\
-    &amp;= \sum_{r\in S} p_{rj}^{(n-k)}p_{ir}^{(k)}
-\end{align}
-\end{equation*}
+\begin{align*}
+p_{ij}^{(n)} &amp;= P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) =  \sum_{r \in X} P(\boldsymbol{x_{n}}=j, \boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 確率分布の周辺化) \\
+&amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r, \boldsymbol{x_{0}}=i) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because ベイズの定理) \\
+&amp;= \sum_{r\in S} P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because マルコフ性) \\
+&amp;= \sum_{r\in S} P(\boldsymbol{x_{n-k}}=j|\boldsymbol{x_{0}}=r) P(\boldsymbol{x_{k}}=r|\boldsymbol{x_{0}}=i) \quad (\because 斉時性) \\
+&amp;= \sum_{r\in S} p_{rj}^{(n-k)}p_{ir}^{(k)}
+\end{align*}
 </div>
 <hr class="docutils" />
 <!-- 空白のためのコメント... -->
@@ -469,12 +455,10 @@ T_{j} = \min_{n} \{ n &gt; 0 | \boldsymbol{x_{n}} = j \}
 </div>
 <p>即ち、離散時間マルコフ連鎖が初めて状態<span class="math">\(j\)</span>を訪れる時刻を表す。また、<span class="math">\(T_{i}\)</span>を用いて次の値を定義する:</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    f_{i} &amp;= P(T_{i} &lt; \infty | \boldsymbol{x_{0}} = i) = \sum_{n=1}^{\infty}P(T_{i} = n|\boldsymbol{x_{0}}=i) \\
-    m_{i} &amp;= \mathrm{E}[T_{i}|\boldsymbol{x_{0}}=i] = \sum_{k=0}^{\infty} k P(T_{i}=k|\boldsymbol{x_{0}}=i)
-\end{align}
-\end{equation*}
+\begin{align*}
+f_{i} &amp;= P(T_{i} &lt; \infty | \boldsymbol{x_{0}} = i) = \sum_{n=1}^{\infty}P(T_{i} = n|\boldsymbol{x_{0}}=i) \\
+m_{i} &amp;= \mathrm{E}[T_{i}|\boldsymbol{x_{0}}=i] = \sum_{k=0}^{\infty} k P(T_{i}=k|\boldsymbol{x_{0}}=i)
+\end{align*}
 </div>
 <p><span class="math">\(f_{i}\)</span>は将来状態<span class="math">\(i\)</span>に戻ってくる確率を表しており、<span class="math">\(f_{i}=1\)</span>ならば確率<span class="math">\(1\)</span>で状態<span class="math">\(i\)</span>を訪れる（無限にしばしば訪れる）ので状態<span class="math">\(i\)</span>は再帰的であるという。<span class="math">\(f_{i} &lt; 1\)</span>ならば状態<span class="math">\(i\)</span>は過渡的であるという。また、<span class="math">\(m_{i}\)</span>は初期状態が<span class="math">\(i\)</span>の時に、再び状態<span class="math">\(i\)</span>に戻るまでの時間の期待値を表しており、<span class="math">\(m_{i} &lt; \infty\)</span>ならば状態<span class="math">\(i\)</span>は正再帰的（有限時間で<span class="math">\(i\)</span>に戻る）であるといい、<span class="math">\(m_{i} = \infty\)</span>ならば状態<span class="math">\(i\)</span>は零再帰的であるという。</p>
 <hr class="docutils" />
@@ -502,14 +486,12 @@ u_{k} = P(T_{j} = k|\boldsymbol{x_{0}} = i)
 </div>
 <p>を（初期状態が<span class="math">\(i\)</span>で、初めて<span class="math">\(j\)</span>に訪れる時刻が<span class="math">\(k\)</span>となる確率）おく。この時、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    p_{ij}^{(1)} &amp;= u_{1} \\
-    p_{ij}^{(2)} &amp;= u_{2} + u_{1} p_{jj}^{(1)} \\
-    p_{ij}^{(3)} &amp;= u_{3} + u_{2}p_{jj}^{(1)} + u_{1}p_{jj}^{(2)} \\
-    &amp;\vdots
-\end{align}
-\end{equation*}
+\begin{align*}
+p_{ij}^{(1)} &amp;= u_{1} \\
+p_{ij}^{(2)} &amp;= u_{2} + u_{1} p_{jj}^{(1)} \\
+p_{ij}^{(3)} &amp;= u_{3} + u_{2}p_{jj}^{(1)} + u_{1}p_{jj}^{(2)} \\
+&amp;\vdots
+\end{align*}
 </div>
 <p>の観察により、<span class="math">\(n \geq 1\)</span>なる<span class="math">\(n\)</span>に対して帰納的に</p>
 <div class="math">
@@ -525,30 +507,26 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 </div>
 <p>（状態<span class="math">\(i\)</span>から始まり、<span class="math">\(j\)</span>へいつかは訪れる確率は<span class="math">\(1\)</span>）が成り立つ。一方<span class="math">\(p_{jj}^{(n)}\)</span>は、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    p_{jj}^{(n)} &amp;= P(\boldsymbol{x_{n}} = j|\boldsymbol{x_{0}}=j) \\
-    &amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j, T_{j} = k|\boldsymbol{x_{0}}=j) \quad (\because 確率分布の周辺化) \\
-    &amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|T_{j}=k, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because ベイズの定理) \\
-    &amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because T_{j} = k \implies \boldsymbol{x_{k}} = j) \\
-    &amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because マルコフ性) \\
-    &amp;= \sum_{k=1}^{n}p_{jj}^{(n-k)} u_{k}
-\end{align}
-\end{equation*}
+\begin{align*}
+p_{jj}^{(n)} &amp;= P(\boldsymbol{x_{n}} = j|\boldsymbol{x_{0}}=j) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j, T_{j} = k|\boldsymbol{x_{0}}=j) \quad (\because 確率分布の周辺化) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|T_{j}=k, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because ベイズの定理) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j, \boldsymbol{x_{0}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because T_{j} = k \implies \boldsymbol{x_{k}} = j) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{k}}=j)P(T_{j}=k|\boldsymbol{x_{0}}=j) \quad (\because マルコフ性) \\
+&amp;= \sum_{k=1}^{n}p_{jj}^{(n-k)} u_{k}
+\end{align*}
 </div>
 <p>と展開できる。数列<span class="math">\(p_{jj}^{(n)}\)</span>の極限<span class="math">\(\displaystyle\lim_{n \to \infty} p_{jj}^{(n)}\)</span>を求める為、ここでは数列の
 <strong>母関数</strong>を定義し、（片側）Z変換の最終値定理  <a class="footnote-reference" href="#id61" id="id33">[24]</a>
 を用いる。その為、今、<span class="math">\(\displaystyle G(z) = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n},\ U(z) = \sum_{n=1}^{\infty}u_{n}z^{n}\)</span>なる母関数を定義し、上式の両辺に<span class="math">\(z^{n}\)</span>を掛けて<span class="math">\(n=1,2,\dots\)</span>についての和を取ると、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    （左辺）\sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} &amp;= \sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n} - p_{jj}^{(0)} \\
-    &amp;= G(z) - 1 \\
-    （右辺）\sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}u_{k}z^{n} &amp;= \sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}z^{n-k}u_{k}z^{k} \\
-    &amp;= G(z)U(z) \\
-    \therefore G(z) &amp;= \frac{1}{1-U(z)}
-\end{align}
-\end{equation*}
+\begin{align*}
+（左辺）\sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} &amp;= \sum_{n=1}^{\infty} p_{jj}^{(n)}z^{n} = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n} - p_{jj}^{(0)} \\
+&amp;= G(z) - 1 \\
+（右辺）\sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}u_{k}z^{n} &amp;= \sum_{n=1}^{\infty} \sum_{k=1}^{n} p_{jj}^{(n-k)}z^{n-k}u_{k}z^{k} \\
+&amp;= G(z)U(z) \\
+\therefore G(z) &amp;= \frac{1}{1-U(z)}
+\end{align*}
 </div>
 <p>ここで、右辺式の最後の式変形には冪級数の積の公式 <a class="footnote-reference" href="#id62" id="id34">[25]</a> を用いている。最終値定理を適用する事を考えると、この場合は、</p>
 <div class="math">
@@ -559,14 +537,12 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 <p>が成立する <a class="footnote-reference" href="#id63" id="id35">[26]</a>
 ので、<span class="math">\(\displaystyle\lim_{n \to \infty} p_{jj}^{(n)}\)</span>の結果として、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    \lim_{n \to \infty} p_{jj}^{(n)} &amp;= \lim_{z \to 1}(1-z)G(z) = \lim_{z \to 1}\frac{1-z}{1-U(z)} \\
-    &amp;= \lim_{z \to 1}\frac{\frac{d(1-z)}{dz}}{\frac{d(1-U(z))}{dz}} \quad (\because ロピタルの定理) \\
-    &amp;= \lim_{z \to 1}\frac{1}{\frac{dU(z)}{dz}} = \frac{1}{m_{j}} = \pi_{j} \\
-    \because \lim_{z \to 1} \frac{dU(z)}{dz} &amp;= \lim_{z \to 1}\sum_{n=1}^{\infty}n u_{n} z^{n-1} = \lim_{z \to 1}\sum_{n=0}^{\infty} n u_{n} z^{n} = \sum_{n=0}^{\infty}n u_{n} = m_{j}
-\end{align}
-\end{equation*}
+\begin{align*}
+\lim_{n \to \infty} p_{jj}^{(n)} &amp;= \lim_{z \to 1}(1-z)G(z) = \lim_{z \to 1}\frac{1-z}{1-U(z)} \\
+&amp;= \lim_{z \to 1}\frac{\frac{d(1-z)}{dz}}{\frac{d(1-U(z))}{dz}} \quad (\because ロピタルの定理) \\
+&amp;= \lim_{z \to 1}\frac{1}{\frac{dU(z)}{dz}} = \frac{1}{m_{j}} = \pi_{j} \\
+\because \lim_{z \to 1} \frac{dU(z)}{dz} &amp;= \lim_{z \to 1}\sum_{n=1}^{\infty}n u_{n} z^{n-1} = \lim_{z \to 1}\sum_{n=0}^{\infty} n u_{n} z^{n} = \sum_{n=0}^{\infty}n u_{n} = m_{j}
+\end{align*}
 </div>
 <p>が得られる。さて、この結果より、任意の正数<span class="math">\(\epsilon &gt; 0\)</span>に対して<span class="math">\(n \geq N\)</span>なる全ての<span class="math">\(n\)</span>が</p>
 <div class="math">
@@ -576,15 +552,13 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 </div>
 <p>を同時に満たすような<span class="math">\(N\)</span>を取ることができる。今、<span class="math">\(n \geq 2N\)</span>に対し、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    |p_{ij}^{(n)} - \pi_{j}| &amp;= | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \pi_{j}| = | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \sum_{k=1}^{\infty}u_{k}\pi_{j}| \\
-    &amp;= |\sum_{k=1}^{n-N}u_{k}(p_{jj}^{(n-k)}-\pi_{j}) + \sum_{k=n-N+1}^{n} u_{k}(p_{jj}^{(n-k)} - \pi_{j}) -\sum_{k=n+1}^{\infty}u_{k}\pi_{j}| \\
-    &amp;\leq \sum_{k=1}^{n-N}u_{k}|p_{jj}^{(n-k)}-\pi_{j}| + \sum_{k=n-N+1}^{n} u_{k}|p_{jj}^{(n-k)} - \pi_{j}| + \sum_{k=n+1}^{\infty}|u_{k}\pi_{j}| \\
-    &amp;\leq \sum_{k=1}^{n-N}u_{k}\frac{\epsilon}{2} + \sum_{k=n-N+1}^{n} u_{k} + \sum_{k=n+1}^{\infty}u_{k} = \frac{\epsilon}{2}\sum_{k=1}^{n-N}u_{k} + \sum_{k=n-N+1}^{\infty} u_{k} \\
-    &amp;\leq \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
-\end{align}
-\end{equation*}
+\begin{align*}
+|p_{ij}^{(n)} - \pi_{j}| &amp;= | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \pi_{j}| = | \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)} - \sum_{k=1}^{\infty}u_{k}\pi_{j}| \\
+&amp;= |\sum_{k=1}^{n-N}u_{k}(p_{jj}^{(n-k)}-\pi_{j}) + \sum_{k=n-N+1}^{n} u_{k}(p_{jj}^{(n-k)} - \pi_{j}) -\sum_{k=n+1}^{\infty}u_{k}\pi_{j}| \\
+&amp;\leq \sum_{k=1}^{n-N}u_{k}|p_{jj}^{(n-k)}-\pi_{j}| + \sum_{k=n-N+1}^{n} u_{k}|p_{jj}^{(n-k)} - \pi_{j}| + \sum_{k=n+1}^{\infty}|u_{k}\pi_{j}| \\
+&amp;\leq \sum_{k=1}^{n-N}u_{k}\frac{\epsilon}{2} + \sum_{k=n-N+1}^{n} u_{k} + \sum_{k=n+1}^{\infty}u_{k} = \frac{\epsilon}{2}\sum_{k=1}^{n-N}u_{k} + \sum_{k=n-N+1}^{\infty} u_{k} \\
+&amp;\leq \frac{\epsilon}{2} + \frac{\epsilon}{2} = \epsilon
+\end{align*}
 </div>
 <p>よって、<span class="math">\(\displaystyle \lim_{n \to \infty} p_{ij}^{(n)} = \pi_{j} = \lim_{n \to \infty} p_{jj}^{(n)}\)</span>。</p>
 <p>次に2.
@@ -597,22 +571,18 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 </div>
 <p>を得る。また、<span class="math">\(a_{j}(n) = P(\boldsymbol{x_{n}} = j)\)</span>（時刻<span class="math">\(n\)</span>で状態<span class="math">\(j\)</span>を訪れる確率）とおくと、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    a_{j}(n) &amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i)P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) = \sum_{i \in X}P(\boldsymbol{x_{0}}=i)p_{ij}^{(n)} \\
-    \therefore \lim_{n \to \infty} a_{j}(n) &amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i) \lim_{n \to \infty}p_{ij}^{(n)} = \pi_{j} \sum_{i \in X} P(\boldsymbol{x_{0}} = i) = \pi_{j}
-\end{align}
-\end{equation*}
+\begin{align*}
+a_{j}(n) &amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i)P(\boldsymbol{x_{n}}=j|\boldsymbol{x_{0}}=i) = \sum_{i \in X}P(\boldsymbol{x_{0}}=i)p_{ij}^{(n)} \\
+\therefore \lim_{n \to \infty} a_{j}(n) &amp;= \sum_{i \in X}P(\boldsymbol{x_{0}}=i) \lim_{n \to \infty}p_{ij}^{(n)} = \pi_{j} \sum_{i \in X} P(\boldsymbol{x_{0}} = i) = \pi_{j}
+\end{align*}
 </div>
 <p>が成立し、チャップマン−コルモゴロフ方程式により、<span class="math">\(n, m \geq0\)</span>なる整数に対し、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}
-    a_{j}(m+n) &amp;= \sum_{r \in X}P(\boldsymbol{x_{0}}=r)P(\boldsymbol{x_{m+n}}=j|\boldsymbol{x_{0}}=r) = \sum_{r \in X} P(\boldsymbol{x_{0}} = r) p_{rj}^{(m+n)} \\
-    &amp;= \sum_{r \in X} P(\boldsymbol{x_{0}}=r) \sum_{i \in X} p_{ri}^{(m)}p_{ij}^{(n)} \quad (\because チャップマン-コルモゴロフ方程式を使用) \\
-    &amp;= \sum_{i \in X}\sum_{r \in X}P(\boldsymbol{x_{0}}=r)p_{ri}^{(m)} p_{ij}^{(n)} = \sum_{i \in X} a_{i}(m) p_{ij}^{(n)}
-\end{align}
-\end{equation*}
+\begin{align*}
+a_{j}(m+n) &amp;= \sum_{r \in X}P(\boldsymbol{x_{0}}=r)P(\boldsymbol{x_{m+n}}=j|\boldsymbol{x_{0}}=r) = \sum_{r \in X} P(\boldsymbol{x_{0}} = r) p_{rj}^{(m+n)} \\
+&amp;= \sum_{r \in X} P(\boldsymbol{x_{0}}=r) \sum_{i \in X} p_{ri}^{(m)}p_{ij}^{(n)} \quad (\because チャップマン-コルモゴロフ方程式を使用) \\
+&amp;= \sum_{i \in X}\sum_{r \in X}P(\boldsymbol{x_{0}}=r)p_{ri}^{(m)} p_{ij}^{(n)} = \sum_{i \in X} a_{i}(m) p_{ij}^{(n)}
+\end{align*}
 </div>
 <p>この式の両辺を<span class="math">\(m \to \infty\)</span>ならしめれば、極限と和の交換法則より、</p>
 <div class="math">
@@ -860,10 +830,10 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id34">[25]</a></td><td><p class="first">2つの冪級数を<span class="math">\(\displaystyle\sum_{n=0}^{\infty}a_{n}z^{n}, \sum_{n=0}^{\infty}b_{n}z^{n}\)</span>とし、積の結果を<span class="math">\(\displaystyle\sum_{n=0}^{\infty}c_{n}z^{n}\)</span>とする。等号を立てると、</p>
 <div class="math">
-\begin{equation*}
-\begin{align}    \left(\sum_{n=0}^{\infty}a_{n}z^{n}\right)\left(\sum_{n=0}^{\infty}b_{n}z^{n} \right) = a_{0}b_{0}z^{0} + (a_{0}b_{1} + a_{1}b_{0})z^{1} + (a_{0}b_{2}+a_{1}b_{1}+a_{2}b_{0})z^{2} + \dots \\
-  = \sum_{n=0}^{\infty}c_{n}z^{n} = c_{0}z^{0} + c_{1}z^{1} + c_{2}z^{2} + \dots \end{align}
-\end{equation*}
+\begin{align*}
+\left(\sum_{n=0}^{\infty}a_{n}z^{n}\right)\left(\sum_{n=0}^{\infty}b_{n}z^{n} \right) &amp;= a_{0}b_{0}z^{0} + (a_{0}b_{1} + a_{1}b_{0})z^{1} + (a_{0}b_{2}+a_{1}b_{1}+a_{2}b_{0})z^{2} + \dots \\
+  &amp;= \sum_{n=0}^{\infty}c_{n}z^{n} = c_{0}z^{0} + c_{1}z^{1} + c_{2}z^{2} + \dots
+\end{align*}
 </div>
 <p class="last">係数比較により、<span class="math">\(c_{0} = a_{0}b_{0},\ c_{1} = a_{0}b_{1} + a_{1}b_{0},\ \dots\)</span>が成立し、よって<span class="math">\(c_{n} = \displaystyle \sum_{k=0}^{n}a_{k}b_{n-k}\)</span>となる。ここの例では、<span class="math">\(a_{k} = u_{k}z^{k},\ b_{k} = p_{jj}^{(k)}z^{k}\)</span>とおけば良い。</p>
 </td></tr>
@@ -874,12 +844,11 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id35">[26]</a></td><td><p class="first">（証明）母関数（Z変換）を<span class="math">\(F(z) = \displaystyle \sum_{n=0}^{\infty}a_{n}z^{n}\)</span>とおくと、</p>
 <div class="last math">
-\begin{equation*}
-\begin{align}
-  \lim_{z \to 1} (1-z) F(z) = \lim_{z \to 1}(1-z) \sum_{n=0}^{\infty} a_{n}z^{n} = \lim_{z \to 1} \sum_{n=0}^{\infty} a_{n} (z^{n} - z^{n+1}) = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} a_{k} (z^{k} - z^{k+1}) \\
-  = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) z^{k} \quad (\because a_{-1} = 0, また a_{0}(z^{0}-z^{1}) + a_{1}(z^{1}-z^{2}) +\dots = a_{0}z^{0} + (a_{0}-a_{1})z^{1} + \dots) \\
-  = \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) = \lim_{n \to \infty} a_{n}\end{align}
-\end{equation*}
+\begin{align*}
+\lim_{z \to 1} (1-z) F(z) &amp;= \lim_{z \to 1}(1-z) \sum_{n=0}^{\infty} a_{n}z^{n} = \lim_{z \to 1} \sum_{n=0}^{\infty} a_{n} (z^{n} - z^{n+1}) = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} a_{k} (z^{k} - z^{k+1}) \\
+&amp;= \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) z^{k} \quad (\because a_{-1} = 0, また a_{0}(z^{0}-z^{1}) + a_{1}(z^{1}-z^{2}) +\dots = a_{0}z^{0} + (a_{0}-a_{1})z^{1} + \dots) \\
+&amp;= \lim_{n \to \infty} \sum_{k=0}^{n} (a_{k} - a_{k-1}) = \lim_{n \to \infty} a_{n}
+\end{align*}
 </div>
 </td></tr>
 </tbody>
