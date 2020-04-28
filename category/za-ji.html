@@ -82,9 +82,24 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/2020-04-28.html">2020-04-28</a></h2>
+                <div class="summary"><div class="section" id="lms-filter-2">
+<h2>LMS Filterの挙動観察中(2)</h2>
+<p>つまるところ、以下の計算をどうやるか？に尽きる。</p>
+<div class="math">
+\begin{equation*}
+\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
+\end{equation*}
+</div>
+<p><span class="math">\(\varepsilon(n)\)</span> はi.i.d.（独立に同一の分布）から発生しているので …</p></div>
+                    <a class="btn btn-default btn-xs" href="/2020-04-28.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/2020-04-27.html">2020-04-27</a></h2>
-                <div class="summary"><div class="section" id="lms-filter">
-<h2>LMS Filterの挙動観察中</h2>
+                <div class="summary"><div class="section" id="lms-filter-1">
+<h2>LMS Filterの挙動観察中(1)</h2>
 <p>引き続き観察中。勾配の計算ミスがあったりして厳しかった。</p>
 <p>問題は、やはりというかSignLMSでのヘッセ行列。<span class="math">\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)</span> の計算でインパルス応答の扱いをどうするのか...連続信号では厳密に0を取る確率は0だ。だからといって離散的に考えていいのか？</p>
 <p>誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。</p>
@@ -93,14 +108,8 @@ Aiki's Blog            </a>
 <p>一旦残差0の重み付けで実験を進めているが、まだ残差0確率が怪しい感じ。（0.93とかいう現実離れした数値。実際の音声では約0.09とかそんなん）</p>
 <p>見やすいようにパラメータを2つにしている。2つにした時でも同じ出力を与える組み合わせがあり、それが直線上に並んでいる事がわかっている。</p>
 </div>
-<div class="section" id="todo">
-<h2>TODO</h2>
-<ul class="simple">
-<li>評価がまとまったら結果共有に入りたい。</li>
-<li>OMPを使う。</li>
-<li>パーティクルフィルター使えない？</li>
-<li>メッセージパッシング使えない？<ul>
-<li>何らかの確率モデル化をせよ …</li></ul></li></ul></div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var …</script>
                     <a class="btn btn-default btn-xs" href="/2020-04-27.html">more ...</a>
                 </div>
             </article>
@@ -275,32 +284,6 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
 </ul>
 <p>上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust …</p></div>
                     <a class="btn btn-default btn-xs" href="/2020-04-17.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/2020-04-16.html">2020-04-16</a></h2>
-                <div class="summary"><div class="section" id="lms">
-<h2>LMSフィルターの挙動観察</h2>
-<p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
-<ul class="simple">
-<li><span class="math">\(m\)</span> が十分大きいとき、0に近づくかどうか</li>
-</ul>
-<p>を知りたい。もし0に近づくならば有効な過程として解法に使える。
-しかしその前に、LMSフィルター自体の挙動を追いたい。</p>
-<ul class="simple">
-<li>残差はどの様に減る？残差の時系列は？<ul>
-<li>ステップサイズにより収束の度合い（残差の分布）が違う...</li>
-<li>当然、フィルタ次数でも収束の度合い（残差の分布）が違う</li>
-</ul>
-</li>
-<li>残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？<ul>
-<li>これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。</li>
-<li>単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
-</ul>
-</li>
-<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span>, <span class="math">\(\mathrm{E}[e(n)x(n-m)]\)</span> は両方とも0 …</li></ul></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-16.html">more ...</a>
                 </div>
             </article>
             <hr/>
