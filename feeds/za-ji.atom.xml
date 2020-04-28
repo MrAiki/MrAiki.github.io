@@ -40,6 +40,8 @@
 &lt;li&gt;&lt;a class="reference external" href="http://www.allisone.co.jp/html/Notes/DSP/Filter/particle-filter/index.html"&gt;パーティクル・フィルタをやさしく解説&lt;/a&gt; が確かに優しい。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.terrapub.co.jp/journals/jjssj/pdf/4401/44010189.pdf"&gt;粒子フィルタの基礎と応用: フィルタ・平滑化・パラメータ推定&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;div class="section" id="mathrm-e-left-delta-varepsilon-n-x-n-m-x-n-k-right"&gt;
+&lt;h3&gt;&lt;span class="math"&gt;\(\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]\)&lt;/span&gt; の解釈&lt;/h3&gt;
 &lt;p&gt;結局 &lt;span class="math"&gt;\(\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]\)&lt;/span&gt; の解釈から逃げている...。もう少し考えていたら、残差 &lt;span class="math"&gt;\(\varepsilon\)&lt;/span&gt; は入力ベクトル &lt;span class="math"&gt;\(x\)&lt;/span&gt; と独立であることを思い出した。ここから、次が言える。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
@@ -49,8 +51,7 @@
 &lt;p&gt;ここで、 &lt;span class="math"&gt;\(\mathrm{E} \left[ \delta(\varepsilon(n)) \right]\)&lt;/span&gt; はお察しの通りで、以下の通りに、やはり残差が0となる確率が出てくる。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
-\mathrm{E} \left[ \delta(\varepsilon(n)) \right] &amp;amp;= \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1}^{N} \delta(\varepsilon(n)) \\
-&amp;amp;= \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} 1 \\
+\mathrm{E} \left[ \delta(\varepsilon(n)) \right] &amp;amp;= \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1}^{N} \delta(\varepsilon(n)) = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} 1 \\
 &amp;amp;= P(\varepsilon = 0)
 \end{align*}
 &lt;/div&gt;
@@ -60,7 +61,7 @@
 \mathrm{E} \left[\delta(\varepsilon(n)) x(n - m) x(n - k) \right] = P(\varepsilon = 0) \mathrm{E} \left[ x(n - m) x(n - k) \right]
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(P(\varepsilon = 0)\)&lt;/span&gt; を考える。まず注意したいのは、連続型確率分布においては一点0をとる確率は0ということ（測度0だから）。だから、方針としては、&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(P(\varepsilon = 0)\)&lt;/span&gt; を考える。まず注意したいのは、連続型確率分布においては一点0をとる確率は0ということ（測度0だから）。近似するしかなく、方針としては、&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
 &lt;li&gt;残差の閾値を定めて、それ以下の数値を残差0とみなして確率を求める&lt;/li&gt;
 &lt;li&gt;離散型確率分布で考える&lt;/li&gt;
@@ -110,7 +111,8 @@ P(X = k) &amp;amp;= \frac{\exp\left( -\frac{|k|}{\sigma} \right)}{1 + 2 \frac{\e
 &amp;amp;= \frac{1 - p}{1 + p} p^{|k|}, \quad p = \exp(-1/\sigma)
 \end{align*}
 &lt;/div&gt;
-&lt;p&gt;これは離散型確率分布であることに注意。連続版かつ &lt;span class="math"&gt;\(\mu=0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(|x|\)&lt;/span&gt; がある閾値 &lt;span class="math"&gt;\(\delta\)&lt;/span&gt; 以下となる確率は次のように計算できる:&lt;/p&gt;
+&lt;p&gt;これは離散型確率分布であることに注意。&lt;/p&gt;
+&lt;p&gt;連続版かつ &lt;span class="math"&gt;\(\mu=0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(|x|\)&lt;/span&gt; がある閾値 &lt;span class="math"&gt;\(\delta &amp;gt; 0\)&lt;/span&gt; 以下となる確率は次のように計算できる:&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \frac{1}{2 \sigma} \int^{\delta}_{-\delta} \exp\left(-\frac{|x|}{\sigma} \right) dx \\
@@ -118,6 +120,13 @@ P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \fr
 &amp;amp;= -\left[ \exp\left(-\frac{x}{\sigma} \right) \right]^{\delta}_{0} = \exp(0) - \exp\left( - \frac{\delta}{\sigma} \right) \\
 &amp;amp;= 1 - \exp\left( - \frac{\delta}{\sigma} \right)
 \end{align*}
+&lt;/div&gt;
+&lt;p&gt;この式により分散行列にかける係数を決めることを考えると、次が考察される。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\delta\)&lt;/span&gt; が大きい（分散 &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; が小さい）と確率が1に近づき、分散行列はLMSのそれと近くなる。&lt;/li&gt;
+&lt;li&gt;逆に &lt;span class="math"&gt;\(\delta\)&lt;/span&gt; が小さい（分散 &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; が大きい）と分散行列に小さいスカラーを乗じる。分散行列の逆行列をとると、大きいスカラーを乗じることになり、勾配ベクトルの傾きが大きくなりそう。&lt;/li&gt;
+&lt;li&gt;ノイズレベル（分散）が小さいときは勾配が小さくなり極値付近を精密に調べ、大きい場合は勾配が大きくなりダイナミックに探索空間を動き回りそう。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="lms"&gt;
 &lt;h3&gt;LMSの性能解析に関する文献&lt;/h3&gt;
