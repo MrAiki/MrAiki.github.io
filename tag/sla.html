@@ -81,45 +81,35 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/2020-04-21.html">2020-04-21</a></h2>
+                <h2><a href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察/Signed-LMSの目的関数の2階微分</a></h2>
                 <div class="summary"><div class="section" id="mathrm-e-varepsilon-n-x-n-m">
 <h2>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察</h2>
-<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。
+<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は 0 に収束していることを見た。
 <span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。</p>
 <ul class="simple">
 <li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
 <li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
 <li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
-<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。</li>
+<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一の sin 波を等価させたときはわかりやすい。</li>
 </ul>
 <div class="figure align-center">
-<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" />
-<p class="caption">440.0Hzのsin波に対する各タップの平均勾配変化</p>
+<img alt="440.0Hz の sin 波に対する各タップの平均勾配変化グラフ " src="./images/sin_mean_gradient.png" style="width: 40%;" />
+<p class="caption">440.0Hz の sin 波に対する各タップの平均勾配変化</p>
 </div>
 <div class="figure align-center">
-<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" />
+<img alt=" ボイス対する各タップの平均勾配変化グラフ " src="./images/voice_mean_gradient.png" style="width: 40%;" />
 <p class="caption">ボイス対する各タップの平均勾配変化</p>
 </div>
 <div class="figure align-center">
-<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
-<p class="caption">ピアノ演奏に対する各タップの平均勾配変化</p>
-</div>
-</div>
-<div class="section" id="signed-lms2">
-<h2>Signed-LMSの目的関数の2階微分</h2>
-<p>勇気を出してやってみる。</p>
-<div class="math">
-\begin{equation*}
-\newcommand\innerp[2 …</div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-21.html">more ...</a>
+<img alt=" ピアノ演奏に対する各タップの平均勾配変化グラフ " src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ピアノ演奏に対する各タップの平均勾配変化 …</p></div></div>
+                    <a class="btn btn-default btn-xs" href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-20.html">2020-04-20</a></h2>
-                <div class="summary"><div class="section" id="irls">
-<h2>IRLSの更新式について</h2>
-<p>MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 <tt class="docutils literal">newcommand</tt> を行えばずっと使えるみたい。便利。</p>
+                <h2><a href="/irlsnogeng-xin-shi-nitsuite.html">IRLSの更新式について</a></h2>
+                <div class="summary"><p>MathJax の環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 <tt class="docutils literal">newcommand</tt> を行えばずっと使えるみたい。便利。</p>
 <div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -127,174 +117,153 @@ Aiki's Blog            </a>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<p>逐次的更新の件について。IRLSでは以下の評価関数 <span class="math">\(J(\ve{\beta})\)</span> の最小化を考える。</p>
+<p>逐次的更新の件について。IRLS では以下の評価関数 <span class="math">\(J(\ve{\beta})\)</span> の最小化を考える。</p>
 <div class="math">
 \begin{equation*}
-J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-20.html">more ...</a>
+J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_ …</div>
+                    <a class="btn btn-default btn-xs" href="/irlsnogeng-xin-shi-nitsuite.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-19.html">2020-04-19</a></h2>
-                <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares-2">
-<h2>IRLS(Iteratively Reweighted Least Squares) その2</h2>
-<p>理論ばっかり追っていて悶々してきたので、IRLSでL1残差最小化が解けないか実験してみる。</p>
+                <h2><a href="/irlsiteratively-reweighted-least-squares-sono2.html">IRLS(Iteratively Reweighted Least Squares) その2</a></h2>
+                <div class="summary"><p>理論ばっかり追っていて悶々してきたので、IRLS で L1 残差最小化が解けないか実験してみる。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb">第5章 厳密解から近似解へ</a> に『スパースモデリング』5章のPython実装あり。</li>
-<li><a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irlsの概要">スパースモデリング：第3章 追跡アルゴリズム</a> は『スパースモデリング』3章のPython実装。</li>
+<li><a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb">第 5 章 厳密解から近似解へ</a> に『スパースモデリング』5 章の Python 実装あり。</li>
+<li><a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irls の概要 ">スパースモデリング：第 3 章 追跡アルゴリズム</a> は『スパースモデリング』3 章の Python 実装。</li>
 </ul>
-<p>IRLSの実装は <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> を参考に。Pythonで簡単にできた。</p>
+<p>IRLS の実装は <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> を参考に。Python で簡単にできた。</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
 
-<span class="c1"># IRLS法によりPhi @ x = yのスパース解を求める</span>
+<span class="c1"># IRLS 法により Phi @ x = y のスパース解を求める</span>
 <span class="k">def</span> <span class="nf">irls_update</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
-    <span class="n">EPSILON</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">8.0</span><span class="p">)</span>
-    <span class="c1"># 重みの計算</span>
-    <span class="n">weight</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">Phi</span> <span class="err">@</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="c1"># 小さくなりすぎた重みは打ち切る</span>
-    <span class="n">weight</span><span class="p">[</span><span class="n">weight</span> <span class="o">&lt;</span> <span class="n">EPSILON …</span></pre></div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-19.html">more ...</a>
+    <span class="n">EPSILON</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">8.0 …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/irlsiteratively-reweighted-least-squares-sono2.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-18.html">2020-04-18</a></h2>
-                <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares">
-<h2>IRLS(Iteratively Reweighted Least Squares)</h2>
-<p>LAD(Least Absolute Deviation)を近似的・逐次的に解く方法としてのIRLSについて調査。そういえば基本的な原理を抑えていなかった。</p>
+                <h2><a href="/irlsiteratively-reweighted-least-squares.html">IRLS(Iteratively Reweighted Least Squares)</a></h2>
+                <div class="summary"><p>LAD(Least Absolute Deviation) を近似的・逐次的に解く方法としての IRLS について調査。そういえば基本的な原理を抑えていなかった。</p>
 <ul class="simple">
-<li><a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html">Iteratively Reweighted Least Squares　についてサクッと。</a> 文字通りサクッとしたまとめ。OMPを使って解いているというのがとても気になる</li>
+<li><a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html">Iteratively Reweighted Least Squares　についてサクッと。</a> 文字通りサクッとしたまとめ。OMP を使って解いているというのがとても気になる</li>
 <li><a class="reference external" href="https://cnx.org/contents/krkDdys0&#64;12/Iterative-Reweighted-Least-Squares">Iterative Reweighted Least Squares</a> 導入から解法まで。しかしなぜ解が求まるのかは不明。</li>
 <li><a class="reference external" href="https://cedar.buffalo.edu/~srihari/CSE574/Chap4/4.3.3-IRLS.pdf">Iterative Reweighted Least Squares</a> バッファロー大の講義資料？これも何故解けるのかはちゃんと書いてない。</li>
 <li><a class="reference external" href="http://www.maths.lth.se/matematiklth/personal/fredrik/Session3.pdf">Iterative Reweighted Least Squares</a> これが一番いいかも。なぜ解けるかもざっくり証明がある。<ul>
-<li>そこで出てきたsupergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 <a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf">Supergradients</a> に定義はあったけど幾何学的イメージが欲しい。</li>
-<li>Weiszfeld Algorithmsという幾何中央値を求めるアルゴリズムは <a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf">Generalized Weiszfeld Algorithms for …</a></li></ul></li></ul></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-18.html">more ...</a>
+<li>そこで出てきた supergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 <a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf">Supergradients</a> に定義はあったけど幾何学的イメージが欲しい。</li>
+<li>Weiszfeld Algorithms という幾何中央値を求めるアルゴリズムは <a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf">Generalized Weiszfeld Algorithms for …</a></li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/irlsiteratively-reweighted-least-squares.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-17.html">2020-04-17</a></h2>
-                <div class="summary"><div class="section" id="lad-least-absolute-deviation">
-<h2>LAD(Least Absolute Deviation)</h2>
-<p>LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。</p>
+                <h2><a href="/ladleast-absolute-deviation.html">LAD(Least Absolute Deviation)</a></h2>
+                <div class="summary"><p>LAD(Least Absolute Deviation) を見ている。これは、残差を L1 ノルムにした回帰問題一般のこと。</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> が結構まとまっている。</li>
 <li><a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf">最尤推定による近似的手法</a> は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。</li>
 </ul>
-<p>ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4時間飛ばす。</p>
+<p>ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4 時間飛ばす。</p>
 <div class="figure">
-<img alt="最尤推定の計算のあがき" src="./images/IMG_3828.jpg" style="width: 40%;" />
+<img alt=" 最尤推定の計算のあがき " src="./images/IMG_3828.jpg" style="width: 40%;" />
 <p class="caption">最尤推定の計算のあがき</p>
 </div>
-<p>あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習をL1にしているやつが、やっぱりいた。</p>
+<p>あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習を L1 にしているやつが、やっぱりいた。</p>
 <ul class="simple">
 <li><a class="reference external" href="http://winsty.net/papers/onndl.pdf">Online Robust Non-negative Dictionary Learning for Visual Tracking</a> パーティクルフィルターを使っておる。</li>
 </ul>
-<p>上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust …</p></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-17.html">more ...</a>
+<p>上の文献で使ってる Huber Loss …</p>
+                    <a class="btn btn-default btn-xs" href="/ladleast-absolute-deviation.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-16.html">2020-04-16</a></h2>
-                <div class="summary"><div class="section" id="lms">
-<h2>LMSフィルターの挙動観察</h2>
-<p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
+                <h2><a href="/lmshuirutanoju-dong-guan-cha.html">LMSフィルターの挙動観察</a></h2>
+                <div class="summary"><p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
 <ul class="simple">
-<li><span class="math">\(m\)</span> が十分大きいとき、0に近づくかどうか</li>
+<li><span class="math">\(m\)</span> が十分大きいとき、0 に近づくかどうか</li>
 </ul>
-<p>を知りたい。もし0に近づくならば有効な過程として解法に使える。
-しかしその前に、LMSフィルター自体の挙動を追いたい。</p>
+<p>を知りたい。もし 0 に近づくならば有効な過程として解法に使える。
+しかしその前に、LMS フィルター自体の挙動を追いたい。</p>
 <ul class="simple">
 <li>残差はどの様に減る？残差の時系列は？<ul>
-<li>ステップサイズにより収束の度合い（残差の分布）が違う...</li>
+<li>ステップサイズにより収束の度合い（残差の分布）が違う ...</li>
 <li>当然、フィルタ次数でも収束の度合い（残差の分布）が違う</li>
 </ul>
 </li>
-<li>残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？<ul>
-<li>これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。</li>
-<li>単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
+<li>残差分布はどうなってる？Signed-LMS でラプラス分布に近づいてる？<ul>
+<li>これは本当のようで、Signed-LMS の方が裾が細い残差分布が得られている。</li>
+<li>単純な正弦波に対しては LMS のほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的に SignLMS の方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
 </ul>
 </li>
-<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span>, <span class="math">\(\mathrm{E}[e(n)x(n-m)]\)</span> は両方とも0 …</li></ul></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-16.html">more ...</a>
+<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n …</span></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lmshuirutanoju-dong-guan-cha.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-10.html">2020-04-10</a></h2>
-                <div class="summary"><div class="section" id="id2">
-<h2>続・古いロスレス音声コーデックの調査</h2>
-<p>古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった:</p>
+                <h2><a href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">続・古いロスレス音声コーデックの調査</a></h2>
+                <div class="summary"><p>古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった :</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.eie.polyu.edu.hk/~enyhchan/ce_ac_p1.pdf">Lossless Compression of Digital Audio</a></li>
 </ul>
-<p>理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。</p>
-<p>AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。</p>
-</div>
+<p>理論としてもその通りだし、雑誌発行時点 (1998) からさしたるブレークスルーが無いように見える。</p>
+<p>AudioPak, OggSquish, Philips, Sonarc, WA という謎のコーデック現る …。いったい何個あるんだ。</p>
 
-                    <a class="btn btn-default btn-xs" href="/2020-04-10.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-08.html">2020-04-08</a></h2>
-                <div class="summary"><div class="section" id="id2">
-<h2>古いロスレス音声コーデックの調査</h2>
-<p>ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが <a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison">Hydrogenaudioでの比較</a> よりも古い内容を扱っている。</p>
+                <h2><a href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html">古いロスレス音声コーデックの調査/スパース適応フィルタ</a></h2>
+                <div class="summary"><p>ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが <a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison">Hydrogenaudio での比較</a> よりも古い内容を扱っている。</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html">Lossless Compression of Audio</a></li>
 </ul>
 <p>見つけたロスレス音声コーデックを一覧する。というかほぼ <a class="reference external" href="https://www.rarewares.org/rrw/about.php">Really Rare Wares</a> 様へのリンク。</p>
-<div class="section" id="id3">
-<h3>古めのロスレス音声コーデック</h3>
+<div class="section" id="id2">
+<h2>古めのロスレス音声コーデック</h2>
 <div class="section" id="rkau-rk-audio">
-<h4><a class="reference external" href="https://www.rarewares.org/rrw/rkau.php">RKAU(RK Audio)</a></h4>
-<p>古い比較において優秀な圧縮率を誇っていた。当時のMonkey's Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。</p>
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/rkau.php">RKAU(RK Audio)</a></h3>
+<p>古い比較において優秀な圧縮率を誇っていた。当時の Monkey's Audio よりも上。サイトを覗いたら exe と dll のみの配布だった。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html">RKAUのホームページ（魚拓）</a> を見ても特に情報なし。</li>
+<li><a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html">RKAU のホームページ（魚拓）</a> を見ても特に情報なし。</li>
 </ul>
 </div>
 <div class="section" id="audiozip">
-<h4><a class="reference external" href="https://www.rarewares.org/rrw/audiozip.php">AudioZip</a></h4>
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/audiozip.php">AudioZip</a></h3>
 <p>これも圧縮率が比較的優秀。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm">AudioZipのホームページ（魚拓）</a> を見てもこちらも特に情報なし。</li>
+<li><a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm">AudioZip のホームページ（魚拓）</a> を見てもこちらも特に情報なし。</li>
 </ul>
 </div>
 <div class="section" id="wavarc">
-<h4><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/wavarc/0readme.html">WavArc</a></h4>
-<p>こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。</p>
+<h3><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/wavarc/0readme.html">WavArc</a></h3>
+<p>こちらも最大圧縮率 (-c5) を選択するとそれなりに優秀な結果を出していた。このページに exe とドキュメントをまとめた zip もあり。</p>
 </div>
 <div class="section" id="wavezip">
-<h4><a class="reference external" href="https://www.rarewares.org/rrw/wavezip.php">WaveZip</a></h4>
-<p>圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 <a class="reference external" href="https://www.rarewares.org/rrw/files/lossless/musi_txt.txt">WaveZipのデータシート</a> によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。</p>
-<p><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#wavezip">WaveZipの概要</a> が比較サイトに掲載されていた …</p></div></div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-08.html">more ...</a>
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/wavezip.php">WaveZip</a></h3>
+<p>圧縮率よりは速度重視のコーデックのようだ …</p></div></div>
+                    <a class="btn btn-default btn-xs" href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-02.html">2020-04-02</a></h2>
+                <h2><a href="/burogudao-ru.html">ブログ導入</a></h2>
                 <div class="summary"><p>GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
-GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。</p>
+GitHub io + Pelican は以下の記事を参考にしている。まだあんまり分かってない。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d">Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法</a></li>
-<li><a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514">GitHub Pagesで静的サイトを簡単に作る</a></li>
-<li><a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d">Python製 Pelican を使ってサクッとブログを公開する</a></li>
-<li><a class="reference external" href="http://www.pelicanthemes.com">Pelicanのテーマ集</a></li>
-<li><a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986">テーマ導入時にハマったので参考にしたissue comment</a></li>
+<li><a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d">Python 製静的 HTML ジェネレータの Pelican で GitHub Pages を公開する方法</a></li>
+<li><a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514">GitHub Pages で静的サイトを簡単に作る</a></li>
+<li><a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d">Python 製 Pelican を使ってサクッとブログを公開する</a></li>
+<li><a class="reference external" href="http://www.pelicanthemes.com">Pelican のテーマ集</a></li>
+<li><a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986">テーマ導入時にハマったので参考にした issue comment</a></li>
 </ul>
-<p>今日は（というか3月末）からSLAの高速化作業とまとめをしていた。</p>
-<p>格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。
-SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
-<a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions">StackOverFlowの記事</a> では <cite>_mm_set_epi32</cite> のコストが高い旨記述あり。 <cite>_mm_loadu_si128</cite> の使用に置き換えた。
-<a class="reference external" href="https://stackoverflow.com/questions/24446516/performance-worsens-when-using-sse-simple-addition-of-integer-arrays">他の記事</a> で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。</p>
-<p><a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html">gccとVC</a> にはgccとVisual Studioの挙動の差異について色々と書いてあった。</p>
-
-                    <a class="btn btn-default btn-xs" href="/2020-04-02.html">more ...</a>
+<p>今日は（というか 3 月末）から SLA の高速化作業とまとめをしていた。</p>
+<p>格子型フィルタ演算はどうしても 1 乗算型にできず。次数演算を 4 次数にして SSE 演算するのがやっと。
+SSE 化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
+<a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions">StackOverFlow …</a></p>
+                    <a class="btn btn-default btn-xs" href="/burogudao-ru.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -314,6 +283,89 @@ SSE化するときに、スカラー演算とベクトル演算が混じった�
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Links -->
 <li class="list-group-item">
@@ -346,7 +398,7 @@ SSE化するときに、スカラー演算とベクトル演算が混じった�
          <div class="col-xs-10">&copy; 2020 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.</small></p>
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
          </div>
          <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
       </div>

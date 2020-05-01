@@ -82,40 +82,76 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/2020-04-28.html">2020-04-28</a></h2>
-                <div class="summary"><div class="section" id="lms-filter-2">
-<h2>LMS Filterの挙動観察中(2)</h2>
-<p>つまるところ、以下の計算をどうやるか？に尽きる。</p>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-5.html">LMS Filterの挙動観察中(5)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。
+以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。</p>
+<div class="math">
+\begin{equation*}
+\ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x …</div>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-4.html">LMS Filterの挙動観察中(4)</a></h2>
+                <div class="summary"><p>本日も引き続き発散の原因を追う。
+→ ステップサイズを小さくしたら発散しなくなった …。職人芸じゃないかこんなの。NLMS みたく発散しない条件がほしいな。</p>
+<p>本当に既存研究がないか、再度調査。</p>
+<p>自然勾配を適応的に計算する方法を試している。無論、定義式通りに計算するのは問題ないことは確かめているが、計算量が気になるのです。</p>
+<p>パラメータを色々といじりつつ、論文も参照してそれなりのパラメータを見つける。
+パラメータについては <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;ved=2ahUKEwi4ufHi4o_pAhUY_GEKHd-gDBwQFjAEegQIBRAB&amp;url=https%3A%2F%2Fwww.mdpi.com%2F2076-3417%2F9%2F21%2F4568%2Fpdf&amp;usg=AOvVaw0KgakdcC8U_T71ks8hZKDW">Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode</a> を皮切りに調査開始。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.8668&amp;rep=rep1&amp;type=pdf">Adaptive Method of Realizing Natural Gradient Learning for Multilayer Perceptrons</a> が甘利先生。（福水先生もいるぞ）<ul>
+<li>この論文で適応的更新式の導出が述べられる。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf">Adaptive natural gradient learning algorithms for various stochastic models …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-3.html">LMS Filterの挙動観察中(3)</a></h2>
+                <div class="summary"><p>LMS はヘッセ行列の逆行列込みの学習ができているが、Signed-LMS は上手く行かない。分散行列が特異になったり、要素が大きくなりすぎて発散してしまう。。。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-2.html">LMS Filterの挙動観察中(2)</a></h2>
+                <div class="summary"><p>つまるところ、以下の計算をどうやるか？に尽きる。</p>
 <div class="math">
 \begin{equation*}
 \mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
 \end{equation*}
 </div>
-<p><span class="math">\(\varepsilon(n)\)</span> はi.i.d.（独立に同一の分布）から発生しているので …</p></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-28.html">more ...</a>
+<p><span class="math">\(\varepsilon(n)\)</span> は i.i.d.（独立に同一の分布）から発生しているので、<span class="math">\(x(n-m …</span></p>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-2.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-27.html">2020-04-27</a></h2>
-                <div class="summary"><div class="section" id="lms-filter-1">
-<h2>LMS Filterの挙動観察中(1)</h2>
-<p>引き続き観察中。勾配の計算ミスがあったりして厳しかった。</p>
-<p>問題は、やはりというかSignLMSでのヘッセ行列。<span class="math">\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)</span> の計算でインパルス応答の扱いをどうするのか...連続信号では厳密に0を取る確率は0だ。だからといって離散的に考えていいのか？</p>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-1.html">LMS Filterの挙動観察中(1)</a></h2>
+                <div class="summary"><p>引き続き観察中。勾配の計算ミスがあったりして厳しかった。</p>
+<p>問題は、やはりというか SignLMS でのヘッセ行列。<span class="math">\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)</span> の計算でインパルス応答の扱いをどうするのか ... 連続信号では厳密に 0 を取る確率は 0 だ。だからといって離散的に考えていいのか？</p>
 <p>誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。</p>
-<p>デジタル的に考えれば、残差が0になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
-残差が0になる確率は、離散ラプラス分布（ <a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf">参考資料</a> ）を元にサンプリング/もしくは重み付けで求める。（サンプリングの場合は[0,1]乱数を発生させて残差が0になる確率よりも小さければ採択する。まじのMC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。</p>
-<p>一旦残差0の重み付けで実験を進めているが、まだ残差0確率が怪しい感じ。（0.93とかいう現実離れした数値。実際の音声では約0.09とかそんなん）</p>
-<p>見やすいようにパラメータを2つにしている。2つにした時でも同じ出力を与える組み合わせがあり、それが直線上に並んでいる事がわかっている。</p>
-</div>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var …</script>
-                    <a class="btn btn-default btn-xs" href="/2020-04-27.html">more ...</a>
+<p>デジタル的に考えれば、残差が 0 になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
+残差が 0 になる確率は、離散ラプラス分布（ <a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf">参考資料</a> ）を元にサンプリング / もしくは重み付けで求める。（サンプリングの場合は [0,1] 乱数を発生させて残差が 0 になる確率よりも小さければ採択する。まじの MC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。</p>
+<p>一旦残差 0 の重み付けで実験を進めているが、まだ残差 …</p>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-1.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-24.html">2020-04-24</a></h2>
+                <h2><a href="/lms-filternoju-dong-guan-cha.html">LMS Filterの挙動観察</a></h2>
                 <div class="summary"><div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -123,36 +159,31 @@ Aiki's Blog            </a>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<div class="section" id="lms-filter">
-<h2>LMS Filterの挙動観察</h2>
-<p>今日はJupyterを使って残差・残差勾配を観察していく。もう夜遅いのでnotebook上げるの挑戦できず。
-勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった…3時間ほど飛ばす。</p>
-<p>ラプラス分布の観測分散が怪しい...</p>
+<p>今日は Jupyter を使って残差・残差勾配を観察していく。もう夜遅いので notebook 上げるの挑戦できず。
+勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった …3 時間ほど飛ばす。</p>
+<p>ラプラス分布の観測分散が怪しい ...</p>
 <ul class="simple">
-<li><a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution">Deriving Mean and Variance of Laplace Distribution</a> に1次元の場合がある。</li>
+<li><a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution">Deriving Mean and Variance of Laplace Distribution</a> に 1 次元の場合がある。</li>
 </ul>
-</div>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em …</script>
-                    <a class="btn btn-default btn-xs" href="/2020-04-24.html">more ...</a>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_ …</script>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-23.html">2020-04-23</a></h2>
-                <div class="summary"><p>評価の前に古い記事の以降とPythonの環境整備。
-PythonはJupyterを使う。Vimキーバインドで。</p>
+                <h2><a href="/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html">古い記事の移行/Jupyterの環境整備</a></h2>
+                <div class="summary"><p>評価の前に古い記事の移行と Python の環境整備。
+Python は Jupyter を使う。Vim キーバインドで。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://qiita.com/nakasan/items/ec7741f075f1062350f4#jupyterコマンドモードのショートカットキーまとめ">Jupyterコマンドモードのショートカットキーまとめ</a> がよくまとまっていた。これ読んで進めていく。</li>
+<li><a class="reference external" href="https://qiita.com/nakasan/items/ec7741f075f1062350f4#jupyter コマンドモードのショートカットキーまとめ ">Jupyter コマンドモードのショートカットキーまとめ</a> がよくまとまっていた。これ読んで進めていく。</li>
 </ul>
 
-                    <a class="btn btn-default btn-xs" href="/2020-04-23.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-22.html">2020-04-22</a></h2>
+                <h2><a href="/signed-lmsno2jie-wei-fen-sono2.html">Signed-LMSの2階微分 その2</a></h2>
                 <div class="summary"><div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -160,56 +191,44 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<div class="section" id="signed-lms2-2">
-<h2>Signed-LMSの2階微分 その2</h2>
-<p>早速既存研究が無いか見ている。二乗誤差最小化のLMSでもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMSについては今の所、微分してるところも見てない。</p>
+<p>早速既存研究が無いか見ている。二乗誤差最小化の LMS でもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMS については今の所、微分してるところも見てない。</p>
 <ul class="simple">
 <li><a class="reference external" href="https://pt.slideshare.net/mentelibre/neural-network-widrowhoff-learning-adaline-hagan-lms">NEURAL NETWORK Widrow-Hoff Learning Adaline Hagan LMS</a> 観測分散行列がヘッセ行列に一致することが書いてあった。</li>
-<li><a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf">Stochastic error whitening algorithm for linear filter estimation with noisy data …</a></li></ul></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-22.html">more ...</a>
+<li><a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf">Stochastic error whitening algorithm for linear filter estimation with noisy …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/signed-lmsno2jie-wei-fen-sono2.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-21.html">2020-04-21</a></h2>
+                <h2><a href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察/Signed-LMSの目的関数の2階微分</a></h2>
                 <div class="summary"><div class="section" id="mathrm-e-varepsilon-n-x-n-m">
 <h2>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察</h2>
-<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。
+<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は 0 に収束していることを見た。
 <span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。</p>
 <ul class="simple">
 <li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
 <li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
 <li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
-<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。</li>
+<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一の sin 波を等価させたときはわかりやすい。</li>
 </ul>
 <div class="figure align-center">
-<img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" />
-<p class="caption">440.0Hzのsin波に対する各タップの平均勾配変化</p>
+<img alt="440.0Hz の sin 波に対する各タップの平均勾配変化グラフ " src="./images/sin_mean_gradient.png" style="width: 40%;" />
+<p class="caption">440.0Hz の sin 波に対する各タップの平均勾配変化</p>
 </div>
 <div class="figure align-center">
-<img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" />
+<img alt=" ボイス対する各タップの平均勾配変化グラフ " src="./images/voice_mean_gradient.png" style="width: 40%;" />
 <p class="caption">ボイス対する各タップの平均勾配変化</p>
 </div>
 <div class="figure align-center">
-<img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
-<p class="caption">ピアノ演奏に対する各タップの平均勾配変化</p>
-</div>
-</div>
-<div class="section" id="signed-lms2">
-<h2>Signed-LMSの目的関数の2階微分</h2>
-<p>勇気を出してやってみる。</p>
-<div class="math">
-\begin{equation*}
-\newcommand\innerp[2 …</div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-21.html">more ...</a>
+<img alt=" ピアノ演奏に対する各タップの平均勾配変化グラフ " src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ピアノ演奏に対する各タップの平均勾配変化 …</p></div></div>
+                    <a class="btn btn-default btn-xs" href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/2020-04-20.html">2020-04-20</a></h2>
-                <div class="summary"><div class="section" id="irls">
-<h2>IRLSの更新式について</h2>
-<p>MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 <tt class="docutils literal">newcommand</tt> を行えばずっと使えるみたい。便利。</p>
+                <h2><a href="/irlsnogeng-xin-shi-nitsuite.html">IRLSの更新式について</a></h2>
+                <div class="summary"><p>MathJax の環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 <tt class="docutils literal">newcommand</tt> を行えばずっと使えるみたい。便利。</p>
 <div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -217,73 +236,11 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<p>逐次的更新の件について。IRLSでは以下の評価関数 <span class="math">\(J(\ve{\beta})\)</span> の最小化を考える。</p>
+<p>逐次的更新の件について。IRLS では以下の評価関数 <span class="math">\(J(\ve{\beta})\)</span> の最小化を考える。</p>
 <div class="math">
 \begin{equation*}
-J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-20.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/2020-04-19.html">2020-04-19</a></h2>
-                <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares-2">
-<h2>IRLS(Iteratively Reweighted Least Squares) その2</h2>
-<p>理論ばっかり追っていて悶々してきたので、IRLSでL1残差最小化が解けないか実験してみる。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb">第5章 厳密解から近似解へ</a> に『スパースモデリング』5章のPython実装あり。</li>
-<li><a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irlsの概要">スパースモデリング：第3章 追跡アルゴリズム</a> は『スパースモデリング』3章のPython実装。</li>
-</ul>
-<p>IRLSの実装は <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> を参考に。Pythonで簡単にできた。</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span>
-
-<span class="c1"># IRLS法によりPhi @ x = yのスパース解を求める</span>
-<span class="k">def</span> <span class="nf">irls_update</span><span class="p">(</span><span class="n">Phi</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">order</span><span class="p">):</span>
-    <span class="n">EPSILON</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">8.0</span><span class="p">)</span>
-    <span class="c1"># 重みの計算</span>
-    <span class="n">weight</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">Phi</span> <span class="err">@</span> <span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
-    <span class="c1"># 小さくなりすぎた重みは打ち切る</span>
-    <span class="n">weight</span><span class="p">[</span><span class="n">weight</span> <span class="o">&lt;</span> <span class="n">EPSILON …</span></pre></div></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-19.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/2020-04-18.html">2020-04-18</a></h2>
-                <div class="summary"><div class="section" id="irls-iteratively-reweighted-least-squares">
-<h2>IRLS(Iteratively Reweighted Least Squares)</h2>
-<p>LAD(Least Absolute Deviation)を近似的・逐次的に解く方法としてのIRLSについて調査。そういえば基本的な原理を抑えていなかった。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html">Iteratively Reweighted Least Squares　についてサクッと。</a> 文字通りサクッとしたまとめ。OMPを使って解いているというのがとても気になる</li>
-<li><a class="reference external" href="https://cnx.org/contents/krkDdys0&#64;12/Iterative-Reweighted-Least-Squares">Iterative Reweighted Least Squares</a> 導入から解法まで。しかしなぜ解が求まるのかは不明。</li>
-<li><a class="reference external" href="https://cedar.buffalo.edu/~srihari/CSE574/Chap4/4.3.3-IRLS.pdf">Iterative Reweighted Least Squares</a> バッファロー大の講義資料？これも何故解けるのかはちゃんと書いてない。</li>
-<li><a class="reference external" href="http://www.maths.lth.se/matematiklth/personal/fredrik/Session3.pdf">Iterative Reweighted Least Squares</a> これが一番いいかも。なぜ解けるかもざっくり証明がある。<ul>
-<li>そこで出てきたsupergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 <a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf">Supergradients</a> に定義はあったけど幾何学的イメージが欲しい。</li>
-<li>Weiszfeld Algorithmsという幾何中央値を求めるアルゴリズムは <a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf">Generalized Weiszfeld Algorithms for …</a></li></ul></li></ul></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-18.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/2020-04-17.html">2020-04-17</a></h2>
-                <div class="summary"><div class="section" id="lad-least-absolute-deviation">
-<h2>LAD(Least Absolute Deviation)</h2>
-<p>LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=1&amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f">カレル大学卒論</a> が結構まとまっている。</li>
-<li><a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf">最尤推定による近似的手法</a> は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。</li>
-</ul>
-<p>ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4時間飛ばす。</p>
-<div class="figure">
-<img alt="最尤推定の計算のあがき" src="./images/IMG_3828.jpg" style="width: 40%;" />
-<p class="caption">最尤推定の計算のあがき</p>
-</div>
-<p>あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習をL1にしているやつが、やっぱりいた。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://winsty.net/papers/onndl.pdf">Online Robust Non-negative Dictionary Learning for Visual Tracking</a> パーティクルフィルターを使っておる。</li>
-</ul>
-<p>上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust …</p></div>
-                    <a class="btn btn-default btn-xs" href="/2020-04-17.html">more ...</a>
+J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_ …</div>
+                    <a class="btn btn-default btn-xs" href="/irlsnogeng-xin-shi-nitsuite.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -312,6 +269,89 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Links -->
 <li class="list-group-item">
@@ -344,7 +384,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i …</div></div>
          <div class="col-xs-10">&copy; 2020 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.</small></p>
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
          </div>
          <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
       </div>

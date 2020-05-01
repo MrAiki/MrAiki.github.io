@@ -206,7 +206,7 @@ F[k] = F(\omega_{k}) \quad k = 0,...,N-1
 F[k] = \int_{-\infty}^{\infty} f(t) \exp(-j\omega_{k}t) dt = \int_{-\infty}^{\infty} f(t) \exp\left(-j\frac{2\pi k}{Nt_{s}} t \right) dt
 \end{equation*}
 </div>
-<p><span class="math">\(f(t)\)</span>は周期<span class="math">\(T\)</span>で繰り返すので、積分範囲は1周期分とする（なぜ一周期か：フーリエ係数の仮定から。係数は1周期の積分で良い。三角関数の完全性を見よ）：</p>
+<p><span class="math">\(f(t)\)</span>は周期<span class="math">\(T\)</span>で繰り返すので、積分範囲は 1 周期分とする（なぜ一周期か：フーリエ係数の仮定から。係数は 1 周期の積分で良い。三角関数の完全性を見よ）：</p>
 <div class="math">
 \begin{equation*}
 F[k] = \int^{T}_{0} f(t) \exp \left(-j \frac{2\pi k}{Nt_{s}} t \right)dt
@@ -240,7 +240,7 @@ f(nt_{s}) = \sum_{k=-\infty}^{\infty} \left\{ \frac{1}{T} \int^{T}_{0} f(t) \exp
 f(nt_{s}) = \frac{\omega_{s}}{2 \pi N} \sum_{k=-\infty}^{\infty} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
 \end{align*}
 </div>
-<p><span class="math">\(F[k]\)</span>の周期は<span class="math">\(\omega_{s}\)</span>なので、1周期分は<span class="math">\(k = 0,...,N-1\)</span>となる。再び1周期分のみを考えると、</p>
+<p><span class="math">\(F[k]\)</span>の周期は<span class="math">\(\omega_{s}\)</span>なので、1 周期分は<span class="math">\(k = 0,...,N-1\)</span>となる。再び 1 周期分のみを考えると、</p>
 <div class="math">
 \begin{equation*}
 f[n] = \frac{\omega_{s}}{2 \pi N} \sum_{k=0}^{N-1} F[k] \exp\left(j \frac{2\pi nk}{N} \right)
@@ -290,7 +290,7 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
 \end{equation*}
 </div>
 <p>を得る。
-また<span class="math">\(t_{s}=1\)</span>とおくと、<span class="math">\(\omega_{s} = 2\pi\)</span>となって、DFTのよく見る変換式が得られる：</p>
+また<span class="math">\(t_{s}=1\)</span>とおくと、<span class="math">\(\omega_{s} = 2\pi\)</span>となって、DFT のよく見る変換式が得られる：</p>
 <div class="math">
 \begin{equation*}
 \left\{ \begin{array}{l}
@@ -299,7 +299,7 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
 \end{array} \right.
 \end{equation*}
 </div>
-<p>これらの式を実装するのは簡単である。じゃあ、実装しようか…（暗黒微笑）</p>
+<p>これらの式を実装するのは簡単である。じゃあ、実装しようか …（暗黒微笑）</p>
 <p>（デルタ関数から導く方法だと、どうしても正規化定数<span class="math">\(1/N\)</span>が出てこない。正規化定数は本質的では無いとかいうけど、計算上は無視できない。）</p>
 </div>
 </div>
@@ -367,6 +367,12 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
 </script>
             </div>
             <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html">LPC（Linear Predictive Coding, 線形予測符号化）</a></li>
+    </ul>
+</section>
         </article>
     </section>
 
@@ -385,6 +391,89 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Links -->
 <li class="list-group-item">
@@ -417,7 +506,7 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
          <div class="col-xs-10">&copy; 2020 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
-            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license.</small></p>
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
          </div>
          <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
       </div>
