@@ -1,5 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-05-23T11:00:00+09:00</updated><entry><title>成果まとめ中(5) / 自然勾配法の概観</title><link href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html" rel="alternate"></link><published>2020-05-23T11:00:00+09:00</published><updated>2020-05-23T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-23:/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html</id><summary type="html">&lt;p&gt;昨日まで苦悩しつつ収束条件をまとめた（運良く見つけることができた。同時に NLMS の収束条件も掴んだ。）
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-05-24T11:00:00+09:00</updated><entry><title>正則化(1)</title><link href="/zheng-ze-hua-1.html" rel="alternate"></link><published>2020-05-24T11:00:00+09:00</published><updated>2020-05-24T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-24:/zheng-ze-hua-1.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。
+勾配の分散行列を逐次的に求められるから相当強い。
+自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。
+勾配の分散行列を逐次的に求められるから相当強い。
+自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう。。。&lt;/p&gt;
+&lt;p&gt;一方で今日から正則化をどうすればいいか考えている。答えはフィッシャー情報行列に &lt;span class="math"&gt;\(\lambda \ve{I}\)&lt;/span&gt; を足すだけなんだが、意味づけというか解釈が上手くできない。どういう損失関数ならばフィッシャー情報行列に単位行列を足す形になるのか。。。&lt;/p&gt;
+&lt;p&gt;SignedLMS で試したけど難航中。どうしても &lt;span class="math"&gt;\(\mathrm{sign}[\varepsilon(n)]\ve{x}(n)\)&lt;/span&gt; との積をとる項が出てきて、その平均がどうなるかわからない。。。&lt;/p&gt;
+&lt;p&gt;実験的に勾配に係数ベクトルを足すなり係数の符号ベクトルを足すなりしてるけど、
+正則化パラメータをめちゃくちゃ小さく取らないと結果が発散する …。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>成果まとめ中(5) / 自然勾配法の概観</title><link href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html" rel="alternate"></link><published>2020-05-23T11:00:00+09:00</published><updated>2020-05-23T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-23:/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html</id><summary type="html">&lt;p&gt;昨日まで苦悩しつつ収束条件をまとめた（運良く見つけることができた。同時に NLMS の収束条件も掴んだ。）
 でも、同時に新規性が無い気がしてきた。発見となるのは、SignedLMS のフィッシャー情報行列が自己相関行列になっているくらいか？
 適応ステップサイズ導出後は、普通のフィッシャー情報行列込みの NLMS と全く同じだし。&lt;/p&gt;
 &lt;div class="math"&gt;

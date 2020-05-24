@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>成果まとめ中(3) - Aiki's Blog</title>
+    <title>正則化(1) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,24 +9,24 @@
 
 
 
-<link rel="canonical" href="/cheng-guo-matomezhong-3.html">
+<link rel="canonical" href="/zheng-ze-hua-1.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="LMS,SignedLMS,RLS,Natural Gradient,Empirical Fisher" />
-        <meta name="description" content="SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。 機械学習における確率的最適化 もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。 \begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 適応ステップサイズの分母の \(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\) がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル \(x(\theta)\) の内積 …" />
+        <meta name="keywords" content="LMS,SignedLMS,Natural Gradient,Empirical Fisher,Regularization" />
+        <meta name="description" content="\begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]} \end{equation*} 逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。 勾配の分散行列を逐次的に求められるから相当強い。 自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="成果まとめ中(3)"/>
-        <meta property="og:url" content="/cheng-guo-matomezhong-3.html"/>
-        <meta property="og:description" content="SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。 機械学習における確率的最適化 もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。 \begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 適応ステップサイズの分母の \(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\) がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル \(x(\theta)\) の内積 …"/>
-        <meta property="article:published_time" content="2020-05-20" />
+        <meta property="og:title" content="正則化(1)"/>
+        <meta property="og:url" content="/zheng-ze-hua-1.html"/>
+        <meta property="og:description" content="\begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]} \end{equation*} 逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。 勾配の分散行列を逐次的に求められるから相当強い。 自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう …"/>
+        <meta property="article:published_time" content="2020-05-24" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="LMS" />
             <meta property="article:tag" content="SignedLMS" />
-            <meta property="article:tag" content="RLS" />
             <meta property="article:tag" content="Natural Gradient" />
             <meta property="article:tag" content="Empirical Fisher" />
+            <meta property="article:tag" content="Regularization" />
             <meta property="article:author" content="aiki" />
 
 
@@ -94,10 +94,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/cheng-guo-matomezhong-3.html"
+                    <a href="/zheng-ze-hua-1.html"
                        rel="bookmark"
-                       title="Permalink to 成果まとめ中(3)">
-                        成果まとめ中(3)
+                       title="Permalink to 正則化(1)">
+                        正則化(1)
                     </a>
                 </h1>
             </header>
@@ -107,7 +107,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-05-20T23:00:00+09:00"> Wed 20 May 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-05-24T11:00:00+09:00"> Sun 24 May 2020</time>
     </span>
 
 
@@ -119,34 +119,30 @@ Aiki's Blog            </a>
         /
 	<a href="/tag/signedlms.html">SignedLMS</a>
         /
-	<a href="/tag/rls.html">RLS</a>
-        /
 	<a href="/tag/natural-gradient.html">Natural Gradient</a>
         /
 	<a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+        /
+	<a href="/tag/regularization.html">Regularization</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/bjsiam/28/3/28_27/_pdf">機械学習における確率的最適化</a></li>
-</ul>
-<p>もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。</p>
-<div class="math">
+                <div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
 \end{equation*}
 </div>
-<p>適応ステップサイズの分母の <span class="math">\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)</span> がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル <span class="math">\(x(\theta)\)</span> の内積 <span class="math">\(\innerp{x}{x}\)</span> は、座標変換により不変な量として定義するならば <span class="math">\(x^{\prime}(g_{ij}(\theta))^{-1}x\)</span> となる。」（なるべく原文ママ）と言ってて、まさにこの不変な量を指していると思っている。</p>
-<p>これどういうこと？と思って探し始めたら沼。相対性理論にぶつかる。わかりやすかったのは下くらいか？</p>
-<ul class="simple">
-<li><a class="reference external" href="http://yuru2physics.blog.fc2.com/blog-entry-99.html">内積が不変という意味</a></li>
-<li><a class="reference external" href="http://fnorio.com/0180covariant_contravariant/covariant_contravariant.html#3-6">(6) ベクトル内積の座標変換不変性の確認</a></li>
-</ul>
-<p>情報幾何の観点からすると、幾何的に微小線素は座標変換によって値を全く変えないことが重要らしい。<span class="math">\(\ve{x}(n)\)</span> をパラメタ空間上のベクトルと捉えると、<span class="math">\(\ve{R}^{-1}\)</span> はパラメタ空間上の計量（元の空間の計量は :math:<cite>ve{R}</cite> ）を定め、<span class="math">\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)</span> はパラメタ空間上のノルムを計算していて、ノルムだから不変でしょっていう議論になる？まだピンとこない。</p>
-<p>あと、AdaptiveFilter の本見て NLMS の議論を色々見てる。</p>
+<p>逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。
+勾配の分散行列を逐次的に求められるから相当強い。
+自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう。。。</p>
+<p>一方で今日から正則化をどうすればいいか考えている。答えはフィッシャー情報行列に <span class="math">\(\lambda \ve{I}\)</span> を足すだけなんだが、意味づけというか解釈が上手くできない。どういう損失関数ならばフィッシャー情報行列に単位行列を足す形になるのか。。。</p>
+<p>SignedLMS で試したけど難航中。どうしても <span class="math">\(\mathrm{sign}[\varepsilon(n)]\ve{x}(n)\)</span> との積をとる項が出てきて、その平均がどうなるかわからない。。。</p>
+<p>実験的に勾配に係数ベクトルを足すなり係数の符号ベクトルを足すなりしてるけど、
+正則化パラメータをめちゃくちゃ小さく取らないと結果が発散する …。</p>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -216,9 +212,9 @@ Aiki's Blog            </a>
     <ul>
         <li><a href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html">成果まとめ中(5)  / 自然勾配法の概観</a></li>
         <li><a href="/cheng-guo-matomezhong-4.html">成果まとめ中(4)</a></li>
+        <li><a href="/cheng-guo-matomezhong-3.html">成果まとめ中(3)</a></li>
         <li><a href="/cheng-guo-matomezhong-2.html">成果まとめ中(2)</a></li>
         <li><a href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">書類整理終わり、復帰 / 成果まとめ中(1)</a></li>
-        <li><a href="/lms-filternoju-dong-guan-cha-zhong-10.html">LMS Filterの挙動観察中(10)</a></li>
     </ul>
 </section>
         </article>

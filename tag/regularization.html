@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>LMS Algorithm - Aiki's Blog</title>
+    <title>Regularization - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -11,7 +11,7 @@
 
 
     <meta name="author" content="aiki" />
-    <meta name="keywords" content="LMS Algorithm" />
+    <meta name="keywords" content="Regularization" />
 
     <!-- Open Graph tags -->
         <meta property="og:site_name" content="Aiki's Blog" />
@@ -81,26 +81,20 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/lmshuirutanoju-dong-guan-cha.html">LMSフィルターの挙動観察</a></h2>
-                <div class="summary"><p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
-<ul class="simple">
-<li><span class="math">\(m\)</span> が十分大きいとき、0 に近づくかどうか</li>
-</ul>
-<p>を知りたい。もし 0 に近づくならば有効な過程として解法に使える。
-しかしその前に、LMS フィルター自体の挙動を追いたい。</p>
-<ul class="simple">
-<li>残差はどの様に減る？残差の時系列は？<ul>
-<li>ステップサイズにより収束の度合い（残差の分布）が違う ...</li>
-<li>当然、フィルタ次数でも収束の度合い（残差の分布）が違う</li>
-</ul>
-</li>
-<li>残差分布はどうなってる？Signed-LMS でラプラス分布に近づいてる？<ul>
-<li>これは本当のようで、Signed-LMS の方が裾が細い残差分布が得られている。</li>
-<li>単純な正弦波に対しては LMS のほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的に SignLMS の方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
-</ul>
-</li>
-<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n …</span></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lmshuirutanoju-dong-guan-cha.html">more ...</a>
+                <h2><a href="/zheng-ze-hua-1.html">正則化(1)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+</div>
+<p>逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。
+勾配の分散行列を逐次的に求められるから相当強い。
+自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう …</p>
+                    <a class="btn btn-default btn-xs" href="/zheng-ze-hua-1.html">more ...</a>
                 </div>
             </article>
             <hr/>
