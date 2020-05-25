@@ -1,5 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 記事</title><link href="/" rel="alternate"></link><link href="/feeds/ji-shi.atom.xml" rel="self"></link><id>/</id><updated>2020-04-30T14:30:00+09:00</updated><entry><title>デジタル信号処理の礎</title><link href="/dezitaruxin-hao-chu-li-nochu.html" rel="alternate"></link><published>2020-04-23T18:00:00+09:00</published><updated>2020-04-23T18:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/dezitaruxin-hao-chu-li-nochu.html</id><summary type="html">&lt;p class="first last"&gt;デジタル信号処理の基礎理論をグダグダ述べたポエム。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 記事</title><link href="/" rel="alternate"></link><link href="/feeds/ji-shi.atom.xml" rel="self"></link><id>/</id><updated>2020-05-23T11:40:00+09:00</updated><entry><title>自然勾配法の概観</title><link href="/zi-ran-gou-pei-fa-nogai-guan.html" rel="alternate"></link><published>2020-05-23T11:40:00+09:00</published><updated>2020-05-23T11:40:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-23:/zi-ran-gou-pei-fa-nogai-guan.html</id><summary type="html">&lt;p class="first last"&gt;フィッシャー情報行列と自然勾配法の概略。だいたい &lt;a class="reference external" href="https://wiseodd.github.io/techblog/2018/03/11/fisher-information/"&gt;Fisher Information Matrix&lt;/a&gt; と &lt;a class="reference external" href="https://wiseodd.github.io/techblog/2018/03/14/natural-gradient/"&gt;Natural Gradient Descent&lt;/a&gt; から持ってきている。&lt;/p&gt;
+</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;フィッシャー情報行列と自然勾配法の概略。だいたい &lt;a class="reference external" href="https://wiseodd.github.io/techblog/2018/03/11/fisher-information/"&gt;Fisher Information Matrix&lt;/a&gt; と &lt;a class="reference external" href="https://wiseodd.github.io/techblog/2018/03/14/natural-gradient/"&gt;Natural Gradient Descent&lt;/a&gt; から持ってきている。&lt;/p&gt;
+&lt;p&gt;パラメタベクトル &lt;span class="math"&gt;\(\ve{\theta}\)&lt;/span&gt; を持つ確率密度関数 &lt;span class="math"&gt;\(p(\ve{x}|\ve{\theta})\)&lt;/span&gt; を考える。対数尤度関数 &lt;span class="math"&gt;\(\log p(\ve{x}|\ve{\theta})\)&lt;/span&gt; の &lt;span class="math"&gt;\(\ve{\theta}\)&lt;/span&gt; におけるへッシアン &lt;span class="math"&gt;\(\ve{H}_{\ve{\theta}}\)&lt;/span&gt; は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{H}_{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) &amp;amp;= \left(\parfrac{}{\ve{\theta}} \right) \left(\parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta}) \\
+&amp;amp;= \left(\parfrac{}{\ve{\theta}} \right) \frac{\left(\parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})} \\
+&amp;amp;= \frac{\left\{ \left(\parfrac{}{\ve{\theta}} \right) \left(\parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} p(\ve{x} | \ve{\theta}) \right\} p(\ve{x} | \ve{\theta}) - \left(\parfrac{}{\ve{\theta}} \right) p(\ve{x} | \ve{\theta}) \left(\parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} p(\ve{x} | \ve{\theta}) }{p(\ve{x} | \ve{\theta})^{2}} \\
+&amp;amp;= \frac{\ve{H}_{\ve{\theta}} p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})} - \left\{ \frac{\left(\parfrac{}{\ve{\theta}} \right) p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})} \right\} \left\{ \frac{\left(\parfrac{}{\ve{\theta}} \right) p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})} \right\}^{\mathsf{T}} \\
+&amp;amp;= \frac{\ve{H}_{\ve{\theta}} p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})} - \left( \parfrac{}{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) \right) \left( \parfrac{}{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) \right)^{\mathsf{T}}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;両辺分布 &lt;span class="math"&gt;\(p(\ve{x}|\ve{\theta})\)&lt;/span&gt; について平均をとる。このとき右辺第二項はスコア関数の分散になりフィッシャー情報行列 &lt;span class="math"&gt;\(\ve{F}\)&lt;/span&gt; そのものになることに注意すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mean{p(\ve{x}|\ve{\theta})}{\ve{H}_{\ve{\theta}} \log p(\ve{x} | \ve{\theta})} &amp;amp;= \mean{p(\ve{x}|\ve{\theta})}{\frac{\ve{H}_{\ve{\theta}} p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})}} - \mean{p(\ve{x}|\ve{\theta})}{\left( \parfrac{}{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) \right) \left( \parfrac{}{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) \right)^{\mathsf{T}}} \\
+&amp;amp;= \mean{p(\ve{x}|\ve{\theta})}{\frac{\ve{H}_{\ve{\theta}} p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})}} - \ve{F} \\
+&amp;amp;= \int p(\ve{x}|\ve{\theta}) \frac{\ve{H}_{\ve{\theta}} p(\ve{x} | \ve{\theta})}{p(\ve{x} | \ve{\theta})} \mathrm{d}\ve{x} - \ve{F} = \int \ve{H}_{\ve{\theta}} p(\ve{x} | \ve{\theta}) \mathrm{d}\ve{x} - \ve{F} \\
+&amp;amp;= \ve{H}_{\ve{\theta}} \int p(\ve{x} | \ve{\theta}) \mathrm{d}\ve{x} - \ve{F} \quad(\because \text{ 微分と積分の入れ替えを可能（正則条件）とする }) \\
+&amp;amp;= \ve{H}_{\ve{\theta}} 1 - \ve{F} \\
+&amp;amp;= - \ve{F}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;従って、 &lt;strong&gt;対数尤度関数のへッシアンの平均に負号をつけるとフィッシャー情報行列に一致する。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;つぎに、異なるパラメタ &lt;span class="math"&gt;\(\ve{\theta}, \ve{\theta}^{\prime}\)&lt;/span&gt; をもつ確率分布 &lt;span class="math"&gt;\(p(\ve{x}|\ve{\theta}), p(\ve{x}|\ve{\theta}^{\prime})\)&lt;/span&gt; 間の違いを測るダイバージェンスとして KL ダイバージェンスを使ったとき、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta}^{\prime})} &amp;amp;= \int p(\ve{x}|\ve{\theta}) \log \left( \frac{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta}^{\prime})} \right) \mathrm{d}\ve{x} \\
+&amp;amp;= \mean{p(\ve{x}|\ve{\theta})}{\log p(\ve{x}|\ve{\theta})} - \mean{p(\ve{x}|\ve{\theta})}{\log p(\ve{x}|\ve{\theta}^{\prime})}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。 &lt;span class="math"&gt;\(\ve{\theta}\)&lt;/span&gt; を固定し、パラメタ &lt;span class="math"&gt;\(\ve{\theta}^{\prime}\)&lt;/span&gt; に関するへッシアン &lt;span class="math"&gt;\(\ve{H}_{\ve{\theta}^{\prime}}\)&lt;/span&gt; を求めると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{H}_{\ve{\theta}^{\prime}} \KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta}^{\prime})} &amp;amp;= \left( \parfrac{}{\ve{\theta}^{\prime}} \right) \left( \parfrac{}{\ve{\theta}^{\prime}} \right)^{\mathsf{T}} \KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta}^{\prime})} \\
+&amp;amp;= \left( \parfrac{}{\ve{\theta}^{\prime}} \right) \left\{ \left( \parfrac{}{\ve{\theta}^{\prime}} \right)^{\mathsf{T}} \mean{p(\ve{x}|\ve{\theta})}{\log p(\ve{x}|\ve{\theta})} - \left( \parfrac{}{\ve{\theta}^{\prime}} \right)^{\mathsf{T}} \mean{p(\ve{x}|\ve{\theta})}{\log p(\ve{x}|\ve{\theta}^{\prime})}\right\} \\
+&amp;amp;= - \left( \parfrac{}{\ve{\theta}^{\prime}} \right) \mean{p(\ve{x}|\ve{\theta})}{\left( \parfrac{}{\ve{\theta}^{\prime}} \right)^{\mathsf{T}} \log p(\ve{x}|\ve{\theta}^{\prime})} = - \mean{p(\ve{x}|\ve{\theta})}{\left( \parfrac{}{\ve{\theta}^{\prime}} \right)\left( \parfrac{}{\ve{\theta}^{\prime}} \right)^{\mathsf{T}} \log p(\ve{x}|\ve{\theta}^{\prime})} \\
+&amp;amp;= -\mean{p(\ve{x}|\ve{\theta})}{\ve{H}_{\ve{\theta}^{\prime}} \log p(\ve{x}|\ve{\theta}^{\prime})}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;ここで &lt;span class="math"&gt;\(\ve{\theta}^{\prime} \to \ve{\theta}\)&lt;/span&gt; と近づけていくと、最後の式はフィッシャー情報行列 &lt;span class="math"&gt;\(\ve{F}\)&lt;/span&gt; にいくらでも近づく。よって、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\lim_{\ve{\theta}^{\prime} \to \ve{\theta}} \ve{H}_{\ve{\theta}^{\prime}} \KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta}^{\prime})} = \ve{F}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;次に、 &lt;span class="math"&gt;\(\ve{\theta}\)&lt;/span&gt; 近傍での対数尤度関数の挙動を見ていく。 &lt;span class="math"&gt;\(\ve{h}\)&lt;/span&gt; を微小なベクトルとして、 &lt;span class="math"&gt;\(\log p(\ve{x}|\ve{\theta} + \ve{h})\)&lt;/span&gt; を 2 次の項までテイラー展開すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\log p(\ve{x}|\ve{\theta} + \ve{h}) &amp;amp;\approx \log p(\ve{x} | \ve{\theta}) + \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta})  \ve{h} + \frac{1}{2} \ve{h}^{\mathsf{T}} \left( \parfrac{}{\ve{\theta}} \right) \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta}) \ve{h} \\
+\Rightarrow \log p(\ve{x}|\ve{\theta} + \ve{h}) - \log p(\ve{x} | \ve{\theta}) &amp;amp;\approx \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta})  \ve{h} + \frac{1}{2} \ve{h}^{\mathsf{T}} \left( \parfrac{}{\ve{\theta}} \right) \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta}) \ve{h} \\
+&amp;amp;= \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta}) \ve{h} + \frac{1}{2} \ve{h}^{\mathsf{T}} \ve{H}_{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) \ve{h}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;両辺 &lt;span class="math"&gt;\(p(\ve{x}|\ve{\theta})\)&lt;/span&gt; について平均をとると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mean{p(\ve{x}|\ve{\theta})}{\log p(\ve{x}|\ve{\theta} + \ve{h}) - \log p(\ve{x} | \ve{\theta})} &amp;amp;= \mean{p(\ve{x}|\ve{\theta})}{\log\left( \frac{p(\ve{x}|\ve{\theta} + \ve{h})}{p(\ve{x} | \ve{\theta})} \right)} \\
+&amp;amp;= \int p(\ve{x}|\ve{\theta}) \log\left[ \frac{p(\ve{x}|\ve{\theta} + \ve{h})}{p(\ve{x} | \ve{\theta})} \right] \mathrm{d}\ve{x} = -\int p(\ve{x}|\ve{\theta}) \log\left[ \frac{p(\ve{x} | \ve{\theta})}{p(\ve{x}|\ve{\theta} + \ve{h})} \right] \mathrm{d}\ve{x} \\
+&amp;amp;= -\KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta} + \ve{h})} \\
+\mean{p(\ve{x}|\ve{\theta})}{\left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \log p(\ve{x} | \ve{\theta}) \ve{h}} &amp;amp;= \int p(\ve{x}|\ve{\theta}) \frac{\left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta})} \mathrm{d}\ve{x}\ \ve{h} \\
+&amp;amp;= \int \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} p(\ve{x}|\ve{\theta}) \mathrm{d}\ve{x}\  \ve{h} = \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} \int p(\ve{x}|\ve{\theta}) \mathrm{d}\ve{x}\  \ve{h} \quad (\because \text{ 正則条件 }) \\
+&amp;amp;= \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} 1 \ve{h} \\
+&amp;amp;= 0 \\
+\mean{p(\ve{x}|\ve{\theta})}{\frac{1}{2} \ve{h}^{\mathsf{T}} \ve{H}_{\ve{\theta}} \log p(\ve{x} | \ve{\theta}) \ve{h}} &amp;amp;= \frac{1}{2} \ve{h}^{\mathsf{T}} \mean{p(\ve{x}|\ve{\theta})}{\ve{H}_{\ve{\theta}} \log p(\ve{x} | \ve{\theta})} \ve{h} \\
+&amp;amp;= -\frac{1}{2} \ve{h}^{\mathsf{T}} \ve{F} \ve{h}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;よって、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta} + \ve{h})} \approx \frac{1}{2} \ve{h}^{\mathsf{T}} \ve{F} \ve{h}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\ve{\theta}\)&lt;/span&gt; の近傍においてはフィッシャー情報行列が支配的になっていることがわかる。また、これにより確率分布のなす多様体のリーマン計量はフィッシャー情報行列であることがわかり、ここから情報幾何学が始まっていく。&lt;/p&gt;
+&lt;p&gt;以上の議論を基に、確率分布間の違いを KL ダイバージェンスで測ったとき、損失関数 &lt;span class="math"&gt;\(l(\ve{\theta})\)&lt;/span&gt; を最も減らす方向を考える。それは次の方向 &lt;span class="math"&gt;\(\ve{h}^{\ast}\)&lt;/span&gt; を見つけることに等しい：&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{h}^{\ast} = \underset{\ve{h}\ \mathrm{s.t.} \KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta} + \ve{h})} = c}{\mathrm{argmin}} l(\ve{\theta} + \ve{h})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;式の気持ちとしては、「KL ダイバージェンスが定数 &lt;span class="math"&gt;\(c\)&lt;/span&gt; を取る中で、最も &lt;span class="math"&gt;\(l(\ve{\theta})\)&lt;/span&gt; を減らすベクトル &lt;span class="math"&gt;\(\ve{h}\)&lt;/span&gt; 」 である。これは制約付き最適化問題だから、ラグランジェの未定定数法により解くことを考える。ラグランジアン &lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mathcal{L} &amp;amp;= l(\ve{\theta} + \ve{h}) + \lambda \left\{ \KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta} + \ve{h})} - c \right\} \\
+&amp;amp;\approx l(\ve{\theta}) + \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} l(\ve{\theta}) \ve{h} + \lambda \left\{ \KL{p(\ve{x}|\ve{\theta})}{p(\ve{x}|\ve{\theta} + \ve{h})} - c \right\} \quad \text{（1 次の項までテイラー展開）} \\
+&amp;amp;\approx l(\ve{\theta}) + \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} l(\ve{\theta}) \ve{h} + \lambda \left\{ \frac{1}{2} \ve{h}^{\mathsf{T}} \ve{F} \ve{h} - c \right\}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\mathcal{L}\)&lt;/span&gt; を &lt;span class="math"&gt;\(\ve{h}\)&lt;/span&gt; で偏微分すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\parfrac{}{\ve{h}} \mathcal{L} &amp;amp;\approx \parfrac{}{\ve{h}} l(\ve{\theta}) + \parfrac{}{\ve{h}} \left( \parfrac{}{\ve{\theta}} \right)^{\mathsf{T}} l(\ve{\theta}) \ve{h} + \lambda  \left\{ \parfrac{}{\ve{h}} \frac{1}{2} \ve{h}^{\mathsf{T}} \ve{F} \ve{h} - \parfrac{}{\ve{h}} c \right\} \\
+&amp;amp;= \parfrac{}{\ve{\theta}} l(\ve{\theta}) + \lambda \ve{F} \ve{h}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\parfrac{}{\ve{h}} \mathcal{L} = \ve{0}\)&lt;/span&gt; とおいて &lt;span class="math"&gt;\(\ve{h}\)&lt;/span&gt; について解くと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{h}^{\ast} = - \frac{1}{\lambda} \ve{F}^{-1} \parfrac{}{\ve{\theta}} l(\ve{\theta})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;が得られる。 &lt;span class="math"&gt;\(\lambda\)&lt;/span&gt; はスカラーだからベクトルの方向を変えない。よって、 &lt;span class="math"&gt;\(\ve{F}^{-1} \parfrac{}{\ve{\theta}} l(\ve{\theta})\)&lt;/span&gt; が最急勾配であることが分かる。この勾配を &lt;strong&gt;自然勾配 (Natural Gradient)&lt;/strong&gt; という。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;ニュートン法と何が違うのか？&lt;/h2&gt;
+&lt;p&gt;「 &lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.8668&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Adaptive Method of Realizing Natural Gradient Learning for Multilayer Perceptrons&lt;/a&gt; 」によると、
+ニュートン法は教師信号を明示的に含んだ損失関数のへッシアンを使うが、自然勾配法は近似対象の標的関数とは独立した確率分布の空間 S の計量を使っているところが違うらしい。しかし一方で、対数尤度を損失関数、かつモデルが最適パラメタによって生成された教師信号 y を生成するときはフィッシャー情報行列はヘッセ行列に一致する。このため、最適点において自然勾配法はニュートン法に一致する。とある。&lt;/p&gt;
+&lt;p&gt;自分なりの解釈として線形回帰問題を考える。
+誤差が ◯◯ 分布に従って発生すると考えた瞬間に確率分布の空間が定まり、この空間の計量たるフィッシャー情報行列に従って学習するのが自然勾配学習法。一方、各点の損失関数のヘッセ行列（2 階微分）を求めて最適化を進めるのがニュートン法。でいいのか？
+恐らく、各点の損失関数を計算できるのならばニュートン法の方が優れている。&lt;/p&gt;
+&lt;p&gt;発想としても差異があって、ニュートン法は損失関数の 2 次のテイラー展開から最適な勾配を求めるのに対し、自然勾配法は KL ダイバージェンスが一定という制約のもとで最適な勾配を求めている（自然勾配法を導出するとき、損失関数の 1 次の項までしかテイラー展開していないのがミソ。2 次まで展開すると損失関数のへッシアンが出てきてニュートン法と変わらない）。&lt;/p&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="記事"></category><category term="機械学習"></category><category term="情報幾何"></category></entry><entry><title>デジタル信号処理の礎</title><link href="/dezitaruxin-hao-chu-li-nochu.html" rel="alternate"></link><published>2020-04-23T18:00:00+09:00</published><updated>2020-04-23T18:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/dezitaruxin-hao-chu-li-nochu.html</id><summary type="html">&lt;p class="first last"&gt;デジタル信号処理の基礎理論をグダグダ述べたポエム。&lt;/p&gt;
 </summary><content type="html">&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;まえがき&lt;/h2&gt;
 &lt;p&gt;本稿はデジタル信号処理の礎となる理論を固めるべく書かれた。&lt;/p&gt;
