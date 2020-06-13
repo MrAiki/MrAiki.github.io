@@ -1172,10 +1172,10 @@ F(x, y, \lambda) = f(x, y) - \lambda g(x, y)
 <dd><p class="first"><span class="math">\(\mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> 上で <span class="math">\(C^{1}\)</span> 級の関数 <span class="math">\(f(\ve{x}),\ g_{i}(\ve{x})\ (i = 1, ..., m)\)</span> が与えられ、 <span class="math">\(n-m\)</span> 次元曲面 <span class="math">\(S = \{ \ve{x} | g_{i}(\ve{x}) = 0, \ i = 1,...,m \}\)</span> 上で行列 <span class="math">\(\parfrac{\ve{g}}{\ve{x}} = \left( \parfrac{g_{i}}{x_{j}} \right)\)</span> の階数（行列ランク）は常に <span class="math">\(m\)</span> であるとする。<span class="math">\(S\)</span> 上の点 <span class="math">\(\ve{x}_{0}\)</span> が <span class="math">\(f(\ve{x})\)</span> の <span class="math">\(S\)</span> の極値点ならば、 <span class="math">\(m\)</span> 個の定数 <span class="math">\(\lambda_{1}, ..., \lambda_{m}\)</span> があって、</p>
 <div class="math">
 \begin{equation*}
-\parfrac{f}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0})
+\parfrac{f}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0})
 \end{equation*}
 </div>
-<p>（証明） <span class="math">\(\parfrac{\ve{g}}{\ve{x}}\)</span> の階数は <span class="math">\(m\)</span> だから、 <span class="math">\(\ve{x}^{\prime} = (x_{1}, ..., x_{n - m}),\ \ve{x}^{\prime\prime} = (x_{n - m + 1}, ..., x_{n})\)</span> として、</p>
+<p>（証明） <span class="math">\(\parfrac{\ve{g}}{\ve{x}}\)</span> の階数は <span class="math">\(m\)</span> だから、 <span class="math">\(\ve{x}^{\prime} = [x_{1}, ..., x_{n - m}],\ \ve{x}^{\prime\prime} = [x_{n - m + 1}, ..., x_{n}]\)</span> として、</p>
 <div class="math">
 \begin{equation*}
 \parfrac{\ve{g}}{\ve{x}^{\prime\prime}} =
@@ -1187,7 +1187,7 @@ F(x, y, \lambda) = f(x, y) - \lambda g(x, y)
 \end{array} \right]
 \end{equation*}
 </div>
-<p>は正則であると仮定して良い（正則になるように <span class="math">\(\ve{x}^{\prime\prime}\)</span> を選べば良い）。 <span class="math">\(\ve{g}(\ve{x}) = \ve{0}\)</span> を陰関数表示と見ると、陰関数定理により <span class="math">\(x_{n-m+1} = \varphi_{1}(\ve{x}^{\prime}), ..., x_{n} = \varphi_{m}(\ve{x}^{\prime})\)</span> 、即ち <span class="math">\(\ve{x}^{\prime\prime} = \ve{\varphi}(\ve{x}^{\prime})\)</span> を満たす <span class="math">\(C^{1}\)</span> 級の写像 <span class="math">\(\ve{\varphi} = (\varphi_{1}, ..., \varphi_{m})\)</span> が存在し、また、 <span class="math">\(\parfrac{\ve{\varphi}}{\ve{x}^{\prime}} = -\left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1}\left(\parfrac{\ve{g}}{\ve{x}^{\prime}}\right)\)</span> が成り立つ。<span class="math">\(\ve{\varphi}\)</span> を <span class="math">\(y = f(\ve{x}) = f(\ve{x}^{\prime}, \ve{x}^{\prime\prime})\)</span> に代入すると、</p>
+<p>は正則であると仮定して良い（正則になるように <span class="math">\(\ve{x}^{\prime\prime}\)</span> を選べば良い）。 <span class="math">\(\ve{g}(\ve{x}) = \ve{0}\)</span> を陰関数表示と見ると、陰関数定理により <span class="math">\(x_{n-m+1} = \varphi_{1}(\ve{x}^{\prime}), ..., x_{n} = \varphi_{m}(\ve{x}^{\prime})\)</span> 、即ち <span class="math">\(\ve{x}^{\prime\prime} = \ve{\varphi}(\ve{x}^{\prime})\)</span> を満たす <span class="math">\(C^{1}\)</span> 級の写像 <span class="math">\(\ve{\varphi} = [\varphi_{1}, ..., \varphi_{m}]\)</span> が存在し、また、 <span class="math">\(\parfrac{\ve{\varphi}}{\ve{x}^{\prime}} = -\left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1}\left(\parfrac{\ve{g}}{\ve{x}^{\prime}}\right)\)</span> が成り立つ。<span class="math">\(\ve{\varphi}\)</span> を <span class="math">\(y = f(\ve{x}) = f(\ve{x}^{\prime}, \ve{x}^{\prime\prime})\)</span> に代入すると、</p>
 <div class="math">
 \begin{equation*}
 y = F(\ve{x}^{\prime}) = f(\ve{x}^{\prime}, \ve{\varphi}(\ve{x}^{\prime}))
@@ -1203,19 +1203,19 @@ y = F(\ve{x}^{\prime}) = f(\ve{x}^{\prime}, \ve{\varphi}(\ve{x}^{\prime}))
 <p>が極値となるための必要条件だから、今、</p>
 <div class="math">
 \begin{equation*}
-(\lambda_{1}, ..., \lambda_{m}) = \parfrac{f}{\ve{x}^{\prime\prime}} \left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1}
+[\lambda_{1}, ..., \lambda_{m}] = \parfrac{f}{\ve{x}^{\prime\prime}} \left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1}
 \end{equation*}
 </div>
 <p>とおけば、</p>
 <div class="math">
 \begin{equation*}
-\parfrac{f}{\ve{x}^{\prime\prime}}(\ve{x}_{0}) = (\lambda_{1}, ..., \lambda_{m}) \parfrac{\ve{g}}{\ve{x}^{\prime\prime}}(\ve{x}_{0}),\ \parfrac{f}{\ve{x}^{\prime}}(\ve{x}_{0}) = (\lambda_{1}, ..., \lambda_{m}) \parfrac{\ve{g}}{\ve{x}^{\prime}}(\ve{x}_{0})
+\parfrac{f}{\ve{x}^{\prime\prime}}(\ve{x}_{0}) = [\lambda_{1}, ..., \lambda_{m}] \parfrac{\ve{g}}{\ve{x}^{\prime\prime}}(\ve{x}_{0}),\ \parfrac{f}{\ve{x}^{\prime}}(\ve{x}_{0}) = [\lambda_{1}, ..., \lambda_{m}] \parfrac{\ve{g}}{\ve{x}^{\prime}}(\ve{x}_{0})
 \end{equation*}
 </div>
 <p>が成立しているから、まとめると、</p>
 <div class="math">
 \begin{equation*}
-\parfrac{f}{\ve{x}}(\ve{x}_{0}) = (\lambda_{1}, ..., \lambda_{m}) \parfrac{\ve{g}}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0})
+\parfrac{f}{\ve{x}}(\ve{x}_{0}) = [\lambda_{1}, ..., \lambda_{m}] \parfrac{\ve{g}}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0})
 \end{equation*}
 </div>
 <p class="last">が得られる。（証明終）</p>
@@ -1427,25 +1427,16 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
@@ -1453,74 +1444,83 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
   </ul>
 </li>
