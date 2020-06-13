@@ -121,11 +121,45 @@ Aiki's Blog            </a>
 <p>本稿では、最初に基本となる線形 SVM の定式化を行い、次に汎用性をより高めた非線形 SVM とソフトマージン SVM を説明し、最後に SVM を回帰問題に適用した SVR(Support
 Vector Regression,
 サポートベクトル回帰 ) を説明する。最後に C 言語による実装例を挙げる。</p>
-<p>SVM も知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍 <a class="footnote-reference" href="#id33" id="id1">[1]</a>, <a class="footnote-reference" href="#id34" id="id2">[2]</a> を挙げる。</p>
-<div class="section" id="id3">
-<h2>線形 SVM</h2>
+<p>SVM も知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍 <a class="footnote-reference" href="#id34" id="id1">[1]</a>, <a class="footnote-reference" href="#id35" id="id2">[2]</a> を挙げる。</p>
+<div class="contents local topic" id="id3">
+<ul class="simple">
+<li><a class="reference internal" href="#id4" id="id47">線形 SVM</a><ul>
+<li><a class="reference internal" href="#id5" id="id48">マージンの定式化</a></li>
+<li><a class="reference internal" href="#id7" id="id49">マージン最大化</a><ul>
+<li><a class="reference internal" href="#kkt" id="id50">KKT 条件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10" id="id51">非線形 SVM</a></li>
+<li><a class="reference internal" href="#id13" id="id52">ソフトマージン SVM</a></li>
+<li><a class="reference internal" href="#svr-support-vector-regression" id="id53">SVR（Support Vector Regression, サポートベクトル回帰）</a><ul>
+<li><a class="reference internal" href="#svr" id="id54">1 ノルム SVR ・双対問題の導出</a></li>
+<li><a class="reference internal" href="#id20" id="id55">2 ノルム SVR ・双対問題の導出</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id22" id="id56">実装の例</a><ul>
+<li><a class="reference internal" href="#id23" id="id57">学習</a><ul>
+<li><a class="reference internal" href="#id24" id="id58">学習則の導出</a></li>
+<li><a class="reference internal" href="#id27" id="id59">実装</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id28" id="id60">制約条件の考慮</a><ul>
+<li><a class="reference internal" href="#id29" id="id61">正例と負例の双対係数の和を等しくする</a></li>
+<li><a class="reference internal" href="#id30" id="id62">双対係数は非負</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id31" id="id63">識別</a></li>
+<li><a class="reference internal" href="#id33" id="id64">脚注</a></li>
+</ul>
+</div>
 <div class="section" id="id4">
-<h3>マージンの定式化</h3>
+<h2><a class="toc-backref" href="#id47">線形 SVM</a></h2>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id48">マージンの定式化</a></h3>
 <p>識別の例として、まずは図にあるような、2 次元空間<span class="math">\(X\times Z\)</span>に存在する 2 クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け<span class="math">\(y=\{-1, 1\}\)</span>がなされており、識別面（2 次元空間では直線）<span class="math">\(ax+bz+c=0\)</span>の上半領域（<span class="math">\(ax+bz+c&gt;0\)</span>）にラベル<span class="math">\(y=1\)</span>のサンプルが、下半領域（<span class="math">\(ax+bz+c&lt;0\)</span>）にラベル<span class="math">\(y=-1\)</span>のサンプルが分布するようにする。</p>
 <div class="figure">
 <img alt="2 クラス分離の例 " src="./images/2class_separation.png" />
@@ -174,7 +208,7 @@ SVM は、このマージンを最大化することが目的となる。</p>
   \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{s} + b = l , \quad \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{t} + b = -l\end{aligned}
 \end{equation*}
 </div>
-<p>が成立すると仮定する <a class="footnote-reference" href="#id35" id="id5">[3]</a> と（<span class="math">\(l&gt;0\)</span>）、
+<p>が成立すると仮定する <a class="footnote-reference" href="#id36" id="id6">[3]</a> と（<span class="math">\(l&gt;0\)</span>）、
 <span class="math">\(\boldsymbol{x}\_{s}\)</span>と<span class="math">\(\boldsymbol{x}\_{t}\)</span>の、識別面に対して平行な距離がマージンとして計算できる。マージンを<span class="math">\(\gamma\)</span>と書くと、
 平面の単位法ベクトルは<span class="math">\(\boldsymbol{w}/||\boldsymbol{w}||\)</span>（<span class="math">\(||\boldsymbol{w}|| = \sqrt{\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}}\)</span>）で与えられるので、マージンは</p>
 <div class="math">
@@ -187,8 +221,8 @@ SVM は、このマージンを最大化することが目的となる。</p>
 </div>
 <p>で求められる。</p>
 </div>
-<div class="section" id="id6">
-<h3>マージン最大化</h3>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id49">マージン最大化</a></h3>
 <p>前節でも既に述べたが、
 SVM の目的はマージン<span class="math">\(\gamma\)</span>を最大化することである。単純には<span class="math">\(\max \gamma\)</span>と書けるが、
 最適化を行いやすくするため、<span class="math">\(1/\gamma\)</span>の最小化に置き換え、
@@ -200,11 +234,11 @@ SVM の目的はマージン<span class="math">\(\gamma\)</span>を最大化す�
   &amp;\implies \min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} \quad \text{subject to : } y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \geq 1 \quad (i=1, \dots, N)\end{aligned}
 \end{equation*}
 </div>
-<p>この最適化問題は、 凸計画問題 <a class="footnote-reference" href="#id36" id="id7">[4]</a> であり、不等式制約付き非線形計画問題なので、 KKT 条件 (Karush-Kuhn-Tucker
+<p>この最適化問題は、 凸計画問題 <a class="footnote-reference" href="#id37" id="id8">[4]</a> であり、不等式制約付き非線形計画問題なので、 KKT 条件 (Karush-Kuhn-Tucker
 condition) を用いる。KKT 条件はラグランジェの未定乗数法（等式制約）の一般化であり、次の定理で表される :</p>
 <hr class="docutils" />
 <div class="section" id="kkt">
-<h4>KKT 条件</h4>
+<h4><a class="toc-backref" href="#id50">KKT 条件</a></h4>
 <p><span class="math">\(\boldsymbol{v}^{\star}\)</span>を<span class="math">\(f(\boldsymbol{v})\)</span>に関しての最適化問題の最適解とするならば、次の条件を満たす最適重みベクトル<span class="math">\(\boldsymbol{\alpha}^{\star}=[\alpha_{1}^{\star}, \cdots, \alpha_{N}^{\star}]^{\mathsf{T}}\ (\alpha_{i} \geq 0)\)</span>が存在する。</p>
 <div class="math">
 \begin{equation*}
@@ -228,7 +262,7 @@ condition) を用いる。KKT 条件はラグランジェの未定乗数法（�
 \end{aligned}
 \end{equation*}
 </div>
-<p><span class="math">\({\cal L}\)</span>が凸関数ならば、最適点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点にあり、<span class="math">\(\displaystyle\max_{\scriptsize \boldsymbol{v}} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star})\)</span>を主問題とする時、<span class="math">\(\displaystyle\min_{\scriptsize \boldsymbol{\alpha}}{\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})\)</span>を主問題に対する双対問題という。 <a class="footnote-reference" href="#id37" id="id8">[5]</a></p>
+<p><span class="math">\({\cal L}\)</span>が凸関数ならば、最適点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点にあり、<span class="math">\(\displaystyle\max_{\scriptsize \boldsymbol{v}} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star})\)</span>を主問題とする時、<span class="math">\(\displaystyle\min_{\scriptsize \boldsymbol{\alpha}}{\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})\)</span>を主問題に対する双対問題という。 <a class="footnote-reference" href="#id38" id="id9">[5]</a></p>
 <hr class="docutils" />
 <p>それでは実際に KKT 条件を適用し、最適化問題を主問題 ( 式 ) から双対問題へ変換する事を考える。
 まず制約条件から</p>
@@ -293,15 +327,15 @@ condition) を用いる。KKT 条件はラグランジェの未定乗数法（�
 </div>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>非線形 SVM</h2>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id51">非線形 SVM</a></h2>
 <p>前節までの議論は、入力データと同じ空間（次元）で適切な識別面を発見する SVM であり、これを特に<strong>線形 SVM</strong>という。
 線形 SVM の場合、識別面は入力データ空間の次元<span class="math">\(n\)</span>に対し<span class="math">\(n-1\)</span>次元の平面（<strong>超平面</strong>）であり（例 :2 次元空間では直線、3 次元空間では平面）、図の様に、異なるクラスのサンプルが入り組んだ状態では識別面を構成できない（<strong>線形分離不可能</strong>）。</p>
 <div class="figure">
 <img alt=" 線形分離不可能な例 " src="./images/linearly_unseparatable.png" />
 <p class="caption">線形分離不可能な例</p>
 </div>
-<p>この場合、入力データの空間<span class="math">\(\mathbb{R}^{n}\)</span>から高次元空間<span class="math">\(\mathbb{R}^{h}\)</span>(<span class="math">\(h \gg n\)</span>) への高次元な非線形写像（<strong>特徴写像</strong>）<span class="math">\(\boldsymbol{\phi} : \mathbb{R}^{n} \to \mathbb{R}^{h}\)</span>を用いて高次元空間（特徴空間）へ写像すれば、線形分離不可能だったサンプルを一般位置 <a class="footnote-reference" href="#id38" id="id10">[6]</a> に写し、識別面を構成できる（線形分離可能）ようになる（図参照）。</p>
+<p>この場合、入力データの空間<span class="math">\(\mathbb{R}^{n}\)</span>から高次元空間<span class="math">\(\mathbb{R}^{h}\)</span>(<span class="math">\(h \gg n\)</span>) への高次元な非線形写像（<strong>特徴写像</strong>）<span class="math">\(\boldsymbol{\phi} : \mathbb{R}^{n} \to \mathbb{R}^{h}\)</span>を用いて高次元空間（特徴空間）へ写像すれば、線形分離不可能だったサンプルを一般位置 <a class="footnote-reference" href="#id39" id="id11">[6]</a> に写し、識別面を構成できる（線形分離可能）ようになる（図参照）。</p>
 <div class="figure">
 <img alt=" 特徴空間で線形分離可能になる例 " src="./images/linearly_separatable_in_high_dimension.png" />
 <p class="caption">特徴空間で線形分離可能になる例</p>
@@ -337,7 +371,7 @@ condition) を用いる。KKT 条件はラグランジェの未定乗数法（�
 <p>ここで<span class="math">\(K\)</span>は入力データのみで記述されるので、特徴写像はカーネル関数の中に閉じ込められてしまい、
 陽に現れない。
 即ち、特徴写像を構成する必要がないというのが大きなメリットである。任意の関数がカーネルになるとは限らず、
-マーサーの定理 <a class="footnote-reference" href="#id39" id="id11">[7]</a> という条件をカーネル関数は満たす必要がある。代表的なカーネル関数を以下に挙げる :</p>
+マーサーの定理 <a class="footnote-reference" href="#id40" id="id12">[7]</a> という条件をカーネル関数は満たす必要がある。代表的なカーネル関数を以下に挙げる :</p>
 <ul class="simple">
 <li>線形カーネル :</li>
 </ul>
@@ -381,13 +415,13 @@ condition) を用いる。KKT 条件はラグランジェの未定乗数法（�
 \end{equation*}
 </div>
 </div>
-<div class="section" id="id12">
-<h2>ソフトマージン SVM</h2>
+<div class="section" id="id13">
+<h2><a class="toc-backref" href="#id52">ソフトマージン SVM</a></h2>
 <p>前節までの SVM は、
 マージンの内部にサンプルが入る事を一切許さないので、これを特に<strong>ハードマージン SVM</strong>ということがある。カーネルを用いた非線形ハードマージン SVM は、線形分離不可能なサンプルにでも強引に曲がりくねった識別面を構成する。これは実用に供する場合に問題になることがある。
 例えば、データに雑音が乗っていたり、
 一部のラベルを付け間違えたりする場合であり、これらは実データを扱う場合、
-往々にして起こりうる事である。この様な雑音を拾いすぎてしまうと SVM の汎化性能 <a class="footnote-reference" href="#id40" id="id13">[8]</a> が悪化してしまうので、マージンの制約を緩め、一部のサンプルはマージンの内部に入っても良いように SVM を改善する事を考える。マージンの内部にサンプルが入ることを許す SVM を<strong>ソフトマージン SVM</strong>と呼ぶことがある。</p>
+往々にして起こりうる事である。この様な雑音を拾いすぎてしまうと SVM の汎化性能 <a class="footnote-reference" href="#id41" id="id14">[8]</a> が悪化してしまうので、マージンの制約を緩め、一部のサンプルはマージンの内部に入っても良いように SVM を改善する事を考える。マージンの内部にサンプルが入ることを許す SVM を<strong>ソフトマージン SVM</strong>と呼ぶことがある。</p>
 <p>ハードマージン SVM の制約を緩める事を考える。サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>に対応するスラック（緩衝）変数<span class="math">\(\eta_{i} \geq 0\ (i=1, \dots, N)\)</span>を用意して、
 SVM の制約を</p>
 <div class="math">
@@ -421,7 +455,7 @@ SVM の制約を</p>
 \end{equation*}
 </div>
 <p>ここで、
-<span class="math">\(C_{1}, C_{2}\)</span>はハードマージンとソフトマージンのトレードオフを与える定数 <a class="footnote-reference" href="#id41" id="id14">[9]</a> で、最適な値は実験等によって求める必要がある。
+<span class="math">\(C_{1}, C_{2}\)</span>はハードマージンとソフトマージンのトレードオフを与える定数 <a class="footnote-reference" href="#id42" id="id15">[9]</a> で、最適な値は実験等によって求める必要がある。
 双対問題の導出は、前節までの議論と同様に、
 KKT 条件に当てはめる事により得られる :</p>
 <ul class="simple">
@@ -472,7 +506,7 @@ KKT 条件に当てはめる事により得られる :</p>
       &amp;\text{subject to : } 0 \leq \alpha_{i} \leq C_{1}, \ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N) \nonumber\end{aligned}
 \end{equation*}
 </div>
-<ul class="simple" id="id15">
+<ul class="simple" id="id16">
 <li>2 ノルムソフトマージン SVM ・双対問題の導出</li>
 </ul>
 <p>ラグランジアンは、</p>
@@ -532,7 +566,7 @@ KKT 条件に当てはめる事により得られる :</p>
 </div>
 <p>を満たす。 2 ノルムソフトマージン SVM も、
 結局、カーネル関数を簡単に書き換える事で実現できる。</p>
-<ul class="simple" id="id16">
+<ul class="simple" id="id17">
 <li>2 ノルムソフトマージン SVM ・双対問題</li>
 </ul>
 <div class="math">
@@ -545,8 +579,8 @@ KKT 条件に当てはめる事により得られる :</p>
 </div>
 </div>
 <div class="section" id="svr-support-vector-regression">
-<h2>SVR（Support Vector Regression, サポートベクトル回帰）</h2>
-<p>一般に SVM は識別器として用いられる事がほとんどだが、ラベルを実数とした回帰問題 <a class="footnote-reference" href="#id42" id="id17">[10]</a> にも適用することができる。SVM による回帰モデルのことを、
+<h2><a class="toc-backref" href="#id53">SVR（Support Vector Regression, サポートベクトル回帰）</a></h2>
+<p>一般に SVM は識別器として用いられる事がほとんどだが、ラベルを実数とした回帰問題 <a class="footnote-reference" href="#id43" id="id18">[10]</a> にも適用することができる。SVM による回帰モデルのことを、
 <strong>SVR</strong>（Support Vector Regression, サポートベクトル回帰）という。
 基本的な考え方としては、図の様に、識別面（回帰面）を中心に幅<span class="math">\(2\varepsilon\)</span>の “ 帯 ” に多くのサンプルが入るようにすれば良い。</p>
 <div class="figure">
@@ -621,7 +655,7 @@ KKT 条件に当てはめる事により得られる :</p>
 </div>
 <p>後は KKT 条件にぶち込むだけの流れ作業である。よし、じゃあぶち込んでやるぜ！</p>
 <div class="section" id="svr">
-<h3>1 ノルム SVR ・双対問題の導出</h3>
+<h3><a class="toc-backref" href="#id54">1 ノルム SVR ・双対問題の導出</a></h3>
 <div class="math">
 \begin{equation*}
 \begin{aligned}
@@ -688,8 +722,8 @@ KKT 条件に当てはめる事により得られる :</p>
 \end{equation*}
 </div>
 </div>
-<div class="section" id="id19">
-<span id="id18"></span><h3>2 ノルム SVR ・双対問題の導出</h3>
+<div class="section" id="id20">
+<span id="id19"></span><h3><a class="toc-backref" href="#id55">2 ノルム SVR ・双対問題の導出</a></h3>
 <div class="math">
 \begin{equation*}
 \begin{aligned}
@@ -732,7 +766,7 @@ KKT 条件に当てはめる事により得られる :</p>
 \end{equation*}
 </div>
 <p>1 ノルム SVR の時と同様に、<span class="math">\(\alpha_{i} = \alpha_{i}^{+} - \alpha_{i}^{-}\)</span>とおくと、<span class="math">\((\alpha_{i}^{+})^{2} + (\alpha_{i}^{-})^{2} = \alpha_{i}^{2}\)</span>が成り立つので、双対問題は以下の様に表現できる。</p>
-<ul class="simple" id="id20">
+<ul class="simple" id="id21">
 <li>2 ノルム SVR ・双対問題</li>
 </ul>
 <div class="math">
@@ -745,14 +779,14 @@ KKT 条件に当てはめる事により得られる :</p>
 </div>
 </div>
 </div>
-<div class="section" id="id21">
-<h2>実装の例</h2>
+<div class="section" id="id22">
+<h2><a class="toc-backref" href="#id56">実装の例</a></h2>
 <p>実装例は <a class="reference external" href="https://github.com/MrAiki/SimpleSVM">ここ</a>
 にある。本稿では要点を絞って見ていく。</p>
-<div class="section" id="id22">
-<h3>学習</h3>
 <div class="section" id="id23">
-<h4>学習則の導出</h4>
+<h3><a class="toc-backref" href="#id57">学習</a></h3>
+<div class="section" id="id24">
+<h4><a class="toc-backref" href="#id58">学習則の導出</a></h4>
 <p>SVM の学習は、双対問題</p>
 <div class="math">
 \begin{equation*}
@@ -763,7 +797,7 @@ KKT 条件に当てはめる事により得られる :</p>
 \end{equation*}
 </div>
 <p>を解けば良いことになる。
-脚注 <a class="footnote-reference" href="#id43" id="id24">[11]</a> で既に触れたが、SVM のマージン最大化は凸計画問題である。従って局所最適解が存在せず、極大値が大域的な最大値に一致する。
+脚注 <a class="footnote-reference" href="#id44" id="id25">[11]</a> で既に触れたが、SVM のマージン最大化は凸計画問題である。従って局所最適解が存在せず、極大値が大域的な最大値に一致する。
 ソフトマージンに対応する時は、1 ノルムソフトマージンの際には係数に値域<span class="math">\(0 \geq \alpha_{i} \geq C_{1}\ (i=1,...,N)\)</span>を設け、2 ノルムの際にはカーネル関数<span class="math">\(K\)</span>を次のように書き換えれば良い：</p>
 <div class="math">
 \begin{equation*}
@@ -778,7 +812,7 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 \Delta \boldsymbol{\alpha} = \eta \frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}
 \end{equation*}
 </div>
-<p>とすれば良い <a class="footnote-reference" href="#id44" id="id25">[12]</a> 。学習の収束判定は、例えば<span class="math">\(||\Delta \boldsymbol{\alpha}||\)</span>が十分小さくなった時とすれば良く、その時は極大値が得られている。
+<p>とすれば良い <a class="footnote-reference" href="#id45" id="id26">[12]</a> 。学習の収束判定は、例えば<span class="math">\(||\Delta \boldsymbol{\alpha}||\)</span>が十分小さくなった時とすれば良く、その時は極大値が得られている。
 実際に<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}\)</span>を計算することを考える。<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \alpha_{i}}\ (i=1,...,N)\)</span>は、</p>
 <div class="math">
 \begin{equation*}
@@ -795,8 +829,8 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 \end{equation*}
 </div>
 </div>
-<div class="section" id="id26">
-<h4>実装</h4>
+<div class="section" id="id27">
+<h4><a class="toc-backref" href="#id59">実装</a></h4>
 <p>学習を行っている箇所を抜粋すると次の様になる：</p>
 <pre class="code c literal-block">
 <span class="cm">/* 勾配値の計算 */</span>
@@ -852,11 +886,11 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 <p>係数更新を行っている。ここでは、単純な最急勾配分のみだけではなく、前回の勾配値に定数を乗じて加えた<strong>モーメント法</strong>を使用している。一般にモーメント法を使用したほうが学習が早くなることが知られている。</p>
 </div>
 </div>
-<div class="section" id="id27">
-<h3>制約条件の考慮</h3>
-<p>学習則は単純に見えても実装時に落とし穴になるのが制約条件である。</p>
 <div class="section" id="id28">
-<h4>正例と負例の双対係数の和を等しくする</h4>
+<h3><a class="toc-backref" href="#id60">制約条件の考慮</a></h3>
+<p>学習則は単純に見えても実装時に落とし穴になるのが制約条件である。</p>
+<div class="section" id="id29">
+<h4><a class="toc-backref" href="#id61">正例と負例の双対係数の和を等しくする</a></h4>
 <p>KKT 条件から導かれる<span class="math">\(\boldsymbol{\alpha}\)</span>についての制約</p>
 <div class="math">
 \begin{equation*}
@@ -892,8 +926,8 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 </pre>
 <p>この制約を満たすための実装はこの限りではない。</p>
 </div>
-<div class="section" id="id29">
-<h4>双対係数は非負</h4>
+<div class="section" id="id30">
+<h4><a class="toc-backref" href="#id62">双対係数は非負</a></h4>
 <p>双対係数は非負でなければならないため、負になった係数は全て 0 に修正してしまう。
 学習が進むに連れて 0 の係数が増えていくが、それは SVM の持つスパース学習の効果が現れている状態である。学習が収束した時、0 に潰れず非負値となった係数に対応するサンプルが<strong>サポートベクトル</strong>である。</p>
 <pre class="code c literal-block">
@@ -915,9 +949,9 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 </div>
 </div>
 </div>
-<div class="section" id="id30">
-<h2>識別</h2>
-<p><a class="reference external" href="# マージンの定式化 ">マージンの定式化</a>で述べたが、SVM のクラス識別は出力値<span class="math">\(y\)</span>の正負によって判断する <a class="footnote-reference" href="#id45" id="id31">[13]</a> 。SVM の出力式</p>
+<div class="section" id="id31">
+<h2><a class="toc-backref" href="#id63">識別</a></h2>
+<p><a class="reference external" href="# マージンの定式化 ">マージンの定式化</a>で述べたが、SVM のクラス識別は出力値<span class="math">\(y\)</span>の正負によって判断する <a class="footnote-reference" href="#id46" id="id32">[13]</a> 。SVM の出力式</p>
 <div class="math">
 \begin{equation*}
 g(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^{\mathsf{T}} \boldsymbol{x} + b
@@ -947,31 +981,31 @@ g(\boldsymbol{x}, \boldsymbol{w}^{\star}) = \sum_{i=1}^{N} \alpha_{i} y_{i} K(\b
 <span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_output</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
 </pre>
 </div>
-<div class="section" id="id32">
-<h2>脚注</h2>
-<table class="docutils footnote" frame="void" id="id33" rules="none">
+<div class="section" id="id33">
+<h2><a class="toc-backref" href="#id64">脚注</a></h2>
+<table class="docutils footnote" frame="void" id="id34" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>高村大也、 奥村学、 “ 言語処理のための機械学習入門 ”、 コロナ社、 2010</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id34" rules="none">
+<table class="docutils footnote" frame="void" id="id35" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>高橋治久、 堀田一弘、 “ 学習理論 ” コロナ社、 2009</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id35" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id5">[3]</a></td><td>くどいかもしれないが、
-サポートベクトルは最も識別面に近いサンプルなので、この仮定により<span class="math">\(y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}+b) \geq l \quad (i=1, \dots, N)\)</span>が成り立つ。</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id36" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td><p class="first">（証明） -
+<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>くどいかもしれないが、
+サポートベクトルは最も識別面に近いサンプルなので、この仮定により<span class="math">\(y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}+b) \geq l \quad (i=1, \dots, N)\)</span>が成り立つ。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id37" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id8">[4]</a></td><td><p class="first">（証明） -
 最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、
 明らかに下に凸である。 -
 制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、</p>
@@ -999,10 +1033,10 @@ g(\boldsymbol{x}, \boldsymbol{w}^{\star}) = \sum_{i=1}^{N} \alpha_{i} y_{i} K(\b
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id37" rules="none">
+<table class="docutils footnote" frame="void" id="id38" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[5]</a></td><td><p class="first">（鞍点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事の証明）
+<tr><td class="label"><a class="fn-backref" href="#id9">[5]</a></td><td><p class="first">（鞍点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事の証明）
 <span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点なので、</p>
 <div class="math">
 \begin{equation*}
@@ -1055,17 +1089,17 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id38" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id10">[6]</a></td><td>互いに同一平面上<strong>以外</strong>の位置にある事。
-例えば、2 次元空間では同一直線上以外の位置であり、3 次元空間では同一平面上以外の位置である。異なるクラスのサンプルが一般位置にあれば、もとより線形分離可能である。</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id39" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id11">[7]</a></td><td><p class="first">有限個数<span class="math">\(N&lt;\infty\)</span>のサンプルに対し、<span class="math">\((\boldsymbol{G})\_{ij} = K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>、即ち<span class="math">\((i,j)\)</span>成分の値が<span class="math">\(K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>となっている行列<span class="math">\(\boldsymbol{G}\)</span>をグラム（カーネル）行列という。特徴写像が有限次元ならば、グラム行列が（有限）正定値行列ならば<span class="math">\(K\)</span>はカーネル関数となる。特徴写像が無限次元の場合のカーネル関数の条件がマーサーの定理である。
+<tr><td class="label"><a class="fn-backref" href="#id11">[6]</a></td><td>互いに同一平面上<strong>以外</strong>の位置にある事。
+例えば、2 次元空間では同一直線上以外の位置であり、3 次元空間では同一平面上以外の位置である。異なるクラスのサンプルが一般位置にあれば、もとより線形分離可能である。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id40" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id12">[7]</a></td><td><p class="first">有限個数<span class="math">\(N&lt;\infty\)</span>のサンプルに対し、<span class="math">\((\boldsymbol{G})\_{ij} = K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>、即ち<span class="math">\((i,j)\)</span>成分の値が<span class="math">\(K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>となっている行列<span class="math">\(\boldsymbol{G}\)</span>をグラム（カーネル）行列という。特徴写像が有限次元ならば、グラム行列が（有限）正定値行列ならば<span class="math">\(K\)</span>はカーネル関数となる。特徴写像が無限次元の場合のカーネル関数の条件がマーサーの定理である。
 その内容は、入力空間<span class="math">\(X\subset \mathbb{R}^{n}\)</span>が有界閉集合（<span class="math">\(\iff\)</span>コンパクト）であるとし、対象な連続関数<span class="math">\(K\)</span>が正定値、即ち任意の二乗可積分（二乗積分可能）な関数<span class="math">\(f\)</span>に対し</p>
 <div class="math">
 \begin{equation*}
@@ -1082,29 +1116,29 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id40" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id13">[8]</a></td><td>サンプルに現れない未知のデータでももれなく識別できる能力</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id41" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[9]</a></td><td>双対問題において、
-<span class="math">\(C_{1}, C_{2} \to \infty\)</span>とすると、ハードマージン SVM に一致することが分かる</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id14">[8]</a></td><td>サンプルに現れない未知のデータでももれなく識別できる能力</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id42" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id17">[10]</a></td><td>サンプルに最も当てはまる曲線（面）を探す問題。もう少し形式的に言うと、各サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>でのラベル<span class="math">\(y_{i}\)</span>の平均値を表す関数<span class="math">\(f\)</span>を学習する問題。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id15">[9]</a></td><td>双対問題において、
+<span class="math">\(C_{1}, C_{2} \to \infty\)</span>とすると、ハードマージン SVM に一致することが分かる</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id43" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id24">[11]</a></td><td><p class="first">（証明） -
+<tr><td class="label"><a class="fn-backref" href="#id18">[10]</a></td><td>サンプルに最も当てはまる曲線（面）を探す問題。もう少し形式的に言うと、各サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>でのラベル<span class="math">\(y_{i}\)</span>の平均値を表す関数<span class="math">\(f\)</span>を学習する問題。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id44" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id25">[11]</a></td><td><p class="first">（証明） -
 最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、
 明らかに下に凸である。 -
 制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、</p>
@@ -1132,16 +1166,16 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id44" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id25">[12]</a></td><td>ただし学習率<span class="math">\(\eta\)</span>の決め方は問題依存である。一般に、<span class="math">\(\eta\)</span>が小さすぎると学習が進行せず、大きすぎると極値を飛び越えてしまい学習が収束しない。</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id45" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id31">[13]</a></td><td><span class="math">\(y = 0\)</span>の場合の判断を明確にしている書類がない。ここでは正と判定する。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id26">[12]</a></td><td>ただし学習率<span class="math">\(\eta\)</span>の決め方は問題依存である。一般に、<span class="math">\(\eta\)</span>が小さすぎると学習が進行せず、大きすぎると極値を飛び越えてしまい学習が収束しない。</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id46" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id32">[13]</a></td><td><span class="math">\(y = 0\)</span>の場合の判断を明確にしている書類がない。ここでは正と判定する。</td></tr>
 </tbody>
 </table>
 </div>
@@ -1241,12 +1275,6 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
@@ -1255,62 +1283,77 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/regularization.html">Regularization</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
@@ -1319,19 +1362,16 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
   </ul>
 </li>

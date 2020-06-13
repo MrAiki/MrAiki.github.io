@@ -1,5 +1,458 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-05-24T11:00:00+09:00</updated><entry><title>正則化(1)</title><link href="/zheng-ze-hua-1.html" rel="alternate"></link><published>2020-05-24T11:00:00+09:00</published><updated>2020-05-24T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-24:/zheng-ze-hua-1.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-06-14T11:00:00+09:00</updated><entry><title>逆写像定理までの整理(3)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-3.html" rel="alternate"></link><published>2020-06-14T11:00:00+09:00</published><updated>2020-06-14T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-14:/ni-xie-xiang-ding-li-madenozheng-li-3.html</id><summary type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。
+これでようやく情報幾何学に入門できそう。&lt;/p&gt;
+&lt;div class="section" id="lms"&gt;
+&lt;h2&gt;LMS に自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015 年。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems&lt;/a&gt; フィッシャー情報行列を対角行列で与えている。
+* &lt;a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2017/papers/1570346064.pdf"&gt;Full Proportionate …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。
+これでようやく情報幾何学に入門できそう。&lt;/p&gt;
+&lt;div class="section" id="lms"&gt;
+&lt;h2&gt;LMS に自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015 年。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems&lt;/a&gt; フィッシャー情報行列を対角行列で与えている。
+* &lt;a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2017/papers/1570346064.pdf"&gt;Full Proportionate Functional Link Adaptive Filters for Nonlinear Acoustic Echo Cancellation&lt;/a&gt; これも。謎のリーマン計量を作る。
+* &lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm&lt;/a&gt; これも謎のリーマン計量を使っている …。損失関数に計量が入っちゃってるけどいいのか？→ 大丈夫っぽい。損失関数の設計は自由。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www2.ee.ic.ac.uk/publications/p3943.pdf"&gt;Adaptive algorithms for sparse echo cancellation&lt;/a&gt; 俯瞰した背景描写もある。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数 l0 ノルム最小化。l0 ノルムを exp で近似して解析的最小化。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf"&gt;NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION&lt;/a&gt; L0 ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加した Signed LMS。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf"&gt;AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION&lt;/a&gt; &lt;strong&gt;これが一番近いかも。&lt;/strong&gt; なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://asl.epfl.ch/wp-content/uploads/publications/journal_articles/spl_feb_2004_b.pdf"&gt;Variable Step-Size NLMS and Affine Projection Algorithms&lt;/a&gt; これもそれなりに近い。affine projection algorithm で情報行列の逆を使っている。&lt;/li&gt;
+&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけど Abstract 読み限り相当やってそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理(2)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-2.html" rel="alternate"></link><published>2020-06-07T11:00:00+09:00</published><updated>2020-06-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-07:/ni-xie-xiang-ding-li-madenozheng-li-2.html</id><content type="html">&lt;p&gt;ついでにラグランジュ未定乗数法と KKT 条件まで行ってしまった。欲張った。
+予定より断然時間かかってしまったけど、だいたい落ち着いたかも。記事に起こす。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理</title><link href="/ni-xie-xiang-ding-li-madenozheng-li.html" rel="alternate"></link><published>2020-06-05T11:00:00+09:00</published><updated>2020-06-05T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/ni-xie-xiang-ding-li-madenozheng-li.html</id><content type="html">&lt;p&gt;評価を待つ間逆写像定理までを写経中。だいたい飲み込めてるが、やっぱ基礎の抜けがある …。
+陰関数定理はだいたい OK。ついでにラグランジュ未定乗数法の厳密な証明を与えたい。（いままでなんとなくで済ませていたので止めを刺す。）&lt;/p&gt;
+</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>正則化(8)</title><link href="/zheng-ze-hua-8.html" rel="alternate"></link><published>2020-06-04T11:00:00+09:00</published><updated>2020-06-04T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-04:/zheng-ze-hua-8.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;前日思い立った内容って既に試していて、だめなところまで見えてた。すなわち直接 &lt;span class="math"&gt;\(\mathrm{E …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;前日思い立った内容って既に試していて、だめなところまで見えてた。すなわち直接 &lt;span class="math"&gt;\(\mathrm{E}[(\ve{x} + \ve{a})(\ve{x} + \ve{a})^{\mathsf{T}}]\)&lt;/span&gt; を計算する方針は試行済み。&lt;/p&gt;
+&lt;p&gt;色々探しているうちに、K-FAC という自然勾配学習法の近似手法を見つける。クロネッカ積を使ってフィッシャー情報行列を分解しようというアイデアだ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://medium.com/&amp;#64;osawa1021/k-fac%E3%81%A8%E3%81%AF-de30537f7096"&gt;K-FAC とは？ 大規模深層学習のための二次最適化の実現&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;これはすごい。少し前にクロネッカ積で計算できるんじゃないの？とは指摘もらってたけど、普通にメジャーな手法だ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/pjsai/JSAI2017/0/JSAI2017_1A2OS05b4/_pdf/-char/ja"&gt;自然勾配近似法を起点としたバッチ正規化の数理的理解&lt;/a&gt; に近似手法が挙げられている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1810.12281.pdf"&gt;THREE MECHANISMS OF WEIGHT DECAY REGULARIZATION&lt;/a&gt; で Weight Decay の文脈で L2 正則化学習則が示されている。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1512.04202.pdf"&gt;Preconditioned Stochastic Gradient Descent&lt;/a&gt; Precondition 行列で勾配を更新する方法。ちょっと待て、自然勾配とちょっと違う。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.mdpi.com/2076-3417/9/21/4568/pdf"&gt;Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode&lt;/a&gt; では Matrix cookbook の (191) を使って行列に対する正則化を行っている。&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\((\ve{Q} + \sigma^{2}\ve{M})^{-1} \approx \ve{Q}^{-1} - \sigma^{2}\ve{Q}^{-1}\ve{M}\ve{Q}^{-1}\ (\sigma\text{ is small})\)&lt;/span&gt; という近似。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;逆写像定理までをおべんきょ中。まだ陰関数定理の途中。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(7)</title><link href="/zheng-ze-hua-7.html" rel="alternate"></link><published>2020-06-03T11:00:00+09:00</published><updated>2020-06-03T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-03:/zheng-ze-hua-7.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf"&gt;Matrix cookbook&lt;/a&gt; を眺めていたら有益そうな等式を見つける。 &lt;span class="math"&gt;\(E[\ve …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.math.uwaterloo.ca/~hwolkowi/matrixcookbook.pdf"&gt;Matrix cookbook&lt;/a&gt; を眺めていたら有益そうな等式を見つける。 &lt;span class="math"&gt;\(E[\ve{x}] = \ve{m}\)&lt;/span&gt; として、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mathrm{E}[(\ve{x} + \ve{a})(\ve{x} + \ve{a})^{\mathsf{T}}] &amp;amp;= \mathrm{E}[\ve{x}\ve{x}^{\mathsf{T}} + \ve{x}\ve{a}^{\mathsf{T}} + \ve{a}\ve{x}^{\mathsf{T}} + \ve{a}\ve{a}^{\mathsf{T}}] \\
+&amp;amp;= \mathrm{E}[\ve{x}\ve{x}^{\mathsf{T}} - \ve{x}\ve{m}^{\mathsf{T}} - \ve{m}\ve{x}^{\mathsf{T}} + \ve{m}\ve{m}^{\mathsf{T}} + \ve{x}\ve{m}^{\mathsf{T}} + \ve{m}\ve{x}^{\mathsf{T}} - \ve{m}\ve{m}^{\mathsf{T}} + \ve{x}\ve{a}^{\mathsf{T}} + \ve{a}\ve{x}^{\mathsf{T}} + \ve{a}\ve{a}^{\mathsf{T}}] \\
+&amp;amp;= \mathrm{E}[\ve{x}\ve{x}^{\mathsf{T}} - \ve{x}\ve{m}^{\mathsf{T}} - \ve{m}\ve{x}^{\mathsf{T}} + \ve{m}\ve{m}^{\mathsf{T}}] + \ve{m}\ve{m}^{\mathsf{T}} + \ve{m}\ve{m}^{\mathsf{T}} - \ve{m}\ve{m}^{\mathsf{T}} + \ve{m}\ve{a}^{\mathsf{T}} + \ve{a}\ve{m}^{\mathsf{T}} + \ve{a}\ve{a}^{\mathsf{T}} \\
+&amp;amp;= \mathrm{E}[(\ve{x} - \ve{m})(\ve{x} - \ve{m})^{\mathsf{T}}] + \ve{m}\ve{m}^{\mathsf{T}} + \ve{m}\ve{a}^{\mathsf{T}} + \ve{a}\ve{m}^{\mathsf{T}} + \ve{a}\ve{a}^{\mathsf{T}} \\
+&amp;amp;= \mathrm{E}[(\ve{x} - \ve{m})(\ve{x} - \ve{m})^{\mathsf{T}}] + (\ve{m} + \ve{a})(\ve{m} + \ve{a})^{\mathsf{T}} \\
+&amp;amp;= \mathrm{E}[\ve{x}\ve{x}^{\mathsf{T}}] - \ve{m}\ve{m}^{\mathsf{T}} + (\ve{m} + \ve{a})(\ve{m} + \ve{a})^{\mathsf{T}}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;が成立する。 &lt;span class="math"&gt;\(\ve{a}\)&lt;/span&gt; を正則化で出てくるベクトルとすると、割と有益に見える。しかも &lt;span class="math"&gt;\(\ve{m} = \ve{0}\)&lt;/span&gt; とできるならばもっとさっぱりする。&lt;/p&gt;
+&lt;p&gt;早速手元のデータで &lt;span class="math"&gt;\(\ve{m} = \ve{0}\)&lt;/span&gt; とならないか、つまり、勾配 &lt;span class="math"&gt;\(\mathrm{sign}[\varepsilon(n)]\ve{x}(n)\)&lt;/span&gt; の平均が &lt;span class="math"&gt;\(\ve{0}\)&lt;/span&gt; にならないか観察したけど、成り立っていなそう。。。長時間平均をとっても収束している感じはしない。（自然勾配は、当然 &lt;span class="math"&gt;\(\ve{0}\)&lt;/span&gt; に漸近する傾向あり。学習が進んでいるから当然。）&lt;/p&gt;
+&lt;p&gt;平均 &lt;span class="math"&gt;\(\ve{m}\)&lt;/span&gt; を逐次推定すれば良さそうで、試してみたい。しかし今は情報幾何もやるのだ。明日やる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(6)</title><link href="/zheng-ze-hua-6.html" rel="alternate"></link><published>2020-05-31T11:00:00+09:00</published><updated>2020-05-31T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-31:/zheng-ze-hua-6.html</id><content type="html">&lt;p&gt;残った課題をやってたら土日が飛ぶ。ついでにカサゴ本を読み切る。
+6 月からは英語のおべんきょうをしようかと思っている。同時に情報幾何も進める。
+早いところ進捗を見てもらいたいが、まだ無理っぽい。。。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://solid4.mech.okayama-u.ac.jp/%E3%83%86%E3%83%B3%E3%82%BD%E3%83%AB.pdf"&gt;テンソル&lt;/a&gt; テンソルの定義。分かりやすい説明。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(5)</title><link href="/zheng-ze-hua-5.html" rel="alternate"></link><published>2020-05-30T11:00:00+09:00</published><updated>2020-05-30T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-30:/zheng-ze-hua-5.html</id><content type="html">&lt;p&gt;課題やってたら木金が飛んだ。。。&lt;/p&gt;
+&lt;p&gt;古い資料を漁ってたら、SPSA（Simultaneous perturbation stochastic approximation）が掘り返された。たしかシステム同定で使ったよな。なんか面白いかも知んない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(4)</title><link href="/zheng-ze-hua-4.html" rel="alternate"></link><published>2020-05-27T11:00:00+09:00</published><updated>2020-05-27T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-27:/zheng-ze-hua-4.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;引き続き MAP 推定における自然勾配を調査する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;引き続き MAP 推定における自然勾配を調査する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式 (5) からスタートするも … はっきりしたことを言ってないように見える。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf"&gt;Adaptive natural gradient learning algorithms for various stochastic models&lt;/a&gt; これの式 (5) も参考になりそう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1803.09151.pdf"&gt;Natural Gradients in Practice: Non-Conjugate Variational Inference in Gaussian Process Models&lt;/a&gt; 指数族の事後確率最大化を考える。フィッシャー情報行列を計算するための平均のとり方が妙。もうちょっと読みたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(3)</title><link href="/zheng-ze-hua-3.html" rel="alternate"></link><published>2020-05-26T11:00:00+09:00</published><updated>2020-05-26T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-26:/zheng-ze-hua-3.html</id><summary type="html">&lt;p&gt;実装の整理できて、正則化込で動かしているけど芳しくない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。&lt;/li&gt;
+&lt;li&gt;タップ数が多い場合は多少の効果あり。&lt;ul&gt;
+&lt;li&gt;タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。&lt;/li&gt;
+&lt;li&gt;試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。&lt;/li&gt;
+&lt;li&gt;ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。&lt;/li&gt;
+&lt;li&gt;もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式 (5)。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.luigimalago.it/papers/2013GSI.pdf"&gt;Robust Estimation of Natural Gradient in …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;実装の整理できて、正則化込で動かしているけど芳しくない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。&lt;/li&gt;
+&lt;li&gt;タップ数が多い場合は多少の効果あり。&lt;ul&gt;
+&lt;li&gt;タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。&lt;/li&gt;
+&lt;li&gt;試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。&lt;/li&gt;
+&lt;li&gt;ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。&lt;/li&gt;
+&lt;li&gt;もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式 (5)。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.luigimalago.it/papers/2013GSI.pdf"&gt;Robust Estimation of Natural Gradient in Optimization by Regularized Linear Regression&lt;/a&gt; 線形回帰における正則化に触れている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ipvs.informatik.uni-stuttgart.de/mlr/papers/05-igel-Rprop.pdf"&gt;Rprop Using the Natural Gradient&lt;/a&gt; パラメータの正則化ではない。フィッシャー情報行列に正則化パラメータを乗じた単位行列を足して逆行列を求めている。なんでも、正則化パラメータが大きければ普通の勾配法に近づくとのこと。そのとおりだが、一体どういう発想なんだろう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1703.00209.pdf"&gt;Online Natural Gradient as a Kalman Filter&lt;/a&gt; ドンピシャであった（Proposition 4）けどだいぶ複雑。しかも、自然勾配法とカルマンフィルタの関係性を示している。カルマンフィルタのノイズの事前分布を取り入れている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;あがいてたら適応的自然勾配の近似計算があった。計算負荷削減に有益そう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://papers.nips.cc/paper/3234-topmoumoute-online-natural-gradient-algorithm.pdf"&gt;Topmoumoute online natural gradient algorithm&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(2)</title><link href="/zheng-ze-hua-2.html" rel="alternate"></link><published>2020-05-25T11:00:00+09:00</published><updated>2020-05-25T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-25:/zheng-ze-hua-2.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;まだ悩んでいる。今は &lt;span class="math"&gt;\(\ve{R}^{-1 …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;まだ悩んでいる。今は &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を直接計算してるので、正則化込みの結果（ &lt;span class="math"&gt;\((\ve{R} + \lambda\ve{I})^{-1}\)&lt;/span&gt; ）になっていない。この式を近似でもいいから計算できないか？&lt;/p&gt;
+&lt;p&gt;なんかうまくいきそうなんだけど、定式化にあたって一つ疑問が： &lt;strong&gt;自然勾配って一般の損失関数にも使えるのか？&lt;/strong&gt;
+対数尤度を損失関数に使った場合は、無論自然勾配になるけど、一般の損失関数の場合、フィッシャー情報行列と損失関数の勾配が噛み合わない気がする。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1808.07172.pdf"&gt;Fisher Information and Natural Gradient Learning of Random Deep Networks&lt;/a&gt; 甘利先生の論文だけど一般の損失に適用しているように見える&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.7538&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Why Natural Gradient?&lt;/a&gt; &lt;strong&gt;→ 大丈夫っぽい。ちゃんと読もう。&lt;/strong&gt; 簡単な例（極座標系）で示している。普通の勾配はユークリッド空間上になるけど、極座標の逆行列を乗じて自然勾配を得ている。&lt;ul&gt;
+&lt;li&gt;とは言っても目的関数の構造を適切に表していないと、性能が悪そうに見える。対数尤度以外でどういうときに有効なんだ？&lt;/li&gt;
+&lt;li&gt;試してみるしかない？つまり、勾配分散を毎回求める必要があるのか、それとも、一つの計量を複数の損失関数で使い回せるかやってみる。&lt;/li&gt;
+&lt;li&gt;もう少し考えた。やっぱり正則化項を入れると損失関数の勾配は歪んでくると思う。だから、正則化項も含めてフィッシャー情報行列を計算しなければいかんと思う。ていうか、もはやフィッシャー情報行列は勾配の分散でしか無いように見えてきた。やり方としては、パラメータの事前分布にガウス or ラプラス分布を入れて、そいつの対数尤度をとって最適化問題を考える。フィッシャー情報行列の式変形が難しくなるけど、そんなことは無視して（考察の余地はあるけど）逆行列補題でストレートにフィッシャー情報行列の逆行列を計算できる。&lt;ul&gt;
+&lt;li&gt;ようは MAP 推定。 &lt;span class="math"&gt;\(\max p(\ve{x} | \ve{\theta}) p(\ve{\theta})\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(p(\ve{x} | \ve{\theta})\)&lt;/span&gt; は誤差分布、 &lt;span class="math"&gt;\(p(\ve{\theta})\)&lt;/span&gt; はパラメータ事前分布。&lt;span class="math"&gt;\(p(\ve{\theta}) = \exp(-\beta ||\ve{\theta}||_{2}), \exp(-\beta ||\ve{\theta}||_{1})\)&lt;/span&gt; なり何でもあり。対数とって勾配の分散をとればフィッシャー情報行列が求まる。&lt;/li&gt;
+&lt;li&gt;試すこともできると思うのでやってみたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(1)</title><link href="/zheng-ze-hua-1.html" rel="alternate"></link><published>2020-05-24T11:00:00+09:00</published><updated>2020-05-24T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-24:/zheng-ze-hua-1.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}

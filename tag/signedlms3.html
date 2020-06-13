@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>SignedLMS - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+    <meta name="author" content="aiki" />
+    <meta name="keywords" content="SignedLMS" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="Aiki's Blog"/>
+        <meta property="og:url" content=""/>
+        <meta property="og:description" content="Aiki's Blog"/>
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li >
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-4.html">LMS Filterの挙動観察中(4)</a></h2>
+                <div class="summary"><p>本日も引き続き発散の原因を追う。
+→ ステップサイズを小さくしたら発散しなくなった …。職人芸じゃないかこんなの。NLMS みたく発散しない条件がほしいな。</p>
+<p>本当に既存研究がないか、再度調査。</p>
+<p>自然勾配を適応的に計算する方法を試している。無論、定義式通りに計算するのは問題ないことは確かめているが、計算量が気になるのです。</p>
+<p>パラメータを色々といじりつつ、論文も参照してそれなりのパラメータを見つける。
+パラメータについては <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;ved=2ahUKEwi4ufHi4o_pAhUY_GEKHd-gDBwQFjAEegQIBRAB&amp;url=https%3A%2F%2Fwww.mdpi.com%2F2076-3417%2F9%2F21%2F4568%2Fpdf&amp;usg=AOvVaw0KgakdcC8U_T71ks8hZKDW">Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode</a> を皮切りに調査開始。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.8668&amp;rep=rep1&amp;type=pdf">Adaptive Method of Realizing Natural Gradient Learning for Multilayer Perceptrons</a> が甘利先生。（福水先生もいるぞ）<ul>
+<li>この論文で適応的更新式の導出が述べられる。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf">Adaptive natural gradient learning algorithms for various stochastic models …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-3.html">LMS Filterの挙動観察中(3)</a></h2>
+                <div class="summary"><p>LMS はヘッセ行列の逆行列込みの学習ができているが、Signed-LMS は上手く行かない。分散行列が特異になったり、要素が大きくなりすぎて発散してしまう。。。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-2.html">LMS Filterの挙動観察中(2)</a></h2>
+                <div class="summary"><p>つまるところ、以下の計算をどうやるか？に尽きる。</p>
+<div class="math">
+\begin{equation*}
+\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
+\end{equation*}
+</div>
+<p><span class="math">\(\varepsilon(n)\)</span> は i.i.d.（独立に同一の分布）から発生しているので、<span class="math">\(x(n-m …</span></p>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-1.html">LMS Filterの挙動観察中(1)</a></h2>
+                <div class="summary"><p>引き続き観察中。勾配の計算ミスがあったりして厳しかった。</p>
+<p>問題は、やはりというか SignLMS でのヘッセ行列。<span class="math">\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)</span> の計算でインパルス応答の扱いをどうするのか ... 連続信号では厳密に 0 を取る確率は 0 だ。だからといって離散的に考えていいのか？</p>
+<p>誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。</p>
+<p>デジタル的に考えれば、残差が 0 になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
+残差が 0 になる確率は、離散ラプラス分布（ <a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf">参考資料</a> ）を元にサンプリング / もしくは重み付けで求める。（サンプリングの場合は [0,1] 乱数を発生させて残差が 0 になる確率よりも小さければ採択する。まじの MC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。</p>
+<p>一旦残差 0 の重み付けで実験を進めているが、まだ残差 …</p>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/signed-lmsno2jie-wei-fen-sono2.html">Signed-LMSの2階微分 その2</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>早速既存研究が無いか見ている。二乗誤差最小化の LMS でもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMS については今の所、微分してるところも見てない。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pt.slideshare.net/mentelibre/neural-network-widrowhoff-learning-adaline-hagan-lms">NEURAL NETWORK Widrow-Hoff Learning Adaline Hagan LMS</a> 観測分散行列がヘッセ行列に一致することが書いてあった。</li>
+<li><a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf">Stochastic error whitening algorithm for linear filter estimation with noisy …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/signed-lmsno2jie-wei-fen-sono2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察/Signed-LMSの目的関数の2階微分</a></h2>
+                <div class="summary"><div class="section" id="mathrm-e-varepsilon-n-x-n-m">
+<h2>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察</h2>
+<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は 0 に収束していることを見た。
+<span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。</p>
+<ul class="simple">
+<li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
+<li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
+<li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
+<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一の sin 波を等価させたときはわかりやすい。</li>
+</ul>
+<div class="figure align-center">
+<img alt="440.0Hz の sin 波に対する各タップの平均勾配変化グラフ " src="./images/sin_mean_gradient.png" style="width: 40%;" />
+<p class="caption">440.0Hz の sin 波に対する各タップの平均勾配変化</p>
+</div>
+<div class="figure align-center">
+<img alt=" ボイス対する各タップの平均勾配変化グラフ " src="./images/voice_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ボイス対する各タップの平均勾配変化</p>
+</div>
+<div class="figure align-center">
+<img alt=" ピアノ演奏に対する各タップの平均勾配変化グラフ " src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
+<p class="caption">ピアノ演奏に対する各タップの平均勾配変化 …</p></div></div>
+                    <a class="btn btn-default btn-xs" href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="/tag/signedlms2.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="/tag/signedlms.html">1</a></li>
+                    <li class=""><a
+                            href="/tag/signedlms2.html">2</a></li>
+                    <li class="active"><a
+                            href="/tag/signedlms3.html">3</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

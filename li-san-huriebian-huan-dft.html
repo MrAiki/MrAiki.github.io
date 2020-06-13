@@ -119,8 +119,18 @@ Aiki's Blog            </a>
 </footer><!-- /.post-info -->                    </div>
                 </div>
                 <p>離散時間かつ離散周波数でのフーリエ変換を離散フーリエ変換という。</p>
-<div class="section" id="id1">
-<h2>準備：時間領域で離散化すると、周波数領域では周期的になる</h2>
+<div class="contents local topic" id="id1">
+<ul class="simple">
+<li><a class="reference internal" href="#id2" id="id6">準備：時間領域で離散化すると、周波数領域では周期的になる</a></li>
+<li><a class="reference internal" href="#id3" id="id7">離散フーリエ変換・離散フーリエ逆変換</a><ul>
+<li><a class="reference internal" href="#id4" id="id8">離散化の仮定</a></li>
+<li><a class="reference internal" href="#id5" id="id9">離散フーリエ変換の導出</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2><a class="toc-backref" href="#id6">準備：時間領域で離散化すると、周波数領域では周期的になる</a></h2>
 <p><span class="math">\(f(t)\)</span>を離散化した信号を<span class="math">\(g(t)\)</span>とおく。離散化には、サンプリング周期<span class="math">\(t_{s}\)</span>の周期的デルタ関数<span class="math">\(\delta_{t_{s}}(t)\)</span>を用いて</p>
 <div class="math">
 \begin{equation*}
@@ -167,10 +177,10 @@ c_{n} = \frac{1}{t_{s}} \int^{t_{s}/2}_{-t_{s}/2} \delta(t) \exp(-jn\omega_{s}t)
 </div>
 <p>ここで、<span class="math">\(F(\omega)\)</span>は<span class="math">\(f(t)\)</span>をフーリエ変換した結果を表している。この結果は、離散化した信号のフーリエ変換は周波数領域で<strong>周期</strong> <span class="math">\(\omega_{s}\)</span> <strong>で</strong> <span class="math">\(F(\omega)\)</span> <strong>を繰り返す</strong>事を示している。</p>
 </div>
-<div class="section" id="id2">
-<h2>離散フーリエ変換・離散フーリエ逆変換</h2>
 <div class="section" id="id3">
-<h3>離散化の仮定</h3>
+<h2><a class="toc-backref" href="#id7">離散フーリエ変換・離散フーリエ逆変換</a></h2>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id8">離散化の仮定</a></h3>
 <p>時間領域で離散化した信号<span class="math">\(f[n]\)</span>を次の様に定義する：</p>
 <div class="math">
 \begin{equation*}
@@ -198,8 +208,8 @@ F[k] = F(\omega_{k}) \quad k = 0,...,N-1
 </div>
 <p>分割の個数<span class="math">\(N\)</span>が時間領域と周波数領域で異なる場合、変換対が対称にならないので高速フーリエ変換の時に不都合が生じる。</p>
 </div>
-<div class="section" id="id4">
-<h3>離散フーリエ変換の導出</h3>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id9">離散フーリエ変換の導出</a></h3>
 <p>離散化の仮定のもとで、フーリエ変換は次の様に計算できる：</p>
 <div class="math">
 \begin{equation*}
@@ -397,12 +407,6 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
@@ -411,62 +415,77 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/regularization.html">Regularization</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
@@ -475,19 +494,16 @@ f[n] &amp;= \frac{\omega_{s}}{2\pi N}\sum_{k=0}^{N-1}F[k]\exp\left(j\frac{2\pi n
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
   </ul>
 </li>

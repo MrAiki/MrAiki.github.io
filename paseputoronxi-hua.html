@@ -120,12 +120,12 @@ Aiki's Blog            </a>
                 </div>
                 <p><strong>ニューラルネットワーク（Neural Network,
 以下 NN）</strong>は機械学習の歴史と共に歩んできたと言っても過言ではない .
-戦後間もないウィーナーの時代 <a class="footnote-reference" href="#id24" id="id2">[1]</a> からモデルが構築され始め ,
+戦後間もないウィーナーの時代 <a class="footnote-reference" href="#id25" id="id2">[1]</a> からモデルが構築され始め ,
 幾つかの冬の時代（挫折）を超えて ,
 そして現在流行りのディープラーニング（深層学習）は多層構造の NN によって構成されている .
 ここでは , NN の歴史に少しずつ触れながら ,
 多層パーセプトロンの学習則（逆誤差伝搬）までを解説していく .
-本稿は主に <a class="footnote-reference" href="#id25" id="id3">[2]</a>, <a class="footnote-reference" href="#id26" id="id4">[3]</a> を参照している .</p>
+本稿は主に <a class="footnote-reference" href="#id26" id="id3">[2]</a>, <a class="footnote-reference" href="#id27" id="id4">[3]</a> を参照している .</p>
 <div class="math">
 \begin{align*}
 \newcommand{\bvec}[1]{\boldsymbol{#1}}
@@ -150,8 +150,29 @@ Aiki's Blog            </a>
 \def\sign{\mathop{\rm sign}\nolimits}
 \end{align*}
 </div>
-<div class="section" id="id5">
-<h2>脳機能のモデル化</h2>
+<div class="contents local topic" id="id5">
+<ul class="simple">
+<li><a class="reference internal" href="#id6" id="id38">脳機能のモデル化</a><ul>
+<li><a class="reference internal" href="#id8" id="id39">活性化関数の例</a></li>
+<li><a class="reference internal" href="#id9" id="id40">形式ニューロン</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10" id="id41">単純パーセプトロンと単層パーセプトロン（パーセプトロン）</a><ul>
+<li><a class="reference internal" href="#id11" id="id42">単層パーセプトロンの学習則 - ヘブ則とデルタ則</a><ul>
+<li><a class="reference internal" href="#id13" id="id43">ヘブ則</a></li>
+<li><a class="reference internal" href="#id18" id="id44">デルタ則</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id22" id="id45">多層パーセプトロン</a><ul>
+<li><a class="reference internal" href="#id24" id="id46">多層パーセプトロンの学習則 - 逆誤差伝搬法</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id38">脳機能のモデル化</a></h2>
 <p>NN は脳の神経回路網を数学的なモデルで表現したものである . その為 ,
 理論の出発点は生理学となる . その知識によると ,
 神経回路の構成要素であるニューロン（神経細胞）はシナプスを介して他の細胞と結合しており ,
@@ -181,13 +202,13 @@ function）</strong><span class="math">\(f\)</span>をおき , 出力を<span cl
 そして<span class="math">\(-b\)</span>はニューロン発火の条件を与える<strong>しきい値（bias,
 threshold）</strong>を表している .
 以上によってモデル化されるニューロンの機能の単位は図にまとめられ ,
-<strong>ユニット（unit）</strong>と呼ばれる <a class="footnote-reference" href="#id27" id="id6">[4]</a> .</p>
+<strong>ユニット（unit）</strong>と呼ばれる <a class="footnote-reference" href="#id28" id="id7">[4]</a> .</p>
 <div class="figure">
 <img alt="NN を構成する単位：ユニット " src="./images/unit.eps" />
 <p class="caption">NN を構成する単位：ユニット</p>
 </div>
-<div class="section" id="id7">
-<h3>活性化関数の例</h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id39">活性化関数の例</a></h3>
 <p>実際に良く使われる活性化関数<span class="math">\(f\)</span>としては , 次が挙げられる :</p>
 <dl class="docutils">
 <dt>単位ステップ関数（ハードリミタ）<span class="math">\(U(u)\)</span></dt>
@@ -301,8 +322,8 @@ threshold）</strong>を表している .
 <p class="caption">よく使われる活性化関数のグラフ</p>
 </div>
 </div>
-<div class="section" id="id8">
-<h3>形式ニューロン</h3>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id40">形式ニューロン</a></h3>
 <p>最初にニューロンをモデル化して研究を行ったのは McCulloch-Pitts（ウォーレン・マカロック - ウォルター・ピッツ）であり ,
 彼らは 1943 年に<strong>形式ニューロン（formal neuron）</strong>を提案した .
 形式ニューロンでは活性化関数は単にステップ関数<span class="math">\(U(u)\)</span>となる :</p>
@@ -340,8 +361,8 @@ threshold）</strong>を表している .
 それらを能動的に変更することで学習が実現されうるという示唆は既に生まれていたものと考えられる .</p>
 </div>
 </div>
-<div class="section" id="id9">
-<h2>単純パーセプトロンと単層パーセプトロン（パーセプトロン）</h2>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id41">単純パーセプトロンと単層パーセプトロン（パーセプトロン）</a></h2>
 <p>1957 年に Rosenblatt（ローゼンブラッド）は形式ニューロンを入力層（Sensory
 Layer, S 層）, 中間層（Associative Layer, A 層）, 出力層（Response Layer,
 R 層）の 3 つに分けて階層的に結合し ,
@@ -375,14 +396,14 @@ S 層と A 層間の重みをランダムに決定した後は単層パーセプ
 <img alt=" 単層パーセプトロン（パーセプトロン）" id="fig-single-layer-perceptron" src="./images/single_layer_perceptron.eps" />
 <p class="caption">単層パーセプトロン（パーセプトロン）</p>
 </div>
-<div class="section" id="id10">
-<h3>単層パーセプトロンの学習則 - ヘブ則とデルタ則</h3>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id42">単層パーセプトロンの学習則 - ヘブ則とデルタ則</a></h3>
 <p>単層パーセプトロンの学習にはサンプルが必要となるため ,
 まずはサンプルの表記から行う . 学習の中でも特に教師あり学習（supervised
 learning）はサンプルのデータにラベルが付いている .
 ラベルは一般的にはなんでも良いが ,
 基本的にはデータがある性質を満たす場合（正例）はラベルを<span class="math">\(1\)</span>に ,
-満たさない場合（負例）はラベルを<span class="math">\(-1\)</span>とする <a class="footnote-reference" href="#id28" id="id11">[5]</a> .
+満たさない場合（負例）はラベルを<span class="math">\(-1\)</span>とする <a class="footnote-reference" href="#id29" id="id12">[5]</a> .
 そして<span class="math">\(N\)</span>個のデータからなるサンプルの集合<span class="math">\(Z\)</span>は ,
 データ<span class="math">\(\ve{x}\)</span>とその（教師）ラベル<span class="math">\(t\)</span>の組の集合で表される :</p>
 <div class="math">
@@ -406,8 +427,8 @@ learning）はサンプルのデータにラベルが付いている .
 </div>
 <p>これは常に<span class="math">\(1\)</span>を入力するユニットを仮定し ,
 その結合重みを<span class="math">\(b\)</span>とすることで説明できる .</p>
-<div class="section" id="id12">
-<h4>ヘブ則</h4>
+<div class="section" id="id13">
+<h4><a class="toc-backref" href="#id43">ヘブ則</a></h4>
 <p>前節で述べたとおり ,
 ヘブ則は「同時に発火したニューロン間のシナプス結合は強められる」というものであった .
 これはラベルを<span class="math">\(t_{l} \in \{ 1, 0 \}\ (l=1,\dots,N)\)</span>（正例を 1,
@@ -461,12 +482,12 @@ rate）</strong>と呼ばれる .
 <p>この更新規則もヘブ則と呼ばれる事がある .</p>
 <p>ヘブ則の重要な性質に ,
 最適な重みが存在するならば有限ステップで学習が停止（サンプルの誤識別がなくなる）する事が示されている .
-ここでは ,  <a class="footnote-reference" href="#id29" id="id13">[6]</a> に従ってその証明を行う . まず ,
+ここでは ,  <a class="footnote-reference" href="#id30" id="id14">[6]</a> に従ってその証明を行う . まず ,
 存在が仮定された最適な重みを<span class="math">\(\ve{w}^{\ast}\)</span>と表し ,
-<span class="math">\(||\ve{w}^{\ast}||^{2} = \ve{w}^{\ast\mathsf{T}}\ve{w}^{\ast} = \sum_{i=1}^{n} w_{i}^{\ast 2} = 1\)</span>となる様に正規化しておく <a class="footnote-reference" href="#id30" id="id14">[7]</a> .
+<span class="math">\(||\ve{w}^{\ast}||^{2} = \ve{w}^{\ast\mathsf{T}}\ve{w}^{\ast} = \sum_{i=1}^{n} w_{i}^{\ast 2} = 1\)</span>となる様に正規化しておく <a class="footnote-reference" href="#id31" id="id15">[7]</a> .
 ここで ,
 <span class="math">\(||\ve{v}||\)</span>はベクトル<span class="math">\(\ve{v}\)</span>の 2 乗ノルムである . また ,
-<span class="math">\(\gamma = \displaystyle \min_{l} y_{l} u_{l} = \min_{l} y_{l} \ve{w}^{\ast\mathsf{T}} \ve{x}_{l}\)</span>なる定数 <a class="footnote-reference" href="#id31" id="id15">[8]</a> をおき ,
+<span class="math">\(\gamma = \displaystyle \min_{l} y_{l} u_{l} = \min_{l} y_{l} \ve{w}^{\ast\mathsf{T}} \ve{x}_{l}\)</span>なる定数 <a class="footnote-reference" href="#id32" id="id16">[8]</a> をおき ,
 <span class="math">\(\gamma &gt; 0\)</span>とする . この時 , 更新式により ,</p>
 <div class="math">
 \begin{equation*}
@@ -533,7 +554,7 @@ rate）</strong>と呼ばれる .
 \end{equation*}
 </div>
 <p>ここで ,
-不等式中央の内積<span class="math">\(\ve{w}^{\ast \mathsf{T}}\ve{w}^{(s)}\)</span>は最適解<span class="math">\(\ve{w}^{\ast}\)</span>と現在の重み<span class="math">\(\ve{w}^{(s)}\)</span>との類似度とも捉えられる <a class="footnote-reference" href="#id32" id="id16">[9]</a> ので ,
+不等式中央の内積<span class="math">\(\ve{w}^{\ast \mathsf{T}}\ve{w}^{(s)}\)</span>は最適解<span class="math">\(\ve{w}^{\ast}\)</span>と現在の重み<span class="math">\(\ve{w}^{(s)}\)</span>との類似度とも捉えられる <a class="footnote-reference" href="#id33" id="id17">[9]</a> ので ,
 この不等式によりステップ数<span class="math">\(s\)</span>増加の度に類似度の下限<span class="math">\(s^{2}\eta^{2}\gamma^{2}\)</span>が上限<span class="math">\(s\eta^{2}R^{2}\)</span>よりも早く増加する事が観察できる .
 即ち類似度は単調増加し , 重みは最適解に近づいて行くことが分かる .
 またステップ数<span class="math">\(s\)</span>について解くと<span class="math">\(\displaystyle s \leq \frac{R^{2}}{\gamma^{2}}\)</span>が成立し ,
@@ -541,8 +562,8 @@ rate）</strong>と呼ばれる .
 これらの結果により , 有限ステップで<span class="math">\(\ve{w}^{\ast}\)</span>が得られ ,
 学習が停止することが示された .</p>
 </div>
-<div class="section" id="id17">
-<h4>デルタ則</h4>
+<div class="section" id="id18">
+<h4><a class="toc-backref" href="#id44">デルタ則</a></h4>
 <p>デルタ則（デルタルール）は現在の重み<span class="math">\(\ve{w}\)</span>でのサンプルによる出力とラベルの誤差（経験誤差）<span class="math">\(E(\ve{w})\)</span>を定義し ,
 <span class="math">\(E(\ve{w})\)</span>を極小にする様に重みを更新していく学習則である .
 誤差<span class="math">\(E(\ve{w})\)</span>の<span class="math">\(\ve{w}\)</span>による偏微分<span class="math">\(\displaystyle\parfrac{E(\ve{w})}{\ve{w}}\)</span>は勾配 ,
@@ -558,7 +579,7 @@ rate）</strong>と呼ばれる .
 更新の度に誤差を最小にする様に重み<span class="math">\(\ve{w}\)</span>を更新することができる .
 学習の収束は ,
 <span class="math">\(\Delta \ve{w}\)</span>の大きさ（<span class="math">\(||\Delta \ve{w}||^{2}\)</span>等）が十分に小さくなった時とすれば良く ,
-そのときは極小解 <a class="footnote-reference" href="#id33" id="id18">[10]</a> が得られている . この手法は<strong>最急勾配法（steepest
+そのときは極小解 <a class="footnote-reference" href="#id34" id="id19">[10]</a> が得られている . この手法は<strong>最急勾配法（steepest
 gradient method）</strong>と呼ばれる基本的な数値最適化の手法の一種である .
 ここでは , ユニットの活性化関数を単位ステップ関数<span class="math">\(U(u)\)</span>,
 ラベルを<span class="math">\(\{ 1, 0 \}\)</span>として考える .</p>
@@ -569,7 +590,7 @@ gradient method）</strong>と呼ばれる基本的な数値最適化の手法�
   E(\ve{w}) = \frac{1}{2} \sum_{l=1}^{N} (t_{l} - y_{l})^{2} = \frac{1}{2} \sum_{l=1}^{N} \left\{ t_{l} - U(\ve{w}^{\mathsf{T}}\ve{x}_{l}) \right\}^{2}\end{aligned}
 \end{equation*}
 </div>
-<p>とする <a class="footnote-reference" href="#id34" id="id19">[11]</a> と , 後に示す様に局所最適解に嵌ってしまう可能性がある . 第一 ,
+<p>とする <a class="footnote-reference" href="#id35" id="id20">[11]</a> と , 後に示す様に局所最適解に嵌ってしまう可能性がある . 第一 ,
 単位ステップ関数<span class="math">\(U(u)\)</span>はもとより微分可能では無く ,
 このままでは学習則を導出できない . そこで , まず ,
 ユニットの活性化関数を一旦微分可能なシグモイド関数<span class="math">\(\varphi\)</span>とし ,
@@ -652,7 +673,7 @@ learning）と呼ぶが , 1 つのサンプル毎に重みを更新するやり�
 \end{equation*}
 </div>
 <p>これは逐次学習（on-line learning）と呼ばれる .
-一般に逐次学習の方が収束が早い事が知られている <a class="footnote-reference" href="#id35" id="id20">[12]</a> .</p>
+一般に逐次学習の方が収束が早い事が知られている <a class="footnote-reference" href="#id36" id="id21">[12]</a> .</p>
 <p>この更新則による学習が局所最適に陥らないことを示す .
 <span class="math">\(\displaystyle\parfrac{e_{l}(\ve{w})}{w_{i}}\)</span>を更に<span class="math">\(w_{j}\)</span>で偏微分し 2 階の偏導関数を求めると ,</p>
 <div class="math">
@@ -738,9 +759,9 @@ matrix）<span class="math">\(H\)</span>は</p>
 </div>
 </div>
 </div>
-<div class="section" id="id21">
-<h2>多層パーセプトロン</h2>
-<p>単層パーセプトロンはサンプルが直線（平面）で分離できる（線形分離可能な）問題にしか適用できない事 <a class="footnote-reference" href="#id36" id="id22">[13]</a> が 1969 年に Minskey-Papert に指摘された .
+<div class="section" id="id22">
+<h2><a class="toc-backref" href="#id45">多層パーセプトロン</a></h2>
+<p>単層パーセプトロンはサンプルが直線（平面）で分離できる（線形分離可能な）問題にしか適用できない事 <a class="footnote-reference" href="#id37" id="id23">[13]</a> が 1969 年に Minskey-Papert に指摘された .
 線形分離不可能な例としてよく例に引き出されるのが図<a class="reference external" href="#fig:XOR_problem">3</a>の<strong>XOR 問題</strong>である .</p>
 <div class="figure">
 <img alt="XOR 問題 " id="fig-xor-problem" src="./images/XOR_problem.eps" />
@@ -775,8 +796,8 @@ layer）, 任意個数の中間（隠れ）層（middle(hidden) layer）,
 <p>多層パーセプトロンは様々な現実的な問題に適用できる為に ,
 NN の第二次研究ブームを引き起こした . 現在においても ,
 一口に NN と言うと 3 層（1 つの中間層）からなる多層パーセプトロン（3 層 NN）の事を指すことが多い .</p>
-<div class="section" id="id23">
-<h3>多層パーセプトロンの学習則 - 逆誤差伝搬法</h3>
+<div class="section" id="id24">
+<h3><a class="toc-backref" href="#id46">多層パーセプトロンの学習則 - 逆誤差伝搬法</a></h3>
 <p>全ての重みが可変となった多層パーセプトロンでは ,
 単層パーセプトロンにおける学習則の様に出力層の重みを更新するだけではなく ,
 全ての重みを逐次更新していく必要がある .
@@ -897,7 +918,7 @@ back-propagation method）</strong>は ,
   \delta_{i}^{n} = \sum_{l=1}^{N} (y_{i}^{n} - t_{i}^{l})\end{aligned}
 \end{equation*}
 </div>
-<table class="docutils footnote" frame="void" id="id24" rules="none">
+<table class="docutils footnote" frame="void" id="id25" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>ノーバート・ウィーナー , 池原止戈夫 , 彌永昌吉 , 室賀三郎 , 戸田巌 ,
@@ -905,23 +926,23 @@ back-propagation method）</strong>は ,
 岩波書店 , 2011</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id25" rules="none">
+<table class="docutils footnote" frame="void" id="id26" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>庄野逸 , <a class="reference external" href="http://www.slideshare.net/HAL9801/20140705">Deep Learning
 勉強会 (1)</a></td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id26" rules="none">
+<table class="docutils footnote" frame="void" id="id27" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>高橋治久 , 堀田一弘 , “ 学習理論 ” コロナ社 , 2009</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id27" rules="none">
+<table class="docutils footnote" frame="void" id="id28" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[4]</a></td><td>これは非常に単純なモデルであり ,
+<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td>これは非常に単純なモデルであり ,
 理解や応用が簡単な為に様々な場面で用いられる .
 特に機械学習では無批判にこのユニットを用いる向きがある . しかし ,
 このモデルは厳密にニューロンの動作を表現できてはいないことに注意が必要である .
@@ -931,67 +952,67 @@ back-propagation method）</strong>は ,
 よりニューロンの動作を精密に表したモデルにホジキン - ハックスレー型のニューロンモデルがある [^13].</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id28" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id11">[5]</a></td><td>正例のラベルを<span class="math">\(1\)</span>,
-負例のラベルを<span class="math">\(0\)</span>としたり問題に応じて都合良く決められるが ,
-識別できる二値なら何でもよく , 本質的な違いは存在しない .</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id29" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id13">[6]</a></td><td>高橋治久 , 堀田一弘 , “ 学習理論 ” コロナ社 , 2009</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id12">[5]</a></td><td>正例のラベルを<span class="math">\(1\)</span>,
+負例のラベルを<span class="math">\(0\)</span>としたり問題に応じて都合良く決められるが ,
+識別できる二値なら何でもよく , 本質的な違いは存在しない .</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id30" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[7]</a></td><td>この正規化によっても一般性は全く失われない .
-<span class="math">\(\ve{w}\)</span>は入力の重みの比率を定めているに過ぎず ,
-実際<span class="math">\(u = \ve{w}^{\mathsf{T}}\ve{x} + b\)</span>から見れるように ,
-<span class="math">\(\ve{w}\)</span>は面（識別面という）の法ベクトルとなっている .</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id14">[6]</a></td><td>高橋治久 , 堀田一弘 , “ 学習理論 ” コロナ社 , 2009</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id31" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id15">[8]</a></td><td>最も面<span class="math">\(\ve{w}^{\ast}\)</span>に近いベクトルの距離を表しており ,
-<strong>マージン</strong>と呼ばれる . かの有名な SVM のマージンそのものである</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id15">[7]</a></td><td>この正規化によっても一般性は全く失われない .
+<span class="math">\(\ve{w}\)</span>は入力の重みの比率を定めているに過ぎず ,
+実際<span class="math">\(u = \ve{w}^{\mathsf{T}}\ve{x} + b\)</span>から見れるように ,
+<span class="math">\(\ve{w}\)</span>は面（識別面という）の法ベクトルとなっている .</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id32" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id16">[9]</a></td><td>2 つのベクトル<span class="math">\(\ve{v}_{1}, \ve{v}_{2}\)</span>がなす角度<span class="math">\(\theta\)</span>は<span class="math">\(\cos\theta = \ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}/(||\ve{v}_{1}||||\ve{v}_{2}||)\)</span>により求められるので ,
-<span class="math">\(\theta=0\)</span>ならば 2 つのベクトルは一致している（類似度が最大）と見ることができる .
-角度<span class="math">\(\theta\)</span>が<span class="math">\(0\)</span>に近い（類似度が高い）時は内積<span class="math">\(\ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}\)</span>が高い値を取ることが分かる</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id16">[8]</a></td><td>最も面<span class="math">\(\ve{w}^{\ast}\)</span>に近いベクトルの距離を表しており ,
+<strong>マージン</strong>と呼ばれる . かの有名な SVM のマージンそのものである</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id33" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id18">[10]</a></td><td>大域的な最小解とは限らない事に注意</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id17">[9]</a></td><td>2 つのベクトル<span class="math">\(\ve{v}_{1}, \ve{v}_{2}\)</span>がなす角度<span class="math">\(\theta\)</span>は<span class="math">\(\cos\theta = \ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}/(||\ve{v}_{1}||||\ve{v}_{2}||)\)</span>により求められるので ,
+<span class="math">\(\theta=0\)</span>ならば 2 つのベクトルは一致している（類似度が最大）と見ることができる .
+角度<span class="math">\(\theta\)</span>が<span class="math">\(0\)</span>に近い（類似度が高い）時は内積<span class="math">\(\ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}\)</span>が高い値を取ることが分かる</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id34" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[11]</a></td><td>係数の<span class="math">\(1/2\)</span>に本質的な意味は無いが ,
-微分の際に計算を簡単にする狙いがある .</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id19">[10]</a></td><td>大域的な最小解とは限らない事に注意</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id35" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id20">[12]</a></td><td>しかし , 局所最適に嵌ってしまうリスクが潜んでいる</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id20">[11]</a></td><td>係数の<span class="math">\(1/2\)</span>に本質的な意味は無いが ,
+微分の際に計算を簡単にする狙いがある .</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id36" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id22">[13]</a></td><td><span class="math">\(\ve{w}\)</span>は識別面の法ベクトルを表すが ,
+<tr><td class="label"><a class="fn-backref" href="#id21">[12]</a></td><td>しかし , 局所最適に嵌ってしまうリスクが潜んでいる</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id37" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id23">[13]</a></td><td><span class="math">\(\ve{w}\)</span>は識別面の法ベクトルを表すが ,
 出力を単位ステップ（もしくは符号）関数とすると入力ベクトルが面の上半領域にある場合は<span class="math">\(1\)</span>を ,
 下半領域にある場合は<span class="math">\(0(-1)\)</span>を出力する .</td></tr>
 </tbody>
@@ -1094,12 +1115,6 @@ back-propagation method）</strong>は ,
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
@@ -1108,62 +1123,77 @@ back-propagation method）</strong>は ,
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/regularization.html">Regularization</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
@@ -1172,19 +1202,16 @@ back-propagation method）</strong>は ,
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
   </ul>
 </li>

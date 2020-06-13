@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>陰関数定理とその応用 - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/yin-guan-shu-ding-li-tosonoying-yong.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="基礎" />
+        <meta name="description" content="陰関数定理の成り立ちとその応用として逆写像定理と制約付き極値問題まで。" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="陰関数定理とその応用"/>
+        <meta property="og:url" content="/yin-guan-shu-ding-li-tosonoying-yong.html"/>
+        <meta property="og:description" content="陰関数定理の成り立ちとその応用として逆写像定理と制約付き極値問題まで。"/>
+        <meta property="article:published_time" content="2020-06-05" />
+            <meta property="article:section" content="記事" />
+            <meta property="article:tag" content="基礎" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 記事 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li >
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/yin-guan-shu-ding-li-tosonoying-yong.html"
+                       rel="bookmark"
+                       title="Permalink to 陰関数定理とその応用">
+                        陰関数定理とその応用
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-06-05T18:00:00+09:00"> Fri 05 June 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/ji-chu.html">基礎</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\dfrac[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+</div>
+<p>逆写像定理をちゃんと振り返ろうとしたら、ついでに色々出てきてまとめる必要があるなと感じた。
+記述は笠原皓司「微分積分学」を大幅に参考にしている。</p>
+<div class="contents local topic" id="id2">
+<ul class="simple">
+<li><a class="reference internal" href="#id3" id="id17">準備</a><ul>
+<li><a class="reference internal" href="#id4" id="id18">多変数関数の微分と偏微分</a></li>
+<li><a class="reference internal" href="#id5" id="id19">偏導関数の連続性による微分可能性の条件</a></li>
+<li><a class="reference internal" href="#id6" id="id20">写像の微分と偏微分</a></li>
+<li><a class="reference internal" href="#id7" id="id21">積分公式</a></li>
+<li><a class="reference internal" href="#id8" id="id22">連続関数の集合の完備性</a></li>
+<li><a class="reference internal" href="#id9" id="id23">不動点定理</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id10" id="id24">陰関数定理</a><ul>
+<li><a class="reference internal" href="#id11" id="id25">多変数の場合</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id12" id="id26">陰関数定理の応用</a><ul>
+<li><a class="reference internal" href="#id13" id="id27">逆写像定理</a><ul>
+<li><a class="reference internal" href="#id14" id="id28">多変数の場合</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id15" id="id29">制約付き極値問題</a><ul>
+<li><a class="reference internal" href="#id16" id="id30">ラグランジュの未定乗数法</a></li>
+<li><a class="reference internal" href="#kkt" id="id31">KKT 条件</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2><a class="toc-backref" href="#id17">準備</a></h2>
+<div class="section" id="id4">
+<h3><a class="toc-backref" href="#id18">多変数関数の微分と偏微分</a></h3>
+<p>1 変数関数のグラフは一般に曲線で、それに接線が引けるときに関数は微分可能と言った。2 変数以上を持つ関数のグラフは一般に曲面になる。この関数が微分可能というときは、接平面が構築できれば良い。これを数学的にもう少し詳しく述べると次のようになる。</p>
+<p>2 変数関数 <span class="math">\(z = f(x, y)\)</span> のグラフの一点 <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> における <span class="math">\(f({x}_{0}, y_{0})\)</span> の接平面を考える。今、接平面ができたとしてその方程式を考えると、定数 <span class="math">\(\alpha, \beta\)</span> を用いて</p>
+<div class="math">
+\begin{equation*}
+z - f(x_{0}, y_{0}) = \alpha (x - x_{0}) + \beta (y - y_{0})
+\end{equation*}
+</div>
+<p>と表せる。点 <span class="math">\(\ve{x}_{0}\)</span> とその近傍の点 <span class="math">\(\ve{x} = (x, y)\)</span> において、この平面上の <span class="math">\(z\)</span> の値と <span class="math">\(f(x, y)\)</span> の誤差は、</p>
+<div class="math">
+\begin{equation*}
+g(x, y) = f(x, y) - z = f(x, y) - \left\{ f(x_{0}, y_{0}) + \alpha (x - x_{0}) + \beta (y - y_{0}) \right\}
+\end{equation*}
+</div>
+<p>となる。接平面であるときには、この誤差 <span class="math">\(g(x, y)\)</span> が <span class="math">\(|\ve{x} - \ve{x}_{0}| = \sqrt{(x - x_{0})^{2} + (y - y_{0})^{2}}\)</span> に対して無視できる程小さいことが必要である。即ち、</p>
+<div class="math">
+\begin{equation*}
+\lim_{\ve{x} \to \ve{x}_{0}} \frac{g(x, y)}{|\ve{x} - \ve{x}_{0}|} = 0
+\end{equation*}
+</div>
+<p>を満たせば良い。このとき、 <span class="math">\(f(x, y)\)</span> は点 <span class="math">\(\ve{x}_{0}\)</span> において微分可能という。</p>
+<dl class="docutils">
+<dt>2 変数関数の微分</dt>
+<dd><p class="first"><span class="math">\(z = f(x, y)\)</span> が点 <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> で微分可能とは、ある定数 <span class="math">\(\alpha, \beta\)</span> があって</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+f(x, y) = f(x_{0}, y_{0}) + \alpha (x - x_{0}) + \beta (y - y_{0}) + g(x, y) \\
+\displaystyle \lim_{\ve{x} \to \ve{x}_{0}} \frac{g(x, y)}{|\ve{x} - \ve{x}_{0}|} = 0 \quad (\ve{x} \neq \ve{x}_{0})
+\end{cases}
+\end{equation*}
+</div>
+<p class="last">と表せることである。</p>
+</dd>
+<dt>2 変数関数の偏導関数</dt>
+<dd><p class="first"><span class="math">\(f(x, y)\)</span> が <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> で微分可能なら、<span class="math">\(\alpha, \beta\)</span> はそれぞれ以下の式で求まる。</p>
+<div class="math">
+\begin{align*}
+\alpha = \lim_{x \to x_{0}} \frac{f(x, y_{0}) - f(x_{0}, y_{0})}{x - x_{0}} \\
+\beta = \lim_{y \to y_{0}} \frac{f(x_{0}, y) - f(x_{0}, y_{0})}{y - y_{0}}
+\end{align*}
+</div>
+<p>（証明）</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+f(x, y) = f(x_{0}, y_{0}) + \alpha (x - x_{0}) + \beta (y - y_{0}) + g(x, y) \\
+\displaystyle \lim_{\ve{x} \to \ve{x}_{0}} \frac{g(x, y)}{|\ve{x} - \ve{x}_{0}|} = 0 \quad (\ve{x} \neq \ve{x}_{0})
+\end{cases}
+\end{equation*}
+</div>
+<p>だから、 <span class="math">\(y = y_{0}\)</span> とすると、</p>
+<div class="math">
+\begin{equation*}
+f(x, y_{0}) = f(x_{0}, y_{0}) + \alpha (x - x_{0}) + g(x, y_{0})
+\end{equation*}
+</div>
+<p>これは、<span class="math">\(y = y_{0}\)</span> と固定したときに、 <span class="math">\(f(x, y_{0})\)</span> が <span class="math">\(x\)</span> で微分可能であることを示している。また、 <span class="math">\(\alpha\)</span> について解くと、</p>
+<div class="math">
+\begin{align*}
+\alpha &amp;= \frac{f(x, y_{0}) - f(x_{0}, y_{0})}{x - x_{0}} + \frac{g(x, y_{0})}{x - x_{0}} \\
+\implies \lim_{x \to x_{0}} \alpha &amp;= \alpha = \lim_{x \to x_{0}} \frac{f(x, y_{0}) - f(x_{0}, y_{0})}{x - x_{0}}
+\end{align*}
+</div>
+<p class="last"><span class="math">\(\beta\)</span> についても同様に <span class="math">\(x = x_{0}\)</span> として求められる。（証明終）</p>
+</dd>
+</dl>
+<p>この <span class="math">\(\alpha, \beta\)</span> を偏微分係数といい、</p>
+<div class="math">
+\begin{align*}
+\alpha = \parfrac{f}{x}(x_{0}, y_{0}) = f_{x}(x_{0}, y_{0}) \\
+\beta = \parfrac{f}{y}(x_{0}, y_{0}) = f_{y}(x_{0}, y_{0})
+\end{align*}
+</div>
+<p>と書く。2 変数以上の場合も全く同様の考えにより微分が定義できる。冗長だが述べると、</p>
+<dl class="docutils">
+<dt>多変数関数の微分</dt>
+<dd><p class="first"><span class="math">\(z = f(\ve{x}) = f(x_{1}, ..., x_{n})\)</span> が点 <span class="math">\(\ve{x}_{0} = (x_{1}^{0}, ..., x_{n}^{0})\)</span> で微分可能であるとは、ある定数 <span class="math">\(\alpha_{1}, ..., \alpha_{n}\)</span> が存在して、</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+\displaystyle f(\ve{x}) = f(\ve{x}_{0}) + \sum_{i = 1}^{n} \alpha_{i} (x_{i} - x_{i}^{0}) + g(\ve{x}) \\
+\displaystyle \lim_{\ve{x} \to \ve{x}_{0}} \frac{g(\ve{x})}{|\ve{x} - \ve{x}_{0}|} = 0 \quad (\ve{x} \neq \ve{x}_{0})
+\end{cases}
+\end{equation*}
+</div>
+<p class="last">と表せることである。</p>
+</dd>
+<dt>多変数関数の偏導関数</dt>
+<dd><p class="first"><span class="math">\(f(\ve{x})\)</span> が点 <span class="math">\(\ve{x}_{0}\)</span> で微分可能なら、 <span class="math">\(\alpha_{i}\ (i = 1,...,n)\)</span> はそれぞれ以下の式で求められる。</p>
+<div class="math">
+\begin{equation*}
+\alpha_{i} = \lim_{x_{i} \to x_{i}^{0}} \frac{f(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0}) - f(\ve{x}_{0})}{x_{i} - x_{i}^{0}}
+\end{equation*}
+</div>
+<p>（証明）微分可能性の定義式において <span class="math">\(x_{j} = x_{j}^{0}\ (j \neq i)\)</span> とおくと、</p>
+<div class="math">
+\begin{align*}
+f(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0}) &amp;= f(\ve{x}_{0}) + \alpha_{i}(x_{i} - x_{i}^{0}) + g(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0}) \\
+\implies \alpha_{i} &amp;= \frac{f(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0}) - f(\ve{x}_{0})}{x_{i} - x_{i}^{0}} + \frac{g(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0})}{x_{i} - x_{i}^{0}} \\
+\implies \lim_{x_{i} \to x_{i}^{0}} \alpha_{i} = \alpha_{i} &amp;= \lim_{x_{i} \to x_{i}^{0}} \frac{f(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0}) - f(\ve{x}_{0})}{x_{i} - x_{i}^{0}}
+\end{align*}
+</div>
+<p class="last">（証明終）</p>
+</dd>
+</dl>
+<p>やはり、この <span class="math">\(\alpha_{i}\ (i = 1,...,n)\)</span> を偏微分係数と呼び、</p>
+<div class="math">
+\begin{equation*}
+\alpha_{i} = \parfrac{f}{x_{i}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p>と書く。</p>
+</div>
+<div class="section" id="id5">
+<h3><a class="toc-backref" href="#id19">偏導関数の連続性による微分可能性の条件</a></h3>
+<p><span class="math">\(f(x, y)\)</span> が <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> において微分可能であれば、 <span class="math">\(x, y\)</span> によって偏微分可能であるが、その逆（偏微分可能ならば微分可能）は成り立たない。しかし、以下の定理により、偏導関数に連続性を付与すれば、微分可能であることが示せる。</p>
+<dl class="docutils">
+<dt>偏導関数の連続性による微分可能性の条件</dt>
+<dd><p class="first"><span class="math">\(f(x, y)\)</span> が点 <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> で偏微分可能であり、かつ、<span class="math">\(x, y\)</span> どちらかの偏導関数が <span class="math">\(\ve{x}_{0}\)</span> で連続であるならば、 <span class="math">\(f(x, y)\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で微分可能である。</p>
+<p>（証明） <span class="math">\(\parfrac{f}{y}(x,y)\)</span> が <span class="math">\(\ve{x}_{0}\)</span> の近傍で存在し、かつ <span class="math">\(\ve{x}_{0}\)</span> で連続と仮定して証明する（ <span class="math">\(\parfrac{f}{x}\)</span> が <span class="math">\(\ve{x}_{0}\)</span> で連続としても同様に示せる）。 <span class="math">\(f\)</span> は <span class="math">\(x\)</span> について偏微分可能だから、</p>
+<div class="math">
+\begin{align*}
+\parfrac{f}{x}(x_{0}, y_{0}) &amp;= \frac{f(x, y_{0}) - f(x_{0}, y_{0})}{x - x_{0}} + \frac{g(x)}{x - x_{0}} \\
+\implies f(x, y_{0}) &amp;= f(x_{0}, y_{0}) + \parfrac{f}{x}(x_{0}, y_{0})(x - x_{0}) + g(x) \tag{1} \\
+\lim_{x \to x_{0}} \frac{g(x)}{x - x_{0}} &amp;= 0
+\end{align*}
+</div>
+<p>なる <span class="math">\(g(x)\)</span> が存在する。一方、 <span class="math">\(\ve{x}_{0}\)</span> の近傍で <span class="math">\(f\)</span> は <span class="math">\(y\)</span> について偏微分可能だから、平均（中間）値の定理により、</p>
+<div class="math">
+\begin{equation*}
+f(x, y) - f(x, y_{0}) = \parfrac{f}{y}(x, \eta)(y - y_{0})
+\end{equation*}
+</div>
+<p>を満たす <span class="math">\(\eta\)</span> が <span class="math">\(y_{0}\)</span> と <span class="math">\(y\)</span> の間に存在する。上式を (1) に代入すると、</p>
+<div class="math">
+\begin{align*}
+f(x, y) &amp;= f(x_{0}, y_{0}) + \parfrac{f}{x}(x_{0}, y_{0})(x - x_{0}) + \parfrac{f}{y}(x, \eta)(y - y_{0}) + g(x) \\
+&amp;= f(x_{0}, y_{0}) + \parfrac{f}{x}(x_{0}, y_{0})(x - x_{0}) + \parfrac{f}{y}(x_{0}, y_{0})(y - y_{0}) + \left\{ \parfrac{f}{y}(x, \eta) - \parfrac{f}{y}(x_{0}, y_{0}) \right\} (y - y_{0}) + g(x) \\
+&amp;= f(x_{0}, y_{0}) + \parfrac{f}{x}(x_{0}, y_{0})(x - x_{0}) + \parfrac{f}{y}(x_{0}, y_{0})(y - y_{0}) + h(x, y)
+\end{align*}
+</div>
+<p>ここで、</p>
+<div class="math">
+\begin{equation*}
+h(x, y) = \left\{ \parfrac{f}{y}(x, \eta) - \parfrac{f}{y}(x_{0}, y_{0}) \right\} (y - y_{0}) + g(x)
+\end{equation*}
+</div>
+<p>とおいている。そして <span class="math">\(h(x, y)\)</span> は、</p>
+<div class="math">
+\begin{equation*}
+\frac{h(x, y)}{|\ve{x} - \ve{x}_{0}|} = \left\{ \parfrac{f}{y}(x, \eta) - \parfrac{f}{y}(x_{0}, y_{0}) \right\} \frac{y - y_{0}}{|\ve{x} - \ve{x}_{0}|} + \frac{x - x_{0}}{|\ve{x} - \ve{x}_{0}|} \frac{g(x)}{x - x_{0}}
+\end{equation*}
+</div>
+<p>と変形でき、 <span class="math">\(|\ve{x} - \ve{x}_{0}| = \sqrt{(x - x_{0})^{2} + (y - y_{0})^{2}}\)</span> より <span class="math">\(\frac{y - y_{0}}{|\ve{x} - \ve{x}_{0}|} \leq \frac{|y - y_{0}|}{|\ve{x} - \ve{x}_{0}|} \leq 1\)</span> と <span class="math">\(\frac{x - x_{0}}{|\ve{x} - \ve{x}_{0}|} \leq \frac{|x - x_{0}|}{|\ve{x} - \ve{x}_{0}|} \leq 1\)</span> が成り立つ。また、 <span class="math">\(\ve{x} \to \ve{x}_{0}\)</span> のとき <span class="math">\((x, \eta) \to (x_{0}, y_{0})\)</span> となるが、仮定より <span class="math">\(\parfrac{f}{y}(x, y)\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で連続だから、 <span class="math">\(\parfrac{f}{y}(x, \eta) - \parfrac{f}{y}(x_{0}, y_{0}) \to 0\)</span> となる。従って、</p>
+<div class="math">
+\begin{equation*}
+\lim_{\ve{x} \to \ve{x}_{0}} \frac{h(x, y)}{|\ve{x} - \ve{x}_{0}|} = 0
+\end{equation*}
+</div>
+<p class="last">これは <span class="math">\(f(x, y)\)</span> が <span class="math">\(\ve{x}_{0}\)</span> で微分可能であることを示している。（証明終）</p>
+</dd>
+</dl>
+<p>上記は最も単純な 2 変数の場合の証明だが、一般の多変数においても同様の定理が成り立つ。</p>
+<dl class="docutils">
+<dt>偏導関数の連続性による微分可能性の条件（多変数）</dt>
+<dd><p class="first"><span class="math">\(\ve{x} = (x_{1}, ..., x_{p}),\ \ve{y} = (y_{1}, ..., y_{n})\)</span> とするとき、<span class="math">\(p + n\)</span> 変数の関数 <span class="math">\(f(\ve{X}) = f(\ve{x}, \ve{y}) = f(x_{1}, ..., x_{p}, y_{1}, ..., y_{n})\)</span> が点 <span class="math">\(\ve{X}_{0} = (\ve{x}_{0}, \ve{y}_{0}) = (x_{1}^{0}, ..., x_{p}^{0}, y_{1}^{0}, ..., y_{n}^{0})\)</span> で <span class="math">\(\ve{x}\)</span> に関して微分可能であり、かつ <span class="math">\(\ve{y}\)</span> に関する偏導関数が <span class="math">\(\ve{X}_{0}\)</span> の近傍で存在し、しかも偏導関数が <span class="math">\(\ve{X}_{0}\)</span> で連続ならば、 <span class="math">\(f(\ve{x}, \ve{y})\)</span> は <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> で微分可能である。</p>
+<p>（証明）2 変数の場合とほぼ同様。 <span class="math">\(f\)</span> は <span class="math">\(\ve{x}\)</span> について微分可能だから、</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+  \displaystyle f(\ve{x}, \ve{y}_{0}) = f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f}{x_{i}}(\ve{x}_{0}, \ve{y}_{0})(x_{i} - x_{i}^{0}) + g(\ve{x}) \tag{2} \\
+  \displaystyle \lim_{\ve{x} \to \ve{x}_{0}} \frac{g(\ve{x})}{|\ve{x} - \ve{x}_{0}|} = 0
+\end{cases}
+\end{equation*}
+</div>
+<p>一方、 <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> において、 <span class="math">\(f\)</span> は <span class="math">\(\ve{y}\)</span> について偏微分可能だから、平均値の定理より</p>
+<div class="math">
+\begin{equation*}
+f(\ve{x}, \ve{y}) - f(\ve{x}, \ve{y}_{0}) = \sum_{i = 0}^{n} \parfrac{f}{y_{i}} (\ve{x}, \ve{\eta}) (y_{i} - y_{i}^{0})
+\end{equation*}
+</div>
+<p>を満たす <span class="math">\(\ve{\eta}\)</span> が <span class="math">\(\ve{y}_{0}\)</span> と <span class="math">\(\ve{y}\)</span> の間に存在する。(2) へ代入すると、</p>
+<div class="math">
+\begin{align*}
+f(\ve{x}, \ve{y}) &amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f}{x_{i}}(\ve{x}_{0}, \ve{y}_{0})(x_{i} - x_{i}^{0}) + \sum_{i = 1}^{n} \parfrac{f}{y_{i}}(\ve{x}, \ve{\eta})(y_{i} - y_{i}^{0}) + g(\ve{x}) \\
+&amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f}{x_{i}}(\ve{x}_{0}, \ve{y}_{0})(x_{i} - x_{i}^{0}) + \sum_{i = 1}^{n} \parfrac{f}{y_{i}}(\ve{x}_{0}, \ve{y}_{0})(y_{i} - y_{i}^{0}) + \sum_{i = 1}^{n} \left\{ \parfrac{f}{y_{i}}(\ve{x}, \ve{\eta}) - \parfrac{f}{y_{i}}(\ve{x}_{0}, \ve{y}_{0}) \right\}(y_{i} - y_{i}^{0}) + g(\ve{x}) \\
+&amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f}{x_{i}}(\ve{x}_{0}, \ve{y}_{0})(x_{i} - x_{i}^{0}) + \sum_{i = 1}^{n} \parfrac{f}{y_{i}}(\ve{x}_{0}, \ve{y}_{0})(y_{i} - y_{i}^{0}) + h(\ve{x}, \ve{y})
+\end{align*}
+</div>
+<p><span class="math">\(h(\ve{x}, \ve{y})\)</span> を <span class="math">\(|\ve{X} - \ve{X}_{0}| = \sqrt{ \sum_{i = 1}^{p} (x_{i} - x_{i}^{0})^{2} + \sum_{i = 1}^{n} (y_{i} - y_{i}^{0})^{2} }\)</span> で割ると、</p>
+<div class="math">
+\begin{equation*}
+\frac{h(\ve{x}, \ve{y})}{|\ve{X} - \ve{X}_{0}|} = \sum_{i = 1}^{n} \left\{ \parfrac{f}{y_{i}}(\ve{x}, \ve{\eta}) - \parfrac{f}{y_{i}}(\ve{x}_{0}, \ve{y}_{0}) \right\} \frac{y_{i} - y_{i}^{0}}{|\ve{X} - \ve{X}_{0}|} + \frac{|\ve{x} - \ve{x}_{0}|}{|\ve{X} - \ve{X}_{0}|}\frac{g(\ve{x})}{|\ve{x} - \ve{x}_{0}|}
+\end{equation*}
+</div>
+<p class="last">となる。やはり <span class="math">\(\ve{X} \to \ve{X}_{0}\)</span> のとき <span class="math">\(\lim_{\ve{X} \to \ve{X}_{0}} \frac{h(\ve{x}, \ve{y})}{|\ve{X} - \ve{X}_{0}|} = 0\)</span> だから、 <span class="math">\(f\)</span> は <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> において微分可能である。（証明終）</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id6">
+<h3><a class="toc-backref" href="#id20">写像の微分と偏微分</a></h3>
+<p><span class="math">\(\mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> から <span class="math">\(\mathbb{R}^{m}\)</span> への写像 <span class="math">\(\ve{f}\)</span> を考える。 <span class="math">\(\ve{x} = [x_{1}, ..., x_{n}]^{\mathsf{T}} \in \Omega\)</span> に対して <span class="math">\(\ve{f}(\ve{x}) = [ f_{1}(\ve{x}), ..., f_{m}(\ve{x}) ]^{\mathsf{T}} \in \mathbb{R}^{m}\)</span> と書けるから、 <span class="math">\(f_{1}(\ve{x}), ..., f_{m}(\ve{x})\)</span> が <span class="math">\(\ve{x}_{0} = [ x_{1}^{0}, ..., x_{n}^{0} ]^{\mathsf{T}}\)</span> で連続な時、</p>
+<div class="math">
+\begin{equation*}
+\left\{ \begin{array}{ll}
+\displaystyle f_{1}(\ve{x}) = f_{1}(\ve{x}_{0}) + \sum_{i = 1}^{n} \parfrac{f_{1}}{x_{i}} (x_{i} - x_{i}^{0}) + g_{1}(\ve{x}) &amp; \\
+\displaystyle f_{2}(\ve{x}) = f_{2}(\ve{x}_{0}) + \sum_{i = 1}^{n} \parfrac{f_{2}}{x_{i}} (x_{i} - x_{i}^{0}) + g_{2}(\ve{x}) &amp; \\
+\vdots &amp; \\
+\displaystyle f_{m}(\ve{x}) = f_{m}(\ve{x}_{0}) + \sum_{i = 1}^{n} \parfrac{f_{m}}{x_{i}} (x_{i} - x_{i}^{0}) + g_{m}(\ve{x}) &amp; \\
+\displaystyle \lim_{\ve{x} \to \ve{x}_{0}} \frac{g_{i}(\ve{x})}{|\ve{x} - \ve{x}_{0}|} = 0 &amp; (i = 1, ..., m)
+\end{array} \right.
+\end{equation*}
+</div>
+<p>が成り立つ。ここで、次の <strong>ヤコビ行列（関数行列）</strong></p>
+<div class="math">
+\begin{equation*}
+\ve{M}(\ve{x}_{0}) = \parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) =
+\left[ \begin{array}{cccc}
+\parfrac{f_{1}}{x_{1}}(\ve{x}_{0}) &amp; \parfrac{f_{1}}{x_{2}}(\ve{x}_{0}) &amp; \dots  &amp; \parfrac{f_{1}}{x_{n}}(\ve{x}_{0}) \\
+\parfrac{f_{2}}{x_{1}}(\ve{x}_{0}) &amp; \parfrac{f_{2}}{x_{2}}(\ve{x}_{0}) &amp; \dots  &amp; \parfrac{f_{2}}{x_{n}}(\ve{x}_{0}) \\
+\vdots                             &amp; \vdots                             &amp; \ddots &amp; \vdots                             \\
+\parfrac{f_{m}}{x_{n}}(\ve{x}_{0}) &amp; \parfrac{f_{m}}{x_{n}}(\ve{x}_{0}) &amp; \dots  &amp; \parfrac{f_{m}}{x_{n}}(\ve{x}_{0}) \\
+\end{array} \right]
+\end{equation*}
+</div>
+<p>を使えば、次のようにまとめられる。</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+\ve{f}(\ve{x}) = \ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x}_{0}) (\ve{x} - \ve{x}_{0}) + \ve{g}(\ve{x}) \\
+\displaystyle \lim_{\ve{x} \to \ve{x}_{0}} \frac{\ve{g}(\ve{x})}{|\ve{x} - \ve{x}_{0}|} = \ve{0}
+\end{cases}
+\end{equation*}
+</div>
+<p>ここで、 <span class="math">\(\ve{g}(\ve{x}) = [ g_{1}(\ve{x}), ..., g_{m}(\ve{x}) ]^{\mathsf{T}}\)</span> である。そして行列 <span class="math">\(\ve{M}(\ve{x}_{0})\)</span> が存在するとき、写像 <span class="math">\(\ve{f}\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で微分可能であるという。</p>
+<dl class="docutils">
+<dt>写像の微分可能性の必要十分条件</dt>
+<dd><p class="first">写像 <span class="math">\(\ve{f}\)</span> が <span class="math">\(\ve{x}_{0}\)</span> で微分可能であるための必要十分条件は、 <span class="math">\(\ve{x}_{0}\)</span> の近傍で定義され、かつ <span class="math">\(\ve{x}_{0}\)</span> で連続な関数を要素とする行列 <span class="math">\(\ve{M}(\ve{x})\)</span> があって、</p>
+<div class="math">
+\begin{equation*}
+\ve{f}(\ve{x}) = \ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x})(\ve{x} - \ve{x}_{0}) \tag{3}
+\end{equation*}
+</div>
+<p>を満たすことである。また、このとき <span class="math">\(\parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) = \ve{M}(\ve{x}_{0})\)</span> 。</p>
+<p>（ <span class="math">\(\Rightarrow\)</span> の証明） <span class="math">\(\ve{f}\)</span> が <span class="math">\(\ve{x}_{0}\)</span> で微分可能とする。</p>
+<div class="math">
+\begin{align*}
+\ve{f}(\ve{x}) &amp;= \ve{f}(\ve{x}_{0}) + \parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0})(\ve{x} - \ve{x}_{0}) + \ve{g}(\ve{x}) \\
+&amp;= \ve{f}(\ve{x}_{0}) + \left\{ \parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) + \frac{\ve{g}(\ve{x})}{|\ve{x} - \ve{x}_{0}|^{2}} (\ve{x} - \ve{x}_{0})^{\mathsf{T}} \right\} (\ve{x} - \ve{x}_{0})
+\end{align*}
+</div>
+<p>の観察から、</p>
+<div class="math">
+\begin{equation*}
+\ve{M}(\ve{x}) =
+\left\{ \begin{array}{ll}
+\parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) + \frac{\ve{g}(\ve{x})}{|\ve{x} - \ve{x}_{0}|^{2}} (\ve{x} - \ve{x}_{0})^{\mathsf{T}} &amp; (\ve{x} \neq \ve{x}_{0}) \\
+\parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) &amp; (\ve{x} = \ve{x}_{0})
+\end{array} \right.
+\end{equation*}
+</div>
+<p>とおけば、この <span class="math">\(\ve{M}(\ve{x})\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で連続であり、(3) 式が得られることがわかる。（ <span class="math">\(\Rightarrow\)</span> の証明終）</p>
+<p>（ <span class="math">\(\Leftarrow\)</span> の証明） (3) 式から、</p>
+<div class="math">
+\begin{align*}
+\ve{f}(\ve{x}) &amp;= \ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x})(\ve{x} - \ve{x}_{0}) \\
+&amp;= \ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x}_{0})(\ve{x} - \ve{x}_{0}) + \left\{ \ve{M}(\ve{x}) - \ve{M}(\ve{x}_{0}) \right\} (\ve{x} - \ve{x}_{0})
+\end{align*}
+</div>
+<p>となり、今、</p>
+<div class="math">
+\begin{equation*}
+\ve{g}(\ve{x}) = \left\{ \ve{M}(\ve{x}) - \ve{M}(\ve{x}_{0}) \right\} (\ve{x} - \ve{x}_{0})
+\end{equation*}
+</div>
+<p class="last">とおくと、 <span class="math">\(\ve{M}(\ve{x})\)</span> の <span class="math">\(\ve{x}_{0}\)</span> における連続性から <span class="math">\(\frac{|\ve{g}(\ve{x})|}{|\ve{x} - \ve{x}_{0}|} = |\ve{M}(\ve{x}) - \ve{M}(\ve{x}_{0})| \to 0\ (\ve{x} \to \ve{x}_{0})\)</span> より <span class="math">\(\lim_{\ve{x} \to \ve{x}_{0}} \frac{\ve{g}(\ve{x})}{|\ve{x} - \ve{x}_{0}|} = \ve{0}\)</span> が成立する。よって <span class="math">\(\ve{f}\)</span> は <span class="math">\(\ve{x}_{0}\)</span> において微分可能。（ <span class="math">\(\Leftarrow\)</span> の証明終）</p>
+</dd>
+</dl>
+<p>上記の必要十分条件を用いることで、合成写像に対する微分公式が簡単に得られる。</p>
+<dl class="docutils">
+<dt>合成写像の微分</dt>
+<dd><p class="first"><span class="math">\(\ve{y} = \ve{f}(\ve{x})\)</span> は <span class="math">\(\mathbb{R}^{n}\)</span> から <span class="math">\(\mathbb{R}^{m}\)</span> への写像、 <span class="math">\(\ve{z} = \ve{g}(\ve{y})\)</span> は <span class="math">\(\mathbb{R}^{m}\)</span> から <span class="math">\(\mathbb{R}^{l}\)</span> への写像で、 <span class="math">\(\ve{f}\)</span> が <span class="math">\(\ve{x}_{0}\)</span> で、 <span class="math">\(\ve{g}\)</span> が <span class="math">\(\ve{y}_{0} = \ve{f}(\ve{x}_{0})\)</span> でそれぞれ微分可能なら、 <span class="math">\(\ve{g}(\ve{f}(\ve{x}))\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で微分可能で、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{z}}{\ve{x}}(\ve{x}_{0}) = \parfrac{\ve{z}}{\ve{y}} (\ve{y}_{0}) \parfrac{\ve{y}}{\ve{x}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p>（証明）</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+  \ve{f}(\ve{x}) = \ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x})(\ve{x} - \ve{x}_{0}) \\
+  \ve{g}(\ve{y}) = \ve{g}(\ve{y}_{0}) + \ve{N}(\ve{y})(\ve{y} - \ve{y}_{0})
+\end{cases}
+\end{equation*}
+</div>
+<p>と書けるから、</p>
+<div class="math">
+\begin{align*}
+\ve{z} = \ve{g}(\ve{f}(\ve{x})) &amp;= \ve{g}(\ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x})(\ve{x} - \ve{x}_{0})) \\
+&amp;= \ve{g}(\ve{y}_{0}) + \ve{N}(\ve{f}(\ve{x})) \left\{ \ve{f}(\ve{x}_{0}) + \ve{M}(\ve{x})(\ve{x} - \ve{x}_{0}) - \ve{y}_{0} \right\} \\
+&amp;= \ve{g}(\ve{y}_{0}) + \ve{N}(\ve{f}(\ve{x})) \ve{M}(\ve{x})(\ve{x} - \ve{x}_{0})
+\end{align*}
+</div>
+<p>ここで <span class="math">\(\ve{N}(\ve{f}(\ve{x}))\ve{M}(\ve{x})\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で連続だから、 <span class="math">\(\ve{g}(\ve{f}(\ve{x}))\)</span> は <span class="math">\(\ve{x}_{0}\)</span> で微分可能で、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{z}}{\ve{x}}(\ve{x}_{0}) = \ve{N}(\ve{f}(\ve{x}_{0})) \ve{M}(\ve{x}_{0}) = \parfrac{\ve{z}}{\ve{y}}(\ve{y}_{0}) \parfrac{\ve{y}}{\ve{x}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p class="last">（証明終）</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id7">
+<h3><a class="toc-backref" href="#id21">積分公式</a></h3>
+<p>平均値の定理を応用した便利な公式。以下の証明で頻繁に使用するため証明を与える。</p>
+<dl class="docutils">
+<dt>積分公式</dt>
+<dd><p class="first"><span class="math">\(\ve{f}\)</span> を <span class="math">\(\mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> から <span class="math">\(\mathbb{R}^{n}\)</span> への <span class="math">\(C^{1}\)</span> 級写像とする。 <span class="math">\(\ve{x}_{0}, \ve{x} \in \Omega\)</span> とこの 2 点を結ぶ線分が <span class="math">\(\Omega\)</span> に属するとき、</p>
+<div class="math">
+\begin{equation*}
+\ve{f}(\ve{x}) - \ve{f}(\ve{x}_{0}) = \left\{ \int_{0}^{1} \parfrac{\ve{f}}{\ve{x}} (\ve{x}_{0} + t (\ve{x} - \ve{x}_{0})) \mathrm{d}t \right\} (\ve{x} - \ve{x}_{0})
+\end{equation*}
+</div>
+<p>ここで、 <span class="math">\(\{ \}\)</span> の中身は <span class="math">\(n \times n\)</span> の行列になっていることに注意。</p>
+<p>（証明） <span class="math">\(\ve{\varphi}(t) = \ve{f}(\ve{x}_{0} + t (\ve{x} - \ve{x}_{0}))\)</span> とおくと、</p>
+<div class="math">
+\begin{align*}
+\ve{f}(\ve{x}) - \ve{f}(\ve{x}_{0}) &amp;= \ve{\varphi}(1) - \ve{\varphi}(0) = \int_{0}^{1} \dfrac{\ve{\varphi}(t)}{t} \mathrm{d}t \\
+&amp;= \int_{0}^{1} \parfrac{\ve{f}}{\ve{x}} (\ve{x}_{0} + t (\ve{x} - \ve{x}_{0})) \dfrac{}{t} \left\{ \ve{x}_{0} + t (\ve{x} - \ve{x}_{0}) \right\} \mathrm{d}t \quad (\because \text{ 合成関数の微分 }) \\
+&amp;= \int_{0}^{1} \parfrac{\ve{f}}{\ve{x}} (\ve{x}_{0} + t (\ve{x} - \ve{x}_{0})) (\ve{x} - \ve{x}_{0}) \mathrm{d}t \\
+&amp;= \left\{ \int_{0}^{1} \parfrac{\ve{f}}{\ve{x}} (\ve{x}_{0} + t (\ve{x} - \ve{x}_{0})) \mathrm{d}t \right\} (\ve{x} - \ve{x}_{0})
+\end{align*}
+</div>
+<p class="last">（証明終）</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id22">連続関数の集合の完備性</a></h3>
+<p>かなり基礎的だが、以下の証明に必要なため書く。区間 <span class="math">\(I\)</span> で連続な関数の集合を <span class="math">\(C^{0}(I)\)</span> と書く。 <span class="math">\(f \in C^{0}(I)\)</span> に対して、関数の &quot; 大きさ &quot; を次のノルムとして定義する。</p>
+<dl class="docutils">
+<dt>関数のノルム</dt>
+<dd><span class="math">\(|| f ||_{0} = \sup_{x \in I} |f(x)|\)</span> を関数 <span class="math">\(f\)</span> のノルムという。</dd>
+</dl>
+<p>ノルムは一般に次の 3 つの満たしている。</p>
+<ol class="lowerroman simple">
+<li><span class="math">\(|| f ||_{0} \geq 0\)</span> （等号成立は <span class="math">\(f(x) = 0\ (x \in I)\)</span> に限る）</li>
+<li><span class="math">\(|| \lambda f ||_{0} = |\lambda| || f ||_{0}\)</span> （ <span class="math">\(\lambda\)</span> は定数）</li>
+<li><span class="math">\(|| f + g ||_{0} \leq || f ||_{0} + || g ||_{0}\)</span> （ <strong>三角不等式</strong> と呼ぶ）</li>
+</ol>
+<p>関数のノルムにより、<span class="math">\(C^{0}(I)\)</span> 上の関数列 <span class="math">\(\{ f_{n}(x) \}\)</span> が <span class="math">\(I\)</span> において <span class="math">\(f(x)\)</span> に一様収束することを</p>
+<div class="math">
+\begin{equation*}
+|| f_{n} - f ||_{0} \to 0 \quad (n \to \infty)
+\end{equation*}
+</div>
+<p>と表せる。</p>
+<p>次に、連続関数のノルムについて一様収束列とコーシー列が同値であることを見ていく。</p>
+<dl class="docutils">
+<dt>連続関数の一様収束列とコーシー列</dt>
+<dd><p class="first"><span class="math">\(C^{0}(I)\)</span> の関数列 <span class="math">\(\{ f_{n}(x) \}\)</span> が一様収束列であるための必要十分条件は、 <span class="math">\(\{ f_{n}(x) \}\)</span> がノルムに関してコーシー列であることである。ここで、ノルムに関するコーシー列とは、任意の <span class="math">\(\varepsilon &gt; 0\)</span> に対して自然数 <span class="math">\(N\)</span> を適当に選べば、 <span class="math">\(p, q \geq N\)</span> に対して、</p>
+<div class="math">
+\begin{equation*}
+|| f_{p} - f_{q} ||_{0} &lt; \varepsilon
+\end{equation*}
+</div>
+<p>が成立することを言う。</p>
+<p>（ <span class="math">\(\Rightarrow\)</span> の証明） <span class="math">\(\{ f_{n}(x) \}\)</span> が <span class="math">\(f \in C^{0}(I)\)</span> に一様収束すれば、任意の <span class="math">\(\varepsilon &gt; 0\)</span> に対して自然数 <span class="math">\(N\)</span> を適当に大きく選んで <span class="math">\(|| f_{n} - f ||_{0} &lt; \varepsilon / 2\ (n \geq N)\)</span> とできるから、 <span class="math">\(p, q \geq N\)</span> なる <span class="math">\(p, q\)</span> について</p>
+<div class="math">
+\begin{align*}
+|| f_{p} - f_{q} ||_{0} &amp;= || f_{p} - f - ( f_{q} - f ) ||_{0} \\
+&amp;\leq || f_{p} - f ||_{0} + || -( f_{q} - f ) ||_{0} \quad (\because \text{ 三角不等式 }) \\
+&amp;= || f_{p} - f ||_{0} + || f_{q} - f ||_{0} \\
+&amp;&lt; \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon
+\end{align*}
+</div>
+<p>これは <span class="math">\(\{ f_{n}(x) \}\)</span> がコーシー列をなしていることを示している。（ <span class="math">\(\Rightarrow\)</span> の証明終）</p>
+<p>（ <span class="math">\(\Leftarrow\)</span> の証明） コーシー列は収束列（本稿では省略！！）だから、極限値があり、それを <span class="math">\(f\)</span> とおく。任意の <span class="math">\(\varepsilon &gt; 0\)</span> に対して、自然数 <span class="math">\(N\)</span> を適当に大きく選び、</p>
+<div class="math">
+\begin{equation*}
+|f_{p}(x) - f_{q}(x)| \leq || f_{p} - f_{q} ||_{0} &lt; \varepsilon \quad (p,q \geq N, \ x \in I)
+\end{equation*}
+</div>
+<p>とできる。ここで、 <span class="math">\(q \to \infty\)</span> とすると、 <span class="math">\(\lim_{q \to \infty} f_{q}(x) = f(x)\)</span> だから、</p>
+<div class="math">
+\begin{equation*}
+|f_{p}(x) - f(x)| \leq || f_{p} - f || &lt; \varepsilon \quad (p \geq N)
+\end{equation*}
+</div>
+<p>となる。これは、 <span class="math">\(\{ f_{n}(x) \}\)</span> が <span class="math">\(f(x)\)</span> への一様収束列であることを示している。
+最後に <span class="math">\(f \in C^{0}(I)\)</span>、即ち <span class="math">\(f\)</span> が <span class="math">\(I\)</span> で連続であることを示す。任意の点 <span class="math">\(x_{0} \in I\)</span> に対して、収束列の元 <span class="math">\(f_{n}\)</span> を使うと、</p>
+<div class="math">
+\begin{align*}
+|f(x) - f(x_{0})| &amp;= |f(x) - f_{n}(x) + f_{n}(x) - f_{n}(x_{0}) + f_{n}(x_{0}) - f(x_{0}) | \\
+&amp;\leq |f(x) - f_{n}(x)| + |f_{n}(x) - f_{n}(x_{0})| + |f_{n}(x_{0}) - f(x)| \\
+&amp;\leq || f_{n} - f ||_{0} + |f_{n}(x) - f_{n}(x_{0})| + || f_{n} - f ||_{0}
+\end{align*}
+</div>
+<p>まず、 <span class="math">\(\{ f_{n}(x) \}\)</span> の一様収束性により、任意の <span class="math">\(\varepsilon &gt; 0\)</span> に対して <span class="math">\(n\)</span> を十分大きく取れば <span class="math">\(|| f_{n} - f ||_{0} &lt; \varepsilon / 3\)</span> とできる。また、 <span class="math">\(f_{n}\)</span> は <span class="math">\(I\)</span> で連続だから、ある <span class="math">\(\delta &gt; 0\)</span> があって <span class="math">\(|f_{n}(x) - f_{n}(x_{0})| &lt; \varepsilon / 3\ (|x - x_{0}| &lt; \delta)\)</span> とできる。まとめると、任意の <span class="math">\(\varepsilon &gt; 0\)</span> と <span class="math">\(x_{0} \in I\)</span> に対して、 ある <span class="math">\(\delta &gt; 0\)</span> があって、任意の <span class="math">\(x \in I\)</span> で</p>
+<div class="math">
+\begin{equation*}
+|f(x) - f(x_{0})| &lt; \frac{\varepsilon}{3} + \frac{\varepsilon}{3} + \frac{\varepsilon}{3} = \varepsilon \quad (|x - x_{0}| &lt; \delta)
+\end{equation*}
+</div>
+<p class="last">が成立している。これは、 <span class="math">\(f(x)\)</span> が <span class="math">\(I\)</span> で連続であることを示しており、 <span class="math">\(f \in C^{0}(I)\)</span> が言える。（ <span class="math">\(\Leftarrow\)</span> の証明終）</p>
+</dd>
+</dl>
+<p>一般に、コーシー列が必ず収束列になるとき、その集合を <strong>完備</strong> であるという。直感的には、集合上にコーシー列を構成したときに、極限値がその集合から飛び出ることがないことを指す。 <span class="math">\(C^{0}(I)\)</span> はノルムに関して完備な集合である。</p>
+</div>
+<div class="section" id="id9">
+<h3><a class="toc-backref" href="#id23">不動点定理</a></h3>
+<p>本稿では（「微分積分学」を参考に）陰関数の存在を示すために不動点定理を使用する。本節では不動点定理について説明する。</p>
+<dl class="docutils">
+<dt>縮小写像</dt>
+<dd><p class="first">関数集合 <span class="math">\(\mathcal{F}\)</span> から <span class="math">\(\mathcal{F}\)</span> への写像 <span class="math">\(\Phi(f)\)</span> がノルム <span class="math">\(||f||_{0} = \sup_{\ve{x}} |f(\ve{x})|\)</span> に関して <strong>縮小写像</strong> であるとは、ある定数 <span class="math">\(\rho \in [0, 1)\)</span> があって、</p>
+<div class="math">
+\begin{equation*}
+||\Phi(f) - \Phi(g)||_{0} \leq \rho ||f - g||_{0}
+\end{equation*}
+</div>
+<p class="last">が任意の <span class="math">\(f, g \in \mathcal{F}\)</span> について成立することを言う。</p>
+</dd>
+</dl>
+<p>縮小写像 <span class="math">\(\Phi\)</span> によって写像した関数間の距離は、写像する前よりも小さくなることを言っている。この縮小写像を繰り返し適用することで、ある関数（極限関数）に一様収束するとき、それを不動点という。定理の形で述べると次のようになる。</p>
+<dl class="docutils">
+<dt>不動点定理</dt>
+<dd><p class="first"><span class="math">\(\Phi(f)\)</span> を <span class="math">\(\mathcal{F}\)</span> から <span class="math">\(\mathcal{F}\)</span> への縮小写像とし、 <span class="math">\(\mathcal{F}\)</span> は <span class="math">\(C^{0}(\Omega)\)</span> （定義域 <span class="math">\(\Omega\)</span> の <span class="math">\(C^{0}\)</span> 級すなわち連続関数の集合）において完備な集合とする。このとき、</p>
+<div class="math">
+\begin{equation*}
+f = \Phi(f)
+\end{equation*}
+</div>
+<p>を満たす関数 <span class="math">\(f \in \mathcal{F}\)</span> が唯一つ存在する。この様な <span class="math">\(f\)</span> を <span class="math">\(\mathcal{F}\)</span> における <span class="math">\(\Phi\)</span> の不動点という。</p>
+<p>（証明） <span class="math">\(f_{0} \in \mathcal{F}\)</span> を任意に一つ取って、</p>
+<div class="math">
+\begin{equation*}
+f_{n} = \Phi(f_{n-1}) \quad n = 1, 2, ...
+\end{equation*}
+</div>
+<p>によって関数列 <span class="math">\(\{ f_{n} \}\)</span> を作り、これがノルム <span class="math">\(||\cdot||_{0}\)</span> に関してコーシー列を作っていることを確かめる。 <span class="math">\(\Phi\)</span> は縮小写像だから、</p>
+<div class="math">
+\begin{align*}
+|| f_{n + 1} - f_{n} ||_{0} &amp;= || \Phi(f_{n}) - \Phi(f_{n-1}) ||_{0} \\
+&amp;\leq \rho || f_{n} - f_{n-1} ||_{0} = \rho || \Phi(f_{n-1}) - \Phi(f_{n-2}) ||_{0} \\
+&amp;\leq \rho^{2} || f_{n-1} - f_{n-2} ||_{0} = \rho^{2} || \Phi(f_{n-2}) - \Phi(f_{n-1}) ||_{0} \\
+&amp;\vdots \\
+&amp;\leq \rho^{n} || f_{1} - f_{0} ||_{0}
+\end{align*}
+</div>
+<p>従って、<span class="math">\(p \leq q\)</span> を満たす任意の添字について、</p>
+<div class="math">
+\begin{align*}
+|| f_{p} - f_{q} ||_{0} &amp;= || f_{p} - f_{p+1} + f_{p+1} - f_{p+2} + f_{p+2} + ... + f_{q-1} + f_{q} ||_{0} \\
+&amp;\leq || f_{p} - f_{p+1} ||_{0} + || f_{p+1} - f_{p+2} ||_{0} +  ... + || f_{q-1} + f_{q} ||_{0} \quad (\because \text{ 三角不等式 }) \\
+&amp;\leq \rho^{p} || f_{1} - f_{0} ||_{0} + \rho^{p+1} || f_{1} - f_{0} ||_{0} + ... + \rho^{q-1} || f_{1} - f_{0} ||_{0} \\
+&amp;= \rho^{p}(1 + \rho + ... + \rho^{q-1-p}) || f_{1} - f_{0} ||_{0} \\
+&amp;= \frac{\rho^{p}(1 - \rho^{q-1-p})}{1 - \rho} || f_{1} - f_{0} ||_{0} \quad (\because \text{ 等比級数の和の公式 }) \\
+&amp;\leq \frac{\rho^{p}}{1 - \rho} || f_{1} - f_{0} ||_{0}
+\end{align*}
+</div>
+<p>最後の式は <span class="math">\(p\)</span> を大きくしていくといくらでも小さくなる。従って、 <span class="math">\(\{ f_{n} \}\)</span> はコーシー列である。更に、 <span class="math">\(\mathcal{F}\)</span> は完備な集合だから <span class="math">\(\{ f_{n} \}\)</span> は収束列であり、ある <span class="math">\(f \in \mathcal{F}\)</span> があって、 <span class="math">\(f_{n}\)</span> は 領域 <span class="math">\(\Omega\)</span> において <span class="math">\(f\)</span> に一様収束する（ <span class="math">\(\because\)</span> コーシーの収束定理）。
+従って、 <span class="math">\(f_{n} = \Phi(f_{n-1})\)</span> の <span class="math">\(n\)</span> を大きくしていくと、極限において</p>
+<div class="math">
+\begin{equation*}
+f = \Phi(f)
+\end{equation*}
+</div>
+<p>が成立する。従って、 <span class="math">\(f\)</span> は <span class="math">\(\Phi\)</span> の不動点である。
+次に唯一性を示す。仮に不動点が 2 つあったとして、それらを <span class="math">\(f, g\)</span> を書くと、</p>
+<div class="math">
+\begin{equation*}
+|| f - g ||_{0} = || \Phi(f) - \Phi(g) ||_{0} \leq \rho || f - g ||_{0} &lt; || f - g ||_{0}
+\end{equation*}
+</div>
+<p class="last">となるが、これは <span class="math">\(|| f - g ||_{0} &gt; 0\)</span> である限り <span class="math">\(|| f - g ||_{0} &lt; || f - g ||_{0}\)</span> となって矛盾。従って <span class="math">\(|| f - g ||_{0} = 0\)</span> でなければならず、これは <span class="math">\(f\)</span> と <span class="math">\(g\)</span> が同一の不動点であることを意味する。（証明終）</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id10">
+<h2><a class="toc-backref" href="#id24">陰関数定理</a></h2>
+<p>まずは 2 変数 <span class="math">\(x, y\)</span> で考えてみる。 <span class="math">\(x^{2} + y^{2} - 2 = 0\)</span> のように <span class="math">\(y = f(x)\)</span> が陽に分からない場合がある。この 2 変数関数 <span class="math">\(F(x, y)\)</span> による等式 <span class="math">\(F(x, y) = 0\)</span> を陰関数表示という。 <span class="math">\(F(x, y) = 0\)</span> に対して、何らかの関数 <span class="math">\(y = f(x)\)</span> （もしくは <span class="math">\(x = h(y)\)</span> ）の存在を保証するのが陰関数定理である。</p>
+<dl class="docutils">
+<dt>陰関数定理（2 変数）</dt>
+<dd><p class="first"><span class="math">\(\mathbb{R}^{2}\)</span> のある領域（開部分集合） <span class="math">\(\Omega\)</span> で <span class="math">\(F(x, y)\)</span> は連続とし、 <span class="math">\(\Omega\)</span> の 1 点 <span class="math">\((x_{0}, y_{0})\)</span> の近傍 <span class="math">\(U\)</span> で <span class="math">\(y\)</span> について偏微分可能かつ <span class="math">\(F_{y}(x, y) = \parfrac{F}{y}(x, y)\)</span> は <span class="math">\(U\)</span> で連続とする。このとき、次の 1 - 4 が成り立つ。</p>
+<ol class="arabic simple">
+<li>もし、 <span class="math">\(F(x_{0}, y_{0}) = 0,\ F_{y}(x_{0}, y_{0}) \neq 0\)</span> ならば、 <span class="math">\((x_{0}, y_{0})\)</span> の十分小さい近傍 <span class="math">\(V\)</span> において</li>
+</ol>
+<div class="math">
+\begin{equation*}
+y_{0} = f(x_{0}), \ F(x, f(x)) = 0
+\end{equation*}
+</div>
+<p>を満たす連続関数 <span class="math">\(y = f(x)\ ((x, y) \in V)\)</span> が唯一つ存在する。（ <span class="math">\(x\)</span> と <span class="math">\(y\)</span> の関係を入れ替えても成立する。即ち <span class="math">\(F(x_{0}, y_{0}) = 0,\ F_{x}(x_{0}, y_{0}) \neq 0\)</span> ならば、 <span class="math">\((x_{0}, y_{0})\)</span> の近傍で <span class="math">\(x_{0} = h(y_{0}), \ F(h(y), y) = 0\)</span> を満たす連続関数 <span class="math">\(h\)</span> が存在する）。</p>
+<ol class="arabic simple" start="2">
+<li>1 が成り立つとき、 <span class="math">\(F\)</span> が <span class="math">\((x_{0}, y_{0})\)</span> において <span class="math">\(x\)</span> について偏微分可能なら、 <span class="math">\(f(x)\)</span> は <span class="math">\(x_{0}\)</span> において微分可能で、</li>
+</ol>
+<div class="math">
+\begin{equation*}
+\dfrac{f}{x}(x_{0}) = - \frac{F_{x}(x_{0}, y_{0})}{F_{y}(x_{0}, y_{0})}
+\end{equation*}
+</div>
+<ol class="arabic simple" start="3">
+<li>2 が成り立つとき、 <span class="math">\(F\)</span> が <span class="math">\(U\)</span> 上で <span class="math">\(C^{1}\)</span> 級なら、 <span class="math">\(f(x)\)</span> も <span class="math">\(C^{1}\)</span> 級で、</li>
+</ol>
+<div class="math">
+\begin{equation*}
+\dfrac{f}{x}(x) = - \frac{F_{x}(x, y)}{F_{y}(x, y)} \quad (x, f(x)) \in V
+\end{equation*}
+</div>
+<ol class="arabic simple" start="4">
+<li>3 が成り立つとき、 <span class="math">\(F\)</span> が <span class="math">\(U\)</span> 上で <span class="math">\(C^{m}\)</span> 級なら、 <span class="math">\(f(x)\)</span> も <span class="math">\(C^{m}\)</span> 級。</li>
+</ol>
+<p>（1. の証明） <span class="math">\(x_{0}\)</span> の近傍 <span class="math">\(U_{1}\)</span> と <span class="math">\(y_{0}\)</span> の近傍 <span class="math">\(U_{2}\)</span> を適当に選んで <span class="math">\(U_{1} \times U_{2} \subset U\)</span> となるようにしておく。 <span class="math">\(M = F_{y}(x_{0}, y_{0})\)</span> とおく。 <span class="math">\(F_{y}\)</span> は仮定より連続だから、 <span class="math">\(\rho \in (0, 1)\)</span> なる <span class="math">\(\rho\)</span> を 1 つ取り、これに応じて <span class="math">\(U_{1}, U_{2}\)</span> を小さく取り直して</p>
+<div class="math">
+\begin{equation*}
+|M - F_{y}(x, y)| &lt; \rho |M| \quad (x \in U_{1}, y \in U_{2})
+\end{equation*}
+</div>
+<p>とできる。更に、 <span class="math">\(F\)</span> は連続だから、 <span class="math">\(U_{2} = [ y_{0} - \delta, y_{0} + \delta ]\)</span> と閉区間を取ったとき、 <span class="math">\(\delta\)</span> に応じて <span class="math">\(U_{1}\)</span> を小さく取り直し、</p>
+<div class="math">
+\begin{equation*}
+|F(x, y_{0}) - F(x_{0}, y_{0})| = |F(x, y_{0})| &lt; (1 - \rho)|M|\delta \quad (x \in U_{1})
+\end{equation*}
+</div>
+<p>とできる。次に、関数の集合 <span class="math">\(\mathcal{F}\)</span> として、 <span class="math">\(U_{1}\)</span> 上で連続で、 <span class="math">\(y_{0} = \varphi(x_{0})\)</span> となり、かつ <span class="math">\(x \in U_{1}\)</span> において <span class="math">\(\varphi(x) \in U_{2}\)</span> となるような関数 <span class="math">\(\varphi\)</span> の全体をとる。 <span class="math">\(U_{1}\)</span> 上で連続な関数の集合を <span class="math">\(C^{0}(U_{1})\)</span> とかくと、<span class="math">\(\mathcal{F} \subset C^{0}(U_{1})\)</span> が成立する。今、写像 <span class="math">\(\Phi(\varphi)\)</span> として、</p>
+<div class="math">
+\begin{equation*}
+\Phi(\varphi)(x) = \varphi(x) - \frac{1}{M} F(x, \varphi(x))
+\end{equation*}
+</div>
+<p>とおいた時、これが <span class="math">\(\mathcal{F}\)</span> から <span class="math">\(\mathcal{F}\)</span> への縮小写像であって、かつ <span class="math">\(\mathcal{F}\)</span> が完備であることを示す。まず、 <span class="math">\(\varphi \in \mathcal{F}\)</span> を任意に取ったときに、 <span class="math">\(\Phi(\varphi) \in \mathcal{F}\)</span> となることを示す。平均値の定理により、 <span class="math">\(\varphi(x)\)</span> と <span class="math">\(y_{0}\)</span> の間に <span class="math">\(\xi_{1}(x)\)</span> を適当に選び、</p>
+<div class="math">
+\begin{equation*}
+F(x, \varphi(x)) = F(x, y_{0}) + F_{y}(x, \xi_{1}(x))(\varphi(x) - y_{0})
+\end{equation*}
+</div>
+<p>とできるから、</p>
+<div class="math">
+\begin{align*}
+|\Phi(\varphi)(x) - y_{0}| &amp;= |\varphi(x) - \frac{1}{M}F(x, \varphi(x)) - y_{0}| \\
+&amp;= |\varphi(x) - y_{0} - \frac{1}{M}F(x, y_{0}) - \frac{1}{M}F(x, \xi_{1}(x))(\varphi(x) - y_{0})| \\
+&amp;= \left| \left\{ \varphi(x) - y_{0} \right\} \left\{ 1 - \frac{1}{M}F(x, \xi_{1}(x)) \right\} - \frac{1}{M}F(x, \varphi(x)) \right| \\
+&amp;\leq |\varphi(x) - y_{0}|\left| 1 - \frac{1}{M}F(x, \xi_{1}(x)) \right| + \left| \frac{1}{M}F(x, \varphi(x)) \right| \quad (\because \text{ 三角不等式 }) \\
+&amp;&lt; \rho |\varphi(x) - y_{0}| + (1 - \rho)\delta \\
+&amp;\leq \rho \delta + (1 - \rho)\delta \quad (\because \varphi(x) \in U_{2} = [y_{0} - \delta, y_{0} + \delta]) \\
+&amp;= \delta
+\end{align*}
+</div>
+<p>よって、 <span class="math">\(\Phi(\varphi)(x) \in U_{2}\)</span> だから、 <span class="math">\(\Phi(\varphi) \in \mathcal{F}\)</span> 。次に、 <span class="math">\(\varphi, \psi \in \mathcal{F}\)</span> をとると、</p>
+<div class="math">
+\begin{align*}
+\Phi(\varphi)(x) - \Phi(\psi)(x) &amp;= \varphi(x) - \frac{1}{M} F(x, \varphi(x)) - \left\{ \psi(x) - \frac{1}{M} F(x, \psi(x)) \right\} \\
+&amp;= \varphi(x) - \psi(x) - \frac{1}{M} \left\{ F(x, \varphi(x)) - F(x, \psi(x)) \right\}
+\end{align*}
+</div>
+<p>再び平均値の定理より、 <span class="math">\(\varphi(x)\)</span> と <span class="math">\(\psi(x)\)</span> の間に <span class="math">\(\xi_{2}(x)\)</span> を適当に選び、</p>
+<div class="math">
+\begin{equation*}
+F(x, \varphi(x)) = F(x, \psi(x)) + F_{y}(x, \xi_{2}(x))(\varphi(x) - \psi(x))
+\end{equation*}
+</div>
+<p>とできるから、</p>
+<div class="math">
+\begin{align*}
+\Phi(\varphi)(x) - \Phi(\psi)(x) &amp;= \varphi(x) - \psi(x) - \frac{1}{M} \left\{ F_{y}(x, \xi_{2}(x))(\varphi(x) - \psi(x)) \right\} \\
+&amp;= \left\{ 1 - \frac{1}{M} F_{y} (x, \xi_{2}(x)) \right\} (\varphi(x) - \psi(x))
+\end{align*}
+</div>
+<p>となる。 <span class="math">\(\xi_{2}(x) \in U_{2}\)</span> だから、 <span class="math">\(|M - F_{y}(x, \xi_{2}(x))| &lt; \rho |M|\)</span> が成り立ち、</p>
+<div class="math">
+\begin{equation*}
+|\Phi(\varphi)(x) - \Phi(\psi)(x)| &lt; \rho |\varphi(x) - \psi(x)| \leq \rho || \varphi - \psi ||_{0}
+\end{equation*}
+</div>
+<p>これが任意の <span class="math">\(x \in U_{1}\)</span> で成り立つから、<span class="math">\(\rho || \varphi - \psi ||_{0}\)</span> は <span class="math">\(|\Phi(\varphi)(\ve{x}) - \Phi(\psi)(\ve{x})|\)</span> の上限を与えており、 <span class="math">\(|| \Phi(\varphi) - \Phi(\psi) ||_{0} \leq \rho || \varphi - \psi ||_{0}\)</span> が言える。従って <span class="math">\(\Phi\)</span> は縮小写像である。</p>
+<p>次に、 <span class="math">\(\mathcal{F}\)</span> が完備であることを示す。 <span class="math">\(\mathcal{F} \subset C^{0}(U_{1})\)</span> で <span class="math">\(C^{0}(U_{1})\)</span> は完備だから、 <span class="math">\(\mathcal{F}\)</span> の中のコーシー列は <span class="math">\(C^{0}(U_{1})\)</span> の中での収束列である。写像 <span class="math">\(\Phi\)</span> による極限関数 <span class="math">\(f\)</span> は、 <span class="math">\(\Phi\)</span> の作り方により、 <span class="math">\(U_{1}\)</span> 上で連続で、 <span class="math">\(y_{0} = f(x_{0})\)</span> を満たす。また、各点収束として考えると（コーシー列は一様収束性を述べているので可能）、極限関数 <span class="math">\(f(x)\)</span> は閉区間 <span class="math">\(U_{2}\)</span> に属するから、 <span class="math">\(f \in \mathcal{F}\)</span> である。即ち <span class="math">\(\mathcal{F}\)</span> は完備。</p>
+<p>以上より不動点定理が使える。即ち、</p>
+<div class="math">
+\begin{equation*}
+f(x) = \Phi(f)(x) \quad (x \in U_{1})
+\end{equation*}
+</div>
+<p>を満たす関数が <span class="math">\(\mathcal{F}\)</span> の中に唯一存在する。これは、</p>
+<div class="math">
+\begin{equation*}
+\Phi(f)(x) = f(x) - \frac{1}{M} F(x, f(x))
+\end{equation*}
+</div>
+<p>と合わせると、</p>
+<div class="math">
+\begin{equation*}
+F(x, f(x)) = 0 \quad (x \in U_{1})
+\end{equation*}
+</div>
+<p>が得られるから、定理 1 が示された。（1. の証明終）</p>
+<p>（2. の証明） <span class="math">\(F\)</span> は <span class="math">\((x_{0}, y_{0})\)</span> で偏微分可能で <span class="math">\(F_{y}(x, y)\)</span> は <span class="math">\(U\)</span> で連続だから、 <span class="math">\(F(x, y)\)</span> は全微分可能である（ <span class="math">\(\because\)</span> 準備）。従って <span class="math">\(U\)</span> において、</p>
+<div class="math">
+\begin{equation*}
+F(x, y) = F(x_{0}, y_{0}) + \alpha(x, y)(x - x_{0}) + \beta(x, y)(y - y_{0})
+\end{equation*}
+</div>
+<p>とかける（ <span class="math">\(\alpha, \beta\)</span> は <span class="math">\((x_{0}, y_{0})\)</span> で連続な関数で、かつ <span class="math">\(\alpha(x_{0}, y_{0}) = F_{x}(x_{0}, y_{0}), \beta(x_{0},\ y_{0}) = F_{y}(x_{0}, y_{0}) \neq 0\)</span>）。<span class="math">\(x \in V\)</span> に対して <span class="math">\(y = f(x)\)</span> を代入すると、</p>
+<div class="math">
+\begin{align*}
+F(x, f(x)) = 0 &amp;= F(x_{0}, f(x_{0})) + \alpha(x, f(x))(x - x_{0}) + \beta(x, f(x))(f(x) - y_{0}) \\
+&amp;= \alpha(x, f(x))(x - x_{0}) + \beta(x, f(x))(f(x) - y_{0}) \\
+\implies f(x) &amp;= y_{0} - \frac{\alpha(x, f(x))}{\beta(x, f(x))}(x - x_{0})
+\end{align*}
+</div>
+<p>両辺を <span class="math">\(x - x_{0}\)</span> で割ってから <span class="math">\(x \to x_{0}\)</span> としてみると、<span class="math">\(-\alpha(x, f(x)) / \beta(x, f(x))\)</span> は <span class="math">\(x_{0}\)</span> において（連続関数の商になっているので）連続だから極限値をもつ。即ち <span class="math">\(f(x)\)</span> は <span class="math">\(x_{0}\)</span> で微分可能で、</p>
+<div class="math">
+\begin{equation*}
+\dfrac{f}{x}(x_{0}) = - \frac{\alpha(x_{0}, f(x_{0}))}{\beta(x_{0}, f(x_{0}))} = - \frac{F_{x}(x_{0}, y_{0})}{F_{y}(x_{0}, y_{0})} \tag{4}
+\end{equation*}
+</div>
+<p>（2. の証明終）</p>
+<p>（3. の証明） <span class="math">\(F\)</span> が <span class="math">\(C^{1}\)</span> 級ならば (4) の右辺は <span class="math">\((x_{0}, y_{0})\)</span> で連続だから、 <span class="math">\(y_{0} = f(x_{0})\)</span> を代入したものも <span class="math">\(x_{0}\)</span> で連続である。即ち、 <span class="math">\(\dfrac{f}{x}(x)\)</span> は連続関数（ <span class="math">\(C^{0}\)</span> 級）だから、 <span class="math">\(f(x)\)</span> は <span class="math">\(C^{1}\)</span> 級。（3. の証明終）</p>
+<p>（4. の証明） <span class="math">\(F\)</span> が <span class="math">\(C^{m}\)</span> 級ならば <span class="math">\(f(x)\)</span> も <span class="math">\(C^{m}\)</span> 級であることを示す。 <span class="math">\(m = 1\)</span> の場合は 3. より成立する。 <span class="math">\(m - 1\)</span> の場合に成立すると仮定して、もし、 <span class="math">\(F\)</span> が <span class="math">\(C^{m}\)</span> 級ならば、同時に <span class="math">\(F\)</span> は <span class="math">\(C^{m-1}\)</span> 級だから、 仮定より <span class="math">\(f(x)\)</span> も <span class="math">\(C^{m-1}\)</span> 級である。従って、</p>
+<div class="math">
+\begin{equation*}
+\dfrac{f}{x}(x) = - \frac{F_{x}(x, f(x))}{F_{y}(x, f(x))}
+\end{equation*}
+</div>
+<p class="last">の右辺は <span class="math">\(C^{m-1}\)</span> 級の関数 <span class="math">\(F_{x}, F_{y}\)</span> に <span class="math">\(C^{m-1}\)</span> 級の関数 <span class="math">\(f(x)\)</span> を代入したもので、合成関数の微分法から右辺は <span class="math">\(C^{m-1}\)</span> 級である。 <span class="math">\(\dfrac{f}{x}(x)\)</span> が <span class="math">\(C^{m-1}\)</span> 級だから、 <span class="math">\(f(x)\)</span> は <span class="math">\(C^{m}\)</span> 級。（4. の証明終）</p>
+</dd>
+</dl>
+<div class="section" id="id11">
+<h3><a class="toc-backref" href="#id25">多変数の場合</a></h3>
+<p>3 変数 <span class="math">\(x, y, z\)</span> による連立陰関数</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+  F(x, y, z) = 0 \\
+  G(x, y, z) = 0
+\end{cases}
+\end{equation*}
+</div>
+<p>を満たす連続関数 <span class="math">\(y=f(x),\ z = g(x)\)</span> を求める問題を考える。 <span class="math">\(F(x_{0}, y_{0}, z_{0}) = 0,\ F_{y}(x_{0}, y_{0}, z_{0}) \neq 0\)</span> とすると、陰関数定理により、 <span class="math">\((x_{0}, y_{0}, z_{0})\)</span> の近傍で <span class="math">\(y = Y(x, z)\)</span> という陰関数が存在する。これを <span class="math">\(G\)</span> に代入すると、</p>
+<div class="math">
+\begin{equation*}
+G(x, Y(x, z), z) = H(x, z) = 0
+\end{equation*}
+</div>
+<p>となるが、もし、 <span class="math">\(G(x_{0}, y_{0}, z_{0}) = 0,\ H_{z}(x_{0}, z_{0}) \neq 0\)</span> ならば、これから <span class="math">\(z = g(x)\)</span> という陰関数が存在する。これを <span class="math">\(y = Y(x, z)\)</span> に代入して、</p>
+<div class="math">
+\begin{equation*}
+y = f(x) = Y(x, g(x))
+\end{equation*}
+</div>
+<p>とおけば、2 つの陰関数が求められる。今、</p>
+<div class="math">
+\begin{align*}
+H_{z}(x, z) &amp;= G_{z}(x, Y(x, z), z) \\
+&amp;= \parfrac{G}{z} + \parfrac{G}{y} \dfrac{Y}{z} \quad (\because \text{ 合成関数の微分 }) \\
+&amp;= G_{z} - G_{y}\frac{F_{z}}{F_{y}} \quad (\because \text{ 陰関数定理 }) \\
+&amp;= \frac{1}{F_{y}} \det
+\left[
+\begin{array}{cc}
+  F_{y} &amp; F_{z} \\
+  G_{y} &amp; G_{z}
+\end{array}
+\right]
+\end{align*}
+</div>
+<p>だから、 <span class="math">\(H_{z}(x_{0}, z_{0}) \neq 0\)</span> は、行列</p>
+<div class="math">
+\begin{equation*}
+\parfrac{F}{\ve{y}} =
+\left[
+\begin{array}{cc}
+  F_{y} &amp; F_{z} \\
+  G_{y} &amp; G_{z}
+\end{array}
+\right]
+\quad
+\left(
+\ve{F} =
+\left[
+\begin{array}{c}
+F \\
+G
+\end{array}
+\right],\
+\ve{y} =
+\left[
+\begin{array}{c}
+y \\
+z
+\end{array}
+\right]
+\right)
+\end{equation*}
+</div>
+<p>が <span class="math">\((x_{0}, y_{0}, z_{0})\)</span> で正則という条件と同値になる。従って、<span class="math">\(\parfrac{F}{\ve{y}}\)</span> が正則であれば陰関数を持つことが分かる（ <span class="math">\(\parfrac{F}{\ve{y}}\)</span> が正則ならば、 <span class="math">\(F_{y}, F_{z}\)</span> のいずれかは <span class="math">\(0\)</span> ではないから、 <span class="math">\(F_{y}(x_{0}, y_{0}, z_{0}) \neq 0\)</span> という条件をおいても良い）。これを一般化した定理を以下に示す。</p>
+<dl class="docutils">
+<dt>陰関数定理（多変数）</dt>
+<dd><p class="first"><span class="math">\(\mathbb{R}^{p} \times \mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> で、 <span class="math">\(n\)</span> 次元写像</p>
+<div class="math">
+\begin{equation*}
+\ve{F}(\ve{x}, \ve{y}) =
+\left[ \begin{array}{c}
+F_{1}(x_{1}, ..., x_{p}, y_{1}, ..., y_{n}) \\
+F_{2}(x_{1}, ..., x_{p}, y_{1}, ..., y_{n}) \\
+\vdots \\
+F_{n}(x_{1}, ..., x_{p}, y_{1}, ..., y_{n})
+\end{array} \right]
+\end{equation*}
+</div>
+<p>は連続として、1 点 <span class="math">\((\ve{x}_{0}, \ve{y}_{0})^{\mathsf{T}} = (x_{1}^{0}, ..., x_{p}^{0}, y_{1}^{0}, ..., y_{n}^{0})^{\mathsf{T}}\)</span> の近傍 <span class="math">\(U\)</span> でサイズ <span class="math">\(n \times n\)</span> の正方行列関数</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{F}}{\ve{y}}(\ve{x}, \ve{y}) =
+\left[ \begin{array}{cccc}
+\parfrac{F_{1}}{y_{1}} &amp; \parfrac{F_{1}}{y_{2}} &amp;  \dots &amp; \parfrac{F_{1}}{y_{n}} \\
+\parfrac{F_{2}}{y_{1}} &amp; \parfrac{F_{2}}{y_{2}} &amp;  \dots &amp; \parfrac{F_{2}}{y_{n}} \\
+\vdots                 &amp; \vdots                 &amp; \ddots &amp; \vdots                 \\
+\parfrac{F_{n}}{y_{1}} &amp; \parfrac{F_{n}}{y_{2}} &amp;  \dots &amp; \parfrac{F_{n}}{y_{n}}
+\end{array} \right]
+\end{equation*}
+</div>
+<p>は連続な正則行列とする。とのとき、次の 1 - 4 が成り立つ。</p>
+<ol class="arabic simple">
+<li>もし <span class="math">\(\ve{F}(\ve{x}_{0}, \ve{y}_{0}) = \ve{0}\)</span> ならば、 <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> の十分小さい近傍 <span class="math">\(V\)</span> があって</li>
+</ol>
+<div class="math">
+\begin{equation*}
+\ve{y}_{0} = \ve{f}(\ve{x}_{0}), \ \ve{F}(\ve{x}, \ve{f}(\ve{x})) = \ve{0} \quad (\ve{x}, \ve{f}(\ve{x})) \in V
+\end{equation*}
+</div>
+<p>を満たす <span class="math">\(n\)</span> 次元ベクトル値連続関数 <span class="math">\(\ve{f}(\ve{x})\)</span> が唯一存在する。</p>
+<ol class="arabic simple" start="2">
+<li>1 が成り立つとき、 <span class="math">\(\ve{F}\)</span> が <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> において <span class="math">\(\ve{x}\)</span> について微分可能なら、 <span class="math">\(\ve{f}(\ve{x})\)</span> は <span class="math">\(\ve{x}_{0}\)</span> において微分可能で、</li>
+</ol>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) = - \left[ \parfrac{\ve{F}}{\ve{y}}(\ve{x}_{0}, \ve{y}_{0}) \right]^{-1} \parfrac{\ve{F}}{\ve{x}}(\ve{x}_{0}, \ve{y}_{0})
+\end{equation*}
+</div>
+<ol class="arabic simple" start="3">
+<li>2 が成り立つとき、 <span class="math">\(\ve{F}\)</span> が <span class="math">\(U\)</span> 上で <span class="math">\(C^{1}\)</span> 級なら、 <span class="math">\(\ve{f}(\ve{x})\)</span> も <span class="math">\(C^{1}\)</span> 級で、</li>
+</ol>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{f}}{\ve{x}}(\ve{x}) = - \left[ \parfrac{\ve{F}}{\ve{y}}(\ve{x}, \ve{y}) \right]^{-1} \parfrac{\ve{F}}{\ve{x}}(\ve{x}, \ve{y})
+\end{equation*}
+</div>
+<ol class="arabic simple" start="4">
+<li>3 が成り立つとき、 <span class="math">\(\ve{F}\)</span> が <span class="math">\(U\)</span> 上で <span class="math">\(C^{m}\)</span> 級なら、 <span class="math">\(\ve{f}(\ve{x})\)</span> も <span class="math">\(C^{m}\)</span> 級である。</li>
+</ol>
+<p>証明については 2 変数と同様に考える。</p>
+<p>（1. の証明） <span class="math">\(\ve{x}_{0}\)</span> の近傍 <span class="math">\(U_{1}\)</span> と <span class="math">\(\ve{y}_{0}\)</span> の近傍 <span class="math">\(U_{2}\)</span> を適当に選んで <span class="math">\(U_{1} \times U_{2} \subset U\)</span> となるようにしておく。次に、行列 <span class="math">\(\ve{M}\)</span> として</p>
+<div class="math">
+\begin{equation*}
+\ve{M} = \parfrac{\ve{F}}{\ve{y}}(\ve{x}_{0}, \ve{y}_{0})
+\end{equation*}
+</div>
+<p>とおく。 <span class="math">\(\ve{M}\)</span> は仮定より正則行列である。 <span class="math">\(\rho \in (0, 1)\)</span> なる <span class="math">\(\rho\)</span> を 1 つ取り、これに応じて <span class="math">\(U_{1}, U_{2}\)</span> を小さく取り直して</p>
+<div class="math">
+\begin{equation*}
+\left| \ve{M} - \parfrac{\ve{F}}{\ve{y}}(\ve{x}, \ve{y}) \right| &lt; \frac{\rho}{|\ve{M}^{-1}|} \quad (\ve{x}, \ve{y}) \in U_{1} \times U_{2}
+\end{equation*}
+</div>
+<p>となる様にしておく（ <span class="math">\(|\ve{M}| = \sup_{|\ve{x}| = 1} |\ve{M}\ve{x}|\)</span> : 行列ノルム）。 <span class="math">\(U_{2}\)</span> は、</p>
+<div class="math">
+\begin{equation*}
+U_{2} = \left\{ \ve{y} | |\ve{y} - \ve{y}_{0}| \leq \delta \right\}
+\end{equation*}
+</div>
+<p>と閉集合にとり、この <span class="math">\(\delta\)</span> に応じて <span class="math">\(U_{1}\)</span> を更に小さく取り直し、</p>
+<div class="math">
+\begin{equation*}
+|\ve{F}(\ve{x}, \ve{y}_{0})| &lt; (1 - \rho)\frac{\delta}{|\ve{M}^{-1}|} \quad \ve{x} \in U_{1}
+\end{equation*}
+</div>
+<p>が成り立つようにしておく（これは、<span class="math">\(\ve{F}(\ve{x}_{0}, \ve{y}_{0}) = \ve{0}\)</span> かつ <span class="math">\(\ve{F}\)</span> の連続性により可能）。</p>
+<p><span class="math">\(\ve{x}\)</span> の関数の集合 <span class="math">\(\mathcal{F}\)</span> として、 <span class="math">\(U_{1}\)</span> 上で連続で、 <span class="math">\(\ve{y}_{0} = \ve{\varphi}(\ve{x}_{0})\)</span> となり、かつ、</p>
+<div class="math">
+\begin{equation*}
+\ve{\varphi}(\ve{x}) \in U_{2} \quad \ve{x} \in U_{1}
+\end{equation*}
+</div>
+<p>となるような写像 <span class="math">\(\ve{\varphi}(\ve{x})\)</span> の全体をとる。そして写像 <span class="math">\(\ve{\Phi}(\ve{\varphi})\)</span> として、</p>
+<div class="math">
+\begin{equation*}
+\ve{\Phi}(\ve{\varphi})(\ve{x}) = \ve{\varphi}(\ve{x}) - \ve{M}^{-1} \ve{F}(\ve{x}, \ve{\varphi}(\ve{x}))
+\end{equation*}
+</div>
+<p>とおく。上で述べた積分公式より、</p>
+<div class="math">
+\begin{equation*}
+\ve{F}(\ve{x}, \ve{\varphi}(\ve{x})) = \ve{F}(\ve{x}, \ve{y}_{0}) + \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{y}_{0} + t (\ve{\varphi}(\ve{x}) - \ve{y}_{0})) \mathrm{d} t (\ve{\varphi}(\ve{x}) - \ve{y}_{0})
+\end{equation*}
+</div>
+<p>だから、</p>
+<div class="math">
+\begin{align*}
+\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{y}_{0} &amp;= \ve{\varphi}(\ve{x}) - \ve{y}_{0} - \ve{M}^{-1} \ve{F}(\ve{x}, \ve{\varphi}(\ve{x})) \\
+&amp;= \ve{\varphi}(\ve{x}) - \ve{y}_{0} - \ve{M}^{-1} \ve{F}(\ve{x}, \ve{y}_{0}) - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{y}_{0} + t (\ve{\varphi}(\ve{x}) - \ve{y}_{0})) \mathrm{d} t (\ve{\varphi}(\ve{x}) - \ve{y}_{0}) \\
+&amp;= \left\{ \ve{I} - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{y}_{0} + t (\ve{\varphi}(\ve{x}) - \ve{y}_{0})) \mathrm{d} t \right\} \left\{ \ve{\varphi}(\ve{x}) - \ve{y}_{0} \right\} - \ve{M}^{-1}\ve{F}(\ve{x}, \ve{y}_{0}) \\
+\implies |\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{y}_{0}| &amp;\leq \left| \ve{I} - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{y}_{0} + t (\ve{\varphi}(\ve{x}) - \ve{y}_{0})) \mathrm{d} t \right||\ve{\varphi}(\ve{x}) - \ve{y}_{0}| + |\ve{M}^{-1}\ve{F}(\ve{x}, \ve{y}_{0})|
+\end{align*}
+</div>
+<p>となる。ここで、</p>
+<div class="math">
+\begin{align*}
+\left| \ve{I} - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} \mathrm{d} t \right| &amp;= \left| \ve{M}^{-1}\left( \ve{M} - \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} \mathrm{d} t \right) \right| \\
+&amp;\leq |\ve{M}^{-1}| \int_{0}^{1} \left| \ve{M} - \parfrac{\ve{F}}{\ve{y}} \right| \mathrm{d} t \\
+&amp;&lt; |\ve{M}^{-1}| \int_{0}^{1} \frac{\rho}{|\ve{M}^{-1}|} \mathrm{d} t = \rho
+\end{align*}
+</div>
+<p>が成り立つ。更に、 <span class="math">\(\ve{\varphi}(\ve{x}) \in U_{2}\)</span> より、 <span class="math">\(|\ve{\varphi}(\ve{x}) - \ve{y}_{0}| \leq \delta\)</span> 。しかも、</p>
+<div class="math">
+\begin{equation*}
+|\ve{M}^{-1}\ve{F}(\ve{x}, \ve{y}_{0})| \leq |\ve{M}^{-1}||\ve{F}(\ve{x}, \ve{y}_{0})| &lt; (1 - \rho) \delta
+\end{equation*}
+</div>
+<p>だから、</p>
+<div class="math">
+\begin{equation*}
+|\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{y}_{0}| &lt; \rho \delta + (1 - \rho) \delta = \delta
+\end{equation*}
+</div>
+<p>従って <span class="math">\(\ve{\Phi}(\ve{\varphi}) \in \mathcal{F}\)</span> である。</p>
+<p>次に、 <span class="math">\(\ve{\varphi}, \ve{\psi} \in \mathcal{F}\)</span> に対し、</p>
+<div class="math">
+\begin{equation*}
+\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{\Phi}(\ve{\psi})(\ve{x}) = \ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}) - \ve{M}^{-1} ( \ve{F}(\ve{x}, \ve{\varphi}(\ve{x})) - \ve{F}(\ve{x}, \ve{\psi}(\ve{x})) )
+\end{equation*}
+</div>
+<p>が成立するが、ここで積分公式</p>
+<div class="math">
+\begin{equation*}
+\ve{F}(\ve{x}, \ve{\varphi}(\ve{x})) - \ve{F}(\ve{x}, \ve{\psi}(\ve{x})) = \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{y}_{0} + t (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}))) \mathrm{d} t (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}))
+\end{equation*}
+</div>
+<p>を用いると、</p>
+<div class="math">
+\begin{align*}
+\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{\Phi}(\ve{\psi})(\ve{x}) &amp;= \ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}) - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{\varphi}(\ve{x}) + t (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}))) \mathrm{d} t (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x})) \\
+&amp;= \left\{ \ve{I} - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{\varphi}(\ve{x}) + t (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}))) \mathrm{d} t \right\} (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x})) \\
+\implies |\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{\Phi}(\ve{\psi})(\ve{x})| &amp;= \left| \ve{I} - \ve{M}^{-1} \int_{0}^{1} \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{\varphi}(\ve{x}) + t (\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x}))) \mathrm{d} t \right| |\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x})| \\
+&amp;&lt; \rho |\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x})| \leq \rho ||\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x})||_{0}
+\end{align*}
+</div>
+<p>が任意の <span class="math">\(\ve{x} \in U_{1}\)</span> で成り立つから、</p>
+<div class="math">
+\begin{equation*}
+||\ve{\Phi}(\ve{\varphi})(\ve{x}) - \ve{\Phi}(\ve{\psi})(\ve{x})||_{0} \leq \rho ||\ve{\varphi}(\ve{x}) - \ve{\psi}(\ve{x})||_{0}
+\end{equation*}
+</div>
+<p>よって <span class="math">\(\ve{\Phi}\)</span> は縮小写像。</p>
+<p>次に <span class="math">\(\mathcal{F}\)</span> が完備であることを示す。まず、 <span class="math">\(\mathcal{F} \subset C^{0}(U_{1})\)</span> で <span class="math">\(C^{0}(U_{1})\)</span> は完備だから、 <span class="math">\(\mathcal{F}\)</span> の中で作ったコーシー列は <span class="math">\(C^{0}(U_{1})\)</span> の中で収束列となる。極限関数 <span class="math">\(\ve{f} = \lim_{n \to \infty} \ve{\Phi}(\ve{f}_{n})\)</span> が <span class="math">\(\mathcal{F}\)</span> に属することを示す。 <span class="math">\(\ve{\Phi}\)</span> の定義より、 <span class="math">\(\ve{f}\)</span> は <span class="math">\(U_{1}\)</span> 上で連続で、 <span class="math">\(\ve{y}_{0} = \ve{f}(\ve{x}_{0})\)</span> を満たす。各点収束としてみると、 <span class="math">\(\ve{f}(\ve{x})\)</span> は 区間 <span class="math">\(U_{1}\)</span> で閉区間 <span class="math">\(U_{2}\)</span> に属するから、 <span class="math">\(\ve{f} \in \mathcal{F}\)</span> である。即ち <span class="math">\(\mathcal{F}\)</span> は完備。</p>
+<p>不動点定理により、 <span class="math">\(\ve{f}(\ve{x}) = \ve{\Phi}(\ve{f})(\ve{x})\)</span> を満たす <span class="math">\(\ve{f}(\ve{x}) \in \mathcal{F}\)</span> が唯一存在する。この写像 <span class="math">\(\ve{f}\)</span> は <span class="math">\(\ve{f}(\ve{x}) = \ve{\Phi}(\ve{f})(\ve{x}) = \ve{f}(\ve{x}) - \ve{M}^{-1}\ve{F}(\ve{x}, \ve{f}(\ve{x}))\)</span> を満たすので、<span class="math">\(\ve{F}(\ve{x}, \ve{f}(\ve{x})) = \ve{0}\)</span> が成り立っている。（1. の証明終）</p>
+<p>（2. の証明） <span class="math">\(\ve{F}\)</span> は <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> で偏微分可能で、しかも連続だから微分可能で（ <span class="math">\(\because\)</span> 上述）であり、</p>
+<div class="math">
+\begin{equation*}
+\ve{F}(\ve{x}, \ve{y}) = \ve{F}(\ve{x}_{0}, \ve{y}_{0}) + \ve{A}(\ve{x}, \ve{y})(\ve{x} - \ve{x}_{0}) + \ve{B}(\ve{x}, \ve{y})(\ve{y} - \ve{y}_{0})
+\end{equation*}
+</div>
+<p>と書ける（ <span class="math">\(\ve{A}, \ve{B}\)</span> は <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> で連続な行列関数で、 <span class="math">\(\ve{A}(\ve{x}_{0}, \ve{y}_{0}) = \parfrac{\ve{F}}{\ve{x}}(\ve{x}_{0}, \ve{y}_{0}),\ \ve{B}(\ve{x}_{0}, \ve{y}_{0}) = \parfrac{\ve{F}}{\ve{y}}(\ve{x}_{0}, \ve{y}_{0})\)</span> ）。この式に <span class="math">\(\ve{y} = \ve{f}(\ve{x})\)</span> を代入すると、</p>
+<div class="math">
+\begin{align*}
+\ve{F}(\ve{x}, \ve{f}(\ve{x})) = \ve{0} &amp;= \ve{F}(\ve{x}_{0}, \ve{f}(\ve{x}_{0})) + \ve{A}(\ve{x}, \ve{f}(\ve{x}))(\ve{x} - \ve{x}_{0}) + \ve{B}(\ve{x}, \ve{f}(\ve{x}))(\ve{f}(\ve{x}) - \ve{f}(\ve{x}_{0})) \\
+\implies \ve{B}(\ve{x}, \ve{f}(\ve{x})) \ve{f}(\ve{x}) &amp;= \ve{B}(\ve{x}, \ve{f}(\ve{x})) \ve{f}(\ve{x}_{0}) - \ve{A}(\ve{x}, \ve{f}(\ve{x}))(\ve{x} - \ve{x}_{0}) \\
+\implies \ve{f}(\ve{x}) &amp;= \ve{f}(\ve{x}_{0}) - \ve{B}(\ve{x}, \ve{f}(\ve{x}))^{-1} \ve{A}(\ve{x}, \ve{f}(\ve{x}))(\ve{x} - \ve{x}_{0}) \quad (\because \parfrac{\ve{F}}{\ve{y}} \text{ は正則 })
+\end{align*}
+</div>
+<p>行列 <span class="math">\(\ve{B}(\ve{x}, \ve{f}(\ve{x}))^{-1} \ve{A}(\ve{x}, \ve{f}(\ve{x}))\)</span> は <span class="math">\(\ve{x}_{0}\)</span> において連続だから、 <span class="math">\(\ve{f}\)</span> は <span class="math">\(\ve{x}_{0}\)</span> において微分可能で、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{f}}{\ve{x}}(\ve{x}_{0}) = \ve{B}(\ve{x}_{0}, \ve{f}(\ve{x}_{0}))^{-1} \ve{A}(\ve{x}_{0}, \ve{f}(\ve{x}_{0})) = -\left[ \parfrac{\ve{F}}{\ve{y}} (\ve{x}_{0}, \ve{y}_{0}) \right]^{-1} \parfrac{\ve{F}}{\ve{x}} (\ve{x}_{0}, \ve{y}_{0}) \tag{5}
+\end{equation*}
+</div>
+<p>（2. の証明終）</p>
+<p>（3. の証明） <span class="math">\(\ve{F}\)</span> が <span class="math">\(C^{1}\)</span> 級ならば (5) 式の右辺は <span class="math">\((\ve{x}_{0}, \ve{y}_{0})\)</span> で連続だから、 <span class="math">\(\ve{y}_{0} = \ve{f}(\ve{x}_{0})\)</span> を代入したものも <span class="math">\(\ve{x}_{0}\)</span> で連続である。即ち、 <span class="math">\(\parfrac{\ve{f}}{\ve{x}}(\ve{x})\)</span> は <span class="math">\(U\)</span> で連続であり、 <span class="math">\(\ve{f}\)</span> は <span class="math">\(C^{1}\)</span> 級。（3. の証明終）</p>
+<p>（4. の証明） <span class="math">\(\ve{F}\)</span> が <span class="math">\(C^{m}\)</span> 級ならば、 <span class="math">\(\ve{f}\)</span> も <span class="math">\(C^{m}\)</span> 級であることを示す。 <span class="math">\(m = 1\)</span> の場合は、3. により成立する。 <span class="math">\(m-1\)</span> の場合に成立するとして、もし、 <span class="math">\(\ve{F}\)</span> が <span class="math">\(C^{m}\)</span> 級ならば、同時に <span class="math">\(\ve{F}\)</span> は <span class="math">\(C^{m-1}\)</span> 級だから、仮定より <span class="math">\(\ve{f}\)</span> も <span class="math">\(C^{m-1}\)</span> 級である。よって、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{f}}{\ve{x}}(\ve{x}) = \ve{B}(\ve{x}, \ve{f}(\ve{x}))^{-1} \ve{A}(\ve{x}, \ve{f}(\ve{x})) = -\left[ \parfrac{\ve{F}}{\ve{y}} (\ve{x}, \ve{y}) \right]^{-1} \parfrac{\ve{F}}{\ve{x}} (\ve{x}, \ve{y})
+\end{equation*}
+</div>
+<p class="last">の右辺は <span class="math">\(C^{m-1}\)</span> 級の写像 <span class="math">\(\parfrac{\ve{F}}{\ve{y}},\ \parfrac{\ve{F}}{\ve{x}}\)</span> に <span class="math">\(C^{m-1}\)</span> 級の写像 <span class="math">\(\ve{f}\)</span> を代入したものだから、合成関数の微分法により、右辺は <span class="math">\(C^{m-1}\)</span> 級になる。 <span class="math">\(\parfrac{f}{x}(\ve{x})\)</span> が <span class="math">\(C^{m-1}\)</span> 級だから、 <span class="math">\(\ve{f}(\ve{x})\)</span> は <span class="math">\(C^{m}\)</span> 級。（4. の証明終）</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id12">
+<h2><a class="toc-backref" href="#id26">陰関数定理の応用</a></h2>
+<div class="section" id="id13">
+<h3><a class="toc-backref" href="#id27">逆写像定理</a></h3>
+<p>2 変数を例に取って考える。 <span class="math">\(\mathbb{R}^{2}\)</span> から <span class="math">\(\mathbb{R}^{2}\)</span> への写像</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+  x = f(s, t) \\
+  y = g(s, t)
+\end{cases}
+\end{equation*}
+</div>
+<p>が与えられたとき、その逆写像が存在するかどうかを考える。今、</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+  F(x, y, s, t) = f(s, t) - x \\
+  G(x, y, s, t) = g(s, t) - y
+\end{cases}
+\end{equation*}
+</div>
+<p>とおくと、</p>
+<div class="math">
+\begin{equation*}
+F(x, y, s, t) = G(x, y, s, t) = 0
+\end{equation*}
+</div>
+<p>から陰関数 <span class="math">\(s = h(x, y),\ t = k(x, y)\)</span> が決まるか？という問題に帰着できる。
+この問題は陰関数定理より解決できる。すなわち、行列</p>
+<div class="math">
+\begin{equation*}
+\left[ \begin{array}{cc}
+  \parfrac{F}{s} &amp; \parfrac{F}{t} \\
+  \parfrac{G}{s} &amp; \parfrac{G}{t}
+\end{array} \right]
+\end{equation*}
+</div>
+<p>がある点 <span class="math">\((x_{0}, y_{0}, s_{0}, t_{0})\)</span> の近傍で連続かつ正則であればよい。また、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{F}{s} = \parfrac{f}{s},\ \parfrac{F}{t} = \parfrac{f}{t},\ \parfrac{G}{s} = \parfrac{g}{s},\ \parfrac{G}{t} = \parfrac{g}{t}
+\end{equation*}
+</div>
+<p>だから、上の条件は写像 <span class="math">\((f(s, t), g(s, t))^{\mathsf{T}}\)</span> のヤコビ行列</p>
+<div class="math">
+\begin{equation*}
+\left[ \begin{array}{cc}
+  \parfrac{f}{s} &amp; \parfrac{f}{t} \\
+  \parfrac{g}{s} &amp; \parfrac{g}{t}
+\end{array} \right]
+\end{equation*}
+</div>
+<p>が <span class="math">\((s_{0}, t_{0})\)</span> の近傍で連続かつ正則であることを示している。</p>
+<div class="section" id="id14">
+<h4><a class="toc-backref" href="#id28">多変数の場合</a></h4>
+<p>上記の議論を一般の <span class="math">\(n\)</span> 変数に拡張したのが次の <strong>逆写像定理</strong> である。</p>
+<dl class="docutils">
+<dt>逆写像定理</dt>
+<dd><p class="first"><span class="math">\(\mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> から <span class="math">\(\mathbb{R}^{n}\)</span> への写像 <span class="math">\(\ve{y} = \ve{f}(\ve{x})\)</span> が <span class="math">\(\Omega\)</span> の 1 点 <span class="math">\(\ve{x}_{0}\)</span> の近傍で <span class="math">\(C^{1}\)</span> 級かつヤコビ行列 <span class="math">\(\parfrac{\ve{f}}{\ve{x}}(\ve{x})\)</span> が正則ならば、逆写像 <span class="math">\(\ve{x} = \ve{h}(\ve{y})\)</span> が <span class="math">\(\ve{y}_{0} = \ve{f}(\ve{x}_{0})\)</span> の十分小さい近傍で存在し <span class="math">\(C^{1}\)</span> 級である。その導関数は、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{h}}{\ve{y}}(\ve{y}) = \left[ \parfrac{\ve{f}}{\ve{x}}(\ve{h}(\ve{y})) \right]^{-1}
+\end{equation*}
+</div>
+<p>である。また、 <span class="math">\(\ve{f}\)</span> が <span class="math">\(C^{m}\)</span> 級ならば <span class="math">\(\ve{h}\)</span> も <span class="math">\(C^{m}\)</span> 級である。</p>
+<p>（証明）陰関数定理を <span class="math">\(\ve{F}(\ve{x}, \ve{y}) = \ve{f}(\ve{x}) - \ve{y}\)</span> に適用すれば良い。 <span class="math">\(\ve{F}(\ve{x}, \ve{y})\)</span> は連続で、 <span class="math">\(\parfrac{\ve{F}}{\ve{x}} = \parfrac{\ve{f}}{\ve{x}}\)</span> は <span class="math">\(\ve{x}_{0}\)</span> の近傍で連続な正則関数だから、陰関数定理により <span class="math">\(\ve{y}_{0}\)</span> の近傍で <span class="math">\(\ve{x}_{0} = \ve{h}(\ve{y}_{0}),\ \ve{F}(\ve{h}(\ve{y}), \ve{y}) = \ve{0}\)</span> を満たす連続な写像 <span class="math">\(\ve{h}\)</span> が唯一存在する。 <span class="math">\(\ve{h}(\ve{y})\)</span> の導関数は、</p>
+<div class="math">
+\begin{align*}
+\parfrac{\ve{h}}{\ve{y}}(\ve{y}) &amp;= - \left[ \parfrac{\ve{F}}{\ve{x}} (\ve{x}, \ve{y}) \right]^{-1} \parfrac{\ve{F}}{\ve{y}}(\ve{x}, \ve{y}) \\
+&amp;= - \left[ \parfrac{\ve{f}}{\ve{x}} (\ve{x}, \ve{y}) \right]^{-1} (- \ve{I}) \\
+&amp;= \left[ \parfrac{\ve{f}}{\ve{x}}(\ve{h}(\ve{y})) \right]^{-1}
+\end{align*}
+</div>
+<p class="last">また、 <span class="math">\(\ve{f}\)</span> が <span class="math">\(C^{m}\)</span> 級であれば、 <span class="math">\(\ve{F}\)</span> も <span class="math">\(C^{m}\)</span> 級であり、陰関数定理の 4. より <span class="math">\(\ve{h}\)</span> も <span class="math">\(C^{m}\)</span> 級となる。（証明終）</p>
+</dd>
+</dl>
+</div>
+</div>
+<div class="section" id="id15">
+<h3><a class="toc-backref" href="#id29">制約付き極値問題</a></h3>
+<div class="section" id="id16">
+<h4><a class="toc-backref" href="#id30">ラグランジュの未定乗数法</a></h4>
+<p>ラグランジュの未定乗数法も、勾配の図を用いた直感に頼るのではなく陰関数定理により説明が可能である。</p>
+<p>やはり例として 2 変数 <span class="math">\(x, y\)</span> で考える。 <span class="math">\(\mathbb{R}^{2}\)</span> のある領域 <span class="math">\(\Omega\)</span> 上で、2 つの 2 変数関数 <span class="math">\(f(x, y),\ g(x, y)\)</span> が与えたられたとき、 <span class="math">\(g(x, y) = 0\)</span> という条件下で <span class="math">\(f(x, y)\)</span> の極値を求めることを考える。</p>
+<p><span class="math">\(g(x, y) = 0\)</span> と交わる <span class="math">\(f(x, y) = a\)</span> の交点が極値をとるならば、その点で <span class="math">\(f(x, y) = a\)</span> と <span class="math">\(g(x, y) = 0\)</span> のグラフは接しなければならない。その様な点では、法線ベクトル <span class="math">\(\parfrac{f}{\ve{x}}, \parfrac{f}{\ve{x}}\)</span> は同じ方向を向いているから、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{\ve{x}} = \lambda \parfrac{f}{\ve{x}} \iff \parfrac{f}{x} - \lambda \parfrac{g}{x} = 0,\ \parfrac{f}{y} - \lambda \parfrac{g}{y} = 0,\ g(x, y) = 0
+\end{equation*}
+</div>
+<p>を満たす定数 <span class="math">\(\lambda\)</span> が存在する。この式は形式上、</p>
+<div class="math">
+\begin{equation*}
+F(x, y, \lambda) = f(x, y) - \lambda g(x, y)
+\end{equation*}
+</div>
+<p>の 3 変数関数の極値問題と同様の形をしている。より詳しい証明は以下。</p>
+<dl class="docutils">
+<dt>ラグランジュの未定乗数法</dt>
+<dd><p class="first">領域 <span class="math">\(\Omega\)</span> 上で 2 つの関数 <span class="math">\(f(x, y),\ g(x, y)\)</span> は <span class="math">\(C^{1}\)</span> 級とし、曲線 <span class="math">\(g(x, y) = 0\)</span> 上で <span class="math">\(\parfrac{g}{\ve{x}} \neq \ve{0}\)</span> とする。 <span class="math">\(g(x, y) = 0\)</span> 上の点 <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> が条件付き極値問題における極値点ならば、ある定数 <span class="math">\(\lambda\)</span> が存在して、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{\ve{x}}(\ve{x}_{0}) = \lambda \parfrac{g}{\ve{x}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p>（証明） 仮定の <span class="math">\(\parfrac{g}{\ve{x}} \neq \ve{0}\)</span> より <span class="math">\(\parfrac{g}{y}(\ve{x}_{0}) \neq 0\)</span> が成立している。 <span class="math">\(g(x, y) = 0\)</span> を陰関数表示だと思うと、陰関数定理により、 <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> の近傍において <span class="math">\(y_{0} = \varphi(x_{0}),\ \dfrac{\varphi}{x}(x) = -g_{x}(x, \varphi(x)) / g_{y}(x, \varphi(x))\)</span> を満たす <span class="math">\(C^{1}\)</span> 級の関数 <span class="math">\(y = \varphi(x)\)</span> が存在する。 <span class="math">\(z = f(x, \varphi(x))\)</span> の導関数を考えると、</p>
+<div class="math">
+\begin{align*}
+\dfrac{z}{x} &amp;= \parfrac{f}{x} (x, \varphi(x)) + \parfrac{f}{y}(x, \varphi(x)) \dfrac{\varphi}{x}(x) \quad (\because \text{ 合成関数の微分 }) \\
+&amp;= f_{x}(x, \varphi(x)) + f_{y}(x, \varphi(x)) \left\{ - \frac{g_{x}(x, \varphi(x))}{g_{y}(x, \varphi(x))} \right\} \\
+&amp;= \frac{1}{g_{y}} (f_{x} g_{y} - f_{y} g_{x})
+\end{align*}
+</div>
+<p class="last">点 <span class="math">\(\ve{x}_{0}\)</span> においてこれが <span class="math">\(0\)</span> になるから、 <span class="math">\(f_{x}g_{y} - f_{y}g_{x} = 0\)</span> 。従って <span class="math">\(f_{x}/g_{x} = f_{y}/g_{y} = \lambda\)</span> とおくと、<span class="math">\(f_{x} = \lambda g_{x},\ f_{y} = \lambda g_{y}\)</span> が得られ、まとめると <span class="math">\(\parfrac{f}{\ve{x}}(\ve{x}_{0}) = \lambda \parfrac{g}{\ve{x}}(\ve{x}_{0})\)</span> が得られる。（証明終）</p>
+</dd>
+</dl>
+<p>制約条件が <span class="math">\(g_{i}(\ve{x}) = 0\ (i = 1, ..., m)\)</span> と増えた場合も同様に考えられる。</p>
+<dl class="docutils">
+<dt>ラグランジュの未定乗数法（複数制約）</dt>
+<dd><p class="first"><span class="math">\(\mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> 上で <span class="math">\(C^{1}\)</span> 級の関数 <span class="math">\(f(\ve{x}),\ g_{i}(\ve{x})\ (i = 1, ..., m)\)</span> が与えられ、 <span class="math">\(n-m\)</span> 次元曲面 <span class="math">\(S = \{ \ve{x} | g_{i}(\ve{x}) = 0, \ i = 1,...,m \}\)</span> 上で行列 <span class="math">\(\parfrac{\ve{g}}{\ve{x}} = \left( \parfrac{g_{i}}{x_{j}} \right)\)</span> の階数（行列ランク）は常に <span class="math">\(m\)</span> であるとする。<span class="math">\(S\)</span> 上の点 <span class="math">\(\ve{x}_{0}\)</span> が <span class="math">\(f(\ve{x})\)</span> の <span class="math">\(S\)</span> の極値点ならば、 <span class="math">\(m\)</span> 個の定数 <span class="math">\(\lambda_{1}, ..., \lambda_{m}\)</span> があって、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p>（証明） <span class="math">\(\parfrac{\ve{g}}{\ve{x}}\)</span> の階数は <span class="math">\(m\)</span> だから、 <span class="math">\(\ve{x}^{\prime} = (x_{1}, ..., x_{n - m}),\ \ve{x}^{\prime\prime} = (x_{n - m + 1}, ..., x_{n})\)</span> として、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{\ve{g}}{\ve{x}^{\prime\prime}} =
+\left[ \begin{array}{cccc}
+\parfrac{g_{1}}{x_{n-m+1}} &amp; \parfrac{g_{1}}{x_{n-m+2}} &amp; \dots  &amp; \parfrac{g_{1}}{x_{n}} \\
+\parfrac{g_{2}}{x_{n-m+1}} &amp; \parfrac{g_{2}}{x_{n-m+2}} &amp; \dots  &amp; \parfrac{g_{2}}{x_{n}} \\
+\vdots                     &amp; \vdots                     &amp; \ddots &amp; \vdots                 \\
+\parfrac{g_{m}}{x_{n-m+1}} &amp; \parfrac{g_{m}}{x_{n-m+2}} &amp; \dots  &amp; \parfrac{g_{m}}{x_{n}} \\
+\end{array} \right]
+\end{equation*}
+</div>
+<p>は正則であると仮定して良い（正則になるように <span class="math">\(\ve{x}^{\prime\prime}\)</span> を選べば良い）。 <span class="math">\(\ve{g}(\ve{x}) = \ve{0}\)</span> を陰関数表示と見ると、陰関数定理により <span class="math">\(x_{n-m+1} = \varphi_{1}(\ve{x}^{\prime}), ..., x_{n} = \varphi_{m}(\ve{x}^{\prime})\)</span> 、即ち <span class="math">\(\ve{x}^{\prime\prime} = \ve{\varphi}(\ve{x}^{\prime})\)</span> を満たす <span class="math">\(C^{1}\)</span> 級の写像 <span class="math">\(\ve{\varphi} = (\varphi_{1}, ..., \varphi_{m})\)</span> が存在し、また、 <span class="math">\(\parfrac{\ve{\varphi}}{\ve{x}^{\prime}} = -\left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1}\left(\parfrac{\ve{g}}{\ve{x}^{\prime}}\right)\)</span> が成り立つ。<span class="math">\(\ve{\varphi}\)</span> を <span class="math">\(y = f(\ve{x}) = f(\ve{x}^{\prime}, \ve{x}^{\prime\prime})\)</span> に代入すると、</p>
+<div class="math">
+\begin{equation*}
+y = F(\ve{x}^{\prime}) = f(\ve{x}^{\prime}, \ve{\varphi}(\ve{x}^{\prime}))
+\end{equation*}
+</div>
+<p>が得られる。上記 <span class="math">\(y\)</span> についての極値問題を考える。 <span class="math">\(\ve{x}_{0}\)</span> において、</p>
+<div class="math">
+\begin{align*}
+\parfrac{F}{\ve{x}^{\prime}} &amp;= \parfrac{f}{\ve{x}^{\prime}} + \parfrac{f}{\ve{x}^{\prime\prime}} \parfrac{\ve{\varphi}}{\ve{x}^{\prime}} \quad (\because \text{ 連鎖律 }) \\
+&amp;= \parfrac{f}{\ve{x}^{\prime}} - \parfrac{f}{\ve{x}^{\prime\prime}} \left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1} \parfrac{\ve{g}}{\ve{x}^{\prime}} = \ve{0}
+\end{align*}
+</div>
+<p>が極値となるための必要条件だから、今、</p>
+<div class="math">
+\begin{equation*}
+(\lambda_{1}, ..., \lambda_{m}) = \parfrac{f}{\ve{x}^{\prime\prime}} \left(\parfrac{\ve{g}}{\ve{x}^{\prime\prime}}\right)^{-1}
+\end{equation*}
+</div>
+<p>とおけば、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{\ve{x}^{\prime\prime}}(\ve{x}_{0}) = (\lambda_{1}, ..., \lambda_{m}) \parfrac{\ve{g}}{\ve{x}^{\prime\prime}}(\ve{x}_{0}),\ \parfrac{f}{\ve{x}^{\prime}}(\ve{x}_{0}) = (\lambda_{1}, ..., \lambda_{m}) \parfrac{\ve{g}}{\ve{x}^{\prime}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p>が成立しているから、まとめると、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{\ve{x}}(\ve{x}_{0}) = (\lambda_{1}, ..., \lambda_{m}) \parfrac{\ve{g}}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0})
+\end{equation*}
+</div>
+<p class="last">が得られる。（証明終）</p>
+</dd>
+</dl>
+</div>
+<div class="section" id="kkt">
+<h4><a class="toc-backref" href="#id31">KKT 条件</a></h4>
+<p>不等式制約 <span class="math">\(g(x, y) \geq 0\)</span> の条件下で <span class="math">\(f(x, y)\)</span> の極値を見つける問題を考える。</p>
+<dl class="docutils">
+<dt>簡単な例 : <span class="math">\(g(x, y) = y \geq 0\)</span></dt>
+<dd><p class="first"><span class="math">\(y \geq 0\)</span> の領域の内部であれば、極大点の候補は <span class="math">\(\parfrac{f}{x} = \parfrac{f}{y} = 0\)</span> で求められる。一方、境界上（ <span class="math">\(y = 0\)</span> ）では、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{x}(x_{0}, 0) = 0,\ \parfrac{f}{y}(x_{0}, 0) \leq 0
+\end{equation*}
+</div>
+<p>を満たす <span class="math">\(x_{0}\)</span> が候補となる（ <span class="math">\(\parfrac{f}{y}(x_{0}, 0) &gt; 0\)</span> とすると、それは <span class="math">\(y\)</span> を正方向に増やしたときに <span class="math">\(f\)</span> が更に増加することを意味するから、その点は極大点ではない）。これらの条件をまとめると、極点 <span class="math">\((x_{0}, y_{0})\)</span> は次の条件を満たす必要がある。</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{x}(x_{0}, y_{0}) = 0,\ \parfrac{f}{y}(x_{0}, y_{0}) \leq 0,\ y_{0} \parfrac{f}{y}(x_{0}, y_{0}) = 0
+\end{equation*}
+</div>
+<p class="last">最後の条件は、 <span class="math">\(y_{0} = 0\)</span> あるいは <span class="math">\(\parfrac{f}{y}(x_{0}, y_{0}) = 0\)</span> を要請している。</p>
+</dd>
+</dl>
+<p>次に一般の条件式 <span class="math">\(g(x, y) \leq 0\)</span> を考える。今、新しい変数 <span class="math">\(z\)</span> として</p>
+<div class="math">
+\begin{equation*}
+g(x, y) = z,\ z \geq 0
+\end{equation*}
+</div>
+<p>をおけば、元の問題を <span class="math">\(z \geq 0\)</span> における等式制約の条件付き極値問題に変換できる。よって、ラグランジュの未定乗数法により、</p>
+<div class="math">
+\begin{equation*}
+F(x, y, z, \lambda) = f(x, y) - \lambda (g(x, y) - z)
+\end{equation*}
+</div>
+<p>の <span class="math">\(z \geq 0\)</span> における極値を求めれば良い。これは、簡単な例の観察を元に、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{F}{x} = 0,\ \parfrac{F}{y} = 0,\ \parfrac{F}{\lambda} = 0,\ \parfrac{F}{z} \leq 0,\ z\parfrac{F}{z} = 0,\ z \geq 0
+\end{equation*}
+</div>
+<p>を満たす <span class="math">\((x, y, z, \lambda)\)</span> を求める問題になる。偏微分を行うと、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{x} = \lambda \parfrac{g}{x},\ \parfrac{f}{y} = \lambda \parfrac{g}{y},\ g(x, y) = z,\ \lambda \leq 0,\ \lambda z = 0,\ z \geq 0
+\end{equation*}
+</div>
+<p>となり、後ろの 4 条件をまとめると、以下の条件が得られる。</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{x} = \lambda \parfrac{g}{x},\ \parfrac{f}{y} = \lambda \parfrac{g}{y},\ g(x, y) \geq 0,\ \lambda \leq 0,\ \lambda g(x, y) = 0
+\end{equation*}
+</div>
+<p>とまとめられる。極小値を求める場合は、 <span class="math">\(-f(x, y)\)</span> の極大値を求めれば良い。この場合の条件は、</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{x} = -\lambda \parfrac{g}{x},\ \parfrac{f}{y} = -\lambda \parfrac{g}{y},\ g(x, y) = z,\ \lambda \leq 0,\ \lambda z = 0,\ z \geq 0
+\end{equation*}
+</div>
+<p>となり、 <span class="math">\(-\lambda\)</span> を <span class="math">\(\lambda\)</span> に置き換えることで必要条件が得られる。</p>
+<div class="math">
+\begin{equation*}
+\parfrac{f}{x} = \lambda \parfrac{g}{x},\ \parfrac{f}{y} = \lambda \parfrac{g}{y},\ g(x, y) \geq 0,\ \lambda \geq 0,\ \lambda g(x, y) = 0
+\end{equation*}
+</div>
+<p>制約条件が増えても同様に考えれば良いから、次の定理が成立する。これを一般に KKT 条件（Karush-Kuhn-Tucker condition）と呼ぶ。</p>
+<dl class="docutils">
+<dt>KKT 条件</dt>
+<dd><p class="first"><span class="math">\(f(\ve{x}), g_{i}(\ve{x})\ (i = 1, ..., m)\)</span> は <span class="math">\(C^{1}\)</span> 級とする。 <span class="math">\(g_{i}(\ve{x}) \geq 0\ (i = 1,...,m)\)</span> という条件の下で、 <span class="math">\(f(\ve{x})\)</span> の極大点 <span class="math">\(\ve{x}_{0}\)</span> は次の条件を満たさなければならない :</p>
+<p>ある定数 <span class="math">\(\lambda_{1}, ..., \lambda_{m}\)</span> があって、 <span class="math">\(\ve{x}_{0}\)</span> において</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+\displaystyle \parfrac{f}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0}) \\
+\lambda_{i} g_{i}(\ve{x}_{0}) = 0,\ g_{i}(\ve{x}_{0}) \geq 0,\ \lambda_{i} \leq 0 \quad (i = 1, ..., m)
+\end{cases}
+\end{equation*}
+</div>
+<p>（証明）変数 <span class="math">\(z_{i}\ (i = 1, ..., m)\)</span> を用いて</p>
+<div class="math">
+\begin{equation*}
+g_{i}(\ve{x}) = z_{i},\ z_{i} \geq 0 \quad (i = 1,...,m)
+\end{equation*}
+</div>
+<p>とおく。定数を <span class="math">\(\lambda_{1}, ..., \lambda_{m}\)</span> としてラグランジュの未定乗数法を適用すると、</p>
+<div class="math">
+\begin{equation*}
+F(\ve{x}, \ve{z}, \ve{\lambda}) = f(\ve{x}) - \sum_{i = 1}^{m} \lambda_{i} \left\{ g_{i}(\ve{x}) - z_{i} \right\}
+\end{equation*}
+</div>
+<p>であり、極値条件は、</p>
+<div class="math">
+\begin{equation*}
+\left\{ \begin{array}{ll}
+\displaystyle \parfrac{F}{\ve{x}}(\ve{x}_{0}, \ve{z}, \ve{\lambda}) = \parfrac{f}{\ve{x}}(\ve{x}_{0}) - \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0}) = \ve{0} &amp; \\
+\displaystyle \parfrac{F}{z_{i}}(\ve{x}_{0}, \ve{z}, \ve{\lambda}) = \lambda_{i} \leq 0 &amp; (i = 1,...,m) \\
+\displaystyle \parfrac{F}{\lambda_{i}}(\ve{x}_{0}, \ve{z}, \ve{\lambda}) = -g_{i}(\ve{x}_{0}) + z_{i} = 0 &amp; (i = 1,...,m) \\
+\displaystyle z_{i} \parfrac{F}{z_{i}}(\ve{x}_{0}, \ve{z}, \ve{\lambda}) = z_{i}\lambda_{i} = 0 &amp; (i = 1,...,m) \\
+z_{i} \geq 0 &amp; (i = 1,...,m)
+\end{array} \right.
+\end{equation*}
+</div>
+<p><span class="math">\(z_{i} = g_{i}(\ve{x})\)</span> を元に条件をまとめ直すと、</p>
+<div class="math">
+\begin{equation*}
+\begin{cases}
+\displaystyle \parfrac{f}{\ve{x}}(\ve{x}_{0}) = \sum_{i = 1}^{m} \lambda_{i} \parfrac{g_{i}}{\ve{x}}(\ve{x}_{0}) \\
+\lambda_{i} g_{i}(\ve{x}_{0}) = 0,\ g_{i}(\ve{x}_{0}) \geq 0,\ \lambda_{i} \leq 0 \quad (i = 1, ..., m)
+\end{cases}
+\end{equation*}
+</div>
+<p class="last">（証明終）</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+
+
+</body>
+</html>

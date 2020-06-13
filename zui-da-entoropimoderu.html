@@ -115,13 +115,27 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>最大エントロピーモデルの導出過程、学習の更新則、素性選択についての理論的側面を述べる。記述の大部分は <a class="footnote-reference" href="#id26" id="id2">[1]</a> を参照し、一部 <a class="footnote-reference" href="#id27" id="id3">[2]</a>, <a class="footnote-reference" href="#id28" id="id4">[3]</a> も参照している。</p>
+                <p>最大エントロピーモデルの導出過程、学習の更新則、素性選択についての理論的側面を述べる。記述の大部分は <a class="footnote-reference" href="#id27" id="id2">[1]</a> を参照し、一部 <a class="footnote-reference" href="#id28" id="id3">[2]</a>, <a class="footnote-reference" href="#id29" id="id4">[3]</a> も参照している。</p>
 <p>最大エントロピーモデルは、データの特徴を <strong>素性関数 (feature function)</strong>
 によって記述し、素性関数がある <strong>制約 (constraint)</strong>
 を満たし、かつ、モデルを表現する確率分布のエントロピーが最大となる（最大エントロピー原理を満たす）モデルである。</p>
 <p>エントロピーを最大にする事により、制約を満たしながら最大エントロピーモデルの確率分布が最も一様に分布する様になり、未知データに対する確率を無下に<span class="math">\(0\)</span>にすることが無くなるため、高い汎用性（汎化性能）が期待できる。</p>
-<div class="section" id="id5">
-<h2>モデルを表現する確率分布の導出</h2>
+<div class="contents local topic" id="id5">
+<ul class="simple">
+<li><a class="reference internal" href="#id6" id="id43">モデルを表現する確率分布の導出</a></li>
+<li><a class="reference internal" href="#id7" id="id44">最大のエントロピー原理の性質と最尤推定</a><ul>
+<li><a class="reference internal" href="#id8" id="id45">最大エントロピーモデルの唯一存在性</a></li>
+<li><a class="reference internal" href="#id10" id="id46">最大尤度を持つ最大エントロピーモデル</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#id11" id="id47">最大のエントロピーモデルの学習 - 反復スケーリング法</a></li>
+<li><a class="reference internal" href="#id12" id="id48">条件付き最大エントロピーモデル</a></li>
+<li><a class="reference internal" href="#id15" id="id49">素性の自動選択</a></li>
+<li><a class="reference internal" href="#id26" id="id50">脚注・参考文献</a></li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2><a class="toc-backref" href="#id43">モデルを表現する確率分布の導出</a></h2>
 <p>まず、サンプル（事例）データのドメイン（定義域）を<span class="math">\(X\)</span>、データに付与されたラベルのドメインを<span class="math">\(Y\)</span>と書く。例えば、次に来る単語を予測させたい場合には、サンプル<span class="math">\(X\)</span>は 1 つ前までの単語の並び、ラベル<span class="math">\(Y\)</span>は今の単語となる。
 データとラベルを組にすることで 1 つの学習サンプルが構成され、また、モデルに与える<span class="math">\(m\)</span>個の学習サンプルの集合<span class="math">\(Z_{m} \subset 2^{X\times Y}\)</span>を次で表す :</p>
 <div class="math">
@@ -232,8 +246,8 @@ Z_{\Lambda} &amp;= \sum_{x,y} \exp \left[ \sum_{i} \lambda_{i} f_{i}(x,y) \right
 Random
 Fields、マルコフ確率場 ) のクリークサイズを 1 とした時、即ち節点ポテンシャル（連想ポテンシャル）のみを考えた結合確率に一致する。従って最大エントロピーモデルは MRF のサブクラスとして捉えられる。</p>
 </div>
-<div class="section" id="id6">
-<h2>最大のエントロピー原理の性質と最尤推定</h2>
+<div class="section" id="id7">
+<h2><a class="toc-backref" href="#id44">最大のエントロピー原理の性質と最尤推定</a></h2>
 <p>最大エントロピー原理を満たすモデルは上述の議論で求められたが、このモデルが唯一に定まる事を示す。まず、上述の議論で得られた確率分布を持つモデルの集合を<span class="math">\({\cal Q}\)</span>と書く :</p>
 <div class="math">
 \begin{equation*}
@@ -242,8 +256,8 @@ Fields、マルコフ確率場 ) のクリークサイズを 1 とした時、�
 </div>
 <p>集合<span class="math">\({\cal Q}\)</span>の要素に制約は陽に表れていない。そして、<span class="math">\({\cal P,Q}\)</span>と最大エントロピー原理について次の定理が成り立つ :</p>
 <hr class="docutils" />
-<div class="section" id="id7">
-<h3>最大エントロピーモデルの唯一存在性</h3>
+<div class="section" id="id8">
+<h3><a class="toc-backref" href="#id45">最大エントロピーモデルの唯一存在性</a></h3>
 <p><span class="math">\(P^{\ast} \in {\cal P} \cap {\cal Q}\)</span>ならば ,</p>
 <div class="math">
 \begin{equation*}
@@ -278,7 +292,7 @@ H(P^{\ast}) - H(P) &amp;= -\sum_{x,y} P^{\ast}(x,y) \log P^{\ast}(x,y) + \sum_{x
 \end{align*}
 </div>
 <p>よって<span class="math">\(H(P^{\ast}) \geq H(P)\)</span>が成立する。また<span class="math">\(H(P^{\ast}) = H(P)\)</span>ならば KL ダイバージェンスの性質により<span class="math">\(P^{\ast} = P\)</span>となる。以上により、定理の成立が示された。</p>
-<p>生成モデルの学習に関連して、最大エントロピー原理を満たすモデル<span class="math">\(P^{\ast}\)</span>は、経験確率分布<span class="math">\(\tilde{P}\)</span>が与えられた時に最大尤度を持つ事も示されている。モデルの尤度の式を導く事を考えると、まず経験確率分布<span class="math">\(\tilde{P}\)</span>に対するモデル<span class="math">\(P\)</span>の経験誤差は KL ダイバージェンス<span class="math">\({\rm KL}(\tilde{P} || P)\)</span>で与えられる <a class="footnote-reference" href="#id29" id="id8">[4]</a> ので ,</p>
+<p>生成モデルの学習に関連して、最大エントロピー原理を満たすモデル<span class="math">\(P^{\ast}\)</span>は、経験確率分布<span class="math">\(\tilde{P}\)</span>が与えられた時に最大尤度を持つ事も示されている。モデルの尤度の式を導く事を考えると、まず経験確率分布<span class="math">\(\tilde{P}\)</span>に対するモデル<span class="math">\(P\)</span>の経験誤差は KL ダイバージェンス<span class="math">\({\rm KL}(\tilde{P} || P)\)</span>で与えられる <a class="footnote-reference" href="#id30" id="id9">[4]</a> ので ,</p>
 <div class="math">
 \begin{align*}
 {\rm KL}(\tilde{P} || P) &amp;= \sum_{x,y} \tilde{P}(x,y) \log \left[ \frac{\tilde{P}(x,y)}{P(x,y)} \right] \\
@@ -294,8 +308,8 @@ L(P) = \sum_{x,y} \tilde{P}(x,y) \log P(x,y)
 <p>と表すことができる。尤度との関連として、最大エントロピー原理を満たすモデル<span class="math">\(P^{\ast}\)</span>は次を満たす :</p>
 </div>
 <hr class="docutils" />
-<div class="section" id="id9">
-<h3>最大尤度を持つ最大エントロピーモデル</h3>
+<div class="section" id="id10">
+<h3><a class="toc-backref" href="#id46">最大尤度を持つ最大エントロピーモデル</a></h3>
 <p><span class="math">\(P^{\ast} \in {\cal P} \cap {\cal Q}\)</span>ならば、</p>
 <div class="math">
 \begin{equation*}
@@ -323,8 +337,8 @@ P^{\ast} = \underset{P \in {\cal P}}{\rm argmax} \ H(P) = \underset{Q \in {\cal 
 <p>即ち、モデルの最大エントロピー原理は最尤推定の枠組みで捉える事もでき、尤度を最大化したモデルが最大のエントロピーを持つ。よって、モデルの学習には通常の生成モデルの学習と同じ様に、<span class="math">\({\cal Q}\)</span>の要素で表現されるモデルの尤度最大化を考えれば良いことになる。</p>
 </div>
 </div>
-<div class="section" id="id10">
-<h2>最大のエントロピーモデルの学習 - 反復スケーリング法</h2>
+<div class="section" id="id11">
+<h2><a class="toc-backref" href="#id47">最大のエントロピーモデルの学習 - 反復スケーリング法</a></h2>
 <p>最尤推定法に基づく最大エントロピーモデルの学習は、モデルの尤度が最大になるようにモデル<span class="math">\(P\)</span>のパラメタ<span class="math">\(\Lambda\)</span>を調節してやれば良い。単純なアプローチとしては、対数尤度<span class="math">\(L(P)\)</span>をパラメタ<span class="math">\(\Lambda=\{\lambda_{1},\cdots,\lambda_{n}\}\)</span>で偏微分し、最急上昇法によって最大値を得る方法がある。実際に計算してみると ,</p>
 <div class="math">
 \begin{align*}
@@ -399,8 +413,8 @@ f^{\#\prime}(x,y) &amp;= \sum_{i=1}^{n+1} f_{i}(x,y) = \sum_{i=1}^{n} f_{i}(x,y)
 </div>
 <p>となって、定数<span class="math">\(C\)</span>を取ることが確かめられた。</p>
 </div>
-<div class="section" id="id11">
-<h2>条件付き最大エントロピーモデル</h2>
+<div class="section" id="id12">
+<h2><a class="toc-backref" href="#id48">条件付き最大エントロピーモデル</a></h2>
 <p>前節までのモデルはあるパターン<span class="math">\((x,y)\)</span>を生成する結合確率を表現しているが、応用上は何らかの入力<span class="math">\(x\)</span>に対して出力<span class="math">\(y\)</span>の結果を得たいというケースが多い。例えば、再び単語予測の例を挙げると、一つ前までの単語を<span class="math">\(x\)</span>として入力として、今の単語<span class="math">\(y\)</span>を予測するというタスクである。そのような場合はモデルの条件付き確率<span class="math">\(P(y|x)\)</span>が用いられる。このモデルは<span class="math">\(y\)</span>の識別を行うので生成識別モデルと呼ばれ、条件付き最大エントロピーモデルは CRF(Conditional
 Random Fields、条件付き確率場 ) のサブクラスとして捉えられる。</p>
 <p>条件付き最大エントロピーモデルの確率分布<span class="math">\(P_{\Lambda}(y|x)\)</span>は、<span class="math">\(P_{\Lambda}(x,y)\)</span>とベイズの定理から得られる。</p>
@@ -426,7 +440,7 @@ E_{P}[f_{i}] \approx \sum_{x}\tilde{P}(x) \sum_{y} P(y|x) f_{i}(x,y)
 \end{equation*}
 </div>
 <p>とする。この近似を用いることで、<span class="math">\(x\)</span>については学習データに現れるものだけの和を取ればよく、また<span class="math">\(y\)</span>についても素性関数が非零の時のみ和を取れば良ため、計算の効率化が望める。</p>
-<p>平均だけでなく、正規化項<span class="math">\(Z_{\Lambda}(x)\)</span>の計算もボトルネックな部分であり、効率化が望まれる。そこで、文献 <a class="footnote-reference" href="#id30" id="id12">[5]</a>  <a class="footnote-reference" href="#id31" id="id13">[6]</a> による効率的な正規化項の計算手法を見ていく。まず、素性関数の集合<span class="math">\({\cal F}\)</span>を次の 2 つに分割する :</p>
+<p>平均だけでなく、正規化項<span class="math">\(Z_{\Lambda}(x)\)</span>の計算もボトルネックな部分であり、効率化が望まれる。そこで、文献 <a class="footnote-reference" href="#id31" id="id13">[5]</a>  <a class="footnote-reference" href="#id32" id="id14">[6]</a> による効率的な正規化項の計算手法を見ていく。まず、素性関数の集合<span class="math">\({\cal F}\)</span>を次の 2 つに分割する :</p>
 <div class="math">
 \begin{align*}
 {\cal F}_{m} &amp;= \{ f_{i} | \forall{w,x,y} \ f_{i}(x,y) = f_{i}(w,y) \} \ \ \text{（周辺素性 (marginalized feature) の集合）} \\
@@ -503,8 +517,8 @@ Z_{\Lambda}(x) &amp;= \sum_{y \in Y_{m}^{c}} 1 + \sum_{y \in Y_{m}} z(y) + \sum_
 </div>
 <p>ここで<span class="math">\(Y-Y_{m}=Y \cap Y_{m}^{c}\)</span>は集合演算の意味での差である。この計算式は、第 1 項と第 2 項は予め計算しておくことができ、しかも第 3 項については<span class="math">\(Y\)</span>の部分集合<span class="math">\(Y(x)\)</span>の和を考えれば良い。結果、ナイーブな計算（計算量<span class="math">\(O(|X||Y|)\)</span>）を行うよりも効率的（計算量<span class="math">\(O(|X||Y(x)|+|X|)\)</span>）に計算を行うことができる。</p>
 </div>
-<div class="section" id="id14">
-<h2>素性の自動選択</h2>
+<div class="section" id="id15">
+<h2><a class="toc-backref" href="#id49">素性の自動選択</a></h2>
 <p>前節までは、最大エントロピーモデルの学習について考えてきたが、モデルの構成要素となる素性については触れてなかった。観測された経験確率分布<span class="math">\(\tilde{P}(x,y)\)</span>に対し、素性の組み合わせによって実現可能な最大尤度が異なり、従って尤度が最大になる素性集合<span class="math">\({\cal F}\)</span>を選び出さなければならない。</p>
 <p>しかし素性の候補となる集合<span class="math">\({\cal F}_{0}\)</span>は非常に大きくなる為に、網羅的に全ての素性の組み合わせを試していくのは現実的に不可能である。また、サンプルで出現頻度が高い素性を選択する手法も存在するが、これでは尤度を厳密に最大化できない。そこで、逐次的にモデルの尤度が増加する様に素性を追加する手法が基本的に用いられており、その手順の概要は以下の様になる。</p>
 <ol class="arabic simple">
@@ -520,8 +534,8 @@ Z_{\Lambda}(x) &amp;= \sum_{y \in Y_{m}^{c}} 1 + \sum_{y \in Y_{m}} z(y) + \sum_
 <span class="math">\({\cal F} \leftarrow {\cal F} \cup \hat{f}\)</span></li>
 <li>最大増分がある閾値以下になったら終了し、それ以外は 2. に戻る。</li>
 </ol>
-<p>逐次的に計算が行える為に手続き的に実行しやすいものの、結局手順 3,4 において<span class="math">\({\cal F}_{0}\)</span>を走査しているので依然として膨大な計算量が必要になる。文献 <a class="footnote-reference" href="#id32" id="id15">[7]</a>  <a class="footnote-reference" href="#id33" id="id16">[8]</a> では対数尤度の増分を近似的に求める手法を述べているが、それでも本質的に計算量を削減できたとは言えず、効率的な素性選択の手法については研究の対象となっていた <a class="footnote-reference" href="#id34" id="id17">[9]</a>  <a class="footnote-reference" href="#id35" id="id18">[10]</a> 。</p>
-<p>ここでは元の文献 <a class="footnote-reference" href="#id36" id="id19">[11]</a>  <a class="footnote-reference" href="#id37" id="id20">[12]</a> に述べられていた、増分の近似による手法を見ていく。近似の仮定としては、元のモデル<span class="math">\(P_{\cal F}\)</span>とそのパラメタ集合<span class="math">\(\Lambda\)</span>に<span class="math">\(f \in {\cal F}\)</span>とそれに付随するパラメタ<span class="math">\(\alpha\)</span>を加えたモデル<span class="math">\(P_{{\cal F} \cup f}\)</span>においても、最大尤度を与える元のパラメタ<span class="math">\(\Lambda\)</span>は変化しないというものである。実際には素性を加える事で最大尤度を与えるパラメタ<span class="math">\(\Lambda\)</span>は変化するが、この変化を無視することでモデル<span class="math">\(P_{{\cal F} \cup f}\)</span>の最大尤度<span class="math">\(L(P_{{\cal F} \cup f})\)</span>の計算を回避する。素性を追加することにより尤度は増えこそすれ減ることはないので（<span class="math">\(\because\)</span>経験分布に適合しない素性に対しては学習の結果<span class="math">\(\alpha = 0\)</span>となり、元のモデルと一致するので尤度増分は 0）
+<p>逐次的に計算が行える為に手続き的に実行しやすいものの、結局手順 3,4 において<span class="math">\({\cal F}_{0}\)</span>を走査しているので依然として膨大な計算量が必要になる。文献 <a class="footnote-reference" href="#id33" id="id16">[7]</a>  <a class="footnote-reference" href="#id34" id="id17">[8]</a> では対数尤度の増分を近似的に求める手法を述べているが、それでも本質的に計算量を削減できたとは言えず、効率的な素性選択の手法については研究の対象となっていた <a class="footnote-reference" href="#id35" id="id18">[9]</a>  <a class="footnote-reference" href="#id36" id="id19">[10]</a> 。</p>
+<p>ここでは元の文献 <a class="footnote-reference" href="#id37" id="id20">[11]</a>  <a class="footnote-reference" href="#id38" id="id21">[12]</a> に述べられていた、増分の近似による手法を見ていく。近似の仮定としては、元のモデル<span class="math">\(P_{\cal F}\)</span>とそのパラメタ集合<span class="math">\(\Lambda\)</span>に<span class="math">\(f \in {\cal F}\)</span>とそれに付随するパラメタ<span class="math">\(\alpha\)</span>を加えたモデル<span class="math">\(P_{{\cal F} \cup f}\)</span>においても、最大尤度を与える元のパラメタ<span class="math">\(\Lambda\)</span>は変化しないというものである。実際には素性を加える事で最大尤度を与えるパラメタ<span class="math">\(\Lambda\)</span>は変化するが、この変化を無視することでモデル<span class="math">\(P_{{\cal F} \cup f}\)</span>の最大尤度<span class="math">\(L(P_{{\cal F} \cup f})\)</span>の計算を回避する。素性を追加することにより尤度は増えこそすれ減ることはないので（<span class="math">\(\because\)</span>経験分布に適合しない素性に対しては学習の結果<span class="math">\(\alpha = 0\)</span>となり、元のモデルと一致するので尤度増分は 0）
 、近似的増分を最大にする<span class="math">\(\alpha\)</span>を探索する問題に帰着される。</p>
 <p>仮定の下で、素性集合<span class="math">\({\cal F} \cup f\)</span>に対するモデル<span class="math">\(P_{{\cal F} \cup f}^{\alpha}\)</span>の確率分布は次の様に書ける。</p>
 <div class="math">
@@ -559,7 +573,7 @@ G_{{\cal F} \cup f}^{\prime \prime}(\alpha) &amp;= - \sum_{x} P(x) \frac{1}{Z_{\
 \end{align*}
 </div>
 <p>ここで最下段の式変形には、分散と平均の関係<span class="math">\(E[(X-E[X])^{2}] = E[X^{2}] - \{E[X]\}^{2}\)</span>を用いている。<span class="math">\((f - Q_{ {\cal F} \cup f}^{\alpha}(f|x))^{2} \geq 0\)</span>より、<span class="math">\(G_{{\cal F} \cup f}^{\prime \prime}(\alpha) \leq 0\)</span>が成立し、<span class="math">\(G_{{\cal F} \cup f}(\alpha)\)</span>は上に凸な関数であり、極大値がそのまま大域的な最大値となる事が分かる。</p>
-<p>上述の議論により、<span class="math">\(G_{{\cal F} \cup f}^{\prime}(\alpha^{\ast}) = 0\)</span>を満たす<span class="math">\(\alpha^{\ast}\)</span>を得れば良いことになるが、解くべき式が<span class="math">\(\alpha\)</span>について閉じた形をしていない為、数値解析的な手法を用いることになる。文献 <a class="footnote-reference" href="#id38" id="id21">[13]</a>  <a class="footnote-reference" href="#id39" id="id22">[14]</a>  <a class="footnote-reference" href="#id40" id="id23">[15]</a> によると、<span class="math">\(G_{{\cal F} \cup f}^{\prime}(\alpha)\)</span>は<span class="math">\(\alpha\)</span>に対して凸関数ではないが、<span class="math">\(\exp(\alpha)\)</span>に関しては下に凸の減少関数、かつ<span class="math">\(\exp(-\alpha)\)</span>に関しては上に凸の増加関数となる事が示されているので、<span class="math">\(\exp(\alpha)、\exp(-\alpha)\)</span>の数列に対してニュートン法を適用する事を考える。偏微分の連鎖律を用いることで ,</p>
+<p>上述の議論により、<span class="math">\(G_{{\cal F} \cup f}^{\prime}(\alpha^{\ast}) = 0\)</span>を満たす<span class="math">\(\alpha^{\ast}\)</span>を得れば良いことになるが、解くべき式が<span class="math">\(\alpha\)</span>について閉じた形をしていない為、数値解析的な手法を用いることになる。文献 <a class="footnote-reference" href="#id39" id="id22">[13]</a>  <a class="footnote-reference" href="#id40" id="id23">[14]</a>  <a class="footnote-reference" href="#id41" id="id24">[15]</a> によると、<span class="math">\(G_{{\cal F} \cup f}^{\prime}(\alpha)\)</span>は<span class="math">\(\alpha\)</span>に対して凸関数ではないが、<span class="math">\(\exp(\alpha)\)</span>に関しては下に凸の減少関数、かつ<span class="math">\(\exp(-\alpha)\)</span>に関しては上に凸の増加関数となる事が示されているので、<span class="math">\(\exp(\alpha)、\exp(-\alpha)\)</span>の数列に対してニュートン法を適用する事を考える。偏微分の連鎖律を用いることで ,</p>
 <div class="math">
 \begin{align*}
 \frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha)}{\partial \exp(\alpha)}  &amp;= \frac{\partial G_{{\cal F} \cup f}^{\prime}(\alpha)}{\partial \alpha} \frac{\partial \alpha}{\partial \exp(\alpha)} \\
@@ -576,119 +590,119 @@ G_{{\cal F} \cup f}^{\prime \prime}(\alpha) &amp;= - \sum_{x} P(x) \frac{1}{Z_{\
 \iff \alpha_{n+1} &amp;= \alpha_{n} - \log \left[ 1 + \frac{G_{{\cal F} \cup f}^{\prime}(\alpha_{n})}{G_{{\cal F} \cup f}^{\prime\prime}(\alpha_{n})} \right]
 \end{align*}
 </div>
-<p>となる。最適値<span class="math">\(\alpha^{\ast}\)</span>が<span class="math">\(\alpha^{\ast} &gt; 0\)</span>の場合（<span class="math">\(E_{\tilde{P}}[f] &gt; E_{P_{\cal F}}[f]\)</span> <a class="footnote-reference" href="#id41" id="id24">[16]</a> ）には上の更新式を用いれば良く、<span class="math">\(\alpha^{\ast} &lt; 0\)</span>の場合（<span class="math">\(E_{\tilde{P}}[f] &lt; E_{P_{\cal F}}[f]\)</span>）には下の更新式を用いれば良い。</p>
+<p>となる。最適値<span class="math">\(\alpha^{\ast}\)</span>が<span class="math">\(\alpha^{\ast} &gt; 0\)</span>の場合（<span class="math">\(E_{\tilde{P}}[f] &gt; E_{P_{\cal F}}[f]\)</span> <a class="footnote-reference" href="#id42" id="id25">[16]</a> ）には上の更新式を用いれば良く、<span class="math">\(\alpha^{\ast} &lt; 0\)</span>の場合（<span class="math">\(E_{\tilde{P}}[f] &lt; E_{P_{\cal F}}[f]\)</span>）には下の更新式を用いれば良い。</p>
 </div>
-<div class="section" id="id25">
-<h2>脚注・参考文献</h2>
-<table class="docutils footnote" frame="void" id="id26" rules="none">
+<div class="section" id="id26">
+<h2><a class="toc-backref" href="#id50">脚注・参考文献</a></h2>
+<table class="docutils footnote" frame="void" id="id27" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id27" rules="none">
+<table class="docutils footnote" frame="void" id="id28" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>高村大也、奥村学、&quot; 言語処理のための機械学習入門 &quot;、コロナ社、2010</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id28" rules="none">
+<table class="docutils footnote" frame="void" id="id29" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>高橋治久、堀田一弘、&quot; 学習理論 &quot; コロナ社、2009</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id29" rules="none">
-<colgroup><col class="label" /><col /></colgroup>
-<tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[4]</a></td><td>高橋治久、堀田一弘、&quot; 学習理論 &quot; コロナ社、2009</td></tr>
-</tbody>
-</table>
 <table class="docutils footnote" frame="void" id="id30" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[5]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id9">[4]</a></td><td>高橋治久、堀田一弘、&quot; 学習理論 &quot; コロナ社、2009</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id31" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id13">[6]</a></td><td>Wu, Jun, and Sanjeev Khudanpur, “Efficient training methods for
-maximum entropy language modeling.” INTERSPEECH. 2000.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id13">[5]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id32" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id15">[7]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id14">[6]</a></td><td>Wu, Jun, and Sanjeev Khudanpur, “Efficient training methods for
+maximum entropy language modeling.” INTERSPEECH. 2000.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id33" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id16">[8]</a></td><td>Berger, Adam L., Vincent J, Della Pietra, and Stephen A. Della
-Pietra. “A maximum entropy approach to natural language processing.”
-Computational linguistics 22.1 (1996): 39-71.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id16">[7]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id34" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id17">[9]</a></td><td>Zhou, Yaqian, et al.&nbsp;“A fast algorithm for feature selection in
-conditional maximum entropy modeling.” Proceedings of the 2003
-conference on Empirical methods in natural language processing.
-Association for Computational Linguistics, 2003.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id17">[8]</a></td><td>Berger, Adam L., Vincent J, Della Pietra, and Stephen A. Della
+Pietra. “A maximum entropy approach to natural language processing.”
+Computational linguistics 22.1 (1996): 39-71.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id35" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id18">[10]</a></td><td>谷垣宏一 , 渡邉圭輔 , and 石川泰 ,
-`` 最大エントロピー法による発話理解のための効率的モデル構築 (&lt; 特集 &gt;
-音声言語情報処理とその応用 ).’’ 情報処理学会論文誌 43.7 (2002):
-2138-2146.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id18">[9]</a></td><td>Zhou, Yaqian, et al.&nbsp;“A fast algorithm for feature selection in
+conditional maximum entropy modeling.” Proceedings of the 2003
+conference on Empirical methods in natural language processing.
+Association for Computational Linguistics, 2003.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id36" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[11]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id19">[10]</a></td><td>谷垣宏一 , 渡邉圭輔 , and 石川泰 ,
+`` 最大エントロピー法による発話理解のための効率的モデル構築 (&lt; 特集 &gt;
+音声言語情報処理とその応用 ).’’ 情報処理学会論文誌 43.7 (2002):
+2138-2146.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id37" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id20">[12]</a></td><td>Berger, Adam L., Vincent J, Della Pietra, and Stephen A. Della
-Pietra. “A maximum entropy approach to natural language processing.”
-Computational linguistics 22.1 (1996): 39-71.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id20">[11]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id38" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id21">[13]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id21">[12]</a></td><td>Berger, Adam L., Vincent J, Della Pietra, and Stephen A. Della
+Pietra. “A maximum entropy approach to natural language processing.”
+Computational linguistics 22.1 (1996): 39-71.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id39" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id22">[14]</a></td><td>Berger, Adam L., Vincent J, Della Pietra, and Stephen A. Della
-Pietra. “A maximum entropy approach to natural language processing.”
-Computational linguistics 22.1 (1996): 39-71.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id22">[13]</a></td><td>北研二、辻井潤一、&quot; 確率的言語モデル &quot;、東京大学出版会、1999</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id40" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id23">[15]</a></td><td>Pietra, Stephen Della, Vincent Della Pietra, and John Lafferty.
-“Inducing features of random fields.” Pattern Analysis and Machine
-Intelligence、IEEE Transactions on 19.4 (1997): 380-393.</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id23">[14]</a></td><td>Berger, Adam L., Vincent J, Della Pietra, and Stephen A. Della
+Pietra. “A maximum entropy approach to natural language processing.”
+Computational linguistics 22.1 (1996): 39-71.</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id41" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id24">[16]</a></td><td><span class="math">\(G_{{\cal F} \cup f}^{\prime}(\alpha)\)</span>は<span class="math">\(\alpha\)</span>に関して単調減少するので、<span class="math">\(G_{{\cal F} \cup f}^{\prime}(0) = E_{\tilde{P}}[f] - E_{P_{\cal F}}[f]&gt;0\)</span>ならば、かつその時に限り最適値<span class="math">\(\alpha^{\ast}\)</span>は正の値をとる。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id24">[15]</a></td><td>Pietra, Stephen Della, Vincent Della Pietra, and John Lafferty.
+“Inducing features of random fields.” Pattern Analysis and Machine
+Intelligence、IEEE Transactions on 19.4 (1997): 380-393.</td></tr>
+</tbody>
+</table>
+<table class="docutils footnote" frame="void" id="id42" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id25">[16]</a></td><td><span class="math">\(G_{{\cal F} \cup f}^{\prime}(\alpha)\)</span>は<span class="math">\(\alpha\)</span>に関して単調減少するので、<span class="math">\(G_{{\cal F} \cup f}^{\prime}(0) = E_{\tilde{P}}[f] - E_{P_{\cal F}}[f]&gt;0\)</span>ならば、かつその時に限り最適値<span class="math">\(\alpha^{\ast}\)</span>は正の値をとる。</td></tr>
 </tbody>
 </table>
 </div>
@@ -788,12 +802,6 @@ Intelligence、IEEE Transactions on 19.4 (1997): 380-393.</td></tr>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
@@ -802,62 +810,77 @@ Intelligence、IEEE Transactions on 19.4 (1997): 380-393.</td></tr>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/regularization.html">Regularization</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
@@ -866,19 +889,16 @@ Intelligence、IEEE Transactions on 19.4 (1997): 380-393.</td></tr>
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
   </ul>
 </li>

@@ -81,6 +81,125 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/cheng-guo-matomezhong-3.html">成果まとめ中(3)</a></h2>
+                <div class="summary"><p>SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/bjsiam/28/3/28_27/_pdf">機械学習における確率的最適化</a></li>
+</ul>
+<p>もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。</p>
+<div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>適応ステップサイズの分母の <span class="math">\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)</span> がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル <span class="math">\(x(\theta)\)</span> の内積 …</p>
+                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/cheng-guo-matomezhong-2.html">成果まとめ中(2)</a></h2>
+                <div class="summary"><ul class="simple">
+<li><a class="reference external" href="http://dsl4.eee.u-ryukyu.ac.jp/DOCS/DSP/p10.pdf">ディジタル信号処理 第 10 回 適応信号処理</a> 少し詳しく書いてある。やはり適応フィルタの原典を当たりたい。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">書類整理終わり、復帰 / 成果まとめ中(1)</a></h2>
+                <div class="summary"><p>諸々の提出書類で実験できず。1 週間空けて復帰。</p>
+<p>報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。
+対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.inference.vc/on-empirical-fisher-information/">Notes on the Limitations of the Empirical Fisher Approximation</a> 経験フィッシャー行列の性能限界について。</li>
+</ul>
+<p>ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。</p>
+
+                    <a class="btn btn-default btn-xs" href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-10.html">LMS Filterの挙動観察中(10)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>Normalize するやつの意味付けを追っている。非常に RLS(Recursive Least Square) に近い、下手すると RLS そのものかも知れない。</p>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen …</script>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-10.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/shu-lei-zheng-li-zhong.html">書類整理中</a></h2>
+                <div class="summary"><p>色々と書類整理しているためあんまり実験が進んでいない。でも、既存研究がありそうでヒヤヒヤする毎日。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;context=ele_comeng_facwork">Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems</a></li>
+</ul>
+<p>かなり近い。が、LMS ベースの計量を自ら設計している。コスト関数に、2 乗誤差項に何か変換の L2 ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers</a></li>
+</ul>
+<p>自然勾配の発想に近づいていた PNLMS の実装</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.eecs.umich.edu/global/data/hero/images/7/7b/Yilun-icassp2-09.pdf">SPARSE LMS FOR SYSTEM IDENTIFICATION</a></li>
+</ul>
+<p>スパース LMS(ZA-LMS) の最初の論文。定式化が明確。</p>
+
+                    <a class="btn btn-default btn-xs" href="/shu-lei-zheng-li-zhong.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-9.html">LMS Filterの挙動観察中(9)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>実装誤りを見直しながらもう一度。</p>
+<p>やはり、自然勾配法が何故うまくいくのか、更新式の導出までやったほうが宜しい。実装間違いするから。適応的自然勾配の更新式は微小量の近似を使っている。微小量の近似は今まで何度も避けてきたが、この際おさらいする。ようはテイラー展開して 2 次以降の項を打ち切れば良し。高校数学レベルの話。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://physnotes.jp/foundations/approximation/">近似式</a></li>
+<li><a class="reference external" href="http://w3e.kanazawa-it.ac.jp/math/category/suuretu/maclaurin/henkan-tex.cgi?target=/math/category/suuretu/maclaurin/maclaurin_1-x.html">1/(1-x) のマクローリン展開</a></li>
+</ul>
+<p>実験が落ち着いたら書いていきたい。</p>
+<p>→ 実験 OK。ステップサイズの設定が難しかったけど、ナイーブなものよりは性能がよいはず。</p>
+<p>また、軽く見た感じでも自然勾配学習法は発散しやすい。以下の記事にあるように、正則化を掛けたほうが良さそう。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://tfjgeorge.github.io/articles/note/2018/11/09/empirical-fisher.html">What …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-9.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-8.html">LMS Filterの挙動観察中(8)</a></h2>
+                <div class="summary"><p>まだ粘る。GW 終わるまでには何らかのアウトプットがほしい。</p>
+<p>指数移動平均の α を増やすと性能（誤差、エントロピー）が悪化する傾向あり。特に 0.5 以上（瞬間値の重みを大きく）すると、悪化が顕著。</p>
+<p>分散行列の逆行列を見てみると、非常に大きい値を取っていることが分かる。これは特異にかなり近いのではないかと予測している。</p>
+<p>また、指数移動平均で求めた分散行列の対角要素は経験分散に漸近するはずで、対角要素は時間遅延が加わった自分自身との 2 乗和で、全てが同じ値になることを期待していたが、なっていなかった。これは、指数移動平均は入力の順序により最終結果が異なるという状態が現れていると思う。（例：1,1,1,0 という系列と 0,1,1,1 という系列では指数移動平均の結果が異なる。）</p>
+<p>学習率の設定も音源依存でだいぶ変わってしまう印象。ボイスでは 0.0001 が、ピアノでは 0.00001、50Hz サイン波では発散した（恐らくこれはほぼ定常な信号になっているからと思われる …</p>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-8.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/lms-filternoju-dong-guan-cha-zhong-7.html">LMS Filterの挙動観察中(7)</a></h2>
                 <div class="summary"><p>実データ適用で、どうも上手く行かない。やっぱり分散行列の逆行列が発散している。</p>
 <p>適応的自然勾配をやめて、真面目に（毎サンプル平均を求めて）計算するようにしているけども結果がよろしくない。分散行列を標本平均ではなくて指数移動平均（α=0.1）に置き換えたらそれなりの性能が出ることを確認。しかし、ラプラス分布の計量を取り入れていない ...。</p>
@@ -122,101 +241,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-4.html">LMS Filterの挙動観察中(4)</a></h2>
-                <div class="summary"><p>本日も引き続き発散の原因を追う。
-→ ステップサイズを小さくしたら発散しなくなった …。職人芸じゃないかこんなの。NLMS みたく発散しない条件がほしいな。</p>
-<p>本当に既存研究がないか、再度調査。</p>
-<p>自然勾配を適応的に計算する方法を試している。無論、定義式通りに計算するのは問題ないことは確かめているが、計算量が気になるのです。</p>
-<p>パラメータを色々といじりつつ、論文も参照してそれなりのパラメータを見つける。
-パラメータについては <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;ved=2ahUKEwi4ufHi4o_pAhUY_GEKHd-gDBwQFjAEegQIBRAB&amp;url=https%3A%2F%2Fwww.mdpi.com%2F2076-3417%2F9%2F21%2F4568%2Fpdf&amp;usg=AOvVaw0KgakdcC8U_T71ks8hZKDW">Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode</a> を皮切りに調査開始。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.8668&amp;rep=rep1&amp;type=pdf">Adaptive Method of Realizing Natural Gradient Learning for Multilayer Perceptrons</a> が甘利先生。（福水先生もいるぞ）<ul>
-<li>この論文で適応的更新式の導出が述べられる。</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf">Adaptive natural gradient learning algorithms for various stochastic models …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-3.html">LMS Filterの挙動観察中(3)</a></h2>
-                <div class="summary"><p>LMS はヘッセ行列の逆行列込みの学習ができているが、Signed-LMS は上手く行かない。分散行列が特異になったり、要素が大きくなりすぎて発散してしまう。。。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-2.html">LMS Filterの挙動観察中(2)</a></h2>
-                <div class="summary"><p>つまるところ、以下の計算をどうやるか？に尽きる。</p>
-<div class="math">
-\begin{equation*}
-\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
-\end{equation*}
-</div>
-<p><span class="math">\(\varepsilon(n)\)</span> は i.i.d.（独立に同一の分布）から発生しているので、<span class="math">\(x(n-m …</span></p>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-1.html">LMS Filterの挙動観察中(1)</a></h2>
-                <div class="summary"><p>引き続き観察中。勾配の計算ミスがあったりして厳しかった。</p>
-<p>問題は、やはりというか SignLMS でのヘッセ行列。<span class="math">\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)</span> の計算でインパルス応答の扱いをどうするのか ... 連続信号では厳密に 0 を取る確率は 0 だ。だからといって離散的に考えていいのか？</p>
-<p>誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。</p>
-<p>デジタル的に考えれば、残差が 0 になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
-残差が 0 になる確率は、離散ラプラス分布（ <a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf">参考資料</a> ）を元にサンプリング / もしくは重み付けで求める。（サンプリングの場合は [0,1] 乱数を発生させて残差が 0 になる確率よりも小さければ採択する。まじの MC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。</p>
-<p>一旦残差 0 の重み付けで実験を進めているが、まだ残差 …</p>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/signed-lmsno2jie-wei-fen-sono2.html">Signed-LMSの2階微分 その2</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
-\end{equation*}
-</div>
-<p>早速既存研究が無いか見ている。二乗誤差最小化の LMS でもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMS については今の所、微分してるところも見てない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://pt.slideshare.net/mentelibre/neural-network-widrowhoff-learning-adaline-hagan-lms">NEURAL NETWORK Widrow-Hoff Learning Adaline Hagan LMS</a> 観測分散行列がヘッセ行列に一致することが書いてあった。</li>
-<li><a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf">Stochastic error whitening algorithm for linear filter estimation with noisy …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/signed-lmsno2jie-wei-fen-sono2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察/Signed-LMSの目的関数の2階微分</a></h2>
-                <div class="summary"><div class="section" id="mathrm-e-varepsilon-n-x-n-m">
-<h2>残差勾配 <span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> の挙動観察</h2>
-<p><span class="math">\(m\)</span> が大きいときは無視できるのでは？ なお、長時間平均値は 0 に収束していることを見た。
-<span class="math">\(m\)</span> をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。</p>
-<ul class="simple">
-<li>ガチャガチャ弄ってるってるけど示唆があんまりない。</li>
-<li>低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。</li>
-<li><span class="math">\(\mathrm{E}[\varepsilon(n) x(n - m)]\)</span> は <span class="math">\(m\)</span> を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。</li>
-<li>同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一の sin 波を等価させたときはわかりやすい。</li>
-</ul>
-<div class="figure align-center">
-<img alt="440.0Hz の sin 波に対する各タップの平均勾配変化グラフ " src="./images/sin_mean_gradient.png" style="width: 40%;" />
-<p class="caption">440.0Hz の sin 波に対する各タップの平均勾配変化</p>
-</div>
-<div class="figure align-center">
-<img alt=" ボイス対する各タップの平均勾配変化グラフ " src="./images/voice_mean_gradient.png" style="width: 40%;" />
-<p class="caption">ボイス対する各タップの平均勾配変化</p>
-</div>
-<div class="figure align-center">
-<img alt=" ピアノ演奏に対する各タップの平均勾配変化グラフ " src="./images/ruriko_mean_gradient.png" style="width: 40%;" />
-<p class="caption">ピアノ演奏に対する各タップの平均勾配変化 …</p></div></div>
-                    <a class="btn btn-default btn-xs" href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/tag/signedlms.html">&laquo;</a>
@@ -225,7 +249,10 @@ Aiki's Blog            </a>
                             href="/tag/signedlms.html">1</a></li>
                     <li class="active"><a
                             href="/tag/signedlms2.html">2</a></li>
-                <li class="next disabled"><a href="#">&raquo;</a></li>
+                    <li class=""><a
+                            href="/tag/signedlms3.html">3</a></li>
+                <li class="next"><a
+                        href="/tag/signedlms3.html">&raquo;</a></li>
         </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
@@ -248,12 +275,6 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
@@ -262,62 +283,77 @@ Aiki's Blog            </a>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/regularization.html">Regularization</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
@@ -326,19 +362,16 @@ Aiki's Blog            </a>
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
   </ul>
 </li>
