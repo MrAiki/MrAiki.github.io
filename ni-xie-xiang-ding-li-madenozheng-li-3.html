@@ -13,14 +13,14 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="Manifold" />
-        <meta name="description" content="記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。 これでようやく情報幾何学に入門できそう。 LMS に自然勾配を導入する流れ（既存研究調査） Natural Gradient Works Efficiently in Learning そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。 Review and Comparison of Variable Step-Size LMS Algorithms 適応ステップサイズ手法の比較。2015 年。 Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。 Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems フィッシャー情報行列を対角行列で与えている。 * Full Proportionate …" />
+        <meta name="description" content="記事に起こしてたら誤りなども見つかって1週間かかってしまった。。 これでようやく情報幾何学に入門できそう。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="逆写像定理までの整理(3)"/>
         <meta property="og:url" content="/ni-xie-xiang-ding-li-madenozheng-li-3.html"/>
-        <meta property="og:description" content="記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。 これでようやく情報幾何学に入門できそう。 LMS に自然勾配を導入する流れ（既存研究調査） Natural Gradient Works Efficiently in Learning そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。 Review and Comparison of Variable Step-Size LMS Algorithms 適応ステップサイズ手法の比較。2015 年。 Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。 Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems フィッシャー情報行列を対角行列で与えている。 * Full Proportionate …"/>
-        <meta property="article:published_time" content="2020-06-14" />
+        <meta property="og:description" content="記事に起こしてたら誤りなども見つかって1週間かかってしまった。。 これでようやく情報幾何学に入門できそう。"/>
+        <meta property="article:published_time" content="2020-06-13" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="Manifold" />
             <meta property="article:author" content="aiki" />
@@ -103,7 +103,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-06-14T11:00:00+09:00"> Sun 14 June 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-06-13T11:00:00+09:00"> Sat 13 June 2020</time>
     </span>
 
 
@@ -115,28 +115,8 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。
+                <p>記事に起こしてたら誤りなども見つかって1週間かかってしまった。。
 これでようやく情報幾何学に入門できそう。</p>
-<div class="section" id="lms">
-<h2>LMS に自然勾配を導入する流れ（既存研究調査）</h2>
-<ul class="simple">
-<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;rep=rep1&amp;type=pdf">Natural Gradient Works Efficiently in Learning</a> そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。</li>
-<li><a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf">Review and Comparison of Variable Step-Size LMS Algorithms</a> 適応ステップサイズ手法の比較。2015 年。</li>
-<li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers</a> 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。</li>
-<li><a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;context=ele_comeng_facwork">Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems</a> フィッシャー情報行列を対角行列で与えている。
-* <a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2017/papers/1570346064.pdf">Full Proportionate Functional Link Adaptive Filters for Nonlinear Acoustic Echo Cancellation</a> これも。謎のリーマン計量を作る。
-* <a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;rep=rep1&amp;type=pdf">New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm</a> これも謎のリーマン計量を使っている …。損失関数に計量が入っちゃってるけどいいのか？→ 大丈夫っぽい。損失関数の設計は自由。</li>
-<li><a class="reference external" href="http://www2.ee.ic.ac.uk/publications/p3943.pdf">Adaptive algorithms for sparse echo cancellation</a> 俯瞰した背景描写もある。</li>
-<li><a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf">l0 Norm Constraint LMS Algorithm for Sparse System Identification</a> 係数 l0 ノルム最小化。l0 ノルムを exp で近似して解析的最小化。<ul>
-<li><a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf">NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION</a> L0 ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。</li>
-</ul>
-</li>
-<li><a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;name=DLFE-38423.pdf">Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty</a> 重みによくわからないペナルティを付加した Signed LMS。</li>
-<li><a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf">AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION</a> <strong>これが一番近いかも。</strong> なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。</li>
-<li><a class="reference external" href="https://asl.epfl.ch/wp-content/uploads/publications/journal_articles/spl_feb_2004_b.pdf">Variable Step-Size NLMS and Affine Projection Algorithms</a> これもそれなりに近い。affine projection algorithm で情報行列の逆を使っている。</li>
-<li>Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけど Abstract 読み限り相当やってそう。</li>
-</ul>
-</div>
 
             </div>
             <!-- /.entry-content -->
@@ -165,6 +145,113 @@ Aiki's Blog            </a>
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Links -->
 <li class="list-group-item">

@@ -1,35 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-06-14T11:00:00+09:00</updated><entry><title>逆写像定理までの整理(3)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-3.html" rel="alternate"></link><published>2020-06-14T11:00:00+09:00</published><updated>2020-06-14T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-14:/ni-xie-xiang-ding-li-madenozheng-li-3.html</id><summary type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。
-これでようやく情報幾何学に入門できそう。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-06-19T11:00:00+09:00</updated><entry><title>研究会に向けて(1)</title><link href="/yan-jiu-hui-nixiang-kete1.html" rel="alternate"></link><published>2020-06-19T11:00:00+09:00</published><updated>2020-06-19T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-19:/yan-jiu-hui-nixiang-kete1.html</id><summary type="html">&lt;p&gt;今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
+イベントレポートをこっちに移動しようか考えている。&lt;/p&gt;
+&lt;p&gt;研究の方は、研究会への申込みに着手した。
+正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
+他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。&lt;/p&gt;
 &lt;div class="section" id="lms"&gt;
-&lt;h2&gt;LMS に自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
+&lt;h2&gt;LMSに自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015 年。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems&lt;/a&gt; フィッシャー情報行列を対角行列で与えている。
-* &lt;a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2017/papers/1570346064.pdf"&gt;Full Proportionate …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって 1 週間かかってしまった。。
-これでようやく情報幾何学に入門できそう。&lt;/p&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配をLMSに入れる発想はあった。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015年。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照されるPNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
+イベントレポートをこっちに移動しようか考えている。&lt;/p&gt;
+&lt;p&gt;研究の方は、研究会への申込みに着手した。
+正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
+他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。&lt;/p&gt;
 &lt;div class="section" id="lms"&gt;
-&lt;h2&gt;LMS に自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
+&lt;h2&gt;LMSに自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配を LMS に入れる発想はあった。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015 年。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照される PNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配をLMSに入れる発想はあった。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015年。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照されるPNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems&lt;/a&gt; フィッシャー情報行列を対角行列で与えている。
 * &lt;a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2017/papers/1570346064.pdf"&gt;Full Proportionate Functional Link Adaptive Filters for Nonlinear Acoustic Echo Cancellation&lt;/a&gt; これも。謎のリーマン計量を作る。
-* &lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm&lt;/a&gt; これも謎のリーマン計量を使っている …。損失関数に計量が入っちゃってるけどいいのか？→ 大丈夫っぽい。損失関数の設計は自由。&lt;/li&gt;
+* &lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm&lt;/a&gt; これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www2.ee.ic.ac.uk/publications/p3943.pdf"&gt;Adaptive algorithms for sparse echo cancellation&lt;/a&gt; 俯瞰した背景描写もある。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数 l0 ノルム最小化。l0 ノルムを exp で近似して解析的最小化。&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf"&gt;NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION&lt;/a&gt; L0 ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf"&gt;NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION&lt;/a&gt; L0ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加した Signed LMS。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf"&gt;AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION&lt;/a&gt; &lt;strong&gt;これが一番近いかも。&lt;/strong&gt; なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://asl.epfl.ch/wp-content/uploads/publications/journal_articles/spl_feb_2004_b.pdf"&gt;Variable Step-Size NLMS and Affine Projection Algorithms&lt;/a&gt; これもそれなりに近い。affine projection algorithm で情報行列の逆を使っている。&lt;/li&gt;
-&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけど Abstract 読み限り相当やってそう。&lt;/li&gt;
+&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>逆写像定理までの整理(3)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-3.html" rel="alternate"></link><published>2020-06-13T11:00:00+09:00</published><updated>2020-06-13T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-13:/ni-xie-xiang-ding-li-madenozheng-li-3.html</id><content type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって1週間かかってしまった。。
+これでようやく情報幾何学に入門できそう。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理(2)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-2.html" rel="alternate"></link><published>2020-06-07T11:00:00+09:00</published><updated>2020-06-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-07:/ni-xie-xiang-ding-li-madenozheng-li-2.html</id><content type="html">&lt;p&gt;ついでにラグランジュ未定乗数法と KKT 条件まで行ってしまった。欲張った。
 予定より断然時間かかってしまったけど、だいたい落ち着いたかも。記事に起こす。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理</title><link href="/ni-xie-xiang-ding-li-madenozheng-li.html" rel="alternate"></link><published>2020-06-05T11:00:00+09:00</published><updated>2020-06-05T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/ni-xie-xiang-ding-li-madenozheng-li.html</id><content type="html">&lt;p&gt;評価を待つ間逆写像定理までを写経中。だいたい飲み込めてるが、やっぱ基礎の抜けがある …。

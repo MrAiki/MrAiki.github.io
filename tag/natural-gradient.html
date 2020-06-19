@@ -81,6 +81,24 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/yan-jiu-hui-nixiang-kete1.html">研究会に向けて(1)</a></h2>
+                <div class="summary"><p>今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
+イベントレポートをこっちに移動しようか考えている。</p>
+<p>研究の方は、研究会への申込みに着手した。
+正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
+他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。</p>
+<div class="section" id="lms">
+<h2>LMSに自然勾配を導入する流れ（既存研究調査）</h2>
+<ul class="simple">
+<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;rep=rep1&amp;type=pdf">Natural Gradient Works Efficiently in Learning</a> そもそも甘利先生の初っ端の研究で自然勾配をLMSに入れる発想はあった。</li>
+<li><a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf">Review and Comparison of Variable Step-Size LMS Algorithms</a> 適応ステップサイズ手法の比較。2015年。</li>
+<li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers</a> 頻繁に参照されるPNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。</li>
+<li><a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;context=ele_comeng_facwork">Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems …</a></li></ul></div>
+                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/zheng-ze-hua-8.html">正則化(8)</a></h2>
                 <div class="summary"><div class="math">
 \begin{equation*}
@@ -218,17 +236,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/cheng-guo-matomezhong-4.html">成果まとめ中(4)</a></h2>
-                <div class="summary"><p>AdaptiveFilter の本見て NLMS の議論を色々見てる。が、いい結果が出てこない。
-本の内容も掴みかねてる。NLMS は係数誤差ベクトルの L2 ノルムが指数的に減少するようだが本当か …？</p>
-<p>LMS の収束条件が分かっていないことに気づく。
-「Adaptive Filter Theory」では式 4.22 に、「Adaptive Signal Processing」では式 4.45 で示されているので確認中。</p>
-
-                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -254,6 +261,113 @@ Aiki's Blog            </a>
   </ul>
 </li>
 <!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
 
 <!-- Sidebar/Links -->
 <li class="list-group-item">
