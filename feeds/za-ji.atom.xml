@@ -33,7 +33,7 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 &lt;div class="math"&gt;
 \begin{align*}
 \parfrac{L}{\mu_{ij}} &amp;amp;= m \mu_{ij}^{m-1} D_{ij}^{2} - \lambda_{j} = 0 \tag{1} \\
-\parfrac{L}{\lambda_{j}} &amp;amp;= 1 - \sum_{j = 1}^{c} \mu_{ij} = 0 \tag{2}
+\parfrac{L}{\lambda_{i}} &amp;amp;= 1 - \sum_{j = 1}^{c} \mu_{ij} = 0 \tag{2}
 \end{align*}
 &lt;/div&gt;
 &lt;p&gt;より、まず(1)式から &lt;span class="math"&gt;\(\mu_{ij}\)&lt;/span&gt; について解くと、&lt;/p&gt;
