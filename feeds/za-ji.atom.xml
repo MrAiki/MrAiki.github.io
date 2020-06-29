@@ -1,20 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-06-19T11:00:00+09:00</updated><entry><title>研究会に向けて(1)</title><link href="/yan-jiu-hui-nixiang-kete1.html" rel="alternate"></link><published>2020-06-19T11:00:00+09:00</published><updated>2020-06-19T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-19:/yan-jiu-hui-nixiang-kete1.html</id><summary type="html">&lt;p&gt;今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
-イベントレポートをこっちに移動しようか考えている。&lt;/p&gt;
-&lt;p&gt;研究の方は、研究会への申込みに着手した。
-正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
-他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-06-29T17:00:00+09:00</updated><entry><title>FCMの係数更新式</title><link href="/fcmnoxi-shu-geng-xin-shi.html" rel="alternate"></link><published>2020-06-29T17:00:00+09:00</published><updated>2020-06-29T17:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-29:/fcmnoxi-shu-geng-xin-shi.html</id><summary type="html">&lt;p class="first last"&gt;FCMの係数更新式がすぐ出てこなくてムラムラした。&lt;/p&gt;
+</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;FCMの目的関数:&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+J = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;ここで、 &lt;span class="math"&gt;\(N,c\)&lt;/span&gt; はそれぞれデータ数とクラスタ数、 &lt;span class="math"&gt;\(\mu_{ij}\)&lt;/span&gt; はファジイ係数で &lt;span class="math"&gt;\(i\)&lt;/span&gt; 番目のデータがクラスタ &lt;span class="math"&gt;\(j\)&lt;/span&gt; に持つ重みを示す。 &lt;span class="math"&gt;\(m \in [1, \infty)\)&lt;/span&gt; はファジイ度合いを決める係数で大きく取ればよりファジイ（曖昧さを許す）になる。 &lt;span class="math"&gt;\(m = 1\)&lt;/span&gt; のときはハードなクラスタリングになる（らしい）
+。 &lt;span class="math"&gt;\(D_{ij}\)&lt;/span&gt; は &lt;span class="math"&gt;\(i\)&lt;/span&gt; 番目のデータと &lt;span class="math"&gt;\(j\)&lt;/span&gt; 番目のクラスタの中心との距離。&lt;/p&gt;
+&lt;p&gt;各データの重みの総和は1になるように制約を課す。式で書くと&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\sum_{j = 1}^{c} \mu_{ij} = 1 \quad i = 1, ..., N
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;この制約条件下でのラグランジュ関数（ラグランジアン） &lt;span class="math"&gt;\(L\)&lt;/span&gt; は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N} \lambda_{i} \left[ 1 - \sum_{j = 1}^{c} \mu_{ij} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となる。偏微分して0とおき、最適条件を求めることを考える。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\parfrac{L}{\mu_{ij}} &amp;amp;= m \mu_{ij}^{m-1} D_{ij}^{2} - \lambda_{j} = 0 \tag{1} \\
+\parfrac{L}{\lambda_{j}} &amp;amp;= 1 - \sum_{j = 1}^{c} \mu_{ij} = 0 \tag{2}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;より、まず(1)式から &lt;span class="math"&gt;\(\mu_{ij}\)&lt;/span&gt; について解くと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\mu_{ij} = \left( \frac{\lambda_{i}}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}} = \lambda_{i}^{\frac{1}{m-1}} \left( \frac{1}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}} \tag{3}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;これを(2)式に代入すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+1 &amp;amp;= \sum_{j=1}^{c} \mu_{ij} = \sum_{j=1}^{c} \left( \frac{\lambda_{i}}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}} \\
+&amp;amp;= \lambda_{i}^{\frac{1}{m-1}} \sum_{j=1}^{c} \left( \frac{1}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}} \\
+\implies \lambda_{i}^{\frac{1}{m-1}} &amp;amp;= \frac{1}{\sum_{j=1}^{c} \left( \frac{1}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}}}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;これを(3)式に代入すれば、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mu_{ij} &amp;amp;= \lambda_{i}^{\frac{1}{m-1}} \left( \frac{1}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}} = \frac{1}{\sum_{k=1}^{c} \left( \frac{1}{mD_{ik}^{2}} \right)^{\frac{1}{m-1}}} \left( \frac{1}{mD_{ij}^{2}} \right)^{\frac{1}{m-1}} \\
+&amp;amp;= \frac{1}{\sum_{k=1}^{c} \left( \frac{1}{mD_{ik}^{2}} \right)^{\frac{1}{m-1}} \left( \frac{1}{mD_{ij}^{2}} \right)^{-\frac{1}{m-1}}} = \frac{1}{\sum_{k=1}^{c} \left( \frac{mD_{ij}^{2}}{mD_{ik}^{2}} \right)^{\frac{1}{m-1}}} \\
+&amp;amp;= \frac{1}{\sum_{k=1}^{c} \left( \frac{D_{ij}}{D_{ik}} \right)^{\frac{2}{m-1}}}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;最後が気持ちよかった（小並感）。&lt;/p&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;参考文献&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://fuzzy.cs.ovgu.de/ci/fs/fs_ch09_clustering.pdf"&gt;Fuzzy Systems Fuzzy Clustering 1&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://homes.di.unimi.it/~valentini/SlideCorsi/Bioinformatica05/Fuzzy-Clustering-lecture-Babuska.pdf"&gt;4 FUZZY CLUSTERING&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Fuzzy Clustering"></category></entry><entry><title>IGべんきょう(1)</title><link href="/igbenkiyou1.html" rel="alternate"></link><published>2020-06-24T11:00:00+09:00</published><updated>2020-06-24T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-24:/igbenkiyou1.html</id><content type="html">&lt;p&gt;月内は情報幾何重視で行こう。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.grammarly.com/"&gt;英文校正サービス&lt;/a&gt; よさそう。研究会向け原稿もOverleaf上でやるべく整理するか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Information Geometry"></category></entry><entry><title>研究会に向けて(2)</title><link href="/yan-jiu-hui-nixiang-kete2.html" rel="alternate"></link><published>2020-06-22T11:00:00+09:00</published><updated>2020-06-22T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-22:/yan-jiu-hui-nixiang-kete2.html</id><summary type="html">&lt;p&gt;AdaBoostのリスクがexpなのはリスクの上界を与えているから。また、更新式は以下式で。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.iip.ist.i.kyoto-u.ac.jp/member/keisuke/resources/11adaboost.pdf"&gt;AdaBoost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://cmp.felk.cvut.cz/~sochmj1/adaboost_talk.pdf"&gt;AdaBoost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ysk24ok.github.io/2016/09/27/hajipata-boosting.html"&gt;はじめてのパターン認識 第11章 boosting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=46B996D5722EB4734D3A7381AFBA95CE?doi=10.1.1.56.9855&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;A decision-theoretic generalication of on-line learning and application to boosting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;情報幾何本読み進め中。
+美しい結果（曲線上に平行移動はすごいと思った）が次々出てくるが、リーマン曲率テンソルのテンソル性を示すのに手間取ってる。&lt;/p&gt;
+&lt;p&gt;研究会に向けては、実験計画を立てておきたい。
+既存研究調査を引き続きやっていき、比較対象の手法をまとめる。また、比較対象手法と、対象のデータを纏めていく。&lt;/p&gt;
 &lt;div class="section" id="lms"&gt;
 &lt;h2&gt;LMSに自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配をLMSに入れる発想はあった。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf"&gt;Review and Comparison of Variable Step-Size LMS Algorithms&lt;/a&gt; 適応ステップサイズ手法の比較。2015年。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt; 頻繁に参照されるPNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
-イベントレポートをこっちに移動しようか考えている。&lt;/p&gt;
-&lt;p&gt;研究の方は、研究会への申込みに着手した。
-正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
-他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。&lt;/p&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;AdaBoostのリスクがexpなのはリスクの上界を与えているから。また、更新式は以下式で。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.iip.ist.i.kyoto-u.ac.jp/member/keisuke/resources/11adaboost.pdf"&gt;AdaBoost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://cmp.felk.cvut.cz/~sochmj1/adaboost_talk.pdf"&gt;AdaBoost&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ysk24ok.github.io/2016/09/27/hajipata-boosting.html"&gt;はじめてのパターン認識 第11章 boosting&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=46B996D5722EB4734D3A7381AFBA95CE?doi=10.1.1.56.9855&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;A decision-theoretic generalication of on-line learning and application to boosting&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;情報幾何本読み進め中。
+美しい結果（曲線上に平行移動はすごいと思った）が次々出てくるが、リーマン曲率テンソルのテンソル性を示すのに手間取ってる。&lt;/p&gt;
+&lt;p&gt;研究会に向けては、実験計画を立てておきたい。
+既存研究調査を引き続きやっていき、比較対象の手法をまとめる。また、比較対象手法と、対象のデータを纏めていく。&lt;/p&gt;
 &lt;div class="section" id="lms"&gt;
 &lt;h2&gt;LMSに自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
 &lt;ul class="simple"&gt;
@@ -35,6 +180,11 @@
 &lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(1)</title><link href="/yan-jiu-hui-nixiang-kete1.html" rel="alternate"></link><published>2020-06-19T11:00:00+09:00</published><updated>2020-06-19T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-19:/yan-jiu-hui-nixiang-kete1.html</id><content type="html">&lt;p&gt;今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
+イベントレポートをこっちに移動しようか考えている。&lt;/p&gt;
+&lt;p&gt;研究の方は、研究会への申込みに着手した。
+正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
+他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>逆写像定理までの整理(3)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-3.html" rel="alternate"></link><published>2020-06-13T11:00:00+09:00</published><updated>2020-06-13T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-13:/ni-xie-xiang-ding-li-madenozheng-li-3.html</id><content type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって1週間かかってしまった。。
 これでようやく情報幾何学に入門できそう。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理(2)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-2.html" rel="alternate"></link><published>2020-06-07T11:00:00+09:00</published><updated>2020-06-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-07:/ni-xie-xiang-ding-li-madenozheng-li-2.html</id><content type="html">&lt;p&gt;ついでにラグランジュ未定乗数法と KKT 条件まで行ってしまった。欲張った。
