@@ -80,6 +80,36 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/cheng-guo-matomezhong-4.html">成果まとめ中(4)</a></h2>
+                <div class="summary"><p>AdaptiveFilter の本見て NLMS の議論を色々見てる。が、いい結果が出てこない。
+本の内容も掴みかねてる。NLMS は係数誤差ベクトルの L2 ノルムが指数的に減少するようだが本当か …？</p>
+<p>LMS の収束条件が分かっていないことに気づく。
+「Adaptive Filter Theory」では式 4.22 に、「Adaptive Signal Processing」では式 4.45 で示されているので確認中。</p>
+
+                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/cheng-guo-matomezhong-3.html">成果まとめ中(3)</a></h2>
+                <div class="summary"><p>SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/bjsiam/28/3/28_27/_pdf">機械学習における確率的最適化</a></li>
+</ul>
+<p>もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。</p>
+<div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>適応ステップサイズの分母の <span class="math">\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)</span> がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル <span class="math">\(x(\theta)\)</span> の内積 …</p>
+                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/cheng-guo-matomezhong-2.html">成果まとめ中(2)</a></h2>
                 <div class="summary"><ul class="simple">
 <li><a class="reference external" href="http://dsl4.eee.u-ryukyu.ac.jp/DOCS/DSP/p10.pdf">ディジタル信号処理 第 10 回 適応信号処理</a> 少し詳しく書いてある。やはり適応フィルタの原典を当たりたい。</li>
@@ -203,42 +233,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-5.html">LMS Filterの挙動観察中(5)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
-\end{equation*}
-</div>
-<p>別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。
-以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。</p>
-<div class="math">
-\begin{equation*}
-\ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x …</div>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-5.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-4.html">LMS Filterの挙動観察中(4)</a></h2>
-                <div class="summary"><p>本日も引き続き発散の原因を追う。
-→ ステップサイズを小さくしたら発散しなくなった …。職人芸じゃないかこんなの。NLMS みたく発散しない条件がほしいな。</p>
-<p>本当に既存研究がないか、再度調査。</p>
-<p>自然勾配を適応的に計算する方法を試している。無論、定義式通りに計算するのは問題ないことは確かめているが、計算量が気になるのです。</p>
-<p>パラメータを色々といじりつつ、論文も参照してそれなりのパラメータを見つける。
-パラメータについては <a class="reference external" href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=5&amp;ved=2ahUKEwi4ufHi4o_pAhUY_GEKHd-gDBwQFjAEegQIBRAB&amp;url=https%3A%2F%2Fwww.mdpi.com%2F2076-3417%2F9%2F21%2F4568%2Fpdf&amp;usg=AOvVaw0KgakdcC8U_T71ks8hZKDW">Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode</a> を皮切りに調査開始。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.43.8668&amp;rep=rep1&amp;type=pdf">Adaptive Method of Realizing Natural Gradient Learning for Multilayer Perceptrons</a> が甘利先生。（福水先生もいるぞ）<ul>
-<li>この論文で適応的更新式の導出が述べられる。</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf">Adaptive natural gradient learning algorithms for various stochastic models …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/aiki2.html">&laquo;</a>
@@ -278,7 +272,10 @@ Aiki's Blog            </a>
 <li class="list-group-item">
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
-    <li class="list-group-item tag-0">
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
@@ -287,8 +284,8 @@ Aiki's Blog            </a>
     <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
@@ -297,91 +294,88 @@ Aiki's Blog            </a>
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
   </ul>
 </li>

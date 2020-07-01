@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>正則化(3) - Aiki's Blog</title>
+    <title>研究会に向けて(3) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,24 +9,22 @@
 
 
 
-<link rel="canonical" href="/zheng-ze-hua-3.html">
+<link rel="canonical" href="/yan-jiu-hui-nixiang-kete3.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="LMS,SignedLMS,Natural Gradient,Empirical Fisher,Regularization" />
-        <meta name="description" content="実装の整理できて、正則化込で動かしているけど芳しくない。 正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。 タップ数が多い場合は多少の効果あり。 タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。 試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。 フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。 ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。 もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。 なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。 Noisy Natural Gradient as Variational Inference の式 (5)。 Robust Estimation of Natural Gradient in …" />
+        <meta name="keywords" content="Signed LMS,LMS,Natural Gradient" />
+        <meta name="description" content="今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。 Tomoki Kawahira Courses 東工大の教授の数学の資料集 多様体の基礎のキソ ルベーグ積分の基礎のキソ 係数をスパースにするLMSって、そういえば更新をたまにしか行わない手法もあったな。 LMSに自然勾配を導入する流れ（既存研究調査） New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。 l0 Norm Constraint LMS Algorithm for Sparse System Identification 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。 NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION L0ノルム最小化に自然勾配法をあわせた …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="正則化(3)"/>
-        <meta property="og:url" content="/zheng-ze-hua-3.html"/>
-        <meta property="og:description" content="実装の整理できて、正則化込で動かしているけど芳しくない。 正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。 タップ数が多い場合は多少の効果あり。 タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。 試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。 フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。 ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。 もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。 なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。 Noisy Natural Gradient as Variational Inference の式 (5)。 Robust Estimation of Natural Gradient in …"/>
-        <meta property="article:published_time" content="2020-05-26" />
+        <meta property="og:title" content="研究会に向けて(3)"/>
+        <meta property="og:url" content="/yan-jiu-hui-nixiang-kete3.html"/>
+        <meta property="og:description" content="今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。 Tomoki Kawahira Courses 東工大の教授の数学の資料集 多様体の基礎のキソ ルベーグ積分の基礎のキソ 係数をスパースにするLMSって、そういえば更新をたまにしか行わない手法もあったな。 LMSに自然勾配を導入する流れ（既存研究調査） New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。 l0 Norm Constraint LMS Algorithm for Sparse System Identification 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。 NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION L0ノルム最小化に自然勾配法をあわせた …"/>
+        <meta property="article:published_time" content="2020-07-01" />
             <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="Signed LMS" />
             <meta property="article:tag" content="LMS" />
-            <meta property="article:tag" content="SignedLMS" />
             <meta property="article:tag" content="Natural Gradient" />
-            <meta property="article:tag" content="Empirical Fisher" />
-            <meta property="article:tag" content="Regularization" />
             <meta property="article:author" content="aiki" />
 
 
@@ -94,10 +92,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/zheng-ze-hua-3.html"
+                    <a href="/yan-jiu-hui-nixiang-kete3.html"
                        rel="bookmark"
-                       title="Permalink to 正則化(3)">
-                        正則化(3)
+                       title="Permalink to 研究会に向けて(3)">
+                        研究会に向けて(3)
                     </a>
                 </h1>
             </header>
@@ -107,7 +105,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-05-26T11:00:00+09:00"> Tue 26 May 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-07-01T11:00:00+09:00"> Wed 01 July 2020</time>
     </span>
 
 
@@ -115,52 +113,108 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
+	<a href="/tag/signed-lms.html">Signed LMS</a>
+        /
 	<a href="/tag/lms.html">LMS</a>
         /
-	<a href="/tag/signedlms.html">SignedLMS</a>
-        /
 	<a href="/tag/natural-gradient.html">Natural Gradient</a>
-        /
-	<a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-        /
-	<a href="/tag/regularization.html">Regularization</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>実装の整理できて、正則化込で動かしているけど芳しくない。</p>
+                <p>今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。</p>
 <ul class="simple">
-<li>正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。</li>
-<li>タップ数が多い場合は多少の効果あり。<ul>
-<li>タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。</li>
-<li>試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。</li>
+<li><a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses.html">Tomoki Kawahira Courses</a> 東工大の教授の数学の資料集<ul>
+<li><a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/kiso.html">多様体の基礎のキソ</a></li>
+<li><a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/lebesgue.pdf">ルベーグ積分の基礎のキソ</a></li>
 </ul>
 </li>
-<li>フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。</li>
-<li>ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。</li>
-<li>もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。</li>
 </ul>
-<p>なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。</p>
+<p>係数をスパースにするLMSって、そういえば更新をたまにしか行わない手法もあったな。</p>
+<div class="section" id="lms">
+<h2>LMSに自然勾配を導入する流れ（既存研究調査）</h2>
 <ul class="simple">
-<li><a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf">Noisy Natural Gradient as Variational Inference</a> の式 (5)。</li>
-<li><a class="reference external" href="http://www.luigimalago.it/papers/2013GSI.pdf">Robust Estimation of Natural Gradient in Optimization by Regularized Linear Regression</a> 線形回帰における正則化に触れている。</li>
-<li><a class="reference external" href="https://ipvs.informatik.uni-stuttgart.de/mlr/papers/05-igel-Rprop.pdf">Rprop Using the Natural Gradient</a> パラメータの正則化ではない。フィッシャー情報行列に正則化パラメータを乗じた単位行列を足して逆行列を求めている。なんでも、正則化パラメータが大きければ普通の勾配法に近づくとのこと。そのとおりだが、一体どういう発想なんだろう。</li>
-<li><a class="reference external" href="https://arxiv.org/pdf/1703.00209.pdf">Online Natural Gradient as a Kalman Filter</a> ドンピシャであった（Proposition 4）けどだいぶ複雑。しかも、自然勾配法とカルマンフィルタの関係性を示している。カルマンフィルタのノイズの事前分布を取り入れている。</li>
+<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;rep=rep1&amp;type=pdf">New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm</a> これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。</li>
+<li><a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf">l0 Norm Constraint LMS Algorithm for Sparse System Identification</a> 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。</li>
+<li><a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf">NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION</a> L0ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。</li>
+<li><a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;name=DLFE-38423.pdf">Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty</a> 重みによくわからないペナルティを付加したSigned LMS。</li>
+<li><a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf">AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION</a> <strong>これが一番近いかも。</strong> なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。</li>
+<li><a class="reference external" href="https://asl.epfl.ch/wp-content/uploads/publications/journal_articles/spl_feb_2004_b.pdf">Variable Step-Size NLMS and Affine Projection Algorithms</a> これもそれなりに近い。affine projection algorithm で情報行列の逆を使っている。</li>
+<li>Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。</li>
 </ul>
-<p>あがいてたら適応的自然勾配の近似計算があった。計算負荷削減に有益そう。</p>
+</div>
+<div class="section" id="id2">
+<h2>1回ざっと目を通した論文</h2>
 <ul class="simple">
-<li><a class="reference external" href="https://papers.nips.cc/paper/3234-topmoumoute-online-natural-gradient-algorithm.pdf">Topmoumoute online natural gradient algorithm</a></li>
+<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;rep=rep1&amp;type=pdf">Natural Gradient Works Efficiently in Learning</a> そもそも甘利先生の初っ端の研究で自然勾配をLMSに入れる発想はあった。</li>
+<li><a class="reference external" href="http://www2.ee.ic.ac.uk/publications/p3943.pdf">Adaptive algorithms for sparse echo cancellation</a> 俯瞰した背景描写もある。<ul>
+<li>PNLMSに偏っているか。古い。</li>
 </ul>
+</li>
+<li><a class="reference external" href="https://iiav.org/ijav/content/volumes/21_2016_590031458046128/vol_1/835_fullpaper_1207561458214850.pdf">Review and Comparison of Variable Step-Size LMS Algorithms</a> 適応ステップサイズ手法の比較。2015年。<ul>
+<li>比較について多くの手法を3つの応用例から見ている。結論はNLMSが最高ということだったけど、比較過程については要注目。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers</a> 頻繁に参照されるPNLMS。係数の絶対値をその最大値で正規化した値を対角要素に持つ対角行列をフィッシャー情報行列の逆行列とする。<ul>
+<li>NLMSと比較。DSP実装して実ノイズで試してもいる。理論的解析（定常雑音に対する収束レート解析）もしている。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;context=ele_comeng_facwork">Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems</a> フィッシャー情報行列を対角行列で与えている。<ul>
+<li>まさに自然勾配をがっつり使う論文。絶対参照すべき。対角行列を計量にしたINLMSを導入し、スパース係数（1つだけ1.0で他全部0）ではPNLMSに負けたけど、非スパース係数（全部1）ではPNLMSよりも結果が良いとか言ってる。</li>
+<li>シミュレーション節が短すぎ。システム同定をやったらしいがよく分からん。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2017/papers/1570346064.pdf">Full Proportionate Functional Link Adaptive Filters for Nonlinear Acoustic Echo Cancellation</a> これも。謎のリーマン計量を作る。<ul>
+<li>比較データの生成が恣意的すぎるので無し。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id3">
+<h2>比較対象にすべき手法</h2>
+<ul class="simple">
+<li>NLMS, Signed-LMS, RLS</li>
+<li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">PNLMS</a></li>
+<li>IPNLMS(Improved PNLMS)</li>
+</ul>
+</div>
+<div class="section" id="id4">
+<h2>比較対象にすべきデータ</h2>
+<ul class="simple">
+<li>発話音声（ソースがない...）</li>
+<li>理想係数に入力として単位インパルス（雑音源よりもレベルの小さいノイズもあり）をXXXX回繰り返し入れ続け（途中で理想係数を急に変える）、同時にレベルを決めた雑音源を入力。<ul>
+<li>シードのみを変えて、XXX回独立した試行を行ってその平均を（残差トレンドの平均も）とる。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="id5">
+<h2>比較基準</h2>
+<ul class="simple">
+<li>2乗誤差(misalignmentとか行ったりする)[dB]</li>
+<li>計算量（畳み込み、係数更新における乗算+加算回数）</li>
+<li>定常状態での係数の分散</li>
+<li>理想係数とのずれ（もし計算できるなら。エコーキャンセラでは不可。）</li>
+<li>定常状態でのMSE</li>
+<li>MSEの和（全実験での）</li>
+</ul>
+</div>
+<div class="section" id="id6">
+<h2>思ったこと</h2>
+<ul class="simple">
+<li>ブロック線図を書くと良さそう？多くの論文が書いてる。エコーキャンセラーのアーキテクチャは示すべきか。</li>
+</ul>
+</div>
 
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
+        <li><a href="/yan-jiu-hui-nixiang-kete2.html">研究会に向けて(2)</a></li>
+        <li><a href="/yan-jiu-hui-nixiang-kete1.html">研究会に向けて(1)</a></li>
+        <li><a href="/lms-signed-lmsnoju-dong-guan-cha.html">LMS, Signed-LMSの挙動観察</a></li>
         <li><a href="/zheng-ze-hua-8.html">正則化(8)</a></li>
         <li><a href="/zheng-ze-hua-7.html">正則化(7)</a></li>
-        <li><a href="/zheng-ze-hua-6.html">正則化(6)</a></li>
-        <li><a href="/zheng-ze-hua-5.html">正則化(5)</a></li>
-        <li><a href="/zheng-ze-hua-4.html">正則化(4)</a></li>
     </ul>
 </section>
         </article>
