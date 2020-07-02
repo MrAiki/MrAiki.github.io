@@ -80,6 +80,21 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-6.html">LMS Filterの挙動観察中(6)</a></h2>
+                <div class="summary"><p>今日は実装整理して実データへ適用してみる。気になってるのが適応的自然勾配の更新式。</p>
+<ul class="simple">
+<li>確率の重み付けは正規化しないと使えそうにないということ。</li>
+<li>確率の重み付けをしても問題ないか？</li>
+</ul>
+<p>実データ適用、うーん性能が良くない！発散する！実装を確認しながら進行中。情報行列の逆行列を正規化すると発散はしないけど、逆行列がほぼ単位行列とほぼ同一で、元の SignedLMS と性能が同等。。。
+まずは、適応的自然勾配じゃなくて負荷でかいけど真面目に計算する方針で行ってみる。</p>
+<p>また、フィルタ処理を for 文でやるより numpy の演算にした方が格段に早かった。numpy 大事。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/lms-filternoju-dong-guan-cha-zhong-5.html">LMS Filterの挙動観察中(5)</a></h2>
                 <div class="summary"><div class="math">
 \begin{equation*}
@@ -195,14 +210,6 @@ Python は Jupyter を使う。Vim キーバインドで。</p>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/paseputoronxi-hua.html">パーセプトロン昔話</a></h2>
-                <div class="summary"><p class="first last">パーセプトロンについての昔話。形式ニューロンからはじめ、単層パーセプトと、逆誤差伝播法による学習まで。</p>
-
-                    <a class="btn btn-default btn-xs" href="/paseputoronxi-hua.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/aiki3.html">&laquo;</a>
@@ -243,31 +250,22 @@ Python は Jupyter を使う。Vim キーバインドで。</p>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
@@ -275,17 +273,17 @@ Python は Jupyter を使う。Vim キーバインドで。</p>
     <li class="list-group-item tag-2">
       <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
@@ -294,58 +292,67 @@ Python は Jupyter を使う。Vim キーバインドで。</p>
       <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+      <a href="/tag/test.html">test</a>
     </li>
   </ul>
 </li>

@@ -1,43 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-01T11:00:00+09:00</updated><entry><title>研究会に向けて(3)</title><link href="/yan-jiu-hui-nixiang-kete3.html" rel="alternate"></link><published>2020-07-01T11:00:00+09:00</published><updated>2020-07-01T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-01:/yan-jiu-hui-nixiang-kete3.html</id><summary type="html">&lt;p&gt;今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-02T11:00:00+09:00</updated><entry><title>研究会に向けて(4)</title><link href="/yan-jiu-hui-nixiang-kete4.html" rel="alternate"></link><published>2020-07-02T11:00:00+09:00</published><updated>2020-07-02T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-02:/yan-jiu-hui-nixiang-kete4.html</id><summary type="html">&lt;p&gt;外出したのであんまり進捗なし。周辺調査してるけど、よい（コンセンサスのとれた）比較方法ないなあ…
+実音声でやるのは確定として、トイデータはどうしようか。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;既存研究調査&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses.html"&gt;Tomoki Kawahira Courses&lt;/a&gt; 東工大の教授の数学の資料集&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/kiso.html"&gt;多様体の基礎のキソ&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/lebesgue.pdf"&gt;ルベーグ積分の基礎のキソ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;ul&gt;
+&lt;li&gt;これもしかしたら重要かもしれない。ちゃんと書けてる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;係数をスパースにするLMSって、そういえば更新をたまにしか行わない手法もあったな。&lt;/p&gt;
-&lt;div class="section" id="lms"&gt;
-&lt;h2&gt;LMSに自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
+&lt;p&gt;日本語論文ではどうなのか見ている。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm&lt;/a&gt; これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf"&gt;NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION&lt;/a&gt; L0ノルム最小化に自然勾配法をあわせた …&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses.html"&gt;Tomoki Kawahira Courses&lt;/a&gt; 東工大の教授の数学の資料集&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/kiso.html"&gt;多様体の基礎のキソ&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/lebesgue.pdf"&gt;ルベーグ積分の基礎のキソ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/50/1/50_KJ00001456848/_pdf/-char/ja"&gt;音響エコー経路の変動特性を反映させたRLS適応アルゴリズム&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.tara.tsukuba.ac.jp/~maki/reprint/Makino/sm92ieice9-20.pdf"&gt;室内インパルス応答の統計的性質に基づく指数重み付けLMSフィルタ&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;実験としては微妙で、理論と一致しているかどうかの議論で終わっている。比較実験なし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;係数をスパースにするLMSって、そういえば更新をたまにしか行わない手法もあったな。&lt;/p&gt;
-&lt;div class="section" id="lms"&gt;
-&lt;h2&gt;LMSに自然勾配を導入する流れ（既存研究調査）&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm&lt;/a&gt; これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf"&gt;NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION&lt;/a&gt; L0ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf"&gt;AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION&lt;/a&gt; &lt;strong&gt;これが一番近いかも。&lt;/strong&gt; なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://asl.epfl.ch/wp-content/uploads/publications/journal_articles/spl_feb_2004_b.pdf"&gt;Variable Step-Size NLMS and Affine Projection Algorithms&lt;/a&gt; これもそれなりに近い。affine projection algorithm で情報行列の逆を使っている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cepstrum.co.jp/rd/nlms/nlms_txt.pdf"&gt;エコーキャンセラ向けのNormalizedLMSアルゴリズムの改良&lt;/a&gt; 社内発表資料？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://leo.ec.t.kanazawa-u.ac.jp/staffs/nakayama/pub/file/dsp_symp03_dougahara.pdf"&gt;適応フィルタにおけるブロック形重み付けステップサイズの制御法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://ir.lib.u-ryukyu.ac.jp/bitstream/20.500.12000/1487/1/No59p107.pdf"&gt;直交ECLMSアルゴリズムを用いたエコーキャンセラーの設計&lt;/a&gt; ダブルトーク問題も入ってきちゃってる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.topic.ad.jp/sice/htdocs/papers/242/242-3.pdf"&gt;エコーキャンセラにおける適応アルゴリズムとダブルトーク検出の関係&lt;/a&gt; これもダブルトーク問題。しっかしNLMSとの比較のみ。&lt;/li&gt;
 &lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;1回ざっと目を通した論文&lt;/h2&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h3&gt;1回ざっと目を通した論文&lt;/h3&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; そもそも甘利先生の初っ端の研究で自然勾配をLMSに入れる発想はあった。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;外出したのであんまり進捗なし。周辺調査してるけど、よい（コンセンサスのとれた）比較方法ないなあ…
+実音声でやるのは確定として、トイデータはどうしようか。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;既存研究調査&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;ul&gt;
+&lt;li&gt;これもしかしたら重要かもしれない。ちゃんと書けてる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;日本語論文ではどうなのか見ている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/50/1/50_KJ00001456848/_pdf/-char/ja"&gt;音響エコー経路の変動特性を反映させたRLS適応アルゴリズム&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.tara.tsukuba.ac.jp/~maki/reprint/Makino/sm92ieice9-20.pdf"&gt;室内インパルス応答の統計的性質に基づく指数重み付けLMSフィルタ&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;実験としては微妙で、理論と一致しているかどうかの議論で終わっている。比較実験なし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cepstrum.co.jp/rd/nlms/nlms_txt.pdf"&gt;エコーキャンセラ向けのNormalizedLMSアルゴリズムの改良&lt;/a&gt; 社内発表資料？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://leo.ec.t.kanazawa-u.ac.jp/staffs/nakayama/pub/file/dsp_symp03_dougahara.pdf"&gt;適応フィルタにおけるブロック形重み付けステップサイズの制御法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://ir.lib.u-ryukyu.ac.jp/bitstream/20.500.12000/1487/1/No59p107.pdf"&gt;直交ECLMSアルゴリズムを用いたエコーキャンセラーの設計&lt;/a&gt; ダブルトーク問題も入ってきちゃってる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.topic.ad.jp/sice/htdocs/papers/242/242-3.pdf"&gt;エコーキャンセラにおける適応アルゴリズムとダブルトーク検出の関係&lt;/a&gt; これもダブルトーク問題。しっかしNLMSとの比較のみ。&lt;/li&gt;
+&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h3&gt;1回ざっと目を通した論文&lt;/h3&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural Gradient Works Efficiently in Learning&lt;/a&gt; LMS界隈からの引用多数。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www2.ee.ic.ac.uk/publications/p3943.pdf"&gt;Adaptive algorithms for sparse echo cancellation&lt;/a&gt; 俯瞰した背景描写もある。&lt;ul&gt;
 &lt;li&gt;PNLMSに偏っているか。古い。&lt;/li&gt;
 &lt;/ul&gt;
@@ -59,43 +73,162 @@
 &lt;li&gt;比較データの生成が恣意的すぎるので無し。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.907.849&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;New Sparse Adaptive Algorithms Based on the Natural Gradient and the l0-Norm&lt;/a&gt; これも謎のリーマン計量を使っている…。損失関数に計量が入っちゃってるけどいいのか？→大丈夫っぽい。損失関数の設計は自由。&lt;ul&gt;
+&lt;li&gt;応用が特殊すぎる。オレオレデータセットに対して有効性を示されても困る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arl.nus.edu.sg/twiki6/pub/ARL/BibEntries/Konstantinos_-_2011_-_Natural_Gradient-Based_Adaptive_Algorithms_For_Spa.pdf"&gt;NATURAL GRADIENT-BASED ADAPTIVE ALGORITHMS FOR SPARSE UNDERWATER ACOUSTIC CHANNEL IDENTIFICATION&lt;/a&gt; L0ノルム最小化に自然勾配法をあわせた。とある。やけに性能が良い。&lt;ul&gt;
+&lt;li&gt;↑と著者が同じ。データセットも同じ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。&lt;ul&gt;
+&lt;li&gt;ITU-Tのデータを使ってるのは参考になった、が、スパースなデータの作り方が恣意的すぎる。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf"&gt;AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION&lt;/a&gt; &lt;strong&gt;これが一番近いかも。&lt;/strong&gt; なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。&lt;ul&gt;
+&lt;li&gt;謎の手順（ガウス雑音に1次のIIRフィルタを通して、しかもベルヌーイ試行で出力判定する）で入力を生成している。よくあるのか？？？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://asl.epfl.ch/wp-content/uploads/publications/journal_articles/spl_feb_2004_b.pdf"&gt;Variable Step-Size NLMS and Affine Projection Algorithms&lt;/a&gt; これもそれなりに近い。affine projection algorithm で情報行列の逆を使っている。&lt;ul&gt;
+&lt;li&gt;移動平均フィルタを理想フィルタにしている。ガウス雑音に謎の2次IIRフィルタを通したものをリファレンスとしている…。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h2&gt;比較対象にすべき手法&lt;/h2&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h3&gt;比較対象にすべき手法&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;NLMS, Signed-LMS, RLS&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;PNLMS&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;IPNLMS(Improved PNLMS)&lt;/li&gt;
+&lt;li&gt;APA(Affine Projection Algorithm)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
-&lt;h2&gt;比較対象にすべきデータ&lt;/h2&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h3&gt;比較対象にすべきデータ&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;発話音声（ソースがない...）&lt;/li&gt;
 &lt;li&gt;理想係数に入力として単位インパルス（雑音源よりもレベルの小さいノイズもあり）をXXXX回繰り返し入れ続け（途中で理想係数を急に変える）、同時にレベルを決めた雑音源を入力。&lt;ul&gt;
 &lt;li&gt;シードのみを変えて、XXX回独立した試行を行ってその平均を（残差トレンドの平均も）とる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;ITU G.168のエコーパスモデル&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.itu.int/ITU-T/recommendations/rec.aspx?rec=12451&amp;amp;lang=en"&gt;公式&lt;/a&gt; から資料入手可能。&lt;/li&gt;
+&lt;li&gt;Annex Dに8つのエコーインパルスのデータが乗っかっている。5番目のインパルスがスパースだから良いらしい。&lt;/li&gt;
+&lt;li&gt;また、リファレンスの波形にフィルタを通して使うらしい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ほぼ0で、ランダムに選んだいくつかの係数だけが1になっているリファレンスフィルタの出力
+* 入力例1: ガウス雑音に1次（極が1つの）のIIRを通し、さらにベルヌーイ過程として、一定確率pでノイズ、1-pで0となる信号
+* 入力例2: ガウス雑音に2次のIIRを通す&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
-&lt;h2&gt;比較基準&lt;/h2&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h3&gt;比較基準&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;2乗誤差(misalignmentとか行ったりする)[dB]&lt;/li&gt;
 &lt;li&gt;計算量（畳み込み、係数更新における乗算+加算回数）&lt;/li&gt;
 &lt;li&gt;定常状態での係数の分散&lt;/li&gt;
-&lt;li&gt;理想係数とのずれ（もし計算できるなら。エコーキャンセラでは不可。）&lt;/li&gt;
+&lt;li&gt;理想係数との誤差MSE（もし計算できるなら。正規化してdB表示する: &lt;span class="math"&gt;\(10 \log_10 ( ||h - \hat{h}|| / ||h|| )\)&lt;/span&gt; ）&lt;/li&gt;
 &lt;li&gt;定常状態でのMSE&lt;/li&gt;
 &lt;li&gt;MSEの和（全実験での）&lt;/li&gt;
+&lt;li&gt;可変ステップサイズアルゴリズムの場合は、ステップサイズの変化&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id6"&gt;
-&lt;h2&gt;思ったこと&lt;/h2&gt;
+&lt;div class="section" id="id7"&gt;
+&lt;h3&gt;思ったこと&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;ブロック線図を書くと良さそう？多くの論文が書いてる。エコーキャンセラーのアーキテクチャは示すべきか。&lt;/li&gt;
+&lt;li&gt;提案手法はウィーナー解に収束するか？&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://onsen-mula.org/wp-content/uploads/2017/04/inoue.pdf"&gt;ロバスト適応同定手法によるエコーキャンセラの設計&lt;/a&gt; ここにウィーナー解との関連がある&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.bode.amp.i.kyoto-u.ac.jp/~kashima/lecture/ss/slide17_8.pdf"&gt;信号とシステム&lt;/a&gt; ここにもそれなりにある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;音響データベースがある...&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.nii.ac.jp/dsc/idr/speech/submit/RWCP-SSD.html"&gt;6. RWCP 実環境音声・音響データベース (RWCP-SSD)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sign アルゴリズムの概観については、以下もどっかで見ておきたい。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/essfr/8/4/8_292/_pdf/-char/ja"&gt;再考・適応アルゴリズム&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;実は自然勾配法による適応アルゴリズムは非線形適応アルゴリズムになってる？&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ykw.elec.keio.ac.jp/yukawa/yukawa_tutorial2014.pdf"&gt;非線形適応信号処理技術の新潮流 ──再生核の応用──&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(3)</title><link href="/yan-jiu-hui-nixiang-kete3.html" rel="alternate"></link><published>2020-07-01T11:00:00+09:00</published><updated>2020-07-01T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-01:/yan-jiu-hui-nixiang-kete3.html</id><content type="html">&lt;p&gt;今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses.html"&gt;Tomoki Kawahira Courses&lt;/a&gt; 東工大の教授の数学の資料集&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/kiso.html"&gt;多様体の基礎のキソ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/lebesgue.pdf"&gt;ルベーグ積分の基礎のキソ&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;係数をスパースにするLMSって、そういえば更新をたまにしか行わない手法もあったな。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>IGおべんきょ(2)</title><link href="/igobenkiyo2.html" rel="alternate"></link><published>2020-06-30T11:00:00+09:00</published><updated>2020-06-30T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-30:/igobenkiyo2.html</id><content type="html">&lt;p&gt;学会までには3-4章が手一杯に見える。しっかし先に進みたい。Fisher情報行列の意味付けをしないといかん。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://wiki.helsinki.fi/pages/viewpage.action?pageId=59051195"&gt;ヘルシンキ大の幾何学講義ノート？&lt;/a&gt;&lt;/li&gt;
