@@ -1,53 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-02T11:00:00+09:00</updated><entry><title>研究会に向けて(4)</title><link href="/yan-jiu-hui-nixiang-kete4.html" rel="alternate"></link><published>2020-07-02T11:00:00+09:00</published><updated>2020-07-02T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-02:/yan-jiu-hui-nixiang-kete4.html</id><summary type="html">&lt;p&gt;外出したのであんまり進捗なし。周辺調査してるけど、よい（コンセンサスのとれた）比較方法ないなあ…
-実音声でやるのは確定として、トイデータはどうしようか。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-07T11:00:00+09:00</updated><entry><title>研究会に向けて(9)</title><link href="/yan-jiu-hui-nixiang-kete9.html" rel="alternate"></link><published>2020-07-07T11:00:00+09:00</published><updated>2020-07-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-07:/yan-jiu-hui-nixiang-kete9.html</id><summary type="html">&lt;p&gt;トイデータに対する実験をやっているが、色々と悲しい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい&lt;ul&gt;
+&lt;li&gt;実データに対しては良い結果を出していた。&lt;/li&gt;
+&lt;li&gt;原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。&lt;/li&gt;
+&lt;li&gt;トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。&lt;/li&gt;
+&lt;li&gt;忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。&lt;/li&gt;
+&lt;li&gt;実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。&lt;ul&gt;
+&lt;li&gt;正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。&lt;/li&gt;
+&lt;li&gt;眉唾だから再度要検証。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;RLSが強すぎる。忘却係数付きRLSが一番強い。&lt;ul&gt;
+&lt;li&gt;忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0だと係数が変わったときにまったく収束していかない。&lt;/li&gt;
+&lt;li&gt;正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。&lt;/li&gt;
+&lt;li&gt;実装ミスあり。係数更新がFinvの更新前に行われていた。&lt;ul&gt;
+&lt;li&gt;普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。&lt;/li&gt;
+&lt;li&gt;実装ミスなのか微妙。。負荷減らしのための方策だった（フィッシャー情報行列の逆との積を使い回せるから …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;トイデータに対する実験をやっているが、色々と悲しい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい&lt;ul&gt;
+&lt;li&gt;実データに対しては良い結果を出していた。&lt;/li&gt;
+&lt;li&gt;原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。&lt;/li&gt;
+&lt;li&gt;トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。&lt;/li&gt;
+&lt;li&gt;忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。&lt;/li&gt;
+&lt;li&gt;実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。&lt;ul&gt;
+&lt;li&gt;正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。&lt;/li&gt;
+&lt;li&gt;眉唾だから再度要検証。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;RLSが強すぎる。忘却係数付きRLSが一番強い。&lt;ul&gt;
+&lt;li&gt;忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0だと係数が変わったときにまったく収束していかない。&lt;/li&gt;
+&lt;li&gt;正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。&lt;/li&gt;
+&lt;li&gt;実装ミスあり。係数更新がFinvの更新前に行われていた。&lt;ul&gt;
+&lt;li&gt;普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。&lt;/li&gt;
+&lt;li&gt;実装ミスなのか微妙。。負荷減らしのための方策だった（フィッシャー情報行列の逆との積を使い回せるから）&lt;/li&gt;
+&lt;li&gt;性能差が顕著なのでこれはよく考えたほうが良い。アルゴリズムの整合性的にもあやしい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;div class="section" id="id2"&gt;
 &lt;h2&gt;既存研究調査&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;ul&gt;
-&lt;li&gt;これもしかしたら重要かもしれない。ちゃんと書けてる。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;日本語論文ではどうなのか見ている。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/50/1/50_KJ00001456848/_pdf/-char/ja"&gt;音響エコー経路の変動特性を反映させたRLS適応アルゴリズム&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.tara.tsukuba.ac.jp/~maki/reprint/Makino/sm92ieice9-20.pdf"&gt;室内インパルス応答の統計的性質に基づく指数重み付けLMSフィルタ&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;実験としては微妙で、理論と一致しているかどうかの議論で終わっている。比較実験なし。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.cepstrum.co.jp/rd/nlms/nlms_txt.pdf"&gt;エコーキャンセラ向けのNormalizedLMSアルゴリズムの改良&lt;/a&gt; 社内発表資料？&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://leo.ec.t.kanazawa-u.ac.jp/staffs/nakayama/pub/file/dsp_symp03_dougahara.pdf"&gt;適応フィルタにおけるブロック形重み付けステップサイズの制御法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://ir.lib.u-ryukyu.ac.jp/bitstream/20.500.12000/1487/1/No59p107.pdf"&gt;直交ECLMSアルゴリズムを用いたエコーキャンセラーの設計&lt;/a&gt; ダブルトーク問題も入ってきちゃってる。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.topic.ad.jp/sice/htdocs/papers/242/242-3.pdf"&gt;エコーキャンセラにおける適応アルゴリズムとダブルトーク検出の関係&lt;/a&gt; これもダブルトーク問題。しっかしNLMSとの比較のみ。&lt;/li&gt;
-&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h3&gt;1回ざっと目を通した論文&lt;/h3&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.452.7280&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Natural …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;外出したのであんまり進捗なし。周辺調査してるけど、よい（コンセンサスのとれた）比較方法ないなあ…
-実音声でやるのは確定として、トイデータはどうしようか。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;既存研究調査&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;ul&gt;
-&lt;li&gt;これもしかしたら重要かもしれない。ちゃんと書けてる。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;日本語論文ではどうなのか見ている。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/50/1/50_KJ00001456848/_pdf/-char/ja"&gt;音響エコー経路の変動特性を反映させたRLS適応アルゴリズム&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.tara.tsukuba.ac.jp/~maki/reprint/Makino/sm92ieice9-20.pdf"&gt;室内インパルス応答の統計的性質に基づく指数重み付けLMSフィルタ&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;実験としては微妙で、理論と一致しているかどうかの議論で終わっている。比較実験なし。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.cepstrum.co.jp/rd/nlms/nlms_txt.pdf"&gt;エコーキャンセラ向けのNormalizedLMSアルゴリズムの改良&lt;/a&gt; 社内発表資料？&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://leo.ec.t.kanazawa-u.ac.jp/staffs/nakayama/pub/file/dsp_symp03_dougahara.pdf"&gt;適応フィルタにおけるブロック形重み付けステップサイズの制御法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://ir.lib.u-ryukyu.ac.jp/bitstream/20.500.12000/1487/1/No59p107.pdf"&gt;直交ECLMSアルゴリズムを用いたエコーキャンセラーの設計&lt;/a&gt; ダブルトーク問題も入ってきちゃってる。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.topic.ad.jp/sice/htdocs/papers/242/242-3.pdf"&gt;エコーキャンセラにおける適応アルゴリズムとダブルトーク検出の関係&lt;/a&gt; これもダブルトーク問題。しっかしNLMSとの比較のみ。&lt;/li&gt;
-&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
-&lt;/ul&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
 &lt;div class="section" id="id3"&gt;
 &lt;h3&gt;1回ざっと目を通した論文&lt;/h3&gt;
 &lt;ul class="simple"&gt;
@@ -82,7 +89,9 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; 係数l0ノルム最小化。l0ノルムをexpで近似して解析的最小化。&lt;ul&gt;
-&lt;li&gt;ITU-Tのデータを使ってるのは参考になった、が、スパースなデータの作り方が恣意的すぎる。。。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;この論文で相関のあるガウス雑音の作り方が明確に示されている。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;ITU-Tのデータを使ってるのは参考になった、&lt;/li&gt;
+&lt;li&gt;が、スパースなデータの作り方が恣意的すぎる。。。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.5242.pdf"&gt;AN IMPROVED VARIABLE STEP-SIZE AFFINE PROJECTION SIGN ALGORITHM FOR ECHO CANCELLATION&lt;/a&gt; &lt;strong&gt;これが一番近いかも。&lt;/strong&gt; なんでここまできて自然勾配に至らないのか？こいつの引用を漁ったけど同一の研究なし。&lt;ul&gt;
@@ -93,6 +102,40 @@
 &lt;li&gt;移動平均フィルタを理想フィルタにしている。ガウス雑音に謎の2次IIRフィルタを通したものをリファレンスとしている…。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1110.2907.pdf"&gt;System Identification Using Reweighted Zero Attracting Least Absolute Deviation Algorithms&lt;/a&gt; ZA-LADの原典。自分のやっている研究に近いかも。残差L1ノルム最小化はロバストだいう主張。&lt;ul&gt;
+&lt;li&gt;スパースなときに有利であることを言いたいらしい。&lt;/li&gt;
+&lt;li&gt;16タップの係数を使い、最初のXXXXイテレーションでは5番目のタップだけ1（他全部0）、次に奇数タップをすべて1にしてYYYYイテレーション、最後に偶数タップを-1にしてZZZZイテレーション。。。&lt;ul&gt;
+&lt;li&gt;ノイズとして非ガウス的（α-stableと言っていた）なものを使用。SNRはGeneralized SNRという尺度を使用。&lt;/li&gt;
+&lt;li&gt;他に、白色ガウス雑音に1次のフィルタを通して入力していた。出力に相関をもたせる意図か。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.6809.pdf"&gt;A Novel Family of Adaptive Filtering Algorithms Based on The Logarithmic Cost&lt;/a&gt; LLADの原典。&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;これのデータよい。採用。&lt;/strong&gt; 単純明快。(理論ばっかりで分かりにくいと思っていたが）&lt;ul&gt;
+&lt;li&gt;リファレンス信号 &lt;span class="math"&gt;\(d_{t} = \ve{w}_{0}^{\mathsf{T}} \ve{x}_{t} + n_{t}\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\ve{w}_{0}\)&lt;/span&gt; はリファレンス係数（論文ではランダム選択にしていた。スパースじゃないならいいかも。）、 &lt;span class="math"&gt;\(\ve{x}_{t}\)&lt;/span&gt; は分散 &lt;span class="math"&gt;\(\sigma_{x}^{2} = 1\)&lt;/span&gt; の i.i.d な平均0ガウス信号系列、 &lt;span class="math"&gt;\(n_{t}\)&lt;/span&gt; はノイズ信号（分散0.01のガウス雑音と分散10000(偏差100)で一定確率(1,2,5%)で発生するインパルス雑音）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;一定確率でインパルス雑音が発生するケースはロバスト性を示すために使われていた。LMSは全く等化できずにいた。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://gr.xjtu.edu.cn/c/document_library/get_file?folderId=1540809&amp;amp;name=DLFE-38423.pdf"&gt;Sparse Least Logarithmic Absolute Difference Algorithm with Correntropy-Induced Metric Penalty&lt;/a&gt; 重みによくわからないペナルティを付加したSigned LMS。&lt;ul&gt;
+&lt;li&gt;これもしかしたら重要かもしれない。ちゃんと書けてる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Convergence Analysis of Zero Attracting Natural Gradient Non-Parametric Maximum Likelihood Algorithm これ読めないんだけどAbstract読み限り相当やってそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;以下、日本語論文&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/50/1/50_KJ00001456848/_pdf/-char/ja"&gt;音響エコー経路の変動特性を反映させたRLS適応アルゴリズム&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.tara.tsukuba.ac.jp/~maki/reprint/Makino/sm92ieice9-20.pdf"&gt;室内インパルス応答の統計的性質に基づく指数重み付けLMSフィルタ&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;実験としては微妙で、理論と一致しているかどうかの議論で終わっている。比較実験なし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cepstrum.co.jp/rd/nlms/nlms_txt.pdf"&gt;エコーキャンセラ向けのNormalizedLMSアルゴリズムの改良&lt;/a&gt; 社内発表資料？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://leo.ec.t.kanazawa-u.ac.jp/staffs/nakayama/pub/file/dsp_symp03_dougahara.pdf"&gt;適応フィルタにおけるブロック形重み付けステップサイズの制御法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://ir.lib.u-ryukyu.ac.jp/bitstream/20.500.12000/1487/1/No59p107.pdf"&gt;直交ECLMSアルゴリズムを用いたエコーキャンセラーの設計&lt;/a&gt; ダブルトーク問題も入ってきちゃってる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.topic.ad.jp/sice/htdocs/papers/242/242-3.pdf"&gt;エコーキャンセラにおける適応アルゴリズムとダブルトーク検出の関係&lt;/a&gt; これもダブルトーク問題。しっかしNLMSとの比較のみ。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id4"&gt;
@@ -129,7 +172,7 @@
 &lt;li&gt;2乗誤差(misalignmentとか行ったりする)[dB]&lt;/li&gt;
 &lt;li&gt;計算量（畳み込み、係数更新における乗算+加算回数）&lt;/li&gt;
 &lt;li&gt;定常状態での係数の分散&lt;/li&gt;
-&lt;li&gt;理想係数との誤差MSE（もし計算できるなら。正規化してdB表示する: &lt;span class="math"&gt;\(10 \log_10 ( ||h - \hat{h}|| / ||h|| )\)&lt;/span&gt; ）&lt;/li&gt;
+&lt;li&gt;理想係数との誤差MSE（MSD(Mean Square Deviationとも言う。Simonの本から来てると思われる)。もし計算できるなら。正規化してdB表示する: &lt;span class="math"&gt;\(10 \log_{10} ( ||h - \hat{h}|| / ||h|| )\)&lt;/span&gt; ）&lt;/li&gt;
 &lt;li&gt;定常状態でのMSE&lt;/li&gt;
 &lt;li&gt;MSEの和（全実験での）&lt;/li&gt;
 &lt;li&gt;可変ステップサイズアルゴリズムの場合は、ステップサイズの変化&lt;/li&gt;
@@ -220,7 +263,159 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(3)</title><link href="/yan-jiu-hui-nixiang-kete3.html" rel="alternate"></link><published>2020-07-01T11:00:00+09:00</published><updated>2020-07-01T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-01:/yan-jiu-hui-nixiang-kete3.html</id><content type="html">&lt;p&gt;今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(8)</title><link href="/yan-jiu-hui-nixiang-kete8.html" rel="alternate"></link><published>2020-07-06T11:00:00+09:00</published><updated>2020-07-06T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-06:/yan-jiu-hui-nixiang-kete8.html</id><summary type="html">&lt;p&gt;昨日の結果を受けて、相関があるガウス雑音信号を実験の対象にしたいと思っている。（なぜなら、現実のデータは相関があるから。そして、NLMSは相関のあるデータに弱いから。）いろんな論文で構成法が乗っていたので再調査。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; に明確に記述あり。v[t]をi.i.dなガウス雑音として、1次の自己回帰(Auto Regressive)フィルタ x[t] = x[t-1] * 0.8 + v[t] で信号に相関をもたせたあとに、正規化（標準偏差で割る）して分散を1にしている。有色雑音と言っていた。&lt;/p&gt;
+&lt;p&gt;また、昨日の夜にモデルに係数を状態として持たせるか考えた。係数が途中で変わるケースの結果が取りにくいので。
+でも、扱う側でうまく計算すればできそうなのでやめた。モデル側の実装が複雑になるのは避けたい。&lt;/p&gt;
+&lt;p&gt;実験ケースを分類しよう。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;人口データ: 観測雑音: -40dBの白色ガウス雑音、MSD …&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;昨日の結果を受けて、相関があるガウス雑音信号を実験の対象にしたいと思っている。（なぜなら、現実のデータは相関があるから。そして、NLMSは相関のあるデータに弱いから。）いろんな論文で構成法が乗っていたので再調査。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; に明確に記述あり。v[t]をi.i.dなガウス雑音として、1次の自己回帰(Auto Regressive)フィルタ x[t] = x[t-1] * 0.8 + v[t] で信号に相関をもたせたあとに、正規化（標準偏差で割る）して分散を1にしている。有色雑音と言っていた。&lt;/p&gt;
+&lt;p&gt;また、昨日の夜にモデルに係数を状態として持たせるか考えた。係数が途中で変わるケースの結果が取りにくいので。
+でも、扱う側でうまく計算すればできそうなのでやめた。モデル側の実装が複雑になるのは避けたい。&lt;/p&gt;
+&lt;p&gt;実験ケースを分類しよう。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;人口データ: 観測雑音: -40dBの白色ガウス雑音、MSD（Mean Square Deviations, 係数2乗誤差）とMSE（Mean Square Error, 二乗誤差）を比較&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;入力: i.i.d.ガウス雑音、係数: 一様乱数で選択&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;主張: NLMSと同程度、RLSは収束が早い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;入力: 相関のあるi.i.d.ガウス雑音、係数: 一様乱数で選択&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;主張: NLMSよりは早い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;入力: 相関のあるi.i.d.ガウス雑音、係数: 一様乱数で選択、XXXXサンプル後に係数を一様乱数で変更&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;主張: 係数変更後の適応でRLSより収束が早い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/blockquote&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;実データに対する等価実験: MSEを比較。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;音源は著作権切れデータベースから10秒程度を切り出して使用。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;この通りにコードをまとめていく。水曜日あたりで結果が出ると◎。
+人口データについてはまとまったかな。火曜日で実データ選定と実験をやっていく。&lt;/p&gt;
+&lt;p&gt;「信号とシステム」にシステムを等価する際の図が描かれている。ロスレス音声ではどうなっているか、資料作りまでに要観察。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(7)</title><link href="/yan-jiu-hui-nixiang-kete7.html" rel="alternate"></link><published>2020-07-05T11:00:00+09:00</published><updated>2020-07-05T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-05:/yan-jiu-hui-nixiang-kete7.html</id><content type="html">&lt;p&gt;トイデータ対象の実験スクリプトを作ってた。で、RLSが強いことが分かった。
+定常的なガウス雑音（ラプラス雑音でも！）環境下では、指数レートよりも早く最適解に入っていく。
+途中で最適係数を変えると収束は他よりも鈍くなる。そこを突くべきか。
+（RLSの忘却係数を0.8くらいにしないと同等にならない。）&lt;/p&gt;
+&lt;p&gt;また、正規化込みの自然勾配法はNLMSと同程度の収束レートだった。ていうか性能ほぼ同じ。
+→入力に強い相関をもたせる（x[t] += x[t-1] * 0.97）とNLMSの性能が大幅悪化することを確認した。
+入力に相関がない場合は（自己相関行列が等方的になるので）NLMSと同等になるようだ。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(6)</title><link href="/yan-jiu-hui-nixiang-kete6.html" rel="alternate"></link><published>2020-07-04T11:00:00+09:00</published><updated>2020-07-04T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-04:/yan-jiu-hui-nixiang-kete6.html</id><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.cs.tut.fi/~tabus/course/ASP/SGN2206LectureNew5.pdf"&gt;Lecture 5: Variants of the LMS algorithm&lt;/a&gt; を見ていたらNLMSをラグランジュ未定乗数法で求める方法があった。今までは事後残差最小化で見ていたけど、これは本質かもしれない。持ち帰って再度計算してみるべきかも。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.cs.tut.fi/~tabus/course/ASP/SGN2206LectureNew4.pdf"&gt;Lecture 4: Stochastic gradient based adaptation: Least Mean Square (LMS) Algorithm&lt;/a&gt; にHeykinの簡易まとめあり。有益。&lt;/p&gt;
+&lt;p&gt;t-wadaさんのプレゼンテーションで情熱を持って話しているか？をチェックポイントにしている。 &lt;a class="reference external" href="https://www.slideshare.net/t_wada/the-only-one-big-thing-every-programmer-should-know/51"&gt;ここ&lt;/a&gt; 。 全くそのとおりだと思うので思い出しておく。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(5)</title><link href="/yan-jiu-hui-nixiang-kete5.html" rel="alternate"></link><published>2020-07-03T11:00:00+09:00</published><updated>2020-07-03T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-03:/yan-jiu-hui-nixiang-kete5.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;引き続き周辺を見るが、そろそろRLSとPNLMSの実装に入ろうかな。
+トイデータの実験条件も整理したい。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.6809.pdf"&gt;A Novel Family of Adaptive Filtering Algorithms Based on The Logarithmic Cost&lt;/a&gt; のデータの作り方を参考にしようと思う。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;リファレンス信号 &lt;span class="math"&gt;\(d_{t} = \ve{w}_{0}^{\mathsf{T}} \ve{x}_{t} + n_{t}\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\ve{w}_{0}\)&lt;/span&gt; はリファレンス係数（論文ではランダム選択にしていた。スパースじゃないならいいかも。）、 &lt;span class="math"&gt;\(\ve{x …&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;引き続き周辺を見るが、そろそろRLSとPNLMSの実装に入ろうかな。
+トイデータの実験条件も整理したい。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1311.6809.pdf"&gt;A Novel Family of Adaptive Filtering Algorithms Based on The Logarithmic Cost&lt;/a&gt; のデータの作り方を参考にしようと思う。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;リファレンス信号 &lt;span class="math"&gt;\(d_{t} = \ve{w}_{0}^{\mathsf{T}} \ve{x}_{t} + n_{t}\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\ve{w}_{0}\)&lt;/span&gt; はリファレンス係数（論文ではランダム選択にしていた。スパースじゃないならいいかも。）、 &lt;span class="math"&gt;\(\ve{x}_{t}\)&lt;/span&gt; は分散 &lt;span class="math"&gt;\(\sigma_{x}^{2} = 1\)&lt;/span&gt; の i.i.d な平均0ガウス信号系列、 &lt;span class="math"&gt;\(n_{t}\)&lt;/span&gt; はノイズ信号（分散0.01のガウス雑音と分散10000(偏差100)で一定確率(1,2,5%)で発生するインパルス雑音）&lt;ul&gt;
+&lt;li&gt;一定確率でインパルス雑音が発生するケースはロバスト性を示すために使われていた。LMSは全く等化できずにいた。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;念の為Simon, Heykinを見てから方針を固める。
+5.7節(p285)あたりから実験の記述あり。図5.19(p287)は必要になるはず。しかし、入力はベルヌーイ列、フィルタ係数は偶対称。。。
+p297あたりに誤差曲面が書いてあった。遅いケースが有るということを、たしかに自分も確認している。&lt;/p&gt;
+&lt;p&gt;RLSを実装し、トイデータ向けの実験フレームワークを作ってしまうべきか。
+その後にPNLMSを追加できれば良い。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(4)</title><link href="/yan-jiu-hui-nixiang-kete4.html" rel="alternate"></link><published>2020-07-02T11:00:00+09:00</published><updated>2020-07-02T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-02:/yan-jiu-hui-nixiang-kete4.html</id><content type="html">&lt;p&gt;外出したのであんまり進捗なし。周辺調査してるけど、よい（コンセンサスのとれた）比較方法ないなあ…
+実音声でやるのは確定として、トイデータはどうしようか。再考・適応アルゴリズムにあるように、完全に人工のインパルス応答（指数敵減衰信号）でもいいかも。係数をスパースにするのが目的ではないし。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(3)</title><link href="/yan-jiu-hui-nixiang-kete3.html" rel="alternate"></link><published>2020-07-01T11:00:00+09:00</published><updated>2020-07-01T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-01:/yan-jiu-hui-nixiang-kete3.html</id><content type="html">&lt;p&gt;今日は予定を立てよう。ちょうど良いタイミングでゼミ発表も入った。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses.html"&gt;Tomoki Kawahira Courses&lt;/a&gt; 東工大の教授の数学の資料集&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.math.titech.ac.jp/~kawahira/courses/kiso.html"&gt;多様体の基礎のキソ&lt;/a&gt;&lt;/li&gt;
