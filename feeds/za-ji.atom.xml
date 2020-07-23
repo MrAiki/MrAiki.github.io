@@ -1,52 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-07T11:00:00+09:00</updated><entry><title>研究会に向けて(9)</title><link href="/yan-jiu-hui-nixiang-kete9.html" rel="alternate"></link><published>2020-07-07T11:00:00+09:00</published><updated>2020-07-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-07:/yan-jiu-hui-nixiang-kete9.html</id><summary type="html">&lt;p&gt;トイデータに対する実験をやっているが、色々と悲しい。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-22T11:00:00+09:00</updated><entry><title>研究会に向けて - 執筆(1)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html" rel="alternate"></link><published>2020-07-22T11:00:00+09:00</published><updated>2020-07-22T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-22:/yan-jiu-hui-nixiang-kete-zhi-bi-1.html</id><summary type="html">&lt;p&gt;今日から執筆していく。目標、7/27に第一般。&lt;/p&gt;
+&lt;p&gt;しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表とおんなじだが、
+イントロをしっかり書きたいから、既存のロスレス音声の論文の構成を参考にしていく。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい&lt;ul&gt;
-&lt;li&gt;実データに対しては良い結果を出していた。&lt;/li&gt;
-&lt;li&gt;原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。&lt;/li&gt;
-&lt;li&gt;トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。&lt;/li&gt;
-&lt;li&gt;忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。&lt;/li&gt;
-&lt;li&gt;実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。&lt;ul&gt;
-&lt;li&gt;正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。&lt;/li&gt;
-&lt;li&gt;眉唾だから再度要検証。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;RLSが強すぎる。忘却係数付きRLSが一番強い。&lt;ul&gt;
-&lt;li&gt;忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0だと係数が変わったときにまったく収束していかない。&lt;/li&gt;
-&lt;li&gt;正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。&lt;/li&gt;
-&lt;li&gt;実装ミスあり。係数更新がFinvの更新前に行われていた。&lt;ul&gt;
-&lt;li&gt;普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。&lt;/li&gt;
-&lt;li&gt;実装ミスなのか微妙。。負荷減らしのための方策だった（フィッシャー情報行列の逆との積を使い回せるから …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;トイデータに対する実験をやっているが、色々と悲しい。&lt;/p&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf"&gt;Sparse modeling for lossless audio compression&lt;/a&gt; OptimFROGのひと。&lt;ul&gt;
+&lt;li&gt;オーディオ環境は高級化している。その中でロスレス圧縮は現実的である。プレーヤが使うから、デコーダは高速実装できるべきだ。今現在使われているいろんなコーデックがある。MP4-ALS, WMAL, ALAC, Monkey's Audio, FLAC, OptimFROG等。それぞれ異なる予測モデルと圧縮アルゴリズムを使用している。圧縮率、エンコード速度、デコード速度の3つの評価軸があるが、全てを最大にすることはできず、トレードオフの関係にある。例えば、予測次数を最大にすれば圧縮率は向上するが、エンコード/デコード速度が悪化する。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://decoy.iki.fi/dsound/ambisonic/motherlode/source/01215233.pdf"&gt;An Introduction to Super Audio CD and DVD-Audio&lt;/a&gt; Super Audio CD(SACD …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;今日から執筆していく。目標、7/27に第一般。&lt;/p&gt;
+&lt;p&gt;しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表とおんなじだが、
+イントロをしっかり書きたいから、既存のロスレス音声の論文の構成を参考にしていく。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい&lt;ul&gt;
-&lt;li&gt;実データに対しては良い結果を出していた。&lt;/li&gt;
-&lt;li&gt;原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。&lt;/li&gt;
-&lt;li&gt;トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。&lt;/li&gt;
-&lt;li&gt;忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。&lt;/li&gt;
-&lt;li&gt;実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。&lt;ul&gt;
-&lt;li&gt;正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。&lt;/li&gt;
-&lt;li&gt;眉唾だから再度要検証。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf"&gt;Sparse modeling for lossless audio compression&lt;/a&gt; OptimFROGのひと。&lt;ul&gt;
+&lt;li&gt;オーディオ環境は高級化している。その中でロスレス圧縮は現実的である。プレーヤが使うから、デコーダは高速実装できるべきだ。今現在使われているいろんなコーデックがある。MP4-ALS, WMAL, ALAC, Monkey's Audio, FLAC, OptimFROG等。それぞれ異なる予測モデルと圧縮アルゴリズムを使用している。圧縮率、エンコード速度、デコード速度の3つの評価軸があるが、全てを最大にすることはできず、トレードオフの関係にある。例えば、予測次数を最大にすれば圧縮率は向上するが、エンコード/デコード速度が悪化する。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://decoy.iki.fi/dsound/ambisonic/motherlode/source/01215233.pdf"&gt;An Introduction to Super Audio CD and DVD-Audio&lt;/a&gt; Super Audio CD(SACD)なんてあったのか…すでに死んでるが…。OptimFROGでは高級なオーディオの規格として挙げていた。&lt;/li&gt;
+&lt;li&gt;A hierarchical lossless/lossy coding system for high quality audio up to 192 kHz sampling 24 bit format: 公開されてない...&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kecl.ntt.co.jp/people/harada.noboru/doc/thesis_noboru_harada_201630173_final.pdf"&gt;Lossless Compression of Speech and Audio Signals, and Its Application&lt;/a&gt; NTTの原田さんの博論。成果は符号化メイン。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://mi.eng.cam.ac.uk/reports/svr-ftp/auto-pdf/robinson_tr156.pdf"&gt;SHORTEN: Simple lossless and near-lossless waveform compression&lt;/a&gt; シンプルで宜しい。うざったるい背景描写ほとんどなし。&lt;ul&gt;
+&lt;li&gt;デジタル化した音声ファイルをそのまま保存するとかなりの容量を食う。ZIP等の一般的な圧縮アルゴリズムは、音声の特徴を捉えていないからうまく圧縮できない。一般的な音声データは16bitで、サンプル間に相関がある。これらのファイルに対する圧縮ユーティリティは高速で、移植性があり、多くのデータを処理可能で素晴らしい圧縮率を達成する必要がある。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;RLSが強すぎる。忘却係数付きRLSが一番強い。&lt;ul&gt;
-&lt;li&gt;忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0だと係数が変わったときにまったく収束していかない。&lt;/li&gt;
-&lt;li&gt;正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jas-audio.or.jp/jas_cms/wp-content/uploads/2017/03/201703_027-033.pdf"&gt;国際標準 MPEG-4 ALS による ハイレゾ音源ロスレス伝送&lt;/a&gt; MPEG4-ALSの分かりやすい説明。飾り言葉がおおいので注意。（「コト」や「モノ」の下りは使えない）&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://elvera.nue.tu-berlin.de/files/1216Liebchen2009.pdf"&gt;MPEG­4 ALS – The Standard for Lossless Audio Coding&lt;/a&gt; MPEG4-ALSのもうちょっと分かりやすい説明。厚すぎず手軽で良い。&lt;ul&gt;
+&lt;li&gt;ロッシー符号化は編集やアーカイビングに向かない。歪みを生む。MP3やAACを知覚符号化と言っていた。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。&lt;/li&gt;
-&lt;li&gt;実装ミスあり。係数更新がFinvの更新前に行われていた。&lt;ul&gt;
-&lt;li&gt;普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。&lt;/li&gt;
-&lt;li&gt;実装ミスなのか微妙。。負荷減らしのための方策だった（フィッシャー情報行列の逆との積を使い回せるから）&lt;/li&gt;
-&lt;li&gt;性能差が顕著なのでこれはよく考えたほうが良い。アルゴリズムの整合性的にもあやしい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/7991/abe1173b7ad06b23d5a51d7e5b5092b2f201.pdf"&gt;予測誤差の Golomb-Rice 符号量を最小化する線形予測分析&lt;/a&gt; これは遊びが無くて良いように見える。というかこれ引用するだろうし、しっかり参考にすべき。&lt;ul&gt;
+&lt;li&gt;やはりバックグラウンドにロスレス音声は使える。うまく話を作ろう。&lt;/li&gt;
+&lt;li&gt;「最小絶対値推定量がロバスト推定量で あることから線形予測分析に基づく音声分析の耐雑音 性能を向上する目的として応用されている」もよいアイデア。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.eie.polyu.edu.hk/~enyhchan/ce_ac_p1.pdf"&gt;Lossless compression of digital audio&lt;/a&gt; 今の発表につながる概観書。基礎は変わってない。&lt;ul&gt;
+&lt;li&gt;デジタル配信で重要な役割を果たす、ミキシングを高い忠実性を保てる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://cs.joensuu.fi/sipu/pub/RLS-LMS_TIP2008.pdf"&gt;Cascaded RLS–LMS Prediction in MPEG-4 Lossless Audio Coding&lt;/a&gt; MPEG4にカスケード接続したLMS+RLSを突っ込むと3%程圧縮率がよくなるという話。MPEG4-ALSも適応フィルタを使っているので、引用する必要はある。そらそうよ。負荷大丈夫か。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="section" id="id2"&gt;
 &lt;h2&gt;既存研究調査&lt;/h2&gt;
@@ -263,7 +251,675 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(8)</title><link href="/yan-jiu-hui-nixiang-kete8.html" rel="alternate"></link><published>2020-07-06T11:00:00+09:00</published><updated>2020-07-06T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-06:/yan-jiu-hui-nixiang-kete8.html</id><summary type="html">&lt;p&gt;昨日の結果を受けて、相関があるガウス雑音信号を実験の対象にしたいと思っている。（なぜなら、現実のデータは相関があるから。そして、NLMSは相関のあるデータに弱いから。）いろんな論文で構成法が乗っていたので再調査。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(17) - 中間発表</title><link href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html" rel="alternate"></link><published>2020-07-20T11:00:00+09:00</published><updated>2020-07-20T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-20:/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;SA、実はヘブ則そのものでは？&lt;ul&gt;
+&lt;li&gt;全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;グラフは正方形にすべし。&lt;ul&gt;
+&lt;li&gt;全くその通り。すぐに修正するべし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や&lt;/li&gt;
+&lt;li&gt;NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;SA、実はヘブ則そのものでは？&lt;ul&gt;
+&lt;li&gt;全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;グラフは正方形にすべし。&lt;ul&gt;
+&lt;li&gt;全くその通り。すぐに修正するべし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や&lt;/li&gt;
+&lt;li&gt;NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right] = \frac{1}{\sigma^{2}} \mathrm{E} \left[ \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right]\)&lt;/span&gt; はほんまか？a.e.では？近似では？ &lt;span class="math"&gt;\(\mathrm{E}\)&lt;/span&gt; だから厳密？&lt;ul&gt;
+&lt;li&gt;やっぱり要審査。自分は期待値操作でルベーグ積分するから、測度0の点は抜いても大丈夫だと思っている。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;厳密にいけそう。&lt;/strong&gt; &lt;span class="math"&gt;\(\mathrm{sgn}(x) := \frac{x}{|x|}\)&lt;/span&gt; と定義すると、 &lt;span class="math"&gt;\((\mathrm{sgn}(x))^{2} = \frac{x^{2}}{|x|^{2}} = 1\)&lt;/span&gt; 。 &lt;span class="math"&gt;\(x=0\)&lt;/span&gt; のときが怪しくなるが、これは、 &lt;span class="math"&gt;\(\mathrm{sgn}(x) \approx \frac{x}{\sqrt{x^{2} + \varepsilon}}\)&lt;/span&gt; としてやって（ &lt;span class="math"&gt;\(\varepsilon \to 0\)&lt;/span&gt; とすれば符号関数に一致）、 &lt;span class="math"&gt;\((\mathrm{sgn}(x))^{2} \approx \frac{x^{2}}{x^{2} + \varepsilon}\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\varepsilon \to 0\)&lt;/span&gt; としてやれば恒等的に1になる。多分、近似を使ったやり方のほうが &lt;span class="math"&gt;\(x=0\)&lt;/span&gt; でややこしくならないから筋がいい。&lt;/li&gt;
+&lt;li&gt;答えとしては、 &lt;span class="math"&gt;\(\mathrm{sgn}(x) := \lim_{\varepsilon \to 0} \frac{x}{\sqrt{x^{2} + \varepsilon}}\)&lt;/span&gt; がいいかも。&lt;/li&gt;
+&lt;li&gt;いや、まだ怪しい… &lt;span class="math"&gt;\(\mathrm{sgn}(0) = 0\)&lt;/span&gt; という定義だから、絶対 &lt;span class="math"&gt;\((\mathrm{sgn}(0))^{2} = 0\)&lt;/span&gt; になる。積分を絡めて考えないとだめか。至るところ1なんだけど、1点 &lt;span class="math"&gt;\(x=0\)&lt;/span&gt; において &lt;span class="math"&gt;\(0\)&lt;/span&gt; を取る関数の平均。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;グラフのitaration → iteration&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; の計算について。&lt;ul&gt;
+&lt;li&gt;低ランク近似、とくに、 &lt;span class="math"&gt;\(n\)&lt;/span&gt; 重対角行列で近似できん？→確かに。相関行列は端っこに近づくほど0になっていくから、有効かも。&lt;/li&gt;
+&lt;li&gt;DFTしてなだらかに変化する要素（つまり低域信号）のパワーは切り捨てる近似がオッケーだったりしないか。→まったくそのとおり、&lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; をDFTすると、ウィーナ・ヒンチンが顔を出しそう。&lt;/li&gt;
+&lt;li&gt;スレ―ビングというらしい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;（所感）残差がガウス分布に従うとしたLMS ←ちょっと突然すぎる。&lt;ul&gt;
+&lt;li&gt;LMS（残差がガウス分布に従う）は… ←こっちのほうがいい。むしろ、ガウス分布の話はいらない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;損失関数はReLuにしても良いのでは→あり。でもどうなるんだろう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(16)</title><link href="/yan-jiu-hui-nixiang-kete16.html" rel="alternate"></link><published>2020-07-14T11:00:00+09:00</published><updated>2020-07-14T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-14:/yan-jiu-hui-nixiang-kete16.html</id><content type="html">&lt;p&gt;引き続き資料を作っている。&lt;/p&gt;
+&lt;p&gt;昨日気になっていた&lt;/p&gt;
+&lt;blockquote&gt;
+NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。&lt;/blockquote&gt;
+&lt;p&gt;は並行して確認中。直交原理（勾配が0になる解）を満たす解はWienner解に一致するのか？というところ。
+怪しいかもしれない。適応ステップサイズがミソで、最適係数時、そいつを含めて平均をとったときにゼロになるとは思えない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://towardsdatascience.com/natural-gradient-ce454b3dcdfa"&gt;Natural Gradient A better gradient for gradient descent?&lt;/a&gt; 面白そうだけどちとタイミングが悪い。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(15)</title><link href="/yan-jiu-hui-nixiang-kete15.html" rel="alternate"></link><published>2020-07-13T11:00:00+09:00</published><updated>2020-07-13T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-13:/yan-jiu-hui-nixiang-kete15.html</id><content type="html">&lt;p&gt;淡々と資料を作っている。
+NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(14)</title><link href="/yan-jiu-hui-nixiang-kete14.html" rel="alternate"></link><published>2020-07-12T11:00:00+09:00</published><updated>2020-07-12T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-12:/yan-jiu-hui-nixiang-kete14.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand{\parfrac}[2]{{\frac{\partial #1}{\partial #2}}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;今日から発表資料作る。久々にBeamerでやろうかね。&lt;/p&gt;
+&lt;p&gt;資料作ってたら、ラグランジュ未定乗数法による定式化で &lt;span class="math"&gt;\((\ve{h} - \ve{h}^{\prime})^{\mathsf{T}}\ve{R}(\ve{h} - \ve{h}^{\prime})\)&lt;/span&gt; の最小化を考えたけど、これってレイリー商の下限すなわち最小固有値が答えでは。もうちょっと考えたくなってきた。 &lt;span class="math"&gt;\(\mu(n)\)&lt;/span&gt; は垂線の長さに対応するんだっけ？&lt;/p&gt;
+&lt;p&gt;アフィン写像アルゴリズムへの拡張は、NLMSの制約を増やしたものに過ぎない。ラグランジュの未定乗数法を使って、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mathcal{L} &amp;amp;= (\ve{h …&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand{\parfrac}[2]{{\frac{\partial #1}{\partial #2}}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;今日から発表資料作る。久々にBeamerでやろうかね。&lt;/p&gt;
+&lt;p&gt;資料作ってたら、ラグランジュ未定乗数法による定式化で &lt;span class="math"&gt;\((\ve{h} - \ve{h}^{\prime})^{\mathsf{T}}\ve{R}(\ve{h} - \ve{h}^{\prime})\)&lt;/span&gt; の最小化を考えたけど、これってレイリー商の下限すなわち最小固有値が答えでは。もうちょっと考えたくなってきた。 &lt;span class="math"&gt;\(\mu(n)\)&lt;/span&gt; は垂線の長さに対応するんだっけ？&lt;/p&gt;
+&lt;p&gt;アフィン写像アルゴリズムへの拡張は、NLMSの制約を増やしたものに過ぎない。ラグランジュの未定乗数法を使って、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mathcal{L} &amp;amp;= (\ve{h} - \ve{h}^{\prime})^{\mathsf{T}}\ve{R}(\ve{h} - \ve{h}^{\prime}) + (\ve{d} - \ve{A}\ve{h}^{\prime})^{\mathsf{T}} \ve{\lambda} \\
+\parfrac{\mathcal{L}}{\ve{h}^{\prime}} &amp;amp;= 2\ve{R}(\ve{h} - \ve{h}^{\prime}) - \parfrac{}{\ve{h}^{\prime}} \ve{h}^{\prime\mathsf{T}} \ve{A}^{\mathsf{T}} \ve{\lambda} \\
+&amp;amp;= 2\ve{R}(\ve{h} - \ve{h}^{\prime}) - \ve{A}^{\mathsf{T}} \ve{\lambda} \\
+\implies \ve{h}^{\prime} &amp;amp;= \ve{h} + \frac{1}{2} \ve{R}^{-1} \ve{A}^{\mathsf{T}} \ve{\lambda} \\
+\implies \ve{\lambda} &amp;amp;= 2 (\ve{A} \ve{R}^{-1} \ve{A}^{\mathsf{T}})\ve{e}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;から、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{h}^{\prime} &amp;amp;= \ve{h} + \ve{R}^{-1}\ve{A}^{\mathsf{T}}(\ve{A} \ve{R}^{-1} \ve{A}^{\mathsf{T}})^{-1} \ve{e} \\
+&amp;amp;= \ve{h} + \ve{R}^{-1}\ve{A}^{\mathsf{T}}(\ve{A} \ve{R}^{-1} \ve{A}^{\mathsf{T}})^{-1}(\ve{d} - \ve{A} \ve{h}) \\
+&amp;amp;= \left\{ \ve{I} - \ve{R}^{-1}\ve{A}^{\mathsf{T}}(\ve{A} \ve{R}^{-1} \ve{A}^{\mathsf{T}})^{-1}\ve{A} \right\} \ve{h} + \ve{R}^{-1}\ve{A}^{\mathsf{T}}(\ve{A} \ve{R}^{-1} \ve{A}^{\mathsf{T}})\ve{d}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\ve{P} = \ve{R}^{-1}\ve{A}^{\mathsf{T}}(\ve{A} \ve{R}^{-1} \ve{A}^{\mathsf{T}})^{-1}\ve{A}\)&lt;/span&gt; とすれば &lt;span class="math"&gt;\(\ve{P}^{2} = \ve{P}\)&lt;/span&gt; だから射影行列になっている。&lt;/p&gt;
+&lt;p&gt;アルゴリズムを導いたけどあんまりいい考察は出てこない、というか、煩雑。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(13)</title><link href="/yan-jiu-hui-nixiang-kete13.html" rel="alternate"></link><published>2020-07-11T11:00:00+09:00</published><updated>2020-07-11T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-11:/yan-jiu-hui-nixiang-kete13.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;発表向けの脚本を書いてた。&lt;/p&gt;
+&lt;p&gt;正規化アルゴリズムに関して、まだしたりない考察がある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;射影先の超平面の曲率はもしかして &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; だったりしない？漠然とした超平面ではなく、何らかの性質がないか？&lt;ul&gt;
+&lt;li&gt;これは、制約が一次式だから絶対に超平面になる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;アフィン写像アルゴリズムへ拡張するべきでは？&lt;ul&gt;
+&lt;li&gt;やってみた。次の日へどうぞ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;発表向けの脚本を書いてた。&lt;/p&gt;
+&lt;p&gt;正規化アルゴリズムに関して、まだしたりない考察がある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;射影先の超平面の曲率はもしかして &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; だったりしない？漠然とした超平面ではなく、何らかの性質がないか？&lt;ul&gt;
+&lt;li&gt;これは、制約が一次式だから絶対に超平面になる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;アフィン写像アルゴリズムへ拡張するべきでは？&lt;ul&gt;
+&lt;li&gt;やってみた。次の日へどうぞ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(12)</title><link href="/yan-jiu-hui-nixiang-kete12.html" rel="alternate"></link><published>2020-07-10T11:00:00+09:00</published><updated>2020-07-10T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-10:/yan-jiu-hui-nixiang-kete12.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;発表に向けてのプロットに集中したい。また、正規化自然勾配SAが事後残差最小化ではなくラグランジュから導いて同じ結論が得られるか見たい。（もしかしたら、別の更新式が出る可能性がある）&lt;/p&gt;
+&lt;p&gt;ラグランジュの結果、かなり良い解釈が得られた。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;発表に向けてのプロットに集中したい。また、正規化自然勾配SAが事後残差最小化ではなくラグランジュから導いて同じ結論が得られるか見たい。（もしかしたら、別の更新式が出る可能性がある）&lt;/p&gt;
+&lt;p&gt;ラグランジュの結果、かなり良い解釈が得られた。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(11)</title><link href="/yan-jiu-hui-nixiang-kete11.html" rel="alternate"></link><published>2020-07-09T11:00:00+09:00</published><updated>2020-07-09T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-09:/yan-jiu-hui-nixiang-kete11.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;乗せるデータをまとめる。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;自然勾配SA法の有効性を示す。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;人口データに対する実験: SA(ステップサイズ=0.005,0.01,0.02)と比較して収束が速いことを示す。しかし係数適応は遅いことは同時に指摘。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;正規化自然勾配SA法の有効性を示す。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;人口データに対する実験: RLS(忘却係数=1,0.9,0.99)と比較。収束は遅い場合があるが、定常誤差は小さく、また係数変更時の適応が早い。忘却係数に依存せず安定した収束性能を示す。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;自然勾配法の有効性を示す。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;実データに対する実験: 音楽の一部データに対する比較。SA, RLS(忘却係数=0.99), 正規化自然勾配SA, 自然勾配SAで比較。&lt;/li&gt;
+&lt;li&gt;RMSを比較。RLSとほぼ同等の性能を達成している。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;乗せるデータをまとめる。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;自然勾配SA法の有効性を示す。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;人口データに対する実験: SA(ステップサイズ=0.005,0.01,0.02)と比較して収束が速いことを示す。しかし係数適応は遅いことは同時に指摘。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;正規化自然勾配SA法の有効性を示す。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;人口データに対する実験: RLS(忘却係数=1,0.9,0.99)と比較。収束は遅い場合があるが、定常誤差は小さく、また係数変更時の適応が早い。忘却係数に依存せず安定した収束性能を示す。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol class="arabic simple" start="3"&gt;
+&lt;li&gt;自然勾配法の有効性を示す。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;実データに対する実験: 音楽の一部データに対する比較。SA, RLS(忘却係数=0.99), 正規化自然勾配SA, 自然勾配SAで比較。&lt;/li&gt;
+&lt;li&gt;RMSを比較。RLSとほぼ同等の性能を達成している。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(10)</title><link href="/yan-jiu-hui-nixiang-kete10.html" rel="alternate"></link><published>2020-07-08T11:00:00+09:00</published><updated>2020-07-08T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-08:/yan-jiu-hui-nixiang-kete10.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;今日あたりで目処を…というか、デフォルトの自然勾配法に対する言い訳を考えておきたい。
+ガチャガチャいじっていると、LMSに &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を掛けたのも強いということが分かってくる…。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{h}^{\prime} \leftarrow \ve{h} + \mu \ve{R}^{-1} \varepsilon(n) \ve{x}(n)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;何度も見てきた通りだが、上式のステップサイズを（事後誤差最小化基準により）適応化すると正規化版の式に一致する。ちなみに、LMSに対してはフィッシャー情報行列が意味のある統計量に結びつかない。Signアルゴリズムの改良から話を初めて、ステップサイズ適応化してまでたどり着くと、初めてLMS版に対応する式が導かれる。&lt;/p&gt;
+&lt;p&gt;確かに上は性能が良いが、裏付けが薄く眉唾の感を逃れられない。疑似自然勾配LMSと名付けて実装しておく。名目としては …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;今日あたりで目処を…というか、デフォルトの自然勾配法に対する言い訳を考えておきたい。
+ガチャガチャいじっていると、LMSに &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を掛けたのも強いということが分かってくる…。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{h}^{\prime} \leftarrow \ve{h} + \mu \ve{R}^{-1} \varepsilon(n) \ve{x}(n)
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;何度も見てきた通りだが、上式のステップサイズを（事後誤差最小化基準により）適応化すると正規化版の式に一致する。ちなみに、LMSに対してはフィッシャー情報行列が意味のある統計量に結びつかない。Signアルゴリズムの改良から話を初めて、ステップサイズ適応化してまでたどり着くと、初めてLMS版に対応する式が導かれる。&lt;/p&gt;
+&lt;p&gt;確かに上は性能が良いが、裏付けが薄く眉唾の感を逃れられない。疑似自然勾配LMSと名付けて実装しておく。名目としては、正規化の簡略版と見れるはず。収束議論もしておきたい。&lt;/p&gt;
+&lt;p&gt;と思ったら、疑似自然勾配LMSは実データですっ飛ぶ傾向あり。誤差が急上昇するところで係数が吹っ飛んでしまう。。トレードオフのようで、誤差の符号をとる（自然勾配SA）は適応が遅すぎて、残差をそのまま使う（疑似自然勾配LMS）は適応が敏感すぎてすっ飛ぶ傾向がある。正規化は本質的な働きをしているように見える。&lt;/p&gt;
+&lt;p&gt;まとめようか。
+勾配を観察すれば分かることだけど、やっぱり自然勾配SAは勾配が平坦になりすぎるきらいがある。どんなに最適値との差があっても同一の勾配になりやすい。
+実データでは十分なサンプルが取れて、しかも特性はのんびり変化するから性能が良くなる。
+忘却係数は高く取れば定常誤差を小さくできるが、1.0にすると特性追従が遅くなるので、1にほど近い0.997等に設定する。ステップサイズは実験では1.0等大きめに、実データは0.1等にとる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(9)</title><link href="/yan-jiu-hui-nixiang-kete9.html" rel="alternate"></link><published>2020-07-07T11:00:00+09:00</published><updated>2020-07-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-07:/yan-jiu-hui-nixiang-kete9.html</id><summary type="html">&lt;p&gt;トイデータに対する実験をやっているが、色々と悲しい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい&lt;ul&gt;
+&lt;li&gt;実データに対しては良い結果を出していた。&lt;/li&gt;
+&lt;li&gt;原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。&lt;/li&gt;
+&lt;li&gt;トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。&lt;/li&gt;
+&lt;li&gt;忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。&lt;/li&gt;
+&lt;li&gt;実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。&lt;ul&gt;
+&lt;li&gt;正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。&lt;/li&gt;
+&lt;li&gt;眉唾だから再度要検証。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;RLSが強すぎる。忘却係数付きRLSが一番強い。&lt;ul&gt;
+&lt;li&gt;忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0（普通のRLS）だと係数が変わったときにまったく収束していかない。&lt;/li&gt;
+&lt;li&gt;正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。&lt;/li&gt;
+&lt;li&gt;実装ミスあり。係数更新がFinvの更新前に行われていた。&lt;ul&gt;
+&lt;li&gt;普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。&lt;/li&gt;
+&lt;li&gt;実装ミスなのか微妙 …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;トイデータに対する実験をやっているが、色々と悲しい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい&lt;ul&gt;
+&lt;li&gt;実データに対しては良い結果を出していた。&lt;/li&gt;
+&lt;li&gt;原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。&lt;/li&gt;
+&lt;li&gt;トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。&lt;/li&gt;
+&lt;li&gt;忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。&lt;/li&gt;
+&lt;li&gt;実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。&lt;ul&gt;
+&lt;li&gt;正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。&lt;/li&gt;
+&lt;li&gt;眉唾だから再度要検証。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;RLSが強すぎる。忘却係数付きRLSが一番強い。&lt;ul&gt;
+&lt;li&gt;忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0（普通のRLS）だと係数が変わったときにまったく収束していかない。&lt;/li&gt;
+&lt;li&gt;正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。&lt;/li&gt;
+&lt;li&gt;実装ミスあり。係数更新がFinvの更新前に行われていた。&lt;ul&gt;
+&lt;li&gt;普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。&lt;/li&gt;
+&lt;li&gt;実装ミスなのか微妙。。負荷減らしのための方策だった（フィッシャー情報行列の逆との積を使い回せるから）&lt;/li&gt;
+&lt;li&gt;性能差が顕著なのでこれはよく考えたほうが良い。アルゴリズムの整合性的にもあやしい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて(8)</title><link href="/yan-jiu-hui-nixiang-kete8.html" rel="alternate"></link><published>2020-07-06T11:00:00+09:00</published><updated>2020-07-06T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-06:/yan-jiu-hui-nixiang-kete8.html</id><summary type="html">&lt;p&gt;昨日の結果を受けて、相関があるガウス雑音信号を実験の対象にしたいと思っている。（なぜなら、現実のデータは相関があるから。そして、NLMSは相関のあるデータに弱いから。）いろんな論文で構成法が乗っていたので再調査。&lt;/p&gt;
 &lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf"&gt;l0 Norm Constraint LMS Algorithm for Sparse System Identification&lt;/a&gt; に明確に記述あり。v[t]をi.i.dなガウス雑音として、1次の自己回帰(Auto Regressive)フィルタ x[t] = x[t-1] * 0.8 + v[t] で信号に相関をもたせたあとに、正規化（標準偏差で割る）して分散を1にしている。有色雑音と言っていた。&lt;/p&gt;
 &lt;p&gt;また、昨日の夜にモデルに係数を状態として持たせるか考えた。係数が途中で変わるケースの結果が取りにくいので。
 でも、扱う側でうまく計算すればできそうなのでやめた。モデル側の実装が複雑になるのは避けたい。&lt;/p&gt;
