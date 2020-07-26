@@ -1,5 +1,129 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-22T11:00:00+09:00</updated><entry><title>研究会に向けて - 執筆(1)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html" rel="alternate"></link><published>2020-07-22T11:00:00+09:00</published><updated>2020-07-22T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-22:/yan-jiu-hui-nixiang-kete-zhi-bi-1.html</id><summary type="html">&lt;p&gt;今日から執筆していく。目標、7/27に第一般。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-26T11:00:00+09:00</updated><entry><title>研究会に向けて - 執筆(3)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html" rel="alternate"></link><published>2020-07-26T11:00:00+09:00</published><updated>2020-07-26T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-26:/yan-jiu-hui-nixiang-kete-zhi-bi-3.html</id><content type="html">&lt;p&gt;土日は黙々と執筆してた。
+1点気になったのが、自然勾配法を共役勾配法的にやれないかというところ。そうすれば逆行列を計算しなくて済む。
+ここらへん誰かやってないのかな？誰でも思いつくと思うけど。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて - 執筆(2)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html" rel="alternate"></link><published>2020-07-24T11:00:00+09:00</published><updated>2020-07-24T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-24:/yan-jiu-hui-nixiang-kete-zhi-bi-2.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\inprod[2]{\langle #1,\ #2 \rangle}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;うーん、SAの原典を探ってるときに&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://read.pudn.com/downloads125/ebook/529634/Adaptive_Filtering_-_Algorithms_and_Practical_Implementation.pdf"&gt;Adaptive Filtering: Algorithms and Practical Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;が参照されてて、その中で&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www02.smt.ufrj.br/~diniz/conf/confi12.pdf"&gt;Performance of LMS-Newton Adaptation Algorithms With Variable Convergence Factor in Nonstationary Environments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;が参照されてたけど、全く同じやん…&lt;/p&gt;
+&lt;p&gt;どうも、Winner解を求める最適化問題のニュートン法を求めると、自己相関行列の逆が自然に出てくるみたい。そして、その適応ステップ版アルゴリズム（LMS Newton Algorithm, 初出はAdaptive Signal …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\inprod[2]{\langle #1,\ #2 \rangle}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;うーん、SAの原典を探ってるときに&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://read.pudn.com/downloads125/ebook/529634/Adaptive_Filtering_-_Algorithms_and_Practical_Implementation.pdf"&gt;Adaptive Filtering: Algorithms and Practical Implementation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;が参照されてて、その中で&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www02.smt.ufrj.br/~diniz/conf/confi12.pdf"&gt;Performance of LMS-Newton Adaptation Algorithms With Variable Convergence Factor in Nonstationary Environments&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;が参照されてたけど、全く同じやん…&lt;/p&gt;
+&lt;p&gt;どうも、Winner解を求める最適化問題のニュートン法を求めると、自己相関行列の逆が自然に出てくるみたい。そして、その適応ステップ版アルゴリズム（LMS Newton Algorithm, 初出はAdaptive Signal Processing(Widrow)）は上記論文と完全に同一。&lt;/p&gt;
+&lt;p&gt;LMS Newton Algorithmは、Adaptive Signal Processingのp142あたり（Chapter8冒頭）が詳しいが、残差の二乗を目的関数（Adaptive Filter Theory p105 2.38, 2.50に注目）としたときのニュートン法を近似して得られる。導出にあたり勾配を近似（確率降下）することでNewton法が成立している。&lt;/p&gt;
+&lt;p&gt;適応ステップサイズの設定法には他にもある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/ieejeiss1987/119/8-9/119_8-9_1027/_pdf/-char/ja"&gt;準最適ステップゲインを用いたBlock LMS-Newtonアルゴリズム&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;これはLMS Newton Algorithmに関する話だけど、ここで提案されているやり方をSAに持っていけないか？→ブロック単位で更新しているから話が違う？いや、もうちょっと読み込もう。&lt;ul&gt;
+&lt;li&gt;この論文で可変ステップサイズに関する議論が出てきている。最適係数から垂線を下ろしたところでステップサイズを決めるという方針。それにしたがってNGSAにおいても最適なステップサイズを求めたら今までのNNGSAと同一の結果が出た。&lt;/li&gt;
+&lt;li&gt;勾配 &lt;span class="math"&gt;\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)&lt;/span&gt; に対して &lt;span class="math"&gt;\(\inprod{\ve{R}^{-1}\ve{g}[n]}{\ve{h}_{\rm opt} - (\ve{h}[n] + \mu[n] \ve{R}^{-1} \ve{g}[n])}_{\ve{R}} = 0\)&lt;/span&gt; を満たす &lt;span class="math"&gt;\(\mu[n]\)&lt;/span&gt; こそ、勾配のなす方向に対して &lt;span class="math"&gt;\(\ve{h}_{\rm opt}\)&lt;/span&gt; から垂線を降ろせているから最適になる。直交条件を展開すると、 &lt;span class="math"&gt;\(\ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} (\ve{h}_{opt} - \ve{h}[n]) - \mu[n] \ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} \ve{R}^{-1} \ve{g}[n] = 0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)&lt;/span&gt; を突っ込むと &lt;span class="math"&gt;\(\mathrm{sgn}(\varepsilon[n]) \ve{x}[n]^{\mathsf{T}} (\ve{h}_{\rm opt} - \ve{h}[n]) - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = \mathrm{sgn}(\varepsilon[n]) \varepsilon[n] - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = 0\)&lt;/span&gt; よりいつものステップサイズが出てくる。&lt;/li&gt;
+&lt;li&gt;つまり、NNGSAはその意味でも最適。追記すべきかも。しかし、勾配 &lt;span class="math"&gt;\(\ve{g}[n]\)&lt;/span&gt; がLMSのときとの差異が気になる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;有益そうなのは、ブロックあたり1回だけ逆行列補題を使うだけでもよいという主張（問題ないことを示している）。つまり自己相関行列の更新を間引く。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.academia.edu/14148013/Performance_of_LMS-Newton_adaptation_algorithms_with_variable_convergence_factor_in_nonstationary_environments"&gt;Analysis of LMS-Newton Adaptive Filtering Algorithms with Variable Convergence Factor&lt;/a&gt; Academaから落とした。&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Newton LMS AlgorithmはRLSと等価。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.academia.edu/17820650/Optimal_variable_step_size_for_the_LMS_Newton_algorithm_with_application_to_subband_adaptive_filtering?auto=download"&gt;Optimal variable step size for the LMS/Newton algorithm with application to subband adaptive filtering&lt;/a&gt; これもAcademiaから&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;でも、NNGSAまで至らないと上記の一致は指摘できない。また、こっちはFisher情報行列ベースで話を進めているから、射影の足がKLダイバージェンスに一致することを議論できる。&lt;/p&gt;
+&lt;p&gt;あ、でもNGSAは残差のsgnとってるだけだから、LMS Newton Algorithmのステップサイズを荒く量子化したやつに対応するのか。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/52288867.pdf"&gt;Adaptive filters: stable but divergent&lt;/a&gt; なんか適応フィルタのまとめ。時間があれば。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SAの収束性能解析論文がヒットし始めた&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Adaptive Filtering with Binary Reinforcement とても重要な論文。SAの限界について基本的な定理が述べられている。そして、SAはLMSより遅いという指摘あり。これが欲しかった。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/fe70/e6867138651ac95130ec53cebc2ba8b7ecab.pdf?_ga=2.105956032.2125347977.1595579214-2033161310.1595579214"&gt;CONVERGENCE ANALYSIS OF THE SIGN ALGORITHM FOR ADAPTIVE FILTERING&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて - 執筆(1)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html" rel="alternate"></link><published>2020-07-22T11:00:00+09:00</published><updated>2020-07-22T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-22:/yan-jiu-hui-nixiang-kete-zhi-bi-1.html</id><summary type="html">&lt;p&gt;今日から執筆していく。目標、7/27に第一般。&lt;/p&gt;
 &lt;p&gt;しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表とおんなじだが、
 イントロをしっかり書きたいから、既存のロスレス音声の論文の構成を参考にしていく。&lt;/p&gt;
 &lt;ul class="simple"&gt;

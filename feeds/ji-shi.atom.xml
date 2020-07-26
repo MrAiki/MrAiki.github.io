@@ -2419,7 +2419,7 @@ f(t) &amp;amp;= \frac{1}{2\pi} \sum_{n=-\infty}^{\infty} \frac{1}{f_{s}} f\left(
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="記事"></category><category term="ポエム"></category></entry><entry><title>パーセプトロン昔話</title><link href="/paseputoronxi-hua.html" rel="alternate"></link><published>2020-04-23T15:30:00+09:00</published><updated>2020-04-23T15:30:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/paseputoronxi-hua.html</id><summary type="html">&lt;p class="first last"&gt;パーセプトロンについての昔話。形式ニューロンからはじめ、単層パーセプトと、逆誤差伝播法による学習まで。&lt;/p&gt;
+&lt;/script&gt;</content><category term="記事"></category><category term="ポエム"></category></entry><entry><title>パーセプトロン昔話</title><link href="/paseputoronxi-hua.html" rel="alternate"></link><published>2020-04-23T15:30:00+09:00</published><updated>2020-04-23T15:30:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/paseputoronxi-hua.html</id><summary type="html">&lt;p class="first last"&gt;パーセプトロンについての昔話。形式ニューロンからはじめ、単層パーセプトロンと、逆誤差伝播法による学習まで。&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;&lt;strong&gt;ニューラルネットワーク（Neural Network,
 以下NN）&lt;/strong&gt;は機械学習の歴史と共に歩んできたと言っても過言ではない.
 戦後間もないウィーナーの時代 &lt;a class="footnote-reference" href="#id25" id="id2"&gt;[1]&lt;/a&gt; からモデルが構築され始め,
