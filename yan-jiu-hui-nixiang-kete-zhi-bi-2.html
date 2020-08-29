@@ -143,7 +143,7 @@ Aiki's Blog            </a>
 <li><a class="reference external" href="https://www.jstage.jst.go.jp/article/ieejeiss1987/119/8-9/119_8-9_1027/_pdf/-char/ja">準最適ステップゲインを用いたBlock LMS-Newtonアルゴリズム</a><ul>
 <li>これはLMS Newton Algorithmに関する話だけど、ここで提案されているやり方をSAに持っていけないか？→ブロック単位で更新しているから話が違う？いや、もうちょっと読み込もう。<ul>
 <li>この論文で可変ステップサイズに関する議論が出てきている。最適係数から垂線を下ろしたところでステップサイズを決めるという方針。それにしたがってNGSAにおいても最適なステップサイズを求めたら今までのNNGSAと同一の結果が出た。</li>
-<li>勾配 <span class="math">\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)</span> に対して <span class="math">\(\inprod{\ve{R}^{-1}\ve{g}[n]}{\ve{h}_{\rm opt} - (\ve{h}[n] + \mu[n] \ve{R}^{-1} \ve{g}[n])}_{\ve{R}} = 0\)</span> を満たす <span class="math">\(\mu[n]\)</span> こそ、勾配のなす方向に対して <span class="math">\(\ve{h}_{\rm opt}\)</span> から垂線を降ろせているから最適になる。直交条件を展開すると、 <span class="math">\(\ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} (\ve{h}_{opt} - \ve{h}[n]) - \mu[n] \ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} \ve{R}^{-1} \ve{g}[n] = 0\)</span> で、 <span class="math">\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)</span> を突っ込むと <span class="math">\(\mathrm{sgn}(\varepsilon[n]) \ve{x}[n]^{\mathsf{T}} (\ve{h}_{\rm opt} - \ve{h}[n]) - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = \mathrm{sgn}(\varepsilon[n]) \varepsilon[n] - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = 0\)</span> よりいつものステップサイズが出てくる。</li>
+<li>勾配 <span class="math">\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)</span> に対して <span class="math">\(\inprod{\ve{R}^{-1}\ve{g}[n]}{\ve{h}_{\rm opt} - (\ve{h}[n] + \mu[n] \ve{R}^{-1} \ve{g}[n])}_{\ve{R}} = 0\)</span> を満たす <span class="math">\(\mu[n]\)</span> こそ、勾配のなす方向に対して <span class="math">\(\ve{h}_{\rm opt}\)</span> から垂線を降ろせているから最適になる。直交条件を展開すると、 <span class="math">\(\ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} (\ve{h}_{opt} - \ve{h}[n]) - \mu[n] \ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} \ve{R}^{-1} \ve{g}[n] = 0\)</span> で、 <span class="math">\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)</span> を突っ込むと <span class="math">\(\mathrm{sgn}(\varepsilon[n]) \ve{x}[n]^{\mathsf{T}} (\ve{h}_{\rm opt} - \ve{h}[n]) - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = \mathrm{sgn}(\varepsilon[n]) \varepsilon[n] + \mathrm{sgn}(\varepsilon[n]) v[n] - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = 0\)</span> より、<span class="math">\(v[n]=0\)</span> ならばいつものステップサイズが出てくる。論文間違ってると思う。。。</li>
 <li>つまり、NNGSAはその意味でも最適。追記すべきかも。しかし、勾配 <span class="math">\(\ve{g}[n]\)</span> がLMSのときとの差異が気になる。</li>
 </ul>
 </li>
@@ -157,7 +157,7 @@ Aiki's Blog            </a>
 <li><a class="reference external" href="https://www.academia.edu/17820650/Optimal_variable_step_size_for_the_LMS_Newton_algorithm_with_application_to_subband_adaptive_filtering?auto=download">Optimal variable step size for the LMS/Newton algorithm with application to subband adaptive filtering</a> これもAcademiaから</li>
 </ul>
 <p>でも、NNGSAまで至らないと上記の一致は指摘できない。また、こっちはFisher情報行列ベースで話を進めているから、射影の足がKLダイバージェンスに一致することを議論できる。</p>
-<p>あ、でもNGSAは残差のsgnとってるだけだから、LMS Newton Algorithmのステップサイズを荒く量子化したやつに対応するのか。</p>
+<p>あ、でもNGSAは残差のsgnとってるだけだから、LMS Newton Algorithmのステップサイズを荒く量子化したやつに対応するのか。いや、それでも、ラプラス分布仮定時に最急勾配になってるはずなんや。最適値近傍で頑張って0に近づけるし、しかも遠いときはゆっくり近づいてロングテールな分布を作っているんや。</p>
 <ul class="simple">
 <li><a class="reference external" href="https://core.ac.uk/download/pdf/52288867.pdf">Adaptive filters: stable but divergent</a> なんか適応フィルタのまとめ。時間があれば。</li>
 </ul>
@@ -233,11 +233,11 @@ Aiki's Blog            </a>
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
+        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">研究会に向けて - 執筆(5)</a></li>
+        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">研究会に向けて - 執筆(4)</a></li>
         <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">研究会に向けて - 執筆(3)</a></li>
         <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">研究会に向けて - 執筆(1)</a></li>
         <li><a href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">研究会に向けて(17) - 中間発表</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete16.html">研究会に向けて(16)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete15.html">研究会に向けて(15)</a></li>
     </ul>
 </section>
         </article>
@@ -264,25 +264,22 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
@@ -291,46 +288,43 @@ Aiki's Blog            </a>
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
@@ -339,34 +333,46 @@ Aiki's Blog            </a>
       <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
   </ul>
 </li>

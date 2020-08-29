@@ -115,23 +115,23 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>本稿では MCMC 法の解説のため、MC 法による積分の計算方法（モンテカルロ積分）から、MCMC による手法の概要を見ていく。MCMC 法は有名かつ知り尽くされた手法で、多くの良質な説明資料 <a class="footnote-reference" href="#id39" id="id1">[1]</a>, <a class="footnote-reference" href="#id40" id="id2">[2]</a>, <a class="footnote-reference" href="#id41" id="id3">[3]</a>, <a class="footnote-reference" href="#id42" id="id4">[4]</a>, <a class="footnote-reference" href="#id43" id="id5">[5]</a> が存在している。従ってここの説明は読まずに、資料を見てもらった方が理解が早いかもしれない。</p>
+                <p>本稿ではMCMC法の解説のため、MC法による積分の計算方法（モンテカルロ積分）から、MCMCによる手法の概要を見ていく。MCMC法は有名かつ知り尽くされた手法で、多くの良質な説明資料 <a class="footnote-reference" href="#id39" id="id1">[1]</a>, <a class="footnote-reference" href="#id40" id="id2">[2]</a>, <a class="footnote-reference" href="#id41" id="id3">[3]</a>, <a class="footnote-reference" href="#id42" id="id4">[4]</a>, <a class="footnote-reference" href="#id43" id="id5">[5]</a> が存在している。従ってここの説明は読まずに、資料を見てもらった方が理解が早いかもしれない。</p>
 <p>一般に <strong>MC（Monte-Calro, モンテカルロ）法</strong>
-は、サンプリング（サンプルを乱数から生成すること）によってシミュレーションや数値計算を行う手法である。特に確率分布が関わる積分値 <a class="footnote-reference" href="#id44" id="id6">[6]</a> を近似的に求める MC 法はモンテカルロ積分と呼ばれる。モンテカルロ積分は確率的な推論の一種であり、大数の法則 <a class="footnote-reference" href="#id45" id="id7">[7]</a> によって、十分なサンプル数をとれば近似精度をいくらでも良くする事ができる。サンプリングの手間がある為、近似分布をあらかじめ仮定する様な決定論的な推論よりも遥かに推論が遅い。しかし、MC は近似分布が求められないような場合にも適用可能であり、汎用性が高いと言える。</p>
-<p>MC 法によって原理的には任意の解を求められるが、十分なサンプル数の要求というのが大きな問題を孕んでいる。サンプリングの自由度（範囲及び次元）が大きくなると、解の計算にあまり寄与しない（無駄な）サンプルが増えてしまう。計算を現実的かつ効率的に行うためには、サンプルの選択が重要になる。</p>
+は、サンプリング（サンプルを乱数から生成すること）によってシミュレーションや数値計算を行う手法である。特に確率分布が関わる積分値 <a class="footnote-reference" href="#id44" id="id6">[6]</a> を近似的に求めるMC法はモンテカルロ積分と呼ばれる。モンテカルロ積分は確率的な推論の一種であり、大数の法則 <a class="footnote-reference" href="#id45" id="id7">[7]</a> によって、十分なサンプル数をとれば近似精度をいくらでも良くする事ができる。サンプリングの手間がある為、近似分布をあらかじめ仮定する様な決定論的な推論よりも遥かに推論が遅い。しかし、MCは近似分布が求められないような場合にも適用可能であり、汎用性が高いと言える。</p>
+<p>MC法によって原理的には任意の解を求められるが、十分なサンプル数の要求というのが大きな問題を孕んでいる。サンプリングの自由度（範囲及び次元）が大きくなると、解の計算にあまり寄与しない（無駄な）サンプルが増えてしまう。計算を現実的かつ効率的に行うためには、サンプルの選択が重要になる。</p>
 <p>そして <strong>MCMC（Markov Chain Monte-Calro, マルコフ連鎖モンテカルロ）法</strong>
-は、新しいサンプルを以前に生成したサンプルに確率的に依存して（サンプルの列がマルコフ連鎖となる様に）生成する MC 法である。MCMC では、新しく生成したサンプルを採択（採用）するか棄却（捨てる）するかも確率的に判断する。この手続きによって、無駄なサンプルを極力減らすようにサンプリングを実行することができる。</p>
+は、新しいサンプルを以前に生成したサンプルに確率的に依存して（サンプルの列がマルコフ連鎖となる様に）生成するMC法である。MCMCでは、新しく生成したサンプルを採択（採用）するか棄却（捨てる）するかも確率的に判断する。この手続きによって、無駄なサンプルを極力減らすようにサンプリングを実行することができる。</p>
 <div class="contents local topic" id="id8">
 <ul class="simple">
-<li><a class="reference internal" href="#mc" id="id65">MC 法による積分 - モンテカルロ積分</a></li>
+<li><a class="reference internal" href="#mc" id="id65">MC法による積分 - モンテカルロ積分</a></li>
 <li><a class="reference internal" href="#id13" id="id66">重点サンプリング</a><ul>
 <li><a class="reference internal" href="#id14" id="id67">MCMC</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#id16" id="id68">遷移確率の条件 - 詳細釣り合い条件</a></li>
-<li><a class="reference internal" href="#id22" id="id69">メトロポリス - ヘイスティングス法</a></li>
+<li><a class="reference internal" href="#id22" id="id69">メトロポリス-ヘイスティングス法</a></li>
 <li><a class="reference internal" href="#id27" id="id70">ギブスサンプリング</a></li>
-<li><a class="reference internal" href="#id30" id="id71">MCMC による最適化</a></li>
+<li><a class="reference internal" href="#id30" id="id71">MCMCによる最適化</a></li>
 <li><a class="reference internal" href="#id31" id="id72">焼きなまし法</a><ul>
 <li><a class="reference internal" href="#id32" id="id73">補足</a></li>
 </ul>
@@ -144,7 +144,7 @@ Aiki's Blog            </a>
 </ul>
 </div>
 <div class="section" id="mc">
-<h2><a class="toc-backref" href="#id65">MC 法による積分 - モンテカルロ積分</a></h2>
+<h2><a class="toc-backref" href="#id65">MC法による積分 - モンテカルロ積分</a></h2>
 <p>確率変数を<span class="math">\(d\)</span>次元の実数値ベクトル <a class="footnote-reference" href="#id46" id="id9">[8]</a>
 <span class="math">\(\boldsymbol{x} = [x_{1},\dots,x_{d}]^{\mathsf{T}} \in X \subset \mathbb{R}^{d}\)</span>とする。ここで<span class="math">\(X\)</span>は全事象 <a class="footnote-reference" href="#id47" id="id10">[9]</a>
 の集合である。<span class="math">\(\boldsymbol{x}\)</span>の確率分布を<span class="math">\(r(\boldsymbol{x})\)</span>とし、関数<span class="math">\(h\)</span>の確率分布<span class="math">\(r\)</span>による平均（期待値）</p>
@@ -153,7 +153,7 @@ Aiki's Blog            </a>
 I = \int_{X} h(\boldsymbol{x})r(\boldsymbol{x}) d\boldsymbol{x} = \mathrm{E}_{r}[h(\boldsymbol{x})] \tag{1}
 \end{equation*}
 </div>
-<p>を求めることを考える。ここで、<span class="math">\(\mathrm{E}_{p}[\cdot]\)</span>は確率分布<span class="math">\(p\)</span>による平均を表す。<span class="math">\(I\)</span>において、関数<span class="math">\(h\)</span>の形に制約を与えておらず積分として様々な値が計算できる。例を挙げると :</p>
+<p>を求めることを考える。ここで、<span class="math">\(\mathrm{E}_{p}[\cdot]\)</span>は確率分布<span class="math">\(p\)</span>による平均を表す。<span class="math">\(I\)</span>において、関数<span class="math">\(h\)</span>の形に制約を与えておらず積分として様々な値が計算できる。例を挙げると:</p>
 <ul class="simple">
 <li><span class="math">\(h(\boldsymbol{x}) = \boldsymbol{x}\)</span> :
 この場合は<span class="math">\(\mathrm{E}_{r}[\boldsymbol{x}]\)</span>、即ち<span class="math">\(\boldsymbol{x}\)</span>の平均を求める</li>
@@ -167,20 +167,20 @@ I = \int_{X} h(\boldsymbol{x})r(\boldsymbol{x}) d\boldsymbol{x} = \mathrm{E}_{r}
 \hat{I} = \frac{1}{n} \sum_{i=1}^{n} h(\boldsymbol{x}_{i}) \tag{2}
 \end{equation*}
 </div>
-<p>で計算できる。大数の法則により、サンプル数の極限を取れば標本平均は真の平均に一致する :</p>
+<p>で計算できる。大数の法則により、サンプル数の極限を取れば標本平均は真の平均に一致する:</p>
 <div class="math">
 \begin{equation*}
 \lim_{n \to \infty} \hat{I} = I
 \end{equation*}
 </div>
-<p>この様にして平均を求める方法を <strong>モンテカルロ積分 (Monte-Carlo
-Integration)</strong> という。一般にモンテカルロ法 (Monte-Carlo
-Method) はサンプリングによってシミュレーションや数値計算を行う事を指す。</p>
+<p>この様にして平均を求める方法を <strong>モンテカルロ積分(Monte-Carlo
+Integration)</strong> という。一般にモンテカルロ法(Monte-Carlo
+Method)はサンプリングによってシミュレーションや数値計算を行う事を指す。</p>
 </div>
 <div class="section" id="id13">
 <h2><a class="toc-backref" href="#id66">重点サンプリング</a></h2>
 <p>モンテカルロ積分によって、原理的には<span class="math">\(\hat{I}\)</span>を多くのサンプルで計算する事で<span class="math">\(I\)</span>を精度良く計算できる。しかし実際確率分布<span class="math">\(r(\boldsymbol{x})\)</span>は複雑であることが多く、その場合<span class="math">\(r(\boldsymbol{x})\)</span>から直接サンプリングするのは困難となる。そこで、より簡単でサンプリング可能な確率分布（<strong>提案分布</strong>
-という）<span class="math">\(q(\boldsymbol{x})\)</span>を用意して、そこからサンプリングする事を考える。<span class="math">\(q(\boldsymbol{x})\)</span>を使えば、<span class="math">\(I\)</span>は次の様に変形できる :</p>
+という）<span class="math">\(q(\boldsymbol{x})\)</span>を用意して、そこからサンプリングする事を考える。<span class="math">\(q(\boldsymbol{x})\)</span>を使えば、<span class="math">\(I\)</span>は次の様に変形できる:</p>
 <div class="math">
 \begin{equation*}
 I = \int_{X} h(\boldsymbol{x})\frac{r(\boldsymbol{x})}{q(\boldsymbol{x})} q(\boldsymbol{x}) d\boldsymbol{x} = \mathrm{E}_{q}\left[ h(\boldsymbol{x})\frac{r(\boldsymbol{x})}{q(\boldsymbol{x})} \right]
@@ -193,32 +193,32 @@ I = \int_{X} h(\boldsymbol{x})\frac{r(\boldsymbol{x})}{q(\boldsymbol{x})} q(\bol
 \end{equation*}
 </div>
 <p>が得られる。ここで<span class="math">\(w(\boldsymbol{x}_{i}) = r(\boldsymbol{x}_{i})/q(\boldsymbol{x}_{i})\)</span>はサンプル<span class="math">\(\boldsymbol{x}_{i}\)</span>に対する重みと見ることができる。この様に、重みが付いたサンプルで平均を求める手法を
-<strong>重点サンプリング (Importance Sampling)</strong>
+<strong>重点サンプリング(Importance Sampling)</strong>
 という。重点サンプリングにおいても、<span class="math">\(q(\boldsymbol{x})\)</span>がある条件を満たしていれば、大数の法則によって<span class="math">\(\displaystyle\lim_{n \to \infty} \hat{I}_{IS} = I\)</span>となることが保証されている。</p>
 <div class="section" id="id14">
 <h3><a class="toc-backref" href="#id67">MCMC</a></h3>
 <p>重点サンプリングの考え方によって、確率分布<span class="math">\(r\)</span>が複雑でも替わりに提案分布<span class="math">\(q\)</span>を用いてサンプリングを行えばモンテカルロ積分が計算できる事が確かめられた。しかし、&quot;
 <span class="math">\(r\)</span>より簡単でサンプリング可能な<span class="math">\(q\)</span>&quot;
 を構成する事自体が一般に困難である。特に次元<span class="math">\(d\)</span>が増加すれば<span class="math">\(r\)</span>が複雑になるのはもちろん、全事象<span class="math">\(X\)</span>の自由度が増加し次元の呪い <a class="footnote-reference" href="#id50" id="id15">[12]</a> を引き起こす。即ち、<span class="math">\(r\)</span>を<span class="math">\(q\)</span>で良く近似出来てない時に毎回独立にサンプリングを行っていると、空間<span class="math">\(X\)</span>から当てずっぽうなサンプルを取得しているのと同様な状態になる。</p>
-<p>そこで、簡単な提案分布<span class="math">\(q\)</span>を用いて、かつ逐次的に以前のサンプルを使用して新しくサンプルを生成する手法が 90 年代以降使われる様になってきた。この場合、サンプル列はマルコフ連鎖 (Markov
-Chain) をなす。そして、マルコフ連鎖で生成したサンプルによる MC 法を MCMC（Markov
+<p>そこで、簡単な提案分布<span class="math">\(q\)</span>を用いて、かつ逐次的に以前のサンプルを使用して新しくサンプルを生成する手法が90年代以降使われる様になってきた。この場合、サンプル列はマルコフ連鎖(Markov
+Chain)をなす。そして、マルコフ連鎖で生成したサンプルによるMC法をMCMC（Markov
 Chain
-Monte-Calro）法という。サンプル間の独立性は担保されなくなる為に MC 法の基本原理が成立しなくなるが、提案分布（マルコフ連鎖の遷移確率）がある性質を満たせば、十分なサンプル数で確率分布<span class="math">\(r\)</span>からのサンプリングが実現できる。</p>
+Monte-Calro）法という。サンプル間の独立性は担保されなくなる為にMC法の基本原理が成立しなくなるが、提案分布（マルコフ連鎖の遷移確率）がある性質を満たせば、十分なサンプル数で確率分布<span class="math">\(r\)</span>からのサンプリングが実現できる。</p>
 </div>
 </div>
 <div class="section" id="id16">
 <h2><a class="toc-backref" href="#id68">遷移確率の条件 - 詳細釣り合い条件</a></h2>
-<p>概要でも既に述べたが、MCMC は生成したサンプル列がマルコフ連鎖をなすように生成する。今、サンプル列<span class="math">\(\boldsymbol{x}_{0}, \boldsymbol{x}_{1}, \dots\)</span>はマルコフ連鎖をなすので、生成した時刻（ステップ）で実際に観測した状態を<span class="math">\(\boldsymbol{e}_{0}, \boldsymbol{e}_{1}, \dots \ (\boldsymbol{e}_{i} \in X \ i=0,1,\dots)\)</span>と書くと、任意の時刻<span class="math">\(n \geq 0\)</span>で、</p>
+<p>概要でも既に述べたが、MCMCは生成したサンプル列がマルコフ連鎖をなすように生成する。今、サンプル列<span class="math">\(\boldsymbol{x}_{0}, \boldsymbol{x}_{1}, \dots\)</span>はマルコフ連鎖をなすので、生成した時刻（ステップ）で実際に観測した状態を<span class="math">\(\boldsymbol{e}_{0}, \boldsymbol{e}_{1}, \dots \ (\boldsymbol{e}_{i} \in X \ i=0,1,\dots)\)</span>と書くと、任意の時刻<span class="math">\(n \geq 0\)</span>で、</p>
 <div class="math">
 \begin{equation*}
 P(\boldsymbol{x}_{n+1} = \boldsymbol{e}_{n+1}|\boldsymbol{x}_{0} = \boldsymbol{e}_{0}, \boldsymbol{x}_{1} = \boldsymbol{e}_{1}, \dots, \boldsymbol{x}_{n} = \boldsymbol{e}_{n}) = P(\boldsymbol{x}_{n+1} = \boldsymbol{e}_{n+1}|\boldsymbol{x}_{n} = \boldsymbol{e}_{n})
 \end{equation*}
 </div>
 <p>が成り立つ（この性質をマルコフ性 <a class="footnote-reference" href="#id51" id="id17">[13]</a> という）。即ち、サンプルは直前のサンプルのみに依存して生成する。この様にサンプルを生成する場合、実はマルコフ連鎖が
-<strong>エルゴード的 (ergodic)</strong>
+<strong>エルゴード的(ergodic)</strong>
 という性質を満たせば、大量のサンプルを用いた時にある分布（<strong>定常分布</strong>）<span class="math">\(\pi\)</span>からサンプリングしているのと同様になる。</p>
 <p>マルコフ連鎖がエルゴード的であるとは、規約性（どの状態からでも任意の状態へ遷移できる）と正再帰性（任意の状態へ何回でも遷移できる）非周期性（任意の状態は一回の遷移で元に戻れる）を全て同時に満たすことを言う <a class="footnote-reference" href="#id52" id="id18">[14]</a>。
-エルゴード的なマルコフ連鎖と定常分布<span class="math">\(\pi\)</span>の関係は、次の定理で表せる :</p>
+エルゴード的なマルコフ連鎖と定常分布<span class="math">\(\pi\)</span>の関係は、次の定理で表せる:</p>
 <hr class="docutils" />
 <p><strong>マルコフ連鎖の収束</strong></p>
 <p>マルコフ連鎖<span class="math">\(\boldsymbol{x}_{0}, \boldsymbol{x}_{1}, \dots\)</span>がエルゴード的であり、その遷移確率行列を<span class="math">\(\boldsymbol{P}\)</span>とおく。<span class="math">\(\pi\)</span>を<span class="math">\(\boldsymbol{P}\)</span>の定常（不変）分布とした時、任意の初期状態から始まるマルコフ連鎖はサンプル数の極限において定常分布<span class="math">\(\pi\)</span>に収束する。</p>
@@ -232,29 +232,29 @@ P(\boldsymbol{x}_{n+1} = \boldsymbol{e}_{n+1}|\boldsymbol{x}_{0} = \boldsymbol{e
 <p>を満たすような行列である <a class="footnote-reference" href="#id53" id="id19">[15]</a>。
 また、定常分布とは時刻が経過しようとも不変なマルコフ連鎖（一般に確率過程）の各状態の確率分布である <a class="footnote-reference" href="#id54" id="id20">[16]</a>。即ち、十分に長いマルコフ連鎖を観測すれば、どの状態にいる傾向があるのかを定常分布によって知ることができる。</p>
 <p>上記の議論により、マルコフ連鎖がエルゴード的であればサンプリングが定常分布に従う事は分かったが、次は遷移確率の設計が問題となる。遷移確率を規約性と正再帰性と非周期性とを満たすように設定するのは案外容易 <a class="footnote-reference" href="#id55" id="id21">[17]</a> であるが、それだけでは定常分布の存在のみを保証するので、その定常分布が希望する分布に一致するとは限らない。次に問題となるのは、希望の確率分布<span class="math">\(r\)</span>を定常分布とするように遷移確率を設計することである。その問題は次の
-<strong>詳細釣り合い条件 (detailed balance condition)</strong>
+<strong>詳細釣り合い条件(detailed balance condition)</strong>
 という条件によって解決できる。</p>
 <hr class="docutils" />
 <p><strong>詳細釣り合い条件</strong></p>
-<p>希望する確率分布<span class="math">\(r\)</span>と遷移確率<span class="math">\(p\)</span>が次の条件を満たす時、そのマルコフ連鎖の定常分布<span class="math">\(\pi\)</span>は<span class="math">\(r\)</span>に一致する :</p>
+<p>希望する確率分布<span class="math">\(r\)</span>と遷移確率<span class="math">\(p\)</span>が次の条件を満たす時、そのマルコフ連鎖の定常分布<span class="math">\(\pi\)</span>は<span class="math">\(r\)</span>に一致する:</p>
 <div class="math">
 \begin{equation*}
 r_{i} p_{ij} = r_{j} p_{ji}
 \end{equation*}
 </div>
-<p>ここで<span class="math">\(r_{i} = r(\boldsymbol{x} = i)\)</span>である（証明は<a class="reference external" href="# 詳細釣り合い条件の証明 ">補足</a>に示した）。</p>
+<p>ここで<span class="math">\(r_{i} = r(\boldsymbol{x} = i)\)</span>である（証明は<a class="reference external" href="#詳細釣り合い条件の証明">補足</a>に示した）。</p>
 <hr class="docutils" />
 <p>詳細釣り合い条件を満たす遷移確率を用いさえすれば、十分大きな<span class="math">\(m&gt;0\)</span>を取った時に、マルコフ連鎖<span class="math">\(\boldsymbol{x}_{m}, \boldsymbol{x_{m+1}},\dots\)</span>は<span class="math">\(r\)</span>からのサンプルとなる。
 次の節で紹介するアルゴリズムの遷移確率は、いずれも詳細釣り合い条件を満たすように設計されている。</p>
 </div>
 <div class="section" id="id22">
-<h2><a class="toc-backref" href="#id69">メトロポリス - ヘイスティングス法</a></h2>
-<p>メトロポリス - ヘイスティングス法は、サンプルは重点サンプリングの時と同じように提案分布によって生成し、そして新しく生成したサンプルを
+<h2><a class="toc-backref" href="#id69">メトロポリス-ヘイスティングス法</a></h2>
+<p>メトロポリス-ヘイスティングス法は、サンプルは重点サンプリングの時と同じように提案分布によって生成し、そして新しく生成したサンプルを
 <strong>採択</strong>（採用）するか、もしくは <strong>棄却</strong> （捨てる）のかを
-<strong>採択確率 (acceptance rate)</strong>
+<strong>採択確率(acceptance rate)</strong>
 と呼ばれる確率によって決め、採択された場合は新しい状態に遷移し、棄却された場合には遷移は行わずに（状態を変えずに）もう一度サンプリングし直す、という手続きを繰り返す手法である。</p>
-<p>メトロポリス - ヘイスティングス法の更新規則を導出してみる。
-まず、状態<span class="math">\(i \in X\)</span>から状態<span class="math">\(j \in X\)</span>に遷移する時の提案分布を条件付き確率<span class="math">\(q(\boldsymbol{x}_{n+1}=j|\boldsymbol{x}_{n}=i) = q_{ij}\)</span>と書き、また状態<span class="math">\(i\)</span>にいる時に状態<span class="math">\(j\)</span>を採択する確率（採択確率）を<span class="math">\(\alpha(i \to j)\)</span>と表す。すると、<span class="math">\(i\)</span>から<span class="math">\(j\)</span>への遷移確率<span class="math">\(p_{ij}\)</span>は<span class="math">\(q_{ij}\)</span>と<span class="math">\(\alpha(i \to j)\)</span>の積で表せる :</p>
+<p>メトロポリス-ヘイスティングス法の更新規則を導出してみる。
+まず、状態<span class="math">\(i \in X\)</span>から状態<span class="math">\(j \in X\)</span>に遷移する時の提案分布を条件付き確率<span class="math">\(q(\boldsymbol{x}_{n+1}=j|\boldsymbol{x}_{n}=i) = q_{ij}\)</span>と書き、また状態<span class="math">\(i\)</span>にいる時に状態<span class="math">\(j\)</span>を採択する確率（採択確率）を<span class="math">\(\alpha(i \to j)\)</span>と表す。すると、<span class="math">\(i\)</span>から<span class="math">\(j\)</span>への遷移確率<span class="math">\(p_{ij}\)</span>は<span class="math">\(q_{ij}\)</span>と<span class="math">\(\alpha(i \to j)\)</span>の積で表せる:</p>
 <div class="math">
 \begin{equation*}
 p_{ij} = q_{ij} \alpha(i \to j) \tag{4}
@@ -267,14 +267,14 @@ p_{ij} = q_{ij} \alpha(i \to j) \tag{4}
 &amp;\iff \frac{\alpha(i \to j)}{\alpha(j \to i)} = \frac{r_{j}q_{ji}}{r_{i}q_{ij}}
 \end{align*}
 </div>
-<p>となる。採択確率はこの条件を満たす様に設計する。メトロポリス - ヘイスティングス法では特に、</p>
+<p>となる。採択確率はこの条件を満たす様に設計する。メトロポリス-ヘイスティングス法では特に、</p>
 <div class="math">
 \begin{equation*}
 \alpha(i \to j) = \min \left( 1, \frac{r_{j}q_{ji}}{r_{i}q_{ij}} \right) \tag{5}
 \end{equation*}
 </div>
-<p>とする <a class="footnote-reference" href="#id56" id="id23">[18]</a>。アルゴリズムの実行中には、この式によって採択確率を計算し、<span class="math">\([0,1]\)</span>の範囲の一様乱数を発生させて採択 / 棄却を判断する。</p>
-<p>これでメトロポリス - ヘイスティングス法が実行できるが、その利点を 2 つ挙げる :</p>
+<p>とする <a class="footnote-reference" href="#id56" id="id23">[18]</a>。アルゴリズムの実行中には、この式によって採択確率を計算し、<span class="math">\([0,1]\)</span>の範囲の一様乱数を発生させて採択/棄却を判断する。</p>
+<p>これでメトロポリス-ヘイスティングス法が実行できるが、その利点を2つ挙げる:</p>
 <ol class="arabic">
 <li><p class="first"><span class="math">\(r\)</span>が厳密計算出来なくても良い
 <span class="math">\(r\)</span>は一般に複雑なので直接的な計算は難しいが、上の採択確率の式は確率の比率のみに注目している。従って分布が厳密に計算できなくてもアルゴリズムを実行できる。比率さえ一致すれば良いので、分布<span class="math">\(r\)</span>の近似分布<span class="math">\(\hat{r}\)</span>として</p>
@@ -283,7 +283,7 @@ p_{ij} = q_{ij} \alpha(i \to j) \tag{4}
 \hat{r} = \frac{1}{Z_{r}} r
 \end{equation*}
 </div>
-<p>としても良い事になる (<span class="math">\(Z_{r}\)</span>: 正規化定数 )。特に、近似分布をボルツマン - ギブス分布</p>
+<p>としても良い事になる(<span class="math">\(Z_{r}\)</span>:正規化定数)。特に、近似分布をボルツマン-ギブス分布</p>
 <div class="math">
 \begin{equation*}
 \hat{r}(\boldsymbol{x}) = \frac{1}{Z_{r}} \exp(-r(\boldsymbol{x})/T)
@@ -292,8 +292,8 @@ p_{ij} = q_{ij} \alpha(i \to j) \tag{4}
 <p>とする場合が多い。ここで、<span class="math">\(T&gt;0\)</span>は温度パラメタ <a class="footnote-reference" href="#id57" id="id24">[19]</a> である。</p>
 </li>
 <li><p class="first"><span class="math">\(q_{ij} = q_{ji}\)</span>が成り立つ場合には、より簡単にサンプリングできる
-<span class="math">\(q_{ij} = q_{ji}\)</span>が成立する提案分布で有名なものに<strong>酔歩連鎖 (random
-walk chain)</strong>がある :</p>
+<span class="math">\(q_{ij} = q_{ji}\)</span>が成立する提案分布で有名なものに<strong>酔歩連鎖(random
+walk chain)</strong>がある:</p>
 <div class="math">
 \begin{equation*}
 q_{ij} = {\cal N}(i, \sigma^{2}\boldsymbol{I})
@@ -307,16 +307,16 @@ q_{ij} = {\cal N}(i, \sigma^{2}\boldsymbol{I})
 </div>
 <div class="section" id="id27">
 <h2><a class="toc-backref" href="#id70">ギブスサンプリング</a></h2>
-<p>ギブスサンプリング (Gibbs Sampling,
-熱浴法とも ) は提案分布の変数を 1 個ずつ更新していく手法である。
-主に多次元確率分布 <a class="footnote-reference" href="#id60" id="id28">[22]</a> の推定に用いられる事が多い。説明のため、現在の状態を組<span class="math">\(\boldsymbol{x} = (x_{1}, x_{2}, \dots, x_{d})\)</span>と書く。状態の更新の際には、変数を 1 つ選び出し <a class="footnote-reference" href="#id61" id="id29">[23]</a> て<span class="math">\(x_{i} \to x_{i}^{\prime}\)</span>と遷移させる (<span class="math">\(i=1,\dots,d\)</span>)。更新後の状態を<span class="math">\(\boldsymbol{x}^{\prime} = (x_{1}, \dots, x_{i-1}, x_{i}^{\prime}, x_{i+1}, \dots, x_{d})\)</span>と書く。ここで、遷移確率<span class="math">\(q(\boldsymbol{x}^{\prime}|\boldsymbol{x})\)</span>は次で定義される :</p>
+<p>ギブスサンプリング(Gibbs Sampling,
+熱浴法とも)は提案分布の変数を1個ずつ更新していく手法である。
+主に多次元確率分布 <a class="footnote-reference" href="#id60" id="id28">[22]</a> の推定に用いられる事が多い。説明のため、現在の状態を組<span class="math">\(\boldsymbol{x} = (x_{1}, x_{2}, \dots, x_{d})\)</span>と書く。状態の更新の際には、変数を1つ選び出し <a class="footnote-reference" href="#id61" id="id29">[23]</a> て<span class="math">\(x_{i} \to x_{i}^{\prime}\)</span>と遷移させる(<span class="math">\(i=1,\dots,d\)</span>)。更新後の状態を<span class="math">\(\boldsymbol{x}^{\prime} = (x_{1}, \dots, x_{i-1}, x_{i}^{\prime}, x_{i+1}, \dots, x_{d})\)</span>と書く。ここで、遷移確率<span class="math">\(q(\boldsymbol{x}^{\prime}|\boldsymbol{x})\)</span>は次で定義される:</p>
 <div class="math">
 \begin{align*}
 q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;= \frac{r(\boldsymbol{x}^{\prime})}{\sum_{x_{i}} r(\boldsymbol{x})} \\
-&amp;= r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \quad (\because ベイズの定理 )
+&amp;= r(x^{\prime}_{i}|x_{1},\dots,x_{i-1},x_{i+1},\dots,x_{d}) \quad (\because ベイズの定理)
 \end{align*}
 </div>
-<p>即ち、選択した変数<span class="math">\(x_{i}\)</span>以外を全て `` 固定 ’’ した確率分布<span class="math">\(r\)</span>から<span class="math">\(x_{i}^{\prime}\)</span>を新しくサンプリングする。上記右辺が計算できる場合にのみ、ギブスサンプリングは適用可能となる。</p>
+<p>即ち、選択した変数<span class="math">\(x_{i}\)</span>以外を全て``固定’’した確率分布<span class="math">\(r\)</span>から<span class="math">\(x_{i}^{\prime}\)</span>を新しくサンプリングする。上記右辺が計算できる場合にのみ、ギブスサンプリングは適用可能となる。</p>
 <p>この更新規則が詳細釣り合い条件を満たすことは、再びベイズの定理を用いて、</p>
 <div class="math">
 \begin{align*}
@@ -325,24 +325,24 @@ r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x}) &amp;= r(\boldsymbol{
 &amp;= r(\boldsymbol{x}^{\prime}) q(\boldsymbol{x}|\boldsymbol{x}^{\prime})
 \end{align*}
 </div>
-<p>により確認できる。また、メトロポリス - ヘイスティングス法の採択確率の式から、</p>
+<p>により確認できる。また、メトロポリス-ヘイスティングス法の採択確率の式から、</p>
 <div class="math">
 \begin{align*}
 \alpha(\boldsymbol{x} \to \boldsymbol{x}^{\prime}) &amp;= \min \left(1, \frac{r(\boldsymbol{x}^{\prime})q(\boldsymbol{x}|\boldsymbol{x}^{\prime})}{r(\boldsymbol{x})q(\boldsymbol{x}^{\prime}|\boldsymbol{x})} \right) \\
 &amp;= \min (1, 1) = 1
 \end{align*}
 </div>
-<p>となり、ギブスサンプリングはメトロポリス - ヘイスティングス法で採択確率を<span class="math">\(1\)</span>（必ず採択）するようにした特別の場合である事が分かる。採択 / 棄却の手順を踏まくくても良く、しかも遷移確率<span class="math">\(q\)</span>は予め計算できるので、高速な推定ができるようになっている。</p>
+<p>となり、ギブスサンプリングはメトロポリス-ヘイスティングス法で採択確率を<span class="math">\(1\)</span>（必ず採択）するようにした特別の場合である事が分かる。採択/棄却の手順を踏まくくても良く、しかも遷移確率<span class="math">\(q\)</span>は予め計算できるので、高速な推定ができるようになっている。</p>
 </div>
 <div class="section" id="id30">
-<h2><a class="toc-backref" href="#id71">MCMC による最適化</a></h2>
-<p>MCMC は関数最適化に用いることもできる。今、サンプリングを行う確率分布をボルツマン - ギブス分布</p>
+<h2><a class="toc-backref" href="#id71">MCMCによる最適化</a></h2>
+<p>MCMCは関数最適化に用いることもできる。今、サンプリングを行う確率分布をボルツマン-ギブス分布</p>
 <div class="math">
 \begin{equation*}
 r(\boldsymbol{x}) = \frac{1}{Z_{r}} \exp(-f(\boldsymbol{x})/T)
 \end{equation*}
 </div>
-<p>とした時、定義式により、<span class="math">\(f(\boldsymbol{x})\)</span>が小さな値を与える点ではその確率<span class="math">\(r(\boldsymbol{x})\)</span>は同時に大きくことが即座に観察できる。従って、MCMC によって<span class="math">\(r(\boldsymbol{x})\)</span>からのサンプリングを行えば、<span class="math">\(f(\boldsymbol{x})\)</span>が小さな値をとる点を集中してサンプリングできる事から、<span class="math">\(f(\boldsymbol{x})\)</span>の最小化（最大化の場合は<span class="math">\(-f(\boldsymbol{x})\)</span>の最小化に置き換えれば良い）を考える事ができる。実際、関数<span class="math">\(f\)</span>の最小値を与える点を<span class="math">\(\boldsymbol{x}^{\ast}\)</span>と表せば、サンプル数<span class="math">\(N\)</span>の極限において最小値<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が確率 1 で得られる事 :</p>
+<p>とした時、定義式により、<span class="math">\(f(\boldsymbol{x})\)</span>が小さな値を与える点ではその確率<span class="math">\(r(\boldsymbol{x})\)</span>は同時に大きくことが即座に観察できる。従って、MCMCによって<span class="math">\(r(\boldsymbol{x})\)</span>からのサンプリングを行えば、<span class="math">\(f(\boldsymbol{x})\)</span>が小さな値をとる点を集中してサンプリングできる事から、<span class="math">\(f(\boldsymbol{x})\)</span>の最小化（最大化の場合は<span class="math">\(-f(\boldsymbol{x})\)</span>の最小化に置き換えれば良い）を考える事ができる。実際、関数<span class="math">\(f\)</span>の最小値を与える点を<span class="math">\(\boldsymbol{x}^{\ast}\)</span>と表せば、サンプル数<span class="math">\(N\)</span>の極限において最小値<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が確率1で得られる事:</p>
 <div class="math">
 \begin{equation*}
 \lim_{N \to \infty} P(\min(f(\boldsymbol{x}_{1}), f(\boldsymbol{x}_{2}), \dots, f(\boldsymbol{x}_{N})) = f(\boldsymbol{x}^{\ast})) = 1
@@ -350,7 +350,7 @@ r(\boldsymbol{x}) = \frac{1}{Z_{r}} \exp(-f(\boldsymbol{x})/T)
 </div>
 <p>が示せる。以下、その証明を示す。</p>
 <p>（証明）
-MCMC において、定常分布を<span class="math">\(r\)</span>とする様に（詳細釣り合い条件を満たす様に）サンプリングを行う。この時マルコフ連鎖<span class="math">\(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}, \dots, \boldsymbol{x}_{n},\dots\)</span>は、十分大きな<span class="math">\(n &gt; 1\)</span>においては<span class="math">\(r(\boldsymbol{x})\)</span>からのサンプルとみなせる。関数<span class="math">\(f\)</span>に最小値<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が存在すれば、<span class="math">\(\boldsymbol{x}^{\ast}\)</span>をサンプリングする確率<span class="math">\(r(\boldsymbol{x}^{\ast})\)</span>も存在が保証され、分布の中で最大の確率を与えている。従って、<span class="math">\(n\)</span>回目以降のマルコフ連鎖<span class="math">\(\boldsymbol{x}_{n}, \boldsymbol{x}_{n+1},\dots\)</span>において、<span class="math">\(m \geq n\)</span>回目に初めて<span class="math">\(\boldsymbol{x}^{\ast}\)</span>がサンプリングできる確率<span class="math">\(P(\boldsymbol{x}_{m} = \boldsymbol{x}^{\ast})\)</span>は、幾何分布と同じ様に、</p>
+MCMCにおいて、定常分布を<span class="math">\(r\)</span>とする様に（詳細釣り合い条件を満たす様に）サンプリングを行う。この時マルコフ連鎖<span class="math">\(\boldsymbol{x}_{1}, \boldsymbol{x}_{2}, \dots, \boldsymbol{x}_{n},\dots\)</span>は、十分大きな<span class="math">\(n &gt; 1\)</span>においては<span class="math">\(r(\boldsymbol{x})\)</span>からのサンプルとみなせる。関数<span class="math">\(f\)</span>に最小値<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が存在すれば、<span class="math">\(\boldsymbol{x}^{\ast}\)</span>をサンプリングする確率<span class="math">\(r(\boldsymbol{x}^{\ast})\)</span>も存在が保証され、分布の中で最大の確率を与えている。従って、<span class="math">\(n\)</span>回目以降のマルコフ連鎖<span class="math">\(\boldsymbol{x}_{n}, \boldsymbol{x}_{n+1},\dots\)</span>において、<span class="math">\(m \geq n\)</span>回目に初めて<span class="math">\(\boldsymbol{x}^{\ast}\)</span>がサンプリングできる確率<span class="math">\(P(\boldsymbol{x}_{m} = \boldsymbol{x}^{\ast})\)</span>は、幾何分布と同じ様に、</p>
 <div class="math">
 \begin{equation*}
 P(\boldsymbol{x}_{m} = \boldsymbol{x}^{\ast}) = r(\boldsymbol{x})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{m-n}
@@ -370,14 +370,14 @@ P(\boldsymbol{x}_{n} = \boldsymbol{x}^{\ast}) + P(\boldsymbol{x}_{n+1} = \boldsy
 \lim_{N \to \infty} \sum_{k=0}^{N-n} r(\boldsymbol{x}^{\ast})\left\{ 1-r(\boldsymbol{x}^{\ast}) \right\}^{k} = \frac{r(\boldsymbol{x}^{\ast})}{1-\left\{1-r(\boldsymbol{x}^{\ast})\right\}} = 1
 \end{equation*}
 </div>
-<p>が得られる。即ち、サンプリングを無限に繰り返せば<span class="math">\(\boldsymbol{x}^{\ast}\)</span>が確率 1 で得られることが示された。この結果は、サンプルの関数列<span class="math">\(f(\boldsymbol{x}_{1}), f(\boldsymbol{x}_{2}), \dots\)</span>の中に少なくとも 1 つ<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が存在する事と同値である。</p>
+<p>が得られる。即ち、サンプリングを無限に繰り返せば<span class="math">\(\boldsymbol{x}^{\ast}\)</span>が確率1で得られることが示された。この結果は、サンプルの関数列<span class="math">\(f(\boldsymbol{x}_{1}), f(\boldsymbol{x}_{2}), \dots\)</span>の中に少なくとも1つ<span class="math">\(f(\boldsymbol{x}^{\ast})\)</span>が存在する事と同値である。</p>
 </div>
 <div class="section" id="id31">
 <h2><a class="toc-backref" href="#id72">焼きなまし法</a></h2>
-<p>以上で MCMC による最適化が理論的に可能なことが示されたが、最適化の際に特に問題となるのは分布<span class="math">\(r\)</span>の温度パラメタ<span class="math">\(T\)</span>である。<span class="math">\(T\)</span>が大きければ、<span class="math">\(\exp\)</span>内部の<span class="math">\(f(\boldsymbol{x})\)</span>の値に影響されず<span class="math">\(r(\boldsymbol{x})\)</span>は一様分布に近くなり、一様乱数からのサンプリングと殆ど変わらなくなる。逆に<span class="math">\(T\)</span>が<span class="math">\(0\)</span>に近いと<span class="math">\(r(\boldsymbol{x})\)</span>は<span class="math">\(f(\boldsymbol{x})\)</span>の値に大きく影響されるが、サンプリングが特定の場所だけに集中してしまって局所最適値しか得られない場合がある。この様に<span class="math">\(T\)</span>は適切に決定する必要があるが、<span class="math">\(T\)</span>の適切な決定法は存在せず、問題依存となる場合が多い。</p>
+<p>以上でMCMCによる最適化が理論的に可能なことが示されたが、最適化の際に特に問題となるのは分布<span class="math">\(r\)</span>の温度パラメタ<span class="math">\(T\)</span>である。<span class="math">\(T\)</span>が大きければ、<span class="math">\(\exp\)</span>内部の<span class="math">\(f(\boldsymbol{x})\)</span>の値に影響されず<span class="math">\(r(\boldsymbol{x})\)</span>は一様分布に近くなり、一様乱数からのサンプリングと殆ど変わらなくなる。逆に<span class="math">\(T\)</span>が<span class="math">\(0\)</span>に近いと<span class="math">\(r(\boldsymbol{x})\)</span>は<span class="math">\(f(\boldsymbol{x})\)</span>の値に大きく影響されるが、サンプリングが特定の場所だけに集中してしまって局所最適値しか得られない場合がある。この様に<span class="math">\(T\)</span>は適切に決定する必要があるが、<span class="math">\(T\)</span>の適切な決定法は存在せず、問題依存となる場合が多い。</p>
 <p>そこで、最初は<span class="math">\(T\)</span>（温度）を高い状態から初めてサンプリングの度に少しずつ<span class="math">\(T\)</span>を下げていくやり方があり、これを焼きなまし法（Simulated
 Annealing,
-SA）と呼ぶ。この様に<span class="math">\(T\)</span>を変化させると最初は空間全体の中から大雑把な<span class="math">\(f\)</span>の値を取得し、後に最適値の近傍を集中してサンプリングすることができるために効率的な探索が期待できる。証明は省くが、温度パラメタの系列<span class="math">\(T_{1}, T_{2}, \dots\)</span>が次の条件を満たせばサンプリングによって<span class="math">\(\boldsymbol{x}^{\ast}\)</span>が得られる事（収束定理）が示されている :</p>
+SA）と呼ぶ。この様に<span class="math">\(T\)</span>を変化させると最初は空間全体の中から大雑把な<span class="math">\(f\)</span>の値を取得し、後に最適値の近傍を集中してサンプリングすることができるために効率的な探索が期待できる。証明は省くが、温度パラメタの系列<span class="math">\(T_{1}, T_{2}, \dots\)</span>が次の条件を満たせばサンプリングによって<span class="math">\(\boldsymbol{x}^{\ast}\)</span>が得られる事（収束定理）が示されている:</p>
 <div class="math">
 \begin{equation*}
 \sum_{n=1}^{\infty} \exp(-D/T_{n}) = \infty
@@ -403,9 +403,9 @@ SA）と呼ぶ。この様に<span class="math">\(T\)</span>を変化させる�
 </div>
 <p>またこの性質をマルコフ性という。</p>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
-<p><strong>遷移確率の斉時性、n ステップ遷移確率</strong></p>
+<p><strong>遷移確率の斉時性、nステップ遷移確率</strong></p>
 <p>任意の状態<span class="math">\(i,j \in X\)</span>と非負整数<span class="math">\(n \geq 0\)</span>に対して</p>
 <div class="math">
 \begin{equation*}
@@ -420,10 +420,10 @@ p_{ij}^{(n)} = P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{0}=i)
 </div>
 <p>は状態<span class="math">\(i\)</span>から始まって<span class="math">\(n\)</span>ステップ後に状態が<span class="math">\(j\)</span>になる確率を表しており、<span class="math">\(n\)</span>ステップ遷移確率と呼ぶ。</p>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
-<p><strong>チャップマン − コルモゴロフ方程式</strong></p>
-<p>任意の状態<span class="math">\(i,j \in X\)</span>に対し、<span class="math">\(n\)</span>ステップ遷移確率<span class="math">\(p_{ij}^{(n)}\)</span>は次を満たす :</p>
+<p><strong>チャップマン−コルモゴロフ方程式</strong></p>
+<p>任意の状態<span class="math">\(i,j \in X\)</span>に対し、<span class="math">\(n\)</span>ステップ遷移確率<span class="math">\(p_{ij}^{(n)}\)</span>は次を満たす:</p>
 <div class="math">
 \begin{equation*}
 p_{ij}^{(n)} = \sum_{r \in X} p_{ir}^{(k)}p_{rj}^{(n-k)} \quad 0 \leq k \leq n
@@ -432,21 +432,21 @@ p_{ij}^{(n)} = \sum_{r \in X} p_{ir}^{(k)}p_{rj}^{(n-k)} \quad 0 \leq k \leq n
 <p>（証明）</p>
 <div class="math">
 \begin{align*}
-p_{ij}^{(n)} &amp;= P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{0}=i) =  \sum_{r \in X} P(\boldsymbol{x}_{n}=j, \boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because 確率分布の周辺化 ) \\
-&amp;= \sum_{r\in S} P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=r, \boldsymbol{x}_{0}=i) P(\boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because ベイズの定理 ) \\
-&amp;= \sum_{r\in S} P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=r) P(\boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because マルコフ性 ) \\
-&amp;= \sum_{r\in S} P(\boldsymbol{x}_{n-k}=j|\boldsymbol{x}_{0}=r) P(\boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because 斉時性 ) \\
+p_{ij}^{(n)} &amp;= P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{0}=i) =  \sum_{r \in X} P(\boldsymbol{x}_{n}=j, \boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because 確率分布の周辺化) \\
+&amp;= \sum_{r\in S} P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=r, \boldsymbol{x}_{0}=i) P(\boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because ベイズの定理) \\
+&amp;= \sum_{r\in S} P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=r) P(\boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because マルコフ性) \\
+&amp;= \sum_{r\in S} P(\boldsymbol{x}_{n-k}=j|\boldsymbol{x}_{0}=r) P(\boldsymbol{x}_{k}=r|\boldsymbol{x}_{0}=i) \quad (\because 斉時性) \\
 &amp;= \sum_{r\in S} p_{rj}^{(n-k)}p_{ir}^{(k)}
 \end{align*}
 </div>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
 <p><strong>到達可能、連結</strong></p>
 <p>ある状態<span class="math">\(i,j \in X\)</span>に対して<span class="math">\(p_{ij}^{(n)} &gt; 0\)</span>なる非負整数<span class="math">\(n \geq 0\)</span>が存在する時、状態<span class="math">\(j\)</span>は状態<span class="math">\(i\)</span>から到達可能であると言い、<span class="math">\(i\to j\)</span>と表す。
 また<span class="math">\(i \to j \land j \to i\)</span>ならば、<span class="math">\(i\)</span>と<span class="math">\(j\)</span>は連結しているといい、<span class="math">\(i \leftrightarrow j\)</span>と表す。</p>
 <hr class="docutils" />
-<p>連結関係は、反射性 (<span class="math">\(i \leftrightarrow i\)</span>)、対称性 (<span class="math">\(i \leftrightarrow j \Leftrightarrow j \leftrightarrow i\)</span>)、推移性 (<span class="math">\(i \leftrightarrow j \land j \leftrightarrow k \Rightarrow i \leftrightarrow k\)</span>) が成り立つ。</p>
+<p>連結関係は、反射性(<span class="math">\(i \leftrightarrow i\)</span>)、対称性(<span class="math">\(i \leftrightarrow j \Leftrightarrow j \leftrightarrow i\)</span>)、推移性(<span class="math">\(i \leftrightarrow j \land j \leftrightarrow k \Rightarrow i \leftrightarrow k\)</span>)が成り立つ。</p>
 <hr class="docutils" />
 <p><strong>連結クラス（連結成分）</strong></p>
 <p><span class="math">\(X\)</span>の部分集合<span class="math">\(C \subseteq X\)</span>において、</p>
@@ -456,26 +456,26 @@ p_{ij}^{(n)} &amp;= P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{0}=i) =  \sum_{r \in 
 </ul>
 <p>が常に成立する時、<span class="math">\(C\)</span>を<span class="math">\(X\)</span>の連結クラス（連結成分）という。定義より、<span class="math">\(C\)</span>の要素は互いに連結している。また、連結クラス<span class="math">\(C\)</span>の任意の状態<span class="math">\(i \in C\)</span>から<span class="math">\(j \notin C\)</span>に到達できない時、<span class="math">\(C\)</span>は閉じていると言う。</p>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
 <p><strong>規約性</strong></p>
 <p><span class="math">\(X\)</span>内の全ての状態が単一の閉じた連結クラスに属する、即ち<span class="math">\(X\)</span>の全ての要素が互いに連結している時、そのマルコフ連鎖は規約であるという。</p>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
 <p><strong>周期性</strong></p>
 <p>状態<span class="math">\(i \in X\)</span>に対して<span class="math">\(p_{ii}^{(n)} &gt; 0\)</span>となる（<span class="math">\(n\)</span>ステップ後に元の状態に戻る）<span class="math">\(n\)</span>の最大公約数<span class="math">\(d\)</span>を、状態<span class="math">\(i\)</span>の周期と呼ぶ。<span class="math">\(d = 1\)</span>の時は状態<span class="math">\(i\)</span>は非周期的と呼ばれ、<span class="math">\(d \geq 2\)</span>の時は周期的であると呼ばれる。</p>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
 <p><strong>再帰的、過渡的</strong></p>
-<p>確率変数<span class="math">\(T_{j}\)</span>を次で定義する :</p>
+<p>確率変数<span class="math">\(T_{j}\)</span>を次で定義する:</p>
 <div class="math">
 \begin{equation*}
 T_{j} = \min_{n} \{ n &gt; 0 | \boldsymbol{x}_{n} = j \}
 \end{equation*}
 </div>
-<p>即ち、離散時間マルコフ連鎖が初めて状態<span class="math">\(j\)</span>を訪れる時刻を表す。また、<span class="math">\(T_{i}\)</span>を用いて次の値を定義する :</p>
+<p>即ち、離散時間マルコフ連鎖が初めて状態<span class="math">\(j\)</span>を訪れる時刻を表す。また、<span class="math">\(T_{i}\)</span>を用いて次の値を定義する:</p>
 <div class="math">
 \begin{align*}
 f_{i} &amp;= P(T_{i} &lt; \infty | \boldsymbol{x}_{0} = i) = \sum_{n=1}^{\infty}P(T_{i} = n|\boldsymbol{x}_{0}=i) \\
@@ -484,7 +484,7 @@ m_{i} &amp;= \mathrm{E}[T_{i}|\boldsymbol{x}_{0}=i] = \sum_{k=0}^{\infty} k P(T_
 </div>
 <p><span class="math">\(f_{i}\)</span>は将来状態<span class="math">\(i\)</span>に戻ってくる確率を表しており、<span class="math">\(f_{i}=1\)</span>ならば確率<span class="math">\(1\)</span>で状態<span class="math">\(i\)</span>を訪れる（無限にしばしば訪れる）ので状態<span class="math">\(i\)</span>は再帰的であるという。<span class="math">\(f_{i} &lt; 1\)</span>ならば状態<span class="math">\(i\)</span>は過渡的であるという。また、<span class="math">\(m_{i}\)</span>は初期状態が<span class="math">\(i\)</span>の時に、再び状態<span class="math">\(i\)</span>に戻るまでの時間の期待値を表しており、<span class="math">\(m_{i} &lt; \infty\)</span>ならば状態<span class="math">\(i\)</span>は正再帰的（有限時間で<span class="math">\(i\)</span>に戻る）であるといい、<span class="math">\(m_{i} = \infty\)</span>ならば状態<span class="math">\(i\)</span>は零再帰的であるという。</p>
 <hr class="docutils" />
-<!-- 空白のためのコメント ... -->
+<!-- 空白のためのコメント... -->
 <hr class="docutils" />
 <p><strong>エルゴード的な離散時間マルコフ連鎖</strong></p>
 <p>離散時間マルコフ連鎖<span class="math">\(\boldsymbol{x}_{0}, \boldsymbol{x}_{1},\dots\)</span>が規約かつ正再帰かつ非周期的であるならば、この離散時間マルコフ連鎖はエルゴード的とも呼ばれる</p>
@@ -492,15 +492,15 @@ m_{i} &amp;= \mathrm{E}[T_{i}|\boldsymbol{x}_{0}=i] = \sum_{k=0}^{\infty} k P(T_
 <p>ここまでで用語の定義は揃ったので、それではエルゴード的なマルコフ連鎖の定常分布の存在についての定理を証明する。</p>
 <hr class="docutils" />
 <p><strong>エルゴード的な離散時間マルコフ連鎖の定常分布</strong></p>
-<p>離散時間マルコフ連鎖<span class="math">\(\boldsymbol{x}_{0}, \boldsymbol{x}_{1}, \dots\)</span>がエルゴード的ならば、任意の状態<span class="math">\(i, j \in X\)</span>について次が成り立つ :</p>
+<p>離散時間マルコフ連鎖<span class="math">\(\boldsymbol{x}_{0}, \boldsymbol{x}_{1}, \dots\)</span>がエルゴード的ならば、任意の状態<span class="math">\(i, j \in X\)</span>について次が成り立つ:</p>
 <ol class="arabic simple">
 <li><span class="math">\(\displaystyle\lim_{n \to \infty} p_{ij}^{(n)} = \lim_{n \to \infty} p_{jj}^{(n)} = \frac{1}{m_{j}} = \pi_{j}\)</span></li>
 <li><span class="math">\(\pi_{j}\)</span>は<span class="math">\(\displaystyle \pi_{j} = \sum_{i \in X} \pi_{i} p_{ij}\)</span>と<span class="math">\(\displaystyle\sum_{j \in X}\pi_{j} = 1\)</span>を満たす解であり、唯一に定まる。</li>
 </ol>
-<p>2. を満たす<span class="math">\(\pi_{j}\)</span>を極限分布（定常状態分布）と言う。</p>
+<p>2.を満たす<span class="math">\(\pi_{j}\)</span>を極限分布（定常状態分布）と言う。</p>
 <p>一方、初期分布として<span class="math">\(P(\boldsymbol{x}_{0} = j) = \pi_{j}\)</span>を持つ離散時間マルコフ連鎖では、任意の<span class="math">\(n \geq 1\)</span>に対して<span class="math">\(P(\boldsymbol{x}_{n}=j) = \pi_{j}\)</span>が成り立ち、<span class="math">\(\boldsymbol{x}_{n}\)</span>は<span class="math">\(n\)</span>と独立した分布を持つ。この様に、時間に関して不変な分布<span class="math">\(\pi_{j} = P(\boldsymbol{x}_{n} = j)\ n = 0,1,\dots\)</span>を
 <strong>定常分布</strong> と呼ぶ。</p>
-<p>（証明）まず 1. から考える。最初に<span class="math">\(i\neq j\)</span>なる状態に対して</p>
+<p>（証明）まず1.から考える。最初に<span class="math">\(i\neq j\)</span>なる状態に対して</p>
 <div class="math">
 \begin{equation*}
 u_{k} = P(T_{j} = k|\boldsymbol{x}_{0} = i)
@@ -531,15 +531,15 @@ p_{ij}^{(n)} = \sum_{k=1}^{n} u_{k} p_{jj}^{(n-k)}
 <div class="math">
 \begin{align*}
 p_{jj}^{(n)} &amp;= P(\boldsymbol{x}_{n} = j|\boldsymbol{x}_{0}=j) \\
-&amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j, T_{j} = k|\boldsymbol{x}_{0}=j) \quad (\because 確率分布の周辺化 ) \\
-&amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j|T_{j}=k, \boldsymbol{x}_{0}=j)P(T_{j}=k|\boldsymbol{x}_{0}=j) \quad (\because ベイズの定理 ) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j, T_{j} = k|\boldsymbol{x}_{0}=j) \quad (\because 確率分布の周辺化) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j|T_{j}=k, \boldsymbol{x}_{0}=j)P(T_{j}=k|\boldsymbol{x}_{0}=j) \quad (\because ベイズの定理) \\
 &amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=j, \boldsymbol{x}_{0}=j)P(T_{j}=k|\boldsymbol{x}_{0}=j) \quad (\because T_{j} = k \implies \boldsymbol{x}_{k} = j) \\
-&amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=j)P(T_{j}=k|\boldsymbol{x}_{0}=j) \quad (\because マルコフ性 ) \\
+&amp;= \sum_{k=1}^{n}P(\boldsymbol{x}_{n}=j|\boldsymbol{x}_{k}=j)P(T_{j}=k|\boldsymbol{x}_{0}=j) \quad (\because マルコフ性) \\
 &amp;= \sum_{k=1}^{n}p_{jj}^{(n-k)} u_{k}
 \end{align*}
 </div>
 <p>と展開できる。数列<span class="math">\(p_{jj}^{(n)}\)</span>の極限<span class="math">\(\displaystyle\lim_{n \to \infty} p_{jj}^{(n)}\)</span>を求める為、ここでは数列の
-<strong>母関数</strong>を定義し、（片側）Z 変換の最終値定理  <a class="footnote-reference" href="#id62" id="id34">[24]</a>
+<strong>母関数</strong>を定義し、（片側）Z変換の最終値定理  <a class="footnote-reference" href="#id62" id="id34">[24]</a>
 を用いる。その為、今、<span class="math">\(\displaystyle G(z) = \sum_{n=0}^{\infty}p_{jj}^{(n)}z^{n},\ U(z) = \sum_{n=1}^{\infty}u_{n}z^{n}\)</span>なる母関数を定義し、上式の両辺に<span class="math">\(z^{n}\)</span>を掛けて<span class="math">\(n=1,2,\dots\)</span>についての和を取ると、</p>
 <div class="math">
 \begin{align*}
@@ -561,7 +561,7 @@ p_{jj}^{(n)} &amp;= P(\boldsymbol{x}_{n} = j|\boldsymbol{x}_{0}=j) \\
 <div class="math">
 \begin{align*}
 \lim_{n \to \infty} p_{jj}^{(n)} &amp;= \lim_{z \to 1}(1-z)G(z) = \lim_{z \to 1}\frac{1-z}{1-U(z)} \\
-&amp;= \lim_{z \to 1}\frac{\frac{d(1-z)}{dz}}{\frac{d(1-U(z))}{dz}} \quad (\because ロピタルの定理 ) \\
+&amp;= \lim_{z \to 1}\frac{\frac{d(1-z)}{dz}}{\frac{d(1-U(z))}{dz}} \quad (\because ロピタルの定理) \\
 &amp;= \lim_{z \to 1}\frac{1}{\frac{dU(z)}{dz}} = \frac{1}{m_{j}} = \pi_{j} \\
 \because \lim_{z \to 1} \frac{dU(z)}{dz} &amp;= \lim_{z \to 1}\sum_{n=1}^{\infty}n u_{n} z^{n-1} = \lim_{z \to 1}\sum_{n=0}^{\infty} n u_{n} z^{n} = \sum_{n=0}^{\infty}n u_{n} = m_{j}
 \end{align*}
@@ -583,8 +583,8 @@ p_{jj}^{(n)} &amp;= P(\boldsymbol{x}_{n} = j|\boldsymbol{x}_{0}=j) \\
 \end{align*}
 </div>
 <p>よって、<span class="math">\(\displaystyle \lim_{n \to \infty} p_{ij}^{(n)} = \pi_{j} = \lim_{n \to \infty} p_{jj}^{(n)}\)</span>。</p>
-<p>次に 2.
-の<span class="math">\(\pi_{j}\)</span>の一意性を示す。まず、<span class="math">\(\displaystyle \sum_{j \in X}p_{ij}^{(n)} = 1\)</span>（どこかの状態には確率 1 で遷移している）より、この式で<span class="math">\(n \to \infty\)</span>ならしめれば、1.
+<p>次に2.
+の<span class="math">\(\pi_{j}\)</span>の一意性を示す。まず、<span class="math">\(\displaystyle \sum_{j \in X}p_{ij}^{(n)} = 1\)</span>（どこかの状態には確率1で遷移している）より、この式で<span class="math">\(n \to \infty\)</span>ならしめれば、1.
 により</p>
 <div class="math">
 \begin{equation*}
@@ -598,11 +598,11 @@ a_{j}(n) &amp;= \sum_{i \in X}P(\boldsymbol{x}_{0}=i)P(\boldsymbol{x}_{n}=j|\bol
 \therefore \lim_{n \to \infty} a_{j}(n) &amp;= \sum_{i \in X}P(\boldsymbol{x}_{0}=i) \lim_{n \to \infty}p_{ij}^{(n)} = \pi_{j} \sum_{i \in X} P(\boldsymbol{x}_{0} = i) = \pi_{j}
 \end{align*}
 </div>
-<p>が成立し、チャップマン − コルモゴロフ方程式により、<span class="math">\(n, m \geq0\)</span>なる整数に対し、</p>
+<p>が成立し、チャップマン−コルモゴロフ方程式により、<span class="math">\(n, m \geq0\)</span>なる整数に対し、</p>
 <div class="math">
 \begin{align*}
 a_{j}(m+n) &amp;= \sum_{r \in X}P(\boldsymbol{x}_{0}=r)P(\boldsymbol{x_{m+n}}=j|\boldsymbol{x}_{0}=r) = \sum_{r \in X} P(\boldsymbol{x}_{0} = r) p_{rj}^{(m+n)} \\
-&amp;= \sum_{r \in X} P(\boldsymbol{x}_{0}=r) \sum_{i \in X} p_{ri}^{(m)}p_{ij}^{(n)} \quad (\because チャップマン - コルモゴロフ方程式を使用 ) \\
+&amp;= \sum_{r \in X} P(\boldsymbol{x}_{0}=r) \sum_{i \in X} p_{ri}^{(m)}p_{ij}^{(n)} \quad (\because チャップマン-コルモゴロフ方程式を使用) \\
 &amp;= \sum_{i \in X}\sum_{r \in X}P(\boldsymbol{x}_{0}=r)p_{ri}^{(m)} p_{ij}^{(n)} = \sum_{i \in X} a_{i}(m) p_{ij}^{(n)}
 \end{align*}
 </div>
@@ -648,34 +648,34 @@ r_{i} p_{ij} = r_{j} p_{ji}
 \sum_{i \in X} r_{i} p_{ij} = r_{j} \sum_{i \in X} p_{ji} = r_{j}
 \end{equation*}
 </div>
-<p>2. により、<span class="math">\(r\)</span>は定常分布の解となっている事が分かる。</p>
+<p>2.により、<span class="math">\(r\)</span>は定常分布の解となっている事が分かる。</p>
 <div class="section" id="id38">
 <h3><a class="toc-backref" href="#id76">脚注</a></h3>
 <table class="docutils footnote" frame="void" id="id39" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://ebsa.ism.ac.jp/ebooks/sites/default/files/ebook/1881/pdf/vol3_ch10.pdf">古澄英雄 , 「21 世紀の統計科学」第 Ⅲ 巻 第 10 章
+<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td><a class="reference external" href="http://ebsa.ism.ac.jp/ebooks/sites/default/files/ebook/1881/pdf/vol3_ch10.pdf">古澄英雄, 「21世紀の統計科学」第Ⅲ巻 第10章
 マルコフ連鎖モンテカルロ法入門</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id40" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://www-lsm.naist.jp/~kasahara/lecture/isp/part1.pdf">笠原正治 ,
+<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td><a class="reference external" href="http://www-lsm.naist.jp/~kasahara/lecture/isp/part1.pdf">笠原正治,
 確率過程論基礎</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id41" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://www.r.dl.itc.u-tokyo.ac.jp/~nakagawa/SML1/sampling1.pdf">中川裕志 ,
+<tr><td class="label"><a class="fn-backref" href="#id3">[3]</a></td><td><a class="reference external" href="http://www.r.dl.itc.u-tokyo.ac.jp/~nakagawa/SML1/sampling1.pdf">中川裕志,
 マルコフ連鎖モンテカルロ法</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id42" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="http://maildbs.c.u-tokyo.ac.jp/~fukushima/FSwiki/wiki.cgi?action=ATTACH&amp;page=%BD%B8%C3%E6%B9%D6%B5%C1%A1%F7%C5%EC%B9%A9%C2%E7&amp;file=TIT-2005-huku.pdf">福島孝治 ,
+<tr><td class="label"><a class="fn-backref" href="#id4">[4]</a></td><td><a class="reference external" href="http://maildbs.c.u-tokyo.ac.jp/~fukushima/FSwiki/wiki.cgi?action=ATTACH&amp;page=%BD%B8%C3%E6%B9%D6%B5%C1%A1%F7%C5%EC%B9%A9%C2%E7&amp;file=TIT-2005-huku.pdf">福島孝治,
 マルコフ連鎖モンテカルロ法の実践</a></td></tr>
 </tbody>
 </table>
@@ -683,7 +683,7 @@ r_{i} p_{ij} = r_{j} p_{ji}
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id5">[5]</a></td><td><a class="reference external" href="http://www.slideshare.net/teramonagi/ss-5190440">tera monagi,
-マルコフ連鎖モンテカルロ法入門 -1</a></td></tr>
+マルコフ連鎖モンテカルロ法入門-1</a></td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id44" rules="none">
@@ -697,7 +697,7 @@ r_{i} p_{ij} = r_{j} p_{ji}
 <tbody valign="top">
 <tr><td class="label"><a class="fn-backref" href="#id7">[7]</a></td><td>十分な回数の独立な試行を行った経験分布は理論的（真の）分布に一致する、という法則。例えばコイン投げをひたすら繰り返せば、表及び裏が出る
 <strong>頻度の比率</strong>
-はそれぞれ<span class="math">\(1/2\)</span>に近づいていく。厳密には大数の法則は 2 種類（強、弱法則）あり、確率の応用において非常に非常に重要な法則であるが、ここでは説明をしない。</td></tr>
+はそれぞれ<span class="math">\(1/2\)</span>に近づいていく。厳密には大数の法則は2種類（強、弱法則）あり、確率の応用において非常に非常に重要な法則であるが、ここでは説明をしない。</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id46" rules="none">
@@ -721,7 +721,7 @@ r_{i} p_{ij} = r_{j} p_{ji}
 <table class="docutils footnote" frame="void" id="id49" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[11]</a></td><td>一様分布や正規分布等のよく知られた分布は、サンプリングアルゴリズムも確立されている。一様分布はメルセンヌ・ツイスタ、正規分布にはボックス - ミューラー法といった具合である。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id12">[11]</a></td><td>一様分布や正規分布等のよく知られた分布は、サンプリングアルゴリズムも確立されている。一様分布はメルセンヌ・ツイスタ、正規分布にはボックス-ミューラー法といった具合である。</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id50" rules="none">
@@ -734,13 +734,13 @@ r_{i} p_{ij} = r_{j} p_{ji}
 <table class="docutils footnote" frame="void" id="id51" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id17">[13]</a></td><td>厳密には、直前の 1 つのサンプルのみに依存するので 1 階マルコフ性と呼ばれる。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id17">[13]</a></td><td>厳密には、直前の1つのサンプルのみに依存するので1階マルコフ性と呼ばれる。</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id52" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id18">[14]</a></td><td>詳細は<a class="reference external" href="# 補足 ">補足</a>で述べる。一般にエルゴード的とは、長時間に渡って観測した状態の平均（長時間平均）と、状態空間の平均（位相平均）が一致するという事を表す概念である。エルゴード理論がある様に、厳密な数学理論が展開されるが、ここではマルコフ連鎖以外については詳しくは説明しない（筆者がついていけてない）。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id18">[14]</a></td><td>詳細は<a class="reference external" href="#補足">補足</a>で述べる。一般にエルゴード的とは、長時間に渡って観測した状態の平均（長時間平均）と、状態空間の平均（位相平均）が一致するという事を表す概念である。エルゴード理論がある様に、厳密な数学理論が展開されるが、ここではマルコフ連鎖以外については詳しくは説明しない（筆者がついていけてない）。</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id53" rules="none">
@@ -765,13 +765,13 @@ P(\boldsymbol{x}_{t+1} \in C|\boldsymbol{x}_{t} = \boldsymbol{e}_{t}) = \int_{C}
 <table class="docutils footnote" frame="void" id="id55" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id21">[17]</a></td><td>例えば、現在状態を中心とした正規分布からでの乱択でも 3 つの性質を満たし、マルコフ連鎖はエルゴード的となる。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id21">[17]</a></td><td>例えば、現在状態を中心とした正規分布からでの乱択でも3つの性質を満たし、マルコフ連鎖はエルゴード的となる。</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id56" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id23">[18]</a></td><td><p class="first">これが詳細釣り合い条件を満たすことは、場合分けにより分かる :</p>
+<tr><td class="label"><a class="fn-backref" href="#id23">[18]</a></td><td><p class="first">これが詳細釣り合い条件を満たすことは、場合分けにより分かる:</p>
 <ul class="simple">
 <li><span class="math">\(\alpha(i \to j) = 1\)</span>の時： <span class="math">\(\alpha(j \to i) = \frac{r_{i}q_{ij}}{r_{j}q_{ji}}\)</span>となるので、</li>
 </ul>
@@ -831,7 +831,7 @@ i = j - \varepsilon = j + \varepsilon
 <table class="docutils footnote" frame="void" id="id61" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id29">[23]</a></td><td>毎回ランダムで選んでも、順番に全変数を 1 個ずつ選んでも良い</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#id29">[23]</a></td><td>毎回ランダムで選んでも、順番に全変数を1個ずつ選んでも良い</td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id62" rules="none">
@@ -843,14 +843,14 @@ i = j - \varepsilon = j + \varepsilon
 F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
 \end{equation*}
 </div>
-<p class="last">これは数列<span class="math">\(a_{t}\)</span>のラプラス変換に他ならない。従ってラプラス変換の最終値定理を適用できる。離散の場合のラプラス変換を（片側）Z 変換と呼ぶ。</p>
+<p class="last">これは数列<span class="math">\(a_{t}\)</span>のラプラス変換に他ならない。従ってラプラス変換の最終値定理を適用できる。離散の場合のラプラス変換を（片側）Z変換と呼ぶ。</p>
 </td></tr>
 </tbody>
 </table>
 <table class="docutils footnote" frame="void" id="id63" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id35">[25]</a></td><td><p class="first">2 つの冪級数を<span class="math">\(\displaystyle\sum_{n=0}^{\infty}a_{n}z^{n}, \sum_{n=0}^{\infty}b_{n}z^{n}\)</span>とし、積の結果を<span class="math">\(\displaystyle\sum_{n=0}^{\infty}c_{n}z^{n}\)</span>とする。等号を立てると、</p>
+<tr><td class="label"><a class="fn-backref" href="#id35">[25]</a></td><td><p class="first">2つの冪級数を<span class="math">\(\displaystyle\sum_{n=0}^{\infty}a_{n}z^{n}, \sum_{n=0}^{\infty}b_{n}z^{n}\)</span>とし、積の結果を<span class="math">\(\displaystyle\sum_{n=0}^{\infty}c_{n}z^{n}\)</span>とする。等号を立てると、</p>
 <div class="math">
 \begin{align*}
 \left(\sum_{n=0}^{\infty}a_{n}z^{n}\right)\left(\sum_{n=0}^{\infty}b_{n}z^{n} \right) &amp;= a_{0}b_{0}z^{0} + (a_{0}b_{1} + a_{1}b_{0})z^{1} + (a_{0}b_{2}+a_{1}b_{1}+a_{2}b_{0})z^{2} + \dots \\
@@ -864,7 +864,7 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
 <table class="docutils footnote" frame="void" id="id64" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id36">[26]</a></td><td><p class="first">（証明）母関数（Z 変換）を<span class="math">\(F(z) = \displaystyle \sum_{n=0}^{\infty}a_{n}z^{n}\)</span>とおくと、</p>
+<tr><td class="label"><a class="fn-backref" href="#id36">[26]</a></td><td><p class="first">（証明）母関数（Z変換）を<span class="math">\(F(z) = \displaystyle \sum_{n=0}^{\infty}a_{n}z^{n}\)</span>とおくと、</p>
 <div class="last math">
 \begin{align*}
 \lim_{z \to 1} (1-z) F(z) &amp;= \lim_{z \to 1}(1-z) \sum_{n=0}^{\infty} a_{n}z^{n} = \lim_{z \to 1} \sum_{n=0}^{\infty} a_{n} (z^{n} - z^{n+1}) = \lim_{z \to 1} \lim_{n \to \infty} \sum_{k=0}^{n} a_{k} (z^{k} - z^{k+1}) \\
@@ -965,25 +965,22 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
@@ -992,46 +989,43 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
@@ -1040,34 +1034,46 @@ F(\exp(-s)) = \int_{0}^{\infty} a_{t}\exp(-st) dt
       <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
   </ul>
 </li>

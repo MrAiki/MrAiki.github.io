@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="LMS,SignedLMS" />
-        <meta name="description" content="\begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。 \begin{equation*} \ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x …" />
+        <meta name="description" content="\begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなくIRLSに応用できそうな印象が。 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。 \begin{equation*} \ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x}|} \ve{x …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="LMS Filterの挙動観察中(5)"/>
         <meta property="og:url" content="/lms-filternoju-dong-guan-cha-zhong-5.html"/>
-        <meta property="og:description" content="\begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。 \begin{equation*} \ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x …"/>
+        <meta property="og:description" content="\begin{equation*} \newcommand\innerp[2]{\langle #1, #2 \rangle} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}} \end{equation*} 別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなくIRLSに応用できそうな印象が。 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。 \begin{equation*} \ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x}|} \ve{x …"/>
         <meta property="article:published_time" content="2020-05-01" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="LMS" />
@@ -125,20 +125,20 @@ Aiki's Blog            </a>
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 </div>
-<p>別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。
+<p>別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなくIRLSに応用できそうな印象が。
 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。</p>
 <div class="math">
 \begin{equation*}
 \ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x}|} \ve{x} \ve{x}^{\mathsf{T}}
 \end{equation*}
 </div>
-<p>他にも、ICA（独立成分分析）の尖度最大化（優ガウス分布化）の学習がなんか使えないかと考えつつある。でもこれは ICA によるノイズ除去にだいぶ近い話になりそう。</p>
-<p>分散行列と自己相関行列、だいぶ定義が近いな … 間違ってないかなと思って再確認。分散行列と言ってるものはもしかしたら自己相関行列の誤りかもしれない。</p>
+<p>他にも、ICA（独立成分分析）の尖度最大化（優ガウス分布化）の学習がなんか使えないかと考えつつある。でもこれはICAによるノイズ除去にだいぶ近い話になりそう。</p>
+<p>分散行列と自己相関行列、だいぶ定義が近いな…間違ってないかなと思って再確認。分散行列と言ってるものはもしかしたら自己相関行列の誤りかもしれない。</p>
 <ul class="simple">
 <li><a class="reference external" href="https://mathtrain.jp/correlationmatrix">相関行列の定義と分散共分散行列との関係</a></li>
 <li><a class="reference external" href="http://www.ip.info.eng.osaka-cu.ac.jp/~kazunori/paper/rcs201610_handout.pdf">初学者のための無線通信信号処理入門</a> に明確に定義されてる。</li>
 </ul>
-<p>平均 0 化していたら分散行列と自己相関行列は同一になりそうな雰囲気。雰囲気じゃだめでちゃんと確認すべき。</p>
+<p>平均0化していたら分散行列と自己相関行列は同一になりそうな雰囲気。雰囲気じゃだめでちゃんと確認すべき。</p>
 <p>寄り道しすぎたので、改めて結果をまとめていく。</p>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -238,25 +238,22 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
@@ -265,46 +262,43 @@ Aiki's Blog            </a>
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
@@ -313,34 +307,46 @@ Aiki's Blog            </a>
       <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
   </ul>
 </li>

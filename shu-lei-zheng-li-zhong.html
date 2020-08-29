@@ -13,13 +13,13 @@
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="LMS,SignedLMS,RLS,Natural Gradient,Empirical Fisher" />
-        <meta name="description" content="色々と書類整理しているためあんまり実験が進んでいない。でも、既存研究がありそうでヒヤヒヤする毎日。 Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems かなり近い。が、LMS ベースの計量を自ら設計している。コスト関数に、2 乗誤差項に何か変換の L2 ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。 Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers 自然勾配の発想に近づいていた PNLMS の実装 SPARSE LMS FOR SYSTEM IDENTIFICATION スパース LMS(ZA-LMS) の最初の論文。定式化が明確。" />
+        <meta name="description" content="色々と書類整理しているためあんまり実験が進んでいない。でも、既存研究がありそうでヒヤヒヤする毎日。 Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems かなり近い。が、LMSベースの計量を自ら設計している。コスト関数に、2乗誤差項に何か変換のL2ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。 Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers 自然勾配の発想に近づいていたPNLMSの実装 SPARSE LMS FOR SYSTEM IDENTIFICATION スパースLMS(ZA-LMS)の最初の論文。定式化が明確。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="書類整理中"/>
         <meta property="og:url" content="/shu-lei-zheng-li-zhong.html"/>
-        <meta property="og:description" content="色々と書類整理しているためあんまり実験が進んでいない。でも、既存研究がありそうでヒヤヒヤする毎日。 Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems かなり近い。が、LMS ベースの計量を自ら設計している。コスト関数に、2 乗誤差項に何か変換の L2 ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。 Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers 自然勾配の発想に近づいていた PNLMS の実装 SPARSE LMS FOR SYSTEM IDENTIFICATION スパース LMS(ZA-LMS) の最初の論文。定式化が明確。"/>
+        <meta property="og:description" content="色々と書類整理しているためあんまり実験が進んでいない。でも、既存研究がありそうでヒヤヒヤする毎日。 Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems かなり近い。が、LMSベースの計量を自ら設計している。コスト関数に、2乗誤差項に何か変換のL2ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。 Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers 自然勾配の発想に近づいていたPNLMSの実装 SPARSE LMS FOR SYSTEM IDENTIFICATION スパースLMS(ZA-LMS)の最初の論文。定式化が明確。"/>
         <meta property="article:published_time" content="2020-05-06" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="LMS" />
@@ -131,15 +131,15 @@ Aiki's Blog            </a>
 <ul class="simple">
 <li><a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;context=ele_comeng_facwork">Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems</a></li>
 </ul>
-<p>かなり近い。が、LMS ベースの計量を自ら設計している。コスト関数に、2 乗誤差項に何か変換の L2 ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。</p>
+<p>かなり近い。が、LMSベースの計量を自ら設計している。コスト関数に、2乗誤差項に何か変換のL2ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。</p>
 <ul class="simple">
 <li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers</a></li>
 </ul>
-<p>自然勾配の発想に近づいていた PNLMS の実装</p>
+<p>自然勾配の発想に近づいていたPNLMSの実装</p>
 <ul class="simple">
 <li><a class="reference external" href="https://wiki.eecs.umich.edu/global/data/hero/images/7/7b/Yilun-icassp2-09.pdf">SPARSE LMS FOR SYSTEM IDENTIFICATION</a></li>
 </ul>
-<p>スパース LMS(ZA-LMS) の最初の論文。定式化が明確。</p>
+<p>スパースLMS(ZA-LMS)の最初の論文。定式化が明確。</p>
 
             </div>
             <!-- /.entry-content -->
@@ -177,25 +177,22 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
@@ -204,46 +201,43 @@ Aiki's Blog            </a>
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
@@ -252,34 +246,46 @@ Aiki's Blog            </a>
       <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
   </ul>
 </li>

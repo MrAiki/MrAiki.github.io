@@ -1,7 +1,177 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-07-26T11:00:00+09:00</updated><entry><title>研究会に向けて - 執筆(3)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html" rel="alternate"></link><published>2020-07-26T11:00:00+09:00</published><updated>2020-07-26T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-26:/yan-jiu-hui-nixiang-kete-zhi-bi-3.html</id><content type="html">&lt;p&gt;土日は黙々と執筆してた。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-08-29T10:00:00+09:00</updated><entry><title>自由工作(1)</title><link href="/zi-you-gong-zuo-1.html" rel="alternate"></link><published>2020-08-29T10:00:00+09:00</published><updated>2020-08-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-08-29:/zi-you-gong-zuo-1.html</id><content type="html">&lt;p&gt;まずはIMA-ADPCM互換のデコーダ/エンコーダを作ってみますかね。かなり情報あるし。
+FFMPEGで出力する方法は:&lt;/p&gt;
+&lt;p&gt;ffmpeg -i &amp;lt;input.wav&amp;gt; -f wav -acodec adpcm_ima_wav &amp;lt;output.wav&amp;gt;&lt;/p&gt;
+&lt;p&gt;Macで再生もできた。ほぼ1/4になる。理論的には1/4だけどwavに余計なチャンクが入っているから減っている？&lt;/p&gt;
+&lt;p&gt;ステレオ以上はどうなってるのか見ている。インターリーブしているようだ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php?title=Microsoft_IMA_ADPCM"&gt;Microsoft IMA ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上記のサイト含めてフォーマットをまとめると&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;ul class="first"&gt;
+&lt;li&gt;head1&lt;/li&gt;
+&lt;li&gt;head2&lt;/li&gt;
+&lt;li&gt;head3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;ul class="first"&gt;
+&lt;li&gt;td1&lt;/li&gt;
+&lt;li&gt;td2&lt;/li&gt;
+&lt;li&gt;td3&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;ul class="first"&gt;
+&lt;li&gt;td1&lt;/li&gt;
+&lt;li&gt;td2&lt;/li&gt;
+&lt;li&gt;td3
+td3の続き&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作</title><link href="/zi-you-gong-zuo.html" rel="alternate"></link><published>2020-08-28T10:00:00+09:00</published><updated>2020-08-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-08-28:/zi-you-gong-zuo.html</id><summary type="html">&lt;p&gt;発表会終わり。発表準備と並行して群論やってた。
+夏休みは自由工作（息抜き）としてADPCMエンコーダデコーダ作ろうかと思ってる。
+もちろん、群論（リー群まで）と情報幾何（統計的応用まで、行間のまとめ）は進める。&lt;/p&gt;
+&lt;p&gt;ADPCMのフォーマットを見ている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://forum.audacityteam.org/viewtopic.php?t=10950"&gt;IMA ADPCM vs MS ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php/Microsoft_ADPCM"&gt;Microsoft ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php/IMA_ADPCM"&gt;IMA ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php/CRI_ADX_ADPCM"&gt;CRI ADX ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.columbia.edu/~hgs/audio/dvi/IMA_ADPCM.pdf"&gt;Recommended Practices for Enhancing Digital Audio Compatibility in Multimedia Systems&lt;/a&gt; IMA公式の推奨規格。実装も掲載されてて有益。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MS-ADPCMかIMA-ADPCMやなあ。IMA-ADPCMの方が説明が充実している。
+そして、なんとなくステップ幅をテーブル引きするところにTAKとの類似点を感じる。
+G.726もありだがテーブル引きを使ってない。説明は「音声&amp;amp;画像処理の常識」に書いてある。&lt;/p&gt;
+&lt;p&gt;研究としてはグラフィカルLASSOの導入忘れずに。もう一度張っとく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf"&gt;依存関係にスハ …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;発表会終わり。発表準備と並行して群論やってた。
+夏休みは自由工作（息抜き）としてADPCMエンコーダデコーダ作ろうかと思ってる。
+もちろん、群論（リー群まで）と情報幾何（統計的応用まで、行間のまとめ）は進める。&lt;/p&gt;
+&lt;p&gt;ADPCMのフォーマットを見ている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://forum.audacityteam.org/viewtopic.php?t=10950"&gt;IMA ADPCM vs MS ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php/Microsoft_ADPCM"&gt;Microsoft ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php/IMA_ADPCM"&gt;IMA ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://wiki.multimedia.cx/index.php/CRI_ADX_ADPCM"&gt;CRI ADX ADPCM&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.columbia.edu/~hgs/audio/dvi/IMA_ADPCM.pdf"&gt;Recommended Practices for Enhancing Digital Audio Compatibility in Multimedia Systems&lt;/a&gt; IMA公式の推奨規格。実装も掲載されてて有益。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MS-ADPCMかIMA-ADPCMやなあ。IMA-ADPCMの方が説明が充実している。
+そして、なんとなくステップ幅をテーブル引きするところにTAKとの類似点を感じる。
+G.726もありだがテーブル引きを使ってない。説明は「音声&amp;amp;画像処理の常識」に書いてある。&lt;/p&gt;
+&lt;p&gt;研究としてはグラフィカルLASSOの導入忘れずに。もう一度張っとく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf"&gt;依存関係にスパース性を入れる — グラフィカル lasso の話&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>研究会に向けて - 執筆(5)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html" rel="alternate"></link><published>2020-08-03T10:00:00+09:00</published><updated>2020-08-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-08-03:/yan-jiu-hui-nixiang-kete-zhi-bi-5.html</id><content type="html">&lt;p&gt;自己相関行列の逆の推定、グラフィカルLASSOが有効ではというありがたい指摘あり。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf"&gt;依存関係にスパース性を入れる — グラフィカル lasso の話&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;他にも精度行列の推定を（スパース制約を入れて）高速にやるみたいな話がたくさん出てきている。参考にすべし。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>IGおべんきょ(4)</title><link href="/igobenkiyo4.html" rel="alternate"></link><published>2020-08-01T10:00:00+09:00</published><updated>2020-08-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-08-01:/igobenkiyo4.html</id><summary type="html">&lt;p&gt;しばらくIGをおべんきょしてた。行間メモは公開していきたい。
+で、いまはChentsovの定理で絶賛ハマってる。(0,4)-テンソル場で定数倍にならない理由って何よ。&lt;/p&gt;
+&lt;p&gt;証明の1ステップと言ったらラベルに対する付替えで、
+4次元以上で起こる特殊なこと…を調べていて、群論が関わってくるのでは。と。
+ラベルの付替えは対称群に相当するはず。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://orz107orz.hatenablog.com/entry/20140218/1392724434"&gt;交代群が非可換になること&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.tsuyama-ct.ac.jp/matsuda/eBooks/galios.pdf"&gt;ガロア理論を理解しよう&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;でももっと単純に考えるべきかも。 &lt;span class="math"&gt;\(F\)&lt;/span&gt; は当然計算できる上で、 &lt;span class="math"&gt;\(\~{F}\)&lt;/span&gt; も不変性の要求を満たす。
+でも &lt;span class="math"&gt;\(\~{F}\)&lt;/span&gt; は &lt;span class="math"&gt;\(F\)&lt;/span&gt; の定数倍にならない、みたいな論法。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768 …&lt;/script&gt;</summary><content type="html">&lt;p&gt;しばらくIGをおべんきょしてた。行間メモは公開していきたい。
+で、いまはChentsovの定理で絶賛ハマってる。(0,4)-テンソル場で定数倍にならない理由って何よ。&lt;/p&gt;
+&lt;p&gt;証明の1ステップと言ったらラベルに対する付替えで、
+4次元以上で起こる特殊なこと…を調べていて、群論が関わってくるのでは。と。
+ラベルの付替えは対称群に相当するはず。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://orz107orz.hatenablog.com/entry/20140218/1392724434"&gt;交代群が非可換になること&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.tsuyama-ct.ac.jp/matsuda/eBooks/galios.pdf"&gt;ガロア理論を理解しよう&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;でももっと単純に考えるべきかも。 &lt;span class="math"&gt;\(F\)&lt;/span&gt; は当然計算できる上で、 &lt;span class="math"&gt;\(\~{F}\)&lt;/span&gt; も不変性の要求を満たす。
+でも &lt;span class="math"&gt;\(\~{F}\)&lt;/span&gt; は &lt;span class="math"&gt;\(F\)&lt;/span&gt; の定数倍にならない、みたいな論法。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="IG"></category></entry><entry><title>IGおべんきょ(3)</title><link href="/igobenkiyo3.html" rel="alternate"></link><published>2020-07-30T10:00:00+09:00</published><updated>2020-07-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-30:/igobenkiyo3.html</id><content type="html">&lt;p&gt;IGがだいぶ止まってたので、レビューが帰るまでのあいだ進める。
+今日の合言葉：写像の微分は接ベクトルの写像。&lt;/p&gt;
+</content><category term="雑記"></category><category term="IG"></category></entry><entry><title>研究会に向けて - 執筆(4)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html" rel="alternate"></link><published>2020-07-28T11:00:00+09:00</published><updated>2020-07-28T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-28:/yan-jiu-hui-nixiang-kete-zhi-bi-4.html</id><content type="html">&lt;p&gt;引き続き執筆。今日あたりであらすじ書いてレビュー予定。&lt;/p&gt;
+&lt;p&gt;思ったのが、先にデータの自己相関行列の逆を計算して勾配計算用のデータを用意しちゃう発想はどうよ？という点。
+もしくは、自己相関（の偏り）を打ち消すようなフィルタを先にかけてからフィルタ処理をおこなうのはどうか？演算誤差が気になるけど、ありえる発想。
+これはもしかしたらプリエンファシスの一般化かもしれない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて - 執筆(3)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html" rel="alternate"></link><published>2020-07-26T11:00:00+09:00</published><updated>2020-07-26T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-26:/yan-jiu-hui-nixiang-kete-zhi-bi-3.html</id><content type="html">&lt;p&gt;土日は黙々と執筆してた。
 1点気になったのが、自然勾配法を共役勾配法的にやれないかというところ。そうすれば逆行列を計算しなくて済む。
 ここらへん誰かやってないのかな？誰でも思いつくと思うけど。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://edisciplinas.usp.br/pluginfile.php/227194/mod_resource/content/1/Nascimento_Silva_2014_Adaptive_Filters.pdf"&gt;Adaptive Filters&lt;/a&gt; 適応フィルタの新しい良さげなまとめ。&lt;/li&gt;
+&lt;/ul&gt;
 </content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>研究会に向けて - 執筆(2)</title><link href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html" rel="alternate"></link><published>2020-07-24T11:00:00+09:00</published><updated>2020-07-24T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-07-24:/yan-jiu-hui-nixiang-kete-zhi-bi-2.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\ve[1]{\boldsymbol{#1}}
@@ -39,7 +209,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/ieejeiss1987/119/8-9/119_8-9_1027/_pdf/-char/ja"&gt;準最適ステップゲインを用いたBlock LMS-Newtonアルゴリズム&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;これはLMS Newton Algorithmに関する話だけど、ここで提案されているやり方をSAに持っていけないか？→ブロック単位で更新しているから話が違う？いや、もうちょっと読み込もう。&lt;ul&gt;
 &lt;li&gt;この論文で可変ステップサイズに関する議論が出てきている。最適係数から垂線を下ろしたところでステップサイズを決めるという方針。それにしたがってNGSAにおいても最適なステップサイズを求めたら今までのNNGSAと同一の結果が出た。&lt;/li&gt;
-&lt;li&gt;勾配 &lt;span class="math"&gt;\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)&lt;/span&gt; に対して &lt;span class="math"&gt;\(\inprod{\ve{R}^{-1}\ve{g}[n]}{\ve{h}_{\rm opt} - (\ve{h}[n] + \mu[n] \ve{R}^{-1} \ve{g}[n])}_{\ve{R}} = 0\)&lt;/span&gt; を満たす &lt;span class="math"&gt;\(\mu[n]\)&lt;/span&gt; こそ、勾配のなす方向に対して &lt;span class="math"&gt;\(\ve{h}_{\rm opt}\)&lt;/span&gt; から垂線を降ろせているから最適になる。直交条件を展開すると、 &lt;span class="math"&gt;\(\ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} (\ve{h}_{opt} - \ve{h}[n]) - \mu[n] \ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} \ve{R}^{-1} \ve{g}[n] = 0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)&lt;/span&gt; を突っ込むと &lt;span class="math"&gt;\(\mathrm{sgn}(\varepsilon[n]) \ve{x}[n]^{\mathsf{T}} (\ve{h}_{\rm opt} - \ve{h}[n]) - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = \mathrm{sgn}(\varepsilon[n]) \varepsilon[n] - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = 0\)&lt;/span&gt; よりいつものステップサイズが出てくる。&lt;/li&gt;
+&lt;li&gt;勾配 &lt;span class="math"&gt;\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)&lt;/span&gt; に対して &lt;span class="math"&gt;\(\inprod{\ve{R}^{-1}\ve{g}[n]}{\ve{h}_{\rm opt} - (\ve{h}[n] + \mu[n] \ve{R}^{-1} \ve{g}[n])}_{\ve{R}} = 0\)&lt;/span&gt; を満たす &lt;span class="math"&gt;\(\mu[n]\)&lt;/span&gt; こそ、勾配のなす方向に対して &lt;span class="math"&gt;\(\ve{h}_{\rm opt}\)&lt;/span&gt; から垂線を降ろせているから最適になる。直交条件を展開すると、 &lt;span class="math"&gt;\(\ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} (\ve{h}_{opt} - \ve{h}[n]) - \mu[n] \ve{g}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{R} \ve{R}^{-1} \ve{g}[n] = 0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(\ve{g}[n] = \mathrm{sgn}(\varepsilon[n])\ve{x}[n]\)&lt;/span&gt; を突っ込むと &lt;span class="math"&gt;\(\mathrm{sgn}(\varepsilon[n]) \ve{x}[n]^{\mathsf{T}} (\ve{h}_{\rm opt} - \ve{h}[n]) - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = \mathrm{sgn}(\varepsilon[n]) \varepsilon[n] + \mathrm{sgn}(\varepsilon[n]) v[n] - \mu[n] \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1} \ve{x}[n] = 0\)&lt;/span&gt; より、&lt;span class="math"&gt;\(v[n]=0\)&lt;/span&gt; ならばいつものステップサイズが出てくる。論文間違ってると思う。。。&lt;/li&gt;
 &lt;li&gt;つまり、NNGSAはその意味でも最適。追記すべきかも。しかし、勾配 &lt;span class="math"&gt;\(\ve{g}[n]\)&lt;/span&gt; がLMSのときとの差異が気になる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -53,7 +223,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://www.academia.edu/17820650/Optimal_variable_step_size_for_the_LMS_Newton_algorithm_with_application_to_subband_adaptive_filtering?auto=download"&gt;Optimal variable step size for the LMS/Newton algorithm with application to subband adaptive filtering&lt;/a&gt; これもAcademiaから&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;でも、NNGSAまで至らないと上記の一致は指摘できない。また、こっちはFisher情報行列ベースで話を進めているから、射影の足がKLダイバージェンスに一致することを議論できる。&lt;/p&gt;
-&lt;p&gt;あ、でもNGSAは残差のsgnとってるだけだから、LMS Newton Algorithmのステップサイズを荒く量子化したやつに対応するのか。&lt;/p&gt;
+&lt;p&gt;あ、でもNGSAは残差のsgnとってるだけだから、LMS Newton Algorithmのステップサイズを荒く量子化したやつに対応するのか。いや、それでも、ラプラス分布仮定時に最急勾配になってるはずなんや。最適値近傍で頑張って0に近づけるし、しかも遠いときはゆっくり近づいてロングテールな分布を作っているんや。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/52288867.pdf"&gt;Adaptive filters: stable but divergent&lt;/a&gt; なんか適応フィルタのまとめ。時間があれば。&lt;/li&gt;
 &lt;/ul&gt;
@@ -1358,10 +1528,10 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Signed LMS"></category><category term="LMS"></category><category term="Natural Gradient"></category></entry><entry><title>逆写像定理までの整理(3)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-3.html" rel="alternate"></link><published>2020-06-13T11:00:00+09:00</published><updated>2020-06-13T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-13:/ni-xie-xiang-ding-li-madenozheng-li-3.html</id><content type="html">&lt;p&gt;記事に起こしてたら誤りなども見つかって1週間かかってしまった。。
 これでようやく情報幾何学に入門できそう。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理(2)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-2.html" rel="alternate"></link><published>2020-06-07T11:00:00+09:00</published><updated>2020-06-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-07:/ni-xie-xiang-ding-li-madenozheng-li-2.html</id><content type="html">&lt;p&gt;ついでにラグランジュ未定乗数法と KKT 条件まで行ってしまった。欲張った。
+</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理(2)</title><link href="/ni-xie-xiang-ding-li-madenozheng-li-2.html" rel="alternate"></link><published>2020-06-07T11:00:00+09:00</published><updated>2020-06-07T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-07:/ni-xie-xiang-ding-li-madenozheng-li-2.html</id><content type="html">&lt;p&gt;ついでにラグランジュ未定乗数法とKKT条件まで行ってしまった。欲張った。
 予定より断然時間かかってしまったけど、だいたい落ち着いたかも。記事に起こす。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理</title><link href="/ni-xie-xiang-ding-li-madenozheng-li.html" rel="alternate"></link><published>2020-06-05T11:00:00+09:00</published><updated>2020-06-05T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/ni-xie-xiang-ding-li-madenozheng-li.html</id><content type="html">&lt;p&gt;評価を待つ間逆写像定理までを写経中。だいたい飲み込めてるが、やっぱ基礎の抜けがある …。
-陰関数定理はだいたい OK。ついでにラグランジュ未定乗数法の厳密な証明を与えたい。（いままでなんとなくで済ませていたので止めを刺す。）&lt;/p&gt;
+</content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>逆写像定理までの整理</title><link href="/ni-xie-xiang-ding-li-madenozheng-li.html" rel="alternate"></link><published>2020-06-05T11:00:00+09:00</published><updated>2020-06-05T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/ni-xie-xiang-ding-li-madenozheng-li.html</id><content type="html">&lt;p&gt;評価を待つ間逆写像定理までを写経中。だいたい飲み込めてるが、やっぱ基礎の抜けがある…。
+陰関数定理はだいたいOK。ついでにラグランジュ未定乗数法の厳密な証明を与えたい。（いままでなんとなくで済ませていたので止めを刺す。）&lt;/p&gt;
 </content><category term="雑記"></category><category term="Manifold"></category></entry><entry><title>正則化(8)</title><link href="/zheng-ze-hua-8.html" rel="alternate"></link><published>2020-06-04T11:00:00+09:00</published><updated>2020-06-04T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-04:/zheng-ze-hua-8.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -1381,18 +1551,18 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \end{equation*}
 &lt;/div&gt;
 &lt;p&gt;前日思い立った内容って既に試していて、だめなところまで見えてた。すなわち直接 &lt;span class="math"&gt;\(\mathrm{E}[(\ve{x} + \ve{a})(\ve{x} + \ve{a})^{\mathsf{T}}]\)&lt;/span&gt; を計算する方針は試行済み。&lt;/p&gt;
-&lt;p&gt;色々探しているうちに、K-FAC という自然勾配学習法の近似手法を見つける。クロネッカ積を使ってフィッシャー情報行列を分解しようというアイデアだ。&lt;/p&gt;
+&lt;p&gt;色々探しているうちに、K-FACという自然勾配学習法の近似手法を見つける。クロネッカ積を使ってフィッシャー情報行列を分解しようというアイデアだ。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://medium.com/&amp;#64;osawa1021/k-fac%E3%81%A8%E3%81%AF-de30537f7096"&gt;K-FAC とは？ 大規模深層学習のための二次最適化の実現&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://medium.com/&amp;#64;osawa1021/k-fac%E3%81%A8%E3%81%AF-de30537f7096"&gt;K-FACとは？ 大規模深層学習のための二次最適化の実現&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;これはすごい。少し前にクロネッカ積で計算できるんじゃないの？とは指摘もらってたけど、普通にメジャーな手法だ。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/pjsai/JSAI2017/0/JSAI2017_1A2OS05b4/_pdf/-char/ja"&gt;自然勾配近似法を起点としたバッチ正規化の数理的理解&lt;/a&gt; に近似手法が挙げられている。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1810.12281.pdf"&gt;THREE MECHANISMS OF WEIGHT DECAY REGULARIZATION&lt;/a&gt; で Weight Decay の文脈で L2 正則化学習則が示されている。&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1512.04202.pdf"&gt;Preconditioned Stochastic Gradient Descent&lt;/a&gt; Precondition 行列で勾配を更新する方法。ちょっと待て、自然勾配とちょっと違う。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1810.12281.pdf"&gt;THREE MECHANISMS OF WEIGHT DECAY REGULARIZATION&lt;/a&gt; でWeight Decayの文脈でL2正則化学習則が示されている。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1512.04202.pdf"&gt;Preconditioned Stochastic Gradient Descent&lt;/a&gt; Precondition行列で勾配を更新する方法。ちょっと待て、自然勾配とちょっと違う。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.mdpi.com/2076-3417/9/21/4568/pdf"&gt;Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode&lt;/a&gt; では Matrix cookbook の (191) を使って行列に対する正則化を行っている。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.mdpi.com/2076-3417/9/21/4568/pdf"&gt;Adaptive Natural Gradient Method for Learning of Stochastic Neural Networks in Mini-Batch Mode&lt;/a&gt; ではMatrix cookbookの(191)を使って行列に対する正則化を行っている。&lt;ul&gt;
 &lt;li&gt;&lt;span class="math"&gt;\((\ve{Q} + \sigma^{2}\ve{M})^{-1} \approx \ve{Q}^{-1} - \sigma^{2}\ve{Q}^{-1}\ve{M}\ve{Q}^{-1}\ (\sigma\text{ is small})\)&lt;/span&gt; という近似。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -1553,7 +1723,7 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(6)</title><link href="/zheng-ze-hua-6.html" rel="alternate"></link><published>2020-05-31T11:00:00+09:00</published><updated>2020-05-31T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-31:/zheng-ze-hua-6.html</id><content type="html">&lt;p&gt;残った課題をやってたら土日が飛ぶ。ついでにカサゴ本を読み切る。
-6 月からは英語のおべんきょうをしようかと思っている。同時に情報幾何も進める。
+6月からは英語のおべんきょうをしようかと思っている。同時に情報幾何も進める。
 早いところ進捗を見てもらいたいが、まだ無理っぽい。。。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://solid4.mech.okayama-u.ac.jp/%E3%83%86%E3%83%B3%E3%82%BD%E3%83%AB.pdf"&gt;テンソル&lt;/a&gt; テンソルの定義。分かりやすい説明。&lt;/li&gt;
@@ -1569,9 +1739,9 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;引き続き MAP 推定における自然勾配を調査する。&lt;/p&gt;
+&lt;p&gt;引き続きMAP推定における自然勾配を調査する。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
@@ -1580,10 +1750,10 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;引き続き MAP 推定における自然勾配を調査する。&lt;/p&gt;
+&lt;p&gt;引き続きMAP推定における自然勾配を調査する。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式 (5) からスタートするも … はっきりしたことを言ってないように見える。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf"&gt;Adaptive natural gradient learning algorithms for various stochastic models&lt;/a&gt; これの式 (5) も参考になりそう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式(5)からスタートするも…はっきりしたことを言ってないように見える。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf"&gt;Adaptive natural gradient learning algorithms for various stochastic models&lt;/a&gt; これの式(5)も参考になりそう。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1803.09151.pdf"&gt;Natural Gradients in Practice: Non-Conjugate Variational Inference in Gaussian Process Models&lt;/a&gt; 指数族の事後確率最大化を考える。フィッシャー情報行列を計算するための平均のとり方が妙。もうちょっと読みたい。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -1649,34 +1819,35 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 }
 &lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>正則化(3)</title><link href="/zheng-ze-hua-3.html" rel="alternate"></link><published>2020-05-26T11:00:00+09:00</published><updated>2020-05-26T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-26:/zheng-ze-hua-3.html</id><summary type="html">&lt;p&gt;実装の整理できて、正則化込で動かしているけど芳しくない。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。&lt;/li&gt;
+&lt;li&gt;正則化入れたらRMSが悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。&lt;/li&gt;
 &lt;li&gt;タップ数が多い場合は多少の効果あり。&lt;ul&gt;
-&lt;li&gt;タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。&lt;/li&gt;
-&lt;li&gt;試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。&lt;/li&gt;
+&lt;li&gt;タップ数が少ない（〜16個）のときは旨味が無いように思える。係数がスパースじゃないのでは。&lt;/li&gt;
+&lt;li&gt;試しに128個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでもRMSが悪い。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。&lt;/li&gt;
-&lt;li&gt;ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。&lt;/li&gt;
+&lt;li&gt;ついでにLMSでも自然勾配法試してみたけど、SignedLMSの自然勾配よりもRMSが悪い。&lt;/li&gt;
 &lt;li&gt;もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式 (5)。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.luigimalago.it/papers/2013GSI.pdf"&gt;Robust Estimation of Natural Gradient in …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;実装の整理できて、正則化込で動かしているけど芳しくない。&lt;/p&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式(5)。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.luigimalago.it/papers/2013GSI.pdf"&gt;Robust Estimation of Natural Gradient in Optimization by Regularized Linear Regression&lt;/a&gt; 線形回帰における正則化に触れている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ipvs.informatik.uni-stuttgart.de/mlr/papers/05-igel-Rprop.pdf"&gt;Rprop Using the Natural Gradient&lt;/a&gt; パラメータの正則化ではない …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;実装の整理できて、正則化込で動かしているけど芳しくない。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;正則化入れたら RMS が悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。&lt;/li&gt;
+&lt;li&gt;正則化入れたらRMSが悪化。しかも、正則化係数を十分小さく取らないと誤差が大きくなる。&lt;/li&gt;
 &lt;li&gt;タップ数が多い場合は多少の効果あり。&lt;ul&gt;
-&lt;li&gt;タップ数が少ない（〜16 個）のときは旨味が無いように思える。係数がスパースじゃないのでは。&lt;/li&gt;
-&lt;li&gt;試しに 128 個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでも RMS が悪い。&lt;/li&gt;
+&lt;li&gt;タップ数が少ない（〜16個）のときは旨味が無いように思える。係数がスパースじゃないのでは。&lt;/li&gt;
+&lt;li&gt;試しに128個とかにしたら少しの改善が見られた。けど適応が遅くて正則化なしでもRMSが悪い。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;フィッシャー情報行列固定で、勾配だけ正則化かける方は発散していく。&lt;/li&gt;
-&lt;li&gt;ついでに LMS でも自然勾配法試してみたけど、SignedLMS の自然勾配よりも RMS が悪い。&lt;/li&gt;
+&lt;li&gt;ついでにLMSでも自然勾配法試してみたけど、SignedLMSの自然勾配よりもRMSが悪い。&lt;/li&gt;
 &lt;li&gt;もう一度適応的自然勾配学習法を試したけど、十分に係数を小さく取らないと発散するし、小さくとっても性能が悪い。フィッシャー情報行列はちゃんと更新するべし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;なんで正則化したら性能落ちるのか？をもっと考えていたら、パラメータの事前分布を入れた瞬間に計量がさらに歪んでいそう（単純な残差の分散ではダメそう）。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式 (5)。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1712.02390.pdf"&gt;Noisy Natural Gradient as Variational Inference&lt;/a&gt; の式(5)。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.luigimalago.it/papers/2013GSI.pdf"&gt;Robust Estimation of Natural Gradient in Optimization by Regularized Linear Regression&lt;/a&gt; 線形回帰における正則化に触れている。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://ipvs.informatik.uni-stuttgart.de/mlr/papers/05-igel-Rprop.pdf"&gt;Rprop Using the Natural Gradient&lt;/a&gt; パラメータの正則化ではない。フィッシャー情報行列に正則化パラメータを乗じた単位行列を足して逆行列を求めている。なんでも、正則化パラメータが大きければ普通の勾配法に近づくとのこと。そのとおりだが、一体どういう発想なんだろう。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1703.00209.pdf"&gt;Online Natural Gradient as a Kalman Filter&lt;/a&gt; ドンピシャであった（Proposition 4）けどだいぶ複雑。しかも、自然勾配法とカルマンフィルタの関係性を示している。カルマンフィルタのノイズの事前分布を取り入れている。&lt;/li&gt;
@@ -1708,11 +1879,11 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 対数尤度を損失関数に使った場合は、無論自然勾配になるけど、一般の損失関数の場合、フィッシャー情報行列と損失関数の勾配が噛み合わない気がする。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1808.07172.pdf"&gt;Fisher Information and Natural Gradient Learning of Random Deep Networks&lt;/a&gt; 甘利先生の論文だけど一般の損失に適用しているように見える&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.7538&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Why Natural Gradient?&lt;/a&gt; &lt;strong&gt;→ 大丈夫っぽい。ちゃんと読もう。&lt;/strong&gt; 簡単な例（極座標系）で示している。普通の勾配はユークリッド空間上になるけど、極座標の逆行列を乗じて自然勾配を得ている。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.7538&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Why Natural Gradient?&lt;/a&gt; &lt;strong&gt;→大丈夫っぽい。ちゃんと読もう。&lt;/strong&gt; 簡単な例（極座標系）で示している。普通の勾配はユークリッド空間上になるけど、極座標の逆行列を乗じて自然勾配を得ている。&lt;ul&gt;
 &lt;li&gt;とは言っても目的関数の構造を適切に表していないと、性能が悪そうに見える。対数尤度以外でどういうときに有効なんだ？&lt;/li&gt;
 &lt;li&gt;試してみるしかない？つまり、勾配分散を毎回求める必要があるのか、それとも、一つの計量を複数の損失関数で使い回せるかやってみる。&lt;/li&gt;
-&lt;li&gt;もう少し考えた。やっぱり正則化項を入れると損失関数の勾配は歪んでくると思う。だから、正則化項も含めてフィッシャー情報行列を計算しなければいかんと思う。ていうか、もはやフィッシャー情報行列は勾配の分散でしか無いように見えてきた。やり方としては、パラメータの事前分布にガウス or ラプラス分布を入れて、そいつの対数尤度をとって最適化問題を考える。フィッシャー情報行列の式変形が難しくなるけど、そんなことは無視して（考察の余地はあるけど）逆行列補題でストレートにフィッシャー情報行列の逆行列を計算できる。&lt;ul&gt;
-&lt;li&gt;ようは MAP 推定。 &lt;span class="math"&gt;\(\max p(\ve{x} | \ve{\theta}) p(\ve{\theta})\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(p(\ve{x} | \ve{\theta})\)&lt;/span&gt; は誤差分布、 &lt;span class="math"&gt;\(p(\ve{\theta})\)&lt;/span&gt; はパラメータ事前分布。&lt;span class="math"&gt;\(p(\ve{\theta}) = \exp(-\beta ||\ve{\theta}||_{2}), \exp(-\beta ||\ve{\theta}||_{1})\)&lt;/span&gt; なり何でもあり。対数とって勾配の分散をとればフィッシャー情報行列が求まる。&lt;/li&gt;
+&lt;li&gt;もう少し考えた。やっぱり正則化項を入れると損失関数の勾配は歪んでくると思う。だから、正則化項も含めてフィッシャー情報行列を計算しなければいかんと思う。ていうか、もはやフィッシャー情報行列は勾配の分散でしか無いように見えてきた。やり方としては、パラメータの事前分布にガウスorラプラス分布を入れて、そいつの対数尤度をとって最適化問題を考える。フィッシャー情報行列の式変形が難しくなるけど、そんなことは無視して（考察の余地はあるけど）逆行列補題でストレートにフィッシャー情報行列の逆行列を計算できる。&lt;ul&gt;
+&lt;li&gt;ようはMAP推定。 &lt;span class="math"&gt;\(\max p(\ve{x} | \ve{\theta}) p(\ve{\theta})\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(p(\ve{x} | \ve{\theta})\)&lt;/span&gt; は誤差分布、 &lt;span class="math"&gt;\(p(\ve{\theta})\)&lt;/span&gt; はパラメータ事前分布。&lt;span class="math"&gt;\(p(\ve{\theta}) = \exp(-\beta ||\ve{\theta}||_{2}), \exp(-\beta ||\ve{\theta}||_{1})\)&lt;/span&gt; なり何でもあり。対数とって勾配の分散をとればフィッシャー情報行列が求まる。&lt;/li&gt;
 &lt;li&gt;試すこともできると思うのでやってみたい。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -1789,7 +1960,7 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。
+&lt;p&gt;逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた…。
 勾配の分散行列を逐次的に求められるから相当強い。
 自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
@@ -1800,13 +1971,13 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた …。
+&lt;p&gt;逆行列補題を使えば、どんな自然勾配法でも上手く動きそうな気がしてきた…。
 勾配の分散行列を逐次的に求められるから相当強い。
 自己相関行列であることはそんなに重要でもないかも。。。。でも評価待ちましょう。。。&lt;/p&gt;
 &lt;p&gt;一方で今日から正則化をどうすればいいか考えている。答えはフィッシャー情報行列に &lt;span class="math"&gt;\(\lambda \ve{I}\)&lt;/span&gt; を足すだけなんだが、意味づけというか解釈が上手くできない。どういう損失関数ならばフィッシャー情報行列に単位行列を足す形になるのか。。。&lt;/p&gt;
-&lt;p&gt;SignedLMS で試したけど難航中。どうしても &lt;span class="math"&gt;\(\mathrm{sign}[\varepsilon(n)]\ve{x}(n)\)&lt;/span&gt; との積をとる項が出てきて、その平均がどうなるかわからない。。。&lt;/p&gt;
+&lt;p&gt;SignedLMSで試したけど難航中。どうしても &lt;span class="math"&gt;\(\mathrm{sign}[\varepsilon(n)]\ve{x}(n)\)&lt;/span&gt; との積をとる項が出てきて、その平均がどうなるかわからない。。。&lt;/p&gt;
 &lt;p&gt;実験的に勾配に係数ベクトルを足すなり係数の符号ベクトルを足すなりしてるけど、
-正則化パラメータをめちゃくちゃ小さく取らないと結果が発散する …。&lt;/p&gt;
+正則化パラメータをめちゃくちゃ小さく取らないと結果が発散する…。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -1868,18 +2039,18 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>成果まとめ中(5) / 自然勾配法の概観</title><link href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html" rel="alternate"></link><published>2020-05-23T11:00:00+09:00</published><updated>2020-05-23T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-23:/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html</id><content type="html">&lt;p&gt;昨日まで苦悩しつつ収束条件をまとめた（運良く見つけることができた。同時に NLMS の収束条件も掴んだ。）
-でも、同時に新規性が無い気がしてきた。発見となるのは、SignedLMS のフィッシャー情報行列が自己相関行列になっているくらいか？
-適応ステップサイズ導出後は、普通のフィッシャー情報行列込みの NLMS と全く同じだし。&lt;/p&gt;
-</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>成果まとめ中(4)</title><link href="/cheng-guo-matomezhong-4.html" rel="alternate"></link><published>2020-05-21T23:00:00+09:00</published><updated>2020-05-21T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-21:/cheng-guo-matomezhong-4.html</id><content type="html">&lt;p&gt;AdaptiveFilter の本見て NLMS の議論を色々見てる。が、いい結果が出てこない。
-本の内容も掴みかねてる。NLMS は係数誤差ベクトルの L2 ノルムが指数的に減少するようだが本当か …？&lt;/p&gt;
-&lt;p&gt;LMS の収束条件が分かっていないことに気づく。
-「Adaptive Filter Theory」では式 4.22 に、「Adaptive Signal Processing」では式 4.45 で示されているので確認中。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category><category term="Regularization"></category></entry><entry><title>成果まとめ中(5) / 自然勾配法の概観</title><link href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html" rel="alternate"></link><published>2020-05-23T11:00:00+09:00</published><updated>2020-05-23T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-23:/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html</id><content type="html">&lt;p&gt;昨日まで苦悩しつつ収束条件をまとめた（運良く見つけることができた。同時にNLMSの収束条件も掴んだ。）
+でも、同時に新規性が無い気がしてきた。発見となるのは、SignedLMSのフィッシャー情報行列が自己相関行列になっているくらいか？
+適応ステップサイズ導出後は、普通のフィッシャー情報行列込みのNLMSと全く同じだし。&lt;/p&gt;
+</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>成果まとめ中(4)</title><link href="/cheng-guo-matomezhong-4.html" rel="alternate"></link><published>2020-05-21T23:00:00+09:00</published><updated>2020-05-21T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-21:/cheng-guo-matomezhong-4.html</id><content type="html">&lt;p&gt;AdaptiveFilterの本見てNLMSの議論を色々見てる。が、いい結果が出てこない。
+本の内容も掴みかねてる。NLMSは係数誤差ベクトルのL2ノルムが指数的に減少するようだが本当か…？&lt;/p&gt;
+&lt;p&gt;LMSの収束条件が分かっていないことに気づく。
+「Adaptive Filter Theory」では式4.22に、「Adaptive Signal Processing」では式4.45で示されているので確認中。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>成果まとめ中(3)</title><link href="/cheng-guo-matomezhong-3.html" rel="alternate"></link><published>2020-05-20T23:00:00+09:00</published><updated>2020-05-20T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-20:/cheng-guo-matomezhong-3.html</id><summary type="html">&lt;p&gt;SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/bjsiam/28/3/28_27/_pdf"&gt;機械学習における確率的最適化&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。&lt;/p&gt;
+&lt;p&gt;もっと初等的な説明があると良いなあ。確率1で極値に収束したような気がしている…。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -1887,11 +2058,11 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;適応ステップサイズの分母の &lt;span class="math"&gt;\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)&lt;/span&gt; がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル &lt;span class="math"&gt;\(x(\theta)\)&lt;/span&gt; の内積 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。&lt;/p&gt;
+&lt;p&gt;適応ステップサイズの分母の &lt;span class="math"&gt;\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)&lt;/span&gt; がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル &lt;span class="math"&gt;\(x(\theta)\)&lt;/span&gt; の内積 &lt;span class="math"&gt;\(\innerp{x …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/bjsiam/28/3/28_27/_pdf"&gt;機械学習における確率的最適化&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;もっと初等的な説明があると良いなあ。確率 1 で極値に収束したような気がしている …。&lt;/p&gt;
+&lt;p&gt;もっと初等的な説明があると良いなあ。確率1で極値に収束したような気がしている…。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -1903,10 +2074,10 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 &lt;p&gt;これどういうこと？と思って探し始めたら沼。相対性理論にぶつかる。わかりやすかったのは下くらいか？&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://yuru2physics.blog.fc2.com/blog-entry-99.html"&gt;内積が不変という意味&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://fnorio.com/0180covariant_contravariant/covariant_contravariant.html#3-6"&gt;(6) ベクトル内積の座標変換不変性の確認&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://fnorio.com/0180covariant_contravariant/covariant_contravariant.html#3-6"&gt;(6)ベクトル内積の座標変換不変性の確認&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;情報幾何の観点からすると、幾何的に微小線素は座標変換によって値を全く変えないことが重要らしい。&lt;span class="math"&gt;\(\ve{x}(n)\)&lt;/span&gt; をパラメタ空間上のベクトルと捉えると、&lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; はパラメタ空間上の計量（元の空間の計量は :math:&lt;cite&gt;ve{R}&lt;/cite&gt; ）を定め、&lt;span class="math"&gt;\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)&lt;/span&gt; はパラメタ空間上のノルムを計算していて、ノルムだから不変でしょっていう議論になる？まだピンとこない。&lt;/p&gt;
-&lt;p&gt;あと、AdaptiveFilter の本見て NLMS の議論を色々見てる。&lt;/p&gt;
+&lt;p&gt;情報幾何の観点からすると、幾何的に微小線素は座標変換によって値を全く変えないことが重要らしい。&lt;span class="math"&gt;\(\ve{x}(n)\)&lt;/span&gt; をパラメタ空間上のベクトルと捉えると、&lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; はパラメタ空間上の計量（元の空間の計量は:math:&lt;cite&gt;ve{R}&lt;/cite&gt; ）を定め、&lt;span class="math"&gt;\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)&lt;/span&gt; はパラメタ空間上のノルムを計算していて、ノルムだから不変でしょっていう議論になる？まだピンとこない。&lt;/p&gt;
+&lt;p&gt;あと、AdaptiveFilterの本見てNLMSの議論を色々見てる。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -1971,7 +2142,7 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 &lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>成果まとめ中(2)</title><link href="/cheng-guo-matomezhong-2.html" rel="alternate"></link><published>2020-05-19T11:00:00+09:00</published><updated>2020-05-19T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-19:/cheng-guo-matomezhong-2.html</id><content type="html">&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://dsl4.eee.u-ryukyu.ac.jp/DOCS/DSP/p10.pdf"&gt;ディジタル信号処理 第 10 回 適応信号処理&lt;/a&gt; 少し詳しく書いてある。やはり適応フィルタの原典を当たりたい。&lt;/li&gt;
 &lt;/ul&gt;
-</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>書類整理終わり、復帰 / 成果まとめ中(1)</title><link href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html" rel="alternate"></link><published>2020-05-18T11:00:00+09:00</published><updated>2020-05-18T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-18:/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html</id><content type="html">&lt;p&gt;諸々の提出書類で実験できず。1 週間空けて復帰。&lt;/p&gt;
+</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>書類整理終わり、復帰 / 成果まとめ中(1)</title><link href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html" rel="alternate"></link><published>2020-05-18T11:00:00+09:00</published><updated>2020-05-18T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-18:/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html</id><content type="html">&lt;p&gt;諸々の提出書類で実験できず。1週間空けて復帰。&lt;/p&gt;
 &lt;p&gt;報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。
 対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -1985,21 +2156,21 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;Normalize するやつの意味付けを追っている。非常に RLS(Recursive Least Square) に近い、下手すると RLS そのものかも知れない。&lt;/p&gt;
+&lt;p&gt;Normalizeするやつの意味付けを追っている。非常にRLS(Recursive Least Square)に近い、下手するとRLSそのものかも知れない。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";
 
     if (false) {
-        align = (screen …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
+        align = (screen.width &lt; 768) ? "left" : align …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;Normalize するやつの意味付けを追っている。非常に RLS(Recursive Least Square) に近い、下手すると RLS そのものかも知れない。&lt;/p&gt;
+&lt;p&gt;Normalizeするやつの意味付けを追っている。非常にRLS(Recursive Least Square)に近い、下手するとRLSそのものかも知れない。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -2065,15 +2236,15 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;かなり近い。が、LMS ベースの計量を自ら設計している。コスト関数に、2 乗誤差項に何か変換の L2 ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。&lt;/p&gt;
+&lt;p&gt;かなり近い。が、LMSベースの計量を自ら設計している。コスト関数に、2乗誤差項に何か変換のL2ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf"&gt;Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;自然勾配の発想に近づいていた PNLMS の実装&lt;/p&gt;
+&lt;p&gt;自然勾配の発想に近づいていたPNLMSの実装&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://wiki.eecs.umich.edu/global/data/hero/images/7/7b/Yilun-icassp2-09.pdf"&gt;SPARSE LMS FOR SYSTEM IDENTIFICATION&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;スパース LMS(ZA-LMS) の最初の論文。定式化が明確。&lt;/p&gt;
+&lt;p&gt;スパースLMS(ZA-LMS)の最初の論文。定式化が明確。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>LMS Filterの挙動観察中(9)</title><link href="/lms-filternoju-dong-guan-cha-zhong-9.html" rel="alternate"></link><published>2020-05-05T11:00:00+09:00</published><updated>2020-05-05T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-05:/lms-filternoju-dong-guan-cha-zhong-9.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -2082,16 +2253,16 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \end{equation*}
 &lt;/div&gt;
 &lt;p&gt;実装誤りを見直しながらもう一度。&lt;/p&gt;
-&lt;p&gt;やはり、自然勾配法が何故うまくいくのか、更新式の導出までやったほうが宜しい。実装間違いするから。適応的自然勾配の更新式は微小量の近似を使っている。微小量の近似は今まで何度も避けてきたが、この際おさらいする。ようはテイラー展開して 2 次以降の項を打ち切れば良し。高校数学レベルの話。&lt;/p&gt;
+&lt;p&gt;やはり、自然勾配法が何故うまくいくのか、更新式の導出までやったほうが宜しい。実装間違いするから。適応的自然勾配の更新式は微小量の近似を使っている。微小量の近似は今まで何度も避けてきたが、この際おさらいする。ようはテイラー展開して2次以降の項を打ち切れば良し。高校数学レベルの話。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://physnotes.jp/foundations/approximation/"&gt;近似式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://w3e.kanazawa-it.ac.jp/math/category/suuretu/maclaurin/henkan-tex.cgi?target=/math/category/suuretu/maclaurin/maclaurin_1-x.html"&gt;1/(1-x) のマクローリン展開&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://w3e.kanazawa-it.ac.jp/math/category/suuretu/maclaurin/henkan-tex.cgi?target=/math/category/suuretu/maclaurin/maclaurin_1-x.html"&gt;1/(1-x)のマクローリン展開&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;実験が落ち着いたら書いていきたい。&lt;/p&gt;
-&lt;p&gt;→ 実験 OK。ステップサイズの設定が難しかったけど、ナイーブなものよりは性能がよいはず。&lt;/p&gt;
+&lt;p&gt;→実験OK。ステップサイズの設定が難しかったけど、ナイーブなものよりは性能がよいはず。&lt;/p&gt;
 &lt;p&gt;また、軽く見た感じでも自然勾配学習法は発散しやすい。以下の記事にあるように、正則化を掛けたほうが良さそう。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://tfjgeorge.github.io/articles/note/2018/11/09/empirical-fisher.html"&gt;What …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://tfjgeorge.github.io/articles/note/2018/11/09/empirical-fisher.html"&gt;What is the empirical …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
@@ -2099,25 +2270,25 @@ L = \sum_{i = 1}^{N} \sum_{j = 1}^{c} \mu_{ij}^{m} D_{ij}^{2} + \sum_{i = 1}^{N}
 \end{equation*}
 &lt;/div&gt;
 &lt;p&gt;実装誤りを見直しながらもう一度。&lt;/p&gt;
-&lt;p&gt;やはり、自然勾配法が何故うまくいくのか、更新式の導出までやったほうが宜しい。実装間違いするから。適応的自然勾配の更新式は微小量の近似を使っている。微小量の近似は今まで何度も避けてきたが、この際おさらいする。ようはテイラー展開して 2 次以降の項を打ち切れば良し。高校数学レベルの話。&lt;/p&gt;
+&lt;p&gt;やはり、自然勾配法が何故うまくいくのか、更新式の導出までやったほうが宜しい。実装間違いするから。適応的自然勾配の更新式は微小量の近似を使っている。微小量の近似は今まで何度も避けてきたが、この際おさらいする。ようはテイラー展開して2次以降の項を打ち切れば良し。高校数学レベルの話。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://physnotes.jp/foundations/approximation/"&gt;近似式&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://w3e.kanazawa-it.ac.jp/math/category/suuretu/maclaurin/henkan-tex.cgi?target=/math/category/suuretu/maclaurin/maclaurin_1-x.html"&gt;1/(1-x) のマクローリン展開&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://w3e.kanazawa-it.ac.jp/math/category/suuretu/maclaurin/henkan-tex.cgi?target=/math/category/suuretu/maclaurin/maclaurin_1-x.html"&gt;1/(1-x)のマクローリン展開&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;実験が落ち着いたら書いていきたい。&lt;/p&gt;
-&lt;p&gt;→ 実験 OK。ステップサイズの設定が難しかったけど、ナイーブなものよりは性能がよいはず。&lt;/p&gt;
+&lt;p&gt;→実験OK。ステップサイズの設定が難しかったけど、ナイーブなものよりは性能がよいはず。&lt;/p&gt;
 &lt;p&gt;また、軽く見た感じでも自然勾配学習法は発散しやすい。以下の記事にあるように、正則化を掛けたほうが良さそう。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://tfjgeorge.github.io/articles/note/2018/11/09/empirical-fisher.html"&gt;What is the empirical Fisher ?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;ヘッセ行列の計算は少し回り道になったが、理論的最適値との比較において議論できそう。&lt;/p&gt;
-&lt;p&gt;逆行列補題を使っていて、最早カルマンフィルタや RLS に近いんでないかと思えてきた。&lt;/p&gt;
+&lt;p&gt;逆行列補題を使っていて、最早カルマンフィルタやRLSに近いんでないかと思えてきた。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.bode.amp.i.kyoto-u.ac.jp/~kashima/lecture/ss/slide17_8.pdf"&gt;信号とシステム 第 6 章 適応フィルタ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.bode.amp.i.kyoto-u.ac.jp/~kashima/lecture/ss/slide17_8.pdf"&gt;信号とシステム 第6章 適応フィルタ&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.cs.tut.fi/~tabus/course/ASP/LectureNew10.pdf"&gt;Recursive Least Squares Estimation&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;に LMS から RLS まで記述あり。&lt;/p&gt;
-&lt;p&gt;上の「信号とシステム」を眺めていたら、NLMS における適応的ステップサイズ決定則が使えそうな印象。NLMS は事後誤差 &lt;span class="math"&gt;\(e^{+}(k)\)&lt;/span&gt; を 0 にするように適応的なステップサイズ &lt;span class="math"&gt;\(\alpha(k)\)&lt;/span&gt; を定める。普通の Signed-LMS では、リファレンス信号 &lt;span class="math"&gt;\(d(k)\)&lt;/span&gt;, フィルタ係数 &lt;span class="math"&gt;\(\ve{h}(k)\)&lt;/span&gt;, 入力データ &lt;span class="math"&gt;\(\ve{x}(k)\)&lt;/span&gt; に対し、事後誤差は次のように展開できる。&lt;/p&gt;
+&lt;p&gt;にLMSからRLSまで記述あり。&lt;/p&gt;
+&lt;p&gt;上の「信号とシステム」を眺めていたら、NLMSにおける適応的ステップサイズ決定則が使えそうな印象。NLMSは事後誤差 &lt;span class="math"&gt;\(e^{+}(k)\)&lt;/span&gt; を0にするように適応的なステップサイズ &lt;span class="math"&gt;\(\alpha(k)\)&lt;/span&gt; を定める。普通のSigned-LMSでは、リファレンス信号 &lt;span class="math"&gt;\(d(k)\)&lt;/span&gt;, フィルタ係数 &lt;span class="math"&gt;\(\ve{h}(k)\)&lt;/span&gt;, 入力データ &lt;span class="math"&gt;\(\ve{x}(k)\)&lt;/span&gt; に対し、事後誤差は次のように展開できる。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
@@ -2132,7 +2303,7 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 \alpha(k) = \frac{e(k)}{\mathrm{sign}[e(k)] ||\ve{x}(k)||_{2}^{2}} = \frac{|e(k)|}{||\ve{x}(k)||_{2}^{2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;として、事後誤差を最小にするステップサイズが求まった。（Signed-LMS でこういう議論があんまり見られないのはなぜだ？&lt;strong&gt;この&lt;/strong&gt; &lt;span class="math"&gt;\(\alpha(k)\)&lt;/span&gt; &lt;strong&gt;を Signed-LMS の更新則に突っ込むと NLMS になる&lt;/strong&gt; ）&lt;/p&gt;
+&lt;p&gt;として、事後誤差を最小にするステップサイズが求まった。（Signed-LMSでこういう議論があんまり見られないのはなぜだ？&lt;strong&gt;この&lt;/strong&gt; &lt;span class="math"&gt;\(\alpha(k)\)&lt;/span&gt; &lt;strong&gt;をSigned-LMSの更新則に突っ込むとNLMSになる&lt;/strong&gt; ）&lt;/p&gt;
 &lt;p&gt;自然勾配を使った場合が有益（ステップサイズ設定つらい）なので、求めてみると、&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
@@ -2148,15 +2319,15 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 \alpha(k) = \frac{e(k)}{\mathrm{sign}[e(k)] \innerp{\ve{x}}{\ve{F}(k)^{-1}\ve{x}(k)}} = \frac{|e(k)|}{\innerp{\ve{x}(k)}{\ve{F}(k)^{-1}\ve{x}(k)}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;が得られる。これは計量としてフィッシャー情報行列の逆行列を使った時の &lt;span class="math"&gt;\(\ve{x}(k)\)&lt;/span&gt; のノルムによる正規化に対応する。すると残差の絶対値が外れる。NLMS とかなり近いけど計量が入っているところが違う。&lt;/p&gt;
+&lt;p&gt;が得られる。これは計量としてフィッシャー情報行列の逆行列を使った時の &lt;span class="math"&gt;\(\ve{x}(k)\)&lt;/span&gt; のノルムによる正規化に対応する。すると残差の絶対値が外れる。NLMSとかなり近いけど計量が入っているところが違う。&lt;/p&gt;
 &lt;p&gt;実装してみたら実験でも音源に依存せず安定している印象（注意！ノイズのない正弦波で発散した！おそらく、情報行列の要素が全て同一で特異になっている。）。&lt;/p&gt;
-&lt;p&gt;結果の意味付けが非常に大事な気がする。資料 35p あたりの議論を当てはまると、何か幾何的な解釈が出てくるはずだ。改めて、ここらへんの議論って誰かやっていないか、気になる。明日はそこを考えてみる。改めて既存研究が無いか見て、報告に移そうか。&lt;/p&gt;
+&lt;p&gt;結果の意味付けが非常に大事な気がする。資料35pあたりの議論を当てはまると、何か幾何的な解釈が出てくるはずだ。改めて、ここらへんの議論って誰かやっていないか、気になる。明日はそこを考えてみる。改めて既存研究が無いか見て、報告に移そうか。&lt;/p&gt;
 &lt;p&gt;TODO:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;Normalize するやつの結果の意味付け&lt;/li&gt;
-&lt;li&gt;忘却係数として捉えれば式が簡単にならんか？ &lt;span class="math"&gt;\((\lambda \ve{F} + \ve{x}\ve{x}^{\mathsf{T}})^{-1}\)&lt;/span&gt; で &lt;span class="math"&gt;\(0 &amp;lt; \lambda &amp;lt; 1\)&lt;/span&gt; は 1 に近い係数。&lt;/li&gt;
+&lt;li&gt;Normalizeするやつの結果の意味付け&lt;/li&gt;
+&lt;li&gt;忘却係数として捉えれば式が簡単にならんか？ &lt;span class="math"&gt;\((\lambda \ve{F} + \ve{x}\ve{x}^{\mathsf{T}})^{-1}\)&lt;/span&gt; で &lt;span class="math"&gt;\(0 &amp;lt; \lambda &amp;lt; 1\)&lt;/span&gt; は1に近い係数。&lt;/li&gt;
 &lt;li&gt;自然勾配法がなんでうまくいくのか &lt;a class="reference external" href="https://wiseodd.github.io/techblog/2018/03/14/natural-gradient/"&gt;Natural Gradient Descent&lt;/a&gt; を訳しながら理解していく。 &lt;a class="reference external" href="https://arxiv.org/pdf/1412.1193.pdf"&gt;New insights and perspectives on the natural gradient method&lt;/a&gt; も参考になりそう。&lt;/li&gt;
-&lt;li&gt;RLS(Recursive Least Square) の更新式の誤差に符号関数を被せたものが、自分が導いているものかも知れないと思い立つ。確認。&lt;/li&gt;
+&lt;li&gt;RLS(Recursive Least Square)の更新式の誤差に符号関数を被せたものが、自分が導いているものかも知れないと思い立つ。確認。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -2219,40 +2390,41 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>LMS Filterの挙動観察中(8)</title><link href="/lms-filternoju-dong-guan-cha-zhong-8.html" rel="alternate"></link><published>2020-05-04T11:00:00+09:00</published><updated>2020-05-04T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-04:/lms-filternoju-dong-guan-cha-zhong-8.html</id><summary type="html">&lt;p&gt;まだ粘る。GW 終わるまでには何らかのアウトプットがほしい。&lt;/p&gt;
-&lt;p&gt;指数移動平均の α を増やすと性能（誤差、エントロピー）が悪化する傾向あり。特に 0.5 以上（瞬間値の重みを大きく）すると、悪化が顕著。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="RLS"></category><category term="Natural Gradient"></category><category term="Empirical Fisher"></category></entry><entry><title>LMS Filterの挙動観察中(8)</title><link href="/lms-filternoju-dong-guan-cha-zhong-8.html" rel="alternate"></link><published>2020-05-04T11:00:00+09:00</published><updated>2020-05-04T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-04:/lms-filternoju-dong-guan-cha-zhong-8.html</id><summary type="html">&lt;p&gt;まだ粘る。GW終わるまでには何らかのアウトプットがほしい。&lt;/p&gt;
+&lt;p&gt;指数移動平均のαを増やすと性能（誤差、エントロピー）が悪化する傾向あり。特に0.5以上（瞬間値の重みを大きく）すると、悪化が顕著。&lt;/p&gt;
 &lt;p&gt;分散行列の逆行列を見てみると、非常に大きい値を取っていることが分かる。これは特異にかなり近いのではないかと予測している。&lt;/p&gt;
-&lt;p&gt;また、指数移動平均で求めた分散行列の対角要素は経験分散に漸近するはずで、対角要素は時間遅延が加わった自分自身との 2 乗和で、全てが同じ値になることを期待していたが、なっていなかった。これは、指数移動平均は入力の順序により最終結果が異なるという状態が現れていると思う。（例：1,1,1,0 という系列と 0,1,1,1 という系列では指数移動平均の結果が異なる。）&lt;/p&gt;
-&lt;p&gt;学習率の設定も音源依存でだいぶ変わってしまう印象。ボイスでは 0.0001 が、ピアノでは 0.00001、50Hz サイン波では発散した（恐らくこれはほぼ定常な信号になっているからと思われる …&lt;/p&gt;</summary><content type="html">&lt;p&gt;まだ粘る。GW 終わるまでには何らかのアウトプットがほしい。&lt;/p&gt;
-&lt;p&gt;指数移動平均の α を増やすと性能（誤差、エントロピー）が悪化する傾向あり。特に 0.5 以上（瞬間値の重みを大きく）すると、悪化が顕著。&lt;/p&gt;
+&lt;p&gt;また、指数移動平均で求めた分散行列の対角要素は経験分散に漸近するはずで、対角要素は時間遅延が加わった自分自身との2乗和で、全てが同じ値になることを期待していたが、なっていなかった。これは、指数移動平均は入力の順序により最終結果が異なるという状態が現れていると思う。（例：1,1,1,0 という系列と 0,1,1,1 という系列では指数移動平均の結果が異なる。）&lt;/p&gt;
+&lt;p&gt;学習率の設定も音源依存でだいぶ変わってしまう印象。ボイスでは 0.0001 が、ピアノでは 0.00001、50Hzサイン波では発散した（恐らくこれはほぼ定常な信号になっているからと思われる。定常な信号では全ての分散と共分散が同じ値になって、行列が特異になる。正則化（分散行列に定数を掛けた単位行列を加算）を行ったら安定した...）&lt;/p&gt;
+&lt;p&gt;行き詰まりを感じ、適応的自然勾配の更新式を逆行列補題（Woodburyの恒等式 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;まだ粘る。GW終わるまでには何らかのアウトプットがほしい。&lt;/p&gt;
+&lt;p&gt;指数移動平均のαを増やすと性能（誤差、エントロピー）が悪化する傾向あり。特に0.5以上（瞬間値の重みを大きく）すると、悪化が顕著。&lt;/p&gt;
 &lt;p&gt;分散行列の逆行列を見てみると、非常に大きい値を取っていることが分かる。これは特異にかなり近いのではないかと予測している。&lt;/p&gt;
-&lt;p&gt;また、指数移動平均で求めた分散行列の対角要素は経験分散に漸近するはずで、対角要素は時間遅延が加わった自分自身との 2 乗和で、全てが同じ値になることを期待していたが、なっていなかった。これは、指数移動平均は入力の順序により最終結果が異なるという状態が現れていると思う。（例：1,1,1,0 という系列と 0,1,1,1 という系列では指数移動平均の結果が異なる。）&lt;/p&gt;
-&lt;p&gt;学習率の設定も音源依存でだいぶ変わってしまう印象。ボイスでは 0.0001 が、ピアノでは 0.00001、50Hz サイン波では発散した（恐らくこれはほぼ定常な信号になっているからと思われる。定常な信号では全ての分散と共分散が同じ値になって、行列が特異になる。正則化（分散行列に定数を掛けた単位行列を加算）を行ったら安定した ...）&lt;/p&gt;
-&lt;p&gt;行き詰まりを感じ、適応的自然勾配の更新式を逆行列補題（Woodbury の恒等式）から導いていた。&lt;/p&gt;
+&lt;p&gt;また、指数移動平均で求めた分散行列の対角要素は経験分散に漸近するはずで、対角要素は時間遅延が加わった自分自身との2乗和で、全てが同じ値になることを期待していたが、なっていなかった。これは、指数移動平均は入力の順序により最終結果が異なるという状態が現れていると思う。（例：1,1,1,0 という系列と 0,1,1,1 という系列では指数移動平均の結果が異なる。）&lt;/p&gt;
+&lt;p&gt;学習率の設定も音源依存でだいぶ変わってしまう印象。ボイスでは 0.0001 が、ピアノでは 0.00001、50Hzサイン波では発散した（恐らくこれはほぼ定常な信号になっているからと思われる。定常な信号では全ての分散と共分散が同じ値になって、行列が特異になる。正則化（分散行列に定数を掛けた単位行列を加算）を行ったら安定した...）&lt;/p&gt;
+&lt;p&gt;行き詰まりを感じ、適応的自然勾配の更新式を逆行列補題（Woodburyの恒等式）から導いていた。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/woodbury"&gt;逆行列の補助定理（Woodbury の恒等式）&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/woodbury"&gt;逆行列の補助定理（Woodburyの恒等式）&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://sigmagic.net/math/inverse-mat/"&gt;逆行列の公式&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;そのときに、論文では勾配ベクトルの分散行列を求めていることに気づく。そして自分が間違っている事がわかった。
-情報行列は勾配ベクトルの分散行列だった。（データベクトルの分散行列ではない ...）
+情報行列は勾配ベクトルの分散行列だった。（データベクトルの分散行列ではない...）
 いままで入力データの分散行列を計算していたので、これは明確な誤り。&lt;/p&gt;
 &lt;p&gt;フィッシャー情報行列はスコア関数（対数尤度関数の勾配）の分散行列で定義される。よって、情報行列とデータの分散行列は一般に一致しない。&lt;/p&gt;
-&lt;p&gt;もう一つ自然勾配とフィッシャー情報行列に関する有益な情報源あり :&lt;/p&gt;
+&lt;p&gt;もう一つ自然勾配とフィッシャー情報行列に関する有益な情報源あり:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://tfjgeorge.github.io/articles/note/2018/11/09/empirical-fisher.html"&gt;What is the empirical Fisher ?&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;今一度 Jupyter から出戻りしてみる。
-思ったけど、今考えているのは絶対値誤差最小化のために Signed-LMS だけど、データ側を符号とする LMS や、Sign-SignLMS の解析もありじゃないかと思ってきた。データ側を符号とする LMS は何を最小化しているのか？などが気になる。&lt;/p&gt;
+&lt;p&gt;今一度Jupyterから出戻りしてみる。
+思ったけど、今考えているのは絶対値誤差最小化のためにSigned-LMSだけど、データ側を符号とするLMSや、Sign-SignLMSの解析もありじゃないかと思ってきた。データ側を符号とするLMSは何を最小化しているのか？などが気になる。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category></entry><entry><title>LMS Filterの挙動観察中(7)</title><link href="/lms-filternoju-dong-guan-cha-zhong-7.html" rel="alternate"></link><published>2020-05-03T11:00:00+09:00</published><updated>2020-05-03T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-03:/lms-filternoju-dong-guan-cha-zhong-7.html</id><content type="html">&lt;p&gt;実データ適用で、どうも上手く行かない。やっぱり分散行列の逆行列が発散している。&lt;/p&gt;
-&lt;p&gt;適応的自然勾配をやめて、真面目に（毎サンプル平均を求めて）計算するようにしているけども結果がよろしくない。分散行列を標本平均ではなくて指数移動平均（α=0.1）に置き換えたらそれなりの性能が出ることを確認。しかし、ラプラス分布の計量を取り入れていない ...。&lt;/p&gt;
+&lt;p&gt;適応的自然勾配をやめて、真面目に（毎サンプル平均を求めて）計算するようにしているけども結果がよろしくない。分散行列を標本平均ではなくて指数移動平均（α=0.1）に置き換えたらそれなりの性能が出ることを確認。しかし、ラプラス分布の計量を取り入れていない...。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category></entry><entry><title>LMS Filterの挙動観察中(6)</title><link href="/lms-filternoju-dong-guan-cha-zhong-6.html" rel="alternate"></link><published>2020-05-02T11:00:00+09:00</published><updated>2020-05-02T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-02:/lms-filternoju-dong-guan-cha-zhong-6.html</id><content type="html">&lt;p&gt;今日は実装整理して実データへ適用してみる。気になってるのが適応的自然勾配の更新式。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;確率の重み付けは正規化しないと使えそうにないということ。&lt;/li&gt;
 &lt;li&gt;確率の重み付けをしても問題ないか？&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;実データ適用、うーん性能が良くない！発散する！実装を確認しながら進行中。情報行列の逆行列を正規化すると発散はしないけど、逆行列がほぼ単位行列とほぼ同一で、元の SignedLMS と性能が同等。。。
+&lt;p&gt;実データ適用、うーん性能が良くない！発散する！実装を確認しながら進行中。情報行列の逆行列を正規化すると発散はしないけど、逆行列がほぼ単位行列とほぼ同一で、元のSignedLMSと性能が同等。。。
 まずは、適応的自然勾配じゃなくて負荷でかいけど真面目に計算する方針で行ってみる。&lt;/p&gt;
-&lt;p&gt;また、フィルタ処理を for 文でやるより numpy の演算にした方が格段に早かった。numpy 大事。&lt;/p&gt;
+&lt;p&gt;また、フィルタ処理をfor文でやるよりnumpyの演算にした方が格段に早かった。numpy大事。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category></entry><entry><title>LMS Filterの挙動観察中(5)</title><link href="/lms-filternoju-dong-guan-cha-zhong-5.html" rel="alternate"></link><published>2020-05-01T11:00:00+09:00</published><updated>2020-05-01T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-05-01:/lms-filternoju-dong-guan-cha-zhong-5.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -2260,31 +2432,31 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。
+&lt;p&gt;別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなくIRLSに応用できそうな印象が。
 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
-\ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x …&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
+\ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x}|} \ve{x …&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなく IRLS に応用できそうな印象が。
+&lt;p&gt;別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなくIRLSに応用できそうな印象が。
 以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x}|} \ve{x} \ve{x}^{\mathsf{T}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;他にも、ICA（独立成分分析）の尖度最大化（優ガウス分布化）の学習がなんか使えないかと考えつつある。でもこれは ICA によるノイズ除去にだいぶ近い話になりそう。&lt;/p&gt;
-&lt;p&gt;分散行列と自己相関行列、だいぶ定義が近いな … 間違ってないかなと思って再確認。分散行列と言ってるものはもしかしたら自己相関行列の誤りかもしれない。&lt;/p&gt;
+&lt;p&gt;他にも、ICA（独立成分分析）の尖度最大化（優ガウス分布化）の学習がなんか使えないかと考えつつある。でもこれはICAによるノイズ除去にだいぶ近い話になりそう。&lt;/p&gt;
+&lt;p&gt;分散行列と自己相関行列、だいぶ定義が近いな…間違ってないかなと思って再確認。分散行列と言ってるものはもしかしたら自己相関行列の誤りかもしれない。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/correlationmatrix"&gt;相関行列の定義と分散共分散行列との関係&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.ip.info.eng.osaka-cu.ac.jp/~kazunori/paper/rcs201610_handout.pdf"&gt;初学者のための無線通信信号処理入門&lt;/a&gt; に明確に定義されてる。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;平均 0 化していたら分散行列と自己相関行列は同一になりそうな雰囲気。雰囲気じゃだめでちゃんと確認すべき。&lt;/p&gt;
+&lt;p&gt;平均0化していたら分散行列と自己相関行列は同一になりそうな雰囲気。雰囲気じゃだめでちゃんと確認すべき。&lt;/p&gt;
 &lt;p&gt;寄り道しすぎたので、改めて結果をまとめていく。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -2348,7 +2520,7 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category></entry><entry><title>LMS Filterの挙動観察中(4)</title><link href="/lms-filternoju-dong-guan-cha-zhong-4.html" rel="alternate"></link><published>2020-04-30T11:00:00+09:00</published><updated>2020-04-30T11:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-30:/lms-filternoju-dong-guan-cha-zhong-4.html</id><summary type="html">&lt;p&gt;本日も引き続き発散の原因を追う。
-→ ステップサイズを小さくしたら発散しなくなった …。職人芸じゃないかこんなの。NLMS みたく発散しない条件がほしいな。&lt;/p&gt;
+→ステップサイズを小さくしたら発散しなくなった…。職人芸じゃないかこんなの。NLMSみたく発散しない条件がほしいな。&lt;/p&gt;
 &lt;p&gt;本当に既存研究がないか、再度調査。&lt;/p&gt;
 &lt;p&gt;自然勾配を適応的に計算する方法を試している。無論、定義式通りに計算するのは問題ないことは確かめているが、計算量が気になるのです。&lt;/p&gt;
 &lt;p&gt;パラメータを色々といじりつつ、論文も参照してそれなりのパラメータを見つける。
@@ -2358,8 +2530,8 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 &lt;li&gt;この論文で適応的更新式の導出が述べられる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf"&gt;Adaptive natural gradient learning algorithms for various stochastic models …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;本日も引き続き発散の原因を追う。
-→ ステップサイズを小さくしたら発散しなくなった …。職人芸じゃないかこんなの。NLMS みたく発散しない条件がほしいな。&lt;/p&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf"&gt;Adaptive natural gradient learning algorithms for various stochastic models&lt;/a&gt; も甘利先生 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;本日も引き続き発散の原因を追う。
+→ステップサイズを小さくしたら発散しなくなった…。職人芸じゃないかこんなの。NLMSみたく発散しない条件がほしいな。&lt;/p&gt;
 &lt;p&gt;本当に既存研究がないか、再度調査。&lt;/p&gt;
 &lt;p&gt;自然勾配を適応的に計算する方法を試している。無論、定義式通りに計算するのは問題ないことは確かめているが、計算量が気になるのです。&lt;/p&gt;
 &lt;p&gt;パラメータを色々といじりつつ、論文も参照してそれなりのパラメータを見つける。
@@ -2370,30 +2542,30 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://bsi-ni.brain.riken.jp/database/file/215/221.pdf"&gt;Adaptive natural gradient learning algorithms for various stochastic models&lt;/a&gt; も甘利先生。（福水先生もいるぞ）&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://downloads.hindawi.com/archive/2011/407497.pdf"&gt;A Simplified Natural Gradient Learning Algorithm&lt;/a&gt; 更にシンプルにしたもの。2011 年。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://downloads.hindawi.com/archive/2011/407497.pdf"&gt;A Simplified Natural Gradient Learning Algorithm&lt;/a&gt; 更にシンプルにしたもの。2011年。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;Toy-problem として中央値の逐次推定とかアリではと、少しだけ思った。&lt;/p&gt;
-</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="LAD"></category></entry><entry><title>LMS Filterの挙動観察中(3)</title><link href="/lms-filternoju-dong-guan-cha-zhong-3.html" rel="alternate"></link><published>2020-04-29T23:40:00+09:00</published><updated>2020-04-29T23:40:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-29:/lms-filternoju-dong-guan-cha-zhong-3.html</id><content type="html">&lt;p&gt;LMS はヘッセ行列の逆行列込みの学習ができているが、Signed-LMS は上手く行かない。分散行列が特異になったり、要素が大きくなりすぎて発散してしまう。。。&lt;/p&gt;
+&lt;p&gt;Toy-problemとして中央値の逐次推定とかアリではと、少しだけ思った。&lt;/p&gt;
+</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="LAD"></category></entry><entry><title>LMS Filterの挙動観察中(3)</title><link href="/lms-filternoju-dong-guan-cha-zhong-3.html" rel="alternate"></link><published>2020-04-29T23:40:00+09:00</published><updated>2020-04-29T23:40:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-29:/lms-filternoju-dong-guan-cha-zhong-3.html</id><content type="html">&lt;p&gt;LMSはヘッセ行列の逆行列込みの学習ができているが、Signed-LMSは上手く行かない。分散行列が特異になったり、要素が大きくなりすぎて発散してしまう。。。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="LAD"></category></entry><entry><title>LMS Filterの挙動観察中(2)</title><link href="/lms-filternoju-dong-guan-cha-zhong-2.html" rel="alternate"></link><published>2020-04-28T23:40:00+09:00</published><updated>2020-04-28T23:40:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-28:/lms-filternoju-dong-guan-cha-zhong-2.html</id><summary type="html">&lt;p&gt;つまるところ、以下の計算をどうやるか？に尽きる。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(\varepsilon(n)\)&lt;/span&gt; は i.i.d.（独立に同一の分布）から発生しているので、&lt;span class="math"&gt;\(x(n-m …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;つまるところ、以下の計算をどうやるか？に尽きる。&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\varepsilon(n)\)&lt;/span&gt; はi.i.d.（独立に同一の分布）から発生しているので、&lt;span class="math"&gt;\(x(n-m), x …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;つまるところ、以下の計算をどうやるか？に尽きる。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} x(n - m) x(n - k)
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(\varepsilon(n)\)&lt;/span&gt; は i.i.d.（独立に同一の分布）から発生しているので、&lt;span class="math"&gt;\(x(n-m), x(n-k)\)&lt;/span&gt; には依存しない（予測係数にも依らず）で勝手に揺れると考える。&lt;/p&gt;
-&lt;p&gt;でもそんな計算は見たことがない。そもそも LAD の文脈でこの話は出ているはずで、「Laplace Distribution linear regression」で検索掛けていたら、&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\varepsilon(n)\)&lt;/span&gt; はi.i.d.（独立に同一の分布）から発生しているので、&lt;span class="math"&gt;\(x(n-m), x(n-k)\)&lt;/span&gt; には依存しない（予測係数にも依らず）で勝手に揺れると考える。&lt;/p&gt;
+&lt;p&gt;でもそんな計算は見たことがない。そもそもLADの文脈でこの話は出ているはずで、「Laplace Distribution linear regression」で検索掛けていたら、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://downloads.hindawi.com/journals/jam/2014/856350.pdf"&gt;Robust Mean Change-Point Detecting through Laplace Linear Regression Using EM Algorithm&lt;/a&gt; を見つけた。&lt;ul&gt;
-&lt;li&gt;イントロで「 &lt;strong&gt;ラプラス分布は正規分布の混合で表せる&lt;/strong&gt; 」と「 &lt;strong&gt;混合を前提にした EM アルゴリズムが存在する&lt;/strong&gt; 」というのを見つけて、論文探しが改めて動く。混合ガウス分布を EM アルゴリズムで学習する話はよく聞くから、本質的なのは正規分布の混合で表せていることか。&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/16705381.pdf"&gt;ROBUST MIXTURE REGRESSION MODEL FITTING BY LAPLACE DISTRIBUTION&lt;/a&gt; は 2013 年の論文。印象的なのは、 &lt;strong&gt;IRLS は EM アルゴリズムの一種だということ。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;イントロで「 &lt;strong&gt;ラプラス分布は正規分布の混合で表せる&lt;/strong&gt; 」と「 &lt;strong&gt;混合を前提にしたEMアルゴリズムが存在する&lt;/strong&gt; 」というのを見つけて、論文探しが改めて動く。混合ガウス分布をEMアルゴリズムで学習する話はよく聞くから、本質的なのは正規分布の混合で表せていることか。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/16705381.pdf"&gt;ROBUST MIXTURE REGRESSION MODEL FITTING BY LAPLACE DISTRIBUTION&lt;/a&gt; は2013年の論文。印象的なのは、 &lt;strong&gt;IRLSはEMアルゴリズムの一種だということ。&lt;/strong&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi287j_j4rpAhXKA4gKHUlmAIUQFjAAegQIBBAB&amp;amp;url=https%3A%2F%2Fkwansei.repo.nii.ac.jp%2Findex.php%3Faction%3Dpages_view_main%26active_action%3Drepository_action_common_download%26item_id%3D26097%26item_no%3D1%26attribute_id%3D22%26file_no%3D1%26page_id%3D30%26block_id%3D85&amp;amp;usg=AOvVaw0TY8ejg2Duf0nYYdMvrVD_"&gt;ラプラス確率的フロンティアモデルのベイズ推定&lt;/a&gt; は日本語でラプラス分布の混合について述べた論文&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.math.chalmers.se/Stat/Grundutb/GU/MSA220/S16/bayeslasso.pdf"&gt;The Bayesian Lasso&lt;/a&gt; は LASSO を、パラメータの事前分布をラプラス分布としたものとして定式化している。ラプラス分布は直接扱わず、混合を考えている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.math.chalmers.se/Stat/Grundutb/GU/MSA220/S16/bayeslasso.pdf"&gt;The Bayesian Lasso&lt;/a&gt; はLASSOを、パラメータの事前分布をラプラス分布としたものとして定式化している。ラプラス分布は直接扱わず、混合を考えている。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
@@ -2402,24 +2574,24 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 &lt;p&gt;実験で試している、勾配ベクトルに分散行列（ヘッセ行列）の逆行列を掛ける行為は、ウィーナーフィルタに等しい。しかしウィーナーフィルタは観測分散行列 &lt;span class="math"&gt;\(\ve{XX}^{\mathsf{T}}\)&lt;/span&gt; が正則でないと計算できない。そこで、観測分散行列の低ランク近似を行ってその擬似逆行列を使ってフィルタ係数を更新していく手法がある。それを Reduced rank adaptive filters というらしい。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1504.06054.pdf"&gt;A New Approach to Adaptive Signal Processing&lt;/a&gt; で触れていた。この論文は適応フィルタを広汎的に見ており、有益。&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www-users.york.ac.uk/~rcdl500/SPL_JIO_2007.pdf"&gt;Reduced-Rank Adaptive Filtering Based on Joint Iterative Optimization of Adaptive Filters&lt;/a&gt; では Reduced rank adaptive filters のフィルタバンク版&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www-users.york.ac.uk/~rcdl500/SPL_JIO_2007.pdf"&gt;Reduced-Rank Adaptive Filtering Based on Joint Iterative Optimization of Adaptive Filters&lt;/a&gt; ではReduced rank adaptive filtersのフィルタバンク版&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;邪念が動いて、パーティクルフィルター（粒子フィルター）でパラメータ決められんか考えてる。でも、LMS は状態空間モデルの範疇に入るのだろうか？（カルマンフィルタの一部だから当てはまったはず）。また、一般の状態空間モデルと違って状態は常に観測できるよな。またパーティクルフィルターもシミュレーションベースなので負荷が高そう。&lt;/p&gt;
+&lt;p&gt;邪念が動いて、パーティクルフィルター（粒子フィルター）でパラメータ決められんか考えてる。でも、LMSは状態空間モデルの範疇に入るのだろうか？（カルマンフィルタの一部だから当てはまったはず）。また、一般の状態空間モデルと違って状態は常に観測できるよな。またパーティクルフィルターもシミュレーションベースなので負荷が高そう。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.allisone.co.jp/html/Notes/DSP/Filter/particle-filter/index.html"&gt;パーティクル・フィルタをやさしく解説&lt;/a&gt; が確かに優しい。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.terrapub.co.jp/journals/jjssj/pdf/4401/44010189.pdf"&gt;粒子フィルタの基礎と応用 : フィルタ・平滑化・パラメータ推定&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.terrapub.co.jp/journals/jjssj/pdf/4401/44010189.pdf"&gt;粒子フィルタの基礎と応用: フィルタ・平滑化・パラメータ推定&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="section" id="mathrm-e-left-delta-varepsilon-n-x-n-m-x-n-k-right"&gt;
 &lt;h2&gt;&lt;span class="math"&gt;\(\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]\)&lt;/span&gt; の解釈&lt;/h2&gt;
-&lt;p&gt;結局 &lt;span class="math"&gt;\(\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]\)&lt;/span&gt; の解釈から逃げている ...。もう少し考えていたら、残差 &lt;span class="math"&gt;\(\varepsilon\)&lt;/span&gt; は入力ベクトル &lt;span class="math"&gt;\(x\)&lt;/span&gt; と独立であることを思い出した。ここから、次が言える。&lt;/p&gt;
+&lt;p&gt;結局 &lt;span class="math"&gt;\(\mathrm{E}\left[ \delta(\varepsilon(n)) x(n - m) x(n - k) \right]\)&lt;/span&gt; の解釈から逃げている...。もう少し考えていたら、残差 &lt;span class="math"&gt;\(\varepsilon\)&lt;/span&gt; は入力ベクトル &lt;span class="math"&gt;\(x\)&lt;/span&gt; と独立であることを思い出した。ここから、次が言える。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \mathrm{E} \left[\delta(\varepsilon(n)) x(n - m) x(n - k) \right] = \mathrm{E} \left[ \delta(\varepsilon(n)) \right] \mathrm{E} \left[ x(n - m) x(n - k) \right]
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;ここで、 &lt;span class="math"&gt;\(\mathrm{E} \left[ \delta(\varepsilon(n)) \right]\)&lt;/span&gt; はお察しの通りで、以下の通りに、やはり残差が 0 となる確率が出てくる。&lt;/p&gt;
+&lt;p&gt;ここで、 &lt;span class="math"&gt;\(\mathrm{E} \left[ \delta(\varepsilon(n)) \right]\)&lt;/span&gt; はお察しの通りで、以下の通りに、やはり残差が0となる確率が出てくる。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 \mathrm{E} \left[ \delta(\varepsilon(n)) \right] &amp;amp;= \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1}^{N} \delta(\varepsilon(n)) = \lim_{N \to \infty} \frac{1}{N} \sum_{n = 1, \varepsilon(n) = 0}^{N} 1 \\
@@ -2432,9 +2604,9 @@ e^{+}(k) &amp;amp;= d(k) - \innerp{\ve{h}(k+1)}{\ve{x}(k)} \\
 \mathrm{E} \left[\delta(\varepsilon(n)) x(n - m) x(n - k) \right] = P(\varepsilon = 0) \mathrm{E} \left[ x(n - m) x(n - k) \right]
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(P(\varepsilon = 0)\)&lt;/span&gt; を考える。まず注意したいのは、連続型確率分布においては一点 0 をとる確率は 0 ということ（測度 0 だから）。近似するしかなく、方針としては、&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(P(\varepsilon = 0)\)&lt;/span&gt; を考える。まず注意したいのは、連続型確率分布においては一点0をとる確率は0ということ（測度0だから）。近似するしかなく、方針としては、&lt;/p&gt;
 &lt;ol class="arabic simple"&gt;
-&lt;li&gt;残差の閾値を定めて、それ以下の数値を残差 0 とみなして確率を求める&lt;/li&gt;
+&lt;li&gt;残差の閾値を定めて、それ以下の数値を残差0とみなして確率を求める&lt;/li&gt;
 &lt;li&gt;離散型確率分布で考える&lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;ラプラス分布の基本的なことをおさらいすると、確率密度関数 &lt;span class="math"&gt;\(f(x, \mu, \sigma)\)&lt;/span&gt; は、&lt;/p&gt;
@@ -2462,7 +2634,7 @@ L(\mu, \sigma) &amp;amp;= \prod_{i = 1}^{N} \frac{1}{2 \sigma} \exp\left( - \fra
 \frac{N}{\sigma} = \frac{1}{\sigma^{2}} \sum_{i = 1}^{N} |x_{i} - \mu| \Rightarrow \sigma = \frac{1}{N} \sum_{i = 1}^{N} |x_{i} - \mu|
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; の最尤推定値は偏差の絶対値の標本平均となる。次に離散ラプラス分布を考える（ &lt;a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf"&gt;ここ&lt;/a&gt; を参考にしている）。離散ラプラス分布は次の確率（質量）関数 &lt;span class="math"&gt;\(P\)&lt;/span&gt; を持つ :&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; の最尤推定値は偏差の絶対値の標本平均となる。次に離散ラプラス分布を考える（ &lt;a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf"&gt;ここ&lt;/a&gt; を参考にしている）。離散ラプラス分布は次の確率（質量）関数 &lt;span class="math"&gt;\(P\)&lt;/span&gt; を持つ:&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 P(X = k) &amp;amp;= \frac{f(k, 0, \sigma)}{\sum_{j = -\infty}^{\infty} f(j, 0, \sigma)} = \frac{\exp\left( -\frac{|k|}{\sigma} \right)}{\sum_{j = -\infty}^{\infty} \exp\left( -\frac{|j|}{\sigma} \right)} \\
@@ -2483,7 +2655,7 @@ P(X = k) &amp;amp;= \frac{\exp\left( -\frac{|k|}{\sigma} \right)}{1 + 2 \frac{\e
 \end{align*}
 &lt;/div&gt;
 &lt;p&gt;これは離散型確率分布であることに注意。&lt;/p&gt;
-&lt;p&gt;連続版かつ &lt;span class="math"&gt;\(\mu=0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(|x|\)&lt;/span&gt; がある閾値 &lt;span class="math"&gt;\(\delta &amp;gt; 0\)&lt;/span&gt; 以下となる確率は次のように計算できる :&lt;/p&gt;
+&lt;p&gt;連続版かつ &lt;span class="math"&gt;\(\mu=0\)&lt;/span&gt; で、 &lt;span class="math"&gt;\(|x|\)&lt;/span&gt; がある閾値 &lt;span class="math"&gt;\(\delta &amp;gt; 0\)&lt;/span&gt; 以下となる確率は次のように計算できる:&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \frac{1}{2 \sigma} \int^{\delta}_{-\delta} \exp\left(-\frac{|x|}{\sigma} \right) dx \\
@@ -2494,16 +2666,16 @@ P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \fr
 &lt;/div&gt;
 &lt;p&gt;この式により分散行列にかける係数を決めることを考えると、次が考察される。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\delta\)&lt;/span&gt; が大きい（分散 &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; が小さい）と確率が 1 に近づき、分散行列は LMS のそれと近くなる。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\delta\)&lt;/span&gt; が大きい（分散 &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; が小さい）と確率が1に近づき、分散行列はLMSのそれと近くなる。&lt;/li&gt;
 &lt;li&gt;逆に &lt;span class="math"&gt;\(\delta\)&lt;/span&gt; が小さい（分散 &lt;span class="math"&gt;\(\sigma\)&lt;/span&gt; が大きい）と分散行列に小さいスカラーを乗じる。分散行列の逆行列をとると、大きいスカラーを乗じることになり、勾配ベクトルのノルムが大きくなりそう。&lt;/li&gt;
 &lt;li&gt;ノイズレベル（&lt;span class="math"&gt;\(\approx\)&lt;/span&gt; 分散）が小さいときは勾配が小さくなり極値付近を精密に調べ、大きい場合は勾配が大きくなりダイナミックに探索空間を動き回りそう。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="lms"&gt;
-&lt;h2&gt;LMS の性能解析に関する文献&lt;/h2&gt;
+&lt;h2&gt;LMSの性能解析に関する文献&lt;/h2&gt;
 &lt;p&gt;色々さまよっているうちに出てきた。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.ee.cityu.edu.hk/~hcso/it6303_4.pdf"&gt;Adaptive Filter Theory and Applications&lt;/a&gt; に LMS のステップサイズのとり方に関する記述あり。証明に有益。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ee.cityu.edu.hk/~hcso/it6303_4.pdf"&gt;Adaptive Filter Theory and Applications&lt;/a&gt; にLMSのステップサイズのとり方に関する記述あり。証明に有益。&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.dsp-book.narod.ru/DSPMW/19.PDF"&gt;Convergence Issues in the LMS Adaptive Filter&lt;/a&gt; も結構有益。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -2512,14 +2684,14 @@ P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \fr
 &lt;h3&gt;TODO&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;評価を続ける。評価がまとまったら結果共有に入りたい。&lt;ul&gt;
-&lt;li&gt;LMS の適応動作は、単層パーセプトロンの学習にも該当する。NN の観点からも引き続き論文調査を行うべし。&lt;/li&gt;
+&lt;li&gt;LMSの適応動作は、単層パーセプトロンの学習にも該当する。NNの観点からも引き続き論文調査を行うべし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;OMP を使う。&lt;/li&gt;
+&lt;li&gt;OMPを使う。&lt;/li&gt;
 &lt;li&gt;メッセージパッシング使えない？&lt;ul&gt;
 &lt;li&gt;何らかの確率モデル化をせよ、というふうに受け取った。&lt;/li&gt;
 &lt;li&gt;AMP, Survay-Propagation（三村さん、樺島さん）がありえる。&lt;/li&gt;
-&lt;li&gt;→ AMP, Survay-Propagation について調査すべし。&lt;/li&gt;
+&lt;li&gt;→ AMP, Survay-Propagationについて調査すべし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;いろんな論文で自然勾配をどうやって定義しているか要観察。&lt;/li&gt;
@@ -2597,17 +2769,21 @@ P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \fr
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 &lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="LAD"></category><category term="IRLS"></category></entry><entry><title>LMS Filterの挙動観察中(1)</title><link href="/lms-filternoju-dong-guan-cha-zhong-1.html" rel="alternate"></link><published>2020-04-27T23:40:00+09:00</published><updated>2020-04-27T23:40:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-27:/lms-filternoju-dong-guan-cha-zhong-1.html</id><summary type="html">&lt;p&gt;引き続き観察中。勾配の計算ミスがあったりして厳しかった。&lt;/p&gt;
-&lt;p&gt;問題は、やはりというか SignLMS でのヘッセ行列。&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)&lt;/span&gt; の計算でインパルス応答の扱いをどうするのか ... 連続信号では厳密に 0 を取る確率は 0 だ。だからといって離散的に考えていいのか？&lt;/p&gt;
+&lt;p&gt;問題は、やはりというかSignLMSでのヘッセ行列。&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)&lt;/span&gt; の計算でインパルス応答の扱いをどうするのか...連続信号では厳密に0を取る確率は0だ。だからといって離散的に考えていいのか？&lt;/p&gt;
 &lt;p&gt;誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。&lt;/p&gt;
-&lt;p&gt;デジタル的に考えれば、残差が 0 になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
-残差が 0 になる確率は、離散ラプラス分布（ &lt;a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf"&gt;参考資料&lt;/a&gt; ）を元にサンプリング / もしくは重み付けで求める。（サンプリングの場合は [0,1] 乱数を発生させて残差が 0 になる確率よりも小さければ採択する。まじの MC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。&lt;/p&gt;
-&lt;p&gt;一旦残差 0 の重み付けで実験を進めているが、まだ残差 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;引き続き観察中。勾配の計算ミスがあったりして厳しかった。&lt;/p&gt;
-&lt;p&gt;問題は、やはりというか SignLMS でのヘッセ行列。&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)&lt;/span&gt; の計算でインパルス応答の扱いをどうするのか ... 連続信号では厳密に 0 を取る確率は 0 だ。だからといって離散的に考えていいのか？&lt;/p&gt;
+&lt;p&gt;デジタル的に考えれば、残差が0になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
+残差が0になる確率は、離散ラプラス分布（ &lt;a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf"&gt;参考資料&lt;/a&gt; ）を元にサンプリング/もしくは重み付けで求める。（サンプリングの場合は[0,1]乱数を発生させて残差が0になる確率よりも小さければ採択する。まじのMC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。&lt;/p&gt;
+&lt;p&gt;一旦残差0の重み付けで実験を進めているが、まだ残差0確率が怪しい感じ。（0.93とかいう現実離れした数値。実際の音声では約0.09とかそんなん）&lt;/p&gt;
+&lt;p&gt;見やすいようにパラメータを2つにしている。2つにした時でも同じ出力を与える組み合わせがあり、それが直線上に並んでいる事がわかっている。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent …&lt;/script&gt;</summary><content type="html">&lt;p&gt;引き続き観察中。勾配の計算ミスがあったりして厳しかった。&lt;/p&gt;
+&lt;p&gt;問題は、やはりというかSignLMSでのヘッセ行列。&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon((n))x(n-m)x(n-k)]\)&lt;/span&gt; の計算でインパルス応答の扱いをどうするのか...連続信号では厳密に0を取る確率は0だ。だからといって離散的に考えていいのか？&lt;/p&gt;
 &lt;p&gt;誤差の絶対値を取って閾値以下ならば分散行列に加算する処理を入れたが、分散行列が特異になること多し。&lt;/p&gt;
-&lt;p&gt;デジタル的に考えれば、残差が 0 になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
-残差が 0 になる確率は、離散ラプラス分布（ &lt;a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf"&gt;参考資料&lt;/a&gt; ）を元にサンプリング / もしくは重み付けで求める。（サンプリングの場合は [0,1] 乱数を発生させて残差が 0 になる確率よりも小さければ採択する。まじの MC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。&lt;/p&gt;
-&lt;p&gt;一旦残差 0 の重み付けで実験を進めているが、まだ残差 0 確率が怪しい感じ。（0.93 とかいう現実離れした数値。実際の音声では約 0.09 とかそんなん）&lt;/p&gt;
-&lt;p&gt;見やすいようにパラメータを 2 つにしている。2 つにした時でも同じ出力を与える組み合わせがあり、それが直線上に並んでいる事がわかっている。&lt;/p&gt;
+&lt;p&gt;デジタル的に考えれば、残差が0になる確率で重み付けしていいのでは無いかと思う。 またデジタル的に考えた時
+残差が0になる確率は、離散ラプラス分布（ &lt;a class="reference external" href="https://shodhganga.inflibnet.ac.in/bitstream/10603/30871/11/11_chapter%206.pdf"&gt;参考資料&lt;/a&gt; ）を元にサンプリング/もしくは重み付けで求める。（サンプリングの場合は[0,1]乱数を発生させて残差が0になる確率よりも小さければ採択する。まじのMC。というか、サンプリングしても重み付けしても同じでは？）分散パラメータは観測分散で求める。&lt;/p&gt;
+&lt;p&gt;一旦残差0の重み付けで実験を進めているが、まだ残差0確率が怪しい感じ。（0.93とかいう現実離れした数値。実際の音声では約0.09とかそんなん）&lt;/p&gt;
+&lt;p&gt;見やすいようにパラメータを2つにしている。2つにした時でも同じ出力を与える組み合わせがあり、それが直線上に並んでいる事がわかっている。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -2676,24 +2852,27 @@ P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \fr
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;今日は Jupyter を使って残差・残差勾配を観察していく。もう夜遅いので notebook 上げるの挑戦できず。
-勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった …3 時間ほど飛ばす。&lt;/p&gt;
-&lt;p&gt;ラプラス分布の観測分散が怪しい ...&lt;/p&gt;
+&lt;p&gt;今日はJupyterを使って残差・残差勾配を観察していく。もう夜遅いのでnotebook上げるの挑戦できず。
+勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった…3時間ほど飛ばす。&lt;/p&gt;
+&lt;p&gt;ラプラス分布の観測分散が怪しい...&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution"&gt;Deriving Mean and Variance of Laplace Distribution&lt;/a&gt; に 1 次元の場合がある。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution"&gt;Deriving Mean and Variance of Laplace Distribution&lt;/a&gt; に1次元の場合がある。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_ …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;今日は Jupyter を使って残差・残差勾配を観察していく。もう夜遅いので notebook 上げるの挑戦できず。
-勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった …3 時間ほど飛ばす。&lt;/p&gt;
-&lt;p&gt;ラプラス分布の観測分散が怪しい ...&lt;/p&gt;
+&lt;p&gt;今日はJupyterを使って残差・残差勾配を観察していく。もう夜遅いのでnotebook上げるの挑戦できず。
+勾配の計算にミスがあり、残差分布と勾配の結果が一致していなかった…3時間ほど飛ばす。&lt;/p&gt;
+&lt;p&gt;ラプラス分布の観測分散が怪しい...&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution"&gt;Deriving Mean and Variance of Laplace Distribution&lt;/a&gt; に 1 次元の場合がある。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/922521/deriving-mean-and-variance-of-laplace-distribution"&gt;Deriving Mean and Variance of Laplace Distribution&lt;/a&gt; に1次元の場合がある。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -2756,10 +2935,10 @@ P(|x| \leq \delta) &amp;amp;= \int^{\delta}_{-\delta} f(x, \mu, \sigma) dx = \fr
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="Hessian"></category></entry><entry><title>古い記事の移行/Jupyterの環境整備</title><link href="/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html" rel="alternate"></link><published>2020-04-23T23:00:00+09:00</published><updated>2020-04-23T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html</id><content type="html">&lt;p&gt;評価の前に古い記事の移行と Python の環境整備。
-Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="Hessian"></category></entry><entry><title>古い記事の移行/Jupyterの環境整備</title><link href="/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html" rel="alternate"></link><published>2020-04-23T23:00:00+09:00</published><updated>2020-04-23T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-23:/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html</id><content type="html">&lt;p&gt;評価の前に古い記事の移行とPythonの環境整備。
+PythonはJupyterを使う。Vimキーバインドで。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/nakasan/items/ec7741f075f1062350f4#jupyter コマンドモードのショートカットキーまとめ "&gt;Jupyter コマンドモードのショートカットキーまとめ&lt;/a&gt; がよくまとまっていた。これ読んで進めていく。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/nakasan/items/ec7741f075f1062350f4#jupyterコマンドモードのショートカットキーまとめ"&gt;Jupyterコマンドモードのショートカットキーまとめ&lt;/a&gt; がよくまとまっていた。これ読んで進めていく。&lt;/li&gt;
 &lt;/ul&gt;
 </content><category term="雑記"></category><category term="Jupyter"></category></entry><entry><title>Signed-LMSの2階微分 その2</title><link href="/signed-lmsno2jie-wei-fen-sono2.html" rel="alternate"></link><published>2020-04-22T11:34:00+09:00</published><updated>2020-04-22T12:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-22:/signed-lmsno2jie-wei-fen-sono2.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
@@ -2768,17 +2947,18 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;早速既存研究が無いか見ている。二乗誤差最小化の LMS でもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMS については今の所、微分してるところも見てない。&lt;/p&gt;
+&lt;p&gt;早速既存研究が無いか見ている。二乗誤差最小化のLMSでもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMSについては今の所、微分してるところも見てない。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://pt.slideshare.net/mentelibre/neural-network-widrowhoff-learning-adaline-hagan-lms"&gt;NEURAL NETWORK Widrow-Hoff Learning Adaline Hagan LMS&lt;/a&gt; 観測分散行列がヘッセ行列に一致することが書いてあった。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf"&gt;Stochastic error whitening algorithm for linear filter estimation with noisy …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf"&gt;Stochastic error whitening algorithm for linear filter estimation with noisy data&lt;/a&gt; 評価関数として絶対値が入ったものを使っている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://faculty.cord.edu/kamel/09S-380/Presentations/LMS.pdf"&gt;The …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;早速既存研究が無いか見ている。二乗誤差最小化の LMS でもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMS については今の所、微分してるところも見てない。&lt;/p&gt;
+&lt;p&gt;早速既存研究が無いか見ている。二乗誤差最小化のLMSでもヘッセ行列の逆行列の計算負荷が高いから使わん、という論調がほとんど。Signed-LMSについては今の所、微分してるところも見てない。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://pt.slideshare.net/mentelibre/neural-network-widrowhoff-learning-adaline-hagan-lms"&gt;NEURAL NETWORK Widrow-Hoff Learning Adaline Hagan LMS&lt;/a&gt; 観測分散行列がヘッセ行列に一致することが書いてあった。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www1.coe.neu.edu/~erdogmus/publications/J013_NEUNET_SpIssueIJCNN03_EWCLMS_Yadu.pdf"&gt;Stochastic error whitening algorithm for linear filter estimation with noisy data&lt;/a&gt; 評価関数として絶対値が入ったものを使っている。&lt;/li&gt;
@@ -2826,14 +3006,14 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 &lt;p&gt;結論、ラプラス分布に従う残差を仮定した最尤推定において、観測分散行列はフィッシャー情報行列に一致し、その逆行列は自然勾配に該当するはず。つうかニュートン法の特殊ケースに見えるがどうなんでしょ。フィッシャー情報行列がヘッセ行列に見えるんだが、定義通り（対数尤度のヘッセ行列）そうだよな。指数族の最尤推定をニュートン法で解こうとしたら全部自然勾配学習法にならね？&lt;/p&gt;
 &lt;div class="section" id="todo"&gt;
 &lt;h3&gt;TODO&lt;/h3&gt;
-&lt;p&gt;評価のことを考えて行きたい。固定した信号（答えが分かっている信号。乱数固定。）を使ったときに、誤差平面と勾配はどうなっている？フィルタの次元は 2 ぐらいにして、フィルタを固定して各統計量がどうなっているかプロットする。まずは絶対値残差と勾配の観察が重要に思える（もちろん、2 次の最小化ケースも重要）。&lt;/p&gt;
+&lt;p&gt;評価のことを考えて行きたい。固定した信号（答えが分かっている信号。乱数固定。）を使ったときに、誤差平面と勾配はどうなっている？フィルタの次元は2ぐらいにして、フィルタを固定して各統計量がどうなっているかプロットする。まずは絶対値残差と勾配の観察が重要に思える（もちろん、2次の最小化ケースも重要）。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;評価がまとまったら結果共有に入りたい。&lt;/li&gt;
-&lt;li&gt;OMP を使う。&lt;/li&gt;
+&lt;li&gt;OMPを使う。&lt;/li&gt;
 &lt;li&gt;メッセージパッシング使えない？&lt;ul&gt;
 &lt;li&gt;何らかの確率モデル化をせよ、というふうに受け取った。&lt;/li&gt;
 &lt;li&gt;AMP, Survay-Propagation（三村さん、樺島さん）がありえる。&lt;/li&gt;
-&lt;li&gt;→ AMP, Survay-Propagation について調査すべし。&lt;/li&gt;
+&lt;li&gt;→ AMP, Survay-Propagationについて調査すべし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;いろんな論文で自然勾配をどうやって定義しているか要観察。&lt;/li&gt;
@@ -2903,49 +3083,57 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 }
 &lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category><category term="Fisher Information Matrix"></category><category term="Hessian"></category><category term="Natural Gradient"></category></entry><entry><title>残差勾配 \(\mathrm{E}[\varepsilon(n) x(n - m)]\) の挙動観察/Signed-LMSの目的関数の2階微分</title><link href="/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html" rel="alternate"></link><published>2020-04-21T12:10:00+09:00</published><updated>2020-04-21T12:10:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-21:/can-chai-gou-pei-mathrmevarepsilonn-xn-m-noju-dong-guan-cha-signed-lmsnomu-de-guan-shu-no2jie-wei-fen.html</id><summary type="html">&lt;div class="section" id="mathrm-e-varepsilon-n-x-n-m"&gt;
 &lt;h2&gt;残差勾配 &lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; の挙動観察&lt;/h2&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が大きいときは無視できるのでは？ なお、長時間平均値は 0 に収束していることを見た。
+&lt;p&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。
 &lt;span class="math"&gt;\(m\)&lt;/span&gt; をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;ガチャガチャ弄ってるってるけど示唆があんまりない。&lt;/li&gt;
 &lt;li&gt;低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。&lt;/li&gt;
 &lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; は &lt;span class="math"&gt;\(m\)&lt;/span&gt; を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。&lt;/li&gt;
-&lt;li&gt;同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一の sin 波を等価させたときはわかりやすい。&lt;/li&gt;
+&lt;li&gt;同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="figure align-center"&gt;
-&lt;img alt="440.0Hz の sin 波に対する各タップの平均勾配変化グラフ " src="./images/sin_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;440.0Hz の sin 波に対する各タップの平均勾配変化&lt;/p&gt;
+&lt;img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" /&gt;
+&lt;p class="caption"&gt;440.0Hzのsin波に対する各タップの平均勾配変化&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="figure align-center"&gt;
-&lt;img alt=" ボイス対する各タップの平均勾配変化グラフ " src="./images/voice_mean_gradient.png" style="width: 40%;" /&gt;
+&lt;img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;ボイス対する各タップの平均勾配変化&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="figure align-center"&gt;
-&lt;img alt=" ピアノ演奏に対する各タップの平均勾配変化グラフ " src="./images/ruriko_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;ピアノ演奏に対する各タップの平均勾配変化 …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="mathrm-e-varepsilon-n-x-n-m"&gt;
-&lt;h2&gt;残差勾配 &lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; の挙動観察&lt;/h2&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が大きいときは無視できるのでは？ なお、長時間平均値は 0 に収束していることを見た。
-&lt;span class="math"&gt;\(m\)&lt;/span&gt; をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;ガチャガチャ弄ってるってるけど示唆があんまりない。&lt;/li&gt;
-&lt;li&gt;低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。&lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; は &lt;span class="math"&gt;\(m\)&lt;/span&gt; を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。&lt;/li&gt;
-&lt;li&gt;同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一の sin 波を等価させたときはわかりやすい。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="figure align-center"&gt;
-&lt;img alt="440.0Hz の sin 波に対する各タップの平均勾配変化グラフ " src="./images/sin_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;440.0Hz の sin 波に対する各タップの平均勾配変化&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="figure align-center"&gt;
-&lt;img alt=" ボイス対する各タップの平均勾配変化グラフ " src="./images/voice_mean_gradient.png" style="width: 40%;" /&gt;
-&lt;p class="caption"&gt;ボイス対する各タップの平均勾配変化&lt;/p&gt;
-&lt;/div&gt;
-&lt;div class="figure align-center"&gt;
-&lt;img alt=" ピアノ演奏に対する各タップの平均勾配変化グラフ " src="./images/ruriko_mean_gradient.png" style="width: 40%;" /&gt;
+&lt;img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;ピアノ演奏に対する各タップの平均勾配変化&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="signed-lms2"&gt;
-&lt;h2&gt;Signed-LMS の目的関数の 2 階微分&lt;/h2&gt;
+&lt;h2&gt;Signed-LMSの目的関数の2階微分&lt;/h2&gt;
+&lt;p&gt;勇気を出してやってみる。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2 …&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="section" id="mathrm-e-varepsilon-n-x-n-m"&gt;
+&lt;h2&gt;残差勾配 &lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; の挙動観察&lt;/h2&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が大きいときは無視できるのでは？ なお、長時間平均値は0に収束していることを見た。
+&lt;span class="math"&gt;\(m\)&lt;/span&gt; をずらした時の平均値の様子を見る。どこかで影響が小さくなって打ち切れるはず。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;ガチャガチャ弄ってるってるけど示唆があんまりない。&lt;/li&gt;
+&lt;li&gt;低次（〜10）の係数は大きく変動する傾向。しかし、次に述べるピッチなどに影響しているのか、全てに当てはまる傾向ではない。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\varepsilon(n) x(n - m)]\)&lt;/span&gt; は &lt;span class="math"&gt;\(m\)&lt;/span&gt; を大きくすれば単調減少するわけではない。音源依存で傾向が異なる。ピッチ？か何かに反応して大きくなる場合がある。&lt;/li&gt;
+&lt;li&gt;同一発音区間では、フィルタ係数の符号は同一になる傾向が見られる。単一のsin波を等価させたときはわかりやすい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="440.0Hzのsin波に対する各タップの平均勾配変化グラフ" src="./images/sin_mean_gradient.png" style="width: 40%;" /&gt;
+&lt;p class="caption"&gt;440.0Hzのsin波に対する各タップの平均勾配変化&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="ボイス対する各タップの平均勾配変化グラフ" src="./images/voice_mean_gradient.png" style="width: 40%;" /&gt;
+&lt;p class="caption"&gt;ボイス対する各タップの平均勾配変化&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="figure align-center"&gt;
+&lt;img alt="ピアノ演奏に対する各タップの平均勾配変化グラフ" src="./images/ruriko_mean_gradient.png" style="width: 40%;" /&gt;
+&lt;p class="caption"&gt;ピアノ演奏に対する各タップの平均勾配変化&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="signed-lms2"&gt;
+&lt;h2&gt;Signed-LMSの目的関数の2階微分&lt;/h2&gt;
 &lt;p&gt;勇気を出してやってみる。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
@@ -2960,9 +3148,9 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 \frac{d}{dx} \tanh(Tx) = T (\tanh(Tx))^{\prime} = T(1 - \tanh^{2}(Tx))
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;さて、 &lt;span class="math"&gt;\(1 - \tanh^{2}(Tx)\)&lt;/span&gt; に注目すると、&lt;span class="math"&gt;\(T\)&lt;/span&gt; の極限では &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; を除き 0 を取るが、&lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; において 1 を取る。よってこれはインパルス関数になる（極限と微分操作を交換したけどやかましいことは暗黙で ...）。&lt;/p&gt;
-&lt;p&gt;符号関数を微分するとインパルス関数が出てくることについては &lt;a class="reference external" href="https://teenaka.at.webry.info/201301/article_10.html"&gt;超関数的微分 _δ 関数関連（２）&lt;/a&gt; を見るのが早いかも。以下では、その話に従って、&lt;span class="math"&gt;\(\frac{d}{dx} \mathrm{sign}(x) = 2\delta(x)\)&lt;/span&gt; とする。&lt;/p&gt;
-&lt;p&gt;さて、今一度評価関数 &lt;span class="math"&gt;\(\mathrm{E}[|\varepsilon(n)|]\)&lt;/span&gt; の偏微分と 2 階の偏導関数を考える。&lt;/p&gt;
+&lt;p&gt;さて、 &lt;span class="math"&gt;\(1 - \tanh^{2}(Tx)\)&lt;/span&gt; に注目すると、&lt;span class="math"&gt;\(T\)&lt;/span&gt; の極限では &lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; を除き0を取るが、&lt;span class="math"&gt;\(x = 0\)&lt;/span&gt; において1を取る。よってこれはインパルス関数になる（極限と微分操作を交換したけどやかましいことは暗黙で...）。&lt;/p&gt;
+&lt;p&gt;符号関数を微分するとインパルス関数が出てくることについては &lt;a class="reference external" href="https://teenaka.at.webry.info/201301/article_10.html"&gt;超関数的微分_δ関数関連（２）&lt;/a&gt; を見るのが早いかも。以下では、その話に従って、&lt;span class="math"&gt;\(\frac{d}{dx} \mathrm{sign}(x) = 2\delta(x)\)&lt;/span&gt; とする。&lt;/p&gt;
+&lt;p&gt;さて、今一度評価関数 &lt;span class="math"&gt;\(\mathrm{E}[|\varepsilon(n)|]\)&lt;/span&gt; の偏微分と2階の偏導関数を考える。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
 \parfrac{}{h(m)} \mathrm{E}[|\varepsilon(n)|] &amp;amp;= \mathrm{E}\left[ \parfrac{}{h(m)} |\varepsilon(n)| \right] \\
@@ -2980,7 +3168,7 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 \end{equation*}
 &lt;/div&gt;
 &lt;p&gt;という計算に該当する。厳密計算は &lt;span class="math"&gt;\(\varepsilon(n) = 0\)&lt;/span&gt; なる &lt;span class="math"&gt;\(n\)&lt;/span&gt; を見つけたら足していく感じでいいと思うけど、今は &lt;span class="math"&gt;\(\varepsilon(n)\)&lt;/span&gt; はラプラス分布に従うと仮定している。だからラプラス分布に従って &lt;span class="math"&gt;\(P(\varepsilon(n) = 0) = \frac{1}{2\lambda}\)&lt;/span&gt; （分散 &lt;span class="math"&gt;\(2\lambda^{2}\)&lt;/span&gt; ）の重み付けをして計算してしまって良いように見えるのだがどうなんだろう。なんか怪しくて考え続けている。&lt;/p&gt;
-&lt;p&gt;もし適応フィルタに組み込むなら、残差が 0 になったら上の式に従ってヘッセ行列を更新し、ニュートン法を使い続ける。これは試してみたい。問題はヘッセ行列が逆行列を持つかというところ …4-20 で半正定値であることは確認したが正定値とは限らない。共役勾配法を検討する必要があるかも。&lt;span class="math"&gt;\(\ve{X}\ve{X}^{\mathsf{T}}\)&lt;/span&gt; は正則になるとは思えない …。（軽く試したけどすぐにだめな例が見つかった。）&lt;/p&gt;
+&lt;p&gt;もし適応フィルタに組み込むなら、残差が0になったら上の式に従ってヘッセ行列を更新し、ニュートン法を使い続ける。これは試してみたい。問題はヘッセ行列が逆行列を持つかというところ…4-20で半正定値であることは確認したが正定値とは限らない。共役勾配法を検討する必要があるかも。&lt;span class="math"&gt;\(\ve{X}\ve{X}^{\mathsf{T}}\)&lt;/span&gt; は正則になるとは思えない…。（軽く試したけどすぐにだめな例が見つかった。）&lt;/p&gt;
 &lt;div class="section" id="id1"&gt;
 &lt;h3&gt;他の頂いたアイディア&lt;/h3&gt;
 &lt;ul class="simple"&gt;
@@ -2988,7 +3176,7 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 &lt;li&gt;ありだけど計算量が高い。圧縮率が上がるのであれば大アリ。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;確率的 PCA とか使えない？辞書は小さくて済む。&lt;/li&gt;
+&lt;li&gt;確率的PCAとか使えない？辞書は小さくて済む。&lt;/li&gt;
 &lt;li&gt;線形ダイナミクスにより上手く定式化できない？&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="section" id="id2"&gt;
@@ -3000,16 +3188,16 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;著作権処理済み音源データベースについて相談&lt;ul&gt;
 &lt;li&gt;→ 自分で情報をまとめて、申し込んでいいかというところまで進めるべし。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://staff.aist.go.jp/m.goto/PAPER/SIGMUS200205goto.pdf"&gt;RWC 研究用音楽データベース : 音楽ジャンルデータベースと楽器音データベース&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/index-j.html"&gt;RWC 研究用音楽データベース&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://staff.aist.go.jp/m.goto/PAPER/SIGMUS200205goto.pdf"&gt;RWC 研究用音楽データベース: 音楽ジャンルデータベースと楽器音データベース&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://staff.aist.go.jp/m.goto/RWC-MDB/index-j.html"&gt;RWC研究用音楽データベース&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;→ 進めた。動けるようになったら書類をまとめていく。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;Donoho さんなどが圧縮センシングの文脈で既にやりきってない？&lt;ul&gt;
+&lt;li&gt;Donohoさんなどが圧縮センシングの文脈で既にやりきってない？&lt;ul&gt;
 &lt;li&gt;ありえる。調査すべし。&lt;/li&gt;
 &lt;li&gt;→ ライス大学では成果をすべて公開しているから見るだけ見たほうが良い。&lt;/li&gt;
 &lt;li&gt;→ &lt;a class="reference external" href="http://dsp.rice.edu/cs/"&gt;http://dsp.rice.edu/cs/&lt;/a&gt; を見よ。&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://hal.archives-ouvertes.fr/hal-00424165/document"&gt;Compressed sensing block MAP-LMS adaptive filter for sparse channel estimation and a bayesian Cramer-Rao bound&lt;/a&gt; 残差はガウス分布としてるけどクラメル - ラオ下限との絡みを述べている。何か重要そう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://hal.archives-ouvertes.fr/hal-00424165/document"&gt;Compressed sensing block MAP-LMS adaptive filter for sparse channel estimation and a bayesian Cramer-Rao bound&lt;/a&gt; 残差はガウス分布としてるけどクラメル-ラオ下限との絡みを述べている。何か重要そう。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.dbabacan.info/papers/babacan_CS.pdf"&gt;Bayesian Compressive Sensing Using Laplace Priors&lt;/a&gt; これもパラメータの事前分布にラプラス分布を導入してベイズ推定するもの。残差ではないはず。&lt;/li&gt;
 &lt;li&gt;「L1」, 「Laplace」, 「residual」, 「lossless」で検索したけどスパース解を求めるものばかり。今のところはセーフ？&lt;/li&gt;
 &lt;li&gt;→ 継続して調査はする。&lt;/li&gt;
@@ -3082,7 +3270,7 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category></entry><entry><title>IRLSの更新式について</title><link href="/irlsnogeng-xin-shi-nitsuite.html" rel="alternate"></link><published>2020-04-20T14:10:00+09:00</published><updated>2020-04-21T12:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-20:/irlsnogeng-xin-shi-nitsuite.html</id><summary type="html">&lt;p&gt;MathJax の環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 &lt;tt class="docutils literal"&gt;newcommand&lt;/tt&gt; を行えばずっと使えるみたい。便利。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="SignedLMS"></category></entry><entry><title>IRLSの更新式について</title><link href="/irlsnogeng-xin-shi-nitsuite.html" rel="alternate"></link><published>2020-04-20T14:10:00+09:00</published><updated>2020-04-21T12:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-20:/irlsnogeng-xin-shi-nitsuite.html</id><summary type="html">&lt;p&gt;MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 &lt;tt class="docutils literal"&gt;newcommand&lt;/tt&gt; を行えばずっと使えるみたい。便利。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -3090,10 +3278,10 @@ Python は Jupyter を使う。Vim キーバインドで。&lt;/p&gt;
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;逐次的更新の件について。IRLS では以下の評価関数 &lt;span class="math"&gt;\(J(\ve{\beta})\)&lt;/span&gt; の最小化を考える。&lt;/p&gt;
+&lt;p&gt;逐次的更新の件について。IRLSでは以下の評価関数 &lt;span class="math"&gt;\(J(\ve{\beta})\)&lt;/span&gt; の最小化を考える。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
-J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_ …&lt;/div&gt;</summary><content type="html">&lt;p&gt;MathJax の環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 &lt;tt class="docutils literal"&gt;newcommand&lt;/tt&gt; を行えばずっと使えるみたい。便利。&lt;/p&gt;
+J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp …&lt;/div&gt;</summary><content type="html">&lt;p&gt;MathJaxの環境を確認しつつ使用中。プリアンブルが無いけどページ内で一回 &lt;tt class="docutils literal"&gt;newcommand&lt;/tt&gt; を行えばずっと使えるみたい。便利。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -3101,7 +3289,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_ …&lt;/div&gt;</summary><content typ
 \newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;逐次的更新の件について。IRLS では以下の評価関数 &lt;span class="math"&gt;\(J(\ve{\beta})\)&lt;/span&gt; の最小化を考える。&lt;/p&gt;
+&lt;p&gt;逐次的更新の件について。IRLSでは以下の評価関数 &lt;span class="math"&gt;\(J(\ve{\beta})\)&lt;/span&gt; の最小化を考える。&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})^{2}
@@ -3202,7 +3390,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
 \ve{X} \ve{W} \ve{X}^{\mathsf{T}} \ve{\beta} &amp;amp;= \ve{X} \ve{W} \ve{y}
 \end{align*}
 &lt;/div&gt;
-&lt;p&gt;&lt;span class="math"&gt;\(\ve{X}\ve{W}\ve{X}^{\mathsf{T}}\)&lt;/span&gt; が正則（TODO: &lt;span class="math"&gt;\(\ve{X}\)&lt;/span&gt; が行フルランク、かつ &lt;span class="math"&gt;\(\ve{W}\)&lt;/span&gt; が正則なら行けそうに見えるけど本当か？）の場合は閉形式で係数が求まる :&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\ve{X}\ve{W}\ve{X}^{\mathsf{T}}\)&lt;/span&gt; が正則（TODO: &lt;span class="math"&gt;\(\ve{X}\)&lt;/span&gt; が行フルランク、かつ &lt;span class="math"&gt;\(\ve{W}\)&lt;/span&gt; が正則なら行けそうに見えるけど本当か？）の場合は閉形式で係数が求まる:&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \ve{\beta} = (\ve{X} \ve{W} \ve{X}^{\mathsf{T}})^{-1} \ve{X} \ve{W} \ve{y}
@@ -3215,13 +3403,13 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
 &amp;amp;= -2 \sum_{i = 1}^{M} w_{i} (\ve{x}_{i})_{j} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
 \end{align*}
 &lt;/div&gt;
-&lt;p&gt;残差の L1 ノルム最小化を考えるときは &lt;span class="math"&gt;\(w_{i} = \frac{1}{|y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}}|}\)&lt;/span&gt; とおくので代入すると、&lt;/p&gt;
+&lt;p&gt;残差のL1ノルム最小化を考えるときは &lt;span class="math"&gt;\(w_{i} = \frac{1}{|y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}}|}\)&lt;/span&gt; とおくので代入すると、&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \parfrac{J(\ve{\beta})}{\beta_{j}} = -2 \sum_{i = 1}^{M} (\ve{x}_{i})_{j} \mathrm{sign}(y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;&lt;strong&gt;瞬間値（&lt;/strong&gt; &lt;span class="math"&gt;\(M=1\)&lt;/span&gt; &lt;strong&gt;とする）を考えると Signed-LMS の更新式そのものになっている。&lt;/strong&gt; 和を取ると平均操作に近いから、LMS アルゴリズムと考えていることは同じ。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;瞬間値（&lt;/strong&gt; &lt;span class="math"&gt;\(M=1\)&lt;/span&gt; &lt;strong&gt;とする）を考えるとSigned-LMSの更新式そのものになっている。&lt;/strong&gt; 和を取ると平均操作に近いから、LMSアルゴリズムと考えていることは同じ。&lt;/p&gt;
 &lt;p&gt;&lt;span class="math"&gt;\(\parfrac{J(\ve{\beta})}{\beta_{j}}\)&lt;/span&gt; を更に &lt;span class="math"&gt;\(\beta_{k}\)&lt;/span&gt; で偏微分してみると、&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{align*}
@@ -3245,7 +3433,7 @@ J(\ve{\beta}) = \sum^{M}_{i = 1} w_{i} (y_{i} - \innerp{\ve{\beta}}{\ve{x}_{i}})
  \right]
 \end{align*}
 &lt;/div&gt;
-&lt;p&gt;2 次式が出てくるのがわかる（&lt;span class="math"&gt;\(\ve{W}\)&lt;/span&gt; は計量だ）。そして &lt;span class="math"&gt;\((\ve{H})_{jk} = \frac{\partial^{2} J(\ve{\beta})}{\partial \beta_{j} \partial \beta_{k}}\)&lt;/span&gt; なるヘッセ行列 &lt;span class="math"&gt;\(\ve{H}\)&lt;/span&gt; は以下 :&lt;/p&gt;
+&lt;p&gt;2次式が出てくるのがわかる（&lt;span class="math"&gt;\(\ve{W}\)&lt;/span&gt; は計量だ）。そして &lt;span class="math"&gt;\((\ve{H})_{jk} = \frac{\partial^{2} J(\ve{\beta})}{\partial \beta_{j} \partial \beta_{k}}\)&lt;/span&gt; なるヘッセ行列 &lt;span class="math"&gt;\(\ve{H}\)&lt;/span&gt; は以下:&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 \ve{H} = 2 \ve{X} \ve{W} \ve{X}^{\mathsf{T}}
@@ -3291,8 +3479,8 @@ w_{1} \left[
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;信号処理的には &lt;span class="math"&gt;\(\ve{x}_{1}, \ve{x}_{2}, \dots \ve{x}_{M}\)&lt;/span&gt; は系列で現れる。&lt;/li&gt;
-&lt;li&gt;LMS フィルタでは &lt;span class="math"&gt;\(i = 1\)&lt;/span&gt; の時だけを考えていたと考えられれる。 &lt;span class="math"&gt;\(i = 2,\dots,M\)&lt;/span&gt; のときの影響は少ないのではないかと思う。&lt;/li&gt;
-&lt;li&gt;FIR フィルタを考えるのならば、各 &lt;span class="math"&gt;\(\ve{x}_{1}\)&lt;/span&gt; は入ってきた 1 次元信号データを時系列順に並べたものだから、直前のベクトル &lt;span class="math"&gt;\(\ve{x}_{2}\)&lt;/span&gt; を使えそうな構造に見える。&lt;/li&gt;
+&lt;li&gt;LMSフィルタでは &lt;span class="math"&gt;\(i = 1\)&lt;/span&gt; の時だけを考えていたと考えられれる。 &lt;span class="math"&gt;\(i = 2,\dots,M\)&lt;/span&gt; のときの影響は少ないのではないかと思う。&lt;/li&gt;
+&lt;li&gt;FIRフィルタを考えるのならば、各 &lt;span class="math"&gt;\(\ve{x}_{1}\)&lt;/span&gt; は入ってきた1次元信号データを時系列順に並べたものだから、直前のベクトル &lt;span class="math"&gt;\(\ve{x}_{2}\)&lt;/span&gt; を使えそうな構造に見える。&lt;/li&gt;
 &lt;li&gt;上の仮定を使ってヘッセ行列の逆行列 &lt;span class="math"&gt;\(\ve{H}^{-1}\)&lt;/span&gt; を逐次近似計算できない？&lt;/li&gt;
 &lt;li&gt;分散共分散行列がほぼヘッセ行列になってるけどこれは何？&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.iim.cs.tut.ac.jp/~kanatani/papers/jcov.pdf"&gt;金谷さんの解説&lt;/a&gt; にそれとなく解説がある。フィッシャー情報行列との関連もある。。。クラメル・ラオの下限についてわかりやすい説明あり。&lt;/li&gt;
@@ -3301,21 +3489,21 @@ w_{1} \left[
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;そして自然勾配のアイディアが出てくる。自然勾配を使った LMS アルゴリズムは … あった …&lt;/p&gt;
+&lt;p&gt;そして自然勾配のアイディアが出てくる。自然勾配を使ったLMSアルゴリズムは…あった…&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?referer=https://www.google.com/&amp;amp;httpsredir=1&amp;amp;article=2780&amp;amp;context=ele_comeng_facwork"&gt;Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.7538&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;甘利先生による解説&lt;/a&gt; で、LMS アルゴリズム含めて大まかなところはだいたい言ってる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.7538&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;甘利先生による解説&lt;/a&gt; で、LMSアルゴリズム含めて大まかなところはだいたい言ってる。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/profile/Ligang_Liu3/publication/44098179_On_Improvement_of_Proportionate_Adaptive_Algorithms_for_Sparse_Impulse_Response/links/00b495315266ab9cfd000000.pdf"&gt;高知工科大学の博論&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;ワンチャンス L1 残差最小化はやってないかも。&lt;/li&gt;
+&lt;li&gt;ワンチャンスL1残差最小化はやってないかも。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;TODO:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;前の MTG で言われたことの整理&lt;/li&gt;
+&lt;li&gt;前のMTGで言われたことの整理&lt;/li&gt;
 &lt;li&gt;分散行列、ヘッセ行列、フィッシャー情報行列、自然勾配の整理&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://wiseodd.github.io/techblog/2018/03/11/fisher-information/"&gt;Fisher Information Matrix&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;OMP が気になる。試してみたい。&lt;/li&gt;
+&lt;li&gt;OMPが気になる。試してみたい。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -3378,35 +3566,41 @@ w_{1} \left[
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="IRLS"></category><category term="L1ノルム"></category><category term="LAD"></category></entry><entry><title>IRLS(Iteratively Reweighted Least Squares) その2</title><link href="/irlsiteratively-reweighted-least-squares-sono2.html" rel="alternate"></link><published>2020-04-19T19:30:00+09:00</published><updated>2020-04-20T14:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-19:/irlsiteratively-reweighted-least-squares-sono2.html</id><summary type="html">&lt;p&gt;理論ばっかり追っていて悶々してきたので、IRLS で L1 残差最小化が解けないか実験してみる。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="IRLS"></category><category term="L1ノルム"></category><category term="LAD"></category></entry><entry><title>IRLS(Iteratively Reweighted Least Squares) その2</title><link href="/irlsiteratively-reweighted-least-squares-sono2.html" rel="alternate"></link><published>2020-04-19T19:30:00+09:00</published><updated>2020-04-20T14:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-19:/irlsiteratively-reweighted-least-squares-sono2.html</id><summary type="html">&lt;p&gt;理論ばっかり追っていて悶々してきたので、IRLSでL1残差最小化が解けないか実験してみる。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb"&gt;第 5 章 厳密解から近似解へ&lt;/a&gt; に『スパースモデリング』5 章の Python 実装あり。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irls の概要 "&gt;スパースモデリング：第 3 章 追跡アルゴリズム&lt;/a&gt; は『スパースモデリング』3 章の Python 実装。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb"&gt;第5章 厳密解から近似解へ&lt;/a&gt; に『スパースモデリング』5章のPython実装あり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irlsの概要"&gt;スパースモデリング：第3章 追跡アルゴリズム&lt;/a&gt; は『スパースモデリング』3章のPython実装。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;IRLS の実装は &lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; を参考に。Python で簡単にできた。&lt;/p&gt;
+&lt;p&gt;IRLSの実装は &lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; を参考に。Pythonで簡単にできた。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt;
 
-&lt;span class="c1"&gt;# IRLS 法により Phi @ x = y のスパース解を求める&lt;/span&gt;
-&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;irls_update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-    &lt;span class="n"&gt;EPSILON&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;8.0 …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;理論ばっかり追っていて悶々してきたので、IRLS で L1 残差最小化が解けないか実験してみる。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb"&gt;第 5 章 厳密解から近似解へ&lt;/a&gt; に『スパースモデリング』5 章の Python 実装あり。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irls の概要 "&gt;スパースモデリング：第 3 章 追跡アルゴリズム&lt;/a&gt; は『スパースモデリング』3 章の Python 実装。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;IRLS の実装は &lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; を参考に。Python で簡単にできた。&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt;
-
-&lt;span class="c1"&gt;# IRLS 法により Phi @ x = y のスパース解を求める&lt;/span&gt;
+&lt;span class="c1"&gt;# IRLS法によりPhi @ x = yのスパース解を求める&lt;/span&gt;
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;irls_update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
     &lt;span class="n"&gt;EPSILON&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;8.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="c1"&gt;# 重みの計算&lt;/span&gt;
-    &lt;span class="n"&gt;weight&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;weight&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="c1"&gt;# 小さくなりすぎた重みは打ち切る&lt;/span&gt;
+    &lt;span class="n"&gt;weight&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;weight&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;EPSILON&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSILON&lt;/span&gt;
+    &lt;span class="c1"&gt;# 対角行列に展開&lt;/span&gt;
+    &lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weight …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;理論ばっかり追っていて悶々してきたので、IRLSでL1残差最小化が解けないか実験してみる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/kibo35/sparse-modeling/blob/master/ch05.ipynb"&gt;第5章 厳密解から近似解へ&lt;/a&gt; に『スパースモデリング』5章のPython実装あり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/kibo35/items/66ec4479b0899ea4987d#irlsの概要"&gt;スパースモデリング：第3章 追跡アルゴリズム&lt;/a&gt; は『スパースモデリング』3章のPython実装。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;IRLSの実装は &lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; を参考に。Pythonで簡単にできた。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt;
+
+&lt;span class="c1"&gt;# IRLS法によりPhi @ x = yのスパース解を求める&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;irls_update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;order&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;EPSILON&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;8.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;# 重みの計算&lt;/span&gt;
+    &lt;span class="n"&gt;weight&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
     &lt;span class="c1"&gt;# 小さくなりすぎた重みは打ち切る&lt;/span&gt;
     &lt;span class="n"&gt;weight&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;weight&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;EPSILON&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;EPSILON&lt;/span&gt;
     &lt;span class="c1"&gt;# 対角行列に展開&lt;/span&gt;
     &lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;diag&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;weight&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;order&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
-    &lt;span class="c1"&gt;# 更新後の係数 : Phi.T @ W @ Phi @ x = Phi.T @ W @ y の解&lt;/span&gt;
-    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linalg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;solve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;# 更新後の係数: Phi.T @ W @ Phi @ x = Phi.T @ W @ y の解&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linalg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;solve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;T&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;W&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;DIMENSION&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;
@@ -3420,138 +3614,139 @@ w_{1} \left[
     &lt;span class="n"&gt;xhistory&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;DIMENSION&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;NUM_ITERATION&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="c1"&gt;# 観測を生成&lt;/span&gt;
     &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NUM_SAMPLES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;DIMENSION&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;X_ANSWER&lt;/span&gt;
+    &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;X_ANSWER&lt;/span&gt;
     &lt;span class="c1"&gt;# 加法的雑音を重畳&lt;/span&gt;
     &lt;span class="c1"&gt;# yrand = y + numpy.random.normal(0, 0.3, (NUM_SAMPLES, 1))&lt;/span&gt;
     &lt;span class="n"&gt;yrand&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;laplace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;0.3&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NUM_SAMPLES&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
     &lt;span class="n"&gt;error&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NUM_ITERATION&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
     &lt;span class="n"&gt;emp_error&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;zeros&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NUM_ITERATION&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
 
-    &lt;span class="c1"&gt;# IRLS を繰り返し適用&lt;/span&gt;
+    &lt;span class="c1"&gt;# IRLSを繰り返し適用&lt;/span&gt;
     &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;NUM_ITERATION&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
         &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;irls_update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;Phi&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;yrand&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
         &lt;span class="n"&gt;xhistory&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;reshape&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-        &lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linalg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;ord&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;NUM_SAMPLES&lt;/span&gt;
-        &lt;span class="n"&gt;emp_error&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linalg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;yrand&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="err"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;ord&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;NUM_SAMPLES&lt;/span&gt;
+        &lt;span class="n"&gt;error&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linalg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;ord&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;NUM_SAMPLES&lt;/span&gt;
+        &lt;span class="n"&gt;emp_error&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;numpy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;linalg&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;norm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;yrand&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;Phi&lt;/span&gt; &lt;span class="o"&gt;@&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;ord&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;NUM_SAMPLES&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;実装は楽だったけど、誤差解析が沼。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;誤差を重畳してみると、真の誤差と経験誤差が当然一致しない。&lt;/li&gt;
 &lt;li&gt;経験誤差的には局所解に入っている印象。&lt;/li&gt;
 &lt;li&gt;サンプル数が少ないと大域最小解に入らないケースあり（経験誤差曲面の最小値が真の誤差の曲面の最小値に不一致）&lt;/li&gt;
-&lt;li&gt;経験誤差の曲面は二次曲線に見える。（2 次式の最小化を考えているから当然のはず。）&lt;/li&gt;
-&lt;li&gt;最小二乗解よりも誤差が悪い時がある。最小二乗解は order=2 とすれば良くて、その時重み行列 W は単位行列になり、普通の最小二乗法と一致。&lt;/li&gt;
+&lt;li&gt;経験誤差の曲面は二次曲線に見える。（2次式の最小化を考えているから当然のはず。）&lt;/li&gt;
+&lt;li&gt;最小二乗解よりも誤差が悪い時がある。最小二乗解はorder=2とすれば良くて、その時重み行列Wは単位行列になり、普通の最小二乗法と一致。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;思いつき :&lt;/p&gt;
+&lt;p&gt;思いつき:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;IRLS は評価関数の最小化を考える時閉形式で求まるので何も考えない。パラメータに関してもう一度微分できるのでニュートン法使えそう。&lt;/li&gt;
+&lt;li&gt;IRLSは評価関数の最小化を考える時閉形式で求まるので何も考えない。パラメータに関してもう一度微分できるのでニュートン法使えそう。&lt;/li&gt;
 &lt;li&gt;フィルタのときのように逐次的に求められない？&lt;ul&gt;
-&lt;li&gt;パラメータ全てではなく 1 こずつ。サンプルについても 1 こずつ。更新していく。評価関数の最小化は平均値の最小化に見受けられるので、逐次的に更新しても良いように見える。&lt;/li&gt;
+&lt;li&gt;パラメータ全てではなく1こずつ。サンプルについても1こずつ。更新していく。評価関数の最小化は平均値の最小化に見受けられるので、逐次的に更新しても良いように見える。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;今日は遅いのでもう寝る。&lt;/p&gt;
-</content><category term="雑記"></category><category term="LAD"></category><category term="IRLS"></category><category term="L1ノルム"></category></entry><entry><title>IRLS(Iteratively Reweighted Least Squares)</title><link href="/irlsiteratively-reweighted-least-squares.html" rel="alternate"></link><published>2020-04-18T17:30:00+09:00</published><updated>2020-04-19T00:19:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-18:/irlsiteratively-reweighted-least-squares.html</id><summary type="html">&lt;p&gt;LAD(Least Absolute Deviation) を近似的・逐次的に解く方法としての IRLS について調査。そういえば基本的な原理を抑えていなかった。&lt;/p&gt;
+</content><category term="雑記"></category><category term="LAD"></category><category term="IRLS"></category><category term="L1ノルム"></category></entry><entry><title>IRLS(Iteratively Reweighted Least Squares)</title><link href="/irlsiteratively-reweighted-least-squares.html" rel="alternate"></link><published>2020-04-18T17:30:00+09:00</published><updated>2020-04-19T00:19:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-18:/irlsiteratively-reweighted-least-squares.html</id><summary type="html">&lt;p&gt;LAD(Least Absolute Deviation)を近似的・逐次的に解く方法としてのIRLSについて調査。そういえば基本的な原理を抑えていなかった。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html"&gt;Iteratively Reweighted Least Squares　についてサクッと。&lt;/a&gt; 文字通りサクッとしたまとめ。OMP を使って解いているというのがとても気になる&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html"&gt;Iteratively Reweighted Least Squares　についてサクッと。&lt;/a&gt; 文字通りサクッとしたまとめ。OMPを使って解いているというのがとても気になる&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://cnx.org/contents/krkDdys0&amp;#64;12/Iterative-Reweighted-Least-Squares"&gt;Iterative Reweighted Least Squares&lt;/a&gt; 導入から解法まで。しかしなぜ解が求まるのかは不明。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://cedar.buffalo.edu/~srihari/CSE574/Chap4/4.3.3-IRLS.pdf"&gt;Iterative Reweighted Least Squares&lt;/a&gt; バッファロー大の講義資料？これも何故解けるのかはちゃんと書いてない。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.maths.lth.se/matematiklth/personal/fredrik/Session3.pdf"&gt;Iterative Reweighted Least Squares&lt;/a&gt; これが一番いいかも。なぜ解けるかもざっくり証明がある。&lt;ul&gt;
-&lt;li&gt;そこで出てきた supergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 &lt;a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf"&gt;Supergradients&lt;/a&gt; に定義はあったけど幾何学的イメージが欲しい。&lt;/li&gt;
-&lt;li&gt;Weiszfeld Algorithms という幾何中央値を求めるアルゴリズムは &lt;a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf"&gt;Generalized Weiszfeld Algorithms for …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;LAD(Least Absolute Deviation) を近似的・逐次的に解く方法としての IRLS について調査。そういえば基本的な原理を抑えていなかった。&lt;/p&gt;
+&lt;li&gt;そこで出てきたsupergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 &lt;a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf"&gt;Supergradients&lt;/a&gt; に定義はあったけど幾何学的イメージが欲しい。&lt;/li&gt;
+&lt;li&gt;Weiszfeld Algorithmsという幾何中央値を求めるアルゴリズムは &lt;a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf"&gt;Generalized Weiszfeld Algorithms for Lq Optimization&lt;/a&gt; に解説あり。しかしこの論文いいこと言ってる。「Generalized …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;LAD(Least Absolute Deviation)を近似的・逐次的に解く方法としてのIRLSについて調査。そういえば基本的な原理を抑えていなかった。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html"&gt;Iteratively Reweighted Least Squares　についてサクッと。&lt;/a&gt; 文字通りサクッとしたまとめ。OMP を使って解いているというのがとても気になる&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html"&gt;Iteratively Reweighted Least Squares　についてサクッと。&lt;/a&gt; 文字通りサクッとしたまとめ。OMPを使って解いているというのがとても気になる&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://cnx.org/contents/krkDdys0&amp;#64;12/Iterative-Reweighted-Least-Squares"&gt;Iterative Reweighted Least Squares&lt;/a&gt; 導入から解法まで。しかしなぜ解が求まるのかは不明。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://cedar.buffalo.edu/~srihari/CSE574/Chap4/4.3.3-IRLS.pdf"&gt;Iterative Reweighted Least Squares&lt;/a&gt; バッファロー大の講義資料？これも何故解けるのかはちゃんと書いてない。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.maths.lth.se/matematiklth/personal/fredrik/Session3.pdf"&gt;Iterative Reweighted Least Squares&lt;/a&gt; これが一番いいかも。なぜ解けるかもざっくり証明がある。&lt;ul&gt;
-&lt;li&gt;そこで出てきた supergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 &lt;a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf"&gt;Supergradients&lt;/a&gt; に定義はあったけど幾何学的イメージが欲しい。&lt;/li&gt;
-&lt;li&gt;Weiszfeld Algorithms という幾何中央値を求めるアルゴリズムは &lt;a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf"&gt;Generalized Weiszfeld Algorithms for Lq Optimization&lt;/a&gt; に解説あり。しかしこの論文いいこと言ってる。「Generalized Weiszfeld Algorithms」は圧縮センシングとは異なりスパース表現を求めるわけではない。スパース性は担保されなくても、より L1 ノルムの意味で小さい解を求める。&lt;/li&gt;
-&lt;li&gt;なぜ、IRLS と LMS アルゴリズムを結びつける研究がないのか。IRLS の逐次適用によってもフィルタ係数を更新していけそうだけど。試してみるし、類似研究が無いか引き続き調べる。&lt;/li&gt;
+&lt;li&gt;そこで出てきたsupergradient（優勾配？劣勾配に対応している？）がよくわからん。資料のすぐ下に解説があったけど。 &lt;a class="reference external" href="http://www.its.caltech.edu/~kcborder/Notes/Supergrad.pdf"&gt;Supergradients&lt;/a&gt; に定義はあったけど幾何学的イメージが欲しい。&lt;/li&gt;
+&lt;li&gt;Weiszfeld Algorithmsという幾何中央値を求めるアルゴリズムは &lt;a class="reference external" href="http://users.cecs.anu.edu.au/~trumpf/pubs/aftab_hartley_trumpf_PAMI2014.pdf"&gt;Generalized Weiszfeld Algorithms for Lq Optimization&lt;/a&gt; に解説あり。しかしこの論文いいこと言ってる。「Generalized Weiszfeld Algorithms」は圧縮センシングとは異なりスパース表現を求めるわけではない。スパース性は担保されなくても、よりL1ノルムの意味で小さい解を求める。&lt;/li&gt;
+&lt;li&gt;なぜ、IRLSとLMSアルゴリズムを結びつける研究がないのか。IRLSの逐次適用によってもフィルタ係数を更新していけそうだけど。試してみるし、類似研究が無いか引き続き調べる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;『スパースモデリング』の 5 章にも記述はある。しかし残差の L1 最小化ではない。&lt;/p&gt;
-</content><category term="雑記"></category><category term="LAD"></category><category term="IRLS"></category><category term="L1ノルム"></category></entry><entry><title>LAD(Least Absolute Deviation)</title><link href="/ladleast-absolute-deviation.html" rel="alternate"></link><published>2020-04-17T23:00:00+09:00</published><updated>2020-04-17T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-17:/ladleast-absolute-deviation.html</id><summary type="html">&lt;p&gt;LAD(Least Absolute Deviation) を見ている。これは、残差を L1 ノルムにした回帰問題一般のこと。&lt;/p&gt;
+&lt;p&gt;『スパースモデリング』の5章にも記述はある。しかし残差のL1最小化ではない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="LAD"></category><category term="IRLS"></category><category term="L1ノルム"></category></entry><entry><title>LAD(Least Absolute Deviation)</title><link href="/ladleast-absolute-deviation.html" rel="alternate"></link><published>2020-04-17T23:00:00+09:00</published><updated>2020-04-17T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-17:/ladleast-absolute-deviation.html</id><summary type="html">&lt;p&gt;LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; が結構まとまっている。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf"&gt;最尤推定による近似的手法&lt;/a&gt; は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4 時間飛ばす。&lt;/p&gt;
+&lt;p&gt;ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4時間飛ばす。&lt;/p&gt;
 &lt;div class="figure"&gt;
-&lt;img alt=" 最尤推定の計算のあがき " src="./images/IMG_3828.jpg" style="width: 40%;" /&gt;
+&lt;img alt="最尤推定の計算のあがき" src="./images/IMG_3828.jpg" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;最尤推定の計算のあがき&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習を L1 にしているやつが、やっぱりいた。&lt;/p&gt;
+&lt;p&gt;あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習をL1にしているやつが、やっぱりいた。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://winsty.net/papers/onndl.pdf"&gt;Online Robust Non-negative Dictionary Learning for Visual Tracking&lt;/a&gt; パーティクルフィルターを使っておる。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;上の文献で使ってる Huber Loss …&lt;/p&gt;</summary><content type="html">&lt;p&gt;LAD(Least Absolute Deviation) を見ている。これは、残差を L1 ノルムにした回帰問題一般のこと。&lt;/p&gt;
+&lt;p&gt;上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust Huber adaptive filter」だけど中身を読めず …&lt;/p&gt;</summary><content type="html">&lt;p&gt;LAD(Least Absolute Deviation)を見ている。これは、残差をL1ノルムにした回帰問題一般のこと。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; が結構まとまっている。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/81785239.pdf"&gt;最尤推定による近似的手法&lt;/a&gt; は軽く読んだ。各傾きと切片を固定して逐次更新していく。更新時は中央値を拾ってくる。うーん中央値だと高速推定が厳しい。。。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4 時間飛ばす。&lt;/p&gt;
+&lt;p&gt;ラプラス分布の最尤推定しようとしてもがく。対数尤度とって見てみても、単純な絶対値和が出て止まるし、反復スケーリング法を参考に、パラメータの増分を加えた時の対数尤度の下限を求めようとしたが上手く行かず。4時間飛ばす。&lt;/p&gt;
 &lt;div class="figure"&gt;
-&lt;img alt=" 最尤推定の計算のあがき " src="./images/IMG_3828.jpg" style="width: 40%;" /&gt;
+&lt;img alt="最尤推定の計算のあがき" src="./images/IMG_3828.jpg" style="width: 40%;" /&gt;
 &lt;p class="caption"&gt;最尤推定の計算のあがき&lt;/p&gt;
 &lt;/div&gt;
-&lt;p&gt;あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習を L1 にしているやつが、やっぱりいた。&lt;/p&gt;
+&lt;p&gt;あがいて「A maximum likelihood approach to least absolute deviation regression」を引用している文献を漁ったら辞書学習をL1にしているやつが、やっぱりいた。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://winsty.net/papers/onndl.pdf"&gt;Online Robust Non-negative Dictionary Learning for Visual Tracking&lt;/a&gt; パーティクルフィルターを使っておる。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;上の文献で使ってる Huber Loss 結構すごくね？この誤差に基づく LMS アルゴリズムねえの？→「Robust Huber adaptive filter」だけど中身を読めず …&lt;/p&gt;
-&lt;p&gt;また、 &lt;a class="reference external" href="https://www.ml.uni-saarland.de/Lectures/CVX-SS10/ConvexOptimization-07-07-10.pdf"&gt;Convex Optimization and Modeling&lt;/a&gt; を読んでたら Huber 損失は L1 と L2 の中間的な性質を示すようで、0 に集中しなくなりそうな印象を受けた。&lt;/p&gt;
+&lt;p&gt;上の文献で使ってるHuber Loss結構すごくね？この誤差に基づくLMSアルゴリズムねえの？→「Robust Huber adaptive filter」だけど中身を読めず…&lt;/p&gt;
+&lt;p&gt;また、 &lt;a class="reference external" href="https://www.ml.uni-saarland.de/Lectures/CVX-SS10/ConvexOptimization-07-07-10.pdf"&gt;Convex Optimization and Modeling&lt;/a&gt; を読んでたらHuber損失はL1とL2の中間的な性質を示すようで、0に集中しなくなりそうな印象を受けた。&lt;/p&gt;
 </content><category term="雑記"></category><category term="LAD"></category><category term="L1ノルム"></category></entry><entry><title>LMSフィルターの挙動観察</title><link href="/lmshuirutanoju-dong-guan-cha.html" rel="alternate"></link><published>2020-04-16T23:20:00+09:00</published><updated>2020-04-16T23:20:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-16:/lmshuirutanoju-dong-guan-cha.html</id><summary type="html">&lt;p&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)&lt;/span&gt; の挙動を追いたい。色々な信号に対して、&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が十分大きいとき、0 に近づくかどうか&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が十分大きいとき、0に近づくかどうか&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;を知りたい。もし 0 に近づくならば有効な過程として解法に使える。
-しかしその前に、LMS フィルター自体の挙動を追いたい。&lt;/p&gt;
+&lt;p&gt;を知りたい。もし0に近づくならば有効な過程として解法に使える。
+しかしその前に、LMSフィルター自体の挙動を追いたい。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;残差はどの様に減る？残差の時系列は？&lt;ul&gt;
-&lt;li&gt;ステップサイズにより収束の度合い（残差の分布）が違う ...&lt;/li&gt;
+&lt;li&gt;ステップサイズにより収束の度合い（残差の分布）が違う...&lt;/li&gt;
 &lt;li&gt;当然、フィルタ次数でも収束の度合い（残差の分布）が違う&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;残差分布はどうなってる？Signed-LMS でラプラス分布に近づいてる？&lt;ul&gt;
-&lt;li&gt;これは本当のようで、Signed-LMS の方が裾が細い残差分布が得られている。&lt;/li&gt;
-&lt;li&gt;単純な正弦波に対しては LMS のほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的に SignLMS の方が性能が良い（残差のヒストグラムを見ると、裾が狭い）&lt;/li&gt;
+&lt;li&gt;残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？&lt;ul&gt;
+&lt;li&gt;これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。&lt;/li&gt;
+&lt;li&gt;単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n …&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)&lt;/span&gt; の挙動を追いたい。色々な信号に対して、&lt;/p&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)&lt;/span&gt;, &lt;span class="math"&gt;\(\mathrm{E}[e(n)x(n-m)]\)&lt;/span&gt; は両方とも0。&lt;ul&gt;
+&lt;li&gt;逐次計算していったら …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)&lt;/span&gt; の挙動を追いたい。色々な信号に対して、&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が十分大きいとき、0 に近づくかどうか&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(m\)&lt;/span&gt; が十分大きいとき、0に近づくかどうか&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;を知りたい。もし 0 に近づくならば有効な過程として解法に使える。
-しかしその前に、LMS フィルター自体の挙動を追いたい。&lt;/p&gt;
+&lt;p&gt;を知りたい。もし0に近づくならば有効な過程として解法に使える。
+しかしその前に、LMSフィルター自体の挙動を追いたい。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;残差はどの様に減る？残差の時系列は？&lt;ul&gt;
-&lt;li&gt;ステップサイズにより収束の度合い（残差の分布）が違う ...&lt;/li&gt;
+&lt;li&gt;ステップサイズにより収束の度合い（残差の分布）が違う...&lt;/li&gt;
 &lt;li&gt;当然、フィルタ次数でも収束の度合い（残差の分布）が違う&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;残差分布はどうなってる？Signed-LMS でラプラス分布に近づいてる？&lt;ul&gt;
-&lt;li&gt;これは本当のようで、Signed-LMS の方が裾が細い残差分布が得られている。&lt;/li&gt;
-&lt;li&gt;単純な正弦波に対しては LMS のほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的に SignLMS の方が性能が良い（残差のヒストグラムを見ると、裾が狭い）&lt;/li&gt;
+&lt;li&gt;残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？&lt;ul&gt;
+&lt;li&gt;これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。&lt;/li&gt;
+&lt;li&gt;単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)&lt;/span&gt;, &lt;span class="math"&gt;\(\mathrm{E}[e(n)x(n-m)]\)&lt;/span&gt; は両方とも 0。&lt;ul&gt;
-&lt;li&gt;逐次計算していったら、音源非依存で 0 に近づいていく&lt;/li&gt;
-&lt;li&gt;当然だよな … そもそもの過程として入力と雑音は無相関と仮定しているのだから。&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)&lt;/span&gt;, &lt;span class="math"&gt;\(\mathrm{E}[e(n)x(n-m)]\)&lt;/span&gt; は両方とも0。&lt;ul&gt;
+&lt;li&gt;逐次計算していったら、音源非依存で0に近づいていく&lt;/li&gt;
+&lt;li&gt;当然だよな…そもそもの過程として入力と雑音は無相関と仮定しているのだから。&lt;ul&gt;
 &lt;li&gt;仮定しているのだからは正しくなくて、無相関にするようにフィルタ係数を更新しているが正しい。&lt;/li&gt;
-&lt;li&gt;無相関になったときに勾配が 0 で最急勾配法が止まる。&lt;/li&gt;
+&lt;li&gt;無相関になったときに勾配が0で最急勾配法が止まる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;なんか絶対値誤差最小化ってどっかで見たよな … と思っていたら、&lt;ul&gt;
+&lt;li&gt;なんか絶対値誤差最小化ってどっかで見たよな…と思っていたら、&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Least_absolute_deviations"&gt;https://en.wikipedia.org/wiki/Least_absolute_deviations&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;修士のときに一回戦っていた。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=1&amp;amp;ved=2ahUKEwi4wZXEhe3oAhUZMd4KHZrzDqQQFjAAegQIARAB&amp;amp;url=https%3A%2F%2Fis.cuni.cz%2Fwebapps%2Fzzp%2Fdownload%2F130215341&amp;amp;usg=AOvVaw3Cxgr7_WLuDQqhL1aKQl9f"&gt;カレル大学卒論&lt;/a&gt; が結構まとまっている。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;span class="math"&gt;\(L_{1}\)&lt;/span&gt; ノルム最小化を近接オペレータの繰り返し適用で解けんじゃね？と思っている&lt;ul&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://yamagensakam.hatenablog.com/entry/2018/02/14/075106"&gt;近接勾配法と proximal operator&lt;/a&gt; を読んだが、パラメータ正則化だけだな&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://yamagensakam.hatenablog.com/entry/2018/02/14/075106"&gt;近接勾配法とproximal operator&lt;/a&gt; を読んだが、パラメータ正則化だけだな&lt;/li&gt;
 &lt;li&gt;パラメータ正則化はあるけど、残差をスパースにするのがない。なんで？&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
@@ -3617,13 +3812,13 @@ w_{1} \left[
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="LMS Algorithm"></category></entry><entry><title>続・古いロスレス音声コーデックの調査</title><link href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html" rel="alternate"></link><published>2020-04-10T23:18:00+09:00</published><updated>2020-04-10T23:18:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-10:/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html</id><content type="html">&lt;p&gt;古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった :&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="LMS"></category><category term="LMS Algorithm"></category></entry><entry><title>続・古いロスレス音声コーデックの調査</title><link href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html" rel="alternate"></link><published>2020-04-10T23:18:00+09:00</published><updated>2020-04-10T23:18:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-10:/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html</id><content type="html">&lt;p&gt;古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.eie.polyu.edu.hk/~enyhchan/ce_ac_p1.pdf"&gt;Lossless Compression of Digital Audio&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;理論としてもその通りだし、雑誌発行時点 (1998) からさしたるブレークスルーが無いように見える。&lt;/p&gt;
-&lt;p&gt;AudioPak, OggSquish, Philips, Sonarc, WA という謎のコーデック現る …。いったい何個あるんだ。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Lossless Audio"></category><category term="ロスレス音声"></category></entry><entry><title>古いロスレス音声コーデックの調査/スパース適応フィルタ</title><link href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html" rel="alternate"></link><published>2020-04-08T16:45:00+09:00</published><updated>2020-04-08T23:45:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-08:/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html</id><summary type="html">&lt;p&gt;ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが &lt;a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison"&gt;Hydrogenaudio での比較&lt;/a&gt; よりも古い内容を扱っている。&lt;/p&gt;
+&lt;p&gt;理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。&lt;/p&gt;
+&lt;p&gt;AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio"></category><category term="ロスレス音声"></category></entry><entry><title>古いロスレス音声コーデックの調査/スパース適応フィルタ</title><link href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html" rel="alternate"></link><published>2020-04-08T16:45:00+09:00</published><updated>2020-04-08T23:45:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-08:/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html</id><summary type="html">&lt;p&gt;ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが &lt;a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison"&gt;Hydrogenaudioでの比較&lt;/a&gt; よりも古い内容を扱っている。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html"&gt;Lossless Compression of Audio&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -3632,25 +3827,26 @@ w_{1} \left[
 &lt;h2&gt;古めのロスレス音声コーデック&lt;/h2&gt;
 &lt;div class="section" id="rkau-rk-audio"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/rkau.php"&gt;RKAU(RK Audio)&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;古い比較において優秀な圧縮率を誇っていた。当時の Monkey's Audio よりも上。サイトを覗いたら exe と dll のみの配布だった。&lt;/p&gt;
+&lt;p&gt;古い比較において優秀な圧縮率を誇っていた。当時のMonkey's Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html"&gt;RKAU のホームページ（魚拓）&lt;/a&gt; を見ても特に情報なし。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html"&gt;RKAUのホームページ（魚拓）&lt;/a&gt; を見ても特に情報なし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="audiozip"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/audiozip.php"&gt;AudioZip&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;これも圧縮率が比較的優秀。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm"&gt;AudioZip のホームページ（魚拓）&lt;/a&gt; を見てもこちらも特に情報なし。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm"&gt;AudioZipのホームページ（魚拓）&lt;/a&gt; を見てもこちらも特に情報なし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="wavarc"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/wavarc/0readme.html"&gt;WavArc&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;こちらも最大圧縮率 (-c5) を選択するとそれなりに優秀な結果を出していた。このページに exe とドキュメントをまとめた zip もあり。&lt;/p&gt;
+&lt;p&gt;こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="wavezip"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/wavezip.php"&gt;WaveZip&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;圧縮率よりは速度重視のコーデックのようだ …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが &lt;a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison"&gt;Hydrogenaudio での比較&lt;/a&gt; よりも古い内容を扱っている。&lt;/p&gt;
+&lt;p&gt;圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 &lt;a class="reference external" href="https://www.rarewares.org/rrw/files/lossless/musi_txt.txt"&gt;WaveZipのデータシート&lt;/a&gt; によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#wavezip"&gt;WaveZipの概要&lt;/a&gt; が比較サイトに掲載されていた。どうやら …&lt;/p&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが &lt;a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison"&gt;Hydrogenaudioでの比較&lt;/a&gt; よりも古い内容を扱っている。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html"&gt;Lossless Compression of Audio&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -3659,96 +3855,84 @@ w_{1} \left[
 &lt;h2&gt;古めのロスレス音声コーデック&lt;/h2&gt;
 &lt;div class="section" id="rkau-rk-audio"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/rkau.php"&gt;RKAU(RK Audio)&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;古い比較において優秀な圧縮率を誇っていた。当時の Monkey's Audio よりも上。サイトを覗いたら exe と dll のみの配布だった。&lt;/p&gt;
+&lt;p&gt;古い比較において優秀な圧縮率を誇っていた。当時のMonkey's Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html"&gt;RKAU のホームページ（魚拓）&lt;/a&gt; を見ても特に情報なし。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html"&gt;RKAUのホームページ（魚拓）&lt;/a&gt; を見ても特に情報なし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="audiozip"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/audiozip.php"&gt;AudioZip&lt;/a&gt;&lt;/h3&gt;
 &lt;p&gt;これも圧縮率が比較的優秀。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm"&gt;AudioZip のホームページ（魚拓）&lt;/a&gt; を見てもこちらも特に情報なし。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm"&gt;AudioZipのホームページ（魚拓）&lt;/a&gt; を見てもこちらも特に情報なし。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="wavarc"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/wavarc/0readme.html"&gt;WavArc&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;こちらも最大圧縮率 (-c5) を選択するとそれなりに優秀な結果を出していた。このページに exe とドキュメントをまとめた zip もあり。&lt;/p&gt;
+&lt;p&gt;こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="wavezip"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/wavezip.php"&gt;WaveZip&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 &lt;a class="reference external" href="https://www.rarewares.org/rrw/files/lossless/musi_txt.txt"&gt;WaveZip のデータシート&lt;/a&gt; によると符号化には LZ(Lampel-Ziv) を使用しているようだ。&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#wavezip"&gt;WaveZip の概要&lt;/a&gt; が比較サイトに掲載されていた。どうやら、入力波形を近似波形と誤差波形に分けて符号化するようだ。WaveZip では Hu&lt;/p&gt;
+&lt;p&gt;圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 &lt;a class="reference external" href="https://www.rarewares.org/rrw/files/lossless/musi_txt.txt"&gt;WaveZipのデータシート&lt;/a&gt; によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#wavezip"&gt;WaveZipの概要&lt;/a&gt; が比較サイトに掲載されていた。どうやら、入力波形を近似波形と誤差波形に分けて符号化するようだ。WaveZipではHu&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="lpac-ltac"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://www.rarewares.org/rrw/lpac.php"&gt;LPAC/LTAC&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;LPAC は MPEG4-ALS の前身。LPAC の前身が LTAC。LPAC の平均的な圧縮率は優秀なようだ。 &lt;a class="reference external" href="https://web.archive.org/web/20060213124711/http://www.nue.tu-berlin.de/wer/liebchen/lpac.html"&gt;LPAC（魚拓）&lt;/a&gt; に以前公開していたサイトあり。&lt;/p&gt;
-&lt;p&gt;LTAC(Lossless Transform Audio Compression) は名前の通り変換符号化に基づくロスレス音声圧縮コーデック、LPAC(Lossless Predictive Audio Compression) は予測に基づくロスレス音声圧縮コーデック。&lt;/p&gt;
-&lt;p&gt;LPAC に ベルリン工科大学、Real Networks、NTT の改良が加わって MPEG4-ALS が出来上がり、それ以降 LPAC の開発は停止されている。この経緯については &lt;a class="reference external" href="https://web.archive.org/web/20060212123059/http://www.nue.tu-berlin.de/forschung/projekte/lossless/mp4als.html"&gt;MPEG4-ALS（魚拓）&lt;/a&gt; に記述あり。&lt;/p&gt;
+&lt;p&gt;LPACはMPEG4-ALSの前身。LPACの前身がLTAC。LPACの平均的な圧縮率は優秀なようだ。 &lt;a class="reference external" href="https://web.archive.org/web/20060213124711/http://www.nue.tu-berlin.de/wer/liebchen/lpac.html"&gt;LPAC（魚拓）&lt;/a&gt; に以前公開していたサイトあり。&lt;/p&gt;
+&lt;p&gt;LTAC(Lossless Transform Audio Compression)は名前の通り変換符号化に基づくロスレス音声圧縮コーデック、LPAC(Lossless Predictive Audio Compression)は予測に基づくロスレス音声圧縮コーデック。&lt;/p&gt;
+&lt;p&gt;LPACに ベルリン工科大学、Real Networks、NTT の改良が加わってMPEG4-ALSが出来上がり、それ以降LPACの開発は停止されている。この経緯については &lt;a class="reference external" href="https://web.archive.org/web/20060212123059/http://www.nue.tu-berlin.de/forschung/projekte/lossless/mp4als.html"&gt;MPEG4-ALS（魚拓）&lt;/a&gt; に記述あり。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="shorten"&gt;
 &lt;h3&gt;&lt;a class="reference external" href="https://archive.is/Z8k97"&gt;Shorten（魚拓）&lt;/a&gt;&lt;/h3&gt;
-&lt;p&gt;おそらくロスレス音声の最古参にして基礎。なんと執筆時点（2020-04-08）でも &lt;tt class="docutils literal"&gt;brew&lt;/tt&gt; でインストールできた（ &lt;a class="reference external" href="https://linux.die.net/man/1/shorten"&gt;Shorten の man ページ&lt;/a&gt; もあるから各 Linux ディストリビューションで使えるものと想像する）。エンコード速度はピカイチ。&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=9797AA37C32F12179AF0803D8C2B22D2?doi=10.1.1.53.7337&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Shorten の論文&lt;/a&gt; （テクニカルレポート）もある。この論文で、今のロスレス音声につながる重要な事実に幾つか触れている。&lt;/p&gt;
+&lt;p&gt;おそらくロスレス音声の最古参にして基礎。なんと執筆時点（2020-04-08）でも &lt;tt class="docutils literal"&gt;brew&lt;/tt&gt; でインストールできた（ &lt;a class="reference external" href="https://linux.die.net/man/1/shorten"&gt;Shortenのmanページ&lt;/a&gt; もあるから各Linuxディストリビューションで使えるものと想像する）。エンコード速度はピカイチ。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download;jsessionid=9797AA37C32F12179AF0803D8C2B22D2?doi=10.1.1.53.7337&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Shortenの論文&lt;/a&gt; （テクニカルレポート）もある。この論文で、今のロスレス音声につながる重要な事実に幾つか触れている。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;音声信号は準定常（短い区間では定常とみなせる）だからブロックに分けてエンコード / デコードすべき。&lt;/li&gt;
-&lt;li&gt;音声のモデル化には線形予測 (LPC, Linear Predictive Coding) が使える。&lt;/li&gt;
+&lt;li&gt;音声信号は準定常（短い区間では定常とみなせる）だからブロックに分けてエンコード/デコードすべき。&lt;/li&gt;
+&lt;li&gt;音声のモデル化には線形予測(LPC, Linear Predictive Coding)が使える。&lt;/li&gt;
 &lt;li&gt;残差信号はガウス分布よりもラプラス分布に従っていると見える。その符号化にはライス符号を使うのが良い。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;この時点で既にラプラス分布を仮定したパラメータ設定を行っているからかなりの慧眼。他のロスレス音声コーデックは Shorten を発展させたものに過ぎないと見える。&lt;/p&gt;
+&lt;p&gt;この時点で既にラプラス分布を仮定したパラメータ設定を行っているからかなりの慧眼。他のロスレス音声コーデックはShortenを発展させたものに過ぎないと見える。&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id3"&gt;
 &lt;h2&gt;所感&lt;/h2&gt;
-&lt;p&gt;どうも 2000 年代前半までは各自でロスレス音声コーデックを作り、各自で最強を謳っていたらしい。&lt;/p&gt;
-&lt;p&gt;歴史を雑にまとめると、1994 年に Shorten の論文が出てから、それよりも圧縮率の良いもの、圧縮速度（展開速度）が早いものが開発されて混沌に突入し上記のコーデックが現れた。その後、Monkey's Audio, WavPack, FLAC, LPAC（MPEG4-ALS）が生き残り、2000 年以降は La（更新停止）, TAK, TTA, ALAC（更新停止）, WMAL(Windows Media Audio Lossless), 2010 年以降は OptimFROG が出現しているようだ。&lt;/p&gt;
-&lt;p&gt;気になるのは比較サイトの &lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#rice"&gt;Rice Coding, AKA Rice Packing, Elias Gamma codes and other approaches&lt;/a&gt; である。Rice 符号よりも効率の良いとされる Pod 符号の紹介がある。要観察。&lt;/p&gt;
+&lt;p&gt;どうも2000年代前半までは各自でロスレス音声コーデックを作り、各自で最強を謳っていたらしい。&lt;/p&gt;
+&lt;p&gt;歴史を雑にまとめると、1994年にShortenの論文が出てから、それよりも圧縮率の良いもの、圧縮速度（展開速度）が早いものが開発されて混沌に突入し上記のコーデックが現れた。その後、Monkey's Audio, WavPack, FLAC, LPAC（MPEG4-ALS）が生き残り、2000年以降はLa（更新停止）, TAK, TTA, ALAC（更新停止）, WMAL(Windows Media Audio Lossless), 2010年以降はOptimFROGが出現しているようだ。&lt;/p&gt;
+&lt;p&gt;気になるのは比較サイトの &lt;a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#rice"&gt;Rice Coding, AKA Rice Packing, Elias Gamma codes and other approaches&lt;/a&gt; である。Rice符号よりも効率の良いとされるPod符号の紹介がある。要観察。&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id14"&gt;
 &lt;h2&gt;スパース適応フィルタ&lt;/h2&gt;
-&lt;p&gt;LPC の定式化をスパースにする試みは多くなされている。&lt;/p&gt;
+&lt;p&gt;LPCの定式化をスパースにする試みは多くなされている。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf"&gt;Sparse Modeling for Lossless Audio Compression&lt;/a&gt; : Ghido さん（OptimFROG の人）の試み&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf"&gt;Sparse Modeling for Lossless Audio Compression&lt;/a&gt; : Ghidoさん（OptimFROGの人）の試み&lt;ul&gt;
 &lt;li&gt;貪欲法によりスパース解を求めている。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/71/11/71_KJ00010109335/_pdf/-char/ja"&gt;スパース表現に基づく音声音響符号化&lt;/a&gt; : NTT の試み&lt;ul&gt;
-&lt;li&gt;最小二乗解を求めるのではなく L1 最小化に置き換えた定式化を行う。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/71/11/71_KJ00010109335/_pdf/-char/ja"&gt;スパース表現に基づく音声音響符号化&lt;/a&gt; : NTTの試み&lt;ul&gt;
+&lt;li&gt;最小二乗解を求めるのではなくL1最小化に置き換えた定式化を行う。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;でも、TTA がやっているような適応フィルタをスパース解に近づける手法はまだロスレス音声に対してやっていないように見える。
-スパースな解を目指してフィルタ係数を更新する適応フィルタはスパース適応フィルタ (Sparse Adaptive Filters) というようで、2000 年代以降に研究が進んでいるようだ。&lt;/p&gt;
-&lt;p&gt;最も基本的な適応フィルタである LMS(Least Mean Square) フィルタは名前の通り二乗誤差最小化に立脚している。
+&lt;p&gt;でも、TTAがやっているような適応フィルタをスパース解に近づける手法はまだロスレス音声に対してやっていないように見える。
+スパースな解を目指してフィルタ係数を更新する適応フィルタはスパース適応フィルタ(Sparse Adaptive Filters)というようで、2000年代以降に研究が進んでいるようだ。&lt;/p&gt;
+&lt;p&gt;最も基本的な適応フィルタであるLMS(Least Mean Square)フィルタは名前の通り二乗誤差最小化に立脚している。
 スパース適応フィルタの主な用途はエコーキャンセル、ブラインド話者分離、複数話者特定ではあるが、やはり変換後の分布がスパースになるというのは大きい。&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="http://signal.ee.bilkent.edu.tr/defevent/papers/cr1256.pdf"&gt;スパース適応フィルタの最近のサーベイ論文&lt;/a&gt; を流し読みした。スパース適応フィルタは、変数更新のときに 1 部の変数だけ更新する方法と、スパース最適化に従って更新するやり方の 2 つがあった。PNLMS(Proportionate NLMS), IPNLMS(Improved PNLMS) が後者の定式化で興味あり。引き続き見ていく。&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1012.5066.pdf"&gt;Regularized Least-Mean-Square Algorithms&lt;/a&gt; には正則化を入れた LMS アルゴリズムの解説あり。LASSO にモチベーションを受けた最適化アルゴリズムが &lt;a class="reference external" href="https://wiki.eecs.umich.edu/global/data/hero/images/7/7b/Yilun-icassp2-09.pdf"&gt;ZA-LMS&lt;/a&gt; や &lt;a class="reference external" href="http://azadproject.ir/wp-content/uploads/2017/01/2018-Online-Sparse-System-Identification-and-Signal-Reconstruction-Using-Projections-.pdf"&gt;APWL1&lt;/a&gt; として提案されている。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://signal.ee.bilkent.edu.tr/defevent/papers/cr1256.pdf"&gt;スパース適応フィルタの最近のサーベイ論文&lt;/a&gt; を流し読みした。スパース適応フィルタは、変数更新のときに1部の変数だけ更新する方法と、スパース最適化に従って更新するやり方の2つがあった。PNLMS(Proportionate NLMS), IPNLMS(Improved PNLMS)が後者の定式化で興味あり。引き続き見ていく。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1012.5066.pdf"&gt;Regularized Least-Mean-Square Algorithms&lt;/a&gt; には正則化を入れたLMSアルゴリズムの解説あり。LASSOにモチベーションを受けた最適化アルゴリズムが &lt;a class="reference external" href="https://wiki.eecs.umich.edu/global/data/hero/images/7/7b/Yilun-icassp2-09.pdf"&gt;ZA-LMS&lt;/a&gt; や &lt;a class="reference external" href="http://azadproject.ir/wp-content/uploads/2017/01/2018-Online-Sparse-System-Identification-and-Signal-Reconstruction-Using-Projections-.pdf"&gt;APWL1&lt;/a&gt; として提案されている。&lt;/p&gt;
 &lt;/div&gt;
-</content><category term="雑記"></category><category term="SLA"></category><category term="Lossless Audio"></category><category term="ロスレス音声"></category><category term="スパース符号化"></category></entry><entry><title>ブログ導入</title><link href="/burogudao-ru.html" rel="alternate"></link><published>2020-04-02T18:00:00+09:00</published><updated>2020-04-02T21:34:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-02:/burogudao-ru.html</id><summary type="html">&lt;p&gt;GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
-GitHub io + Pelican は以下の記事を参考にしている。まだあんまり分かってない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="SLA"></category><category term="Lossless Audio"></category><category term="ロスレス音声"></category><category term="スパース符号化"></category></entry><entry><title>ブログ導入</title><link href="/burogudao-ru.html" rel="alternate"></link><published>2020-04-02T18:00:00+09:00</published><updated>2020-04-02T21:34:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-04-02:/burogudao-ru.html</id><content type="html">&lt;p&gt;GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
+GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d"&gt;Python 製静的 HTML ジェネレータの Pelican で GitHub Pages を公開する方法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514"&gt;GitHub Pages で静的サイトを簡単に作る&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d"&gt;Python 製 Pelican を使ってサクッとブログを公開する&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.pelicanthemes.com"&gt;Pelican のテーマ集&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986"&gt;テーマ導入時にハマったので参考にした issue comment&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d"&gt;Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514"&gt;GitHub Pagesで静的サイトを簡単に作る&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d"&gt;Python製 Pelican を使ってサクッとブログを公開する&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.pelicanthemes.com"&gt;Pelicanのテーマ集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986"&gt;テーマ導入時にハマったので参考にしたissue comment&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;今日は（というか 3 月末）から SLA の高速化作業とまとめをしていた。&lt;/p&gt;
-&lt;p&gt;格子型フィルタ演算はどうしても 1 乗算型にできず。次数演算を 4 次数にして SSE 演算するのがやっと。
-SSE 化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
-&lt;a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions"&gt;StackOverFlow …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
-GitHub io + Pelican は以下の記事を参考にしている。まだあんまり分かってない。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d"&gt;Python 製静的 HTML ジェネレータの Pelican で GitHub Pages を公開する方法&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514"&gt;GitHub Pages で静的サイトを簡単に作る&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d"&gt;Python 製 Pelican を使ってサクッとブログを公開する&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.pelicanthemes.com"&gt;Pelican のテーマ集&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986"&gt;テーマ導入時にハマったので参考にした issue comment&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;今日は（というか 3 月末）から SLA の高速化作業とまとめをしていた。&lt;/p&gt;
-&lt;p&gt;格子型フィルタ演算はどうしても 1 乗算型にできず。次数演算を 4 次数にして SSE 演算するのがやっと。
-SSE 化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
-&lt;a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions"&gt;StackOverFlow の記事&lt;/a&gt; では &lt;cite&gt;_mm_set_epi32&lt;/cite&gt; のコストが高い旨記述あり。 &lt;cite&gt;_mm_loadu_si128&lt;/cite&gt; の使用に置き換えた。
-&lt;a class="reference external" href="https://stackoverflow.com/questions/24446516/performance-worsens-when-using-sse-simple-addition-of-integer-arrays"&gt;他の記事&lt;/a&gt; で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は 4/5 倍になった。あんまり早くなっていない。遺憾。&lt;/p&gt;
-&lt;p&gt;&lt;a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html"&gt;gcc と VC&lt;/a&gt; には gcc と Visual Studio の挙動の差異について色々と書いてあった。&lt;/p&gt;
+&lt;p&gt;今日は（というか3月末）からSLAの高速化作業とまとめをしていた。&lt;/p&gt;
+&lt;p&gt;格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。
+SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
+&lt;a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions"&gt;StackOverFlowの記事&lt;/a&gt; では &lt;cite&gt;_mm_set_epi32&lt;/cite&gt; のコストが高い旨記述あり。 &lt;cite&gt;_mm_loadu_si128&lt;/cite&gt; の使用に置き換えた。
+&lt;a class="reference external" href="https://stackoverflow.com/questions/24446516/performance-worsens-when-using-sse-simple-addition-of-integer-arrays"&gt;他の記事&lt;/a&gt; で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html"&gt;gccとVC&lt;/a&gt; にはgccとVisual Studioの挙動の差異について色々と書いてあった。&lt;/p&gt;
 </content><category term="雑記"></category><category term="SLA"></category><category term="SSE"></category><category term="test"></category><category term="pelican"></category><category term="githubio"></category></entry></feed>
