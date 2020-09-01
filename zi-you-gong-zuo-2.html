@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>ADPCM - Aiki's Blog</title>
+    <title>自由工作(2) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,16 +9,21 @@
 
 
 
+<link rel="canonical" href="/zi-you-gong-zuo-2.html">
 
-    <meta name="author" content="aiki" />
-    <meta name="keywords" content="ADPCM" />
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="ADPCM" />
+        <meta name="description" content="ADPCMのデコードはほぼできた。次はエンコード。 いろんなソース見とるが、予測時に分岐しまくるのやばくね？とおもってたらそのとおりで、ffmpeg実装は乗算を使ってる: ffmpegの実装（adpcm_ima_expand_nibble） ffmpegのエンコーダ実装(adpcm_ima_compress_sample) static inline int16_t adpcm_ima_expand_nibble(ADPCMChannelStatus *c, int8_t nibble, int shift) { int step_index; int predictor; int sign, delta, diff, step; step = ff_adpcm_step_table[c-&gt;step_index]; step_index = c-&gt;step_index + ff_adpcm_index_table[(unsigned)nibble]; step_index = av_clip(step_index, 0, 88); sign = nibble &amp; 8; delta = nibble &amp; 7 …" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Aiki's Blog" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Aiki's Blog"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="Aiki's Blog"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="自由工作(2)"/>
+        <meta property="og:url" content="/zi-you-gong-zuo-2.html"/>
+        <meta property="og:description" content="ADPCMのデコードはほぼできた。次はエンコード。 いろんなソース見とるが、予測時に分岐しまくるのやばくね？とおもってたらそのとおりで、ffmpeg実装は乗算を使ってる: ffmpegの実装（adpcm_ima_expand_nibble） ffmpegのエンコーダ実装(adpcm_ima_compress_sample) static inline int16_t adpcm_ima_expand_nibble(ADPCMChannelStatus *c, int8_t nibble, int shift) { int step_index; int predictor; int sign, delta, diff, step; step = ff_adpcm_step_table[c-&gt;step_index]; step_index = c-&gt;step_index + ff_adpcm_index_table[(unsigned)nibble]; step_index = av_clip(step_index, 0, 88); sign = nibble &amp; 8; delta = nibble &amp; 7 …"/>
+        <meta property="article:published_time" content="2020-08-31" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="ADPCM" />
+            <meta property="article:author" content="aiki" />
 
 
 
@@ -33,7 +38,8 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
 </head>
 <body>
 
@@ -57,7 +63,7 @@ Aiki's Blog            </a>
                         <li >
                             <a href="/category/shi-yan.html">実験</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -80,9 +86,36 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="/zi-you-gong-zuo-2.html">自由工作(2)</a></h2>
-                <div class="summary"><p>ADPCMのデコードはほぼできた。次はエンコード。</p>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/zi-you-gong-zuo-2.html"
+                       rel="bookmark"
+                       title="Permalink to 自由工作(2)">
+                        自由工作(2)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-08-31T10:00:00+09:00"> Mon 31 August 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/adpcm.html">ADPCM</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>ADPCMのデコードはほぼできた。次はエンコード。</p>
 <p>いろんなソース見とるが、予測時に分岐しまくるのやばくね？とおもってたらそのとおりで、ffmpeg実装は乗算を使ってる:</p>
 <ul class="simple">
 <li><a class="reference external" href="https://www.ffmpeg.org/doxygen/trunk/adpcm_8c_source.html">ffmpegの実装（adpcm_ima_expand_nibble）</a></li>
@@ -99,76 +132,53 @@ Aiki's Blog            </a>
     <span class="n">step_index</span> <span class="o">=</span> <span class="n">av_clip</span><span class="p">(</span><span class="n">step_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">88</span><span class="p">);</span>
 
     <span class="n">sign</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">8</span><span class="p">;</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">7 …</span></pre></div>
-                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zi-you-gong-zuo-1.html">自由工作(1)</a></h2>
-                <div class="summary"><p>まずはIMA-ADPCM互換のデコーダ/エンコーダを作ってみますかね。かなり情報あるし。
-FFMPEGで出力する方法は:</p>
-<p>ffmpeg -i &lt;input.wav&gt; -f wav -acodec adpcm_ima_wav &lt;output.wav&gt;</p>
-<p>Macで再生もできた。ほぼ1/4になる。理論的には1/4だけどwavに余計なチャンクが入っているから減っている？</p>
-<p>ステレオ以上はどうなってるのか見ている。インターリーブしているようだ。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://wiki.multimedia.cx/index.php?title=Microsoft_IMA_ADPCM">Microsoft IMA ADPCM</a></li>
-</ul>
-<p>上記のサイト含めてフォーマットをまとめると（ <strong>全て</strong> リトルエンディアン）</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="25%" />
-<col width="12%" />
-<col width="63%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">名前</th>
-<th class="head">サイズ[byte]</th>
-<th class="head">内容</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>RIFFチャンクID</td>
-<td>4</td>
-<td>'R', 'I', 'F', 'F'</td>
-</tr>
-<tr><td>RIFFチャンクサイズ</td>
-<td>4</td>
-<td>ファイルサイズ - 8（これ以降の残りファイルサイズ）</td>
-</tr>
-<tr><td>ファイルフォーマットタイプ</td>
-<td>4</td>
-<td>'W', 'A', 'V', 'E'</td>
-</tr>
-<tr><td>FMTチャンクID</td>
-<td>4 …</td></tr></tbody></table>
-                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zi-you-gong-zuo.html">自由工作</a></h2>
-                <div class="summary"><p>発表会終わり。発表準備と並行して群論やってた。
-夏休みは自由工作（息抜き）としてADPCMエンコーダデコーダ作ろうかと思ってる。
-もちろん、群論（リー群まで）と情報幾何（統計的応用まで、行間のまとめ）は進める。</p>
-<p>ADPCMのフォーマットを見ている。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://forum.audacityteam.org/viewtopic.php?t=10950">IMA ADPCM vs MS ADPCM</a></li>
-<li><a class="reference external" href="https://wiki.multimedia.cx/index.php/Microsoft_ADPCM">Microsoft ADPCM</a></li>
-<li><a class="reference external" href="https://wiki.multimedia.cx/index.php/IMA_ADPCM">IMA ADPCM</a></li>
-<li><a class="reference external" href="https://wiki.multimedia.cx/index.php/CRI_ADX_ADPCM">CRI ADX ADPCM</a></li>
-<li><a class="reference external" href="http://www.cs.columbia.edu/~hgs/audio/dvi/IMA_ADPCM.pdf">Recommended Practices for Enhancing Digital Audio Compatibility in Multimedia Systems</a> IMA公式の推奨規格。実装も掲載されてて有益。</li>
-</ul>
-<p>MS-ADPCMかIMA-ADPCMやなあ。IMA-ADPCMの方が説明が充実している。
-そして、なんとなくステップ幅をテーブル引きするところにTAKとの類似点を感じる。
-G.726もありだがテーブル引きを使ってない。説明は「音声&amp;画像処理の常識」に書いてある。</p>
-<p>研究としてはグラフィカルLASSOの導入忘れずに。もう一度張っとく。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf">依存関係にスハ …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">7</span><span class="p">;</span>
+    <span class="cm">/* perform direct multiplication instead of series of jumps proposed by</span>
+<span class="cm">     * the reference ADPCM implementation since modern CPUs can do the mults</span>
+<span class="cm">     * quickly enough */</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="p">((</span><span class="mi">2</span> <span class="o">*</span> <span class="n">delta</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">step</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="n">shift</span><span class="p">;</span>
+    <span class="n">predictor</span> <span class="o">=</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">predictor</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">sign</span><span class="p">)</span> <span class="n">predictor</span> <span class="o">-=</span> <span class="n">diff</span><span class="p">;</span>
+    <span class="k">else</span> <span class="n">predictor</span> <span class="o">+=</span> <span class="n">diff</span><span class="p">;</span>
+
+    <span class="n">c</span><span class="o">-&gt;</span><span class="n">predictor</span> <span class="o">=</span> <span class="n">av_clip_int16</span><span class="p">(</span><span class="n">predictor</span><span class="p">);</span>
+    <span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span> <span class="o">=</span> <span class="n">step_index</span><span class="p">;</span>
+
+    <span class="k">return</span> <span class="p">(</span><span class="kt">int16_t</span><span class="p">)</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">predictor</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kr">inline</span> <span class="kt">uint8_t</span> <span class="nf">adpcm_ima_compress_sample</span><span class="p">(</span><span class="n">ADPCMChannelStatus</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span>
+                                                <span class="kt">int16_t</span> <span class="n">sample</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">delta</span>  <span class="o">=</span> <span class="n">sample</span> <span class="o">-</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">prev_sample</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">nibble</span> <span class="o">=</span> <span class="n">FFMIN</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="n">abs</span><span class="p">(</span><span class="n">delta</span><span class="p">)</span> <span class="o">*</span> <span class="mi">4</span> <span class="o">/</span>
+                       <span class="n">ff_adpcm_step_table</span><span class="p">[</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">delta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span><span class="p">;</span>
+    <span class="n">c</span><span class="o">-&gt;</span><span class="n">prev_sample</span> <span class="o">+=</span> <span class="p">((</span><span class="n">ff_adpcm_step_table</span><span class="p">[</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span><span class="p">]</span> <span class="o">*</span>
+                        <span class="n">ff_adpcm_yamaha_difflookup</span><span class="p">[</span><span class="n">nibble</span><span class="p">])</span> <span class="o">/</span> <span class="mi">8</span><span class="p">);</span>
+    <span class="n">c</span><span class="o">-&gt;</span><span class="n">prev_sample</span> <span class="o">=</span> <span class="n">av_clip_int16</span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">prev_sample</span><span class="p">);</span>
+    <span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span>  <span class="o">=</span> <span class="n">av_clip</span><span class="p">(</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span> <span class="o">+</span> <span class="n">ff_adpcm_index_table</span><span class="p">[</span><span class="n">nibble</span><span class="p">],</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">88</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">nibble</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+<p>nibbleってなんだよ・・・って思って調べたら1/2バイト(4bit)のことだった。</p>
+<p>デコーダ作って安定させてたら、AudacityとffmpegのADPCM(IMA)のデコード結果が違うことに気付く。
+原因は、Audacityを始めとした多くのコーデックでは分岐が多い近似実装になっているからだった。 <a class="reference external" href="http://web.mit.edu/ghudson/dev/nokrb/third/audiofile/libaudiofile/modules/adpcm.c">こいつ</a> が原因か。
+一方、ffmpegは近頃のCPUは十分乗算が早いからと言う理由で厳密計算している。ということで自分も厳密計算を選ぶ。</p>
+<p>もう一点、AudacityにADPCM(IMA)を突っ込むと末尾が伸びてしまう。これは末尾のブロックも同一サンプル数でデコードしているから…。
+あきらかな不具合。PR送るか、送らざるべきか…。</p>
+<p>Audacityは内部でlibsndfileを使ってるから、 <a class="reference external" href="https://github.com/erikd/libsndfile/blob/master/src/ima_adpcm.c">こっち</a> にPRを送るべき。</p>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/zi-you-gong-zuo-1.html">自由工作(1)</a></li>
+        <li><a href="/zi-you-gong-zuo.html">自由工作</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3" id="sidebar">
