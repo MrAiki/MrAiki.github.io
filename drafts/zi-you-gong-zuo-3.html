@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>続・古いロスレス音声コーデックの調査 - Aiki's Blog</title>
+    <title>自由工作(3) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,21 +9,20 @@
 
 
 
-<link rel="canonical" href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">
+<link rel="canonical" href="/drafts/zi-you-gong-zuo-3.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="Lossless Audio,ロスレス音声" />
-        <meta name="description" content="古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった: Lossless Compression of Digital Audio 理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。 AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。" />
+        <meta name="keywords" content="ADPCM" />
+        <meta name="description" content="しばらく夏休みしてた。作業再開。エンコード作成中。 ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。 休んでいる間に色々リンク見つけたからまとめてからねる。 adpcm-xq WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。 A comparison of Internet audio compression formats 音質比較 Topic: What quality measurement is best for (A)DPCM? ADPCMの評価指標について G.726 ADPCMエンコーダの詳細 本と同じ内容だけど、こっちはいつでも見れる。 信号品質を保つディジタル化技術: ノイズシェーピング量子化—I ノイズシェーピングの基礎。Ⅵまである。丁寧。 ADPCM音質改善 重要 …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="続・古いロスレス音声コーデックの調査"/>
-        <meta property="og:url" content="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html"/>
-        <meta property="og:description" content="古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった: Lossless Compression of Digital Audio 理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。 AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。"/>
-        <meta property="article:published_time" content="2020-04-10" />
+        <meta property="og:title" content="自由工作(3)"/>
+        <meta property="og:url" content="/drafts/zi-you-gong-zuo-3.html"/>
+        <meta property="og:description" content="しばらく夏休みしてた。作業再開。エンコード作成中。 ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。 休んでいる間に色々リンク見つけたからまとめてからねる。 adpcm-xq WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。 A comparison of Internet audio compression formats 音質比較 Topic: What quality measurement is best for (A)DPCM? ADPCMの評価指標について G.726 ADPCMエンコーダの詳細 本と同じ内容だけど、こっちはいつでも見れる。 信号品質を保つディジタル化技術: ノイズシェーピング量子化—I ノイズシェーピングの基礎。Ⅵまである。丁寧。 ADPCM音質改善 重要 …"/>
+        <meta property="article:published_time" content="2020-09-08" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="Lossless Audio" />
-            <meta property="article:tag" content="ロスレス音声" />
+            <meta property="article:tag" content="ADPCM" />
             <meta property="article:author" content="aiki" />
 
 
@@ -91,10 +90,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html"
+                    <a href="/drafts/zi-you-gong-zuo-3.html"
                        rel="bookmark"
-                       title="Permalink to 続・古いロスレス音声コーデックの調査">
-                        続・古いロスレス音声コーデックの調査
+                       title="Permalink to 自由工作(3)">
+                        自由工作(3)
                     </a>
                 </h1>
             </header>
@@ -104,7 +103,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-04-10T23:18:00+09:00"> Fri 10 April 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-09-08T10:00:00+09:00"> Tue 08 September 2020</time>
     </span>
 
 
@@ -112,26 +111,33 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/lossless-audio.html">Lossless Audio</a>
-        /
-	<a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+	<a href="/tag/adpcm.html">ADPCM</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった:</p>
+                <p>しばらく夏休みしてた。作業再開。エンコード作成中。
+ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。</p>
+<p>休んでいる間に色々リンク見つけたからまとめてからねる。</p>
 <ul class="simple">
-<li><a class="reference external" href="http://www.eie.polyu.edu.hk/~enyhchan/ce_ac_p1.pdf">Lossless Compression of Digital Audio</a></li>
+<li><a class="reference external" href="https://github.com/dbry/adpcm-xq">adpcm-xq</a> WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。</li>
+<li><a class="reference external" href="https://sericyb.com.au/audio.html">A comparison of Internet audio compression formats</a> 音質比較</li>
+<li><a class="reference external" href="https://hydrogenaud.io/index.php?topic=109270.0">Topic: What quality measurement is best for (A)DPCM?</a> ADPCMの評価指標について</li>
+<li><a class="reference external" href="http://www.kumikomi.net/archives/2010/07/ep22onse.php?page=5">G.726 ADPCMエンコーダの詳細</a> 本と同じ内容だけど、こっちはいつでも見れる。</li>
+<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/isciesci/61/2/61_76/_pdf/-char/en">信号品質を保つディジタル化技術: ノイズシェーピング量子化—I</a> ノイズシェーピングの基礎。Ⅵまである。丁寧。</li>
+<li><a class="reference external" href="https://kamedo2.hatenablog.jp/entry/20100812/1281640220">ADPCM音質改善</a> 重要。ノイズシェーピングの効果について書いてある。ソースもある。</li>
+<li><a class="reference external" href="http://www.a-r-tec.jp/DSADC2.pdf">ADCの動作原理</a> ADCとノイズシェーピングの必要性がわかりやすく書いてある。</li>
+<li><a class="reference external" href="https://kobaweb.ei.st.gunma-u.ac.jp/lecture/DSM_San_2008_pt02[1].pdf">AD変調器(2)</a> こちらもADCとノイズシェーピングについて記述有り。</li>
+<li><a class="reference external" href="http://graphics.stanford.edu/~seander/bithacks.html">Bit Twiddling Hacks</a> Hacker's Delightに掲載されてないのもある。</li>
 </ul>
-<p>理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。</p>
-<p>AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。</p>
 
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html">古いロスレス音声コーデックの調査/スパース適応フィルタ</a></li>
-        <li><a href="/lpclinear-predictive-coding-xian-xing-yu-ce-fu-hao-hua.html">LPC（Linear Predictive Coding, 線形予測符号化）</a></li>
+        <li><a href="/zi-you-gong-zuo-2.html">自由工作(2)</a></li>
+        <li><a href="/zi-you-gong-zuo-1.html">自由工作(1)</a></li>
+        <li><a href="/zi-you-gong-zuo.html">自由工作</a></li>
     </ul>
 </section>
         </article>
