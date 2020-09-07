@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-08-31T10:00:00+09:00</updated><entry><title>自由工作(2)</title><link href="/zi-you-gong-zuo-2.html" rel="alternate"></link><published>2020-08-31T10:00:00+09:00</published><updated>2020-08-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-08-31:/zi-you-gong-zuo-2.html</id><summary type="html">&lt;p&gt;ADPCMのデコードはほぼできた。次はエンコード。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-09-07T10:00:00+09:00</updated><entry><title>自由工作(3)</title><link href="/zi-you-gong-zuo-3.html" rel="alternate"></link><published>2020-09-07T10:00:00+09:00</published><updated>2020-09-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-07:/zi-you-gong-zuo-3.html</id><summary type="html">&lt;p&gt;しばらく夏休みしてた。作業再開。エンコード作成中。
+ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。&lt;/p&gt;
+&lt;p&gt;休んでいる間に色々リンク見つけたからまとめてからねる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/dbry/adpcm-xq"&gt;adpcm-xq&lt;/a&gt; WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://sericyb.com.au/audio.html"&gt;A comparison of Internet audio compression formats&lt;/a&gt; 音質比較&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://hydrogenaud.io/index.php?topic=109270.0"&gt;What quality measurement is best for (A)DPCM?&lt;/a&gt; ADPCMの評価指標について&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kumikomi.net/archives/2010/07/ep22onse.php?page=5"&gt;G.726 ADPCMエンコーダの詳細&lt;/a&gt; 本と同じ内容だけど、こっちはいつでも見れる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/isciesci/61/2/61_76/_pdf/-char/en"&gt;信号品質を保つディジタル化技術: ノイズシェーピング量子化—I&lt;/a&gt; ノイズシェーピングの基礎。Ⅵまである。丁寧。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://kamedo2.hatenablog.jp/entry/20100812/1281640220"&gt;ADPCM音質改善&lt;/a&gt; 重要。ノイズシェーピングの効果について書いてある …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;しばらく夏休みしてた。作業再開。エンコード作成中。
+ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。&lt;/p&gt;
+&lt;p&gt;休んでいる間に色々リンク見つけたからまとめてからねる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/dbry/adpcm-xq"&gt;adpcm-xq&lt;/a&gt; WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://sericyb.com.au/audio.html"&gt;A comparison of Internet audio compression formats&lt;/a&gt; 音質比較&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://hydrogenaud.io/index.php?topic=109270.0"&gt;What quality measurement is best for (A)DPCM?&lt;/a&gt; ADPCMの評価指標について&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kumikomi.net/archives/2010/07/ep22onse.php?page=5"&gt;G.726 ADPCMエンコーダの詳細&lt;/a&gt; 本と同じ内容だけど、こっちはいつでも見れる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/isciesci/61/2/61_76/_pdf/-char/en"&gt;信号品質を保つディジタル化技術: ノイズシェーピング量子化—I&lt;/a&gt; ノイズシェーピングの基礎。Ⅵまである。丁寧。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://kamedo2.hatenablog.jp/entry/20100812/1281640220"&gt;ADPCM音質改善&lt;/a&gt; 重要。ノイズシェーピングの効果について書いてある。ソースもある。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.a-r-tec.jp/DSADC2.pdf"&gt;ADCの動作原理&lt;/a&gt; ADCとノイズシェーピングの必要性がわかりやすく書いてある。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://kobaweb.ei.st.gunma-u.ac.jp/lecture/DSM_San_2008_pt02[1].pdf"&gt;AD変調器(2)&lt;/a&gt; こちらもADCとノイズシェーピングについて記述有り。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://graphics.stanford.edu/~seander/bithacks.html"&gt;Bit Twiddling Hacks&lt;/a&gt; Hacker's Delightに掲載されてないのもある。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(2)</title><link href="/zi-you-gong-zuo-2.html" rel="alternate"></link><published>2020-08-31T10:00:00+09:00</published><updated>2020-08-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-08-31:/zi-you-gong-zuo-2.html</id><summary type="html">&lt;p&gt;ADPCMのデコードはほぼできた。次はエンコード。&lt;/p&gt;
 &lt;p&gt;いろんなソース見とるが、予測時に分岐しまくるのやばくね？とおもってたらそのとおりで、ffmpeg実装は乗算を使ってる:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.ffmpeg.org/doxygen/trunk/adpcm_8c_source.html"&gt;ffmpegの実装（adpcm_ima_expand_nibble）&lt;/a&gt;&lt;/li&gt;
