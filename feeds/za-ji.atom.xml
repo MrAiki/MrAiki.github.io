@@ -1,5 +1,446 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-09-07T10:00:00+09:00</updated><entry><title>自由工作(3)</title><link href="/zi-you-gong-zuo-3.html" rel="alternate"></link><published>2020-09-07T10:00:00+09:00</published><updated>2020-09-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-07:/zi-you-gong-zuo-3.html</id><summary type="html">&lt;p&gt;しばらく夏休みしてた。作業再開。エンコード作成中。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-09-16T10:00:00+09:00</updated><entry><title>自由工作(10)</title><link href="/zi-you-gong-zuo-10.html" rel="alternate"></link><published>2020-09-16T10:00:00+09:00</published><updated>2020-09-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-16:/zi-you-gong-zuo-10.html</id><summary type="html">&lt;p&gt;黙々と進めた。残タスクは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;コマンドラインの整備:DONE&lt;ul&gt;
+&lt;li&gt;残差出力モードの追加(-e):DONE&lt;/li&gt;
+&lt;li&gt;統計情報出力モードの追加(-c):DONE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;テストケース追加:DONE&lt;ul&gt;
+&lt;li&gt;白色雑音入力(randで生成したものでよい):DONE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;リリース実行確認:DONE&lt;/li&gt;
+&lt;li&gt;先頭で一発空エンコードして適応を早める:DONE&lt;/li&gt;
+&lt;li&gt;コード整理&lt;ul&gt;
+&lt;li&gt;エンコーダとデコーダを分ける: DONE&lt;/li&gt;
+&lt;li&gt;ブロックデータエンコード/デコード関数が大きいので関数化: 小さくまとまったのでいいかな。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;音質向上への工夫&lt;ul&gt;
+&lt;li&gt;MS処理の再興。MS処理のスイッチオプションを追加&lt;ul&gt;
+&lt;li&gt;もう一度試してみたらRMSEが悪化していることが分かった。（BGMとアイカツ音源で調べた）&lt;/li&gt;
+&lt;li&gt;実際に聞いてみるとパチパチ言ってる。不連続点が出ている。パチパチ言ってた記憶はないので、何かがおかしい。デバッグ。&lt;ul&gt;
+&lt;li&gt;デコード時にLRに戻す前にオーバーフローしていた。&lt;/li&gt;
+&lt;li&gt;バグや。ブロックヘッダにLRが入っているが、フィルタはMSで予測していた。そらパチパチ言うわ。&lt;/li&gt;
+&lt;li&gt;パチパチは直したが、得られた結果は微妙と言わざるを得ない。最大誤差は減ってるけど、平均誤差は増大した傾向。
+オプションにしてもデフォルトでオフかなあ。&lt;/li&gt;
+&lt;li&gt;MSでうまく行かない例としては、振幅が大きい振動波で、side成分が割れている場合。（ピエトロの気絶の55秒付近）そこをADPCM化すると …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;黙々と進めた。残タスクは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;コマンドラインの整備:DONE&lt;ul&gt;
+&lt;li&gt;残差出力モードの追加(-e):DONE&lt;/li&gt;
+&lt;li&gt;統計情報出力モードの追加(-c):DONE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;テストケース追加:DONE&lt;ul&gt;
+&lt;li&gt;白色雑音入力(randで生成したものでよい):DONE&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;リリース実行確認:DONE&lt;/li&gt;
+&lt;li&gt;先頭で一発空エンコードして適応を早める:DONE&lt;/li&gt;
+&lt;li&gt;コード整理&lt;ul&gt;
+&lt;li&gt;エンコーダとデコーダを分ける: DONE&lt;/li&gt;
+&lt;li&gt;ブロックデータエンコード/デコード関数が大きいので関数化: 小さくまとまったのでいいかな。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;音質向上への工夫&lt;ul&gt;
+&lt;li&gt;MS処理の再興。MS処理のスイッチオプションを追加&lt;ul&gt;
+&lt;li&gt;もう一度試してみたらRMSEが悪化していることが分かった。（BGMとアイカツ音源で調べた）&lt;/li&gt;
+&lt;li&gt;実際に聞いてみるとパチパチ言ってる。不連続点が出ている。パチパチ言ってた記憶はないので、何かがおかしい。デバッグ。&lt;ul&gt;
+&lt;li&gt;デコード時にLRに戻す前にオーバーフローしていた。&lt;/li&gt;
+&lt;li&gt;バグや。ブロックヘッダにLRが入っているが、フィルタはMSで予測していた。そらパチパチ言うわ。&lt;/li&gt;
+&lt;li&gt;パチパチは直したが、得られた結果は微妙と言わざるを得ない。最大誤差は減ってるけど、平均誤差は増大した傾向。
+オプションにしてもデフォルトでオフかなあ。&lt;/li&gt;
+&lt;li&gt;MSでうまく行かない例としては、振幅が大きい振動波で、side成分が割れている場合。（ピエトロの気絶の55秒付近）そこをADPCM化すると、エフェクターを通したように割れてしまう。&lt;ul&gt;
+&lt;li&gt;ロスレスではないから、エンコード時にsideも右シフトすることで、sideが割れる問題は緩和した。採用。しかしMSはオプションとする（デフォルトOFF）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;振幅がでかいときに誤差が大きくなる。じゃあ、入力を1bit右シフトして、出力時に1bit左シフトしていいんじゃない。&lt;ul&gt;
+&lt;li&gt;純粋に情報量が落ちそう。試してみるが。→うん、だめ。1bitぶん何かがわからなくなるのはつらい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;NG的なアイデア入らないか？&lt;ul&gt;
+&lt;li&gt;プリエンファシスを掛けたもので勾配計算する。重いか…？&lt;/li&gt;
+&lt;li&gt;爆裂に精度悪化。とりやめ。時間切れ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;IIR的（出力）の適応: ダメだった。負荷も増えるし、やらん。&lt;/li&gt;
+&lt;li&gt;モーメンタムみたいに、前の勾配を使えないか？&lt;ul&gt;
+&lt;li&gt;やってみたが微妙。たいていRMSEが悪くなる。良くなっても劇的じゃない。&lt;/li&gt;
+&lt;li&gt;SLAのLogSignを強引に入れてみたけど良くない。&lt;/li&gt;
+&lt;li&gt;その他、残差と履歴をlog/sign化したけど芳しくなかった。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;コードを2の補数にしたい。&lt;ul&gt;
+&lt;li&gt;上位ビットを埋めるのが帰って辛いように思えた。保留。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ノイズシェーピングが芳しくない。&lt;ul&gt;
+&lt;li&gt;ちょっと考えると、品質の低いフィルター突っ込んでんのと同じに思えた。実際外すとRMSEが向上した。&lt;/li&gt;
+&lt;li&gt;廃止の方向で検討。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;負荷 instruments -t &amp;quot;Time Profiler&amp;quot; ./aad ... でいける。&lt;/li&gt;
+&lt;li&gt;今更だが、 &lt;a class="reference external" href="http://web.archive.org/web/20060818165032/http://ku-www.ss.titech.ac.jp:80/~yatsushi/adx.html"&gt;資料1&lt;/a&gt; , &lt;a class="reference external" href="https://www.ffmpeg.org/doxygen/0.6/adx_8h.html#bf98059cca648e492906344dd0873907"&gt;ffmpeg&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Macでinstrumentsが廃止されたようだ。 xcrun xctrace record --template 'Time Profiler' --target-stdout - --launch -- ./aad -e ManiMani.wav a.aad で計測を行っている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;感想・展望&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;うーん、性能が良くない。IMA-ADPCMに毛が生えた程度か。XMAみたく、ブロック区間の残差の最大振幅値を計測して割った方がええのかな。&lt;ul&gt;
+&lt;li&gt;4bitのときは、残差を max(-最小残差/8, 最大残差/7) で割れば、残差が4bit収まる。&lt;/li&gt;
+&lt;li&gt;3bitならば max(-最小残差/4, 最大残差/3), 2bitならば max(-最小残差/2, 最大残差/1) となるはず。&lt;/li&gt;
+&lt;li&gt;一般化すると max(-最小残差/(1 &amp;lt;&amp;lt; (bits-1)), 最大残差/((1 &amp;lt;&amp;lt; (bits-1)) - 1))&lt;/li&gt;
+&lt;li&gt;ブランチ切ってやってみたい...と思ったらできないことがすぐに分かった。量子化誤差が適応中にわからない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;LPCを使うのもありだな。係数の絶対値が1を超えるから係数のスケール情報を入れる必要があるが。&lt;/li&gt;
+&lt;li&gt;量子化誤差が適応的に出るから、これに応じてステップサイズ、もしくは符号化値を変えられないか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;現実にもどりましょ。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(9)</title><link href="/zi-you-gong-zuo-9.html" rel="alternate"></link><published>2020-09-14T10:00:00+09:00</published><updated>2020-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-14:/zi-you-gong-zuo-9.html</id><summary type="html">&lt;p&gt;AADのフォーマットを書いてく。デバッグ効率のため（データ到着順で見れるようにしたい）に、ビッグエンディアンで...&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;ヘッダフォーマット&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="28%" /&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="63%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;名前&lt;/th&gt;
+&lt;th class="head"&gt;サイズ[byte]&lt;/th&gt;
+&lt;th class="head"&gt;内容（補足）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;AADシグネチャ&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;'A', 'A', 'D', '0'&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;フォーマットバージョン番号&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;チャンネル数&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプル数&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;1チャンネルあたりの全サンプル数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプリングレート&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプルあたりビット数&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;2, 3, 4のいずれか。1もいつかは対応したい。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ブロックサイズ&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;ブロックのヘッダと圧縮済みデータを含めたサイズ。末尾のブロックではこの値以下になる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ブロックあたりサンプル数&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;末尾のブロックではこの値以下になる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;ブロックサイズは256の倍数にしたい。デフォルト1024で。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;ブロックヘッダフォーマット&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="27%" /&gt;
+&lt;col width="12%" /&gt;
+&lt;col width="61%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;名前&lt;/th&gt;
+&lt;th class="head"&gt;サイズ[byte]&lt;/th&gt;
+&lt;th class="head"&gt;内容（補足）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;フィルタ係数&lt;/td&gt;
+&lt;td&gt;8 …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;AADのフォーマットを書いてく。デバッグ効率のため（データ到着順で見れるようにしたい）に、ビッグエンディアンで...&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;ヘッダフォーマット&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="28%" /&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="63%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;名前&lt;/th&gt;
+&lt;th class="head"&gt;サイズ[byte]&lt;/th&gt;
+&lt;th class="head"&gt;内容（補足）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;AADシグネチャ&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;'A', 'A', 'D', '0'&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;フォーマットバージョン番号&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;チャンネル数&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプル数&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;1チャンネルあたりの全サンプル数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプリングレート&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプルあたりビット数&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;2, 3, 4のいずれか。1もいつかは対応したい。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ブロックサイズ&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;ブロックのヘッダと圧縮済みデータを含めたサイズ。末尾のブロックではこの値以下になる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ブロックあたりサンプル数&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;末尾のブロックではこの値以下になる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;ブロックサイズは256の倍数にしたい。デフォルト1024で。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;ブロックヘッダフォーマット&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="27%" /&gt;
+&lt;col width="12%" /&gt;
+&lt;col width="61%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;名前&lt;/th&gt;
+&lt;th class="head"&gt;サイズ[byte]&lt;/th&gt;
+&lt;th class="head"&gt;内容（補足）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;フィルタ係数&lt;/td&gt;
+&lt;td&gt;8 * チャンネル数&lt;/td&gt;
+&lt;td&gt;符号付き16bit整数の係数が4つ それがチャンネル数ぶん&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;フィルタ入力履歴&lt;/td&gt;
+&lt;td&gt;8 * チャンネル数&lt;/td&gt;
+&lt;td&gt;符号付き16bit整数のサンプルが4つ（先頭4サンプル） それがチャンネル数ぶん&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;テーブルインデックス&lt;/td&gt;
+&lt;td&gt;1 * チャンネル数&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;予約領域&lt;/td&gt;
+&lt;td&gt;1 * チャンネル数&lt;/td&gt;
+&lt;td&gt;偶数にするため。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;ヘッダサイズは18 * チャンネル数[byte]。&lt;/p&gt;
+&lt;p&gt;しかしヘッダが大きすぎるかもしれない。入力履歴は毎回リセットすべきか？
+SLAではブロックごとにフィルタ係数をリセットしていたけど、こっちではまずそう。ブロックあたりサンプル数が少なくて適応が遅くなる。
+→ホールド（直前サンプルが続いている）でもOK。軽く試したけど、当然、誤差は増える。&lt;/p&gt;
+&lt;p&gt;まずは富豪的に、上のフォーマットで作る。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h2&gt;ブロックデータフォーマット&lt;/h2&gt;
+&lt;p&gt;サンプルあたりビット数で異なる。ビッグエンディアンで、上位bitから順に書いていく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;4bit: 2サンプル(=1byte)単位でインターリーブ。&lt;/li&gt;
+&lt;li&gt;3bit: 8サンプル(=3byte)単位でインターリーブ。&lt;/li&gt;
+&lt;li&gt;2bit: 4サンプル(=1byte)単位でインターリーブ。&lt;/li&gt;
+&lt;li&gt;1bit: 8サンプル(=1byte)単位でインターリーブ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ブロックデータサイズは、(インターリーブの単位*チャンネル数)の倍数に設定する。&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(8)</title><link href="/zi-you-gong-zuo-8.html" rel="alternate"></link><published>2020-09-13T10:00:00+09:00</published><updated>2020-09-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-13:/zi-you-gong-zuo-8.html</id><summary type="html">&lt;ul class="simple"&gt;
+&lt;li&gt;ステップサイズテーブルの再設計。256エントリでいいはず。8bitの領域を使い切るべき。
+* インデックス更新テーブルの吟味(特に3bit)。&lt;/li&gt;
+&lt;li&gt;LMSフィルタの吟味（プリエンファシスもやったところで再度SAを確かめてみたい。→かんたんにやってみたけど、低音圧でSA、高音圧でLMSの印象。一応SAにしておく。発散する場合がみられている。。。nibbleが2の補数になったらそれを残差として突っ込むという夢がある。）&lt;/li&gt;
+&lt;li&gt;フォーマット再度策定。2,3,4bitの書き出し処理分割。&lt;/li&gt;
+&lt;li&gt;nibble（出力コード）は2の補数でいい。符号+絶対値だとエンコードデコードが複雑になる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ここまでやってて色々弄ってたら、なーんか音質が悪化していることに気付く。デフォルトのADPCMの方がよくね？
+耳で聞くよりはRMSでがっちり評価していきたい。&lt;/p&gt;
+&lt;p&gt;プリエンファシスが悪そう。実装を整理してON/OFFできるようにして調査する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;インデックス更新値を持ち越して次サンプルで使う手法、あんまり美味しくない。&lt;/li&gt;
+&lt;li&gt;テーブルを256エントリに拡張したら、高音圧音源ではグッドだけど、低音圧音源でジャリジャリが目立つ。sin波で適応が遅い感じ。&lt;ul&gt;
+&lt;li&gt;2bitだとどうしても適応が遅い印象。&lt;/li&gt;
+&lt;li&gt;フィルタの学習も遅い印象も受ける。最初のブロックを何回か回して処理開始するとかどうでしょう。いいアイデアだけど、フィルタの状態をブロックヘッダに入れる実装がまだなので、それができてから。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さて、コーデックとして仕立てていくか。基本的なAPIはIMAADPCMと同じで良いとして、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;命名規則の変更: IMAADPCM -&amp;gt; AAD (Ayashi Adaptive Differential …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;ul class="simple"&gt;
+&lt;li&gt;ステップサイズテーブルの再設計。256エントリでいいはず。8bitの領域を使い切るべき。
+* インデックス更新テーブルの吟味(特に3bit)。&lt;/li&gt;
+&lt;li&gt;LMSフィルタの吟味（プリエンファシスもやったところで再度SAを確かめてみたい。→かんたんにやってみたけど、低音圧でSA、高音圧でLMSの印象。一応SAにしておく。発散する場合がみられている。。。nibbleが2の補数になったらそれを残差として突っ込むという夢がある。）&lt;/li&gt;
+&lt;li&gt;フォーマット再度策定。2,3,4bitの書き出し処理分割。&lt;/li&gt;
+&lt;li&gt;nibble（出力コード）は2の補数でいい。符号+絶対値だとエンコードデコードが複雑になる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ここまでやってて色々弄ってたら、なーんか音質が悪化していることに気付く。デフォルトのADPCMの方がよくね？
+耳で聞くよりはRMSでがっちり評価していきたい。&lt;/p&gt;
+&lt;p&gt;プリエンファシスが悪そう。実装を整理してON/OFFできるようにして調査する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;インデックス更新値を持ち越して次サンプルで使う手法、あんまり美味しくない。&lt;/li&gt;
+&lt;li&gt;テーブルを256エントリに拡張したら、高音圧音源ではグッドだけど、低音圧音源でジャリジャリが目立つ。sin波で適応が遅い感じ。&lt;ul&gt;
+&lt;li&gt;2bitだとどうしても適応が遅い印象。&lt;/li&gt;
+&lt;li&gt;フィルタの学習も遅い印象も受ける。最初のブロックを何回か回して処理開始するとかどうでしょう。いいアイデアだけど、フィルタの状態をブロックヘッダに入れる実装がまだなので、それができてから。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さて、コーデックとして仕立てていくか。基本的なAPIはIMAADPCMと同じで良いとして、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;命名規則の変更: IMAADPCM -&amp;gt; AAD (Ayashi Adaptive Differential pulse code modulation) 拡張子.aad&lt;/li&gt;
+&lt;li&gt;フォーマット策定: ヘッダ, ブロックヘッダ, ブロック&lt;/li&gt;
+&lt;li&gt;エンコードパラメータの整理&lt;/li&gt;
+&lt;li&gt;プリエンファシス、デエンファシスをプロセッサハンドルを介してできるように。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(7)</title><link href="/zi-you-gong-zuo-7.html" rel="alternate"></link><published>2020-09-12T10:00:00+09:00</published><updated>2020-09-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-12:/zi-you-gong-zuo-7.html</id><summary type="html">&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.drdobbs.com/database/algorithm-alley/184410326"&gt;Inside IMA ADPCM&lt;/a&gt;  &lt;a class="reference external" href="http://orion.lcg.ufrj.br/Dr.Dobbs/books/book10/9711m/9711m.htm"&gt;こっちも同じ内容&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://multimedia.cx/simpleaudio.html#tth_sEc4.2"&gt;Simple Time Domain Audio Coding&lt;/a&gt; MediaWikiの前身となる資料。時間領域符号化の包括的なまとめでもある。有益そう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;強引に3,2bit化してみた。なんとなくできてしまっているが、2bitは流石にジリジリいう。
+なんでかな、と思ったらステップサイズが4bitむけのものになっていて、テーブル参照インデックスが0でも7になってしまい、確実に揺れてしまうのが問題であると想像している。テーブル自作を試みているが、なかなかに苦戦。&lt;/p&gt;
+&lt;p&gt;IMA-ADPCMのステップサイズが謎。どっから導出したんだろうか。
+純粋な指数関数ではなさそう。とくに、最初の8要素は線形関数になってるのが奇特。（テーブルの情報量を増やしたいのかな？）しかし、後になると指数関数 &lt;span class="math"&gt;\(2^{\log_{2}(32767/7)/88 x + \log_{2}(7)}\)&lt;/span&gt; とほぼ一致。
+自作のテーブルより、IMA-ADPCMのテーブルの方がいいRMSを出している。。。何故やろ・・・。&lt;/p&gt;
+&lt;p&gt;テーブルは一旦諦めて、モデルの改善を考えたが、あんまり良くない。
+フィルタ次数を8にしたり、IIR（予測値をフィードバック …&lt;/p&gt;</summary><content type="html">&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.drdobbs.com/database/algorithm-alley/184410326"&gt;Inside IMA ADPCM&lt;/a&gt;  &lt;a class="reference external" href="http://orion.lcg.ufrj.br/Dr.Dobbs/books/book10/9711m/9711m.htm"&gt;こっちも同じ内容&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://multimedia.cx/simpleaudio.html#tth_sEc4.2"&gt;Simple Time Domain Audio Coding&lt;/a&gt; MediaWikiの前身となる資料。時間領域符号化の包括的なまとめでもある。有益そう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;強引に3,2bit化してみた。なんとなくできてしまっているが、2bitは流石にジリジリいう。
+なんでかな、と思ったらステップサイズが4bitむけのものになっていて、テーブル参照インデックスが0でも7になってしまい、確実に揺れてしまうのが問題であると想像している。テーブル自作を試みているが、なかなかに苦戦。&lt;/p&gt;
+&lt;p&gt;IMA-ADPCMのステップサイズが謎。どっから導出したんだろうか。
+純粋な指数関数ではなさそう。とくに、最初の8要素は線形関数になってるのが奇特。（テーブルの情報量を増やしたいのかな？）しかし、後になると指数関数 &lt;span class="math"&gt;\(2^{\log_{2}(32767/7)/88 x + \log_{2}(7)}\)&lt;/span&gt; とほぼ一致。
+自作のテーブルより、IMA-ADPCMのテーブルの方がいいRMSを出している。。。何故やろ・・・。&lt;/p&gt;
+&lt;p&gt;テーブルは一旦諦めて、モデルの改善を考えたが、あんまり良くない。
+フィルタ次数を8にしたり、IIR（予測値をフィードバック）したり。&lt;/p&gt;
+&lt;p&gt;効果があったのが3つ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;ノイズシェーピング。残差を量子化するからその量子化誤差を1/16を掛けてフィードバックする（大きすぎると発散する）。残差わずかに減少。&lt;/li&gt;
+&lt;li&gt;LR-&amp;gt;MS。ステレオ音源で残差減少。注意点としては、16bit幅を超えるからやるならPCMを32bit幅で持つべき。いまは破壊的な処理をしてる。&lt;/li&gt;
+&lt;li&gt;プリエンファシス。1サンプルエンコード/デコード処理でやりたいが、そうなってない（汚い実装になってる）。一回RMS減ったのは見たけど、本当かもう一度確かめたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;これらはスイッチできるといいなあ。
+2bitとなると音質クッソ厳しい（りんごの木、Mani Mani等音圧変化の激しい曲はかなりきびしい。声のみだけだったらいける。）けど、ここらで独立させてみるか。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(6)</title><link href="/zi-you-gong-zuo-6.html" rel="alternate"></link><published>2020-09-11T10:00:00+09:00</published><updated>2020-09-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-11:/zi-you-gong-zuo-6.html</id><content type="html">&lt;p&gt;群論再開させつつ。&lt;/p&gt;
+&lt;p&gt;mac update以降、コンパイル警告がうざったくてしょうがなくなっていた。どうやら /usr/include が消えたようで…&lt;/p&gt;
+&lt;p&gt;export SDKROOT=&amp;quot;$(xcrun --sdk macosx --show-sdk-path)&amp;quot;&lt;/p&gt;
+&lt;p&gt;で黙らせている。&lt;/p&gt;
+&lt;p&gt;4次の適応フィルタを予測に突っ込んでみた。平均的な平均絶対値誤差は前値予測よりもガッツリ減っているが、音質はあんまり替わってない印象。
+カレンダーガールを突っ込んだら高域（20k〜）にガッツリノイズがついた。ナイキストレートの早さでノイスがのってる。
+48k音源ではどうも共通して現れる特徴のようだ。&lt;/p&gt;
+&lt;p&gt;音質は、原音と変わんねえだろと思い続けている。ここがおかしいというのを具体的に指摘できないでいる。スペクトログラムを見て初めて分かる感じ。&lt;/p&gt;
+&lt;p&gt;ビット数減らしに行くのがよさそう。試すのであれば、残差は4bitで書き出すけど、内容は3bitまでしか持たないようにするという方策。
+3,2bitに応じたテーブル作成が熱い。&lt;/p&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(5)</title><link href="/zi-you-gong-zuo-5.html" rel="alternate"></link><published>2020-09-10T10:00:00+09:00</published><updated>2020-09-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-10:/zi-you-gong-zuo-5.html</id><content type="html">&lt;p&gt;ノイズ（差分の量子化誤差）はまさにi.i.d.なラプラスからサンプリングした感じ。全帯域にある。
+人間の声のところは調波構造があるけど、それ以外、ピッチのない楽器などは単純な白色雑音といった印象。&lt;/p&gt;
+&lt;p&gt;ノイズシェーピングを試しているが…本当にいいのか疑問。
+プリエンファシスみたく直前サンプルで引くと、たしかにノイズの低域は消える、けど高域はそのままだし、
+ノイズのRMSはむしろ悪化している状態。
+逆に直前サンプルで足すとノイズ高域は消えるけど、低域が残ってｺﾞｰという感じのノイズになる。目立つ。うーん。&lt;/p&gt;
+&lt;p&gt;ノイズシェーピングの基本は、ノイズ帯域を&amp;quot;おいやる&amp;quot;ことにあるようで、その後になにかしないとうまみがない？
+（低域のノイズを消してノイズを高域に追いやってからローパスをかけるかんじ。）&lt;/p&gt;
+&lt;p&gt;適応フィルタチックなことも試してみたが、不安定になりがち。
+残差の符号だけ使い、ステップサイズをクソ小さくしてなんとか安定するが、ノイズのRMSは何もしないものから悪化。&lt;/p&gt;
+&lt;p&gt;一旦ノイズシェーピングなしのやつをアップする。
+自己流のやつを試してみたい気持ちがある。&lt;/p&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(4)</title><link href="/zi-you-gong-zuo-4.html" rel="alternate"></link><published>2020-09-09T10:00:00+09:00</published><updated>2020-09-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-09:/zi-you-gong-zuo-4.html</id><content type="html">&lt;p&gt;エンコードもできた印象。まずは、量子化誤差の観察を開始している。
+ラプラス分布っぽいので頻度を出してみる。→すごいラプラスだった。&lt;/p&gt;
+&lt;p&gt;gnuplotで頻度を出すには以下で行ける。素晴らしい。&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;::&lt;/dt&gt;
+&lt;dd&gt;plot &amp;quot;foo.txt&amp;quot; u 1 smooth frequency with boxes
+plot &amp;quot;foo.txt&amp;quot; u 1 smooth frequency with lines&lt;/dd&gt;
+&lt;/dl&gt;
+</content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(3)</title><link href="/zi-you-gong-zuo-3.html" rel="alternate"></link><published>2020-09-07T10:00:00+09:00</published><updated>2020-09-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-07:/zi-you-gong-zuo-3.html</id><summary type="html">&lt;p&gt;しばらく夏休みしてた。作業再開。エンコード作成中。
 ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。&lt;/p&gt;
 &lt;p&gt;休んでいる間に色々リンク見つけたからまとめてからねる。&lt;/p&gt;
 &lt;ul class="simple"&gt;

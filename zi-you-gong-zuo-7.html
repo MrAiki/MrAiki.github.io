@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>自由工作(7) - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/zi-you-gong-zuo-7.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="ADPCM" />
+        <meta name="description" content="Inside IMA ADPCM こっちも同じ内容 Simple Time Domain Audio Coding MediaWikiの前身となる資料。時間領域符号化の包括的なまとめでもある。有益そう。 強引に3,2bit化してみた。なんとなくできてしまっているが、2bitは流石にジリジリいう。 なんでかな、と思ったらステップサイズが4bitむけのものになっていて、テーブル参照インデックスが0でも7になってしまい、確実に揺れてしまうのが問題であると想像している。テーブル自作を試みているが、なかなかに苦戦。 IMA-ADPCMのステップサイズが謎。どっから導出したんだろうか。 純粋な指数関数ではなさそう。とくに、最初の8要素は線形関数になってるのが奇特。（テーブルの情報量を増やしたいのかな？）しかし、後になると指数関数 \(2^{\log_{2}(32767/7)/88 x + \log_{2}(7)}\) とほぼ一致。 自作のテーブルより、IMA-ADPCMのテーブルの方がいいRMSを出している。。。何故やろ・・・。 テーブルは一旦諦めて、モデルの改善を考えたが、あんまり良くない。 フィルタ次数を8にしたり、IIR（予測値をフィードバック …" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="自由工作(7)"/>
+        <meta property="og:url" content="/zi-you-gong-zuo-7.html"/>
+        <meta property="og:description" content="Inside IMA ADPCM こっちも同じ内容 Simple Time Domain Audio Coding MediaWikiの前身となる資料。時間領域符号化の包括的なまとめでもある。有益そう。 強引に3,2bit化してみた。なんとなくできてしまっているが、2bitは流石にジリジリいう。 なんでかな、と思ったらステップサイズが4bitむけのものになっていて、テーブル参照インデックスが0でも7になってしまい、確実に揺れてしまうのが問題であると想像している。テーブル自作を試みているが、なかなかに苦戦。 IMA-ADPCMのステップサイズが謎。どっから導出したんだろうか。 純粋な指数関数ではなさそう。とくに、最初の8要素は線形関数になってるのが奇特。（テーブルの情報量を増やしたいのかな？）しかし、後になると指数関数 \(2^{\log_{2}(32767/7)/88 x + \log_{2}(7)}\) とほぼ一致。 自作のテーブルより、IMA-ADPCMのテーブルの方がいいRMSを出している。。。何故やろ・・・。 テーブルは一旦諦めて、モデルの改善を考えたが、あんまり良くない。 フィルタ次数を8にしたり、IIR（予測値をフィードバック …"/>
+        <meta property="article:published_time" content="2020-09-12" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="ADPCM" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/zi-you-gong-zuo-7.html"
+                       rel="bookmark"
+                       title="Permalink to 自由工作(7)">
+                        自由工作(7)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-09-12T10:00:00+09:00"> Sat 12 September 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/adpcm.html">ADPCM</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <ul class="simple">
+<li><a class="reference external" href="https://www.drdobbs.com/database/algorithm-alley/184410326">Inside IMA ADPCM</a>  <a class="reference external" href="http://orion.lcg.ufrj.br/Dr.Dobbs/books/book10/9711m/9711m.htm">こっちも同じ内容</a></li>
+<li><a class="reference external" href="https://multimedia.cx/simpleaudio.html#tth_sEc4.2">Simple Time Domain Audio Coding</a> MediaWikiの前身となる資料。時間領域符号化の包括的なまとめでもある。有益そう。</li>
+</ul>
+<p>強引に3,2bit化してみた。なんとなくできてしまっているが、2bitは流石にジリジリいう。
+なんでかな、と思ったらステップサイズが4bitむけのものになっていて、テーブル参照インデックスが0でも7になってしまい、確実に揺れてしまうのが問題であると想像している。テーブル自作を試みているが、なかなかに苦戦。</p>
+<p>IMA-ADPCMのステップサイズが謎。どっから導出したんだろうか。
+純粋な指数関数ではなさそう。とくに、最初の8要素は線形関数になってるのが奇特。（テーブルの情報量を増やしたいのかな？）しかし、後になると指数関数 <span class="math">\(2^{\log_{2}(32767/7)/88 x + \log_{2}(7)}\)</span> とほぼ一致。
+自作のテーブルより、IMA-ADPCMのテーブルの方がいいRMSを出している。。。何故やろ・・・。</p>
+<p>テーブルは一旦諦めて、モデルの改善を考えたが、あんまり良くない。
+フィルタ次数を8にしたり、IIR（予測値をフィードバック）したり。</p>
+<p>効果があったのが3つ。</p>
+<ul class="simple">
+<li>ノイズシェーピング。残差を量子化するからその量子化誤差を1/16を掛けてフィードバックする（大きすぎると発散する）。残差わずかに減少。</li>
+<li>LR-&gt;MS。ステレオ音源で残差減少。注意点としては、16bit幅を超えるからやるならPCMを32bit幅で持つべき。いまは破壊的な処理をしてる。</li>
+<li>プリエンファシス。1サンプルエンコード/デコード処理でやりたいが、そうなってない（汚い実装になってる）。一回RMS減ったのは見たけど、本当かもう一度確かめたい。</li>
+</ul>
+<p>これらはスイッチできるといいなあ。
+2bitとなると音質クッソ厳しい（りんごの木、Mani Mani等音圧変化の激しい曲はかなりきびしい。声のみだけだったらいける。）けど、ここらで独立させてみるか。</p>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/zi-you-gong-zuo-10.html">自由工作(10)</a></li>
+        <li><a href="/zi-you-gong-zuo-9.html">自由工作(9)</a></li>
+        <li><a href="/zi-you-gong-zuo-8.html">自由工作(8)</a></li>
+        <li><a href="/zi-you-gong-zuo-6.html">自由工作(6)</a></li>
+        <li><a href="/zi-you-gong-zuo-5.html">自由工作(5)</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://policies.google.com/technologies/partner-sites" target="_blank">Google Analytics</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-169927697-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>
