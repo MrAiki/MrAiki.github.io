@@ -80,6 +80,122 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/zi-you-gong-zuo-5.html">自由工作(5)</a></h2>
+                <div class="summary"><p>ノイズ（差分の量子化誤差）はまさにi.i.d.なラプラスからサンプリングした感じ。全帯域にある。
+人間の声のところは調波構造があるけど、それ以外、ピッチのない楽器などは単純な白色雑音といった印象。</p>
+<p>ノイズシェーピングを試しているが…本当にいいのか疑問。
+プリエンファシスみたく直前サンプルで引くと、たしかにノイズの低域は消える、けど高域はそのままだし、
+ノイズのRMSはむしろ悪化している状態。
+逆に直前サンプルで足すとノイズ高域は消えるけど、低域が残ってｺﾞｰという感じのノイズになる。目立つ。うーん。</p>
+<p>ノイズシェーピングの基本は、ノイズ帯域を&quot;おいやる&quot;ことにあるようで、その後になにかしないとうまみがない？
+（低域のノイズを消してノイズを高域に追いやってからローパスをかけるかんじ。）</p>
+<p>適応フィルタチックなことも試してみたが、不安定になりがち。
+残差の符号だけ使い、ステップサイズをクソ小さくしてなんとか安定するが、ノイズのRMSは何もしないものから悪化。</p>
+<p>一旦ノイズシェーピングなしのやつをアップする。
+自己流のやつを試してみたい気持ちがある。</p>
+
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-4.html">自由工作(4)</a></h2>
+                <div class="summary"><p>エンコードもできた印象。まずは、量子化誤差の観察を開始している。
+ラプラス分布っぽいので頻度を出してみる。→すごいラプラスだった。</p>
+<p>gnuplotで頻度を出すには以下で行ける。素晴らしい。</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>plot &quot;foo.txt&quot; u 1 smooth frequency with boxes
+plot &quot;foo.txt&quot; u 1 smooth frequency with lines</dd>
+</dl>
+
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-3.html">自由工作(3)</a></h2>
+                <div class="summary"><p>しばらく夏休みしてた。作業再開。エンコード作成中。
+ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。</p>
+<p>休んでいる間に色々リンク見つけたからまとめてからねる。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/dbry/adpcm-xq">adpcm-xq</a> WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。</li>
+<li><a class="reference external" href="https://sericyb.com.au/audio.html">A comparison of Internet audio compression formats</a> 音質比較</li>
+<li><a class="reference external" href="https://hydrogenaud.io/index.php?topic=109270.0">What quality measurement is best for (A)DPCM?</a> ADPCMの評価指標について</li>
+<li><a class="reference external" href="http://www.kumikomi.net/archives/2010/07/ep22onse.php?page=5">G.726 ADPCMエンコーダの詳細</a> 本と同じ内容だけど、こっちはいつでも見れる。</li>
+<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/isciesci/61/2/61_76/_pdf/-char/en">信号品質を保つディジタル化技術: ノイズシェーピング量子化—I</a> ノイズシェーピングの基礎。Ⅵまである。丁寧。</li>
+<li><a class="reference external" href="https://kamedo2.hatenablog.jp/entry/20100812/1281640220">ADPCM音質改善</a> 重要。ノイズシェーピングの効果について書いてある …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-2.html">自由工作(2)</a></h2>
+                <div class="summary"><p>ADPCMのデコードはほぼできた。次はエンコード。</p>
+<p>いろんなソース見とるが、予測時に分岐しまくるのやばくね？とおもってたらそのとおりで、ffmpeg実装は乗算を使ってる:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.ffmpeg.org/doxygen/trunk/adpcm_8c_source.html">ffmpegの実装（adpcm_ima_expand_nibble）</a></li>
+<li><a class="reference external" href="https://ffmpeg.org/doxygen/trunk/adpcmenc_8c_source.html">ffmpegのエンコーダ実装(adpcm_ima_compress_sample)</a></li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">static</span> <span class="kr">inline</span> <span class="kt">int16_t</span> <span class="nf">adpcm_ima_expand_nibble</span><span class="p">(</span><span class="n">ADPCMChannelStatus</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="kt">int8_t</span> <span class="n">nibble</span><span class="p">,</span> <span class="kt">int</span> <span class="n">shift</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">step_index</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">predictor</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sign</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">step</span><span class="p">;</span>
+
+    <span class="n">step</span> <span class="o">=</span> <span class="n">ff_adpcm_step_table</span><span class="p">[</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span><span class="p">];</span>
+    <span class="n">step_index</span> <span class="o">=</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span> <span class="o">+</span> <span class="n">ff_adpcm_index_table</span><span class="p">[(</span><span class="kt">unsigned</span><span class="p">)</span><span class="n">nibble</span><span class="p">];</span>
+    <span class="n">step_index</span> <span class="o">=</span> <span class="n">av_clip</span><span class="p">(</span><span class="n">step_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">88</span><span class="p">);</span>
+
+    <span class="n">sign</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">8</span><span class="p">;</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">7 …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-1.html">自由工作(1)</a></h2>
+                <div class="summary"><p>まずはIMA-ADPCM互換のデコーダ/エンコーダを作ってみますかね。かなり情報あるし。
+FFMPEGで出力する方法は:</p>
+<p>ffmpeg -i &lt;input.wav&gt; -f wav -acodec adpcm_ima_wav &lt;output.wav&gt;</p>
+<p>Macで再生もできた。ほぼ1/4になる。理論的には1/4だけどwavに余計なチャンクが入っているから減っている？</p>
+<p>ステレオ以上はどうなってるのか見ている。インターリーブしているようだ。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.multimedia.cx/index.php?title=Microsoft_IMA_ADPCM">Microsoft IMA ADPCM</a></li>
+</ul>
+<p>上記のサイト含めてフォーマットをまとめると（ <strong>全て</strong> リトルエンディアン）</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="12%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">名前</th>
+<th class="head">サイズ[byte]</th>
+<th class="head">内容</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>RIFFチャンクID</td>
+<td>4</td>
+<td>'R', 'I', 'F', 'F'</td>
+</tr>
+<tr><td>RIFFチャンクサイズ</td>
+<td>4</td>
+<td>ファイルサイズ - 8（これ以降の残りファイルサイズ）</td>
+</tr>
+<tr><td>ファイルフォーマットタイプ</td>
+<td>4</td>
+<td>'W', 'A', 'V', 'E'</td>
+</tr>
+<tr><td>FMTチャンクID</td>
+<td>4 …</td></tr></tbody></table>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/zi-you-gong-zuo.html">自由工作</a></h2>
                 <div class="summary"><p>発表会終わり。発表準備と並行して群論やってた。
 夏休みは自由工作（息抜き）としてADPCMエンコーダデコーダ作ろうかと思ってる。
@@ -159,94 +275,6 @@ G.726もありだがテーブル引きを使ってない。説明は「音声&am
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">研究会に向けて - 執筆(3)</a></h2>
-                <div class="summary"><p>土日は黙々と執筆してた。
-1点気になったのが、自然勾配法を共役勾配法的にやれないかというところ。そうすれば逆行列を計算しなくて済む。
-ここらへん誰かやってないのかな？誰でも思いつくと思うけど。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://edisciplinas.usp.br/pluginfile.php/227194/mod_resource/content/1/Nascimento_Silva_2014_Adaptive_Filters.pdf">Adaptive Filters</a> 適応フィルタの新しい良さげなまとめ。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html">研究会に向けて - 執筆(2)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\inprod[2]{\langle #1,\ #2 \rangle}
-\end{equation*}
-</div>
-<p>うーん、SAの原典を探ってるときに</p>
-<ul class="simple">
-<li><a class="reference external" href="http://read.pudn.com/downloads125/ebook/529634/Adaptive_Filtering_-_Algorithms_and_Practical_Implementation.pdf">Adaptive Filtering: Algorithms and Practical Implementation</a></li>
-</ul>
-<p>が参照されてて、その中で</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www02.smt.ufrj.br/~diniz/conf/confi12.pdf">Performance of LMS-Newton Adaptation Algorithms With Variable Convergence Factor in Nonstationary Environments</a></li>
-</ul>
-<p>が参照されてたけど、全く同じやん…</p>
-<p>どうも、Winner解を求める最適化問題のニュートン法を求めると、自己相関行列の逆が自然に出てくるみたい。そして、その適応ステップ版アルゴリズム（LMS Newton Algorithm, 初出はAdaptive Signal …</p>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">研究会に向けて - 執筆(1)</a></h2>
-                <div class="summary"><p>今日から執筆していく。目標、7/27に第一般。</p>
-<p>しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表とおんなじだが、
-イントロをしっかり書きたいから、既存のロスレス音声の論文の構成を参考にしていく。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf">Sparse modeling for lossless audio compression</a> OptimFROGのひと。<ul>
-<li>オーディオ環境は高級化している。その中でロスレス圧縮は現実的である。プレーヤが使うから、デコーダは高速実装できるべきだ。今現在使われているいろんなコーデックがある。MP4-ALS, WMAL, ALAC, Monkey's Audio, FLAC, OptimFROG等。それぞれ異なる予測モデルと圧縮アルゴリズムを使用している。圧縮率、エンコード速度、デコード速度の3つの評価軸があるが、全てを最大にすることはできず、トレードオフの関係にある。例えば、予測次数を最大にすれば圧縮率は向上するが、エンコード/デコード速度が悪化する。</li>
-<li><a class="reference external" href="http://decoy.iki.fi/dsound/ambisonic/motherlode/source/01215233.pdf">An Introduction to Super Audio CD and DVD-Audio</a> Super Audio CD(SACD …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">研究会に向けて(17) - 中間発表</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。</p>
-<ul class="simple">
-<li>SA、実はヘブ則そのものでは？<ul>
-<li>全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。</li>
-</ul>
-</li>
-<li>グラフは正方形にすべし。<ul>
-<li>全くその通り。すぐに修正するべし。</li>
-</ul>
-</li>
-<li>尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や</li>
-<li>NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。</li>
-<li><span class="math">\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …</span></li></ul>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete16.html">研究会に向けて(16)</a></h2>
-                <div class="summary"><p>引き続き資料を作っている。</p>
-<p>昨日気になっていた</p>
-<blockquote>
-NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。</blockquote>
-<p>は並行して確認中。直交原理（勾配が0になる解）を満たす解はWienner解に一致するのか？というところ。
-怪しいかもしれない。適応ステップサイズがミソで、最適係数時、そいつを含めて平均をとったときにゼロになるとは思えない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://towardsdatascience.com/natural-gradient-ce454b3dcdfa">Natural Gradient A better gradient for gradient descent?</a> 面白そうだけどちとタイミングが悪い。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete16.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/index.html">&laquo;</a>
@@ -269,6 +297,8 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
                             href="/index8.html">8</a></li>
                     <li class=""><a
                             href="/index9.html">9</a></li>
+                    <li class=""><a
+                            href="/index10.html">10</a></li>
                 <li class="next"><a
                         href="/index3.html">&raquo;</a></li>
         </ul>
@@ -293,7 +323,7 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
@@ -302,43 +332,43 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -350,58 +380,70 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
   </ul>
 </li>

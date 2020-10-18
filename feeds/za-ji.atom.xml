@@ -1,5 +1,242 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-09-16T10:00:00+09:00</updated><entry><title>自由工作(10)</title><link href="/zi-you-gong-zuo-10.html" rel="alternate"></link><published>2020-09-16T10:00:00+09:00</published><updated>2020-09-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-16:/zi-you-gong-zuo-10.html</id><summary type="html">&lt;p&gt;黙々と進めた。残タスクは、&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-10-16T10:00:00+09:00</updated><entry><title>論文書き(1)</title><link href="/lun-wen-shu-ki1.html" rel="alternate"></link><published>2020-10-16T10:00:00+09:00</published><updated>2020-10-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-16:/lun-wen-shu-ki1.html</id><summary type="html">&lt;p&gt;TODO:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;図:&lt;ul&gt;
+&lt;li&gt;実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://linuxtricksandtips.blogspot.com/2015/01/how-to-convert-color-eps-to-grayscale.html"&gt;カラーeps → グレスケepsの裏技&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;移動平均サンプル数を増やした。グレスケに変えた。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;概要:&lt;ul&gt;
+&lt;li&gt;短い背景があるだけ。研究の新規性が明確でない。研究の目的が述べられず。すぐにLMSとSAの説明に入ってしまう。&lt;ul&gt;
+&lt;li&gt;ラプラス分布がーがいるかも？→いや、うるさい。&lt;/li&gt;
+&lt;li&gt;残差をスパースにする必要がある。したがって、圧縮率改善のためには予測モデルの改善を模索する必要がある。SAは…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;論理的なギャップに打ち勝つ新規性(novelty)をはっきりさせる。&lt;/li&gt;
+&lt;li&gt;主張を強めるための数量的な改善点を述べよ。（例: 5%良くなった）。行を追加していい。&lt;/li&gt;
+&lt;li&gt;実験結果から見れる研究の結論は何？結局コーデックに何が嬉しいの？&lt;/li&gt;
+&lt;li&gt;TODO: 背景の既存研究の論理的なギャップを要約。結論の言葉を要約。&lt;ul&gt;
+&lt;li&gt;背景と同じで論理的なギャップなんてなくて、「SAの収束改善」が大事で、これを強調する。To overcome...&lt;/li&gt;
+&lt;li&gt;結論の言葉、どうするか。（他のSAの論文見てると、実験結果よかった！で終わってて、おれもそうなってるんだが。）ロスレス音声に関するところだと、Future …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;TODO:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;図:&lt;ul&gt;
+&lt;li&gt;実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://linuxtricksandtips.blogspot.com/2015/01/how-to-convert-color-eps-to-grayscale.html"&gt;カラーeps → グレスケepsの裏技&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;移動平均サンプル数を増やした。グレスケに変えた。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;概要:&lt;ul&gt;
+&lt;li&gt;短い背景があるだけ。研究の新規性が明確でない。研究の目的が述べられず。すぐにLMSとSAの説明に入ってしまう。&lt;ul&gt;
+&lt;li&gt;ラプラス分布がーがいるかも？→いや、うるさい。&lt;/li&gt;
+&lt;li&gt;残差をスパースにする必要がある。したがって、圧縮率改善のためには予測モデルの改善を模索する必要がある。SAは…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;論理的なギャップに打ち勝つ新規性(novelty)をはっきりさせる。&lt;/li&gt;
+&lt;li&gt;主張を強めるための数量的な改善点を述べよ。（例: 5%良くなった）。行を追加していい。&lt;/li&gt;
+&lt;li&gt;実験結果から見れる研究の結論は何？結局コーデックに何が嬉しいの？&lt;/li&gt;
+&lt;li&gt;TODO: 背景の既存研究の論理的なギャップを要約。結論の言葉を要約。&lt;ul&gt;
+&lt;li&gt;背景と同じで論理的なギャップなんてなくて、「SAの収束改善」が大事で、これを強調する。To overcome...&lt;/li&gt;
+&lt;li&gt;結論の言葉、どうするか。（他のSAの論文見てると、実験結果よかった！で終わってて、おれもそうなってるんだが。）ロスレス音声に関するところだと、Future workを述べるか？&lt;/li&gt;
+&lt;li&gt;定量的な結果…。実験結果から言えることがない。どうしよう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;導入:&lt;ul&gt;
+&lt;li&gt;関連する象徴的な(iconic)研究を載せるのを推奨→亀岡の研究のつもり。他にはOptimFROGか？→「A novel normalized sign algorithm for system identifica- tion under impulsive noise interference」を入れた。&lt;/li&gt;
+&lt;li&gt;新規性をもっと明確に喋れ。既存研究の論理的ギャップに対する改善点は何？現状の問題の解決策になっている？&lt;/li&gt;
+&lt;li&gt;研究の背後に有る動機は？&lt;/li&gt;
+&lt;li&gt;TODO: 概要とかぶるが、既存研究の論理的なギャップは何か洗い出す。そして本研究が何を解決しているか（→適切な分布の仮定を満たす、収束の早い適応アルゴリズムが得られた。）整理。他に、関連する象徴的な研究を洗い出す。&lt;ul&gt;
+&lt;li&gt;論理的なギャップなんてなくて、「SAの収束改善」が大事で、これを強調する。&lt;/li&gt;
+&lt;li&gt;象徴的な研究としては「A novel normalized sign algorithm for system identification under impulsive noise interference」を入れた。新しめのまとまった、というかSAの方向性を述べた論文。もう一個くらい見繕っておくか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ディスカッション:&lt;ul&gt;
+&lt;li&gt;制限を述べただけになってる。&lt;/li&gt;
+&lt;li&gt;他手法と比べて提案手法はどうなのか？得られた結果に対するコメントを述べるべし。&lt;/li&gt;
+&lt;li&gt;他手法はどうなのか？&lt;/li&gt;
+&lt;li&gt;結果が意味するのはなにか？（最終段落で短く述べられてるだけになっている。もっと書くべし。）&lt;/li&gt;
+&lt;li&gt;TODO: 他手法との比較を追加。結果の吟味を追加。&lt;ul&gt;
+&lt;li&gt;他と比べてよかった。はまず言う。 It is obvious that proposed algorithms show better convergence performance than that of the SA.&lt;/li&gt;
+&lt;li&gt;RLSと似たパフォーマンスを出していたのも頷ける。The NNGSA had similar performances as RLS.&lt;/li&gt;
+&lt;li&gt;しかし…負荷が…というつなぎ方に変える。On the other hand, however,&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;結論:&lt;ul&gt;
+&lt;li&gt;コーデックや社会にどんな影響がある？&lt;/li&gt;
+&lt;li&gt;コーデックにどのように適用する？&lt;/li&gt;
+&lt;li&gt;今後の展望（研究範囲）をもっと掘り下げるべし。&lt;/li&gt;
+&lt;li&gt;TODO: Future studyにロスレス音声予測モデルへの組み込みを検討する、とまず言う。そのために…をやる。という流れに。&lt;ul&gt;
+&lt;li&gt;ロスレス音声への組み込みを将来研究に組み込んだ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio"></category><category term="Sign Algorithm"></category></entry><entry><title>論文読み(4)</title><link href="/lun-wen-du-mi4.html" rel="alternate"></link><published>2020-10-13T10:00:00+09:00</published><updated>2020-10-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-13:/lun-wen-du-mi4.html</id><content type="html">&lt;p&gt;論文読みのコメント:&lt;/p&gt;
+&lt;p&gt;「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。&lt;/li&gt;
+&lt;li&gt;筆者(Tianshu Quさん)に連絡してできたらソース貰う。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="BP"></category><category term="Lossless Audio"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>論文読み(3)</title><link href="/lun-wen-du-mi3.html" rel="alternate"></link><published>2020-10-10T10:00:00+09:00</published><updated>2020-10-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-10:/lun-wen-du-mi3.html</id><summary type="html">&lt;p&gt;一気に追い込んで資料を作成。雑かも。&lt;/p&gt;
+&lt;p&gt;一点気になっていたのが &lt;span class="math"&gt;\(l^{2}\)&lt;/span&gt; と &lt;span class="math"&gt;\(L^{2}\)&lt;/span&gt; の違い。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm"&gt;Difference between l2 norm and L2 norm&lt;/a&gt; 実数列に対するノルムは &lt;span class="math"&gt;\(l\)&lt;/span&gt; 、有界な定義域 &lt;span class="math"&gt;\(\Omega\)&lt;/span&gt; 上に定義されたルベーグ可測関数のノルムは &lt;span class="math"&gt;\(L\)&lt;/span&gt; で良さそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;クソ大雑把に言うと、列に対するノルムは &lt;span class="math"&gt;\(l\)&lt;/span&gt; となり、関数に対するノルムは &lt;span class="math"&gt;\(L\)&lt;/span&gt; と考えて良さそう。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent …&lt;/script&gt;</summary><content type="html">&lt;p&gt;一気に追い込んで資料を作成。雑かも。&lt;/p&gt;
+&lt;p&gt;一点気になっていたのが &lt;span class="math"&gt;\(l^{2}\)&lt;/span&gt; と &lt;span class="math"&gt;\(L^{2}\)&lt;/span&gt; の違い。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm"&gt;Difference between l2 norm and L2 norm&lt;/a&gt; 実数列に対するノルムは &lt;span class="math"&gt;\(l\)&lt;/span&gt; 、有界な定義域 &lt;span class="math"&gt;\(\Omega\)&lt;/span&gt; 上に定義されたルベーグ可測関数のノルムは &lt;span class="math"&gt;\(L\)&lt;/span&gt; で良さそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;クソ大雑把に言うと、列に対するノルムは &lt;span class="math"&gt;\(l\)&lt;/span&gt; となり、関数に対するノルムは &lt;span class="math"&gt;\(L\)&lt;/span&gt; と考えて良さそう。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="BP"></category><category term="Lossless Audio"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>論文読み(2)</title><link href="/lun-wen-du-mi2.html" rel="alternate"></link><published>2020-10-07T10:00:00+09:00</published><updated>2020-10-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-07:/lun-wen-du-mi2.html</id><content type="html">&lt;p&gt;今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
+Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="BP"></category><category term="Lossless Audio"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>論文読み(1)</title><link href="/lun-wen-du-mi1.html" rel="alternate"></link><published>2020-10-06T10:00:00+09:00</published><updated>2020-10-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-06:/lun-wen-du-mi1.html</id><summary type="html">&lt;p&gt;標準化されたロスレス音声規格IEEE 1857.2、くっそ怪しい。 &lt;a class="reference external" href="https://hydrogenaud.io/index.php?topic=111683.0"&gt;リファレンスエンコーダが公開されてないっぽい。&lt;/a&gt;
+一応概要みたいのは以下:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://150.162.46.34:8080/icassp2014/papers/p6984-haibin.pdf"&gt;LOSSLESS AUDIO COMPRESSION IN THE NEW IEEE STANDARD FOR ADVANCED AUDIO CODING&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さっと読んだ。工夫したのは、ブロック先頭で残差が大きくなるから、それをビットシフトして振幅を潰し、下位ビットの情報は別に送ること、算術符号はテンプレートとなる確率分布を使用すること、がメインである。うーん。かなり泥臭いと思う。モデルがすごいと言うよりは工夫メインな印象を受ける。また、他の論文でウェーブレットを使っているみたいな話があるけど、どうにもこちらも怪しい。&lt;/p&gt;
+&lt;p&gt;ロスレス音声でウェーブレット+BPを使う話。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://150.162.46.34:8080/icassp2013/pdfs/0000552.pdf"&gt;AUDIO LOSSLESS CODING/DECODING METHOD USING BASIS PURSUIT ALGORITHM&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;音声圧縮でウェーブレットを使うのは筋が悪かったので、少なくとも自分には衝撃ではある。で、ちゃんと読んでみようと思ったのだが4pで概要しか示されてない。&lt;/p&gt;
+&lt;p&gt;肝となる部分でわからないのが、ウェーブレット辞書を結合して過完備な辞書を作るところ。基礎が抜けていることを疑って、Donohoを読む …&lt;/p&gt;</summary><content type="html">&lt;p&gt;標準化されたロスレス音声規格IEEE 1857.2、くっそ怪しい。 &lt;a class="reference external" href="https://hydrogenaud.io/index.php?topic=111683.0"&gt;リファレンスエンコーダが公開されてないっぽい。&lt;/a&gt;
+一応概要みたいのは以下:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://150.162.46.34:8080/icassp2014/papers/p6984-haibin.pdf"&gt;LOSSLESS AUDIO COMPRESSION IN THE NEW IEEE STANDARD FOR ADVANCED AUDIO CODING&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さっと読んだ。工夫したのは、ブロック先頭で残差が大きくなるから、それをビットシフトして振幅を潰し、下位ビットの情報は別に送ること、算術符号はテンプレートとなる確率分布を使用すること、がメインである。うーん。かなり泥臭いと思う。モデルがすごいと言うよりは工夫メインな印象を受ける。また、他の論文でウェーブレットを使っているみたいな話があるけど、どうにもこちらも怪しい。&lt;/p&gt;
+&lt;p&gt;ロスレス音声でウェーブレット+BPを使う話。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://150.162.46.34:8080/icassp2013/pdfs/0000552.pdf"&gt;AUDIO LOSSLESS CODING/DECODING METHOD USING BASIS PURSUIT ALGORITHM&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;音声圧縮でウェーブレットを使うのは筋が悪かったので、少なくとも自分には衝撃ではある。で、ちゃんと読んでみようと思ったのだが4pで概要しか示されてない。&lt;/p&gt;
+&lt;p&gt;肝となる部分でわからないのが、ウェーブレット辞書を結合して過完備な辞書を作るところ。基礎が抜けていることを疑って、Donohoを読む:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.stanford.edu/group/SOL/papers/BasisPursuit-SIGEST.pdf"&gt;Atomic Decomposition by Basis Pursuit&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;そして論文ではliftingを使ったと行っているが、liftingを使った場合、どうなるのか？画像に対して試したのが下:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://aircconline.com/ijma/V7N1/7115ijma01.pdf"&gt;IMAGE COMPRESSION BASED ON COMPRESSIVE SENSING USING WAVELET LIFTING SCHEME&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ロッシーなんだよなあ。&lt;/p&gt;
+&lt;p&gt;BPで辞書作るときって、基底をサンプリングして作るんだっけか？BPの動きを確認し始める。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://eeweb.poly.edu/iselesni/teaching/lecture_notes/sparsity_intro/html/Example_BP.html#2"&gt;Example: Basis pursuit (BP)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ウェーブレットの場合の答えが以下にある。精読していく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://elad.cs.technion.ac.il/wp-content/uploads/2018/02/MultiScale-KSVD-IEEE-Selected-Topics.pdf"&gt;Multi-Scale Dictionary Learning using Wavelets&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://danielmckenzie.github.io/DictLearning.pdf"&gt;Dictionary Learning Using Wavelets&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;そもそもウェーブレット変換って行列表現できたっけ？と思ったら、余裕でできてた。これの高速算方が離散ウェーブレット変換(DWT)だったわ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cfme.chiba-u.jp/~haneishi/class/iyogazokougaku/Wavelet2.pdf"&gt;1次元ウェーブレット変換&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;論文が参照しているウェーブレット系のペーパーが重い。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://cm-bell-labs.github.io/who/wim/papers/athome/athome.pdf"&gt;Building Your Own Wavelets at Home&lt;/a&gt; 有名なペーパー。ウェーブレット自分自身で構築できるようだ（2nd Generation Wavelet）。その計算方法がLifting Schemeとなる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://services.math.duke.edu/~ingrid/publications/J_Four_Anal_Appl_4_p247.pdf"&gt;Factoring Wavelet Transforms into Lifting Steps&lt;/a&gt; 1st Generation WaveletはLiftingの形式に持っていけると言っている&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;非常にボリュームが大きい。。。弱った。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.tut.fi/~tabus/NOKIA_PS/Doru_nsip.ps"&gt;INTEGER WAVELET TRANSFORM BASED LOSSLESS AUDIO COMPRESSION&lt;/a&gt; 古いけど、ウェーブレットを使ったロスレス音声圧縮がここに。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;理論一切抜きで、計算法は分かった。しかし、BPによってどのように基底を選んでいるのかさっぱり分からん。ウェーブレットは固定辞書だから、L1正則化問題を解析的に解いてはいないはず。Basis Pursuitはアルゴリズムじゃなくて原理だと &lt;a class="reference external" href="https://web.stanford.edu/group/SOL/papers/BasisPursuit-SIGEST.pdf"&gt;原論文&lt;/a&gt; で言っていたし:&lt;/p&gt;
+&lt;blockquote&gt;
+BP is an optimization principle, not an algorithm. Over the last 40 years, a tremendous amount of work has been done on the solution of linear programs. Until the 1980s, most work focused on variants of Dantzig’s sim- plex algorithm, which many readers have no doubt studied. In the last ten years, some spectacular breakthroughs have been made by the use of so-called interior-point methods, which use an entirely different principle.&lt;/blockquote&gt;
+&lt;p&gt;うーん、妄想してみると、こんなかんじだろうか？&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;辞書作成: Cohen-Daubechies-Feuveau(cdf) wavelet, Daubechies(db) wavelet, Symlets(sym) 等（&amp;quot;等&amp;quot;は謎。全部書いてくれよ...）から辞書を作る。ここでは、cdf,db,symの3つ使ったと考える。&lt;/li&gt;
+&lt;li&gt;ウェーブレット変換: cdf, db, symの3つで変換を行う。変換はLifting Schemeで行う。&lt;/li&gt;
+&lt;li&gt;基底選択: 最もL1ノルム（残差絶対値和）が小さかったウェーブレット基底を選び、出力を確定させる。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;この操作を低域/高域成分の両方に対し、高解像度から低解像度に向かって行っていく。（高域/低域両方に対して分析をおこなうのをウェーブレットパケット解析というようだ。低域成分（画像で言うなら左上）だけに分析を続けるのはウェーブレット解析。ウェーブレットパケット解析は二分木をなす。）&lt;/p&gt;
+&lt;p&gt;最終的に得られた出力をエントロピー符号化する。
+解像度の深さと、選んだ基底の情報はside informationとして渡す。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.osaka-kyoiku.ac.jp/~morimoto/WSPRO/wavelet2014proceedingsR3.pdf"&gt;ウェーブレット理論と工学への応用&lt;/a&gt; 日本語でちゃんと書かれたリフティングの話。印刷して、読もう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;わからないのは後はエントロピー符号化(BCB)のはず。クローズっぽいんだよなあ…。
+明日、プロットをまとめる。&lt;/p&gt;
+</content><category term="雑記"></category><category term="BP"></category><category term="Lossless Audio"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>自由工作(10)</title><link href="/zi-you-gong-zuo-10.html" rel="alternate"></link><published>2020-09-16T10:00:00+09:00</published><updated>2020-09-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-16:/zi-you-gong-zuo-10.html</id><summary type="html">&lt;p&gt;黙々と進めた。残タスクは、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;コマンドラインの整備:DONE&lt;ul&gt;
 &lt;li&gt;残差出力モードの追加(-e):DONE&lt;/li&gt;
@@ -101,9 +338,22 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;LPCを使うのもありだな。係数の絶対値が1を超えるから係数のスケール情報を入れる必要があるが。&lt;/li&gt;
-&lt;li&gt;量子化誤差が適応的に出るから、これに応じてステップサイズ、もしくは符号化値を変えられないか。&lt;/li&gt;
+&lt;li&gt;量子化誤差が適応的に出る（しかも、エンコード/デコードで全く同じ値が出る）から、これに応じてステップサイズ、もしくは符号化値を変えられないか。&lt;/li&gt;
+&lt;li&gt;複数回エンコードを回すの有効かも。少なくともファイル先頭では効いた。&lt;ul&gt;
+&lt;li&gt;単純に単一ブロックを繰り返しエンコードするのは効果が薄かった。&lt;/li&gt;
+&lt;li&gt;次（前）の区間と合わせてエンコードするのもいいかも。オーバーラップする形。これは効いたので取り入れた。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;現実にもどりましょ。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;テーブルの見直し。急激に振幅がかわる（2〜3サンプルで-1から1に近づくときがある）ので、おそらく、テーブルの150以降の要素はもっと大きい値をとってもいいと思う。&lt;/li&gt;
+&lt;li&gt;ステップサイズを適応的に計算するyamaha形式を試してみたい。IMAではテーブルの256階調に限られるが、こちらはより柔軟に思える。
+* &lt;a class="reference external" href="http://www.piece-me.org/piece-lab/adpcm/adpcm1.html"&gt;ADPCMの仕組み#1&lt;/a&gt; や &lt;a class="reference external" href="https://github.com/mguentner/rockbox/blob/master/apps/codecs/libpcm/yamaha_adpcm.c"&gt;rockbox&lt;/a&gt; や &lt;a class="reference external" href="https://ffmpeg.org/doxygen/0.6/adpcm_8c-source.html"&gt;ffmpeg&lt;/a&gt; が参考になる。
+* やっつけでやってみた。音圧の低い音源では少しよくなったが、りんごの木など音圧が大きい音源で軒並みRMSEが2割ほど悪化。取り下げていく。逆に考えると、低音圧音源で現在の実装があんまり良くないともいえる結果やな。&lt;/li&gt;
+&lt;li&gt;残差波形を見ているとピッチの残差立ち上がりが大きくて、また、それによって聞こえやすいノイズが発生している。周期は170サンプル=282Hz(&amp;#64;48k)とか。&lt;ul&gt;
+&lt;li&gt;ピッチを潰すのは有効かも。自己相関を計算して周期を解析して、その一点で潰しにかかる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;タイムオーバー。現実にもどりましょ。&lt;/p&gt;
 &lt;/div&gt;
 </content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(9)</title><link href="/zi-you-gong-zuo-9.html" rel="alternate"></link><published>2020-09-14T10:00:00+09:00</published><updated>2020-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-14:/zi-you-gong-zuo-9.html</id><summary type="html">&lt;p&gt;AADのフォーマットを書いてく。デバッグ効率のため（データ到着順で見れるようにしたい）に、ビッグエンディアンで...&lt;/p&gt;
 &lt;div class="section" id="id2"&gt;
@@ -274,6 +524,113 @@ SLAではブロックごとにフィルタ係数をリセットしていたけ�
 &lt;li&gt;1bit: 8サンプル(=1byte)単位でインターリーブ。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;ブロックデータサイズは、(インターリーブの単位*チャンネル数)の倍数に設定する。&lt;/p&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h3&gt;フォーマット&lt;/h3&gt;
+&lt;p&gt;ビッグエンディアンで記録する。&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h2&gt;ヘッダフォーマット&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="28%" /&gt;
+&lt;col width="9%" /&gt;
+&lt;col width="63%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;名前&lt;/th&gt;
+&lt;th class="head"&gt;サイズ[byte]&lt;/th&gt;
+&lt;th class="head"&gt;内容（補足）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;AADシグネチャ&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;'A', 'A', 'D', '0'&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;フォーマットバージョン番号&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;コーデックバージョン番号&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;チャンネル数&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプル数&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;1チャンネルあたりの全サンプル数&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプリングレート&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サンプルあたりビット数&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;2, 3, 4のいずれか。1もいつかは対応したい。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ブロックサイズ&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;ブロックのヘッダと圧縮済みデータを含めたサイズ。末尾のブロックではこの値以下になる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ブロックあたりサンプル数&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;末尾のブロックではこの値以下になる&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;マルチチャンネル処理法&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;0:何もしていない、1:LR-&amp;gt;MS処理（効果が薄いため、廃止予定）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id7"&gt;
+&lt;h2&gt;ブロックヘッダフォーマット&lt;/h2&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;colgroup&gt;
+&lt;col width="37%" /&gt;
+&lt;col width="10%" /&gt;
+&lt;col width="53%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;名前&lt;/th&gt;
+&lt;th class="head"&gt;サイズ[byte]&lt;/th&gt;
+&lt;th class="head"&gt;内容（補足）&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;テーブルインデックス上位8bit&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;&amp;nbsp;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;テーブルインデックス下位4bit / 係数シフト数&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;下位4bitは固定小数の小数部。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;フィルタ係数&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;符号付き16bit整数の係数が4つ。係数シフト数分左シフトして使う。&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;フィルタ入力履歴&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;符号付き16bit整数のサンプルが4つ（先頭4サンプル）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;これがチャンネル数分並ぶ。ヘッダサイズは18 * チャンネル数[byte]。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id8"&gt;
+&lt;h2&gt;ブロックデータフォーマット&lt;/h2&gt;
+&lt;p&gt;サンプルあたりビット数で異なる。ビッグエンディアンで、上位bitから順に書いていく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;4bit: 2サンプル(=1byte)単位でインターリーブ。&lt;/li&gt;
+&lt;li&gt;3bit: 8サンプル(=3byte)単位でインターリーブ。&lt;/li&gt;
+&lt;li&gt;2bit: 4サンプル(=1byte)単位でインターリーブ。&lt;/li&gt;
+&lt;li&gt;1bit: 8サンプル(=1byte)単位でインターリーブ。（未サポート。将来的にやりたい。）&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 </content><category term="雑記"></category><category term="ADPCM"></category></entry><entry><title>自由工作(8)</title><link href="/zi-you-gong-zuo-8.html" rel="alternate"></link><published>2020-09-13T10:00:00+09:00</published><updated>2020-09-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-13:/zi-you-gong-zuo-8.html</id><summary type="html">&lt;ul class="simple"&gt;
 &lt;li&gt;ステップサイズテーブルの再設計。256エントリでいいはず。8bitの領域を使い切るべき。

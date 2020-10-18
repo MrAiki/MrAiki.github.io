@@ -216,6 +216,113 @@ SLAではブロックごとにフィルタ係数をリセットしていたけ�
 <li>1bit: 8サンプル(=1byte)単位でインターリーブ。</li>
 </ul>
 <p>ブロックデータサイズは、(インターリーブの単位*チャンネル数)の倍数に設定する。</p>
+<div class="section" id="id5">
+<h3>フォーマット</h3>
+<p>ビッグエンディアンで記録する。</p>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>ヘッダフォーマット</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="9%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">名前</th>
+<th class="head">サイズ[byte]</th>
+<th class="head">内容（補足）</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>AADシグネチャ</td>
+<td>4</td>
+<td>'A', 'A', 'D', '0'</td>
+</tr>
+<tr><td>フォーマットバージョン番号</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>コーデックバージョン番号</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>チャンネル数</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>サンプル数</td>
+<td>4</td>
+<td>1チャンネルあたりの全サンプル数</td>
+</tr>
+<tr><td>サンプリングレート</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>サンプルあたりビット数</td>
+<td>2</td>
+<td>2, 3, 4のいずれか。1もいつかは対応したい。</td>
+</tr>
+<tr><td>ブロックサイズ</td>
+<td>2</td>
+<td>ブロックのヘッダと圧縮済みデータを含めたサイズ。末尾のブロックではこの値以下になる</td>
+</tr>
+<tr><td>ブロックあたりサンプル数</td>
+<td>4</td>
+<td>末尾のブロックではこの値以下になる</td>
+</tr>
+<tr><td>マルチチャンネル処理法</td>
+<td>1</td>
+<td>0:何もしていない、1:LR-&gt;MS処理（効果が薄いため、廃止予定）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="id7">
+<h2>ブロックヘッダフォーマット</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="37%" />
+<col width="10%" />
+<col width="53%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">名前</th>
+<th class="head">サイズ[byte]</th>
+<th class="head">内容（補足）</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>テーブルインデックス上位8bit</td>
+<td>1</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>テーブルインデックス下位4bit / 係数シフト数</td>
+<td>1</td>
+<td>下位4bitは固定小数の小数部。</td>
+</tr>
+<tr><td>フィルタ係数</td>
+<td>8</td>
+<td>符号付き16bit整数の係数が4つ。係数シフト数分左シフトして使う。</td>
+</tr>
+<tr><td>フィルタ入力履歴</td>
+<td>8</td>
+<td>符号付き16bit整数のサンプルが4つ（先頭4サンプル）</td>
+</tr>
+</tbody>
+</table>
+<p>これがチャンネル数分並ぶ。ヘッダサイズは18 * チャンネル数[byte]。</p>
+</div>
+<div class="section" id="id8">
+<h2>ブロックデータフォーマット</h2>
+<p>サンプルあたりビット数で異なる。ビッグエンディアンで、上位bitから順に書いていく。</p>
+<ul class="simple">
+<li>4bit: 2サンプル(=1byte)単位でインターリーブ。</li>
+<li>3bit: 8サンプル(=3byte)単位でインターリーブ。</li>
+<li>2bit: 4サンプル(=1byte)単位でインターリーブ。</li>
+<li>1bit: 8サンプル(=1byte)単位でインターリーブ。（未サポート。将来的にやりたい。）</li>
+</ul>
 </div>
 
             </div>
@@ -254,7 +361,7 @@ SLAではブロックごとにフィルタ係数をリセットしていたけ�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
@@ -263,43 +370,43 @@ SLAではブロックごとにフィルタ係数をリセットしていたけ�
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -311,58 +418,70 @@ SLAではブロックごとにフィルタ係数をリセットしていたけ�
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
   </ul>
 </li>
