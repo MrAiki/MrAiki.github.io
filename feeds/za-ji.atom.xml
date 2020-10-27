@@ -13,7 +13,7 @@
 &lt;/ul&gt;
 &lt;p&gt;とあるので、それを参照したが、実装はFortran...（Rは呼び出しインターフェースだけ。。。）&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;cite&gt;GLASSOの中身で &amp;lt;https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/covariance/_graph_lasso.py#L226&amp;gt;&lt;/cite&gt; &lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/linear_model/_cd_fast.pyx#L99"&gt;enet_coordinate_descent関数&lt;/a&gt; を呼んでおり、数値最適化はLASSO(ElasticNetで片方の係数を0にしたもの)に任されている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/covariance/_graph_lasso.py#L226"&gt;GLASSOの中身&lt;/a&gt; で &lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/linear_model/_cd_fast.pyx#L99"&gt;enet_coordinate_descent関数&lt;/a&gt; を呼んでおり、数値最適化はLASSO(ElasticNetで片方の係数を0にしたもの)に任されている。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;どうやら元論文の実装(LASSO最適化を行う)をそのまま落とし込んだようで、ソフトしきい値作用素は一切出てこない。。。
 githubで探してみても同様の実装が多数。&lt;/p&gt;
