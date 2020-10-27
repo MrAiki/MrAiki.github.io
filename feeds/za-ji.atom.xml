@@ -24,6 +24,18 @@ githubで探してみても同様の実装が多数。&lt;/p&gt;
 &lt;/ul&gt;
 &lt;p&gt;数式との対応を追っていく。（しっかし昼は全く集中できない。。。）
 気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(2)</title><link href="/r-1noji-suan-2.html" rel="alternate"></link><published>2020-10-25T10:00:00+09:00</published><updated>2020-10-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-25:/r-1noji-suan-2.html</id><content type="html">&lt;p&gt;今更ながら三重対角行列、かなり具合が良さそうに見える。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/tridiagonal"&gt;三重対角行列の特殊形の固有値は綺麗&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gg-hogehoge.hatenablog.com/entry/2013/07/20/140341"&gt;三重対角行列の固有値と固有ベクトルを計算したい&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://hooktail.org/computer/index.php?%BB%B0%BD%C5%C2%D0%B3%D1%B2%BD"&gt;三重対角化 - [物理のかぎしっぽ]&lt;/a&gt; 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.stat.yale.edu/~hz68/sparsePM.pdf"&gt;Estimating sparse precision matrices&lt;/a&gt; スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;やはり、Graphical LASSOを遅くてもいいから試したくある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://omedstu.jimdofree.com/2018/03/28/graph-lassoによる変数間の関係のグラフ化/"&gt;GraphLassoによる変数間の関係のグラフ化&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(1)</title><link href="/r-1noji-suan-1.html" rel="alternate"></link><published>2020-10-24T10:00:00+09:00</published><updated>2020-10-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-24:/r-1noji-suan-1.html</id><summary type="html">&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算高速化を考えていく。
 なにより対象を知るのが一番だと思うので、まずは確認コードと真値の計算とその確認を行っていく。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
@@ -103,19 +115,7 @@ githubで探してみても同様の実装が多数。&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(2)</title><link href="/r-1noji-suan-2.html" rel="alternate"></link><published>2020-10-24T10:00:00+09:00</published><updated>2020-10-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-24:/r-1noji-suan-2.html</id><content type="html">&lt;p&gt;今更ながら三重対角行列、かなり具合が良さそうに見える。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/tridiagonal"&gt;三重対角行列の特殊形の固有値は綺麗&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://gg-hogehoge.hatenablog.com/entry/2013/07/20/140341"&gt;三重対角行列の固有値と固有ベクトルを計算したい&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://hooktail.org/computer/index.php?%BB%B0%BD%C5%C2%D0%B3%D1%B2%BD"&gt;三重対角化 - [物理のかぎしっぽ]&lt;/a&gt; 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.stat.yale.edu/~hz68/sparsePM.pdf"&gt;Estimating sparse precision matrices&lt;/a&gt; スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;やはり、Graphical LASSOを遅くてもいいから試したくある。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://omedstu.jimdofree.com/2018/03/28/graph-lassoによる変数間の関係のグラフ化/"&gt;GraphLassoによる変数間の関係のグラフ化&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>論文書き(1)</title><link href="/lun-wen-shu-ki1.html" rel="alternate"></link><published>2020-10-16T10:00:00+09:00</published><updated>2020-10-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-16:/lun-wen-shu-ki1.html</id><summary type="html">&lt;p&gt;TODO:&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>論文書き(1)</title><link href="/lun-wen-shu-ki1.html" rel="alternate"></link><published>2020-10-16T10:00:00+09:00</published><updated>2020-10-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-16:/lun-wen-shu-ki1.html</id><summary type="html">&lt;p&gt;TODO:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;図:&lt;ul&gt;
 &lt;li&gt;実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？&lt;/li&gt;
