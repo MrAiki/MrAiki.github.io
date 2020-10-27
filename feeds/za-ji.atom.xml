@@ -1,10 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-10-16T10:00:00+09:00</updated><entry><title>論文書き(1)</title><link href="/lun-wen-shu-ki1.html" rel="alternate"></link><published>2020-10-16T10:00:00+09:00</published><updated>2020-10-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-16:/lun-wen-shu-ki1.html</id><summary type="html">&lt;p&gt;TODO:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-10-27T10:00:00+09:00</updated><entry><title>R^-1の計算(4)</title><link href="/r-1noji-suan-4.html" rel="alternate"></link><published>2020-10-27T10:00:00+09:00</published><updated>2020-10-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-27:/r-1noji-suan-4.html</id><content type="html">&lt;p&gt;引き続き&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;を見ながら、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf"&gt;依存関係にスパース性を入れる — グラフィカル lasso の話 ∗&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;の対応を見出そうとしているが、どうも一致しない。pythonのソース側が対応していると言っているのがFriedman&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://statweb.stanford.edu/~tibs/ftp/graph.pdf"&gt;Sparse inverse covariance estimation with the graphical lasso&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;とあるので、それを参照したが、実装はFortran...（Rは呼び出しインターフェースだけ。。。）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;cite&gt;GLASSOの中身で &amp;lt;https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/covariance/_graph_lasso.py#L226&amp;gt;&lt;/cite&gt; &lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/linear_model/_cd_fast.pyx#L99"&gt;enet_coordinate_descent関数&lt;/a&gt; を呼んでおり、数値最適化はLASSO(ElasticNetで片方の係数を0にしたもの)に任されている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;どうやら元論文の実装(LASSO最適化を行う)をそのまま落とし込んだようで、ソフトしきい値作用素は一切出てこない。。。
+githubで探してみても同様の実装が多数。&lt;/p&gt;
+&lt;p&gt;簡単そうに見えるから実装してみるか。アルゴリズムを紙にまとめてみた。やってみよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(3)</title><link href="/r-1noji-suan-3.html" rel="alternate"></link><published>2020-10-26T10:00:00+09:00</published><updated>2020-10-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-26:/r-1noji-suan-3.html</id><content type="html">&lt;p&gt;要約すると、もうGraphical LASSO実装して試してみるべきかと思う。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;数式との対応を追っていく。（しっかし昼は全く集中できない。。。）
+気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(1)</title><link href="/r-1noji-suan-1.html" rel="alternate"></link><published>2020-10-24T10:00:00+09:00</published><updated>2020-10-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-24:/r-1noji-suan-1.html</id><summary type="html">&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算高速化を考えていく。
+なにより対象を知るのが一番だと思うので、まずは確認コードと真値の計算とその確認を行っていく。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src …&lt;/script&gt;</summary><content type="html">&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算高速化を考えていく。
+なにより対象を知るのが一番だと思うので、まずは確認コードと真値の計算とその確認を行っていく。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(2)</title><link href="/r-1noji-suan-2.html" rel="alternate"></link><published>2020-10-24T10:00:00+09:00</published><updated>2020-10-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-24:/r-1noji-suan-2.html</id><content type="html">&lt;p&gt;今更ながら三重対角行列、かなり具合が良さそうに見える。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/tridiagonal"&gt;三重対角行列の特殊形の固有値は綺麗&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gg-hogehoge.hatenablog.com/entry/2013/07/20/140341"&gt;三重対角行列の固有値と固有ベクトルを計算したい&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://hooktail.org/computer/index.php?%BB%B0%BD%C5%C2%D0%B3%D1%B2%BD"&gt;三重対角化 - [物理のかぎしっぽ]&lt;/a&gt; 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.stat.yale.edu/~hz68/sparsePM.pdf"&gt;Estimating sparse precision matrices&lt;/a&gt; スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;やはり、Graphical LASSOを遅くてもいいから試したくある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://omedstu.jimdofree.com/2018/03/28/graph-lassoによる変数間の関係のグラフ化/"&gt;GraphLassoによる変数間の関係のグラフ化&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>論文書き(1)</title><link href="/lun-wen-shu-ki1.html" rel="alternate"></link><published>2020-10-16T10:00:00+09:00</published><updated>2020-10-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-16:/lun-wen-shu-ki1.html</id><summary type="html">&lt;p&gt;TODO:&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;図:&lt;ul&gt;
 &lt;li&gt;実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://linuxtricksandtips.blogspot.com/2015/01/how-to-convert-color-eps-to-grayscale.html"&gt;カラーeps → グレスケepsの裏技&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;移動平均サンプル数を増やした。グレスケに変えた。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡&lt;/li&gt;
+&lt;li&gt;移動平均サンプル数を増やした。グレスケ画像を作った。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;概要:&lt;ul&gt;
@@ -23,7 +139,7 @@
 &lt;li&gt;図:&lt;ul&gt;
 &lt;li&gt;実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://linuxtricksandtips.blogspot.com/2015/01/how-to-convert-color-eps-to-grayscale.html"&gt;カラーeps → グレスケepsの裏技&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;移動平均サンプル数を増やした。グレスケに変えた。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡&lt;/li&gt;
+&lt;li&gt;移動平均サンプル数を増やした。グレスケ画像を作った。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;概要:&lt;ul&gt;

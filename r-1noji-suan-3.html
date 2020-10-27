@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>書類整理終わり、復帰 / 成果まとめ中(1) - Aiki's Blog</title>
+    <title>R^-1の計算(3) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,24 +9,21 @@
 
 
 
-<link rel="canonical" href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">
+<link rel="canonical" href="/r-1noji-suan-3.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="LMS,SignedLMS,RLS,Natural Gradient,Empirical Fisher" />
-        <meta name="description" content="諸々の提出書類で実験できず。1週間空けて復帰。 報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。 対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。 Notes on the Limitations of the Empirical Fisher Approximation 経験フィッシャー行列の性能限界について。 ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="要約すると、もうGraphical LASSO実装して試してみるべきかと思う。 sklearnのソース(Github) 数式との対応を追っていく。（しっかし昼は全く集中できない。。。） 気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="書類整理終わり、復帰 / 成果まとめ中(1)"/>
-        <meta property="og:url" content="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html"/>
-        <meta property="og:description" content="諸々の提出書類で実験できず。1週間空けて復帰。 報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。 対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。 Notes on the Limitations of the Empirical Fisher Approximation 経験フィッシャー行列の性能限界について。 ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。"/>
-        <meta property="article:published_time" content="2020-05-18" />
+        <meta property="og:title" content="R^-1の計算(3)"/>
+        <meta property="og:url" content="/r-1noji-suan-3.html"/>
+        <meta property="og:description" content="要約すると、もうGraphical LASSO実装して試してみるべきかと思う。 sklearnのソース(Github) 数式との対応を追っていく。（しっかし昼は全く集中できない。。。） 気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。"/>
+        <meta property="article:published_time" content="2020-10-26" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="LMS" />
-            <meta property="article:tag" content="SignedLMS" />
-            <meta property="article:tag" content="RLS" />
-            <meta property="article:tag" content="Natural Gradient" />
-            <meta property="article:tag" content="Empirical Fisher" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
             <meta property="article:author" content="aiki" />
 
 
@@ -94,10 +91,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html"
+                    <a href="/r-1noji-suan-3.html"
                        rel="bookmark"
-                       title="Permalink to 書類整理終わり、復帰 / 成果まとめ中(1)">
-                        書類整理終わり、復帰 / 成果まとめ中(1)
+                       title="Permalink to R^-1の計算(3)">
+                        R^-1の計算(3)
                     </a>
                 </h1>
             </header>
@@ -107,7 +104,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-05-18T11:00:00+09:00"> Mon 18 May 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-10-26T10:00:00+09:00"> Mon 26 October 2020</time>
     </span>
 
 
@@ -115,36 +112,28 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/lms.html">LMS</a>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
         /
-	<a href="/tag/signedlms.html">SignedLMS</a>
-        /
-	<a href="/tag/rls.html">RLS</a>
-        /
-	<a href="/tag/natural-gradient.html">Natural Gradient</a>
-        /
-	<a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>諸々の提出書類で実験できず。1週間空けて復帰。</p>
-<p>報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。
-対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。</p>
+                <p>要約すると、もうGraphical LASSO実装して試してみるべきかと思う。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.inference.vc/on-empirical-fisher-information/">Notes on the Limitations of the Empirical Fisher Approximation</a> 経験フィッシャー行列の性能限界について。</li>
+<li><a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py">sklearnのソース(Github)</a></li>
 </ul>
-<p>ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。</p>
+<p>数式との対応を追っていく。（しっかし昼は全く集中できない。。。）
+気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。</p>
 
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html">成果まとめ中(5)  / 自然勾配法の概観</a></li>
-        <li><a href="/cheng-guo-matomezhong-4.html">成果まとめ中(4)</a></li>
-        <li><a href="/cheng-guo-matomezhong-3.html">成果まとめ中(3)</a></li>
-        <li><a href="/cheng-guo-matomezhong-2.html">成果まとめ中(2)</a></li>
-        <li><a href="/lms-filternoju-dong-guan-cha-zhong-10.html">LMS Filterの挙動観察中(10)</a></li>
+        <li><a href="/r-1noji-suan-4.html">R^-1の計算(4)</a></li>
+        <li><a href="/r-1noji-suan-1.html">R^-1の計算(1)</a></li>
+        <li><a href="/r-1noji-suan-2.html">R^-1の計算(2)</a></li>
+        <li><a href="/lun-wen-shu-ki1.html">論文書き(1)</a></li>
     </ul>
 </section>
         </article>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>書類整理終わり、復帰 / 成果まとめ中(1) - Aiki's Blog</title>
+    <title>R^-1の計算(2) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,24 +9,21 @@
 
 
 
-<link rel="canonical" href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">
+<link rel="canonical" href="/r-1noji-suan-2.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="LMS,SignedLMS,RLS,Natural Gradient,Empirical Fisher" />
-        <meta name="description" content="諸々の提出書類で実験できず。1週間空けて復帰。 報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。 対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。 Notes on the Limitations of the Empirical Fisher Approximation 経験フィッシャー行列の性能限界について。 ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="今更ながら三重対角行列、かなり具合が良さそうに見える。 三重対角行列の特殊形の固有値は綺麗 三重対角行列の固有値と固有ベクトルを計算したい 三重対角化 - [物理のかぎしっぽ] 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。 Estimating sparse precision matrices スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。 やはり、Graphical LASSOを遅くてもいいから試したくある。 GraphLassoによる変数間の関係のグラフ化 sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="書類整理終わり、復帰 / 成果まとめ中(1)"/>
-        <meta property="og:url" content="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html"/>
-        <meta property="og:description" content="諸々の提出書類で実験できず。1週間空けて復帰。 報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。 対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。 Notes on the Limitations of the Empirical Fisher Approximation 経験フィッシャー行列の性能限界について。 ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。"/>
-        <meta property="article:published_time" content="2020-05-18" />
+        <meta property="og:title" content="R^-1の計算(2)"/>
+        <meta property="og:url" content="/r-1noji-suan-2.html"/>
+        <meta property="og:description" content="今更ながら三重対角行列、かなり具合が良さそうに見える。 三重対角行列の特殊形の固有値は綺麗 三重対角行列の固有値と固有ベクトルを計算したい 三重対角化 - [物理のかぎしっぽ] 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。 Estimating sparse precision matrices スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。 やはり、Graphical LASSOを遅くてもいいから試したくある。 GraphLassoによる変数間の関係のグラフ化 sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。"/>
+        <meta property="article:published_time" content="2020-10-24" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="LMS" />
-            <meta property="article:tag" content="SignedLMS" />
-            <meta property="article:tag" content="RLS" />
-            <meta property="article:tag" content="Natural Gradient" />
-            <meta property="article:tag" content="Empirical Fisher" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
             <meta property="article:author" content="aiki" />
 
 
@@ -94,10 +91,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html"
+                    <a href="/r-1noji-suan-2.html"
                        rel="bookmark"
-                       title="Permalink to 書類整理終わり、復帰 / 成果まとめ中(1)">
-                        書類整理終わり、復帰 / 成果まとめ中(1)
+                       title="Permalink to R^-1の計算(2)">
+                        R^-1の計算(2)
                     </a>
                 </h1>
             </header>
@@ -107,7 +104,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-05-18T11:00:00+09:00"> Mon 18 May 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-10-24T10:00:00+09:00"> Sat 24 October 2020</time>
     </span>
 
 
@@ -115,36 +112,34 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/lms.html">LMS</a>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
         /
-	<a href="/tag/signedlms.html">SignedLMS</a>
-        /
-	<a href="/tag/rls.html">RLS</a>
-        /
-	<a href="/tag/natural-gradient.html">Natural Gradient</a>
-        /
-	<a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>諸々の提出書類で実験できず。1週間空けて復帰。</p>
-<p>報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。
-対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。</p>
+                <p>今更ながら三重対角行列、かなり具合が良さそうに見える。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.inference.vc/on-empirical-fisher-information/">Notes on the Limitations of the Empirical Fisher Approximation</a> 経験フィッシャー行列の性能限界について。</li>
+<li><a class="reference external" href="https://mathtrain.jp/tridiagonal">三重対角行列の特殊形の固有値は綺麗</a></li>
+<li><a class="reference external" href="https://gg-hogehoge.hatenablog.com/entry/2013/07/20/140341">三重対角行列の固有値と固有ベクトルを計算したい</a></li>
+<li><a class="reference external" href="http://hooktail.org/computer/index.php?%BB%B0%BD%C5%C2%D0%B3%D1%B2%BD">三重対角化 - [物理のかぎしっぽ]</a> 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。</li>
+<li><a class="reference external" href="http://www.stat.yale.edu/~hz68/sparsePM.pdf">Estimating sparse precision matrices</a> スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。</li>
 </ul>
-<p>ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。</p>
+<p>やはり、Graphical LASSOを遅くてもいいから試したくある。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://omedstu.jimdofree.com/2018/03/28/graph-lassoによる変数間の関係のグラフ化/">GraphLassoによる変数間の関係のグラフ化</a></li>
+</ul>
+<p>sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。</p>
 
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html">成果まとめ中(5)  / 自然勾配法の概観</a></li>
-        <li><a href="/cheng-guo-matomezhong-4.html">成果まとめ中(4)</a></li>
-        <li><a href="/cheng-guo-matomezhong-3.html">成果まとめ中(3)</a></li>
-        <li><a href="/cheng-guo-matomezhong-2.html">成果まとめ中(2)</a></li>
-        <li><a href="/lms-filternoju-dong-guan-cha-zhong-10.html">LMS Filterの挙動観察中(10)</a></li>
+        <li><a href="/r-1noji-suan-4.html">R^-1の計算(4)</a></li>
+        <li><a href="/r-1noji-suan-3.html">R^-1の計算(3)</a></li>
+        <li><a href="/r-1noji-suan-1.html">R^-1の計算(1)</a></li>
+        <li><a href="/lun-wen-shu-ki1.html">論文書き(1)</a></li>
     </ul>
 </section>
         </article>
