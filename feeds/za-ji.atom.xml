@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-10-27T10:00:00+09:00</updated><entry><title>R^-1の計算(4)</title><link href="/r-1noji-suan-4.html" rel="alternate"></link><published>2020-10-27T10:00:00+09:00</published><updated>2020-10-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-27:/r-1noji-suan-4.html</id><content type="html">&lt;p&gt;引き続き&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-10-31T10:00:00+09:00</updated><entry><title>R^-1の計算(5)</title><link href="/r-1noji-suan-5.html" rel="alternate"></link><published>2020-10-31T10:00:00+09:00</published><updated>2020-10-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-31:/r-1noji-suan-5.html</id><content type="html">&lt;p&gt;Graphical LASSOの実装ができたように見える。ハマったのは&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;精度行列と共分散行列を逆に見ていた ← 致命的&lt;/li&gt;
+&lt;li&gt;座標降下法ではベクトルを一気に更新したらだめ（収束しない！！）で、要素1つづつ更新する必要がある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;トイデータ（人工的なノイズ）はOKっぽい。
+実データでリファレンス（sklearn実装）と対角要素がかなり違う。何故だ。&lt;/p&gt;
+&lt;p&gt;実装ミスで間違いなさそう。入力信号を100で割るなりして小さくすると、共分散行列の逆の対角要素、及び精度行列の対角要素は大きくなるが、
+自分の実装は大きくなっていかない。&lt;/p&gt;
+&lt;p&gt;ノルム正規化したものを比較したら最大でも0.008程度の誤差。しかし、定数倍除き一致というのもおかしい。&lt;/p&gt;
+&lt;p&gt;しばらく追っていたら、入力信号の振幅に対して逆二乗で差が出ていることに気づいた。もっと見たら、共分散行列の初期化で正則化をかけているのが原因であることが分かった。正則化をかけると対角要素が変わってしまう。やるなら、別の正則化パラメータにするかな。今は外した。外すことで入力信号問わずほぼ一致。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(4)</title><link href="/r-1noji-suan-4.html" rel="alternate"></link><published>2020-10-27T10:00:00+09:00</published><updated>2020-10-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-27:/r-1noji-suan-4.html</id><summary type="html">&lt;p&gt;引き続き&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -17,8 +28,91 @@
 &lt;/ul&gt;
 &lt;p&gt;どうやら元論文の実装(LASSO最適化を行う)をそのまま落とし込んだようで、ソフトしきい値作用素は一切出てこない。。。
 githubで探してみても同様の実装が多数。&lt;/p&gt;
-&lt;p&gt;簡単そうに見えるから実装してみるか。アルゴリズムを紙にまとめてみた。やってみよう。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(3)</title><link href="/r-1noji-suan-3.html" rel="alternate"></link><published>2020-10-26T10:00:00+09:00</published><updated>2020-10-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-26:/r-1noji-suan-3.html</id><content type="html">&lt;p&gt;要約すると、もうGraphical LASSO実装して試してみるべきかと思う。&lt;/p&gt;
+&lt;p&gt;いや、各 &lt;span class="math"&gt;\(\beta_{i}\)&lt;/span&gt; の最適化は座標降下法だから、むしろそれが正しいのか。&lt;/p&gt;
+&lt;p&gt;いずれにしても簡単そうに見えるから実装してみるか。アルゴリズムを紙にまとめてみた。やってみよう。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align …&lt;/script&gt;</summary><content type="html">&lt;p&gt;引き続き&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;を見ながら、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf"&gt;依存関係にスパース性を入れる — グラフィカル lasso の話 ∗&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;の対応を見出そうとしているが、どうも一致しない。pythonのソース側が対応していると言っているのがFriedman&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://statweb.stanford.edu/~tibs/ftp/graph.pdf"&gt;Sparse inverse covariance estimation with the graphical lasso&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;とあるので、それを参照したが、実装はFortran...（Rは呼び出しインターフェースだけ。。。）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/covariance/_graph_lasso.py#L226"&gt;GLASSOの中身&lt;/a&gt; で &lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf39bbdacd6ed713c00724f8f871d60370/sklearn/linear_model/_cd_fast.pyx#L99"&gt;enet_coordinate_descent関数&lt;/a&gt; を呼んでおり、数値最適化はLASSO(ElasticNetで片方の係数を0にしたもの)に任されている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;どうやら元論文の実装(LASSO最適化を行う)をそのまま落とし込んだようで、ソフトしきい値作用素は一切出てこない。。。
+githubで探してみても同様の実装が多数。&lt;/p&gt;
+&lt;p&gt;いや、各 &lt;span class="math"&gt;\(\beta_{i}\)&lt;/span&gt; の最適化は座標降下法だから、むしろそれが正しいのか。&lt;/p&gt;
+&lt;p&gt;いずれにしても簡単そうに見えるから実装してみるか。アルゴリズムを紙にまとめてみた。やってみよう。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(3)</title><link href="/r-1noji-suan-3.html" rel="alternate"></link><published>2020-10-26T10:00:00+09:00</published><updated>2020-10-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-26:/r-1noji-suan-3.html</id><content type="html">&lt;p&gt;要約すると、もうGraphical LASSO実装して試してみるべきかと思う。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
