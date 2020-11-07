@@ -1,5 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-10-31T10:00:00+09:00</updated><entry><title>R^-1の計算(5)</title><link href="/r-1noji-suan-5.html" rel="alternate"></link><published>2020-10-31T10:00:00+09:00</published><updated>2020-10-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-31:/r-1noji-suan-5.html</id><content type="html">&lt;p&gt;Graphical LASSOの実装ができたように見える。ハマったのは&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-11-07T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(7)</title><link href="/r-1-noji-suan-7.html" rel="alternate"></link><published>2020-11-07T10:00:00+09:00</published><updated>2020-11-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-07:/r-1-noji-suan-7.html</id><summary type="html">&lt;p&gt;課題にかまけていたら平日全く時間を取れなかった。まずい。
+なんのためにここに来ているのか改めて考えなければなるまい。&lt;/p&gt;
+&lt;p&gt;やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、
+他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。
+改めて金谷先生の本を読んでもやれそうに見えるのだ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Graphical LASSOを逐次的に実行する手法はあるか？&lt;ul&gt;
+&lt;li&gt;手法自体は中々見つかっていない・・・&lt;ul&gt;
+&lt;li&gt;繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ないとしても、自己相関行列を逐次計算する手法はあるか？&lt;ul&gt;
+&lt;li&gt;共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1504.02995.pdf"&gt;An Overview on the Estimation of Large Covariance and Precision Matrices&lt;/a&gt; でかい精度行列を推定する手法のサーベイ&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://faculty.marshall.usc.edu/Jacob-Bien/papers/biometrika2011spcov.pdf"&gt;Sparse Estimation of a Covariance Matrix&lt;/a&gt; 共分散行列のスパース推定&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://webee.technion.ac.il/Sites/People/YoninaEldar/Info/Shrink.pdf"&gt;Shrinkage Algorithms for MMSE Covariance Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://hal.inria.fr/inria-00369468/document"&gt;Efficient Covariance Matrix Update for …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;課題にかまけていたら平日全く時間を取れなかった。まずい。
+なんのためにここに来ているのか改めて考えなければなるまい。&lt;/p&gt;
+&lt;p&gt;やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、
+他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。
+改めて金谷先生の本を読んでもやれそうに見えるのだ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Graphical LASSOを逐次的に実行する手法はあるか？&lt;ul&gt;
+&lt;li&gt;手法自体は中々見つかっていない・・・&lt;ul&gt;
+&lt;li&gt;繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ないとしても、自己相関行列を逐次計算する手法はあるか？&lt;ul&gt;
+&lt;li&gt;共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1504.02995.pdf"&gt;An Overview on the Estimation of Large Covariance and Precision Matrices&lt;/a&gt; でかい精度行列を推定する手法のサーベイ&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://faculty.marshall.usc.edu/Jacob-Bien/papers/biometrika2011spcov.pdf"&gt;Sparse Estimation of a Covariance Matrix&lt;/a&gt; 共分散行列のスパース推定&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://webee.technion.ac.il/Sites/People/YoninaEldar/Info/Shrink.pdf"&gt;Shrinkage Algorithms for MMSE Covariance Estimation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://hal.inria.fr/inria-00369468/document"&gt;Efficient Covariance Matrix Update for Variable Metric Evolution Strategies&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;対称な3重対角行列であることを活かせない？&lt;ul&gt;
+&lt;li&gt;活かすといっても何を活かせばいいんだろう。逆行列の計算が早い？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Tridiagonal_matrix#Inversion"&gt;wikipedia&lt;/a&gt; に情報はあるけど、何をどう活かせばいいのか…うーん。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.phys.lsu.edu/faculty/oconnell_new/PDFfiles/241.%20Analytical%20Inversion%20of%20Symmetric%20Tridiagonal%20Matrices.pdf"&gt;Analytical inversion of symmetric tridiagonal matrices&lt;/a&gt; 簡単なケースに対するものは解析解が求まっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;共役勾配法を導入するとどうなる？&lt;ul&gt;
+&lt;li&gt;ヘッセ行列の計算を省いたときの、ビール・ソレンソン、ポラック・リビエール、フレッチャー・リーブスはどうなる？&lt;ul&gt;
+&lt;li&gt;これらを試すのは十分にあり。 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; を考える必要すらない。 ビール・ソレンソン等によれば &lt;span class="math"&gt;\(R\)&lt;/span&gt; すらいらなくなる。しかし、気になるのは既存研究。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;メモ:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://nagahara-masaaki.github.io/assets/pdfs/lecture10.pdf"&gt;Gershgorinの定理の優しい解説&lt;/a&gt; 要約すると、固有値の範囲をその行列の要素から特定できる定理なのだ。スパースモデリングでも度々出てくる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jappstat1971/22/3/22_3_99/_pdf/-char/en"&gt;階層型ニューラルネットとその周辺&lt;/a&gt; NNに対する自然勾配法（Fisherのスコアリング法と言っている）の原始的な定式化。広島大学の栗田先生。甘利先生より早いのでは？&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/profile/Takio_Kurita/publication/2372487_Iterative_Weighted_Least_Squares_Algorithms_For_Neural_Networks_Classifiers/links/0fcfd509460b783ab6000000/Iterative-Weighted-Least-Squares-Algorithms-For-Neural-Networks-Classifiers.pdf"&gt;ITERATIVE WEIGHTED LEAST SQUARES ALGORITHMS FOR NEURAL NETWORKS CLASSIFIERS&lt;/a&gt; Fisherのスコアリング法を提案している論文。&lt;/li&gt;
+&lt;li&gt;2乗誤差基準でFisher情報行列を求めると、重み付きの入力の相関になる…まさか、LMSも重み付き相関で求まることを言っている？→簡単に確認したけどそんなことは無いはず…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(6)</title><link href="/r-1-noji-suan-6.html" rel="alternate"></link><published>2020-11-01T10:00:00+09:00</published><updated>2020-11-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-01:/r-1-noji-suan-6.html</id><content type="html">&lt;p&gt;Graphical LASSOを積み込むべきなのかもしれない。
+まずは遅くてもいいから、NGSAに入れてみて様子を見よう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(5)</title><link href="/r-1-noji-suan-5.html" rel="alternate"></link><published>2020-10-31T10:00:00+09:00</published><updated>2020-10-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-31:/r-1-noji-suan-5.html</id><content type="html">&lt;p&gt;Graphical LASSOの実装ができたように見える。ハマったのは&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;精度行列と共分散行列を逆に見ていた ← 致命的&lt;/li&gt;
 &lt;li&gt;座標降下法ではベクトルを一気に更新したらだめ（収束しない！！）で、要素1つづつ更新する必要がある。&lt;/li&gt;
@@ -10,7 +133,7 @@
 自分の実装は大きくなっていかない。&lt;/p&gt;
 &lt;p&gt;ノルム正規化したものを比較したら最大でも0.008程度の誤差。しかし、定数倍除き一致というのもおかしい。&lt;/p&gt;
 &lt;p&gt;しばらく追っていたら、入力信号の振幅に対して逆二乗で差が出ていることに気づいた。もっと見たら、共分散行列の初期化で正則化をかけているのが原因であることが分かった。正則化をかけると対角要素が変わってしまう。やるなら、別の正則化パラメータにするかな。今は外した。外すことで入力信号問わずほぼ一致。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(4)</title><link href="/r-1noji-suan-4.html" rel="alternate"></link><published>2020-10-27T10:00:00+09:00</published><updated>2020-10-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-27:/r-1noji-suan-4.html</id><summary type="html">&lt;p&gt;引き続き&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(4)</title><link href="/r-1-noji-suan-4.html" rel="alternate"></link><published>2020-10-27T10:00:00+09:00</published><updated>2020-10-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-27:/r-1-noji-suan-4.html</id><summary type="html">&lt;p&gt;引き続き&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
@@ -112,13 +235,13 @@ githubで探してみても同様の実装が多数。&lt;/p&gt;
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(3)</title><link href="/r-1noji-suan-3.html" rel="alternate"></link><published>2020-10-26T10:00:00+09:00</published><updated>2020-10-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-26:/r-1noji-suan-3.html</id><content type="html">&lt;p&gt;要約すると、もうGraphical LASSO実装して試してみるべきかと思う。&lt;/p&gt;
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(3)</title><link href="/r-1-noji-suan-3.html" rel="alternate"></link><published>2020-10-26T10:00:00+09:00</published><updated>2020-10-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-26:/r-1-noji-suan-3.html</id><content type="html">&lt;p&gt;要約すると、もうGraphical LASSO実装して試してみるべきかと思う。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py"&gt;sklearnのソース(Github)&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;数式との対応を追っていく。（しっかし昼は全く集中できない。。。）
 気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(2)</title><link href="/r-1noji-suan-2.html" rel="alternate"></link><published>2020-10-25T10:00:00+09:00</published><updated>2020-10-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-25:/r-1noji-suan-2.html</id><content type="html">&lt;p&gt;今更ながら三重対角行列、かなり具合が良さそうに見える。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(2)</title><link href="/r-1-noji-suan-2.html" rel="alternate"></link><published>2020-10-25T10:00:00+09:00</published><updated>2020-10-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-25:/r-1-noji-suan-2.html</id><content type="html">&lt;p&gt;今更ながら三重対角行列、かなり具合が良さそうに見える。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://mathtrain.jp/tridiagonal"&gt;三重対角行列の特殊形の固有値は綺麗&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://gg-hogehoge.hatenablog.com/entry/2013/07/20/140341"&gt;三重対角行列の固有値と固有ベクトルを計算したい&lt;/a&gt;&lt;/li&gt;
@@ -130,7 +253,7 @@ githubで探してみても同様の実装が多数。&lt;/p&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://omedstu.jimdofree.com/2018/03/28/graph-lassoによる変数間の関係のグラフ化/"&gt;GraphLassoによる変数間の関係のグラフ化&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>R^-1の計算(1)</title><link href="/r-1noji-suan-1.html" rel="alternate"></link><published>2020-10-24T10:00:00+09:00</published><updated>2020-10-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-24:/r-1noji-suan-1.html</id><summary type="html">&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算高速化を考えていく。
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(1)</title><link href="/r-1-noji-suan-1.html" rel="alternate"></link><published>2020-10-24T10:00:00+09:00</published><updated>2020-10-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-10-24:/r-1-noji-suan-1.html</id><summary type="html">&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算高速化を考えていく。
 なにより対象を知るのが一番だと思うので、まずは確認コードと真値の計算とその確認を行っていく。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",

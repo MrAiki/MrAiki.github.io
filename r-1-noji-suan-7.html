@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>研究会に向けて(1) - Aiki's Blog</title>
+    <title>\(R^{-1}\) の計算(7) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,22 +9,21 @@
 
 
 
-<link rel="canonical" href="/yan-jiu-hui-nixiang-kete1.html">
+<link rel="canonical" href="/r-1-noji-suan-7.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="Signed LMS,LMS,Natural Gradient" />
-        <meta name="description" content="今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。 イベントレポートをこっちに移動しようか考えている。 研究の方は、研究会への申込みに着手した。 正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。 他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="課題にかまけていたら平日全く時間を取れなかった。まずい。 なんのためにここに来ているのか改めて考えなければなるまい。 やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、 他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。 改めて金谷先生の本を読んでもやれそうに見えるのだ。 Graphical LASSOを逐次的に実行する手法はあるか？ 手法自体は中々見つかっていない・・・ 繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。 ないとしても、自己相関行列を逐次計算する手法はあるか？ 共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。 An Overview on the Estimation of Large Covariance and Precision Matrices でかい精度行列を推定する手法のサーベイ Sparse Estimation of a Covariance Matrix 共分散行列のスパース推定 Shrinkage Algorithms for MMSE Covariance Estimation Efficient Covariance Matrix Update for …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="研究会に向けて(1)"/>
-        <meta property="og:url" content="/yan-jiu-hui-nixiang-kete1.html"/>
-        <meta property="og:description" content="今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。 イベントレポートをこっちに移動しようか考えている。 研究の方は、研究会への申込みに着手した。 正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。 他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。"/>
-        <meta property="article:published_time" content="2020-06-19" />
+        <meta property="og:title" content="\(R^{-1}\) の計算(7)"/>
+        <meta property="og:url" content="/r-1-noji-suan-7.html"/>
+        <meta property="og:description" content="課題にかまけていたら平日全く時間を取れなかった。まずい。 なんのためにここに来ているのか改めて考えなければなるまい。 やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、 他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。 改めて金谷先生の本を読んでもやれそうに見えるのだ。 Graphical LASSOを逐次的に実行する手法はあるか？ 手法自体は中々見つかっていない・・・ 繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。 ないとしても、自己相関行列を逐次計算する手法はあるか？ 共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。 An Overview on the Estimation of Large Covariance and Precision Matrices でかい精度行列を推定する手法のサーベイ Sparse Estimation of a Covariance Matrix 共分散行列のスパース推定 Shrinkage Algorithms for MMSE Covariance Estimation Efficient Covariance Matrix Update for …"/>
+        <meta property="article:published_time" content="2020-11-07" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="Signed LMS" />
-            <meta property="article:tag" content="LMS" />
-            <meta property="article:tag" content="Natural Gradient" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
             <meta property="article:author" content="aiki" />
 
 
@@ -92,10 +91,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/yan-jiu-hui-nixiang-kete1.html"
+                    <a href="/r-1-noji-suan-7.html"
                        rel="bookmark"
-                       title="Permalink to 研究会に向けて(1)">
-                        研究会に向けて(1)
+                       title="Permalink to \(R^{-1}\) の計算(7)">
+                        <span class="math">\(R^{-1}\)</span> の計算(7)
                     </a>
                 </h1>
             </header>
@@ -105,7 +104,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-06-19T11:00:00+09:00"> Fri 19 June 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-11-07T10:00:00+09:00"> Sat 07 November 2020</time>
     </span>
 
 
@@ -113,30 +112,128 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/signed-lms.html">Signed LMS</a>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
         /
-	<a href="/tag/lms.html">LMS</a>
-        /
-	<a href="/tag/natural-gradient.html">Natural Gradient</a>
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>今週前半は休んでいた。流石にイベント中止が連打されて精神的に余裕がなくなった。
-イベントレポートをこっちに移動しようか考えている。</p>
-<p>研究の方は、研究会への申込みに着手した。
-正則化はタイムアップ。将来の課題に回す。研究会の準備をしていく。
-他にも、事故相関行列の計算高速化が色々試せそう。例えば、クロネッカ積に分解したり。</p>
+                <p>課題にかまけていたら平日全く時間を取れなかった。まずい。
+なんのためにここに来ているのか改めて考えなければなるまい。</p>
+<p>やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、
+他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。
+改めて金谷先生の本を読んでもやれそうに見えるのだ。</p>
+<ul class="simple">
+<li>Graphical LASSOを逐次的に実行する手法はあるか？<ul>
+<li>手法自体は中々見つかっていない・・・<ul>
+<li>繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。</li>
+</ul>
+</li>
+<li>ないとしても、自己相関行列を逐次計算する手法はあるか？<ul>
+<li>共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。</li>
+<li><a class="reference external" href="https://arxiv.org/pdf/1504.02995.pdf">An Overview on the Estimation of Large Covariance and Precision Matrices</a> でかい精度行列を推定する手法のサーベイ</li>
+<li><a class="reference external" href="http://faculty.marshall.usc.edu/Jacob-Bien/papers/biometrika2011spcov.pdf">Sparse Estimation of a Covariance Matrix</a> 共分散行列のスパース推定</li>
+<li><a class="reference external" href="https://webee.technion.ac.il/Sites/People/YoninaEldar/Info/Shrink.pdf">Shrinkage Algorithms for MMSE Covariance Estimation</a></li>
+<li><a class="reference external" href="https://hal.inria.fr/inria-00369468/document">Efficient Covariance Matrix Update for Variable Metric Evolution Strategies</a></li>
+</ul>
+</li>
+<li>対称な3重対角行列であることを活かせない？<ul>
+<li>活かすといっても何を活かせばいいんだろう。逆行列の計算が早い？</li>
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Tridiagonal_matrix#Inversion">wikipedia</a> に情報はあるけど、何をどう活かせばいいのか…うーん。</li>
+<li><a class="reference external" href="http://www.phys.lsu.edu/faculty/oconnell_new/PDFfiles/241.%20Analytical%20Inversion%20of%20Symmetric%20Tridiagonal%20Matrices.pdf">Analytical inversion of symmetric tridiagonal matrices</a> 簡単なケースに対するものは解析解が求まっている。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>共役勾配法を導入するとどうなる？<ul>
+<li>ヘッセ行列の計算を省いたときの、ビール・ソレンソン、ポラック・リビエール、フレッチャー・リーブスはどうなる？<ul>
+<li>これらを試すのは十分にあり。 <span class="math">\(R^{-1}\)</span> を考える必要すらない。 ビール・ソレンソン等によれば <span class="math">\(R\)</span> すらいらなくなる。しかし、気になるのは既存研究。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>メモ:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://nagahara-masaaki.github.io/assets/pdfs/lecture10.pdf">Gershgorinの定理の優しい解説</a> 要約すると、固有値の範囲をその行列の要素から特定できる定理なのだ。スパースモデリングでも度々出てくる。</li>
+<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/jappstat1971/22/3/22_3_99/_pdf/-char/en">階層型ニューラルネットとその周辺</a> NNに対する自然勾配法（Fisherのスコアリング法と言っている）の原始的な定式化。広島大学の栗田先生。甘利先生より早いのでは？<ul>
+<li><a class="reference external" href="https://www.researchgate.net/profile/Takio_Kurita/publication/2372487_Iterative_Weighted_Least_Squares_Algorithms_For_Neural_Networks_Classifiers/links/0fcfd509460b783ab6000000/Iterative-Weighted-Least-Squares-Algorithms-For-Neural-Networks-Classifiers.pdf">ITERATIVE WEIGHTED LEAST SQUARES ALGORITHMS FOR NEURAL NETWORKS CLASSIFIERS</a> Fisherのスコアリング法を提案している論文。</li>
+<li>2乗誤差基準でFisher情報行列を求めると、重み付きの入力の相関になる…まさか、LMSも重み付き相関で求まることを言っている？→簡単に確認したけどそんなことは無いはず…</li>
+</ul>
+</li>
+</ul>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
 
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">研究会に向けて - 執筆(5)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">研究会に向けて - 執筆(4)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">研究会に向けて - 執筆(3)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html">研究会に向けて - 執筆(2)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">研究会に向けて - 執筆(1)</a></li>
+        <li><a href="/r-1-noji-suan-6.html"><span class="math">\(R^{-1}\)</span> の計算(6)</a></li>
+        <li><a href="/r-1-noji-suan-5.html"><span class="math">\(R^{-1}\)</span> の計算(5)</a></li>
+        <li><a href="/r-1-noji-suan-4.html"><span class="math">\(R^{-1}\)</span> の計算(4)</a></li>
+        <li><a href="/r-1-noji-suan-3.html"><span class="math">\(R^{-1}\)</span> の計算(3)</a></li>
+        <li><a href="/r-1-noji-suan-2.html"><span class="math">\(R^{-1}\)</span> の計算(2)</a></li>
     </ul>
 </section>
         </article>
