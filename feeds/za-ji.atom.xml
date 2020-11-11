@@ -1,5 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-11-07T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(7)</title><link href="/r-1-noji-suan-7.html" rel="alternate"></link><published>2020-11-07T10:00:00+09:00</published><updated>2020-11-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-07:/r-1-noji-suan-7.html</id><summary type="html">&lt;p&gt;課題にかまけていたら平日全く時間を取れなかった。まずい。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-11-11T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(10)</title><link href="/r-1-noji-suan-10.html" rel="alternate"></link><published>2020-11-11T10:00:00+09:00</published><updated>2020-11-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-11:/r-1-noji-suan-10.html</id><content type="html">&lt;p&gt;共役勾配法を実装して（fが二次として金谷先生の例題3.5をそのまま使用）試してはいるが、性能が良くない。具体的には普通のSAと変わらんくらい。
+実装ミスを疑っている。確かめるためにJupyterで検証しているけど、無難な結果が出ていると思われる。。。&lt;/p&gt;
+&lt;p&gt;でもおかしいんだよなあ。発想自体は自然勾配と全く同じはずなのにあまり良くならないのは、やっぱり引っかかる。
+もう少し追うけど、ダメそうなら切り替えて、次は準ニュートン法を試してみたい。
+しっかし共役勾配法についてはもう少し粘るし、準ニュートン法との比較はちゃんとすること。投げっぱなし良くない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.uno.nuem.nagoya-u.ac.jp/~taji/lecture/mathprog/no9_18.pdf"&gt;制約なし問題の解法&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://tm23forest.com/contents/bfgs-formula-quasi-newton-method-scipy-motivated"&gt;BFGS公式による準ニュートン法&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;丁寧目の説明。ん？セカント方程式は劣決定問題だと言ってる。スパースな何かを使えないか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://imclab.sys.okayama-u.ac.jp/~kent/DIR/opt08.pdf"&gt;システム制御最適化特論 非線形最適化&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;証明多め。丁寧な説明。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.orsj.or.jp/archive2/or59-03/or59_3_131.pdf"&gt;無制約最適化問題に対する アルゴリズムの最前線 ―非線形共役勾配法を中心に―&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.coyote009.com/non-linear-optimization"&gt;制約無し非線形最適化手法のいろいろ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.sist.ac.jp/~suganuma/kougi/other_lecture/SE/opt/nonlinear/nonlinear.htm"&gt;システムの最適化 － ２．非線形計画法（ NP: Nonlinear Programming ） －&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;簡単めな説明で実装しやすさがある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(9)</title><link href="/r-1-noji-suan-9.html" rel="alternate"></link><published>2020-11-09T10:00:00+09:00</published><updated>2020-11-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-09:/r-1-noji-suan-9.html</id><content type="html">&lt;p&gt;講義受けてて思ったこと。Cramer-RaoをNGSAの学習能力の評価に使えないか？
+パット見使えなそう。うーむ。右辺というかFisher情報行列の逆は見えてるんだけど、比較対象の左辺が具体的に構成できない。（思い浮かばない）&lt;/p&gt;
+&lt;p&gt;共役勾配法を入れて色々試してみてるけど、普通の勾配法とほぼ性能が変わらないという謎の状態。
+2次の情報を使ってるので何かしら変化があるはずなのに、ほぼ変わらないのはおかしい。
+自己相関行列を逐次的ではなく、前もって計算してやってみても同じ。謎。&lt;/p&gt;
+&lt;p&gt;また共役勾配を見ると高級なモーメンタム法にしか見えないなあ。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(8)</title><link href="/r-1-noji-suan-8.html" rel="alternate"></link><published>2020-11-08T10:00:00+09:00</published><updated>2020-11-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-08:/r-1-noji-suan-8.html</id><content type="html">&lt;p&gt;今日は共役勾配法を試してみたい、が、その前にソース整理してcommitしとこう。&lt;/p&gt;
+&lt;p&gt;pylintやるなりリファクタしてたら時間的にアウトになった。今日は見送りか...若干焦るけどしゃあない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(7)</title><link href="/r-1-noji-suan-7.html" rel="alternate"></link><published>2020-11-07T10:00:00+09:00</published><updated>2020-11-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-07:/r-1-noji-suan-7.html</id><summary type="html">&lt;p&gt;課題にかまけていたら平日全く時間を取れなかった。まずい。
 なんのためにここに来ているのか改めて考えなければなるまい。&lt;/p&gt;
 &lt;p&gt;やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、
 他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。
