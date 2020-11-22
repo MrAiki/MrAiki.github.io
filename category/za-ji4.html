@@ -56,6 +56,9 @@ Aiki's Blog            </a>
                             <a href="/category/ji-shi.html">記事</a>
                         </li>
                         <li >
+                            <a href="/category/qu-wei.html">趣味</a>
+                        </li>
+                        <li >
                             <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li class="active">
@@ -81,6 +84,168 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
+            <article>
+                <h2><a href="/zi-you-gong-zuo-3.html">自由工作(3)</a></h2>
+                <div class="summary"><p>しばらく夏休みしてた。作業再開。エンコード作成中。
+ADPCMの音質改善にはノイズシェーピング（量子化ノイズ）をへらすのが有効らしい。特許に注意だけど切れてそう。</p>
+<p>休んでいる間に色々リンク見つけたからまとめてからねる。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/dbry/adpcm-xq">adpcm-xq</a> WavPackの人のADPCM(IMA)の改良エンコーダ。いいアイデアが2つ。ノイズシェーピングと先読みエンコード。</li>
+<li><a class="reference external" href="https://sericyb.com.au/audio.html">A comparison of Internet audio compression formats</a> 音質比較</li>
+<li><a class="reference external" href="https://hydrogenaud.io/index.php?topic=109270.0">What quality measurement is best for (A)DPCM?</a> ADPCMの評価指標について</li>
+<li><a class="reference external" href="http://www.kumikomi.net/archives/2010/07/ep22onse.php?page=5">G.726 ADPCMエンコーダの詳細</a> 本と同じ内容だけど、こっちはいつでも見れる。</li>
+<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/isciesci/61/2/61_76/_pdf/-char/en">信号品質を保つディジタル化技術: ノイズシェーピング量子化—I</a> ノイズシェーピングの基礎。Ⅵまである。丁寧。</li>
+<li><a class="reference external" href="https://kamedo2.hatenablog.jp/entry/20100812/1281640220">ADPCM音質改善</a> 重要。ノイズシェーピングの効果について書いてある …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-2.html">自由工作(2)</a></h2>
+                <div class="summary"><p>ADPCMのデコードはほぼできた。次はエンコード。</p>
+<p>いろんなソース見とるが、予測時に分岐しまくるのやばくね？とおもってたらそのとおりで、ffmpeg実装は乗算を使ってる:</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.ffmpeg.org/doxygen/trunk/adpcm_8c_source.html">ffmpegの実装（adpcm_ima_expand_nibble）</a></li>
+<li><a class="reference external" href="https://ffmpeg.org/doxygen/trunk/adpcmenc_8c_source.html">ffmpegのエンコーダ実装(adpcm_ima_compress_sample)</a></li>
+</ul>
+<div class="highlight"><pre><span></span><span class="k">static</span> <span class="kr">inline</span> <span class="kt">int16_t</span> <span class="nf">adpcm_ima_expand_nibble</span><span class="p">(</span><span class="n">ADPCMChannelStatus</span> <span class="o">*</span><span class="n">c</span><span class="p">,</span> <span class="kt">int8_t</span> <span class="n">nibble</span><span class="p">,</span> <span class="kt">int</span> <span class="n">shift</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">step_index</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">predictor</span><span class="p">;</span>
+    <span class="kt">int</span> <span class="n">sign</span><span class="p">,</span> <span class="n">delta</span><span class="p">,</span> <span class="n">diff</span><span class="p">,</span> <span class="n">step</span><span class="p">;</span>
+
+    <span class="n">step</span> <span class="o">=</span> <span class="n">ff_adpcm_step_table</span><span class="p">[</span><span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span><span class="p">];</span>
+    <span class="n">step_index</span> <span class="o">=</span> <span class="n">c</span><span class="o">-&gt;</span><span class="n">step_index</span> <span class="o">+</span> <span class="n">ff_adpcm_index_table</span><span class="p">[(</span><span class="kt">unsigned</span><span class="p">)</span><span class="n">nibble</span><span class="p">];</span>
+    <span class="n">step_index</span> <span class="o">=</span> <span class="n">av_clip</span><span class="p">(</span><span class="n">step_index</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">88</span><span class="p">);</span>
+
+    <span class="n">sign</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">8</span><span class="p">;</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">nibble</span> <span class="o">&amp;</span> <span class="mi">7 …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-1.html">自由工作(1)</a></h2>
+                <div class="summary"><p>まずはIMA-ADPCM互換のデコーダ/エンコーダを作ってみますかね。かなり情報あるし。
+FFMPEGで出力する方法は:</p>
+<p>ffmpeg -i &lt;input.wav&gt; -f wav -acodec adpcm_ima_wav &lt;output.wav&gt;</p>
+<p>Macで再生もできた。ほぼ1/4になる。理論的には1/4だけどwavに余計なチャンクが入っているから減っている？</p>
+<p>ステレオ以上はどうなってるのか見ている。インターリーブしているようだ。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://wiki.multimedia.cx/index.php?title=Microsoft_IMA_ADPCM">Microsoft IMA ADPCM</a></li>
+</ul>
+<p>上記のサイト含めてフォーマットをまとめると（ <strong>全て</strong> リトルエンディアン）</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="25%" />
+<col width="12%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">名前</th>
+<th class="head">サイズ[byte]</th>
+<th class="head">内容</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>RIFFチャンクID</td>
+<td>4</td>
+<td>'R', 'I', 'F', 'F'</td>
+</tr>
+<tr><td>RIFFチャンクサイズ</td>
+<td>4</td>
+<td>ファイルサイズ - 8（これ以降の残りファイルサイズ）</td>
+</tr>
+<tr><td>ファイルフォーマットタイプ</td>
+<td>4</td>
+<td>'W', 'A', 'V', 'E'</td>
+</tr>
+<tr><td>FMTチャンクID</td>
+<td>4 …</td></tr></tbody></table>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo.html">自由工作</a></h2>
+                <div class="summary"><p>発表会終わり。発表準備と並行して群論やってた。
+夏休みは自由工作（息抜き）としてADPCMエンコーダデコーダ作ろうかと思ってる。
+もちろん、群論（リー群まで）と情報幾何（統計的応用まで、行間のまとめ）は進める。</p>
+<p>ADPCMのフォーマットを見ている。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://forum.audacityteam.org/viewtopic.php?t=10950">IMA ADPCM vs MS ADPCM</a></li>
+<li><a class="reference external" href="https://wiki.multimedia.cx/index.php/Microsoft_ADPCM">Microsoft ADPCM</a></li>
+<li><a class="reference external" href="https://wiki.multimedia.cx/index.php/IMA_ADPCM">IMA ADPCM</a></li>
+<li><a class="reference external" href="https://wiki.multimedia.cx/index.php/CRI_ADX_ADPCM">CRI ADX ADPCM</a></li>
+<li><a class="reference external" href="http://www.cs.columbia.edu/~hgs/audio/dvi/IMA_ADPCM.pdf">Recommended Practices for Enhancing Digital Audio Compatibility in Multimedia Systems</a> IMA公式の推奨規格。実装も掲載されてて有益。</li>
+</ul>
+<p>MS-ADPCMかIMA-ADPCMやなあ。IMA-ADPCMの方が説明が充実している。
+そして、なんとなくステップ幅をテーブル引きするところにTAKとの類似点を感じる。
+G.726もありだがテーブル引きを使ってない。説明は「音声&amp;画像処理の常識」に書いてある。</p>
+<p>研究としてはグラフィカルLASSOの導入忘れずに。もう一度張っとく。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf">依存関係にスハ …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">研究会に向けて - 執筆(5)</a></h2>
+                <div class="summary"><p>自己相関行列の逆の推定、グラフィカルLASSOが有効ではというありがたい指摘あり。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf">依存関係にスパース性を入れる — グラフィカル lasso の話</a></li>
+</ul>
+<p>他にも精度行列の推定を（スパース制約を入れて）高速にやるみたいな話がたくさん出てきている。参考にすべし。</p>
+
+                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/igobenkiyo4.html">IGおべんきょ(4)</a></h2>
+                <div class="summary"><p>しばらくIGをおべんきょしてた。行間メモは公開していきたい。
+で、いまはChentsovの定理で絶賛ハマってる。(0,4)-テンソル場で定数倍にならない理由って何よ。</p>
+<p>証明の1ステップと言ったらラベルに対する付替えで、
+4次元以上で起こる特殊なこと…を調べていて、群論が関わってくるのでは。と。
+ラベルの付替えは対称群に相当するはず。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://orz107orz.hatenablog.com/entry/20140218/1392724434">交代群が非可換になること</a></li>
+<li><a class="reference external" href="http://www.tsuyama-ct.ac.jp/matsuda/eBooks/galios.pdf">ガロア理論を理解しよう</a></li>
+</ul>
+<p>でももっと単純に考えるべきかも。 <span class="math">\(F\)</span> は当然計算できる上で、 <span class="math">\(\~{F}\)</span> も不変性の要求を満たす。
+でも <span class="math">\(\~{F}\)</span> は <span class="math">\(F\)</span> の定数倍にならない、みたいな論法。</p>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768 …</script>
+                    <a class="btn btn-default btn-xs" href="/igobenkiyo4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/igobenkiyo3.html">IGおべんきょ(3)</a></h2>
+                <div class="summary"><p>IGがだいぶ止まってたので、レビューが帰るまでのあいだ進める。
+今日の合言葉：写像の微分は接ベクトルの写像。</p>
+
+                    <a class="btn btn-default btn-xs" href="/igobenkiyo3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">研究会に向けて - 執筆(4)</a></h2>
+                <div class="summary"><p>引き続き執筆。今日あたりであらすじ書いてレビュー予定。</p>
+<p>思ったのが、先にデータの自己相関行列の逆を計算して勾配計算用のデータを用意しちゃう発想はどうよ？という点。
+もしくは、自己相関（の偏り）を打ち消すようなフィルタを先にかけてからフィルタ処理をおこなうのはどうか？演算誤差が気になるけど、ありえる発想。
+これはもしかしたらプリエンファシスの一般化かもしれない。</p>
+
+                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
             <article>
                 <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">研究会に向けて - 執筆(3)</a></h2>
                 <div class="summary"><p>土日は黙々と執筆してた。
@@ -113,175 +278,6 @@ Aiki's Blog            </a>
 <p>が参照されてたけど、全く同じやん…</p>
 <p>どうも、Winner解を求める最適化問題のニュートン法を求めると、自己相関行列の逆が自然に出てくるみたい。そして、その適応ステップ版アルゴリズム（LMS Newton Algorithm, 初出はAdaptive Signal …</p>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">研究会に向けて - 執筆(1)</a></h2>
-                <div class="summary"><p>今日から執筆していく。目標、7/27に第一般。</p>
-<p>しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表とおんなじだが、
-イントロをしっかり書きたいから、既存のロスレス音声の論文の構成を参考にしていく。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf">Sparse modeling for lossless audio compression</a> OptimFROGのひと。<ul>
-<li>オーディオ環境は高級化している。その中でロスレス圧縮は現実的である。プレーヤが使うから、デコーダは高速実装できるべきだ。今現在使われているいろんなコーデックがある。MP4-ALS, WMAL, ALAC, Monkey's Audio, FLAC, OptimFROG等。それぞれ異なる予測モデルと圧縮アルゴリズムを使用している。圧縮率、エンコード速度、デコード速度の3つの評価軸があるが、全てを最大にすることはできず、トレードオフの関係にある。例えば、予測次数を最大にすれば圧縮率は向上するが、エンコード/デコード速度が悪化する。</li>
-<li><a class="reference external" href="http://decoy.iki.fi/dsound/ambisonic/motherlode/source/01215233.pdf">An Introduction to Super Audio CD and DVD-Audio</a> Super Audio CD(SACD …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">研究会に向けて(17) - 中間発表</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。</p>
-<ul class="simple">
-<li>SA、実はヘブ則そのものでは？<ul>
-<li>全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。</li>
-</ul>
-</li>
-<li>グラフは正方形にすべし。<ul>
-<li>全くその通り。すぐに修正するべし。</li>
-</ul>
-</li>
-<li>尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や</li>
-<li>NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。</li>
-<li><span class="math">\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …</span></li></ul>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete16.html">研究会に向けて(16)</a></h2>
-                <div class="summary"><p>引き続き資料を作っている。</p>
-<p>昨日気になっていた</p>
-<blockquote>
-NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。</blockquote>
-<p>は並行して確認中。直交原理（勾配が0になる解）を満たす解はWienner解に一致するのか？というところ。
-怪しいかもしれない。適応ステップサイズがミソで、最適係数時、そいつを含めて平均をとったときにゼロになるとは思えない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://towardsdatascience.com/natural-gradient-ce454b3dcdfa">Natural Gradient A better gradient for gradient descent?</a> 面白そうだけどちとタイミングが悪い。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete16.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete15.html">研究会に向けて(15)</a></h2>
-                <div class="summary"><p>淡々と資料を作っている。
-NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。</p>
-
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete15.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete14.html">研究会に向けて(14)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand{\parfrac}[2]{{\frac{\partial #1}{\partial #2}}}
-\end{equation*}
-</div>
-<p>今日から発表資料作る。久々にBeamerでやろうかね。</p>
-<p>資料作ってたら、ラグランジュ未定乗数法による定式化で <span class="math">\((\ve{h} - \ve{h}^{\prime})^{\mathsf{T}}\ve{R}(\ve{h} - \ve{h}^{\prime})\)</span> の最小化を考えたけど、これってレイリー商の下限すなわち最小固有値が答えでは。もうちょっと考えたくなってきた。 <span class="math">\(\mu(n)\)</span> は垂線の長さに対応するんだっけ？</p>
-<p>アフィン写像アルゴリズムへの拡張は、NLMSの制約を増やしたものに過ぎない。ラグランジュの未定乗数法を使って、</p>
-<div class="math">
-\begin{align*}
-\mathcal{L} &amp;= (\ve{h …</div>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete13.html">研究会に向けて(13)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>発表向けの脚本を書いてた。</p>
-<p>正規化アルゴリズムに関して、まだしたりない考察がある。</p>
-<ul class="simple">
-<li>射影先の超平面の曲率はもしかして <span class="math">\(\ve{R}\)</span> だったりしない？漠然とした超平面ではなく、何らかの性質がないか？<ul>
-<li>これは、制約が一次式だから絶対に超平面になる。</li>
-</ul>
-</li>
-<li>アフィン写像アルゴリズムへ拡張するべきでは？<ul>
-<li>やってみた。次の日へどうぞ。</li>
-</ul>
-</li>
-</ul>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen …</script>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete13.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete12.html">研究会に向けて(12)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>発表に向けてのプロットに集中したい。また、正規化自然勾配SAが事後残差最小化ではなくラグランジュから導いて同じ結論が得られるか見たい。（もしかしたら、別の更新式が出る可能性がある）</p>
-<p>ラグランジュの結果、かなり良い解釈が得られた。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document …</script>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete12.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete11.html">研究会に向けて(11)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>乗せるデータをまとめる。</p>
-<ol class="arabic simple">
-<li>自然勾配SA法の有効性を示す。</li>
-</ol>
-<ul class="simple">
-<li>人口データに対する実験: SA(ステップサイズ=0.005,0.01,0.02)と比較して収束が速いことを示す。しかし係数適応は遅いことは同時に指摘。</li>
-</ul>
-<ol class="arabic simple" start="2">
-<li>正規化自然勾配SA法の有効性を示す。</li>
-</ol>
-<ul class="simple">
-<li>人口データに対する実験: RLS(忘却係数=1,0.9,0.99)と比較。収束は遅い場合があるが、定常誤差は小さく、また係数変更時の適応が早い。忘却係数に依存せず安定した収束性能を示す。</li>
-</ul>
-<ol class="arabic simple" start="3">
-<li>自然勾配法の有効性を示す。</li>
-</ol>
-<ul class="simple">
-<li>実データに対する実験: 音楽の一部データに対する比較。SA, RLS(忘却係数=0.99), 正規化自然勾配SA, 自然勾配SAで比較。</li>
-<li>RMSを比較。RLSとほぼ同等の性能を達成している。</li>
-</ul>
-<script type='text/javascript'>if (!document …</script>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete11.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -333,34 +329,28 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
@@ -369,31 +359,31 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/wavelet.html">Wavelet</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
@@ -402,34 +392,16 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
@@ -438,28 +410,64 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>

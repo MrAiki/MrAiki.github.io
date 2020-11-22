@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>麻雀プログラミング - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/ma-que-puroguramingu.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="麻雀,向聴数,得点計算" />
+        <meta name="description" content="秋口あたりから麻雀のプログラミングにハマっているフシがある。 すこし成果がまとまってきたので記事にしてみよう。 なんと言っても、 麻雀C言語プログラム集 がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。 そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。 他のお役立ちリンク。 気まぐれな戯れ言 バックナンバー１５ 役判定アルゴリズムの概要がつかめる。 麻雀の数学 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。 乱数について 端的に言って沼。 ランダムシャッフル | Programming Place Plus ランダムシャッフルのやり方。Fisher-Yates法を使いましょう。 配列のシャッフルコードの間違った実装 実装を誤ると痛い目に合う。 一様乱数の作り方一つとっても落とし穴がある。。。 いつからその方法で偏りのない乱数が得られると錯覚していた？ まず読みましょう。そして、偏らない乱数を出すためには、以下の実装で行く必要があるようです。 int uniform_int(int n) { int adjusted_max = (RAND_MAX + 1) - (RAND_MAX + 1) % n; int r; do { r = rand(); } while (r &gt;= adjusted_max …" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="麻雀プログラミング"/>
+        <meta property="og:url" content="/ma-que-puroguramingu.html"/>
+        <meta property="og:description" content="秋口あたりから麻雀のプログラミングにハマっているフシがある。 すこし成果がまとまってきたので記事にしてみよう。 なんと言っても、 麻雀C言語プログラム集 がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。 そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。 他のお役立ちリンク。 気まぐれな戯れ言 バックナンバー１５ 役判定アルゴリズムの概要がつかめる。 麻雀の数学 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。 乱数について 端的に言って沼。 ランダムシャッフル | Programming Place Plus ランダムシャッフルのやり方。Fisher-Yates法を使いましょう。 配列のシャッフルコードの間違った実装 実装を誤ると痛い目に合う。 一様乱数の作り方一つとっても落とし穴がある。。。 いつからその方法で偏りのない乱数が得られると錯覚していた？ まず読みましょう。そして、偏らない乱数を出すためには、以下の実装で行く必要があるようです。 int uniform_int(int n) { int adjusted_max = (RAND_MAX + 1) - (RAND_MAX + 1) % n; int r; do { r = rand(); } while (r &gt;= adjusted_max …"/>
+        <meta property="article:published_time" content="2020-11-14" />
+            <meta property="article:section" content="趣味" />
+            <meta property="article:tag" content="麻雀" />
+            <meta property="article:tag" content="向聴数" />
+            <meta property="article:tag" content="得点計算" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/qu-wei.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 趣味 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/qu-wei.html">趣味</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li >
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/ma-que-puroguramingu.html"
+                       rel="bookmark"
+                       title="Permalink to 麻雀プログラミング">
+                        麻雀プログラミング
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-11-14T12:00:00+09:00"> Sat 14 November 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/ma-que.html">麻雀</a>
+        /
+	<a href="/tag/xiang-ting-shu.html">向聴数</a>
+        /
+	<a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <p>秋口あたりから麻雀のプログラミングにハマっているフシがある。
+すこし成果がまとまってきたので記事にしてみよう。</p>
+<p>なんと言っても、</p>
+<ul class="simple">
+<li><a class="reference external" href="https://web.archive.org/web/20190402234201/http://cmj3.web.fc2.com/index.htm">麻雀C言語プログラム集</a></li>
+</ul>
+<p>がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。
+そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。</p>
+<p>他のお役立ちリンク。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ksta.skr.jp/topic/diaryb15.html#20101230">気まぐれな戯れ言 バックナンバー１５</a> 役判定アルゴリズムの概要がつかめる。</li>
+<li><a class="reference external" href="http://www10.plala.or.jp/rascalhp/mjmath.htm">麻雀の数学</a> 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。</li>
+</ul>
+<div class="section" id="id2">
+<h2>乱数について</h2>
+<p>端的に言って沼。</p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html">ランダムシャッフル | Programming Place Plus</a> ランダムシャッフルのやり方。Fisher-Yates法を使いましょう。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://cafeunder.github.io/rosenblock-chainers-blog/2018/03/02/shuffle_array.html">配列のシャッフルコードの間違った実装</a> 実装を誤ると痛い目に合う。</li>
+</ul>
+</li>
+<li><p class="first">一様乱数の作り方一つとっても落とし穴がある。。。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://takeda25.hatenablog.jp/entry/20130818/1376837093">いつからその方法で偏りのない乱数が得られると錯覚していた？</a> まず読みましょう。そして、偏らない乱数を出すためには、以下の実装で行く必要があるようです。</li>
+</ul>
+<div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">uniform_int</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">adjusted_max</span> <span class="o">=</span> <span class="p">(</span><span class="n">RAND_MAX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">RAND_MAX</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="n">n</span><span class="p">;</span>
+  <span class="kt">int</span> <span class="n">r</span><span class="p">;</span>
+  <span class="k">do</span> <span class="p">{</span>
+     <span class="n">r</span> <span class="o">=</span> <span class="n">rand</span><span class="p">();</span>
+  <span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="n">r</span> <span class="o">&gt;=</span> <span class="n">adjusted_max</span><span class="p">);</span>
+  <span class="k">return</span> <span class="p">(</span><span class="kt">int</span><span class="p">)(((</span><span class="kt">double</span><span class="p">)</span><span class="n">r</span> <span class="o">/</span> <span class="n">adjusted_max</span><span class="p">)</span> <span class="o">*</span> <span class="n">n</span><span class="p">);</span>
+<span class="p">}</span>
+</pre></div>
+<p>乱数範囲をnの倍数で切り捨ててから、実数の一様乱数にキャストする。剰余は下位ビットの偏りに影響を受けるからNG。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.albow.net/entry/random-range">C言語/C++で範囲を指定した乱数を生成する</a></li>
+<li><a class="reference external" href="https://omitakahiro.github.io/random/random_variables_generation.html#Uniform">C言語による乱数生成</a> 注意点は、剰余による一様乱数は偏りが出るということか。例えばRAND_MAX=10でrand()%3して0,1,2の乱数を作ろうとすると、0は0,3,6,9、1は1,4,7,10、2は2,5,8だから偏る。解決法としては、[0,1]の浮動小数点乱数を作ってから整数化する方法が奥村先生のアルゴリズム本含め推奨されていた。→**よくない**</li>
+<li><a class="reference external" href="http://www001.upp.so-net.ne.jp/isaku/rand.html">良い乱数・悪い乱数</a></li>
+<li><a class="reference external" href="https://blog.visvirial.com/articles/575">Google Chromeが採用した、擬似乱数生成アルゴリズム「xorshift」の数理</a> <a class="reference external" href="https://admiswalker.blogspot.com/2018/06/marsaglia-g-2003-xorshift-rngs.html">論文の紹介と検証：Marsaglia, G. 2003. Xorshift RNGs.</a> XorShiftの分かりやすい解説。</li>
+<li><a class="reference external" href="https://www.timbreofprogram.info/blog/archives/384">乱数ライブラリを更新してみた</a> XorShiftの初期値のとり方。</li>
+<li><a class="reference external" href="http://prng.di.unimi.it">xoshiro / xoroshiro</a> 統計的により望ましい乱数列を出すアルゴリズム。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="ai">
+<h2>AI（プレーヤー）について</h2>
+<p>プレーヤーは間違いなくインターフェースとして実装すべきで、転用を考えて、他の有名なものと互換性のある形に実装しておきたい。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/java/javadoc/current/jp/gr/java_conf/ishihata/mj_ai/package-summary.html">まうじゃんのインターフェース仕様</a></li>
+<li><a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri">mahjong-serverのクライアント実装例</a></li>
+</ul>
+</div>
+
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://policies.google.com/technologies/partner-sites" target="_blank">Google Analytics</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-169927697-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>

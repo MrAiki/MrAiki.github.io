@@ -1,5 +1,487 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-11-11T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(10)</title><link href="/r-1-noji-suan-10.html" rel="alternate"></link><published>2020-11-11T10:00:00+09:00</published><updated>2020-11-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-11:/r-1-noji-suan-10.html</id><content type="html">&lt;p&gt;共役勾配法を実装して（fが二次として金谷先生の例題3.5をそのまま使用）試してはいるが、性能が良くない。具体的には普通のSAと変わらんくらい。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-11-21T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(17)</title><link href="/r-1-noji-suan-17.html" rel="alternate"></link><published>2020-11-21T10:00:00+09:00</published><updated>2020-11-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-21:/r-1-noji-suan-17.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;間に合うかわからんが、Wiener-Hopf解を解く共役勾配法を試してみるのだ。
+上手く行かなくていじけて寝てたりしたら20:00。大きく変化しすぎているように見えたので …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;間に合うかわからんが、Wiener-Hopf解を解く共役勾配法を試してみるのだ。
+上手く行かなくていじけて寝てたりしたら20:00。大きく変化しすぎているように見えたので、係数更新量をステップサイズで調節できるようにしたら、マトモな、NLMS以上の性能を出し始めた。おそらくこれが意図した性能のはず。&lt;/p&gt;
+&lt;p&gt;簡単に見てみると、i.i.d.なノイズに対しては収束がかなり早い。NGSA以上。論文で言ってたようにRLSクラスに見える。&lt;/p&gt;
+&lt;p&gt;相関ありノイズ入力では性能が落ちる。勾配の尾根には早く達するが、そこからが遅い。最適値に収束するまでにSAに追いつかれるパターンも見られた。&lt;/p&gt;
+&lt;p&gt;自己相関行列は事前に計算したほうが性能が良い風に見受けられる（しかし、適応計算を考えて、デフォルトでは指数的更新則を使う）。また、ポラック・リビエールではなくガチの共役勾配法で勾配の結合係数を計算したら性能がより良くなったように見える。&lt;/p&gt;
+&lt;p&gt;指数平均の更新則は(alpha * prev + (1-alpha) * current)ではなく(alpha * prev + current)が正しいので見つけ次第直している。&lt;/p&gt;
+&lt;p&gt;さて、これをSA化しようと思っている。アルゴリズムの途中にLMSの勾配が現れているので、これをSA化すればいいじゃんと思ったら、非常に性能が悪くなった。最適値周辺で暴れまくる。ちゃんと式を追いましょう。&lt;/p&gt;
+&lt;p&gt;うーん、わからん。共役勾配法は完全にWiener-Hopf方程式を解こうとしている。g（勾配）はWiener-Hopfとのズレ（残差ベクトル）として定義されている。そのズレをSAの勾配に置き換えても上手く行かない。。。&lt;/p&gt;
+&lt;p&gt;どうしようか、報告としては、共役勾配法があって強力なんだけどSAとして持っていけない…という風に持っていこうかな。glassoはたしかに良いんだけど、効率的な更新方法が見つからない。というかんじ。&lt;/p&gt;
+&lt;p&gt;ソース整理開始。glassoをsubmoduleにぶっこむのがTODO。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(16)</title><link href="/r-1-noji-suan-16.html" rel="alternate"></link><published>2020-11-20T23:00:00+09:00</published><updated>2020-11-20T23:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-20:/r-1-noji-suan-16.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;課題祭りで11/19と11/20の昼は潰れる。今から進めるだけ進める。
+前までに確認した …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;課題祭りで11/19と11/20の昼は潰れる。今から進めるだけ進める。
+前までに確認した「直前の勾配とは必ずしも直交しない」の解決策を今日は考えたい。3連休は準備に入らないとまずそう。色々やっちゃったし。&lt;/p&gt;
+&lt;p&gt;解決策は &lt;a class="reference external" href="https://pdfs.semanticscholar.org/2f97/524c54126234535e2741581890f5f65cf627.pdf"&gt;論文&lt;/a&gt; にあると思う。適応的にやるんだったら上の問題は絶対に出てくるはずだし。&lt;/p&gt;
+&lt;p&gt;論文に答えが色々書いてあった。手法の要点は、&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;共役勾配の線形結合係数にポラック・ラビエール（Polak-Ribiere）の式を使う。フレッチャー・リーブス（論文では(6)式）より実験的に性能が良かったらしい。&lt;/li&gt;
+&lt;li&gt;線形結合係数には2次式を仮定した値を使う。ただし、η倍（定数倍）する（収束が保証される範囲が忘却係数により決まる）。これによって勾配は必ずしもステップ毎に直交しなくなり、定数ステップでの収束が保証されなくなる。（しかし、適応アルゴリズムにとってはむしろこれがいい！）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;参考になった情報は、&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;論文以前の共役勾配ベースの適応アルゴリズムは、ブロック単位で自己相関行列（とWiener-Hopfの式の右辺のb）を更新していた。この論文ではサンプル単位で更新するアルゴリズムを提案する。&lt;/li&gt;
+&lt;li&gt;R,bをブロック単位で求めて更新する方法と、逐次的に忘却係数をかけて更新する手法の性能を比較。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;難点（というか、新規性が生まれそうなところ）は、そのままNGSAには突っ込めないところか。この論文では二乗誤差最小基準で議論している、すなわちWiener-Hopf解を求めようとしている。勾配はWiener-Hopf解とのズレベクトルで定義される。NGSA(SA)の目的関数はなんだ？&lt;/p&gt;
+&lt;p&gt;論文のノーテーションに合わせ、実装を整理しつつも実験。でもやっぱ傾向は変わらんよ。SAと同等家それ以下。
+気になるのは、NGSA(SA)の目的関数に合わせたことをしなければならないという点。Wiener-Hopf解を解く実装だとパフォーマンスは良いのか？まずはそこから切り込んで調べる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(15)</title><link href="/r-1-noji-suan-15.html" rel="alternate"></link><published>2020-11-18T10:00:00+09:00</published><updated>2020-11-18T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-18:/r-1-noji-suan-15.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;どうするかな。中間発表まで残り1週間というところ。
+話す内容のまとめを、明日辺り考えてからまとめに向けた作業を行いたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;主題 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;どうするかな。中間発表まで残り1週間というところ。
+話す内容のまとめを、明日辺り考えてからまとめに向けた作業を行いたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;主題: &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算を避けるか高速に計算したい。&lt;ul&gt;
+&lt;li&gt;方策1: Graphical LASSOを使おう&lt;ul&gt;
+&lt;li&gt;真の逆行列とかなり近い行列が計算できてる。&lt;/li&gt;
+&lt;li&gt;計算負荷が高い。。逐次計算でやるにはどうすればいいか。調査中。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;方策2: &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の計算を避けよう&lt;ul&gt;
+&lt;li&gt;共役勾配法を使う: 性能が良くない。なんで？理論的には納得いってるのに。&lt;/li&gt;
+&lt;li&gt;準ニュートン法を使う: なかなか良い結果。だけど、&lt;span class="math"&gt;\(R\)&lt;/span&gt; すら使ってないから面白くない。準ニュートン法を使いましたで終わってしまう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;今日は共役勾配法が上手く行かないのが納得行かないから原因を追いたい。&lt;/p&gt;
+&lt;p&gt;数式を軽く追ったところ、少し原因が見えた。共役勾配法をおさらいする。&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(k\)&lt;/span&gt; ステップ目における共役勾配を &lt;span class="math"&gt;\(\ve{m}[k]\)&lt;/span&gt; 、関数 &lt;span class="math"&gt;\(f\)&lt;/span&gt; の勾配 &lt;span class="math"&gt;\(\parfrac{f}{\ve{h}}\)&lt;/span&gt; は、&lt;span class="math"&gt;\(\ve{R}\ve{m}[k] \propto \parfrac{f}{\ve{h}}\)&lt;/span&gt; の関係が成り立つ。（これは自然勾配法の原理からも自然に出てくる。ていうか、ここでの自然勾配は共役勾配に等しい）
+また、直前の勾配と直交するから &lt;span class="math"&gt;\(\innerp{\ve{m}[k-1]}{\ve{R}\ve{m}[k]} = 0\)&lt;/span&gt; が成り立ち、&lt;span class="math"&gt;\(\ve{m}[k]\)&lt;/span&gt; は &lt;span class="math"&gt;\(\parfrac{f}{\ve{h}}\)&lt;/span&gt; と &lt;span class="math"&gt;\(\ve{m}[k-1]\)&lt;/span&gt; の線形結合で書ける: &lt;span class="math"&gt;\(\ve{m}[k] = \parfrac{f}{\ve{h}} + \alpha[k] \ve{m}[k-1]\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;直交関係式から、 &lt;span class="math"&gt;\(\alpha[k] = - \frac{\innerp{\ve{m}[k-1]}{\ve{R}\parfrac{f}{\ve{h}}}}{\innerp{\ve{m}[k-1]}{\ve{R}\ve{m}[k-1]}}\)&lt;/span&gt; と求められる。こっから得られた &lt;span class="math"&gt;\(\ve{m}[k]\)&lt;/span&gt; で直線探索すればよい。という話。&lt;/p&gt;
+&lt;p&gt;(13)で言った「Wiener-Hopf方程式を共役勾配法で」というのは、要は &lt;span class="math"&gt;\(\ve{R}\ve{h} = \ve{b}\)&lt;/span&gt; を共役勾配法で逐次的に解くということ。ここで、 &lt;span class="math"&gt;\(\ve{b}\)&lt;/span&gt; は入力とリファレンスの相関ベクトル。&lt;/p&gt;
+&lt;p&gt;しかし、適応フィルタでは直交条件（&lt;span class="math"&gt;\(\innerp{\ve{m}[k-1]}{\ve{R}\ve{m}[k]} = 0\)&lt;/span&gt; ）が必ずしも成立しない。実験的に直前の勾配が今の勾配に直交しないことを確かめている。現に、 &lt;span class="math"&gt;\(\parfrac{f}{\ve{h}}\)&lt;/span&gt; は少しずつ変化しているから2ステップ間で直交していない。また、無理やり実装した共役勾配法はカクカクに、つまり前ステップの勾配と直交する方向に動くような挙動を観察している。&lt;/p&gt;
+&lt;p&gt;この直交していないのをなんとかすれば解決できそうだけど、今の所解決策が思いつかない。考え中。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(14)</title><link href="/r-1-noji-suan-14.html" rel="alternate"></link><published>2020-11-17T10:00:00+09:00</published><updated>2020-11-17T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-17:/r-1-noji-suan-14.html</id><summary type="html">&lt;p&gt;課題が降ってきて研究が進まねえ。
+今日はGraphical LASSOとの連携を試してみたい、かも。
+共役勾配法はあんまり良くないでFA、準ニュートン法は統計量使ってないから面白くない、という結論に回す。&lt;/p&gt;
+&lt;p&gt;最初は、Rの逆行列を事前に求めちゃってやる方式で試してみる。
+よさそうなら逐次的実装にトライ。&lt;/p&gt;
+&lt;p&gt;Rの逆行列を事前に求める方式はあんまり良くない、というかSAと同程度。
+なんでなのか軽く見てみたら、事前計算でわかったR^-1をそのまま使うのはNGSAでも良くないということがわかった。
+事前計算の場合の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; はほぼ単位行列だから当然か・・・。&lt;/p&gt;
+&lt;p&gt;逐次的が求められていると思い、むりやり逐次的にもとめるようにしてみた、が、あんまり結果が変わらん。
+繰り返し回数を多くしても傾向は同様。等方的なのが変わらないから良くないのか？しかしそれはNGSAとて同じことでは？？？&lt;/p&gt;
+&lt;p&gt;それどころか、相関付きノイズを入力すると発散する…いや、繰り返し回数が少なすぎるからだ。繰り返し回数を10とかにすると収束早め。
+（事前計算する場合は発散しなかった。）&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;ここまで見た結果を表にまとめると…&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;手法&lt;/td&gt;
+&lt;td&gt;i.i.d.雑音 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; 事前&lt;/td&gt;
+&lt;td&gt;i.i.d.雑音 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; 逐次&lt;/td&gt;
+&lt;td&gt;相関雑音 &lt;span class="math"&gt;\(R …&lt;/span&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</summary><content type="html">&lt;p&gt;課題が降ってきて研究が進まねえ。
+今日はGraphical LASSOとの連携を試してみたい、かも。
+共役勾配法はあんまり良くないでFA、準ニュートン法は統計量使ってないから面白くない、という結論に回す。&lt;/p&gt;
+&lt;p&gt;最初は、Rの逆行列を事前に求めちゃってやる方式で試してみる。
+よさそうなら逐次的実装にトライ。&lt;/p&gt;
+&lt;p&gt;Rの逆行列を事前に求める方式はあんまり良くない、というかSAと同程度。
+なんでなのか軽く見てみたら、事前計算でわかったR^-1をそのまま使うのはNGSAでも良くないということがわかった。
+事前計算の場合の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; はほぼ単位行列だから当然か・・・。&lt;/p&gt;
+&lt;p&gt;逐次的が求められていると思い、むりやり逐次的にもとめるようにしてみた、が、あんまり結果が変わらん。
+繰り返し回数を多くしても傾向は同様。等方的なのが変わらないから良くないのか？しかしそれはNGSAとて同じことでは？？？&lt;/p&gt;
+&lt;p&gt;それどころか、相関付きノイズを入力すると発散する…いや、繰り返し回数が少なすぎるからだ。繰り返し回数を10とかにすると収束早め。
+（事前計算する場合は発散しなかった。）&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;ここまで見た結果を表にまとめると…&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;col width="20%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;手法&lt;/td&gt;
+&lt;td&gt;i.i.d.雑音 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; 事前&lt;/td&gt;
+&lt;td&gt;i.i.d.雑音 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; 逐次&lt;/td&gt;
+&lt;td&gt;相関雑音 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; 事前&lt;/td&gt;
+&lt;td&gt;相関雑音 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; 逐次&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;NGSA&lt;/td&gt;
+&lt;td&gt;SAと同程度&lt;/td&gt;
+&lt;td&gt;&lt;strong&gt;良&lt;/strong&gt;&lt;/td&gt;
+&lt;td&gt;良&lt;/td&gt;
+&lt;td&gt;良&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;NGSA(glasso)&lt;/td&gt;
+&lt;td&gt;SAと同程度&lt;/td&gt;
+&lt;td&gt;SAと同程度&lt;/td&gt;
+&lt;td&gt;良&lt;/td&gt;
+&lt;td&gt;良（繰り返しが少ないと発散）&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;表で &lt;strong&gt;強調&lt;/strong&gt; したように、NGSAのi.i.d.雑音の逐次計算が早いのが納得行かない。 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; は単位行列に近いから、早くなるのは妙。
+前計算する場合、勾配がどうなってるか気になる。正則化パラメータを弄ったとき、勾配はどこを向くのだろうか。
+i.i.d.雑音でなんでNGSAの収束が早いのかもすごい気になる…。&lt;/p&gt;
+&lt;p&gt;Jupyterに追記。glassoの正則化パラメータを強く（alphaを大きく）すると通常のSAの勾配に近づく（精度行列が単位行列に近づく）。逆に正則化パラメータを小さくすると自然勾配に近づく。
+想像したとおりの結果で、だからどうしたといった感じ。そう、glassoをどう活かせばよいか？がまだ浮かんでこない。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(13)</title><link href="/r-1-noji-suan-13.html" rel="alternate"></link><published>2020-11-16T10:00:00+09:00</published><updated>2020-11-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-16:/r-1-noji-suan-13.html</id><summary type="html">&lt;p&gt;共役勾配法が上手く行かない原因を求めようとして、そもそもLMSで共役勾配法使ってんじゃねと思ったら、確かに使ってる事例あり。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/2f97/524c54126234535e2741581890f5f65cf627.pdf"&gt;Analysis of Conjugate Gradient Algorithms for Adaptive Filtering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://researchbank.swinburne.edu.au/file/178f868d-d5a1-4794-8839-a995a6641691/1/PDF%20(Published%20version).pdf"&gt;Conjugate Gradient Algorithm Design with RLS Normal Equation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;要は、 &lt;a class="reference external" href="https://engineering.purdue.edu/~mikedz/research/RomeLabTutor.pdf"&gt;Wiener-Hopf方程式を共役勾配法で逐次的に解く手法&lt;/a&gt; に該当する。ただし、2乗誤差基準。&lt;/p&gt;
+&lt;p&gt;性能を見るとRLSと張り合っているあたり、だいぶいいはず。少なくとも論文に書いてあるとおり実装すれば良い性能は出るはず。&lt;/p&gt;
+&lt;p&gt;自己相関行列だよなあ、やっぱり。もう俺の研究の新規性分かんねぇなあ。
+いや、いま気になったことがある。Wiener-Hopf方程式を解くのが最終目標になるんやが、それのスパース解を圧縮に使えないか。
+うーん、でも劣決定問題じゃない（Rが正定とすると一意解が出る）からあんまりうまく行かない？&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kurims.kyoto-u.ac.jp/EMIS/journals/ETNA/vol.4.1996/pp14-36.dir/pp14-36.ps"&gt;LMS-NEWTON ADAPTIVE FILTERING USING FFT–BASED CONJUGATE GRADIENT ITERATIONS&lt;/a&gt; 自己相関行列（テプリッツ行列）の分解法を示していた …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;共役勾配法が上手く行かない原因を求めようとして、そもそもLMSで共役勾配法使ってんじゃねと思ったら、確かに使ってる事例あり。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/2f97/524c54126234535e2741581890f5f65cf627.pdf"&gt;Analysis of Conjugate Gradient Algorithms for Adaptive Filtering&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://researchbank.swinburne.edu.au/file/178f868d-d5a1-4794-8839-a995a6641691/1/PDF%20(Published%20version).pdf"&gt;Conjugate Gradient Algorithm Design with RLS Normal Equation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;要は、 &lt;a class="reference external" href="https://engineering.purdue.edu/~mikedz/research/RomeLabTutor.pdf"&gt;Wiener-Hopf方程式を共役勾配法で逐次的に解く手法&lt;/a&gt; に該当する。ただし、2乗誤差基準。&lt;/p&gt;
+&lt;p&gt;性能を見るとRLSと張り合っているあたり、だいぶいいはず。少なくとも論文に書いてあるとおり実装すれば良い性能は出るはず。&lt;/p&gt;
+&lt;p&gt;自己相関行列だよなあ、やっぱり。もう俺の研究の新規性分かんねぇなあ。
+いや、いま気になったことがある。Wiener-Hopf方程式を解くのが最終目標になるんやが、それのスパース解を圧縮に使えないか。
+うーん、でも劣決定問題じゃない（Rが正定とすると一意解が出る）からあんまりうまく行かない？&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kurims.kyoto-u.ac.jp/EMIS/journals/ETNA/vol.4.1996/pp14-36.dir/pp14-36.ps"&gt;LMS-NEWTON ADAPTIVE FILTERING USING FFT–BASED CONJUGATE GRADIENT ITERATIONS&lt;/a&gt; 自己相関行列（テプリッツ行列）の分解法を示していた。Ammar and Gader the cyclic displacement representationというらしいがヒットしない…。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(12)</title><link href="/r-1-noji-suan-12.html" rel="alternate"></link><published>2020-11-15T10:00:00+09:00</published><updated>2020-11-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-15:/r-1-noji-suan-12.html</id><content type="html">&lt;p&gt;準ニュートン法をもうちょっと試す。
+BFGS法とDFP法をやってるけど、今の所はBFGS法が良さそう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ja.wikipedia.org/wiki/準ニュートン法"&gt;準ニュートン法(wikipedia)&lt;/a&gt; が悔しいけどまとまってる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;準ニュートン法は、直線探索を事後残差最小化に取る限り、中々安定した性能を出す。
+いや、NLMSとほぼ同じ性能だった。事後残差最小化が強すぎて、勾配がそれに引っ張られているものと想像。&lt;/p&gt;
+&lt;p&gt;NNGSA &amp;lt; NGSA &amp;lt; 準ニュートン法 &amp;lt; SA &amp;lt; 共役勾配法といった感じ。
+共役勾配法が弱すぎんのがすごい気になってる。曲率がRで明示的にわかってんだから、もっと早いと思うんだけどなあ。&lt;/p&gt;
+&lt;p&gt;そしてちょっと前から気付いてたけど、準ニュートン法はRを一切使っていない。直前の勾配の値を上手く組み合わせて収束を加速させている。
+これはモーメンタムに似たものであろう（ちゃんと追いきれてない…）。&lt;/p&gt;
+&lt;p&gt;もう一度共役勾配法を整理したい。金谷先生の本でわかった気になってるけど、webの情報と食い違ってる部分がある。。。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.cs.cmu.edu/~quake-papers/painless-conjugate-gradient.pdf"&gt;An Introduction to the Conjugate Gradient Method Without the Agonizing Pain&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(11)</title><link href="/r-1-noji-suan-11.html" rel="alternate"></link><published>2020-11-14T10:00:00+09:00</published><updated>2020-11-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-14:/r-1-noji-suan-11.html</id><content type="html">&lt;p&gt;共役勾配法をもうちょっと見てから、準ニュートン法を試そうかというのが今日の目標。&lt;/p&gt;
+&lt;p&gt;共役勾配法の性能をまとめると、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;SAより同程度かそれ以下。&lt;/li&gt;
+&lt;li&gt;自己相関行列は逐次的に求めていった方がほんのわずかに性能が良い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;img alt="共役勾配法を使ったNGSAとSAの性能比較（i.i.d.な雑音入力, 自己相関は逐次的に計算）" class="align-center" src="./images/ngsa_cg_learning_curves_case01.png" style="width: 400px;" /&gt;
+&lt;p&gt;で、なんで？というところで答えが出ない。
+勾配プロットすりゃいいんじゃねと思うんだが、共役勾配は明示的に前ステップの情報を使うから、静的な勾配を見ることができない。&lt;/p&gt;
+&lt;p&gt;準ニュートン法を試す。勾配をどれくらい進めるかを決める直線探索をいかに上手くやるかがポイントだった。
+いつもの事後残差最小化で行ったら実に上手く行った。（直線探索を上手くやらず固定ステップサイズにすると性能悪化）
+じゃあ共役勾配も事後残差最小基準でステップサイズ設定してやる→性能向上しない。なぜだ。&lt;/p&gt;
+&lt;p&gt;今の所、準ニュートン法の結果は不安定に見える。異常に早いときは2~3イテレーションで極値近くに達する。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(10)</title><link href="/r-1-noji-suan-10.html" rel="alternate"></link><published>2020-11-11T10:00:00+09:00</published><updated>2020-11-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-11:/r-1-noji-suan-10.html</id><content type="html">&lt;p&gt;共役勾配法を実装して（fが二次として金谷先生の例題3.5をそのまま使用）試してはいるが、性能が良くない。具体的には普通のSAと変わらんくらい。
 実装ミスを疑っている。確かめるためにJupyterで検証しているけど、無難な結果が出ていると思われる。。。&lt;/p&gt;
 &lt;p&gt;でもおかしいんだよなあ。発想自体は自然勾配と全く同じはずなのにあまり良くならないのは、やっぱり引っかかる。
 もう少し追うけど、ダメそうなら切り替えて、次は準ニュートン法を試してみたい。
@@ -599,7 +1081,13 @@ BP is an optimization principle, not an algorithm. Over the last 40 years, a tre
 &lt;/ul&gt;
 &lt;p&gt;わからないのは後はエントロピー符号化(BCB)のはず。クローズっぽいんだよなあ…。
 明日、プロットをまとめる。&lt;/p&gt;
-</content><category term="雑記"></category><category term="BP"></category><category term="Lossless Audio"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>自由工作(10)</title><link href="/zi-you-gong-zuo-10.html" rel="alternate"></link><published>2020-09-16T10:00:00+09:00</published><updated>2020-09-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-16:/zi-you-gong-zuo-10.html</id><summary type="html">&lt;p&gt;黙々と進めた。残タスクは、&lt;/p&gt;
+</content><category term="雑記"></category><category term="BP"></category><category term="Lossless Audio"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>論文書きつつ(1)</title><link href="/lun-wen-shu-kitsutsu1.html" rel="alternate"></link><published>2020-09-24T10:00:00+09:00</published><updated>2020-09-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-24:/lun-wen-shu-kitsutsu1.html</id><content type="html">&lt;p&gt;英語論文シコシコ書きつつ。断然収まらないので削ることを考えながら。&lt;/p&gt;
+&lt;p&gt;GLASSO見てる。2重ループ最適化で、重そうに見える。。。
+βの更新でO(N)、さらに変数選択でO(N)。。。&lt;/p&gt;
+&lt;p&gt;簡略化して、一回の更新でβの一要素更新でいいのでは？
+とりあえず、実装を考えていく。&lt;/p&gt;
+&lt;p&gt;しっかし書き始める前に、論文を軽く漁ってみよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="GLASSO"></category></entry><entry><title>自由工作(10)</title><link href="/zi-you-gong-zuo-10.html" rel="alternate"></link><published>2020-09-16T10:00:00+09:00</published><updated>2020-09-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-09-16:/zi-you-gong-zuo-10.html</id><summary type="html">&lt;p&gt;黙々と進めた。残タスクは、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;コマンドラインの整備:DONE&lt;ul&gt;
 &lt;li&gt;残差出力モードの追加(-e):DONE&lt;/li&gt;
