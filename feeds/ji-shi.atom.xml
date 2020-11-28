@@ -1,5 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 記事</title><link href="/" rel="alternate"></link><link href="/feeds/ji-shi.atom.xml" rel="self"></link><id>/</id><updated>2020-06-05T18:00:00+09:00</updated><entry><title>陰関数定理とその応用</title><link href="/yin-guan-shu-ding-li-tosonoying-yong.html" rel="alternate"></link><published>2020-06-05T18:00:00+09:00</published><updated>2020-06-05T18:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/yin-guan-shu-ding-li-tosonoying-yong.html</id><summary type="html">&lt;p class="first last"&gt;陰関数定理の成り立ちとその応用として逆写像定理と制約付き極値問題まで。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 記事</title><link href="/" rel="alternate"></link><link href="/feeds/ji-shi.atom.xml" rel="self"></link><id>/</id><updated>2020-11-28T10:00:00+09:00</updated><entry><title>巡回行列と離散フーリエ変換</title><link href="/xun-hui-xing-lie-toli-san-huriebian-huan.html" rel="alternate"></link><published>2020-11-28T10:00:00+09:00</published><updated>2020-11-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-28:/xun-hui-xing-lie-toli-san-huriebian-huan.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;巡回行列は何度も何度も重要性を認識している。群論では巡回群が密接に絡む。&lt;/p&gt;
+&lt;p&gt;以下の記事&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://takahiro-itazuri.hatenadiary.jp/entry/2018/03/11/162122"&gt;巡回行列とフーリエ変換による対角化&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;の焼き直しに過ぎないが、自分の言葉で再度書き直してみる。&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(n \times n\)&lt;/span&gt; 行列&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{C} = \left[ \begin{array}{ccccc}
+c_{0}   &amp;amp; c_{1} &amp;amp;  c_{2} &amp;amp;    ... &amp;amp; c_{n-1} \\
+c_{n-1} &amp;amp; c_{0} &amp;amp;  c_{1} &amp;amp;    ... &amp;amp; c_{n-2} \\
+\vdots  &amp;amp;       &amp;amp; \ddots &amp;amp; \ddots &amp;amp; \vdots  \\
+c_{1}   &amp;amp; c_ …&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;巡回行列は何度も何度も重要性を認識している。群論では巡回群が密接に絡む。&lt;/p&gt;
+&lt;p&gt;以下の記事&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://takahiro-itazuri.hatenadiary.jp/entry/2018/03/11/162122"&gt;巡回行列とフーリエ変換による対角化&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;の焼き直しに過ぎないが、自分の言葉で再度書き直してみる。&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(n \times n\)&lt;/span&gt; 行列&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{C} = \left[ \begin{array}{ccccc}
+c_{0}   &amp;amp; c_{1} &amp;amp;  c_{2} &amp;amp;    ... &amp;amp; c_{n-1} \\
+c_{n-1} &amp;amp; c_{0} &amp;amp;  c_{1} &amp;amp;    ... &amp;amp; c_{n-2} \\
+\vdots  &amp;amp;       &amp;amp; \ddots &amp;amp; \ddots &amp;amp; \vdots  \\
+c_{1}   &amp;amp; c_{2} &amp;amp;  c_{3} &amp;amp;    ... &amp;amp; c_{0}   \\
+\end{array} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;を巡回行列（Circulant Matrix）という。これに対してDFT（離散フーリエ変換）を行うことを考える。離散フーリエ変換は、フーリエ変換行列&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{F} &amp;amp;= \left[ \begin{array}{cccc}
+\omega_{n}^{0 \times 0}     &amp;amp; \omega_{n}^{0 \times 1} &amp;amp; ...    &amp;amp; \omega_{n}^{0 \times (n-1)} \\
+\omega_{n}^{1 \times 0}     &amp;amp; \omega_{n}^{1 \times 1} &amp;amp;        &amp;amp; \omega_{n}^{1 \times (n-1)} \\
+\vdots                      &amp;amp;                         &amp;amp; \ddots &amp;amp; \vdots  \\
+\omega_{n}^{(n-1) \times 0} &amp;amp; ...                     &amp;amp;        &amp;amp; \omega_{n}^{(n-1) \times (n-1)}   \\
+\end{array} \right] \\
+\omega_{n} &amp;amp;:= \frac{1}{\sqrt{n}} \exp\left(\frac{j2\pi}{n}\right)
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;を作用させる（乗ずる）ことで実現される。いま、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{F} := \left[\ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1} \ \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;と &lt;span class="math"&gt;\(\ve{F}\)&lt;/span&gt; を列ベクトルに分解して表す（ &lt;span class="math"&gt;\((\ve{F})_{ij} = (\ve{f}_{j})_{i} = \omega_{n}^{ij}\)&lt;/span&gt; となる。議論の簡単のため、ここでは、行列要素のインデックスは0から始めている）。このとき、おもむろに &lt;span class="math"&gt;\(\ve{y} = \ve{C} \ve{f}_{k}\)&lt;/span&gt; を計算してみると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+(\ve{y})_{l} &amp;amp;= \sum_{j=0}^{n-1} c_{j-l}(\ve{f}_{k})_{j} := \sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{jk} \\
+&amp;amp;= \omega_{n}^{lk} \sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{(j-l)k}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;ここで、&lt;span class="math"&gt;\(c_{j}\)&lt;/span&gt; と &lt;span class="math"&gt;\(\omega_{n}\)&lt;/span&gt; は共に周期 &lt;span class="math"&gt;\(n\)&lt;/span&gt; (すなわち &lt;span class="math"&gt;\(c_{j} = c_{j + mn},\ \omega_{n}^{m} = \omega_{n}^{mn}\ (m \in \mathbb{Z})\)&lt;/span&gt; ) だから、 &lt;span class="math"&gt;\(\sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{(j-l)k}\)&lt;/span&gt; は1周期分の和になっており &lt;span class="math"&gt;\(l\)&lt;/span&gt; に依存しない。そこで、 &lt;span class="math"&gt;\(k\)&lt;/span&gt; だけに依存する数として&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\lambda_{k} := \sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{(j-l)k}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;とおく。すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+(\ve{y})_{l} &amp;amp;= \omega_{n}^{lk} \lambda_{k} = (\ve{f}_{k})_{l} \lambda_{k} \\
+&amp;amp;= \lambda_{k} (\ve{f}_{k})_{l}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;だから、結果をベクトルにまとめると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{y} = \lambda_{k} \ve{f}_{k} = \ve{C} \ve{f}_{k}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;この結果を見ると、 &lt;span class="math"&gt;\(\lambda_{k}\)&lt;/span&gt; は &lt;span class="math"&gt;\(\ve{C}\)&lt;/span&gt; は固有値、 &lt;span class="math"&gt;\(\ve{f}_{k}\)&lt;/span&gt; はそれに対応する固有ベクトルになっていることがわかる。さらに、この結果を &lt;span class="math"&gt;\(k=0,...,n-1\)&lt;/span&gt; で並べていくと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\left[\ \lambda_{0} \ve{f}_{0} \ \lambda_{1} \ve{f}_{1} \ ... \ \lambda_{n-1}\ve{f}_{n-1} \ \right] &amp;amp;= \left[\ \ve{C}\ve{f}_{0} \ \ve{C}\ve{f}_{1} \ ... \ \ve{C}\ve{f}_{n-1} \ \right] \\
+&amp;amp;= \ve{C} \left[ \ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1}\ \right] = \ve{CF}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;よって、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{F}^{\mathsf{T}} \ve{C} \ve{F} &amp;amp;= \left[ \ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1}\ \right]^{\mathsf{T}} \left[ \ \lambda_{0} \ve{f}_{0} \ \lambda_{1} \ve{f}_{1} \ ... \ \lambda_{n-1} \ve{f}_{n-1} \ \right] \\
+&amp;amp;= \left[ \begin{array}{c} \ve{f}_{0}^{\mathsf{T}} \\ \vdots \\ \ve{f}_{n-1}^{\mathsf{T}} \end{array} \right] \left[ \ \lambda_{0} \ve{f}_{0} \ \lambda_{1} \ve{f}_{1} \ ... \ \lambda_{n-1}\ve{f}_{n-1} \ \right] \\
+&amp;amp;= \left[ \begin{array}{cccc}
+\lambda_{0}\ve{f}_{0}^{\mathsf{T}}\ve{f}_{0} &amp;amp; \lambda_{1}\ve{f}_{0}^{\mathsf{T}}\ve{f}_{1} &amp;amp; ... &amp;amp; \lambda_{n-1}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{n-1} \\
+\vdots                      &amp;amp;                         &amp;amp; \ddots &amp;amp; \vdots  \\
+\lambda_{0}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{0} &amp;amp; \lambda_{1}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{1} &amp;amp; ... &amp;amp; \lambda_{n-1}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{n-1} \\
+\end{array} \right]
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。行列の各要素は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{f}_{i}^{\mathsf{T}} \ve{f}_{j} &amp;amp;= \sum_{k=0}^{n-1} (\ve{f}_{i})_{k} (\ve{f}_{j})_{k} = \sum_{k=0}^{n-1} \frac{1}{\sqrt{n}} \omega_{n}^{ki} \frac{1}{\sqrt{n}} \omega_{n}^{kj} \\
+&amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;ここで一旦止めて、式を見てみる。今、 &lt;span class="math"&gt;\(i+j=n\)&lt;/span&gt; つまり &lt;span class="math"&gt;\(i=n-j\)&lt;/span&gt; （もっというと &lt;span class="math"&gt;\(i \equiv j\ (\mathrm{mod}\  n)\)&lt;/span&gt; ）ならば、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)} &amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{kn} \\
+&amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \exp\left( j 2 \pi \right) = \frac{1}{n} \sum_{k=0}^{n-1} 1 \\
+&amp;amp;= 1
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;それ以外の場合は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)} &amp;amp;= \frac{1}{n} \omega_{n}^{(i+j)} \sum_{k=0}^{n-1} \omega_{n}^{k} \\
+&amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \exp\left( \frac{j 2 \pi}{n} k \right) \\
+&amp;amp;= \exp(0) + \exp\left( j\frac{2\pi}{n} \right) + \exp\left( j\frac{\pi}{n} \right) + ... + \exp\left[ j\frac{(n-1)\pi}{n} \right] \\
+&amp;amp;= 0
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる（実際に &lt;span class="math"&gt;\(n=2,3\)&lt;/span&gt; あたりで試してみると良い。複素平面上の単位円を &lt;span class="math"&gt;\(n\)&lt;/span&gt; 分割して和を取るので &lt;span class="math"&gt;\(0\)&lt;/span&gt; になる。厳密な証明は &lt;span class="math"&gt;\(n\)&lt;/span&gt; に関する帰納法を使えばよいが、やらない。。。）。まとめると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{f}_{i}^{\mathsf{T}} \ve{f}_{j} &amp;amp;= \delta_{ij} \quad (\delta_{ij}: \text{クロネッカーのデルタ}) \\
+\delta_{ij} &amp;amp;= \left\{ \begin{array}{ll}
+1 &amp;amp; i = j \\
+0 &amp;amp; i \neq j
+\end{array} \right.
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;だから（これより、 &lt;span class="math"&gt;\(\ve{F}\)&lt;/span&gt; が直交行列 &lt;span class="math"&gt;\(\ve{F}^{-1} = \ve{F}^{\mathsf{T}}\)&lt;/span&gt; であることが分かる）、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{F}^{\mathsf{T}} \ve{C} \ve{F} = \left[ \begin{array}{cccc}
+\lambda_{0} &amp;amp; 0           &amp;amp; ...    &amp;amp; 0 \\
+0           &amp;amp; \lambda_{1} &amp;amp;        &amp;amp; 0 \\
+\vdots      &amp;amp;             &amp;amp; \ddots &amp;amp; \vdots \\
+0           &amp;amp; ...         &amp;amp;        &amp;amp; \lambda_{n-1} \\
+\end{array} \right] = \mathrm{diag}(\lambda_{0}, \lambda_{1}, ..., \lambda_{n-1})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;この式は巡回行列 &lt;span class="math"&gt;\(\ve{C}\)&lt;/span&gt; はフーリエ変換行列 &lt;span class="math"&gt;\(\ve{F}\)&lt;/span&gt; で対角化できることを示している。&lt;/p&gt;
+&lt;p&gt;さらに、巡回行列 &lt;span class="math"&gt;\(\ve{C}\)&lt;/span&gt; の1行目をDFTすると、 &lt;span class="math"&gt;\(\ve{C}\)&lt;/span&gt; の固有値が全て求まることが示せる。&lt;span class="math"&gt;\(\ve{C}\)&lt;/span&gt; の1行目を縦ベクトル化して &lt;span class="math"&gt;\(\ve{c} = [ c_{0} \ c_{1} \ ... \ c_{n-1} ]^{\mathsf{T}}\)&lt;/span&gt; と書き、そのDFTを &lt;span class="math"&gt;\(\mathcal{F}(\ve{c})\)&lt;/span&gt; と書くと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mathcal{F}(\ve{c}) &amp;amp;:= \ve{F}\ve{c} \\
+&amp;amp;= \left[ \ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1}\ \right] \ve{c} \\
+&amp;amp;= \left[ \begin{array}{c}
+(\ve{f}_{0})_{0} c_{0} + (\ve{f}_{1})_{0} c_{1} + ... + (\ve{f}_{n-1})_{0} c_{n-1} \\
+(\ve{f}_{0})_{1} c_{0} + (\ve{f}_{1})_{1} c_{1} + ... + (\ve{f}_{n-1})_{1} c_{n-1} \\
+\vdots \\
+(\ve{f}_{0})_{n-1} c_{0} + (\ve{f}_{1})_{n-1} c_{1} + ... + (\ve{f}_{n-1})_{n-1} c_{n-1} \\
+\end{array} \right] \\
+&amp;amp;= \left[ \begin{array}{c}
+\omega_{n}^{0 \times 0} c_{0} + \omega_{n}^{0 \times 1} c_{1} + ... + \omega_{n}^{0 \times (n-1)} c_{n-1} \\
+\omega_{n}^{1 \times 0} c_{0} + \omega_{n}^{1 \times 1} c_{1} + ... + \omega_{n}^{1 \times (n-1)} c_{n-1} \\
+\vdots \\
+\omega_{n}^{(n-1) \times 0} c_{0} + \omega_{n}^{(n-1) \times 1} c_{1} + ... + \omega_{n}^{(n-1) \times (n-1)} c_{n-1} \\
+\end{array} \right]
+= \left[ \begin{array}{c}
+\sum_{j=0}^{n-1} c_{j} \omega_{n}^{0 \times j} \\
+\sum_{j=0}^{n-1} c_{j} \omega_{n}^{1 \times j} \\
+\vdots \\
+\sum_{j=0}^{n-1} c_{j} \omega_{n}^{(n-1) \times j}
+\end{array} \right] \\
+&amp;amp;= \left[ \begin{array}{c}
+\lambda_{0} \\ \lambda_{1} \\ \vdots \\ \lambda_{n-1}
+\end{array} \right]
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;フーリエ係数がそのまま固有値になっており、したがって、 &lt;span class="math"&gt;\(\ve{c}\)&lt;/span&gt; のDFTは &lt;span class="math"&gt;\(\ve{C}\)&lt;/span&gt; の固有値を並べたベクトルに変換される事がわかった。求まった固有値の逆数をとって逆フーリエ変換すれば、巡回行列の逆 &lt;span class="math"&gt;\(\ve{C}^{-1}\)&lt;/span&gt; が求まってしまう。離散フーリエ変換はFFT（高速フーリエ変換）によって &lt;span class="math"&gt;\(\mathcal{O}(n\log n)\)&lt;/span&gt; で計算できるから高速に逆行列計算ができることになる。たまげたなあ。&lt;/p&gt;
+&lt;p&gt;なにかの時系列データに対してDFT(FFT)を実行すると、それは巡回行列の固有値を求めていることに等しくなる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="記事"></category><category term="巡回行列"></category><category term="Criculant Matrix"></category></entry><entry><title>陰関数定理とその応用</title><link href="/yin-guan-shu-ding-li-tosonoying-yong.html" rel="alternate"></link><published>2020-06-05T18:00:00+09:00</published><updated>2020-06-05T18:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/yin-guan-shu-ding-li-tosonoying-yong.html</id><summary type="html">&lt;p class="first last"&gt;陰関数定理の成り立ちとその応用として逆写像定理と制約付き極値問題まで。&lt;/p&gt;
 </summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}

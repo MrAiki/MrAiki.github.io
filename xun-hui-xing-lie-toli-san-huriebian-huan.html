@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>巡回行列と離散フーリエ変換 - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+<link rel="canonical" href="/xun-hui-xing-lie-toli-san-huriebian-huan.html">
+
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="巡回行列,Criculant Matrix" />
+        <meta name="description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \end{equation*} 巡回行列は何度も何度も重要性を認識している。群論では巡回群が密接に絡む。 以下の記事 巡回行列とフーリエ変換による対角化 の焼き直しに過ぎないが、自分の言葉で再度書き直してみる。 \(n \times n\) 行列 \begin{equation*} \ve{C} = \left[ \begin{array}{ccccc} c_{0} &amp; c_{1} &amp; c_{2} &amp; ... &amp; c_{n-1} \\ c_{n-1} &amp; c_{0} &amp; c_{1} &amp; ... &amp; c_{n-2} \\ \vdots &amp; &amp; \ddots &amp; \ddots &amp; \vdots \\ c_{1} &amp; c_ …" />
+
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="巡回行列と離散フーリエ変換"/>
+        <meta property="og:url" content="/xun-hui-xing-lie-toli-san-huriebian-huan.html"/>
+        <meta property="og:description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \end{equation*} 巡回行列は何度も何度も重要性を認識している。群論では巡回群が密接に絡む。 以下の記事 巡回行列とフーリエ変換による対角化 の焼き直しに過ぎないが、自分の言葉で再度書き直してみる。 \(n \times n\) 行列 \begin{equation*} \ve{C} = \left[ \begin{array}{ccccc} c_{0} &amp; c_{1} &amp; c_{2} &amp; ... &amp; c_{n-1} \\ c_{n-1} &amp; c_{0} &amp; c_{1} &amp; ... &amp; c_{n-2} \\ \vdots &amp; &amp; \ddots &amp; \ddots &amp; \vdots \\ c_{1} &amp; c_ …"/>
+        <meta property="article:published_time" content="2020-11-28" />
+            <meta property="article:section" content="記事" />
+            <meta property="article:tag" content="巡回行列" />
+            <meta property="article:tag" content="Criculant Matrix" />
+            <meta property="article:author" content="aiki" />
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 記事 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/qu-wei.html">趣味</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li >
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/xun-hui-xing-lie-toli-san-huriebian-huan.html"
+                       rel="bookmark"
+                       title="Permalink to 巡回行列と離散フーリエ変換">
+                        巡回行列と離散フーリエ変換
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-11-28T10:00:00+09:00"> Sat 28 November 2020</time>
+    </span>
+
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+        /
+	<a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <div class="math">
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\end{equation*}
+</div>
+<p>巡回行列は何度も何度も重要性を認識している。群論では巡回群が密接に絡む。</p>
+<p>以下の記事</p>
+<ul class="simple">
+<li><a class="reference external" href="http://takahiro-itazuri.hatenadiary.jp/entry/2018/03/11/162122">巡回行列とフーリエ変換による対角化</a></li>
+</ul>
+<p>の焼き直しに過ぎないが、自分の言葉で再度書き直してみる。</p>
+<p><span class="math">\(n \times n\)</span> 行列</p>
+<div class="math">
+\begin{equation*}
+\ve{C} = \left[ \begin{array}{ccccc}
+c_{0}   &amp; c_{1} &amp;  c_{2} &amp;    ... &amp; c_{n-1} \\
+c_{n-1} &amp; c_{0} &amp;  c_{1} &amp;    ... &amp; c_{n-2} \\
+\vdots  &amp;       &amp; \ddots &amp; \ddots &amp; \vdots  \\
+c_{1}   &amp; c_{2} &amp;  c_{3} &amp;    ... &amp; c_{0}   \\
+\end{array} \right]
+\end{equation*}
+</div>
+<p>を巡回行列（Circulant Matrix）という。これに対してDFT（離散フーリエ変換）を行うことを考える。離散フーリエ変換は、フーリエ変換行列</p>
+<div class="math">
+\begin{align*}
+\ve{F} &amp;= \left[ \begin{array}{cccc}
+\omega_{n}^{0 \times 0}     &amp; \omega_{n}^{0 \times 1} &amp; ...    &amp; \omega_{n}^{0 \times (n-1)} \\
+\omega_{n}^{1 \times 0}     &amp; \omega_{n}^{1 \times 1} &amp;        &amp; \omega_{n}^{1 \times (n-1)} \\
+\vdots                      &amp;                         &amp; \ddots &amp; \vdots  \\
+\omega_{n}^{(n-1) \times 0} &amp; ...                     &amp;        &amp; \omega_{n}^{(n-1) \times (n-1)}   \\
+\end{array} \right] \\
+\omega_{n} &amp;:= \frac{1}{\sqrt{n}} \exp\left(\frac{j2\pi}{n}\right)
+\end{align*}
+</div>
+<p>を作用させる（乗ずる）ことで実現される。いま、</p>
+<div class="math">
+\begin{equation*}
+\ve{F} := \left[\ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1} \ \right]
+\end{equation*}
+</div>
+<p>と <span class="math">\(\ve{F}\)</span> を列ベクトルに分解して表す（ <span class="math">\((\ve{F})_{ij} = (\ve{f}_{j})_{i} = \omega_{n}^{ij}\)</span> となる。議論の簡単のため、ここでは、行列要素のインデックスは0から始めている）。このとき、おもむろに <span class="math">\(\ve{y} = \ve{C} \ve{f}_{k}\)</span> を計算してみると、</p>
+<div class="math">
+\begin{align*}
+(\ve{y})_{l} &amp;= \sum_{j=0}^{n-1} c_{j-l}(\ve{f}_{k})_{j} := \sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{jk} \\
+&amp;= \omega_{n}^{lk} \sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{(j-l)k}
+\end{align*}
+</div>
+<p>ここで、<span class="math">\(c_{j}\)</span> と <span class="math">\(\omega_{n}\)</span> は共に周期 <span class="math">\(n\)</span> (すなわち <span class="math">\(c_{j} = c_{j + mn},\ \omega_{n}^{m} = \omega_{n}^{mn}\ (m \in \mathbb{Z})\)</span> ) だから、 <span class="math">\(\sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{(j-l)k}\)</span> は1周期分の和になっており <span class="math">\(l\)</span> に依存しない。そこで、 <span class="math">\(k\)</span> だけに依存する数として</p>
+<div class="math">
+\begin{equation*}
+\lambda_{k} := \sum_{j=0}^{n-1} c_{j-l} \omega_{n}^{(j-l)k}
+\end{equation*}
+</div>
+<p>とおく。すると、</p>
+<div class="math">
+\begin{align*}
+(\ve{y})_{l} &amp;= \omega_{n}^{lk} \lambda_{k} = (\ve{f}_{k})_{l} \lambda_{k} \\
+&amp;= \lambda_{k} (\ve{f}_{k})_{l}
+\end{align*}
+</div>
+<p>だから、結果をベクトルにまとめると</p>
+<div class="math">
+\begin{equation*}
+\ve{y} = \lambda_{k} \ve{f}_{k} = \ve{C} \ve{f}_{k}
+\end{equation*}
+</div>
+<p>この結果を見ると、 <span class="math">\(\lambda_{k}\)</span> は <span class="math">\(\ve{C}\)</span> は固有値、 <span class="math">\(\ve{f}_{k}\)</span> はそれに対応する固有ベクトルになっていることがわかる。さらに、この結果を <span class="math">\(k=0,...,n-1\)</span> で並べていくと、</p>
+<div class="math">
+\begin{align*}
+\left[\ \lambda_{0} \ve{f}_{0} \ \lambda_{1} \ve{f}_{1} \ ... \ \lambda_{n-1}\ve{f}_{n-1} \ \right] &amp;= \left[\ \ve{C}\ve{f}_{0} \ \ve{C}\ve{f}_{1} \ ... \ \ve{C}\ve{f}_{n-1} \ \right] \\
+&amp;= \ve{C} \left[ \ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1}\ \right] = \ve{CF}
+\end{align*}
+</div>
+<p>よって、</p>
+<div class="math">
+\begin{align*}
+\ve{F}^{\mathsf{T}} \ve{C} \ve{F} &amp;= \left[ \ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1}\ \right]^{\mathsf{T}} \left[ \ \lambda_{0} \ve{f}_{0} \ \lambda_{1} \ve{f}_{1} \ ... \ \lambda_{n-1} \ve{f}_{n-1} \ \right] \\
+&amp;= \left[ \begin{array}{c} \ve{f}_{0}^{\mathsf{T}} \\ \vdots \\ \ve{f}_{n-1}^{\mathsf{T}} \end{array} \right] \left[ \ \lambda_{0} \ve{f}_{0} \ \lambda_{1} \ve{f}_{1} \ ... \ \lambda_{n-1}\ve{f}_{n-1} \ \right] \\
+&amp;= \left[ \begin{array}{cccc}
+\lambda_{0}\ve{f}_{0}^{\mathsf{T}}\ve{f}_{0} &amp; \lambda_{1}\ve{f}_{0}^{\mathsf{T}}\ve{f}_{1} &amp; ... &amp; \lambda_{n-1}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{n-1} \\
+\vdots                      &amp;                         &amp; \ddots &amp; \vdots  \\
+\lambda_{0}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{0} &amp; \lambda_{1}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{1} &amp; ... &amp; \lambda_{n-1}\ve{f}_{n-1}^{\mathsf{T}}\ve{f}_{n-1} \\
+\end{array} \right]
+\end{align*}
+</div>
+<p>となる。行列の各要素は、</p>
+<div class="math">
+\begin{align*}
+\ve{f}_{i}^{\mathsf{T}} \ve{f}_{j} &amp;= \sum_{k=0}^{n-1} (\ve{f}_{i})_{k} (\ve{f}_{j})_{k} = \sum_{k=0}^{n-1} \frac{1}{\sqrt{n}} \omega_{n}^{ki} \frac{1}{\sqrt{n}} \omega_{n}^{kj} \\
+&amp;= \frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)}
+\end{align*}
+</div>
+<p>ここで一旦止めて、式を見てみる。今、 <span class="math">\(i+j=n\)</span> つまり <span class="math">\(i=n-j\)</span> （もっというと <span class="math">\(i \equiv j\ (\mathrm{mod}\  n)\)</span> ）ならば、</p>
+<div class="math">
+\begin{align*}
+\frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)} &amp;= \frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{kn} \\
+&amp;= \frac{1}{n} \sum_{k=0}^{n-1} \exp\left( j 2 \pi \right) = \frac{1}{n} \sum_{k=0}^{n-1} 1 \\
+&amp;= 1
+\end{align*}
+</div>
+<p>それ以外の場合は、</p>
+<div class="math">
+\begin{align*}
+\frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)} &amp;= \frac{1}{n} \omega_{n}^{(i+j)} \sum_{k=0}^{n-1} \omega_{n}^{k} \\
+&amp;= \frac{1}{n} \sum_{k=0}^{n-1} \exp\left( \frac{j 2 \pi}{n} k \right) \\
+&amp;= \exp(0) + \exp\left( j\frac{2\pi}{n} \right) + \exp\left( j\frac{\pi}{n} \right) + ... + \exp\left[ j\frac{(n-1)\pi}{n} \right] \\
+&amp;= 0
+\end{align*}
+</div>
+<p>となる（実際に <span class="math">\(n=2,3\)</span> あたりで試してみると良い。複素平面上の単位円を <span class="math">\(n\)</span> 分割して和を取るので <span class="math">\(0\)</span> になる。厳密な証明は <span class="math">\(n\)</span> に関する帰納法を使えばよいが、やらない。。。）。まとめると、</p>
+<div class="math">
+\begin{align*}
+\ve{f}_{i}^{\mathsf{T}} \ve{f}_{j} &amp;= \delta_{ij} \quad (\delta_{ij}: \text{クロネッカーのデルタ}) \\
+\delta_{ij} &amp;= \left\{ \begin{array}{ll}
+1 &amp; i = j \\
+0 &amp; i \neq j
+\end{array} \right.
+\end{align*}
+</div>
+<p>だから（これより、 <span class="math">\(\ve{F}\)</span> が直交行列 <span class="math">\(\ve{F}^{-1} = \ve{F}^{\mathsf{T}}\)</span> であることが分かる）、</p>
+<div class="math">
+\begin{equation*}
+\ve{F}^{\mathsf{T}} \ve{C} \ve{F} = \left[ \begin{array}{cccc}
+\lambda_{0} &amp; 0           &amp; ...    &amp; 0 \\
+0           &amp; \lambda_{1} &amp;        &amp; 0 \\
+\vdots      &amp;             &amp; \ddots &amp; \vdots \\
+0           &amp; ...         &amp;        &amp; \lambda_{n-1} \\
+\end{array} \right] = \mathrm{diag}(\lambda_{0}, \lambda_{1}, ..., \lambda_{n-1})
+\end{equation*}
+</div>
+<p>この式は巡回行列 <span class="math">\(\ve{C}\)</span> はフーリエ変換行列 <span class="math">\(\ve{F}\)</span> で対角化できることを示している。</p>
+<p>さらに、巡回行列 <span class="math">\(\ve{C}\)</span> の1行目をDFTすると、 <span class="math">\(\ve{C}\)</span> の固有値が全て求まることが示せる。<span class="math">\(\ve{C}\)</span> の1行目を縦ベクトル化して <span class="math">\(\ve{c} = [ c_{0} \ c_{1} \ ... \ c_{n-1} ]^{\mathsf{T}}\)</span> と書き、そのDFTを <span class="math">\(\mathcal{F}(\ve{c})\)</span> と書くと、</p>
+<div class="math">
+\begin{align*}
+\mathcal{F}(\ve{c}) &amp;:= \ve{F}\ve{c} \\
+&amp;= \left[ \ \ve{f}_{0} \ \ve{f}_{1} \ ... \ \ve{f}_{n-1}\ \right] \ve{c} \\
+&amp;= \left[ \begin{array}{c}
+(\ve{f}_{0})_{0} c_{0} + (\ve{f}_{1})_{0} c_{1} + ... + (\ve{f}_{n-1})_{0} c_{n-1} \\
+(\ve{f}_{0})_{1} c_{0} + (\ve{f}_{1})_{1} c_{1} + ... + (\ve{f}_{n-1})_{1} c_{n-1} \\
+\vdots \\
+(\ve{f}_{0})_{n-1} c_{0} + (\ve{f}_{1})_{n-1} c_{1} + ... + (\ve{f}_{n-1})_{n-1} c_{n-1} \\
+\end{array} \right] \\
+&amp;= \left[ \begin{array}{c}
+\omega_{n}^{0 \times 0} c_{0} + \omega_{n}^{0 \times 1} c_{1} + ... + \omega_{n}^{0 \times (n-1)} c_{n-1} \\
+\omega_{n}^{1 \times 0} c_{0} + \omega_{n}^{1 \times 1} c_{1} + ... + \omega_{n}^{1 \times (n-1)} c_{n-1} \\
+\vdots \\
+\omega_{n}^{(n-1) \times 0} c_{0} + \omega_{n}^{(n-1) \times 1} c_{1} + ... + \omega_{n}^{(n-1) \times (n-1)} c_{n-1} \\
+\end{array} \right]
+= \left[ \begin{array}{c}
+\sum_{j=0}^{n-1} c_{j} \omega_{n}^{0 \times j} \\
+\sum_{j=0}^{n-1} c_{j} \omega_{n}^{1 \times j} \\
+\vdots \\
+\sum_{j=0}^{n-1} c_{j} \omega_{n}^{(n-1) \times j}
+\end{array} \right] \\
+&amp;= \left[ \begin{array}{c}
+\lambda_{0} \\ \lambda_{1} \\ \vdots \\ \lambda_{n-1}
+\end{array} \right]
+\end{align*}
+</div>
+<p>フーリエ係数がそのまま固有値になっており、したがって、 <span class="math">\(\ve{c}\)</span> のDFTは <span class="math">\(\ve{C}\)</span> の固有値を並べたベクトルに変換される事がわかった。求まった固有値の逆数をとって逆フーリエ変換すれば、巡回行列の逆 <span class="math">\(\ve{C}^{-1}\)</span> が求まってしまう。離散フーリエ変換はFFT（高速フーリエ変換）によって <span class="math">\(\mathcal{O}(n\log n)\)</span> で計算できるから高速に逆行列計算ができることになる。たまげたなあ。</p>
+<p>なにかの時系列データに対してDFT(FFT)を実行すると、それは巡回行列の固有値を求めていることに等しくなる。</p>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://policies.google.com/technologies/partner-sites" target="_blank">Google Analytics</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2020 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-169927697-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>

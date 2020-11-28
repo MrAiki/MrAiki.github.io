@@ -5,15 +5,31 @@
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20190402234201/http://cmj3.web.fc2.com/index.htm"&gt;麻雀C言語プログラム集&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。
+&lt;p&gt;がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。あと有効牌判定。
 そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。&lt;/p&gt;
-&lt;p&gt;他のお役立ちリンク。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;お役立ちリンク&lt;/h2&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h3&gt;他の有名な？プロジェクト&lt;/h3&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ja.osdn.net/projects/openmahjong/"&gt;オープン麻雀プロジェクト(仮称)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/"&gt;爆打の中の人&lt;/a&gt; ちゃんと研究に落とし込んでいる方。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h3&gt;アルゴリズム全般&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://ksta.skr.jp/topic/diaryb15.html#20101230"&gt;気まぐれな戯れ言 バックナンバー１５&lt;/a&gt; 役判定アルゴリズムの概要がつかめる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h3&gt;数理的側面&lt;/h3&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www10.plala.or.jp/rascalhp/mjmath.htm"&gt;麻雀の数学&lt;/a&gt; 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;乱数について&lt;/h2&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h4&gt;乱数について&lt;/h4&gt;
 &lt;p&gt;端的に言って沼。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html"&gt;ランダムシャッフル | Programming Place Plus&lt;/a&gt; ランダムシャッフルのやり方。Fisher-Yates法を使いましょう。&lt;/p&gt;
@@ -26,25 +42,37 @@
 &lt;li&gt;&lt;a class="reference external" href="https://takeda25.hatenablog.jp/entry/20130818/1376837093"&gt;いつからその方法で偏りのない乱数が得られると錯覚していた？&lt;/a&gt; まず読みましょう。そして、偏らない乱数を出すためには、以下の実装で行く必要があるようです。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;uniform_int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;adjusted_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-     &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-  &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;adjusted_max …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
+  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;adjusted_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
 すこし成果がまとまってきたので記事にしてみよう。&lt;/p&gt;
 &lt;p&gt;なんと言っても、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20190402234201/http://cmj3.web.fc2.com/index.htm"&gt;麻雀C言語プログラム集&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。
+&lt;p&gt;がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。あと有効牌判定。
 そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。&lt;/p&gt;
-&lt;p&gt;他のお役立ちリンク。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;お役立ちリンク&lt;/h2&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h3&gt;他の有名な？プロジェクト&lt;/h3&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ja.osdn.net/projects/openmahjong/"&gt;オープン麻雀プロジェクト(仮称)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/"&gt;爆打の中の人&lt;/a&gt; ちゃんと研究に落とし込んでいる方。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id4"&gt;
+&lt;h3&gt;アルゴリズム全般&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://ksta.skr.jp/topic/diaryb15.html#20101230"&gt;気まぐれな戯れ言 バックナンバー１５&lt;/a&gt; 役判定アルゴリズムの概要がつかめる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id5"&gt;
+&lt;h3&gt;数理的側面&lt;/h3&gt;
+&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www10.plala.or.jp/rascalhp/mjmath.htm"&gt;麻雀の数学&lt;/a&gt; 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;乱数について&lt;/h2&gt;
+&lt;div class="section" id="id6"&gt;
+&lt;h4&gt;乱数について&lt;/h4&gt;
 &lt;p&gt;端的に言って沼。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html"&gt;ランダムシャッフル | Programming Place Plus&lt;/a&gt; ランダムシャッフルのやり方。Fisher-Yates法を使いましょう。&lt;/p&gt;
@@ -77,12 +105,21 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
+&lt;/div&gt;
 &lt;div class="section" id="ai"&gt;
-&lt;h2&gt;AI（プレーヤー）について&lt;/h2&gt;
+&lt;h3&gt;AI（プレーヤー）について&lt;/h3&gt;
 &lt;p&gt;プレーヤーは間違いなくインターフェースとして実装すべきで、転用を考えて、他の有名なものと互換性のある形に実装しておきたい。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/java/javadoc/current/jp/gr/java_conf/ishihata/mj_ai/package-summary.html"&gt;まうじゃんのインターフェース仕様&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.nicovideo.jp/watch/sm21043481"&gt;[麻雀]コンピュータで鳳凰卓を目指すpart1[天鳳]&lt;/a&gt; 最初はシャンテン数を減らすことだけ考える。次はベタオリ、次は鳴き。取っ掛かりにはかなり良さそう。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id7"&gt;
+&lt;h3&gt;麻雀用語の英語&lt;/h3&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://perceptualmahjong.blog.ss-blog.jp/2010-10-08"&gt;英語の麻雀用語集・表現集&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://crescent.s255.xrea.com/cabinet/others/mahjong/"&gt;麻雀用語英名一覧&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
 &lt;/div&gt;
 </content><category term="趣味"></category><category term="麻雀"></category><category term="向聴数"></category><category term="得点計算"></category></entry></feed>
