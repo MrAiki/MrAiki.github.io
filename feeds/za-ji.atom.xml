@@ -67,8 +67,12 @@
 &lt;/div&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;だから、直前ステップの自然勾配 &lt;span class="math"&gt;\(\ve{R}^{-1}[n]\ve{v}\)&lt;/span&gt; に対して修正を掛けながら更新している事がわかる。&lt;/li&gt;
-&lt;li&gt;前に進捗報告でglasso版がほぼ同じような結果を出していたのは、共分散行列を &lt;span class="math"&gt;\(\ve{R}[n+1] \leftarrow \lambda \ve{R}[n] + \ve{x}[n] \ve{x}[n]^{\mathsf{T}}\)&lt;/span&gt; と指数移動平均的に更新したからと思われる。両辺の逆を取ると、（1次）近似的には &lt;span class="math"&gt;\(\ve{R}^{-1}[n]\)&lt;/span&gt; の成分と &lt;span class="math"&gt;\(\ve{x}[n]\ve{x}[n]^{\mathsf{T}}\)&lt;/span&gt; の和に分けることができて、右から勾配を乗じると直前ステップの勾配成分が発生し、モーメンタムになる。&lt;/li&gt;
+&lt;li&gt;前に進捗報告でglasso版がほぼ同じような結果を出していたのは、共分散行列を &lt;span class="math"&gt;\(\ve{R}[n+1] \leftarrow \lambda \ve{R}[n] + \ve{x}[n] \ve{x}[n]^{\mathsf{T}}\)&lt;/span&gt; と指数移動平均的に更新したからと思われる。両辺の逆を取ると、（1次）近似的には &lt;span class="math"&gt;\(\ve{R}^{-1}[n]\)&lt;/span&gt; の成分と &lt;span class="math"&gt;\((\ve{x}[n]\ve{x}[n]^{\mathsf{T}})^{-1}\)&lt;/span&gt; (擬似逆行列) の和に分けることができて、右から勾配を乗じると直前ステップの勾配成分が発生し、モーメンタムになる。&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;やはりモーメンタムの線が濃い。事前にSherman-Morrisonで &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を求めて固定して自然勾配学習を行うと、NGSAの収束性能が悪化した。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;アイデアとしては、行列を指数移動平均的に更新するやり方を採用することだろうか。&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
