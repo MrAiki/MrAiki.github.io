@@ -113,7 +113,7 @@ c_{1}   &amp;amp; c_{2} &amp;amp;  c_{3} &amp;amp;    ... &amp;amp; c_{0}   \\
 &lt;div class="math"&gt;
 \begin{align*}
 \frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{k(i+j)} &amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \omega_{n}^{kn} \\
-&amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \exp\left( j 2 \pi \right) = \frac{1}{n} \sum_{k=0}^{n-1} 1 \\
+&amp;amp;= \frac{1}{n} \sum_{k=0}^{n-1} \exp\left( j 2 \pi k \right) = \frac{1}{n} \sum_{k=0}^{n-1} 1 \\
 &amp;amp;= 1
 \end{align*}
 &lt;/div&gt;

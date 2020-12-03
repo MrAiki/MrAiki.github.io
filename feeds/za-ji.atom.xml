@@ -1,5 +1,626 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-11-28T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(19)</title><link href="/r-1-noji-suan-19.html" rel="alternate"></link><published>2020-11-28T10:00:00+09:00</published><updated>2020-11-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-28:/r-1-noji-suan-19.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-02T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(22)</title><link href="/r-1-noji-suan-22.html" rel="alternate"></link><published>2020-12-02T10:00:00+09:00</published><updated>2020-12-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-02:/r-1-noji-suan-22.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;前日見ていた &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; のAR(1)仮定による近似を実験しているが、渋いな〜渋い。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;真の（共分散行列を計算してから逆行列を計算した） &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; とはかなり類似。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;当然3重対角成分以外は0にしているので誤差がある。しかし真の &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; も小さい値を取るので全体的な誤差は小さい。&lt;/li&gt;
+&lt;li&gt;真値とのRMSを見たら減少してることを確認。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;i.i.d.雑音ではSAとほぼ変わらんくらいの性能。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;頷ける。 &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; が単位行列の定数倍に近くなるから …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;前日見ていた &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; のAR(1)仮定による近似を実験しているが、渋いな〜渋い。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;真の（共分散行列を計算してから逆行列を計算した） &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; とはかなり類似。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;当然3重対角成分以外は0にしているので誤差がある。しかし真の &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; も小さい値を取るので全体的な誤差は小さい。&lt;/li&gt;
+&lt;li&gt;真値とのRMSを見たら減少してることを確認。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;i.i.d.雑音ではSAとほぼ変わらんくらいの性能。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;頷ける。 &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; が単位行列の定数倍に近くなるから。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;相関付き雑音ならちょっと改善。NGSAとSAの中間くらいか？&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;以下の条件下ではSharman-Morrison式NGSAの性能と近い。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;入力雑音のパワー（分散）を大きくする（0dBとか）&lt;/li&gt;
+&lt;li&gt;フィルタ係数の次元を落とす（2とか）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;NGSAで求まってる &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; は何なの…&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;実験で見たとき、Sharman-Morrisonによる &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; もほぼ多重対角行列だったのを見ている&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;i.i.d.雑音でSharman-Morrison式NGSAがよくなる現象、一体何なんだ。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;スケールを揃えて見てみた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;10サンプル後, 対角優位ではあるが、対角要素以外がおおきい。&lt;/li&gt;
+&lt;li&gt;1000サンプル, 2000サンプル後もほぼ同様。対角要素以外は小さくなるものの小さくなりきっていない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;なんかモーメンタムみたいになってる？慣性が残って加速しているのか？まさか…&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;曲率以外の概念が無いと、この収束加速は説明できない。&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;モーメンタムありえる。&lt;/strong&gt; 更新式の横から勾配 &lt;span class="math"&gt;\(\ve{v}\)&lt;/span&gt; を乗じると、&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{R}^{-1}[n+1] &amp;amp;= \frac{1}{\lambda} \left[ \ve{R}^{-1}[n] - \frac{\ve{R}^{-1}[n]\ve{x}[n]\left\{\ve{R}^{-1}\ve{x}[n]\right\}^{\mathsf{T}}}{\lambda + \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1}[n] \ve{x}[n]} \right] \\
+\implies \ve{R}^{-1}[n+1]\ve{v} &amp;amp;= \frac{1}{\lambda} \left[ \ve{R}^{-1}[n]\ve{v} - \frac{\ve{R}^{-1}[n]\ve{x}[n]\left\{\ve{R}^{-1}\ve{x}[n]\right\}^{\mathsf{T}}}{\lambda + \ve{x}[n]^{\mathsf{T}} \ve{R}^{-1}[n] \ve{x}[n]} \ve{v} \right]
+\end{align*}
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;だから、直前ステップの自然勾配 &lt;span class="math"&gt;\(\ve{R}^{-1}[n]\ve{v}\)&lt;/span&gt; に対して修正を掛けながら更新している事がわかる。&lt;/li&gt;
+&lt;li&gt;前に進捗報告でglasso版がほぼ同じような結果を出していたのは、共分散行列を &lt;span class="math"&gt;\(\ve{R}[n+1] \leftarrow \lambda \ve{R}[n] + \ve{x}[n] \ve{x}[n]^{\mathsf{T}}\)&lt;/span&gt; と指数移動平均的に更新したからと思われる。両辺の逆を取ると、（1次）近似的には &lt;span class="math"&gt;\(\ve{R}^{-1}[n]\)&lt;/span&gt; の成分と &lt;span class="math"&gt;\(\ve{x}[n]\ve{x}[n]^{\mathsf{T}}\)&lt;/span&gt; の和に分けることができて、右から勾配を乗じると直前ステップの勾配成分が発生し、モーメンタムになる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(21)</title><link href="/r-1-noji-suan-21.html" rel="alternate"></link><published>2020-12-01T10:00:00+09:00</published><updated>2020-12-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-01:/r-1-noji-suan-21.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;昨日あたりから三重対角行列の性質を使ってうまくやれないか...でずっと悩んでいた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;（PCAより）共分散行列（今考えてる信号では自己相関行列としてよい、平均0だから）の固有値は各軸の分散になる&lt;/li&gt;
+&lt;li&gt;自己相関行列の逆はほぼ三重対角行列とみなせる。その行列の要素と固有値には陽な関係がある&lt;/li&gt;
+&lt;li&gt;ある行列の固有値は、その逆行列の固有値の逆数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;という3点から攻めればいけるかな、と思ったけど、観測により得られる要素がほとんどなくて、&amp;quot;各軸の分散&amp;quot;も直交変換しないとわからない。という所で詰まっていた。&lt;/p&gt;
+&lt;p&gt;しばらく悶絶していたら、今考えてるのは直前時刻との相関、つまりAR(1)だから、そいつ共分散の逆行列ならよく知られてるんじゃないと思って探したらすぐに陽な答えが見つかった:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/975069/the-inverse-of-ar-structure-correlation-matrix-kac-murdock-szeg-̈o-matrix"&gt;The inverse of AR structure correlation matrix / Kac-Murdock-Szeg …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;昨日あたりから三重対角行列の性質を使ってうまくやれないか...でずっと悩んでいた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;（PCAより）共分散行列（今考えてる信号では自己相関行列としてよい、平均0だから）の固有値は各軸の分散になる&lt;/li&gt;
+&lt;li&gt;自己相関行列の逆はほぼ三重対角行列とみなせる。その行列の要素と固有値には陽な関係がある&lt;/li&gt;
+&lt;li&gt;ある行列の固有値は、その逆行列の固有値の逆数&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;という3点から攻めればいけるかな、と思ったけど、観測により得られる要素がほとんどなくて、&amp;quot;各軸の分散&amp;quot;も直交変換しないとわからない。という所で詰まっていた。&lt;/p&gt;
+&lt;p&gt;しばらく悶絶していたら、今考えてるのは直前時刻との相関、つまりAR(1)だから、そいつ共分散の逆行列ならよく知られてるんじゃないと思って探したらすぐに陽な答えが見つかった:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/975069/the-inverse-of-ar-structure-correlation-matrix-kac-murdock-szeg-̈o-matrix"&gt;The inverse of AR structure correlation matrix / Kac-Murdock-Szeg ̈o matrix&lt;/a&gt; これにピンときた。前に &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を計算したときの結果ともかなり合ってる。&lt;ul&gt;
+&lt;li&gt;手元で計算結果を確認した。コレスキー（Cholesky）分解を使っておる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mathoverflow.net/questions/65795/inverse-of-an-ar1-or-laplacian-or-kac-murdock-szegö-matrix"&gt;Inverse of an AR(1) or Laplacian (?) or Kac-Murdock-Szegö matrix&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.stanford.edu/class/stats253/lectures/lect6.pdf"&gt;Lecture 6 Autoregressive Processes in Time&lt;/a&gt; AR(2)も逆行列がシンボリックに求まるっぽい&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=&amp;amp;ved=2ahUKEwjF9dyVlK3tAhVPPHAKHcOYDNMQFjABegQIAhAC&amp;amp;url=https%3A%2F%2Fwww.sid.ir%2FFileServer%2FJE%2F10012004A204&amp;amp;usg=AOvVaw2O9EqdHNmqDdro32aAFB7V"&gt;THE INVERSE OF COVARIANCE MATRICES FOR THE ARMA (p, q) CLASS OF PROCESSES&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;かなり上手い結果が出ている。AR(1)だと仮定してやれば、1つシフトさせたときの相関を求めてしまえば自己相関行列の逆が求まってしまう。&lt;/p&gt;
+&lt;p&gt;主張としては、1サンプルギャップでの相関が &lt;span class="math"&gt;\(0 &amp;lt; \rho &amp;lt; 1\)&lt;/span&gt; のとき、 &lt;span class="math"&gt;\(N \times N\)&lt;/span&gt; の相関行列&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{R} = \left[ \begin{array}{ccccc}
+1          &amp;amp; \rho       &amp;amp; \rho^{2} &amp;amp; ... &amp;amp; \rho^{N-1} \\
+\rho       &amp;amp; 1          &amp;amp; \rho     &amp;amp;     &amp;amp; \rho^{N-2} \\
+\vdots     &amp;amp;            &amp;amp; \ddots   &amp;amp;     &amp;amp; \vdots     \\
+\rho^{N-1} &amp;amp; \rho^{N-2} &amp;amp; ...      &amp;amp;     &amp;amp; 1          \\
+\end{array} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;の逆行列 &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; は&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{R}^{-1} = \frac{1}{1 - \rho^{2}} \left[ \begin{array}{ccccc}
+1      &amp;amp; -\rho        &amp;amp; 0         &amp;amp; ...          &amp;amp; 0      \\
+-\rho  &amp;amp; 1 + \rho^{2} &amp;amp; -\rho     &amp;amp; \ddots       &amp;amp; \vdots \\
+0      &amp;amp; -\rho        &amp;amp; \ddots    &amp;amp; \ddots       &amp;amp; 0      \\
+\vdots &amp;amp; \ddots       &amp;amp; \ddots    &amp;amp; 1 + \rho^{2} &amp;amp; -\rho  \\
+0      &amp;amp; ...          &amp;amp; 0         &amp;amp; -\rho        &amp;amp; 1      \\
+\end{array} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となる。特に、&lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; に信号の分散 &lt;span class="math"&gt;\(\sigma^{2}\)&lt;/span&gt; を乗じると自己相関行列 &lt;span class="math"&gt;\(\ve{K}\)&lt;/span&gt; に一致するから&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{K} &amp;amp;= \sigma^{2} \ve{R} \\
+\ve{K}^{-1} &amp;amp;= \sigma^{-2} \ve{R}^{-1}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。&lt;/p&gt;
+&lt;p&gt;証明） &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; はコレスキー（Cholesky）分解によって&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{R} = \ve{L}\  \mathrm{diag}(1, 1 - \rho^{2}, ..., 1 - \rho^{2})\  \ve{L}^{\mathsf{T}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;と分解できる。ここで、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{L} = \left[ \begin{array}{ccccc}
+1          &amp;amp; 0           &amp;amp; 0         &amp;amp; ...    &amp;amp; 0      \\
+\rho       &amp;amp; 1           &amp;amp; 0         &amp;amp; \ddots &amp;amp;        \\
+\vdots     &amp;amp; \rho        &amp;amp; 1         &amp;amp; \ddots &amp;amp; 0      \\
+\rho^{N-2} &amp;amp; \ddots      &amp;amp; \ddots    &amp;amp; \ddots &amp;amp; 0      \\
+\rho^{N-1} &amp;amp; \rho^{N-2}  &amp;amp; ...       &amp;amp; \rho   &amp;amp; 1      \\
+\end{array} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;確認すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+&amp;amp; \ve{L}\  \mathrm{diag}(1, 1 - \rho^{2}, ..., 1 - \rho^{2})\  \ve{L}^{\mathsf{T}} \\
+&amp;amp;= \left[ \begin{array}{ccccc}
+1          &amp;amp; 0           &amp;amp; 0         &amp;amp; ...    &amp;amp; 0   \\
+\rho       &amp;amp; 1           &amp;amp; 0         &amp;amp; \ddots &amp;amp;     \\
+\vdots     &amp;amp; \rho        &amp;amp; 1         &amp;amp; \ddots &amp;amp; 0   \\
+\rho^{N-2} &amp;amp; \ddots      &amp;amp; \ddots    &amp;amp; \ddots &amp;amp; 0   \\
+\rho^{N-1} &amp;amp; \rho^{N-2}  &amp;amp; ...       &amp;amp; \rho   &amp;amp; 1   \\
+\end{array} \right]
+\left[ \begin{array}{cccc}
+1 &amp;amp;              &amp;amp;        &amp;amp;             \\
+  &amp;amp; 1 - \rho^{2} &amp;amp;        &amp;amp;             \\
+  &amp;amp;              &amp;amp; \ddots &amp;amp;             \\
+  &amp;amp;              &amp;amp;        &amp;amp; 1- \rho^{2} \\
+\end{array} \right]
+\left[ \begin{array}{ccccc}
+1      &amp;amp; \rho   &amp;amp; ...    &amp;amp; \rho^{N-2} &amp;amp; \rho^{N-1}  \\
+0      &amp;amp; 1      &amp;amp; \rho   &amp;amp; \ddots     &amp;amp; \rho^{N-2}  \\
+\vdots &amp;amp; 0      &amp;amp; 1      &amp;amp; \ddots     &amp;amp; 0           \\
+0      &amp;amp; \ddots &amp;amp; \ddots &amp;amp; \ddots     &amp;amp; \rho        \\
+0      &amp;amp; 0      &amp;amp; ...    &amp;amp; 0          &amp;amp; 1           \\
+\end{array} \right] \\
+&amp;amp;= \left[ \begin{array}{ccccc}
+1          &amp;amp; 0                        &amp;amp; 0            &amp;amp; ...                &amp;amp; 0             \\
+\rho       &amp;amp; 1 - \rho^{2}             &amp;amp; 0            &amp;amp; \ddots             &amp;amp; \vdots        \\
+\rho^{2}   &amp;amp; \rho(1 - \rho^{2})       &amp;amp; 1 - \rho^{2} &amp;amp; \ddots             &amp;amp; 0             \\
+\vdots     &amp;amp; \vdots                   &amp;amp; \ddots       &amp;amp; \ddots             &amp;amp; 0             \\
+\rho^{N-1} &amp;amp; \rho^{N-2}(1 - \rho^{2}) &amp;amp; ...          &amp;amp; \rho(1 - \rho^{2}) &amp;amp; 1 - \rho^{2}  \\
+\end{array} \right]
+\left[ \begin{array}{ccccc}
+1      &amp;amp; \rho   &amp;amp; ...    &amp;amp; \rho^{N-2} &amp;amp; \rho^{N-1}  \\
+0      &amp;amp; 1      &amp;amp; \rho   &amp;amp; \ddots     &amp;amp; \rho^{N-2}  \\
+\vdots &amp;amp; 0      &amp;amp; 1      &amp;amp; \ddots     &amp;amp; 0           \\
+0      &amp;amp; \ddots &amp;amp; \ddots &amp;amp; \ddots     &amp;amp; \rho        \\
+0      &amp;amp; 0      &amp;amp; ...    &amp;amp; 0          &amp;amp; 1           \\
+\end{array} \right] \\
+&amp;amp;= \left[ \begin{array}{ccccc}
+1          &amp;amp; \rho       &amp;amp; \rho^{2} &amp;amp; ... &amp;amp; \rho^{N-1} \\
+\rho       &amp;amp; 1          &amp;amp; \rho     &amp;amp;     &amp;amp; \rho^{N-2} \\
+\vdots     &amp;amp;            &amp;amp; \ddots   &amp;amp;     &amp;amp; \vdots     \\
+\rho^{N-1} &amp;amp; \rho^{N-2} &amp;amp; ...      &amp;amp;     &amp;amp; 1          \\
+\end{array} \right] = \ve{R}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;OKであることが分かる。では、 &lt;span class="math"&gt;\(\ve{L}^{-1}\)&lt;/span&gt; を求めることを考えるが、これは拡張行列に対して行基本変形（ガウスの消去法）を使って求めてみる。
+つまり、 &lt;span class="math"&gt;\(\left[ \ve{L}\  \ve{I} \right] \rightarrow \left[ \ve{I}\  \ve{L}^{-1} \right]\)&lt;/span&gt; として求める。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\left[ \ve{L}\  \ve{I} \right]
+&amp;amp;= \left[ \begin{array}{cccccccccc}
+1          &amp;amp; 0          &amp;amp; 0      &amp;amp; ...    &amp;amp; 0  &amp;amp; 1 &amp;amp;   &amp;amp;        &amp;amp;   &amp;amp;   \\
+\rho       &amp;amp; 1          &amp;amp; 0      &amp;amp; \ddots &amp;amp;    &amp;amp;   &amp;amp; 1 &amp;amp;        &amp;amp;   &amp;amp;   \\
+\vdots     &amp;amp; \rho       &amp;amp; 1      &amp;amp; \ddots &amp;amp; 0  &amp;amp;   &amp;amp;   &amp;amp; \ddots &amp;amp;   &amp;amp;   \\
+\rho^{N-2} &amp;amp; \ddots     &amp;amp; \ddots &amp;amp; \ddots &amp;amp; 0  &amp;amp;   &amp;amp;   &amp;amp;        &amp;amp; 1 &amp;amp;   \\
+\rho^{N-1} &amp;amp; \rho^{N-2} &amp;amp; ...    &amp;amp; \rho   &amp;amp; 1  &amp;amp;   &amp;amp;   &amp;amp;        &amp;amp;   &amp;amp; 1 \\
+\end{array} \right] \\
+&amp;amp; \rightarrow \left[ \begin{array}{cccccccccc}
+1      &amp;amp; 0          &amp;amp; 0      &amp;amp; ...    &amp;amp; 0  &amp;amp; 1           &amp;amp;   &amp;amp;        &amp;amp;   &amp;amp;   \\
+0      &amp;amp; 1          &amp;amp; 0      &amp;amp; \ddots &amp;amp;    &amp;amp; -\rho       &amp;amp; 1 &amp;amp;        &amp;amp;   &amp;amp;   \\
+0      &amp;amp; \rho       &amp;amp; 1      &amp;amp; \ddots &amp;amp; 0  &amp;amp; -\rho^{2}   &amp;amp;   &amp;amp; \ddots &amp;amp;   &amp;amp;   \\
+\vdots &amp;amp; \ddots     &amp;amp; \ddots &amp;amp; \ddots &amp;amp; 0  &amp;amp; \vdots      &amp;amp;   &amp;amp;        &amp;amp; 1 &amp;amp;   \\
+0      &amp;amp; \rho^{N-2} &amp;amp; ...    &amp;amp; \rho   &amp;amp; 1  &amp;amp; -\rho^{N-1} &amp;amp;   &amp;amp;        &amp;amp;   &amp;amp; 1 \\
+\end{array} \right] \\
+&amp;amp; \rightarrow \left[ \begin{array}{cccccccccc}
+1      &amp;amp; 0      &amp;amp; 0      &amp;amp; ...    &amp;amp; 0  &amp;amp; 1      &amp;amp;             &amp;amp;        &amp;amp;   &amp;amp;   \\
+0      &amp;amp; 1      &amp;amp; 0      &amp;amp; \ddots &amp;amp;    &amp;amp; -\rho  &amp;amp; 1           &amp;amp;        &amp;amp;   &amp;amp;   \\
+0      &amp;amp; 0      &amp;amp; 1      &amp;amp; \ddots &amp;amp; 0  &amp;amp; 0      &amp;amp; -\rho       &amp;amp; \ddots &amp;amp;   &amp;amp;   \\
+\vdots &amp;amp; \ddots &amp;amp; \ddots &amp;amp; \ddots &amp;amp; 0  &amp;amp; \vdots &amp;amp; \vdots      &amp;amp;        &amp;amp; 1 &amp;amp;   \\
+0      &amp;amp; 0      &amp;amp; ...    &amp;amp; \rho   &amp;amp; 1  &amp;amp; 0      &amp;amp; -\rho^{N-2} &amp;amp;        &amp;amp;   &amp;amp; 1 \\
+\end{array} \right] \\
+\rightarrow ... &amp;amp;\rightarrow \left[ \begin{array}{cccccccccc}
+1      &amp;amp; 0      &amp;amp; 0      &amp;amp; ...    &amp;amp; 0  &amp;amp; 1      &amp;amp;             &amp;amp;        &amp;amp;       &amp;amp;   \\
+0      &amp;amp; 1      &amp;amp; 0      &amp;amp; \ddots &amp;amp;    &amp;amp; -\rho  &amp;amp; 1           &amp;amp;        &amp;amp;       &amp;amp;   \\
+0      &amp;amp; 0      &amp;amp; 1      &amp;amp; \ddots &amp;amp; 0  &amp;amp; 0      &amp;amp; -\rho       &amp;amp; \ddots &amp;amp;       &amp;amp;   \\
+\vdots &amp;amp; \ddots &amp;amp; \ddots &amp;amp; \ddots &amp;amp; 0  &amp;amp; \vdots &amp;amp; \ddots      &amp;amp; \ddots &amp;amp; 1     &amp;amp;   \\
+0      &amp;amp; 0      &amp;amp; ...    &amp;amp; 0      &amp;amp; 1  &amp;amp; 0      &amp;amp; ...         &amp;amp; 0      &amp;amp; -\rho &amp;amp; 1 \\
+\end{array} \right]
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;よって、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{L}^{-1} =
+\left[ \begin{array}{cccc}
+1     &amp;amp;        &amp;amp;        &amp;amp;   \\
+-\rho &amp;amp; 1      &amp;amp;        &amp;amp;   \\
+      &amp;amp; \ddots &amp;amp; \ddots &amp;amp;   \\
+      &amp;amp;        &amp;amp; -\rho  &amp;amp; 1 \\
+\end{array} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;（下三角行列だからなんかえもい結果でないかな）この結果から、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{R}^{-1} &amp;amp;= (\ve{L}^{\mathsf{T}})^{-1} \  \mathrm{diag}(1, 1 - \rho^{2}, ..., 1 - \rho^{2})^{-1}\  \ve{L}^{-1} \\
+&amp;amp;= (\ve{L}^{-1})^{\mathsf{T}} \  \mathrm{diag}(1, \frac{1}{1 - \rho^{2}}, ..., \frac{1}{1 - \rho^{2}})\  \ve{L}^{-1} \\
+&amp;amp;= \frac{1}{1 - \rho^{2}}
+\left[ \begin{array}{cccc}
+1 &amp;amp; -\rho  &amp;amp;        &amp;amp;       \\
+  &amp;amp; 1      &amp;amp; \ddots &amp;amp;       \\
+  &amp;amp;        &amp;amp; \ddots &amp;amp; -\rho \\
+  &amp;amp;        &amp;amp;        &amp;amp; 1     \\
+\end{array} \right]
+\left[ \begin{array}{cccc}
+1 - \rho^{2} &amp;amp;   &amp;amp;        &amp;amp;   \\
+             &amp;amp; 1 &amp;amp;        &amp;amp;   \\
+             &amp;amp;   &amp;amp; \ddots &amp;amp;   \\
+             &amp;amp;   &amp;amp;        &amp;amp; 1 \\
+\end{array} \right]
+\left[ \begin{array}{cccc}
+1     &amp;amp;        &amp;amp;        &amp;amp;   \\
+-\rho &amp;amp; 1      &amp;amp;        &amp;amp;   \\
+      &amp;amp; \ddots &amp;amp; \ddots &amp;amp;   \\
+      &amp;amp;        &amp;amp; -\rho  &amp;amp; 1 \\
+\end{array} \right] \\
+&amp;amp;= \frac{1}{1 - \rho^{2}}
+\left[ \begin{array}{cccc}
+1 - \rho^{2} &amp;amp; -\rho  &amp;amp;        &amp;amp;       \\
+             &amp;amp; 1      &amp;amp; \ddots &amp;amp;       \\
+             &amp;amp;        &amp;amp; \ddots &amp;amp; -\rho \\
+             &amp;amp;        &amp;amp;        &amp;amp; 1     \\
+\end{array} \right]
+\left[ \begin{array}{cccc}
+1     &amp;amp;        &amp;amp;        &amp;amp;   \\
+-\rho &amp;amp; 1      &amp;amp;        &amp;amp;   \\
+      &amp;amp; \ddots &amp;amp; \ddots &amp;amp;   \\
+      &amp;amp;        &amp;amp; -\rho  &amp;amp; 1 \\
+\end{array} \right] \\
+&amp;amp;= \frac{1}{1 - \rho^{2}}
+\left[ \begin{array}{ccccc}
+1      &amp;amp; -\rho        &amp;amp; 0         &amp;amp; ...          &amp;amp; 0      \\
+-\rho  &amp;amp; 1 + \rho^{2} &amp;amp; -\rho     &amp;amp; \ddots       &amp;amp; \vdots \\
+0      &amp;amp; -\rho        &amp;amp; \ddots    &amp;amp; \ddots       &amp;amp; 0      \\
+\vdots &amp;amp; \ddots       &amp;amp; \ddots    &amp;amp; 1 + \rho^{2} &amp;amp; -\rho  \\
+0      &amp;amp; ...          &amp;amp; 0         &amp;amp; -\rho        &amp;amp; 1      \\
+\end{array} \right]
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となって結果が確かめられた。&lt;/p&gt;
+&lt;p&gt;もう一度考えると、i.i.d.雑音のときは有効な情報は分散（の逆数）ということになる。（入力がi.i.d.雑音のとき &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; は対角行列であることは見た）
+それだけでも収束性能が上がるということは、分散で正規化するだけでも意味がある、というかNLMSとほぼ同じ発想になっている。
+このことからもNLMSと同等かそれ以下の性能しか出せないのは頷ける。NGSAでは残差の大きさ入れてないから。&lt;/p&gt;
+&lt;p&gt;現実の信号は直前サンプルに強い相関を持つのは妥当な仮定。だから良くなるはずというのが自分の印象。
+自分、実験いいすか？&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(20)</title><link href="/r-1-noji-suan-20.html" rel="alternate"></link><published>2020-11-30T10:00:00+09:00</published><updated>2020-11-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-30:/r-1-noji-suan-20.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;色々方針がグッチャになってるのが良くない。現状をまとめる&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;LARSを試す&lt;ul&gt;
+&lt;li&gt;とにかく遅い。CDよりも遅い …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;色々方針がグッチャになってるのが良くない。現状をまとめる&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;LARSを試す&lt;ul&gt;
+&lt;li&gt;とにかく遅い。CDよりも遅い。&lt;/li&gt;
+&lt;li&gt;原因を知りたいが、実装だけでは理解不能。&lt;/li&gt;
+&lt;li&gt;最小角の原理から抑えていかないとだめか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;巡回行列化してFFT:&lt;ul&gt;
+&lt;li&gt;基礎は抑えた。&lt;/li&gt;
+&lt;li&gt;実装するにしても &lt;span class="math"&gt;\(n\)&lt;/span&gt; が小さいから &lt;span class="math"&gt;\(\mathcal{O}(n \log n)\)&lt;/span&gt; との差が出なそうな印象。&lt;/li&gt;
+&lt;li&gt;一般の大規模自然勾配に対しては有効に思える。既存研究がないか調査。&lt;ul&gt;
+&lt;li&gt;しかし既存研究が無かったとしても、これは技法であって提案手法に足りるか疑問。有効性をどうやって示す？3層パーセプトロンでやるのが良さそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;できない実装のコード共有&lt;ul&gt;
+&lt;li&gt;単純に &lt;span class="math"&gt;\(\ve{H}=\ve{R}\)&lt;/span&gt; にした実装が上手くいかんやつ。&lt;/li&gt;
+&lt;li&gt;これはなるべく早く。今週中に上げたい。&lt;/li&gt;
+&lt;li&gt;次元を落として(2とか)上手く行かない理由を見る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;摂動展開&lt;ul&gt;
+&lt;li&gt;甘利先生の適応的自然勾配学習に近い形になる。つまり、不安定になる未来が見えている。初夏に一回試している。&lt;/li&gt;
+&lt;li&gt;しかしいま一度試してみる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Sharman-Morrisonをもう一段展開してなにか見えないか&lt;ul&gt;
+&lt;li&gt;やるだけやってみるべし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;重要: 方針相談&lt;ul&gt;
+&lt;li&gt;落とし所が上手く定まらない。12月中に先生と相談する機会を設ける。&lt;/li&gt;
+&lt;li&gt;なるべく早く。今年中に舵切らないと危険。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;指摘事項に対応するのは大事なので、今日は摂動展開を試す。&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/2961686/approximating-the-inverse-of-a-perturbed-matrix"&gt;Approximating the inverse of a perturbed matrix&lt;/a&gt; にあるように、行列 &lt;span class="math"&gt;\(\ve{A}\)&lt;/span&gt; に摂動を加えた行列 &lt;span class="math"&gt;\(\partial\ve{A}\)&lt;/span&gt; の逆行列の近似は&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+(\ve{A} + \partial\ve{A})^{-1} \approx \ve{A}^{-1} - \ve{A}^{-1} \partial\ve{A} \ve{A}^{-1}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;で与えられる。&lt;/p&gt;
+&lt;p&gt;上ページにもあったけど証明を与えておく。 &lt;span class="math"&gt;\(\ve{A}\)&lt;/span&gt; に摂動 &lt;span class="math"&gt;\(\ve{X}\)&lt;/span&gt; を与えることを考え、 &lt;span class="math"&gt;\((\ve{A} + \ve{X})^{-1}\)&lt;/span&gt; をテイラー展開すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+(\ve{A} + \ve{X})^{-1} = \ve{A}^{-1} + \ve{Y} + O(||\ve{X}||^{2})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;と書ける。ここで &lt;span class="math"&gt;\(\ve{Y}\)&lt;/span&gt; は一次（線形）の変化を表す行列。ここで、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+&amp;amp; (\ve{A} + \ve{X})^{-1}(\ve{A} + \ve{X}) = \ve{I} \\
+&amp;amp; \iff (\ve{A}^{-1} + \ve{Y} + O(||\ve{X}||^{2}))(\ve{A} + \ve{X}) = \ve{I} \\
+&amp;amp; \iff \ve{A}^{-1}\ve{A} + \ve{A}^{-1}\ve{X} + \ve{Y}\ve{A} + \ve{Y}\ve{X} + O(||\ve{X}||^{2})(\ve{A} + \ve{X}) = \ve{I} \\
+&amp;amp; \iff \ve{A}^{-1}\ve{X} + \ve{Y}\ve{A} + \ve{Y}\ve{X} + O(||\ve{X}||^{2})(\ve{A} + \ve{X}) = \ve{O} \\
+&amp;amp; \implies \ve{A}^{-1}\ve{X} + \ve{Y}\ve{A} \approx \ve{O} \quad (\because \ve{Y}\text{は微小だから} \ve{Y}\ve{X} \approx \ve{O}) \\
+&amp;amp; \implies \ve{Y} \approx -\ve{A}^{-1}\ve{X}\ve{A}^{-1}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;この &lt;span class="math"&gt;\(\ve{Y}\)&lt;/span&gt; をテイラー展開の式に代入して二次以上の項を無視すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+(\ve{A} + \ve{X})^{-1} \approx \ve{A}^{-1} - \ve{A}^{-1}\ve{X}\ve{A}^{-1}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;が得られる。&lt;/p&gt;
+&lt;p&gt;逐次計算に応用してみよう。 &lt;span class="math"&gt;\(\ve{A} = \epsilon\ve{R}[n], \ \ve{X} = \ve{x}[n]\ve{x}[n]^{\mathsf{T}}\)&lt;/span&gt; とおくと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+(\epsilon\ve{R}[n] + \ve{x}[n]\ve{x}[n]^{\mathsf{T}})^{-1} \approx \epsilon^{-1} \ve{R}[n]^{-1} - \epsilon^{-2} \ve{R}[n]^{-1} \ve{x}[n]\ve{x}[n]^{\mathsf{T}} \ve{R}[n]^{-1}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となり、ほぼ適応的自然勾配学習法の式だ（&lt;span class="math"&gt;\(\epsilon^{-1}\)&lt;/span&gt; に対しても近似すると一致する）。&lt;/p&gt;
+&lt;p&gt;実装してみて試すのはもちろんだが、安定性をもっと追うべきかとは思っている。上の更新式でちゃんと &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; の真値に収束する？&lt;/p&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;三重対角行列の固有値&lt;/h2&gt;
+&lt;p&gt;ぼんやり（すまぬ）行列の性質を見ていたら、ずっと探していた「三重対角行列の固有値」の結果が出ていた:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://nalab.mind.meiji.ac.jp/~mk/labo/text/linear-eq-3.pdf"&gt;連立1次方程式 III — 自分が使うための線型代数 —&lt;/a&gt; これの9.5.2。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;サイズ &lt;span class="math"&gt;\(N \times N\)&lt;/span&gt; の一様三項行列&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\left[ \begin{array}{ccccc}
+a      &amp;amp; b      &amp;amp; 0      &amp;amp; ...    &amp;amp; 0      \\
+c      &amp;amp; a      &amp;amp; b      &amp;amp; \ddots &amp;amp; \vdots \\
+0      &amp;amp; c      &amp;amp; \ddots &amp;amp; \ddots &amp;amp; 0      \\
+\vdots &amp;amp; \ddots &amp;amp; \ddots &amp;amp; a      &amp;amp; b      \\
+0      &amp;amp; ...    &amp;amp; 0      &amp;amp; c      &amp;amp; a      \\
+\end{array} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;の &lt;span class="math"&gt;\((bc \neq 0)\)&lt;/span&gt; 固有値 &lt;span class="math"&gt;\(\lambda_{k}\)&lt;/span&gt; と固有ベクトル &lt;span class="math"&gt;\(\ve{v}_{k}\)&lt;/span&gt; は&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\lambda_{k} &amp;amp;= a + 2\sqrt{bc} \cos\left(\frac{k \pi}{N+1}\right) \\
+\ve{v}_{k} &amp;amp;= \left[ \sqrt{\frac{c}{b}} \sin\left(\frac{k \pi}{N+1}\right),\  \left(\sqrt{\frac{c}{b}}\right)^{2}\sin\left(\frac{2k \pi}{N+1}\right),\ ...,\ \left(\sqrt{\frac{c}{b}}\right)^{N} \sin\left(\frac{Nk \pi}{N+1}\right) \right]^{\mathsf{T}} \\
+k &amp;amp;= 1, ..., N
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;これを上手くやるにはどうしたらいいか、しばらく考えてた。今では &lt;span class="math"&gt;\(b=c\)&lt;/span&gt; とすればいいから行列は対称行列になって、各固有ベクトルは直交するはず（示せなかった。。。）。また、固有値を並べた行列を使って直交対角化もできるはずなんや。&lt;/p&gt;
+&lt;p&gt;さて、依然として残る問題は &lt;span class="math"&gt;\(a,b\)&lt;/span&gt; もしくは &lt;span class="math"&gt;\(\lambda_{k}\)&lt;/span&gt; をどうやって観測から求めればいいかというところ。頭に極配置法が思い浮かぶが、なにか違う。素朴なやり方がありそうで、あと一歩な気がするのだ。&lt;/p&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(19)</title><link href="/r-1-noji-suan-19.html" rel="alternate"></link><published>2020-11-28T10:00:00+09:00</published><updated>2020-11-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-28:/r-1-noji-suan-19.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
@@ -23,7 +644,12 @@
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.kravanja.eu/pages/Kravanja-2001-Toeplitz.pdf"&gt;A STABILIZED SUPERFAST SOLVER FOR NONSYMMETRIC TOEPLITZ SYSTEMS&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;思ったのが、一般の自然勾配法において超巨大なFisher情報行列に対してこれは使えんるんじゃないかと思ったところ。&lt;/p&gt;
+&lt;p&gt;思ったのが、一般の自然勾配法において超巨大なFisher情報行列に対してこれは使えんるんじゃないかというところ。とっくにやってる？&lt;/p&gt;
+&lt;p&gt;Fisher情報行列はスコア関数の共分散だからテプリッツ行列。だから行けるんじゃね？&lt;/p&gt;
+&lt;p&gt;ん？他にも共分散行列の高速推定手法を提案してる:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.sys.es.osaka-u.ac.jp/sch/paper/B1999/yamamoto-k/index.html"&gt;Toeplitz構造をもつ共分散行列の最尤推定&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -96,8 +722,7 @@
 &lt;/div&gt;
 &lt;p&gt;進捗報告。TODO:&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/2961686/approximating-the-inverse-of-a-perturbed-matrix"&gt;摂動展開&lt;/a&gt; を試す&lt;/li&gt;
-&lt;li&gt;sklearn …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+&lt;li&gt;sklearn.glasso: LARSを試す …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
@@ -108,10 +733,15 @@
 &lt;/div&gt;
 &lt;p&gt;進捗報告。TODO:&lt;/p&gt;
 &lt;ul class="simple"&gt;
+&lt;li&gt;sklearn.glasso: LARSを試す
+- sllearn.glassoを使った。却ってくっそ遅い。また、alpha=1e-4とすると悪条件過ぎて収束せずエラーを出した。
+- 性能は自前実装glassoとほぼ同じ。
+- 自前実装座標降下 &amp;gt; sklearn座標降下 &amp;gt; sklearn最小角 と言った感じ。sklearnは前処理とか入念にやるから遅いのは当然。しかし最小角が遅い理由はなんだ？&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/2961686/approximating-the-inverse-of-a-perturbed-matrix"&gt;摂動展開&lt;/a&gt; を試す&lt;/li&gt;
-&lt;li&gt;sklearn.glasso: LARSを試す&lt;/li&gt;
 &lt;li&gt;ガウス過程の文脈で考えてFFTする
-- これは大事な別方針なので日付を分ける。&lt;/li&gt;
+- テプリッツ行列を巡回行列化してFFTすれば逆行列が &lt;span class="math"&gt;\(\mathcal{O}(n\log n)\)&lt;/span&gt; で求まる。
+- これは大事な別方針なので記事にした。
+- &lt;a class="reference external" href="https://ryamada22.hatenablog.jp/entry/20131203/1386210156"&gt;周期性と巡回行列&lt;/a&gt; ここらへんの話もえぐい。&lt;/li&gt;
 &lt;li&gt;逐次的glassoにはBaysianの考え方も使える。（Bayesian Graphical LASSO）&lt;/li&gt;
 &lt;li&gt;Sherman-Morrisonをもう一段展開する&lt;/li&gt;
 &lt;li&gt;厳密解とのズレはどうなっとる？安定性解析は？&lt;/li&gt;
