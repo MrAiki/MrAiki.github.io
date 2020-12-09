@@ -83,6 +83,75 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/r-1-noji-suan-25.html"><span class="math">\(R^{-1}\)</span> の計算(25)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+</div>
+<p>共役勾配法を動くようにした。。。修正内容は、</p>
+<ul class="simple">
+<li><strong>係数更新が先、共役勾配の更新を後</strong><ul>
+<li>なんでうまく行ったか不明。。</li>
+</ul>
+</li>
+<li>Sharman-Morrison式で <span class="math">\(\ve{R}\)</span> を更新<ul>
+<li>これは観察からこっちが正しいことが見えている。</li>
+</ul>
+</li>
+</ul>
+<p>AR(1), AR(2)モデル仮定での <span class="math">\(\ve{R}^{-1}\)</span> を使う手法は、結局あんまりよくないという所で落ち着きそう。</p>
+<ul class="simple">
+<li>i.i.d.雑音の場合はSAと同程度（ <span class="math">\(\ve{R}^{-1}\)</span> は単位行列になる）<ul>
+<li>理論的にも問題ないけど、性能が良くならないのはつらい。</li>
+</ul>
+</li>
+<li>相関付き雑音の場合は …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-25.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-24.html"><span class="math">\(R^{-1}\)</span> の計算(24)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+</div>
+<p>(23)の所でずっと詰まっていた。イベントを通り抜ける。その最中、そういえば共分散行列を忘却係数付きで更新し、その逆行列を求めたときどうなるかを確かめていないことを思い出した。</p>
+<p>すると、共分散行列の更新則の違いで差が出ていることが分かった。忘却係数を <span class="math">\(\lambda\)</span> とすると、</p>
+<div class="math">
+\begin{align*}
+\ve{R}[n+1] &amp;\leftarrow \lambda \ve{R}[n] + (1 - \lambda) \ve{x}[n] \ve{x}[n]^{\mathsf …</div>
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-24.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-23.html"><span class="math">\(R^{-1}\)</span> の計算(23)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+</div>
+<p>glassoが自己相関行列を指数移動平均で更新したら、NGSAとほぼ同等の性能を出していたので、その観察から、
+モーメンタムを込めながらAR(1)仮定の高速計算ができないか、で今考え中。</p>
+<ol class="arabic">
+<li><p class="first">摂動展開</p>
+<ul class="simple">
+<li>詰まってる。</li>
+</ul>
+<div class="math">
+\begin{equation*}
+(\lambda \ve{R} + \ve{M})^{-1} \approx \lambda^{-1}\ve{R}^{-1} - \lambda^{-2} \ve{R}^{-1}\ve{M}\ve …</div></li></ol>
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-23.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/r-1-noji-suan-22.html"><span class="math">\(R^{-1}\)</span> の計算(22)</a></h2>
                 <div class="summary"><div class="math">
 \begin{equation*}
@@ -222,74 +291,6 @@ c_{1}   &amp; c_ …</div>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-16.html"><span class="math">\(R^{-1}\)</span> の計算(16)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
-\end{equation*}
-</div>
-<p>課題祭りで11/19と11/20の昼は潰れる。今から進めるだけ進める。
-前までに確認した …</p>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-16.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-15.html"><span class="math">\(R^{-1}\)</span> の計算(15)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
-\end{equation*}
-</div>
-<p>どうするかな。中間発表まで残り1週間というところ。
-話す内容のまとめを、明日辺り考えてからまとめに向けた作業を行いたい。</p>
-<ul class="simple">
-<li>主題 …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-15.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-14.html"><span class="math">\(R^{-1}\)</span> の計算(14)</a></h2>
-                <div class="summary"><p>課題が降ってきて研究が進まねえ。
-今日はGraphical LASSOとの連携を試してみたい、かも。
-共役勾配法はあんまり良くないでFA、準ニュートン法は統計量使ってないから面白くない、という結論に回す。</p>
-<p>最初は、Rの逆行列を事前に求めちゃってやる方式で試してみる。
-よさそうなら逐次的実装にトライ。</p>
-<p>Rの逆行列を事前に求める方式はあんまり良くない、というかSAと同程度。
-なんでなのか軽く見てみたら、事前計算でわかったR^-1をそのまま使うのはNGSAでも良くないということがわかった。
-事前計算の場合の <span class="math">\(R^{-1}\)</span> はほぼ単位行列だから当然か・・・。</p>
-<p>逐次的が求められていると思い、むりやり逐次的にもとめるようにしてみた、が、あんまり結果が変わらん。
-繰り返し回数を多くしても傾向は同様。等方的なのが変わらないから良くないのか？しかしそれはNGSAとて同じことでは？？？</p>
-<p>それどころか、相関付きノイズを入力すると発散する…いや、繰り返し回数が少なすぎるからだ。繰り返し回数を10とかにすると収束早め。
-（事前計算する場合は発散しなかった。）</p>
-<table border="1" class="docutils">
-<caption>ここまで見た結果を表にまとめると…</caption>
-<colgroup>
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>手法</td>
-<td>i.i.d.雑音 <span class="math">\(R^{-1}\)</span> 事前</td>
-<td>i.i.d.雑音 <span class="math">\(R^{-1}\)</span> 逐次</td>
-<td>相関雑音 <span class="math">\(R …</span></td></tr></tbody></table>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -317,6 +318,8 @@ c_{1}   &amp; c_ …</div>
                             href="/author/aiki11.html">11</a></li>
                     <li class=""><a
                             href="/author/aiki12.html">12</a></li>
+                    <li class=""><a
+                            href="/author/aiki13.html">13</a></li>
                 <li class="next"><a
                         href="/author/aiki2.html">&raquo;</a></li>
         </ul>
@@ -341,34 +344,34 @@ c_{1}   &amp; c_ …</div>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/wavelet.html">Wavelet</a>
@@ -377,118 +380,118 @@ c_{1}   &amp; c_ …</div>
       <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+      <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
   </ul>
 </li>
