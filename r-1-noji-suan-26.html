@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>自由工作(10) - Aiki's Blog</title>
+    <title>\(R^{-1}\) の計算(26) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,20 +9,21 @@
 
 
 
-<link rel="canonical" href="/zi-you-gong-zuo-10.html">
+<link rel="canonical" href="/r-1-noji-suan-26.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="ADPCM" />
-        <meta name="description" content="黙々と進めた。残タスクは、 コマンドラインの整備:DONE 残差出力モードの追加(-e):DONE 統計情報出力モードの追加(-c):DONE テストケース追加:DONE 白色雑音入力(randで生成したものでよい):DONE リリース実行確認:DONE 先頭で一発空エンコードして適応を早める:DONE コード整理 エンコーダとデコーダを分ける: DONE ブロックデータエンコード/デコード関数が大きいので関数化: 小さくまとまったのでいいかな。 音質向上への工夫 MS処理の再興。MS処理のスイッチオプションを追加 もう一度試してみたらRMSEが悪化していることが分かった。（BGMとアイカツ音源で調べた） 実際に聞いてみるとパチパチ言ってる。不連続点が出ている。パチパチ言ってた記憶はないので、何かがおかしい。デバッグ。 デコード時にLRに戻す前にオーバーフローしていた。 バグや。ブロックヘッダにLRが入っているが、フィルタはMSで予測していた。そらパチパチ言うわ。 パチパチは直したが、得られた結果は微妙と言わざるを得ない。最大誤差は減ってるけど、平均誤差は増大した傾向。 オプションにしてもデフォルトでオフかなあ。 MSでうまく行かない例としては、振幅が大きい振動波で、side成分が割れている場合。（ピエトロの気絶の55秒付近）そこをADPCM化すると …" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \end{equation*} 木曜日が潰れているのあんまり良くない。平日あまり進捗が出ていないのは健全とは言えない。総受けでやりすぎている可能性を疑い、タスクを減らすべきかと感じている。 今日は共役勾配法ベース手法の性能観察を行う。 土曜日までに各手法の状態をまとめて、来週月・火は報告内容をまとめていくことに集中する。 基本的なところでは12/8に書いた内容と同じ。 i.i.d.でSharman-Morrison式とほぼ同等の性能（少し悪い） 相関付き雑音でi.i.dと同じステップサイズ・忘却係数に設定していると爆裂に性能が悪くなる。（1000サンプル以内で全く定常状態に入らない） ステップサイズを大きくとってもあまり良くならない。大きくとると開始直後悪化。 忘却係数を小さく取ると収束はするが定常誤差大。 eta（共役勾配法の線形結合係数に乗じるパラメータ）を1.0未満にすると収束性能悪化。 共役勾配法の他手法も試してみるか。 Polak-Ribi`ere(PR …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="自由工作(10)"/>
-        <meta property="og:url" content="/zi-you-gong-zuo-10.html"/>
-        <meta property="og:description" content="黙々と進めた。残タスクは、 コマンドラインの整備:DONE 残差出力モードの追加(-e):DONE 統計情報出力モードの追加(-c):DONE テストケース追加:DONE 白色雑音入力(randで生成したものでよい):DONE リリース実行確認:DONE 先頭で一発空エンコードして適応を早める:DONE コード整理 エンコーダとデコーダを分ける: DONE ブロックデータエンコード/デコード関数が大きいので関数化: 小さくまとまったのでいいかな。 音質向上への工夫 MS処理の再興。MS処理のスイッチオプションを追加 もう一度試してみたらRMSEが悪化していることが分かった。（BGMとアイカツ音源で調べた） 実際に聞いてみるとパチパチ言ってる。不連続点が出ている。パチパチ言ってた記憶はないので、何かがおかしい。デバッグ。 デコード時にLRに戻す前にオーバーフローしていた。 バグや。ブロックヘッダにLRが入っているが、フィルタはMSで予測していた。そらパチパチ言うわ。 パチパチは直したが、得られた結果は微妙と言わざるを得ない。最大誤差は減ってるけど、平均誤差は増大した傾向。 オプションにしてもデフォルトでオフかなあ。 MSでうまく行かない例としては、振幅が大きい振動波で、side成分が割れている場合。（ピエトロの気絶の55秒付近）そこをADPCM化すると …"/>
-        <meta property="article:published_time" content="2020-09-16" />
+        <meta property="og:title" content="\(R^{-1}\) の計算(26)"/>
+        <meta property="og:url" content="/r-1-noji-suan-26.html"/>
+        <meta property="og:description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \end{equation*} 木曜日が潰れているのあんまり良くない。平日あまり進捗が出ていないのは健全とは言えない。総受けでやりすぎている可能性を疑い、タスクを減らすべきかと感じている。 今日は共役勾配法ベース手法の性能観察を行う。 土曜日までに各手法の状態をまとめて、来週月・火は報告内容をまとめていくことに集中する。 基本的なところでは12/8に書いた内容と同じ。 i.i.d.でSharman-Morrison式とほぼ同等の性能（少し悪い） 相関付き雑音でi.i.dと同じステップサイズ・忘却係数に設定していると爆裂に性能が悪くなる。（1000サンプル以内で全く定常状態に入らない） ステップサイズを大きくとってもあまり良くならない。大きくとると開始直後悪化。 忘却係数を小さく取ると収束はするが定常誤差大。 eta（共役勾配法の線形結合係数に乗じるパラメータ）を1.0未満にすると収束性能悪化。 共役勾配法の他手法も試してみるか。 Polak-Ribi`ere(PR …"/>
+        <meta property="article:published_time" content="2020-12-11" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="ADPCM" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
             <meta property="article:author" content="aiki" />
 
 
@@ -93,10 +94,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/zi-you-gong-zuo-10.html"
+                    <a href="/r-1-noji-suan-26.html"
                        rel="bookmark"
-                       title="Permalink to 自由工作(10)">
-                        自由工作(10)
+                       title="Permalink to \(R^{-1}\) の計算(26)">
+                        <span class="math">\(R^{-1}\)</span> の計算(26)
                     </a>
                 </h1>
             </header>
@@ -106,7 +107,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-09-16T10:00:00+09:00"> Wed 16 September 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2020-12-11T10:00:00+09:00"> Fri 11 December 2020</time>
     </span>
 
 
@@ -114,114 +115,137 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/adpcm.html">ADPCM</a>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+        /
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>黙々と進めた。残タスクは、</p>
-<ul class="simple">
-<li>コマンドラインの整備:DONE<ul>
-<li>残差出力モードの追加(-e):DONE</li>
-<li>統計情報出力モードの追加(-c):DONE</li>
-</ul>
-</li>
-<li>テストケース追加:DONE<ul>
-<li>白色雑音入力(randで生成したものでよい):DONE</li>
-</ul>
-</li>
-<li>リリース実行確認:DONE</li>
-<li>先頭で一発空エンコードして適応を早める:DONE</li>
-<li>コード整理<ul>
-<li>エンコーダとデコーダを分ける: DONE</li>
-<li>ブロックデータエンコード/デコード関数が大きいので関数化: 小さくまとまったのでいいかな。</li>
-</ul>
-</li>
-<li>音質向上への工夫<ul>
-<li>MS処理の再興。MS処理のスイッチオプションを追加<ul>
-<li>もう一度試してみたらRMSEが悪化していることが分かった。（BGMとアイカツ音源で調べた）</li>
-<li>実際に聞いてみるとパチパチ言ってる。不連続点が出ている。パチパチ言ってた記憶はないので、何かがおかしい。デバッグ。<ul>
-<li>デコード時にLRに戻す前にオーバーフローしていた。</li>
-<li>バグや。ブロックヘッダにLRが入っているが、フィルタはMSで予測していた。そらパチパチ言うわ。</li>
-<li>パチパチは直したが、得られた結果は微妙と言わざるを得ない。最大誤差は減ってるけど、平均誤差は増大した傾向。
-オプションにしてもデフォルトでオフかなあ。</li>
-<li>MSでうまく行かない例としては、振幅が大きい振動波で、side成分が割れている場合。（ピエトロの気絶の55秒付近）そこをADPCM化すると、エフェクターを通したように割れてしまう。<ul>
-<li>ロスレスではないから、エンコード時にsideも右シフトすることで、sideが割れる問題は緩和した。採用。しかしMSはオプションとする（デフォルトOFF）。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>振幅がでかいときに誤差が大きくなる。じゃあ、入力を1bit右シフトして、出力時に1bit左シフトしていいんじゃない。<ul>
-<li>純粋に情報量が落ちそう。試してみるが。→うん、だめ。1bitぶん何かがわからなくなるのはつらい。</li>
-</ul>
-</li>
-<li>NG的なアイデア入らないか？<ul>
-<li>プリエンファシスを掛けたもので勾配計算する。重いか…？</li>
-<li>爆裂に精度悪化。とりやめ。時間切れ。</li>
-</ul>
-</li>
-<li>IIR的（出力）の適応: ダメだった。負荷も増えるし、やらん。</li>
-<li>モーメンタムみたいに、前の勾配を使えないか？<ul>
-<li>やってみたが微妙。たいていRMSEが悪くなる。良くなっても劇的じゃない。</li>
-<li>SLAのLogSignを強引に入れてみたけど良くない。</li>
-<li>その他、残差と履歴をlog/sign化したけど芳しくなかった。</li>
-</ul>
-</li>
-<li>コードを2の補数にしたい。<ul>
-<li>上位ビットを埋めるのが帰って辛いように思えた。保留。</li>
-</ul>
-</li>
-<li>ノイズシェーピングが芳しくない。<ul>
-<li>ちょっと考えると、品質の低いフィルター突っ込んでんのと同じに思えた。実際外すとRMSEが向上した。</li>
-<li>廃止の方向で検討。</li>
-</ul>
-</li>
-<li>負荷 instruments -t &quot;Time Profiler&quot; ./aad ... でいける。</li>
-<li>今更だが、 <a class="reference external" href="http://web.archive.org/web/20060818165032/http://ku-www.ss.titech.ac.jp:80/~yatsushi/adx.html">資料1</a> , <a class="reference external" href="https://www.ffmpeg.org/doxygen/0.6/adx_8h.html#bf98059cca648e492906344dd0873907">ffmpeg</a></li>
-</ul>
-</li>
-<li>Macでinstrumentsが廃止されたようだ。 xcrun xctrace record --template 'Time Profiler' --target-stdout - --launch -- ./aad -e ManiMani.wav a.aad で計測を行っている。</li>
-</ul>
-<div class="section" id="id2">
-<h2>感想・展望</h2>
-<ul class="simple">
-<li>うーん、性能が良くない。IMA-ADPCMに毛が生えた程度か。XMAみたく、ブロック区間の残差の最大振幅値を計測して割った方がええのかな。<ul>
-<li>4bitのときは、残差を max(-最小残差/8, 最大残差/7) で割れば、残差が4bit収まる。</li>
-<li>3bitならば max(-最小残差/4, 最大残差/3), 2bitならば max(-最小残差/2, 最大残差/1) となるはず。</li>
-<li>一般化すると max(-最小残差/(1 &lt;&lt; (bits-1)), 最大残差/((1 &lt;&lt; (bits-1)) - 1))</li>
-<li>ブランチ切ってやってみたい...と思ったらできないことがすぐに分かった。量子化誤差が適応中にわからない。</li>
-</ul>
-</li>
-<li>LPCを使うのもありだな。係数の絶対値が1を超えるから係数のスケール情報を入れる必要があるが。</li>
-<li>量子化誤差が適応的に出る（しかも、エンコード/デコードで全く同じ値が出る）から、これに応じてステップサイズ、もしくは符号化値を変えられないか。</li>
-<li>複数回エンコードを回すの有効かも。少なくともファイル先頭では効いた。<ul>
-<li>単純に単一ブロックを繰り返しエンコードするのは効果が薄かった。</li>
-<li>次（前）の区間と合わせてエンコードするのもいいかも。オーバーラップする形。これは効いたので取り入れた。</li>
-</ul>
-</li>
-<li>テーブルの見直し。急激に振幅がかわる（2〜3サンプルで-1から1に近づくときがある）ので、おそらく、テーブルの150以降の要素はもっと大きい値をとってもいいと思う。</li>
-<li>ステップサイズを適応的に計算するyamaha形式を試してみたい。IMAではテーブルの256階調に限られるが、こちらはより柔軟に思える。
-* <a class="reference external" href="http://www.piece-me.org/piece-lab/adpcm/adpcm1.html">ADPCMの仕組み#1</a> や <a class="reference external" href="https://github.com/mguentner/rockbox/blob/master/apps/codecs/libpcm/yamaha_adpcm.c">rockbox</a> や <a class="reference external" href="https://ffmpeg.org/doxygen/0.6/adpcm_8c-source.html">ffmpeg</a> が参考になる。
-* やっつけでやってみた。音圧の低い音源では少しよくなったが、りんごの木など音圧が大きい音源で軒並みRMSEが2割ほど悪化。取り下げていく。逆に考えると、低音圧音源で現在の実装があんまり良くないともいえる結果やな。</li>
-<li>残差波形を見ているとピッチの残差立ち上がりが大きくて、また、それによって聞こえやすいノイズが発生している。周期は170サンプル=282Hz(&#64;48k)とか。<ul>
-<li>ピッチを潰すのは有効かも。自己相関を計算して周期を解析して、その一点で潰しにかかる。</li>
-</ul>
-</li>
-</ul>
-<p>タイムオーバー。現実にもどりましょ。</p>
+                <div class="math">
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
 </div>
+<p>木曜日が潰れているのあんまり良くない。平日あまり進捗が出ていないのは健全とは言えない。総受けでやりすぎている可能性を疑い、タスクを減らすべきかと感じている。</p>
+<p>今日は共役勾配法ベース手法の性能観察を行う。
+土曜日までに各手法の状態をまとめて、来週月・火は報告内容をまとめていくことに集中する。</p>
+<p>基本的なところでは12/8に書いた内容と同じ。</p>
+<ul class="simple">
+<li>i.i.d.でSharman-Morrison式とほぼ同等の性能（少し悪い）</li>
+<li>相関付き雑音でi.i.dと同じステップサイズ・忘却係数に設定していると爆裂に性能が悪くなる。（1000サンプル以内で全く定常状態に入らない）<ul>
+<li>ステップサイズを大きくとってもあまり良くならない。大きくとると開始直後悪化。</li>
+<li>忘却係数を小さく取ると収束はするが定常誤差大。</li>
+<li>eta（共役勾配法の線形結合係数に乗じるパラメータ）を1.0未満にすると収束性能悪化。</li>
+<li>共役勾配法の他手法も試してみるか。<ul>
+<li>Polak-Ribi`ere(PR)を使うと少しは相関に強そうな挙動を見せる。<ul>
+<li>しかし、定常誤差が大きくなるような傾向。</li>
+</ul>
+</li>
+<li>Fletcher-Reeves(FR)は共役勾配が発散する。</li>
+<li>Hestenes-Stiefel(HS)は収束が遅い。<ul>
+<li>ステップサイズを高くしても遅い。</li>
+<li>etaを変えても悪化。</li>
+</ul>
+</li>
+<li>Dai-Yuan(DY)もHSと同じく収束が遅い。<ul>
+<li>ステップサイズを高くしても遅い。</li>
+<li>etaを変えても悪化。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>うーん。良くない。そもそもなんで悪くなったかを考えるべきでは？<ul>
+<li>悪条件だから、というのがあるはず。相関係数を変えてみてみる。<ul>
+<li>0.1-0.2ではデフォルトとあまり変わらない。</li>
+<li>0.3あたりからプラトーというか収束が遅くなるような挙動を見せ始める。ただしSharman-Morrison式と同等の定常誤差に落ち着く</li>
+<li>0.5では完全に収束曲線が &quot;膨らむ&quot;。尾根に引っかかっていると思う。</li>
+<li>0.8では1000サンプル以内で収束しない。しかし、10000サンプルまで伸ばしてみてみると、定常誤差がSharman-Morrison式よりも小さくなる。</li>
+</ul>
+</li>
+<li>係数次数を大きく取ると傾向が顕著。逆に小さければ、相関が大きくても性能悪化が目立ちにくくなる。<ul>
+<li>低次（とくに2）だと、共役勾配の二次の定式化が効いているのかもしれない。</li>
+<li>次数が上がるに従って勾配の広がり（残差勾配）が高次化してしまい、却って性能悪化に転じてしまう？</li>
+<li>AR(1), AR(2)も含めたまとめ方としては、「低次ならうまくいく」かもしれない。。。後ろ向きやなあ。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
 
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/zi-you-gong-zuo-9.html">自由工作(9)</a></li>
-        <li><a href="/zi-you-gong-zuo-8.html">自由工作(8)</a></li>
-        <li><a href="/zi-you-gong-zuo-7.html">自由工作(7)</a></li>
-        <li><a href="/zi-you-gong-zuo-6.html">自由工作(6)</a></li>
-        <li><a href="/zi-you-gong-zuo-5.html">自由工作(5)</a></li>
+        <li><a href="/r-1-noji-suan-27.html"><span class="math">\(R^{-1}\)</span> の計算(27)</a></li>
+        <li><a href="/r-1-noji-suan-25.html"><span class="math">\(R^{-1}\)</span> の計算(25)</a></li>
+        <li><a href="/r-1-noji-suan-24.html"><span class="math">\(R^{-1}\)</span> の計算(24)</a></li>
+        <li><a href="/r-1-noji-suan-23.html"><span class="math">\(R^{-1}\)</span> の計算(23)</a></li>
+        <li><a href="/r-1-noji-suan-22.html"><span class="math">\(R^{-1}\)</span> の計算(22)</a></li>
     </ul>
 </section>
         </article>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>RLS - Aiki's Blog</title>
+    <title>\(R^{-1}\) の計算(27) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,16 +9,22 @@
 
 
 
+<link rel="canonical" href="/r-1-noji-suan-27.html">
 
-    <meta name="author" content="aiki" />
-    <meta name="keywords" content="RLS" />
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \end{equation*} AR(1), AR(2), 共役勾配は「低次ならうまくいく」という主張が本当か確かめたい。 全く逆の結果が出てきている。AR(p), 高次にしたときに強いように見える。 128, 256, 512にすると収束速度がNGSAを上回る。。。。（定常誤差は悪い。注意。） 512にすると計算量がはんぱない。。その場合AR(p)はSAよりも僅かに良い程度。 256以上の高次環境下では、NGSA(Sharman-Morrison)はSAよりも収束特性が悪くなっている。 スパース制約（相関は低次までしかないという仮定）が効いている？ 高次でも、i.i.d …" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Aiki's Blog" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Aiki's Blog"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="Aiki's Blog"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="\(R^{-1}\) の計算(27)"/>
+        <meta property="og:url" content="/r-1-noji-suan-27.html"/>
+        <meta property="og:description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \end{equation*} AR(1), AR(2), 共役勾配は「低次ならうまくいく」という主張が本当か確かめたい。 全く逆の結果が出てきている。AR(p), 高次にしたときに強いように見える。 128, 256, 512にすると収束速度がNGSAを上回る。。。。（定常誤差は悪い。注意。） 512にすると計算量がはんぱない。。その場合AR(p)はSAよりも僅かに良い程度。 256以上の高次環境下では、NGSA(Sharman-Morrison)はSAよりも収束特性が悪くなっている。 スパース制約（相関は低次までしかないという仮定）が効いている？ 高次でも、i.i.d …"/>
+        <meta property="article:published_time" content="2020-12-12" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
+            <meta property="article:author" content="aiki" />
 
 
 
@@ -33,7 +39,8 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
 </head>
 <body>
 
@@ -60,7 +67,7 @@ Aiki's Blog            </a>
                         <li >
                             <a href="/category/shi-yan.html">実験</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -83,135 +90,153 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html">成果まとめ中(5)  / 自然勾配法の概観</a></h2>
-                <div class="summary"><p>昨日まで苦悩しつつ収束条件をまとめた（運良く見つけることができた。同時にNLMSの収束条件も掴んだ。）
-でも、同時に新規性が無い気がしてきた。発見となるのは、SignedLMSのフィッシャー情報行列が自己相関行列になっているくらいか？
-適応ステップサイズ導出後は、普通のフィッシャー情報行列込みのNLMSと全く同じだし。</p>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/r-1-noji-suan-27.html"
+                       rel="bookmark"
+                       title="Permalink to \(R^{-1}\) の計算(27)">
+                        <span class="math">\(R^{-1}\)</span> の計算(27)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2020-12-12T10:00:00+09:00"> Sat 12 December 2020</time>
+    </span>
 
-                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-5-zi-ran-gou-pei-fa-nogai-guan.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/cheng-guo-matomezhong-4.html">成果まとめ中(4)</a></h2>
-                <div class="summary"><p>AdaptiveFilterの本見てNLMSの議論を色々見てる。が、いい結果が出てこない。
-本の内容も掴みかねてる。NLMSは係数誤差ベクトルのL2ノルムが指数的に減少するようだが本当か…？</p>
-<p>LMSの収束条件が分かっていないことに気づく。
-「Adaptive Filter Theory」では式4.22に、「Adaptive Signal Processing」では式4.45で示されているので確認中。</p>
 
-                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-4.html">more ...</a>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+        /
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/cheng-guo-matomezhong-3.html">成果まとめ中(3)</a></h2>
-                <div class="summary"><p>SGD（確率的最急勾配法）の収束レートが少し気になったのちょっと観察。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.jstage.jst.go.jp/article/bjsiam/28/3/28_27/_pdf">機械学習における確率的最適化</a></li>
-</ul>
-<p>もっと初等的な説明があると良いなあ。確率1で極値に収束したような気がしている…。</p>
-<div class="math">
+                <div class="math">
 \begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
 \newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
 \end{equation*}
 </div>
-<p>適応ステップサイズの分母の <span class="math">\(\ve{x}(n)^{\mathsf{T}}\ve{R}^{-1}\ve{x}(n)\)</span> がめちゃくちゃ気になって止まる。学習理論に「例えばパラメタ空間上のベクトル <span class="math">\(x(\theta)\)</span> の内積 <span class="math">\(\innerp{x …</span></p>
-                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/cheng-guo-matomezhong-2.html">成果まとめ中(2)</a></h2>
-                <div class="summary"><ul class="simple">
-<li><a class="reference external" href="http://dsl4.eee.u-ryukyu.ac.jp/DOCS/DSP/p10.pdf">ディジタル信号処理 第 10 回 適応信号処理</a> 少し詳しく書いてある。やはり適応フィルタの原典を当たりたい。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/cheng-guo-matomezhong-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">書類整理終わり、復帰 / 成果まとめ中(1)</a></h2>
-                <div class="summary"><p>諸々の提出書類で実験できず。1週間空けて復帰。</p>
-<p>報告書類を書いていたら、やっぱりフィッシャー情報行列とヘッセ行列の違いがよくわからなくなってきた。
-対数尤度のヘッセ行列とフィッシャー情報行列に何かしらの共通点があるはず。</p>
+<p>AR(1), AR(2), 共役勾配は「低次ならうまくいく」という主張が本当か確かめたい。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.inference.vc/on-empirical-fisher-information/">Notes on the Limitations of the Empirical Fisher Approximation</a> 経験フィッシャー行列の性能限界について。</li>
+<li>全く逆の結果が出てきている。AR(p), 高次にしたときに強いように見える。<ul>
+<li>128, 256, 512にすると収束速度がNGSAを上回る。。。。（定常誤差は悪い。注意。）<ul>
+<li>512にすると計算量がはんぱない。。その場合AR(p)はSAよりも僅かに良い程度。</li>
+<li>256以上の高次環境下では、NGSA(Sharman-Morrison)はSAよりも収束特性が悪くなっている。</li>
 </ul>
-<p>ヘッセ行列のくだりから自然勾配の導出まで、紙に証明をまとめた。明日辺りに記事に起こす。</p>
-
-                    <a class="btn btn-default btn-xs" href="/shu-lei-zheng-li-zhong-wari-fu-gui-cheng-guo-matomezhong-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-10.html">LMS Filterの挙動観察中(10)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
-\end{equation*}
-</div>
-<p>Normalizeするやつの意味付けを追っている。非常にRLS(Recursive Least Square)に近い、下手するとRLSそのものかも知れない。</p>
+</li>
+<li>スパース制約（相関は低次までしかないという仮定）が効いている？</li>
+<li>高次でも、i.i.d.雑音はやはりSAと同等になる。<ul>
+<li>高次の場合、Sharman-Morrison式は悪化。</li>
+</ul>
+</li>
+<li>定常誤差は気になる。相関付き雑音だと最終的な定常誤差はSA, NGSA(Sharman-Morrison)より悪い。<ul>
+<li>これが致命的かもしれない。</li>
+</ul>
+</li>
+<li>初期の残差が気になるから、リファレンス係数のノルムを1にしたらSAが一番強くなった。<ul>
+<li>これは問題を過度に優しくしている恐れがある。回答を単位超球上に制限している。</li>
+<li>全次元[-1,1]から一様乱数で選んだほうが遥かに難しい。ノルムを1にするというのは次元の呪いから開放されて議論しているので、おそらく正しくない。</li>
+</ul>
+</li>
+<li>実際のデータ突っ込んだときにどうなるか？<ul>
+<li><strong>悪い。</strong></li>
+<li>AR(1), AR(2)仮定は激烈に悪い。SAより悪い。定常性がないから入力全体で平均取るのをやめて指数移動平均に任せてみたけど、やっぱり悪い。</li>
+<li>CGベース手法も割と悪い。SAと同程度。定常じゃないからと思って忘却係数を小さくとっても同じ。</li>
+<li>実データもまた自己相関行列を観察するところから始めなければならないので、深追いするのはやめる。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>実データにたいして良くないことが分かった所でタイムアップ。京都に向かう。</p>
+<p>また、共役勾配の処理順序を変えたらなぜうまく行ったのか、金谷本と何が違うのかを見たい…がこれは厳しいか。</p>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
         linebreak = "false";
 
     if (false) {
-        align = (screen.width < 768) ? "left" : align …</script>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-10.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/shu-lei-zheng-li-zhong.html">書類整理中</a></h2>
-                <div class="summary"><p>色々と書類整理しているためあんまり実験が進んでいない。でも、既存研究がありそうでヒヤヒヤする毎日。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://scholarsmine.mst.edu/cgi/viewcontent.cgi?article=2780&amp;context=ele_comeng_facwork">Normalized Natural Gradient Adaptive Filtering for Sparse and Nonsparse Systems</a></li>
-</ul>
-<p>かなり近い。が、LMSベースの計量を自ら設計している。コスト関数に、2乗誤差項に何か変換のL2ノルムを加算しており、それに対しての自然勾配を求めている。そうか、コスト関数の自然勾配を考えればいいのか。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://pdfs.semanticscholar.org/bf3b/fe757d9156cc863ffdde15b1664c337819bd.pdf">Proportionate Normalized Least-Mean-Squares Adaptation in Echo Cancelers</a></li>
-</ul>
-<p>自然勾配の発想に近づいていたPNLMSの実装</p>
-<ul class="simple">
-<li><a class="reference external" href="https://wiki.eecs.umich.edu/global/data/hero/images/7/7b/Yilun-icassp2-09.pdf">SPARSE LMS FOR SYSTEM IDENTIFICATION</a></li>
-</ul>
-<p>スパースLMS(ZA-LMS)の最初の論文。定式化が明確。</p>
+        align = (screen.width < 768) ? "left" : align;
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
 
-                    <a class="btn btn-default btn-xs" href="/shu-lei-zheng-li-zhong.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-9.html">LMS Filterの挙動観察中(9)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\innerp[2]{\langle #1, #2 \rangle}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
-\end{equation*}
-</div>
-<p>実装誤りを見直しながらもう一度。</p>
-<p>やはり、自然勾配法が何故うまくいくのか、更新式の導出までやったほうが宜しい。実装間違いするから。適応的自然勾配の更新式は微小量の近似を使っている。微小量の近似は今まで何度も避けてきたが、この際おさらいする。ようはテイラー展開して2次以降の項を打ち切れば良し。高校数学レベルの話。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://physnotes.jp/foundations/approximation/">近似式</a></li>
-<li><a class="reference external" href="http://w3e.kanazawa-it.ac.jp/math/category/suuretu/maclaurin/henkan-tex.cgi?target=/math/category/suuretu/maclaurin/maclaurin_1-x.html">1/(1-x)のマクローリン展開</a></li>
-</ul>
-<p>実験が落ち着いたら書いていきたい。</p>
-<p>→実験OK。ステップサイズの設定が難しかったけど、ナイーブなものよりは性能がよいはず。</p>
-<p>また、軽く見た感じでも自然勾配学習法は発散しやすい。以下の記事にあるように、正則化を掛けたほうが良さそう。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://tfjgeorge.github.io/articles/note/2018/11/09/empirical-fisher.html">What is the empirical …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-9.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/r-1-noji-suan-26.html"><span class="math">\(R^{-1}\)</span> の計算(26)</a></li>
+        <li><a href="/r-1-noji-suan-25.html"><span class="math">\(R^{-1}\)</span> の計算(25)</a></li>
+        <li><a href="/r-1-noji-suan-24.html"><span class="math">\(R^{-1}\)</span> の計算(24)</a></li>
+        <li><a href="/r-1-noji-suan-23.html"><span class="math">\(R^{-1}\)</span> の計算(23)</a></li>
+        <li><a href="/r-1-noji-suan-22.html"><span class="math">\(R^{-1}\)</span> の計算(22)</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3" id="sidebar">

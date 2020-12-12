@@ -1,5 +1,252 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-08T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(25)</title><link href="/r-1-noji-suan-25.html" rel="alternate"></link><published>2020-12-08T10:00:00+09:00</published><updated>2020-12-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-08:/r-1-noji-suan-25.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-12T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(27)</title><link href="/r-1-noji-suan-27.html" rel="alternate"></link><published>2020-12-12T10:00:00+09:00</published><updated>2020-12-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-12:/r-1-noji-suan-27.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;AR(1), AR(2), 共役勾配は「低次ならうまくいく」という主張が本当か確かめたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;全く逆の結果が出てきている。AR(p), 高次にしたときに強いように見える。&lt;ul&gt;
+&lt;li&gt;128, 256, 512にすると収束速度がNGSAを上回る。。。。（定常誤差は悪い。注意。）&lt;ul&gt;
+&lt;li&gt;512にすると計算量がはんぱない。。その場合AR(p)はSAよりも僅かに良い程度。&lt;/li&gt;
+&lt;li&gt;256以上の高次環境下では、NGSA(Sharman-Morrison)はSAよりも収束特性が悪くなっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;スパース制約（相関は低次までしかないという仮定）が効いている？&lt;/li&gt;
+&lt;li&gt;高次でも、i.i.d …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;AR(1), AR(2), 共役勾配は「低次ならうまくいく」という主張が本当か確かめたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;全く逆の結果が出てきている。AR(p), 高次にしたときに強いように見える。&lt;ul&gt;
+&lt;li&gt;128, 256, 512にすると収束速度がNGSAを上回る。。。。（定常誤差は悪い。注意。）&lt;ul&gt;
+&lt;li&gt;512にすると計算量がはんぱない。。その場合AR(p)はSAよりも僅かに良い程度。&lt;/li&gt;
+&lt;li&gt;256以上の高次環境下では、NGSA(Sharman-Morrison)はSAよりも収束特性が悪くなっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;スパース制約（相関は低次までしかないという仮定）が効いている？&lt;/li&gt;
+&lt;li&gt;高次でも、i.i.d.雑音はやはりSAと同等になる。&lt;ul&gt;
+&lt;li&gt;高次の場合、Sharman-Morrison式は悪化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;定常誤差は気になる。相関付き雑音だと最終的な定常誤差はSA, NGSA(Sharman-Morrison)より悪い。&lt;ul&gt;
+&lt;li&gt;これが致命的かもしれない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;初期の残差が気になるから、リファレンス係数のノルムを1にしたらSAが一番強くなった。&lt;ul&gt;
+&lt;li&gt;これは問題を過度に優しくしている恐れがある。回答を単位超球上に制限している。&lt;/li&gt;
+&lt;li&gt;全次元[-1,1]から一様乱数で選んだほうが遥かに難しい。ノルムを1にするというのは次元の呪いから開放されて議論しているので、おそらく正しくない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;実際のデータ突っ込んだときにどうなるか？&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;悪い。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;AR(1), AR(2)仮定は激烈に悪い。SAより悪い。定常性がないから入力全体で平均取るのをやめて指数移動平均に任せてみたけど、やっぱり悪い。&lt;/li&gt;
+&lt;li&gt;CGベース手法も割と悪い。SAと同程度。定常じゃないからと思って忘却係数を小さくとっても同じ。&lt;/li&gt;
+&lt;li&gt;実データもまた自己相関行列を観察するところから始めなければならないので、深追いするのはやめる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;実データにたいして良くないことが分かった所でタイムアップ。京都に向かう。&lt;/p&gt;
+&lt;p&gt;また、共役勾配の処理順序を変えたらなぜうまく行ったのか、金谷本と何が違うのかを見たい…がこれは厳しいか。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(26)</title><link href="/r-1-noji-suan-26.html" rel="alternate"></link><published>2020-12-11T10:00:00+09:00</published><updated>2020-12-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-11:/r-1-noji-suan-26.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;木曜日が潰れているのあんまり良くない。平日あまり進捗が出ていないのは健全とは言えない。総受けでやりすぎている可能性を疑い、タスクを減らすべきかと感じている。&lt;/p&gt;
+&lt;p&gt;今日は共役勾配法ベース手法の性能観察を行う。
+土曜日までに各手法の状態をまとめて、来週月・火は報告内容をまとめていくことに集中する。&lt;/p&gt;
+&lt;p&gt;基本的なところでは12/8に書いた内容と同じ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;i.i.d.でSharman-Morrison式とほぼ同等の性能（少し悪い）&lt;/li&gt;
+&lt;li&gt;相関付き雑音でi.i.dと同じステップサイズ・忘却係数に設定していると爆裂に性能が悪くなる。（1000サンプル以内で全く定常状態に入らない）&lt;ul&gt;
+&lt;li&gt;ステップサイズを大きくとってもあまり良くならない。大きくとると開始直後悪化。&lt;/li&gt;
+&lt;li&gt;忘却係数を小さく取ると収束はするが定常誤差大。&lt;/li&gt;
+&lt;li&gt;eta（共役勾配法の線形結合係数に乗じるパラメータ）を1.0未満にすると収束性能悪化。&lt;/li&gt;
+&lt;li&gt;共役勾配法の他手法も試してみるか。&lt;ul&gt;
+&lt;li&gt;Polak-Ribi`ere(PR …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;木曜日が潰れているのあんまり良くない。平日あまり進捗が出ていないのは健全とは言えない。総受けでやりすぎている可能性を疑い、タスクを減らすべきかと感じている。&lt;/p&gt;
+&lt;p&gt;今日は共役勾配法ベース手法の性能観察を行う。
+土曜日までに各手法の状態をまとめて、来週月・火は報告内容をまとめていくことに集中する。&lt;/p&gt;
+&lt;p&gt;基本的なところでは12/8に書いた内容と同じ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;i.i.d.でSharman-Morrison式とほぼ同等の性能（少し悪い）&lt;/li&gt;
+&lt;li&gt;相関付き雑音でi.i.dと同じステップサイズ・忘却係数に設定していると爆裂に性能が悪くなる。（1000サンプル以内で全く定常状態に入らない）&lt;ul&gt;
+&lt;li&gt;ステップサイズを大きくとってもあまり良くならない。大きくとると開始直後悪化。&lt;/li&gt;
+&lt;li&gt;忘却係数を小さく取ると収束はするが定常誤差大。&lt;/li&gt;
+&lt;li&gt;eta（共役勾配法の線形結合係数に乗じるパラメータ）を1.0未満にすると収束性能悪化。&lt;/li&gt;
+&lt;li&gt;共役勾配法の他手法も試してみるか。&lt;ul&gt;
+&lt;li&gt;Polak-Ribi`ere(PR)を使うと少しは相関に強そうな挙動を見せる。&lt;ul&gt;
+&lt;li&gt;しかし、定常誤差が大きくなるような傾向。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Fletcher-Reeves(FR)は共役勾配が発散する。&lt;/li&gt;
+&lt;li&gt;Hestenes-Stiefel(HS)は収束が遅い。&lt;ul&gt;
+&lt;li&gt;ステップサイズを高くしても遅い。&lt;/li&gt;
+&lt;li&gt;etaを変えても悪化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Dai-Yuan(DY)もHSと同じく収束が遅い。&lt;ul&gt;
+&lt;li&gt;ステップサイズを高くしても遅い。&lt;/li&gt;
+&lt;li&gt;etaを変えても悪化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;うーん。良くない。そもそもなんで悪くなったかを考えるべきでは？&lt;ul&gt;
+&lt;li&gt;悪条件だから、というのがあるはず。相関係数を変えてみてみる。&lt;ul&gt;
+&lt;li&gt;0.1-0.2ではデフォルトとあまり変わらない。&lt;/li&gt;
+&lt;li&gt;0.3あたりからプラトーというか収束が遅くなるような挙動を見せ始める。ただしSharman-Morrison式と同等の定常誤差に落ち着く&lt;/li&gt;
+&lt;li&gt;0.5では完全に収束曲線が &amp;quot;膨らむ&amp;quot;。尾根に引っかかっていると思う。&lt;/li&gt;
+&lt;li&gt;0.8では1000サンプル以内で収束しない。しかし、10000サンプルまで伸ばしてみてみると、定常誤差がSharman-Morrison式よりも小さくなる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;係数次数を大きく取ると傾向が顕著。逆に小さければ、相関が大きくても性能悪化が目立ちにくくなる。&lt;ul&gt;
+&lt;li&gt;低次（とくに2）だと、共役勾配の二次の定式化が効いているのかもしれない。&lt;/li&gt;
+&lt;li&gt;次数が上がるに従って勾配の広がり（残差勾配）が高次化してしまい、却って性能悪化に転じてしまう？&lt;/li&gt;
+&lt;li&gt;AR(1), AR(2)も含めたまとめ方としては、「低次ならうまくいく」かもしれない。。。後ろ向きやなあ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(25)</title><link href="/r-1-noji-suan-25.html" rel="alternate"></link><published>2020-12-08T10:00:00+09:00</published><updated>2020-12-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-08:/r-1-noji-suan-25.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
@@ -8,7 +255,8 @@
 &lt;p&gt;共役勾配法を動くようにした。。。修正内容は、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;strong&gt;係数更新が先、共役勾配の更新を後&lt;/strong&gt;&lt;ul&gt;
-&lt;li&gt;なんでうまく行ったか不明。。&lt;/li&gt;
+&lt;li&gt;論文の順序に合わせた結果。しかしなぜうまく行ったのか分かっていない。&lt;/li&gt;
+&lt;li&gt;金谷先生の本では係数更新が後、これではうまく行かない（発散する）。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Sharman-Morrison式で &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; を更新&lt;ul&gt;
@@ -16,13 +264,8 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;AR(1), AR(2)モデル仮定での &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を使う手法は、結局あんまりよくないという所で落ち着きそう。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;i.i.d.雑音の場合はSAと同程度（ &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; は単位行列になる）&lt;ul&gt;
-&lt;li&gt;理論的にも問題ないけど、性能が良くならないのはつらい。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;相関付き雑音の場合は …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+&lt;p&gt;性能としては、i.i.d.でSharman-Morrison式とほぼ同等、相関付き雑音でSAと性能が近くなっているように見える。要観察。&lt;/p&gt;
+&lt;p&gt;AR(1), AR(2)モデル仮定での &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を使う手法は、結局あんまりよくないという所で落ち着きそう …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
@@ -31,7 +274,8 @@
 &lt;p&gt;共役勾配法を動くようにした。。。修正内容は、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;strong&gt;係数更新が先、共役勾配の更新を後&lt;/strong&gt;&lt;ul&gt;
-&lt;li&gt;なんでうまく行ったか不明。。&lt;/li&gt;
+&lt;li&gt;論文の順序に合わせた結果。しかしなぜうまく行ったのか分かっていない。&lt;/li&gt;
+&lt;li&gt;金谷先生の本では係数更新が後、これではうまく行かない（発散する）。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;Sharman-Morrison式で &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; を更新&lt;ul&gt;
@@ -39,6 +283,7 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
+&lt;p&gt;性能としては、i.i.d.でSharman-Morrison式とほぼ同等、相関付き雑音でSAと性能が近くなっているように見える。要観察。&lt;/p&gt;
 &lt;p&gt;AR(1), AR(2)モデル仮定での &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を使う手法は、結局あんまりよくないという所で落ち着きそう。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;i.i.d.雑音の場合はSAと同程度（ &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; は単位行列になる）&lt;ul&gt;

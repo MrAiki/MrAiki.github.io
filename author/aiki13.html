@@ -83,6 +83,44 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/lmshuirutanoju-dong-guan-cha.html">LMSフィルターの挙動観察</a></h2>
+                <div class="summary"><p><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span> の挙動を追いたい。色々な信号に対して、</p>
+<ul class="simple">
+<li><span class="math">\(m\)</span> が十分大きいとき、0に近づくかどうか</li>
+</ul>
+<p>を知りたい。もし0に近づくならば有効な過程として解法に使える。
+しかしその前に、LMSフィルター自体の挙動を追いたい。</p>
+<ul class="simple">
+<li>残差はどの様に減る？残差の時系列は？<ul>
+<li>ステップサイズにより収束の度合い（残差の分布）が違う...</li>
+<li>当然、フィルタ次数でも収束の度合い（残差の分布）が違う</li>
+</ul>
+</li>
+<li>残差分布はどうなってる？Signed-LMSでラプラス分布に近づいてる？<ul>
+<li>これは本当のようで、Signed-LMSの方が裾が細い残差分布が得られている。</li>
+<li>単純な正弦波に対してはLMSのほうが残差が小さくなるが、ボイスやピアノ音源に対しては圧倒的にSignLMSの方が性能が良い（残差のヒストグラムを見ると、裾が狭い）</li>
+</ul>
+</li>
+<li><span class="math">\(\mathrm{E}[\mathrm{sign}[e(n)]x(n-m)]\)</span>, <span class="math">\(\mathrm{E}[e(n)x(n-m)]\)</span> は両方とも0。<ul>
+<li>逐次計算していったら …</li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lmshuirutanoju-dong-guan-cha.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">続・古いロスレス音声コーデックの調査</a></h2>
+                <div class="summary"><p>古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.eie.polyu.edu.hk/~enyhchan/ce_ac_p1.pdf">Lossless Compression of Digital Audio</a></li>
+</ul>
+<p>理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。</p>
+<p>AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。</p>
+
+                    <a class="btn btn-default btn-xs" href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html">古いロスレス音声コーデックの調査/スパース適応フィルタ</a></h2>
                 <div class="summary"><p>ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが <a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison">Hydrogenaudioでの比較</a> よりも古い内容を扱っている。</p>
 <ul class="simple">
@@ -192,40 +230,25 @@ SSE化するときに、スカラー演算とベクトル演算が混じった�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
@@ -234,7 +257,7 @@ SSE化するときに、スカラー演算とベクトル演算が混じった�
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
@@ -243,100 +266,115 @@ SSE化するときに、スカラー演算とベクトル演算が混じった�
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
