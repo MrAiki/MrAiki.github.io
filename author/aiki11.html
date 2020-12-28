@@ -83,6 +83,60 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-8.html">LMS Filterの挙動観察中(8)</a></h2>
+                <div class="summary"><p>まだ粘る。GW終わるまでには何らかのアウトプットがほしい。</p>
+<p>指数移動平均のαを増やすと性能（誤差、エントロピー）が悪化する傾向あり。特に0.5以上（瞬間値の重みを大きく）すると、悪化が顕著。</p>
+<p>分散行列の逆行列を見てみると、非常に大きい値を取っていることが分かる。これは特異にかなり近いのではないかと予測している。</p>
+<p>また、指数移動平均で求めた分散行列の対角要素は経験分散に漸近するはずで、対角要素は時間遅延が加わった自分自身との2乗和で、全てが同じ値になることを期待していたが、なっていなかった。これは、指数移動平均は入力の順序により最終結果が異なるという状態が現れていると思う。（例：1,1,1,0 という系列と 0,1,1,1 という系列では指数移動平均の結果が異なる。）</p>
+<p>学習率の設定も音源依存でだいぶ変わってしまう印象。ボイスでは 0.0001 が、ピアノでは 0.00001、50Hzサイン波では発散した（恐らくこれはほぼ定常な信号になっているからと思われる。定常な信号では全ての分散と共分散が同じ値になって、行列が特異になる。正則化（分散行列に定数を掛けた単位行列を加算）を行ったら安定した...）</p>
+<p>行き詰まりを感じ、適応的自然勾配の更新式を逆行列補題（Woodburyの恒等式 …</p>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-8.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-7.html">LMS Filterの挙動観察中(7)</a></h2>
+                <div class="summary"><p>実データ適用で、どうも上手く行かない。やっぱり分散行列の逆行列が発散している。</p>
+<p>適応的自然勾配をやめて、真面目に（毎サンプル平均を求めて）計算するようにしているけども結果がよろしくない。分散行列を標本平均ではなくて指数移動平均（α=0.1）に置き換えたらそれなりの性能が出ることを確認。しかし、ラプラス分布の計量を取り入れていない...。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-7.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-6.html">LMS Filterの挙動観察中(6)</a></h2>
+                <div class="summary"><p>今日は実装整理して実データへ適用してみる。気になってるのが適応的自然勾配の更新式。</p>
+<ul class="simple">
+<li>確率の重み付けは正規化しないと使えそうにないということ。</li>
+<li>確率の重み付けをしても問題ないか？</li>
+</ul>
+<p>実データ適用、うーん性能が良くない！発散する！実装を確認しながら進行中。情報行列の逆行列を正規化すると発散はしないけど、逆行列がほぼ単位行列とほぼ同一で、元のSignedLMSと性能が同等。。。
+まずは、適応的自然勾配じゃなくて負荷でかいけど真面目に計算する方針で行ってみる。</p>
+<p>また、フィルタ処理をfor文でやるよりnumpyの演算にした方が格段に早かった。numpy大事。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lms-filternoju-dong-guan-cha-zhong-5.html">LMS Filterの挙動観察中(5)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>別のことをしているときに、ふと適応的自然勾配学習法を弄ってて、なんとなくIRLSに応用できそうな印象が。
+以下のような式でヘッセ行列（というか、重み付きの分散行列）を更新する。</p>
+<div class="math">
+\begin{equation*}
+\ve{H} \leftarrow \ve{H} + \frac{1}{|y_{i} - \ve{\beta}^{\mathsf{T}} \ve{x}|} \ve{x …</div>
+                    <a class="btn btn-default btn-xs" href="/lms-filternoju-dong-guan-cha-zhong-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/lms-filternoju-dong-guan-cha-zhong-4.html">LMS Filterの挙動観察中(4)</a></h2>
                 <div class="summary"><p>本日も引き続き発散の原因を追う。
 →ステップサイズを小さくしたら発散しなくなった…。職人芸じゃないかこんなの。NLMSみたく発散しない条件がほしいな。</p>
@@ -167,42 +221,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html">古い記事の移行/Jupyterの環境整備</a></h2>
-                <div class="summary"><p>評価の前に古い記事の移行とPythonの環境整備。
-PythonはJupyterを使う。Vimキーバインドで。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://qiita.com/nakasan/items/ec7741f075f1062350f4#jupyterコマンドモードのショートカットキーまとめ">Jupyterコマンドモードのショートカットキーまとめ</a> がよくまとまっていた。これ読んで進めていく。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/gu-iji-shi-noyi-xing-jupyternohuan-jing-zheng-bei.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/dezitaruxin-hao-chu-li-nochu.html">デジタル信号処理の礎</a></h2>
-                <div class="summary"><p class="first last">デジタル信号処理の基礎理論をグダグダ述べたポエム。</p>
-
-                    <a class="btn btn-default btn-xs" href="/dezitaruxin-hao-chu-li-nochu.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/paseputoronxi-hua.html">パーセプトロン昔話</a></h2>
-                <div class="summary"><p class="first last">パーセプトロンについての昔話。形式ニューロンからはじめ、単層パーセプトロンと、逆誤差伝播法による学習まで。</p>
-
-                    <a class="btn btn-default btn-xs" href="/paseputoronxi-hua.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zui-da-entoropimoderu.html">最大エントロピーモデル</a></h2>
-                <div class="summary"><p class="first last">最大エントロピーモデルについての理論的概要。MRFよりも更に前の話！古い！</p>
-
-                    <a class="btn btn-default btn-xs" href="/zui-da-entoropimoderu.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/aiki10.html">&laquo;</a>
@@ -257,43 +275,40 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -302,52 +317,97 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
       <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
@@ -356,55 +416,13 @@ PythonはJupyterを使う。Vimキーバインドで。</p>
       <a href="/tag/glasso.html">GLASSO</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
   </ul>
 </li>

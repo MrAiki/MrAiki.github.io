@@ -1,5 +1,396 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-12T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(27)</title><link href="/r-1-noji-suan-27.html" rel="alternate"></link><published>2020-12-12T10:00:00+09:00</published><updated>2020-12-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-12:/r-1-noji-suan-27.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-27T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(31)</title><link href="/r-1-noji-suan-31.html" rel="alternate"></link><published>2020-12-27T10:00:00+09:00</published><updated>2020-12-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-27:/r-1-noji-suan-31.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.cmu.edu/~andrewgw/andrewgwthesis.pdf"&gt;Covariance Kernels for Fast Automatic Pattern Discovery and Extrapolation with Gaussian Processes&lt;/a&gt; これの61p.あたり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mloss.org/revision/view/1639/"&gt;Toeblitz Toolkit for Fast Toeplitz Matrix Operations 1.03&lt;/a&gt; Toeplitz行列をFFTで解くやつのライブラリ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ミソは、 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; そのものではなく、 &lt;span class="math"&gt;\(R^{-1}x …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.cs.cmu.edu/~andrewgw/andrewgwthesis.pdf"&gt;Covariance Kernels for Fast Automatic Pattern Discovery and Extrapolation with Gaussian Processes&lt;/a&gt; これの61p.あたり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mloss.org/revision/view/1639/"&gt;Toeblitz Toolkit for Fast Toeplitz Matrix Operations 1.03&lt;/a&gt; Toeplitz行列をFFTで解くやつのライブラリ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ミソは、 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; そのものではなく、 &lt;span class="math"&gt;\(R^{-1}x\)&lt;/span&gt; をFFTを使って求めるということにあると思ふ。&lt;/p&gt;
+&lt;p&gt;で、再開して手元でメモをとっているが、AR(p)が俄然悪い。原因を探るためにAR(p)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の観察をJupyterでやってみよう。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(30)</title><link href="/r-1-noji-suan-30.html" rel="alternate"></link><published>2020-12-24T10:00:00+09:00</published><updated>2020-12-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-24:/r-1-noji-suan-30.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;まずはCGについての質問を投げておく。
+KWBT先生にメール出す前にCGの状況を要約してみよう。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://www.cs.cmu.edu/~pradeepr/convexopt/Lecture_Slides/conjugate_direction_methods.pdf"&gt;Conjugate Gradient Descent&lt;/a&gt; 後ろの方で 、普通の共役勾配方でもモーメンタムがかかっていることを言っている。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://users.ece.cmu.edu/~xinli/classes/cmu_18660/Lec23.pdf"&gt;18-660: Numerical Methods for Engineering Design and Optimization&lt;/a&gt; pre-conditioning（前処理）で共役勾配の性能を維持する方法を紹介。前処理はコレスキー分解に基づいている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://stanford.edu/class/ee364b/lectures/conj_grad_slides.pdf"&gt;Conjugate Gradient Method&lt;/a&gt; こっちは理論的にもかなり有益そう。もうちょっと見よう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.slis.tsukuba.ac.jp/~fujisawa.makoto.fu/cgi-bin/wiki/index.php?%CF%A2%CE%A91%BC%A1%CA%FD%C4%F8%BC%B0%A1%A7%B6%A6%CC%F2%B8%FB%C7%DB%CB%A1#da9ac0ee"&gt;連立1次方程式：共役勾配法&lt;/a&gt; 日本語で言ったもの。一般に条件数が悪いと収束特性は悪化する。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.uio.no/studier/emner/matnat/ifi/nedlagte-emner/INF-MAT4350/h08/undervisningsmateriale/chap15slides.pdf"&gt;The Conjugate Gradient …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;まずはCGについての質問を投げておく。
+KWBT先生にメール出す前にCGの状況を要約してみよう。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="http://www.cs.cmu.edu/~pradeepr/convexopt/Lecture_Slides/conjugate_direction_methods.pdf"&gt;Conjugate Gradient Descent&lt;/a&gt; 後ろの方で 、普通の共役勾配方でもモーメンタムがかかっていることを言っている。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://users.ece.cmu.edu/~xinli/classes/cmu_18660/Lec23.pdf"&gt;18-660: Numerical Methods for Engineering Design and Optimization&lt;/a&gt; pre-conditioning（前処理）で共役勾配の性能を維持する方法を紹介。前処理はコレスキー分解に基づいている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://stanford.edu/class/ee364b/lectures/conj_grad_slides.pdf"&gt;Conjugate Gradient Method&lt;/a&gt; こっちは理論的にもかなり有益そう。もうちょっと見よう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.slis.tsukuba.ac.jp/~fujisawa.makoto.fu/cgi-bin/wiki/index.php?%CF%A2%CE%A91%BC%A1%CA%FD%C4%F8%BC%B0%A1%A7%B6%A6%CC%F2%B8%FB%C7%DB%CB%A1#da9ac0ee"&gt;連立1次方程式：共役勾配法&lt;/a&gt; 日本語で言ったもの。一般に条件数が悪いと収束特性は悪化する。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.uio.no/studier/emner/matnat/ifi/nedlagte-emner/INF-MAT4350/h08/undervisningsmateriale/chap15slides.pdf"&gt;The Conjugate Gradient Method&lt;/a&gt; 条件数と収束特性の式が書いてある。 &lt;span class="math"&gt;\(\ve{Ax} = \ve{b}\)&lt;/span&gt; を解くことを考えたときに、 &lt;span class="math"&gt;\(\kappa = \frac{\lambda_{\mathrm{max}}}{\lambda_{\mathrm{min}}}\)&lt;/span&gt; を &lt;span class="math"&gt;\(\ve{A}\)&lt;/span&gt; の条件数とすると、&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\frac{|| \ve{x} - \ve{x}_{k} ||_{\ve{A}}}{|| \ve{x} - \ve{x}_{0} ||_{\ve{A}}} \leq 2\left( \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1} \right)^{k}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;条件数が大きくなると右辺は1に近づき、左辺のノルム比が減りづらくなって収束が遅くなることを示唆している。条件数が1より少し大きいときがベストの挙動か。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;なぜ共役勾配が相関付きで悪いのかが分かった。一般に共役勾配法は条件数が悪いと収束特性が悪くなる。そして、次数を上げると条件数は悪化する…ということだと思う。条件数を見てみましょう。&lt;/p&gt;
+&lt;p&gt;実験の結果、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;相関付きノイズで自己相関行列の条件数が増大すること&lt;/li&gt;
+&lt;li&gt;同一の相関付きノイズで次数を高めると自己相関行列の条件数が増大すること&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;が分かった。共役勾配法の限界にぶつかってしまったらしい。&lt;/p&gt;
+&lt;p&gt;しかし得たものものある。共役勾配法はモーメンタムがかかっているということだ。
+AR(p)の逆行列を組み込んでやればええのではないか。&lt;/p&gt;
+&lt;p&gt;やってみた。がそもそも収束しない。暴れまくる。
+&lt;span class="math"&gt;\(\ve{Hm} = \delta f\)&lt;/span&gt; だから脳死で &lt;span class="math"&gt;\(\ve{H} \ve{m}[n] = \delta f[n] \Rightarrow \ve{m}[n] = \ve{H}^{-1} \delta f[n]\)&lt;/span&gt; 成り立つだろとか思っていたけど、成り立っていなさそう（実験的に確かめた）。なぜなら &lt;span class="math"&gt;\(\ve{m}\)&lt;/span&gt; は逐次的に更新しているから。&lt;/p&gt;
+&lt;p&gt;あと、共役勾配法の自己相関行列の更新は &lt;span class="math"&gt;\(\ve{R} \leftarrow \lambda \ve{R} + (1 - \lambda) \ve{x} \ve{x}^{\mathsf{T}}\)&lt;/span&gt; では性能が非常に悪く、 &lt;span class="math"&gt;\(\ve{R} \leftarrow \lambda \ve{R} + \ve{x} \ve{x}^{\mathsf{T}}\)&lt;/span&gt; でないとだめ。これは確かに指数移動平均の極限で見たな。確かに前者が正しい。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(29)</title><link href="/r-1-noji-suan-29.html" rel="alternate"></link><published>2020-12-23T10:00:00+09:00</published><updated>2020-12-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-23:/r-1-noji-suan-29.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;うーん、一週間抜けてしまった。木は講義+事務、金土日はマジミラ、月は講義+事務、火はゼミ+レポ、水曜日はレポ。
+こう書くと言い訳がましい。年末は研究にしたい。。実家にも帰れないし。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left …&lt;/script&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;うーん、一週間抜けてしまった。木は講義+事務、金土日はマジミラ、月は講義+事務、火はゼミ+レポ、水曜日はレポ。
+こう書くと言い訳がましい。年末は研究にしたい。。実家にも帰れないし。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(28)</title><link href="/r-1-noji-suan-28.html" rel="alternate"></link><published>2020-12-16T10:00:00+09:00</published><updated>2020-12-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-16:/r-1-noji-suan-28.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;貰ったコメント&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;CGがうまく行かないのはKWBT先生に相談すべき。&lt;ul&gt;
+&lt;li&gt;なるはや。状況をまとめてメールを送る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AR(p)がうまく行かないのは、AR以上のダイナミクスがデータにあるからでは？（AR(p)では表現できてない）&lt;ul&gt;
+&lt;li&gt;AR(p)は &lt;span class="math"&gt;\(\varepsilon[n]\)&lt;/span&gt; がi.i.d.として定式化されるが、そうなってない。&lt;/li&gt;
+&lt;li&gt;ARモデルに合った（AR過程に従って生成した）データに対して実験すべきでは？&lt;ul&gt;
+&lt;li&gt;都合の良いデータに対して実験してよし。モデルは都合よくていい。そこから話を作っていい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;モデルの方をリッチにする。ARMAとか、雑音に相関がある場合を組み込んでしまう。&lt;/li&gt;
+&lt;li&gt;そもそも …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;貰ったコメント&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;CGがうまく行かないのはKWBT先生に相談すべき。&lt;ul&gt;
+&lt;li&gt;なるはや。状況をまとめてメールを送る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;AR(p)がうまく行かないのは、AR以上のダイナミクスがデータにあるからでは？（AR(p)では表現できてない）&lt;ul&gt;
+&lt;li&gt;AR(p)は &lt;span class="math"&gt;\(\varepsilon[n]\)&lt;/span&gt; がi.i.d.として定式化されるが、そうなってない。&lt;/li&gt;
+&lt;li&gt;ARモデルに合った（AR過程に従って生成した）データに対して実験すべきでは？&lt;ul&gt;
+&lt;li&gt;都合の良いデータに対して実験してよし。モデルは都合よくていい。そこから話を作っていい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;モデルの方をリッチにする。ARMAとか、雑音に相関がある場合を組み込んでしまう。&lt;/li&gt;
+&lt;li&gt;そもそも、実信号データに対してARモデルはどこまで誤差を減らせるのか？&lt;ul&gt;
+&lt;li&gt;Wiener-Hopf解のときの誤差と比較せよ、と理解した。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;2021年4月まではなんとか粘れる。粘るのだ。方針としては悪くないように見える。
+しっかしロスレスを絶対忘れたくない。ということで、TODOを入れておく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;春はDWTを使ったロッシーなコーデックを作ろう。&lt;/li&gt;
+&lt;li&gt;論文著者に対する連絡を忘れずに出す。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(27)</title><link href="/r-1-noji-suan-27.html" rel="alternate"></link><published>2020-12-12T10:00:00+09:00</published><updated>2020-12-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-12:/r-1-noji-suan-27.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
@@ -54,6 +445,11 @@
 &lt;/ul&gt;
 &lt;p&gt;実データにたいして良くないことが分かった所でタイムアップ。京都に向かう。&lt;/p&gt;
 &lt;p&gt;また、共役勾配の処理順序を変えたらなぜうまく行ったのか、金谷本と何が違うのかを見たい…がこれは厳しいか。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jnns/20/2/20_62/_pdf"&gt;正準相関分析&lt;/a&gt; ちょっと気になった。良い解説。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -515,9 +911,6 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p class="first"&gt;AR(2)仮定を探る&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
-&lt;blockquote&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;真の &lt;span class="math"&gt;\(\ve{R}^{-1}\)&lt;/span&gt; を見ていると、5重対角行列成分も無視できないくらいある。陽に求まるはず。&lt;ul&gt;
 &lt;li&gt;でも、モーメンタムから目をそらすことになってしまいそう。i.i.d.のときの性能は変わらないはず。&lt;/li&gt;
@@ -525,16 +918,15 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;ARMAまで手を伸ばしたらあった。もう少し探る。 &lt;a class="reference external" href="https://library.wolfram.com/infocenter/MathSource/5723/#downloads"&gt;Inverse of the Covariance Matrix of ARMA(p,q) Time Series&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.ism.ac.jp/editsec/aism/pdf/062_5_0967.pdf"&gt;Statistical inference for functions of the covariance matrix in the stationary Gaussian time-orthogonal principal components model&lt;/a&gt; これのpp.979が答えでは？うん、答えだわ。使ってみようぜ。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ism.ac.jp/editsec/aism/pdf/062_5_0967.pdf"&gt;Statistical inference for functions of the covariance matrix in the stationary Gaussian time-orthogonal principal components model&lt;/a&gt; これのpp.979が答えでは？うん、答えだわ。使ってみようぜ。&lt;/li&gt;
 &lt;li&gt;&lt;cite&gt;On the inversion of the sample covariance matrix in a stationary autoregressive process &amp;lt;https://projecteuclid.org/download/pdf_1/euclid.aoms/1177706636&amp;gt;__&lt;/cite&gt; 引用している論文。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.google.com/url?sa=t&amp;amp;rct=j&amp;amp;q=&amp;amp;esrc=s&amp;amp;source=web&amp;amp;cd=&amp;amp;ved=2ahUKEwj3wfbw7bTtAhVNJaYKHeE5BeQQFjABegQIAxAC&amp;amp;url=https%3A%2F%2Fwww.sid.ir%2FFileServer%2FJE%2F10012004A204&amp;amp;usg=AOvVaw2O9EqdHNmqDdro32aAFB7V"&gt;THE INVERSE OF COVARIANCE MATRICES FOR THE ARMA (p, q) CLASS OF PROCESSES*&lt;/a&gt; 昨日に引き続き。これは包括的に結果のみを述べてる。&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://watermark.silverchair.com/60-1-193.pdf?token=AQECAHi208BE49Ooan9kkhW_Ercy7Dm3ZL_9Cf3qfKAc485ysgAAAqgwggKkBgkqhkiG9w0BBwagggKVMIICkQIBADCCAooGCSqGSIb3DQEHATAeBglghkgBZQMEAS4wEQQMCZNl7JbYxA_CjO0KAgEQgIICW85GXJBCY8NesN8BBLt6LmnsJxhYFHRTCUjzCd9LiHZkm6ztS4fBeyXN8_umUkHYiUW08GdJ7gV4paSnBsylGuSzdSVx3hfRdOKWMQ0_SNRAfYgfNC4OwZAm1lMMGCe543EtFABcGDbPWtK5NMW0J9-svryZAHDSAtRlZbMXB_vMftrYeTB2VpVwrYhuRlx8YfvXG7OXttk_UplS8T6kC9v_qEXW2Pa9dqB6tYB1Dhm0t9-1vMKr8LedPAt7NccTlfCLFbViEXpDrwuKkQcctgab8tstd86L_CkNqijOxSdmA6ZbH2AdOmNLztGXJdL7_zVtP1xa9SVU7VOO3ORZX2Q8XHhO8bk6vCjDnbOdWasI8z040Xb1aiI65VbANSEu9IEAPZSYdc-06WQaihgH3TmMyc9GC93Ue9nWAk--jbdtrYJqSeukMXfa_aIM4dmIS0OHWfvTcc0dXtlAWST5HaRh_LNNtlBl_iQ0A4rENRbrtHSZvLo2jdeGlgAPMNT0QwTare-B3rrPcM7icppYuxdteFbxBp6PaTGdEG22eE-eeCS34zR6XFgHia3AGESzvsSvAs6WjVZtT8BhQSQX2olWlrHRPPmW8AP4lBeR3ceXgaXae7dn2bEjzSjh5iEWteJSXMfLR9jataZnKWoRd0q-8athStWQIV3yPBlawOU_hw-G6DB1ZIHI60uaYUVN1QndwAIkyS8vFUEwOngip4lWQrrb62byC2FFHAQtC2M_gJXg1T08_0L9JKIXM69zMkH4B4hj-7J16C65mcFsagB15zf_9J6MUUW8AQ"&gt;On the inverse of the covariance matrix for an autoregressive-moving average process&lt;/a&gt; 上で参照している論文。これも答えが出とる。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
 &lt;p&gt;どん詰まりよ。AR(1)仮定は相関付きであっても微妙。i.i.d.の場合はSAと同程度。うーん。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
