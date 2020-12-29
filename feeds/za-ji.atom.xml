@@ -1,5 +1,143 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-27T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(31)</title><link href="/r-1-noji-suan-31.html" rel="alternate"></link><published>2020-12-27T10:00:00+09:00</published><updated>2020-12-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-27:/r-1-noji-suan-31.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-29T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(32)</title><link href="/r-1-noji-suan-32.html" rel="alternate"></link><published>2020-12-29T10:00:00+09:00</published><updated>2020-12-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-29:/r-1-noji-suan-32.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;追加調査。今日まで見てみてなさそうであれば追加実験に入る。実信号のパフォーマンスが気になっている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.stanford.edu/class/stats253/lectures/lect6.pdf"&gt;Autoregressive Processes in Time&lt;/a&gt; 前にもみたけどもう一度挙げる。本質的な指摘はここでされている。論文があってもおかしくない。&lt;ul&gt;
+&lt;li&gt;自己共分散行列の逆の解釈もされているから、目を通すべきか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Simplified Newton-Type Adaptive Estimation Algorithms&lt;/a&gt; これもほぼ同じことを言ってる。少なくとも入力データをAR(p)と見做すという仮定は全く同一。精読がいる。通しで軽く読んでみた。うーん、再帰的に &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; に該当する行列を求めているようで、効率が良さそう。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ssp.ece.upatras.gr/moustakides/downloads/journals/ada1991.pdf"&gt;Fast Newton …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;追加調査。今日まで見てみてなさそうであれば追加実験に入る。実信号のパフォーマンスが気になっている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.stanford.edu/class/stats253/lectures/lect6.pdf"&gt;Autoregressive Processes in Time&lt;/a&gt; 前にもみたけどもう一度挙げる。本質的な指摘はここでされている。論文があってもおかしくない。&lt;ul&gt;
+&lt;li&gt;自己共分散行列の逆の解釈もされているから、目を通すべきか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Simplified Newton-Type Adaptive Estimation Algorithms&lt;/a&gt; これもほぼ同じことを言ってる。少なくとも入力データをAR(p)と見做すという仮定は全く同一。精読がいる。通しで軽く読んでみた。うーん、再帰的に &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; に該当する行列を求めているようで、効率が良さそう。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ssp.ece.upatras.gr/moustakides/downloads/journals/ada1991.pdf"&gt;Fast Newton transversal filters-A new class of adaptive estimation algorithms&lt;/a&gt; その筆者がFNTFとして提案した論文。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/d142/4e76ba905ce822bc26d59a97e6c3aa18d412.pdf?_ga=2.31362239.1402051301.1609139051-1178548257.1609139051"&gt;Fast LMS/Newton Algorithms Based on Autoregressive Modeling and Their Application to Acoustic Echo Cancellation&lt;/a&gt; 昨日挙げた論文。&lt;ul&gt;
+&lt;li&gt;やっぱり陽に逆行列を求めてはいないように見える。（むしろ、 &lt;span class="math"&gt;\(R^{-1}x\)&lt;/span&gt; を直接推定することに重きがある）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;格子フィルタで再帰的に行列要素を求めているのは大変参考になる。&lt;/strong&gt; 定数倍除きあってればいいので、いまやろうとしていることに組み込めないか？&lt;/li&gt;
+&lt;li&gt;実験でFNTFを叩いてる。収束が極端に遅くなるケースがある、とのこと。特に特性が急に変わるケース。多分 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; が適応できてないんだと思ふ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;まとめ。近いこと言ってると思うんだけど、どの論文もなぜか &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; がn重対角行列であることを指摘していない。もう、結果まとめて田中先生に回そう。&lt;/p&gt;
+&lt;p&gt;追加実験:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;i.i.d.のときの性能はLMSと一致するか&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;一致を確認。ついでに &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; が単位行列に近くなっていることも確認。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;相関を変えたときの性能はどうか&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;LMSより優位に収束が早くなる。&lt;/li&gt;
+&lt;li&gt;定常誤差が少し持ち上がる。←相関を上げると顕著。行列要素が大きくなり、勾配もでかくなっていると想像。&lt;/li&gt;
+&lt;li&gt;LMSより安定した学習曲線になっているように見える←要観察。前サンプルを使っているのが功奏している？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;実データでLMSより良くなるか&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;strong&gt;ステップサイズを大きく取ると発散する。&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;小さく取ればNGSAに近い性能。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;実データでの &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; も対角優位になってるかチェックしとく。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;strong&gt;なっていなそう。&lt;/strong&gt; 行列の中心が最大で、それから端っこに行くに従って小さくなる。&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="聖者の行進の5000-10000サンプルにおける自己相関行列(左から真値, AR(1), 絶対値誤差)" src="./images/realdata_inv_cutocorr_gt_and_ar1.png" style="width: 400px;" /&gt;
+&lt;/div&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="聖者の行進の5000-10000サンプルにおける自己相関行列(左から真値, glasso, 絶対値誤差)" src="./images/realdata_inv_cutocorr_gt_and_gl.png" style="width: 400px;" /&gt;
+&lt;/div&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;これはどう説明できるだろうか。AR(p)のpを増やせばいくらか中心を大きく持っていけるが、MA要素もあるとしか。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;glassoと近いのはポジれる。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;glassoと近く、スパースな &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; で計算できているのは理想的であると考える。&lt;/p&gt;
+&lt;p&gt;明日以降、学習曲線の追加実験を行っていく。
+また、以前計算を投げてしまった事項が気になっている。AR(1)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; は単位行列+対称行列の形に変換できる。これとベクトルの積はどういった意味があるのか。幾何学的意味を少し考えてみたい。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(31)</title><link href="/r-1-noji-suan-31.html" rel="alternate"></link><published>2020-12-27T10:00:00+09:00</published><updated>2020-12-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-27:/r-1-noji-suan-31.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
@@ -20,7 +158,53 @@
 &lt;li&gt;&lt;a class="reference external" href="https://mloss.org/revision/view/1639/"&gt;Toeblitz Toolkit for Fast Toeplitz Matrix Operations 1.03&lt;/a&gt; Toeplitz行列をFFTで解くやつのライブラリ&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;ミソは、 &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; そのものではなく、 &lt;span class="math"&gt;\(R^{-1}x\)&lt;/span&gt; をFFTを使って求めるということにあると思ふ。&lt;/p&gt;
-&lt;p&gt;で、再開して手元でメモをとっているが、AR(p)が俄然悪い。原因を探るためにAR(p)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の観察をJupyterでやってみよう。&lt;/p&gt;
+&lt;p&gt;で、再開して手元でメモをとっているが、AR(p)が俄然悪い。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;背景雑音が悪さしてないか。背景雑音を-200dB（ほぼ0）に。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;傾向変わらず。ゆらぎが小さくなった程度&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;そういえば、なぜ AR(p) のオフセットが乗っているのか。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;SAのステップサイズを高めた状態に対応するものかと思っていたが、違うようだ。SAと同じ定常誤差になるようにステップサイズを設定しても収束が遅い。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;条件数悪化が原因ではないかと考えているので、S-MとAR(1)で求まった &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; の固有値をJupyterで観察してみた。すると、&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="S-Mの固有値変化" src="./images/NGSA_eigvals.png" style="width: 400px;" /&gt;
+&lt;/div&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="AR(1)の固有値変化" src="./images/NGSAAR1_eigvals.png" style="width: 400px;" /&gt;
+&lt;/div&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;条件数はS-MとAR(1)でほぼ同じ（30付近をフラフラ。N=5, 相関0.8）&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;S-Mの固有値が指数的な減少をしている&lt;/strong&gt; 。一方のAR(1)の方はほぼ一定の固有値。&lt;/li&gt;
+&lt;li&gt;そういえば、S-Mの &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; と真の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; を比較するときはノルムを1に揃えていた。要素の大きさは加味していなかった。&lt;/li&gt;
+&lt;li&gt;条件数が変わらないで固有値が減っているということは、&lt;strong&gt;S-Mは行列要素が小さくなっており、そしてそれが本質的に収束を早めることに寄与している。&lt;/strong&gt; AdaGradの如く、最初は勾配を大きくとり、徐々に勾配を小さくすることが有効になっているっぽい。&lt;ul&gt;
+&lt;li&gt;AR(1)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; を1ノルム化したら定常誤差がNGSAと同等になった（ただし、収束は悪化）&lt;/li&gt;
+&lt;li&gt;NGSAの &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; を1ノルム化にしたら性能悪化した（定常誤差大）&lt;/li&gt;
+&lt;li&gt;AR(1)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; は真値ともよく一致しているので、足りないのはこの点だと思う。 &lt;strong&gt;学習が進むにつれて行列要素を小さくする必要がある。&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;観察から、 &lt;strong&gt;誤差に応じて行列要素の大きさを変えるべき&lt;/strong&gt; であることが分かった。つまり、誤差の符号だけではなく、誤差の絶対値を使うべきである。そしてそれはNewton/LMSと同一。&lt;/p&gt;
+&lt;p&gt;Newton/LMSの &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; を &lt;span class="math"&gt;\(\mathcal{O}(pN)\)&lt;/span&gt; で計算できるのは旨味がある。既存研究があるはず。調査してみる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/d142/4e76ba905ce822bc26d59a97e6c3aa18d412.pdf?_ga=2.31362239.1402051301.1609139051-1178548257.1609139051"&gt;Fast LMS/Newton Algorithms Based on Autoregressive Modeling and Their Application to Acoustic Echo Cancellation&lt;/a&gt; 発想としてはもうほぼ同一なんだけど、なぜか、本当に何故か &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; をn-重対角行列としてない。これ、明日腰を据えて読んでみよう。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://my.ece.utah.edu/~hrao/Journal09.pdf"&gt;Fast LMS/Newton Algorithms for Stereophonic Acoustic Echo Cancelation&lt;/a&gt; ちゃんと読んでない。ほぼ同じはず。行列や固有値の観察もあるのに、これも同様に何故かn重対角行列にしてない。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://home.eng.iastate.edu/~julied/classes/ee524/articles/firlmsfilters.pdf"&gt;Efficient least squares adaptive algorithms for FIR transversal filtering&lt;/a&gt; 古いけど、上記含め俯瞰的に触れている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.mdpi.com/1999-4893/12/1/4/htm"&gt;On Fast Converging Data-Selective Adaptive Filtering&lt;/a&gt; NNGSAと全く同じ手法が提案されておる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://sc.enseeiht.fr/doc/Seminar_Bermudez.pdf"&gt;Adaptive Filtering - Theory and Applications&lt;/a&gt; 適応フィルタの包括的まとめ。京大林先生並みにまとめてある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;祈るような感じで探している…。今の所なさそうに見えるが…。&lt;/p&gt;
+&lt;p&gt;もう一回調べて、無ければ、追加実験の後にoverleaf執筆に入ろうかな。
+一旦寝て、再度調査してみてからにしよう。落ち着いてからのほうがよい。実データで悪いかもしれないし。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
