@@ -1,5 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2020-12-29T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(32)</title><link href="/r-1-noji-suan-32.html" rel="alternate"></link><published>2020-12-29T10:00:00+09:00</published><updated>2020-12-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-29:/r-1-noji-suan-32.html</id><summary type="html">&lt;div class="math"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-01-22T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(34) (完)</title><link href="/r-1-noji-suan-34-wan.html" rel="alternate"></link><published>2021-01-22T10:00:00+09:00</published><updated>2021-01-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-22:/r-1-noji-suan-34-wan.html</id><summary type="html">&lt;p&gt;だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。&lt;/p&gt;
+&lt;p&gt;まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。&lt;/p&gt;
+&lt;p&gt;1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・）&lt;/p&gt;
+&lt;p&gt;1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp;amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。&lt;/p&gt;
+&lt;p&gt;残った仕事は&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;上記論文誌はどうか見てみる&lt;/li&gt;
+&lt;li&gt;既存の手法と被ってないか: これは継続してやる。&lt;/li&gt;
+&lt;li&gt;一般の &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt; について議論する&lt;ul&gt;
+&lt;li&gt;逆行列が一般化して書けるか、とても不安&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;定常誤差のバウンドを求めたい。&lt;ul&gt;
+&lt;li&gt;SAの評価だと上界しかわからない。Widrow本に書いてないか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ロスレス音声に突っ込む&lt;ul&gt;
+&lt;li&gt;これは春やる。長期休みで1つコーデックを作ろう。ウェーブレットを使うアイデアも残っている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;卒論とか落ち着いたら突っ込む事を忘れずに。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; にフォーカスして頑張るのは終わったと思う。連載はここで切り上げて、AR …&lt;/p&gt;</summary><content type="html">&lt;p&gt;だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。&lt;/p&gt;
+&lt;p&gt;まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。&lt;/p&gt;
+&lt;p&gt;1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・）&lt;/p&gt;
+&lt;p&gt;1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp;amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。&lt;/p&gt;
+&lt;p&gt;残った仕事は&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;上記論文誌はどうか見てみる&lt;/li&gt;
+&lt;li&gt;既存の手法と被ってないか: これは継続してやる。&lt;/li&gt;
+&lt;li&gt;一般の &lt;span class="math"&gt;\(AR(p)\)&lt;/span&gt; について議論する&lt;ul&gt;
+&lt;li&gt;逆行列が一般化して書けるか、とても不安&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;定常誤差のバウンドを求めたい。&lt;ul&gt;
+&lt;li&gt;SAの評価だと上界しかわからない。Widrow本に書いてないか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ロスレス音声に突っ込む&lt;ul&gt;
+&lt;li&gt;これは春やる。長期休みで1つコーデックを作ろう。ウェーブレットを使うアイデアも残っている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;卒論とか落ち着いたら突っ込む事を忘れずに。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; にフォーカスして頑張るのは終わったと思う。連載はここで切り上げて、AR(p)のまとめに全力を入れていく。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(33)</title><link href="/r-1-noji-suan-33.html" rel="alternate"></link><published>2021-01-02T10:00:00+09:00</published><updated>2021-01-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-02:/r-1-noji-suan-33.html</id><summary type="html">&lt;p&gt;Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。
+簡単な式変形で行けないかなと思ったけどうまく行かずハマっていた。
+（一様三項行列も差分方程式が出てくるのでかなり手強い。。。）&lt;/p&gt;
+&lt;p&gt;5時間くらい苦悶した後にネットの海を泳いで探していた所、AR(1)の逆行列を議論しているところがあった
+（AR(1)の自己相関行列はKac--Murdock--Szego (KMS) matrixというらしい）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://reader.elsevier.com/reader/sd/pii/S0024379599000804?token=77D3B38ACFC349B36FFAE83B2E5AD1E466D8E0D91C45D8A8FBF49228DFBF347B41379B44D26B8E4F99DD26A3856F8E7F"&gt;Asymptotic distribution of the spectra of aclass of generalized Kac--Murdock--Szego matrices&lt;/a&gt; 周辺文献も書いていて有益。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://babel.hathitrust.org/cgi/pt?id=uc1.31822012438206&amp;amp;view=1up&amp;amp;seq=86"&gt;Toeplitz forms and their applications&lt;/a&gt; 上の文献が参照していた。導出が書いてあるかなり広範な文献。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/238877783_Numerical_Solution_of_the_Eigenvalue_Problem_for_Symmetric_Rationally_Generated_Toeplitz_matrices"&gt;Numerical Solution of the Eigenvalue Problem for Symmetric Rationally Generated Toeplitz matrices&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/241615223_Properties_of_Some_Generalizations_of_Kac-Murdock-Szego_Matrices"&gt;Properties of Some Generalizations …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。
+簡単な式変形で行けないかなと思ったけどうまく行かずハマっていた。
+（一様三項行列も差分方程式が出てくるのでかなり手強い。。。）&lt;/p&gt;
+&lt;p&gt;5時間くらい苦悶した後にネットの海を泳いで探していた所、AR(1)の逆行列を議論しているところがあった
+（AR(1)の自己相関行列はKac--Murdock--Szego (KMS) matrixというらしい）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://reader.elsevier.com/reader/sd/pii/S0024379599000804?token=77D3B38ACFC349B36FFAE83B2E5AD1E466D8E0D91C45D8A8FBF49228DFBF347B41379B44D26B8E4F99DD26A3856F8E7F"&gt;Asymptotic distribution of the spectra of aclass of generalized Kac--Murdock--Szego matrices&lt;/a&gt; 周辺文献も書いていて有益。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://babel.hathitrust.org/cgi/pt?id=uc1.31822012438206&amp;amp;view=1up&amp;amp;seq=86"&gt;Toeplitz forms and their applications&lt;/a&gt; 上の文献が参照していた。導出が書いてあるかなり広範な文献。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/238877783_Numerical_Solution_of_the_Eigenvalue_Problem_for_Symmetric_Rationally_Generated_Toeplitz_matrices"&gt;Numerical Solution of the Eigenvalue Problem for Symmetric Rationally Generated Toeplitz matrices&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/241615223_Properties_of_Some_Generalizations_of_Kac-Murdock-Szego_Matrices"&gt;Properties of Some Generalizations of Kac-Murdock-Szeg ̈o Matrices&lt;/a&gt; いろいろなKMS行列に対して固有値を計算している。どこかで刺さるかも。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;問題は、バシッとした固有値が書かれていないところか。固有値の満たす範囲を示している。そして導出ちゃんと見てない。明日見よう。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\lambda_{k} &amp;amp;= \frac{1 - \rho^{2}}{1 + \rho^{2} - 2\rho\cos \theta_{k}} \\
+&amp;amp; \frac{(k-1)\pi}{n+1} &amp;lt; \theta_{k} &amp;lt; \frac{k\pi}{n+1} \quad k = 1, ..., n
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;一方、一様三項行列の固有値は &lt;span class="math"&gt;\(\lambda_{k} = \frac{1 - \rho^{2}}{1 + \rho^{2} - 2\rho\cos\left( \frac{k\pi}{n+1} \right)}\)&lt;/span&gt; となっている。つまり、KMSの方は僅かに角度が小さくて、それ以外は全く同じということになる。また &lt;span class="math"&gt;\(n\)&lt;/span&gt; を大きくしていけばその差はどんどん狭まる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(32)</title><link href="/r-1-noji-suan-32.html" rel="alternate"></link><published>2020-12-29T10:00:00+09:00</published><updated>2020-12-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-12-29:/r-1-noji-suan-32.html</id><summary type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\ve[1]{\boldsymbol{#1}}
 \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
@@ -35,9 +232,11 @@
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;まとめ。近いこと言ってると思うんだけど、どの論文もなぜか &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; がn重対角行列であることを指摘していない。もう、結果まとめて田中先生に回そう。&lt;/p&gt;
+&lt;p&gt;まとめ。近いこと言ってると思うんだけど、どの論文もなぜか &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; がn重対角行列であることを指摘していない。もう、結果まとめて上に回そう。&lt;/p&gt;
 &lt;p&gt;追加実験:&lt;/p&gt;
 &lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;分散は入力データ全体を見て計算し、更新しない。&lt;/p&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;p class="first"&gt;i.i.d.のときの性能はLMSと一致するか&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;一致を確認。ついでに &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; が単位行列に近くなっていることも確認。&lt;/li&gt;
@@ -48,6 +247,15 @@
 &lt;li&gt;LMSより優位に収束が早くなる。&lt;/li&gt;
 &lt;li&gt;定常誤差が少し持ち上がる。←相関を上げると顕著。行列要素が大きくなり、勾配もでかくなっていると想像。&lt;/li&gt;
 &lt;li&gt;LMSより安定した学習曲線になっているように見える←要観察。前サンプルを使っているのが功奏している？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;相関付き雑音でフィルタ次数を変えたときはどうか&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;2は当然早い（降下時SAより早いのが気になった。また、NLMSは暴れ気味）&lt;/li&gt;
+&lt;li&gt;大きくしていくと定常誤差が大きくなっていく。同時に、NLMSの収束が遅くなっている&lt;/li&gt;
+&lt;li&gt;50で完全にNLMSより収束が早い。&lt;/li&gt;
+&lt;li&gt;100でLMSは発散、AR(1)はNLMSより早く収束。ただし定常誤差は悪目。&lt;/li&gt;
+&lt;li&gt;500ではLMSもろとも発散した。学習係数設定が悪そう。→0.01から0.001にしたらちゃんと収束する方向に進んだ。ちゃんと固有値解析すれば収束条件が得られるはず。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;p class="first"&gt;実データでLMSより良くなるか&lt;/p&gt;
@@ -75,7 +283,7 @@
 &lt;/ul&gt;
 &lt;p&gt;glassoと近く、スパースな &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; で計算できているのは理想的であると考える。&lt;/p&gt;
 &lt;p&gt;明日以降、学習曲線の追加実験を行っていく。
-また、以前計算を投げてしまった事項が気になっている。AR(1)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; は単位行列+対称行列の形に変換できる。これとベクトルの積はどういった意味があるのか。幾何学的意味を少し考えてみたい。&lt;/p&gt;
+また、以前計算を投げてしまった事項が気になっている。AR(1)の &lt;span class="math"&gt;\(R^{-1}\)&lt;/span&gt; は単位行列+対称行列の形に表せる。これとベクトルの積はどういった意味があるのか。幾何学的意味も含めて少し考えてみたい。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Wavelet - Aiki's Blog</title>
+    <title>\(R^{-1}\) の計算(33) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,16 +9,22 @@
 
 
 
+<link rel="canonical" href="/r-1-noji-suan-33.html">
 
-    <meta name="author" content="aiki" />
-    <meta name="keywords" content="Wavelet" />
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。 簡単な式変形で行けないかなと思ったけどうまく行かずハマっていた。 （一様三項行列も差分方程式が出てくるのでかなり手強い。。。） 5時間くらい苦悶した後にネットの海を泳いで探していた所、AR(1)の逆行列を議論しているところがあった （AR(1)の自己相関行列はKac--Murdock--Szego (KMS) matrixというらしい） Asymptotic distribution of the spectra of aclass of generalized Kac--Murdock--Szego matrices 周辺文献も書いていて有益。 Toeplitz forms and their applications 上の文献が参照していた。導出が書いてあるかなり広範な文献。 Numerical Solution of the Eigenvalue Problem for Symmetric Rationally Generated Toeplitz matrices Properties of Some Generalizations …" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Aiki's Blog" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Aiki's Blog"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="Aiki's Blog"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="\(R^{-1}\) の計算(33)"/>
+        <meta property="og:url" content="/r-1-noji-suan-33.html"/>
+        <meta property="og:description" content="Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。 簡単な式変形で行けないかなと思ったけどうまく行かずハマっていた。 （一様三項行列も差分方程式が出てくるのでかなり手強い。。。） 5時間くらい苦悶した後にネットの海を泳いで探していた所、AR(1)の逆行列を議論しているところがあった （AR(1)の自己相関行列はKac--Murdock--Szego (KMS) matrixというらしい） Asymptotic distribution of the spectra of aclass of generalized Kac--Murdock--Szego matrices 周辺文献も書いていて有益。 Toeplitz forms and their applications 上の文献が参照していた。導出が書いてあるかなり広範な文献。 Numerical Solution of the Eigenvalue Problem for Symmetric Rationally Generated Toeplitz matrices Properties of Some Generalizations …"/>
+        <meta property="article:published_time" content="2021-01-02" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
+            <meta property="article:author" content="aiki" />
 
 
 
@@ -33,7 +39,8 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
 </head>
 <body>
 
@@ -60,7 +67,7 @@ Aiki's Blog            </a>
                         <li >
                             <a href="/category/shi-yan.html">実験</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -83,27 +90,58 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="/lun-wen-du-mi4.html">論文読み(4)</a></h2>
-                <div class="summary"><p>論文読みのコメント:</p>
-<p>「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？</p>
-<ul class="simple">
-<li>DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。</li>
-<li>筆者(Tianshu Quさん)に連絡してできたらソース貰う。</li>
-</ul>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/r-1-noji-suan-33.html"
+                       rel="bookmark"
+                       title="Permalink to \(R^{-1}\) の計算(33)">
+                        <span class="math">\(R^{-1}\)</span> の計算(33)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2021-01-02T10:00:00+09:00"> Sat 02 January 2021</time>
+    </span>
 
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi4.html">more ...</a>
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+        /
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
-                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
-<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
+                <p>Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。
+簡単な式変形で行けないかなと思ったけどうまく行かずハマっていた。
+（一様三項行列も差分方程式が出てくるのでかなり手強い。。。）</p>
+<p>5時間くらい苦悶した後にネットの海を泳いで探していた所、AR(1)の逆行列を議論しているところがあった
+（AR(1)の自己相関行列はKac--Murdock--Szego (KMS) matrixというらしい）</p>
 <ul class="simple">
-<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
+<li><a class="reference external" href="https://reader.elsevier.com/reader/sd/pii/S0024379599000804?token=77D3B38ACFC349B36FFAE83B2E5AD1E466D8E0D91C45D8A8FBF49228DFBF347B41379B44D26B8E4F99DD26A3856F8E7F">Asymptotic distribution of the spectra of aclass of generalized Kac--Murdock--Szego matrices</a> 周辺文献も書いていて有益。<ul>
+<li><a class="reference external" href="https://babel.hathitrust.org/cgi/pt?id=uc1.31822012438206&amp;view=1up&amp;seq=86">Toeplitz forms and their applications</a> 上の文献が参照していた。導出が書いてあるかなり広範な文献。</li>
+<li><a class="reference external" href="https://www.researchgate.net/publication/238877783_Numerical_Solution_of_the_Eigenvalue_Problem_for_Symmetric_Rationally_Generated_Toeplitz_matrices">Numerical Solution of the Eigenvalue Problem for Symmetric Rationally Generated Toeplitz matrices</a></li>
+<li><a class="reference external" href="https://www.researchgate.net/publication/241615223_Properties_of_Some_Generalizations_of_Kac-Murdock-Szego_Matrices">Properties of Some Generalizations of Kac-Murdock-Szeg ̈o Matrices</a> いろいろなKMS行列に対して固有値を計算している。どこかで刺さるかも。</li>
 </ul>
-<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
+</li>
+</ul>
+<p>問題は、バシッとした固有値が書かれていないところか。固有値の満たす範囲を示している。そして導出ちゃんと見てない。明日見よう。</p>
+<div class="math">
+\begin{align*}
+\lambda_{k} &amp;= \frac{1 - \rho^{2}}{1 + \rho^{2} - 2\rho\cos \theta_{k}} \\
+&amp; \frac{(k-1)\pi}{n+1} &lt; \theta_{k} &lt; \frac{k\pi}{n+1} \quad k = 1, ..., n
+\end{align*}
+</div>
+<p>一方、一様三項行列の固有値は <span class="math">\(\lambda_{k} = \frac{1 - \rho^{2}}{1 + \rho^{2} - 2\rho\cos\left( \frac{k\pi}{n+1} \right)}\)</span> となっている。つまり、KMSの方は僅かに角度が小さくて、それ以外は全く同じということになる。また <span class="math">\(n\)</span> を大きくしていけばその差はどんどん狭まる。</p>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -111,38 +149,75 @@ Aiki's Blog            </a>
 
     if (false) {
         align = (screen.width < 768) ? "left" : align;
-        indent …</script>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
-                <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
-Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
 
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi1.html">論文読み(1)</a></h2>
-                <div class="summary"><p>標準化されたロスレス音声規格IEEE 1857.2、くっそ怪しい。 <a class="reference external" href="https://hydrogenaud.io/index.php?topic=111683.0">リファレンスエンコーダが公開されてないっぽい。</a>
-一応概要みたいのは以下:</p>
-<ul class="simple">
-<li><a class="reference external" href="http://150.162.46.34:8080/icassp2014/papers/p6984-haibin.pdf">LOSSLESS AUDIO COMPRESSION IN THE NEW IEEE STANDARD FOR ADVANCED AUDIO CODING</a></li>
-</ul>
-<p>さっと読んだ。工夫したのは、ブロック先頭で残差が大きくなるから、それをビットシフトして振幅を潰し、下位ビットの情報は別に送ること、算術符号はテンプレートとなる確率分布を使用すること、がメインである。うーん。かなり泥臭いと思う。モデルがすごいと言うよりは工夫メインな印象を受ける。また、他の論文でウェーブレットを使っているみたいな話があるけど、どうにもこちらも怪しい。</p>
-<p>ロスレス音声でウェーブレット+BPを使う話。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://150.162.46.34:8080/icassp2013/pdfs/0000552.pdf">AUDIO LOSSLESS CODING/DECODING METHOD USING BASIS PURSUIT ALGORITHM</a></li>
-</ul>
-<p>音声圧縮でウェーブレットを使うのは筋が悪かったので、少なくとも自分には衝撃ではある。で、ちゃんと読んでみようと思ったのだが4pで概要しか示されてない。</p>
-<p>肝となる部分でわからないのが、ウェーブレット辞書を結合して過完備な辞書を作るところ。基礎が抜けていることを疑って、Donohoを読む …</p>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/r-1-noji-suan-34-wan.html"><span class="math">\(R^{-1}\)</span> の計算(34) (完)</a></li>
+        <li><a href="/r-1-noji-suan-32.html"><span class="math">\(R^{-1}\)</span> の計算(32)</a></li>
+        <li><a href="/r-1-noji-suan-31.html"><span class="math">\(R^{-1}\)</span> の計算(31)</a></li>
+        <li><a href="/r-1-noji-suan-30.html"><span class="math">\(R^{-1}\)</span> の計算(30)</a></li>
+        <li><a href="/r-1-noji-suan-29.html"><span class="math">\(R^{-1}\)</span> の計算(29)</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3" id="sidebar">
@@ -349,7 +424,7 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2020 aiki
+         <div class="col-xs-10">&copy; 2021 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>Wavelet - Aiki's Blog</title>
+    <title>\(R^{-1}\) の計算(34) (完) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,16 +9,22 @@
 
 
 
+<link rel="canonical" href="/r-1-noji-suan-34-wan.html">
 
-    <meta name="author" content="aiki" />
-    <meta name="keywords" content="Wavelet" />
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="Sign Algorithm,Auto Correlation" />
+        <meta name="description" content="だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。 まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。 1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・） 1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。 残った仕事は 上記論文誌はどうか見てみる 既存の手法と被ってないか: これは継続してやる。 一般の \(AR(p)\) について議論する 逆行列が一般化して書けるか、とても不安 定常誤差のバウンドを求めたい。 SAの評価だと上界しかわからない。Widrow本に書いてないか？ ロスレス音声に突っ込む これは春やる。長期休みで1つコーデックを作ろう。ウェーブレットを使うアイデアも残っている。 卒論とか落ち着いたら突っ込む事を忘れずに。 \(R^{-1}\) にフォーカスして頑張るのは終わったと思う。連載はここで切り上げて、AR …" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Aiki's Blog" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Aiki's Blog"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="Aiki's Blog"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="\(R^{-1}\) の計算(34) (完)"/>
+        <meta property="og:url" content="/r-1-noji-suan-34-wan.html"/>
+        <meta property="og:description" content="だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。 まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。 1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・） 1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。 残った仕事は 上記論文誌はどうか見てみる 既存の手法と被ってないか: これは継続してやる。 一般の \(AR(p)\) について議論する 逆行列が一般化して書けるか、とても不安 定常誤差のバウンドを求めたい。 SAの評価だと上界しかわからない。Widrow本に書いてないか？ ロスレス音声に突っ込む これは春やる。長期休みで1つコーデックを作ろう。ウェーブレットを使うアイデアも残っている。 卒論とか落ち着いたら突っ込む事を忘れずに。 \(R^{-1}\) にフォーカスして頑張るのは終わったと思う。連載はここで切り上げて、AR …"/>
+        <meta property="article:published_time" content="2021-01-22" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="Sign Algorithm" />
+            <meta property="article:tag" content="Auto Correlation" />
+            <meta property="article:author" content="aiki" />
 
 
 
@@ -33,7 +39,8 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
 </head>
 <body>
 
@@ -60,7 +67,7 @@ Aiki's Blog            </a>
                         <li >
                             <a href="/category/shi-yan.html">実験</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -83,27 +90,60 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="/lun-wen-du-mi4.html">論文読み(4)</a></h2>
-                <div class="summary"><p>論文読みのコメント:</p>
-<p>「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？</p>
-<ul class="simple">
-<li>DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。</li>
-<li>筆者(Tianshu Quさん)に連絡してできたらソース貰う。</li>
-</ul>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/r-1-noji-suan-34-wan.html"
+                       rel="bookmark"
+                       title="Permalink to \(R^{-1}\) の計算(34) (完)">
+                        <span class="math">\(R^{-1}\)</span> の計算(34) (完)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2021-01-22T10:00:00+09:00"> Fri 22 January 2021</time>
+    </span>
 
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi4.html">more ...</a>
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+        /
+	<a href="/tag/auto-correlation.html">Auto Correlation</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
-                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
-<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
+                <p>だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。</p>
+<p>まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。</p>
+<p>1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・）</p>
+<p>1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。</p>
+<p>残った仕事は</p>
 <ul class="simple">
-<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
+<li>上記論文誌はどうか見てみる</li>
+<li>既存の手法と被ってないか: これは継続してやる。</li>
+<li>一般の <span class="math">\(AR(p)\)</span> について議論する<ul>
+<li>逆行列が一般化して書けるか、とても不安</li>
 </ul>
-<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
+</li>
+<li>定常誤差のバウンドを求めたい。<ul>
+<li>SAの評価だと上界しかわからない。Widrow本に書いてないか？</li>
+</ul>
+</li>
+<li>ロスレス音声に突っ込む<ul>
+<li>これは春やる。長期休みで1つコーデックを作ろう。ウェーブレットを使うアイデアも残っている。</li>
+</ul>
+</li>
+<li>卒論とか落ち着いたら突っ込む事を忘れずに。</li>
+</ul>
+<p><span class="math">\(R^{-1}\)</span> にフォーカスして頑張るのは終わったと思う。連載はここで切り上げて、AR(p)のまとめに全力を入れていく。</p>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -111,38 +151,75 @@ Aiki's Blog            </a>
 
     if (false) {
         align = (screen.width < 768) ? "left" : align;
-        indent …</script>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
-                <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
-Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
+        indent = (screen.width < 768) ? "0em" : indent;
+        linebreak = (screen.width < 768) ? 'true' : linebreak;
+    }
 
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi1.html">論文読み(1)</a></h2>
-                <div class="summary"><p>標準化されたロスレス音声規格IEEE 1857.2、くっそ怪しい。 <a class="reference external" href="https://hydrogenaud.io/index.php?topic=111683.0">リファレンスエンコーダが公開されてないっぽい。</a>
-一応概要みたいのは以下:</p>
-<ul class="simple">
-<li><a class="reference external" href="http://150.162.46.34:8080/icassp2014/papers/p6984-haibin.pdf">LOSSLESS AUDIO COMPRESSION IN THE NEW IEEE STANDARD FOR ADVANCED AUDIO CODING</a></li>
-</ul>
-<p>さっと読んだ。工夫したのは、ブロック先頭で残差が大きくなるから、それをビットシフトして振幅を潰し、下位ビットの情報は別に送ること、算術符号はテンプレートとなる確率分布を使用すること、がメインである。うーん。かなり泥臭いと思う。モデルがすごいと言うよりは工夫メインな印象を受ける。また、他の論文でウェーブレットを使っているみたいな話があるけど、どうにもこちらも怪しい。</p>
-<p>ロスレス音声でウェーブレット+BPを使う話。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://150.162.46.34:8080/icassp2013/pdfs/0000552.pdf">AUDIO LOSSLESS CODING/DECODING METHOD USING BASIS PURSUIT ALGORITHM</a></li>
-</ul>
-<p>音声圧縮でウェーブレットを使うのは筋が悪かったので、少なくとも自分には衝撃ではある。で、ちゃんと読んでみようと思ったのだが4pで概要しか示されてない。</p>
-<p>肝となる部分でわからないのが、ウェーブレット辞書を結合して過完備な辞書を作るところ。基礎が抜けていることを疑って、Donohoを読む …</p>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/r-1-noji-suan-33.html"><span class="math">\(R^{-1}\)</span> の計算(33)</a></li>
+        <li><a href="/r-1-noji-suan-32.html"><span class="math">\(R^{-1}\)</span> の計算(32)</a></li>
+        <li><a href="/r-1-noji-suan-31.html"><span class="math">\(R^{-1}\)</span> の計算(31)</a></li>
+        <li><a href="/r-1-noji-suan-30.html"><span class="math">\(R^{-1}\)</span> の計算(30)</a></li>
+        <li><a href="/r-1-noji-suan-29.html"><span class="math">\(R^{-1}\)</span> の計算(29)</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3" id="sidebar">
@@ -349,7 +426,7 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2020 aiki
+         <div class="col-xs-10">&copy; 2021 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>

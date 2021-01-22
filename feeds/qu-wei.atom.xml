@@ -16,6 +16,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/"&gt;爆打の中の人&lt;/a&gt; ちゃんと研究に落とし込んでいる方。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/"&gt;まうじゃん的空間&lt;/a&gt; フリーでプレーヤーを自前実装できる「まうじゃん」の配布サイト。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/nekobean/mahjong-cpp"&gt;mahjong-cpp&lt;/a&gt; C++17(+ boost)で美しく書かれたライブラリ。テストも充実。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id4"&gt;
@@ -36,12 +37,7 @@
 &lt;h4&gt;乱数について&lt;/h4&gt;
 &lt;p&gt;端的に言って沼。&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html"&gt;ランダムシャッフル | Programming Place Plus&lt;/a&gt; ランダムシャッフルのやり方。Fisher-Yates法を使いましょう。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://cafeunder.github.io/rosenblock-chainers-blog/2018/03/02/shuffle_array.html"&gt;配列のシャッフルコードの間違った実装&lt;/a&gt; 実装を誤ると痛い目に合う。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;&lt;p class="first"&gt;一様乱数の作り方一つとっても落とし穴がある …&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html"&gt;ランダムシャッフル | Programming Place …&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
 すこし成果がまとまってきたので記事にしてみよう。&lt;/p&gt;
 &lt;p&gt;なんと言っても、&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -58,6 +54,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/"&gt;爆打の中の人&lt;/a&gt; ちゃんと研究に落とし込んでいる方。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/"&gt;まうじゃん的空間&lt;/a&gt; フリーでプレーヤーを自前実装できる「まうじゃん」の配布サイト。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/nekobean/mahjong-cpp"&gt;mahjong-cpp&lt;/a&gt; C++17(+ boost)で美しく書かれたライブラリ。テストも充実。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 &lt;div class="section" id="id4"&gt;
