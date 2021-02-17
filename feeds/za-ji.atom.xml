@@ -1,5 +1,292 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-01-22T10:00:00+09:00</updated><entry><title>\(R^{-1}\) の計算(34) (完)</title><link href="/r-1-noji-suan-34-wan.html" rel="alternate"></link><published>2021-01-22T10:00:00+09:00</published><updated>2021-01-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-22:/r-1-noji-suan-34-wan.html</id><summary type="html">&lt;p&gt;だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-02-12T10:00:00+09:00</updated><entry><title>\(\mathrm{AR}(p)\) へ一般化(6)</title><link href="/mathrmarp-heyi-ban-hua-6.html" rel="alternate"></link><published>2021-02-12T10:00:00+09:00</published><updated>2021-02-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-12:/mathrmarp-heyi-ban-hua-6.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;論文出したけど、自己共分散と自己相関でまだ混乱してる。
+実装時には嘘つけないので整理しないといけない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://bookdown.org/gary_a_napier/time_series_lecture_notes/ChapterThree.html"&gt;Chapter 3 Autoregressive processes&lt;/a&gt; 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。&lt;ul&gt;
+&lt;li&gt;AR(1)なら &lt;span class="math"&gt;\(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\)&lt;/span&gt; が分散になる。以下、システムノイズを標準正規分布 &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; とする …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;論文出したけど、自己共分散と自己相関でまだ混乱してる。
+実装時には嘘つけないので整理しないといけない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://bookdown.org/gary_a_napier/time_series_lecture_notes/ChapterThree.html"&gt;Chapter 3 Autoregressive processes&lt;/a&gt; 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。&lt;ul&gt;
+&lt;li&gt;AR(1)なら &lt;span class="math"&gt;\(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\)&lt;/span&gt; が分散になる。以下、システムノイズを標準正規分布 &lt;span class="math"&gt;\(N(0,1)\)&lt;/span&gt; とする。すると &lt;span class="math"&gt;\(\sigma_{z}^{2} = 1\)&lt;/span&gt; だから &lt;span class="math"&gt;\(\sigma_{x}^{2} = \frac{1}{1 - \rho^{2}}\)&lt;/span&gt; となる。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\((\ve{K})_{ij} = \rho^{|i-j|}\)&lt;/span&gt; とすると、自己相関行列は &lt;span class="math"&gt;\(\ve{R} = \sigma_{x}^{2}\ve{K} = \frac{1}{1 - \rho^{2}}\ve{K}\)&lt;/span&gt; と書ける。ここで、自己相関行列と自己共分散行列は全く同じものを指しているので注意。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\ve{R}^{-1} = \left(\frac{1}{1 - \rho^{2}}\right)^{-1} \ve{K}^{-1} = \frac{1 - \rho^{2}}{1 - \rho^{2}} \ve{A}^{-1} = \ve{A}^{-1}\)&lt;/span&gt; ここで &lt;span class="math"&gt;\(\ve{A}^{-1}\)&lt;/span&gt; は &lt;a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.aoms/1177706636"&gt;共分散の逆を求める論文&lt;/a&gt; で求めたもの。だから、スカラーはキャンセルされて、結局 &lt;span class="math"&gt;\(\ve{A}^{-1}\)&lt;/span&gt; で良かったことになる。おそらく一般の &lt;span class="math"&gt;\(\mathrm{AR}(p)\)&lt;/span&gt; でスカラーがキャンセルされるはず。&lt;/li&gt;
+&lt;li&gt;overleafに書いてる &lt;span class="math"&gt;\(\sigma^{2}\)&lt;/span&gt; は &lt;span class="math"&gt;\(\sigma_{x}^{2}\)&lt;/span&gt; と考えればよい…はず。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\ve{R}_{1}^{-1}\)&lt;/span&gt; の替わりに &lt;span class="math"&gt;\(\ve{K}_{1}^{-1}\)&lt;/span&gt; を使ってLMS/Newtonアルゴリズムを実装すると、収束範囲はどうなるか。 &lt;span class="math"&gt;\(\ve{R}_{1} = \frac{1}{1 - \rho^{2}}\ve{K}_{1}\)&lt;/span&gt; だから、 &lt;span class="math"&gt;\(\ve{R}_{1}\)&lt;/span&gt; の固有値 &lt;span class="math"&gt;\(\lambda_{k}\)&lt;/span&gt; に対し &lt;span class="math"&gt;\(\ve{K}_{1}\)&lt;/span&gt; の固有値 &lt;span class="math"&gt;\(\mu_{k}\)&lt;/span&gt; の範囲は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\frac{\sigma_{x}^{2} (1 - \rho^{2})}{1 + 2 \rho + \rho^{2}} &amp;lt; \lambda_{k} &amp;lt; \frac{\sigma_{x}^{2} (1 - \rho^{2})}{1 - 2 \rho + \rho^{2}} \\
+\iff \frac{\sigma_{x}^{2}}{1 + 2 \rho + \rho^{2}} &amp;lt; \mu_{k} &amp;lt; \frac{\sigma_{x}^{2}}{1 - 2 \rho + \rho^{2}} \\
+\iff \frac{\sigma_{x}^{2}}{(1 + \rho)^{2}} &amp;lt; \mu_{k} &amp;lt; \frac{\sigma_{x}^{2}}{(1 - \rho)^{2}}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;これより、一般化固有値問題 &lt;span class="math"&gt;\(\ve{R}\ve{x} = \eta\ve{K}_{1}\ve{x}\)&lt;/span&gt; の最大固有値 &lt;span class="math"&gt;\(\eta_{\max}\)&lt;/span&gt; は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\eta_{\max} &amp;amp;= \max_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{R}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{K}_{1}\ve{x}} = \max_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{R}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{x}} \frac{\ve{x}^{\mathsf{T}}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{K}_{1}\ve{x}} \\
+&amp;amp;\leq \left( \max_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{R}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{x}} \right) \left( \min_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{K}_{1}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{x}} \right)^{-1} \\
+&amp;amp;&amp;lt; N\sigma_{x}^{2} \left\{ \frac{\sigma_{x}^{2}}{(1 + \rho)^{2}} \right\}^{-1} = N (1 + \rho)^{2} \\
+&amp;amp;&amp;lt; 2N
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。しかし、ここまでやっておいてあれだけど、逆行列は &lt;span class="math"&gt;\(\ve{R}^{-1} = \ve{A}^{-1}\)&lt;/span&gt; で間違いない（わざわざ &lt;span class="math"&gt;\(\ve{K}_{1}^{-1}\)&lt;/span&gt; を計算するのが大変で不自然）ので問題なことが分かった。むしろ問題は標準正規分布と書いてないことだろうか。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Auto Regressive"></category><category term="Inverse Auto Correlation"></category></entry><entry><title>\(\mathrm{AR}(p)\) へ一般化(5)</title><link href="/mathrmarp-heyi-ban-hua-5.html" rel="alternate"></link><published>2021-02-05T10:00:00+09:00</published><updated>2021-02-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-05:/mathrmarp-heyi-ban-hua-5.html</id><summary type="html">&lt;p&gt;査読が返るまでの間既存手法の調査をやろう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;cite&gt;Simplified Newton-Type Adaptive Estimation Algorithms &amp;lt;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;amp;rep=rep1&amp;amp;type=pdf&amp;gt;&lt;/cite&gt; 最初に気になってた所。バシッと言ってくれてない。FNTF(fast Newton transversal filters)というのが源流かもしれない。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ssp.ece.upatras.gr/moustakides/downloads/journals/ada1991.pdf"&gt;Fast Newton transversal filters--A new class of adaptive estimation algorithms&lt;/a&gt; &lt;a class="reference external" href="https://www.researchgate.net/publication/3314234_Fast_Newton_transversal_filters--A_new_class_of_adaptive_estimation_algorithms"&gt;ここ&lt;/a&gt; からでもいける。とても近いように見えるんだが、、、AR仮定しているし計算量も同等なんだが、、、、適応的に共分散行列の逆を求めているように見受けられる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/d142/4e76ba905ce822bc26d59a97e6c3aa18d412.pdf?_ga=2.17625393.981950394.1612533179-1720100206.1612533179"&gt;Fast LMS/Newton Algorithms …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;査読が返るまでの間既存手法の調査をやろう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;cite&gt;Simplified Newton-Type Adaptive Estimation Algorithms &amp;lt;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;amp;rep=rep1&amp;amp;type=pdf&amp;gt;&lt;/cite&gt; 最初に気になってた所。バシッと言ってくれてない。FNTF(fast Newton transversal filters)というのが源流かもしれない。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ssp.ece.upatras.gr/moustakides/downloads/journals/ada1991.pdf"&gt;Fast Newton transversal filters--A new class of adaptive estimation algorithms&lt;/a&gt; &lt;a class="reference external" href="https://www.researchgate.net/publication/3314234_Fast_Newton_transversal_filters--A_new_class_of_adaptive_estimation_algorithms"&gt;ここ&lt;/a&gt; からでもいける。とても近いように見えるんだが、、、AR仮定しているし計算量も同等なんだが、、、、適応的に共分散行列の逆を求めているように見受けられる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdfs.semanticscholar.org/d142/4e76ba905ce822bc26d59a97e6c3aa18d412.pdf?_ga=2.17625393.981950394.1612533179-1720100206.1612533179"&gt;Fast LMS/Newton Algorithms Based on Autoregressive Modeling and Their Application to Acoustic Echo Cancellation&lt;/a&gt; これもちょっと前に読んでいる。確かに近いが、コレスキー分解した行列の積を計算しているので遅いのでは…。LPCで求めた係数がコレスキー分解の三角行列に入ってきているのは参考になる。&lt;ul&gt;
+&lt;li&gt;上の論文のAlgorithm 2が非常に近いかも。勾配(u)を1時刻ずらして、格子フィルタ通して、その出力結果を最新の勾配にしている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/profile/Behrouz_Farhang-Boroujeny/publication/224400239_Fast_LMSNewton_Algorithms_for_Stereophonic_Acoustic_Echo_Cancelation/links/00b495329e1f99d45c000000/Fast-LMS-Newton-Algorithms-for-Stereophonic-Acoustic-Echo-Cancelation.pdf"&gt;Fast LMS/Newton Algorithms for Stereophonic Acoustic Echo Cancelation&lt;/a&gt; 上の論文の弟子？が書いたステレオチャンネル拡張論文。原理はほぼおなじに見える。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.720.7573&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Analysis of the Stereophonic LMS/Newton Algorithm and Impact of Signal Nonlinearity on Its Convergence Behavior&lt;/a&gt; これも著者ほぼ同じ感じ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.448.3364&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Tracking of Time-Varying Mobile Radio Channels—Part I: The Wiener LMS Algorithm&lt;/a&gt; 一瞬だけ触れている。効率的だと言っている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/3321287_Efficient_least_squares_adaptive_algorithms_for_FIR_transversal_filtering"&gt;Efficient least squares adaptive algorithms for FIR transversal filtering&lt;/a&gt; 前も挙げたと思うけど、包括的な内容。詳しく見てみよう。→パット見、ない。上のFast LMS/Newton...も引用してない。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/profile/Kazushi_Ikeda2/publication/3318680_A_numerically_stable_fast_Newton-type_adaptive_filter_based_on_order_recursive_least_squares_algorithm/links/02e7e53b4b2c3efe52000000/A-numerically-stable-fast-Newton-type-adaptive-filter-based-on-order-recursive-least-squares-algorithm.pdf"&gt;A Numerically Stable Fast Newton-Type Adaptive Filter Based on Order Recursive Least Squares Algorithm&lt;/a&gt; 近いようで、近くない…うーん、はっきりと共分散行列が(2p+1)-重対角行列だと言い切って欲しい…。どうやら、予測係数を更新しながらの手法のようだ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/37884714.pdf"&gt;A WAVELET BASED PARTIAL UPDATE FAST LMS/NEWTON ALGORITHM&lt;/a&gt; ウェーブレット係数を適応学習。発想はとても良くて、将来的に使うことになるかも。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Auto Regressive"></category><category term="Inverse Auto Correlation"></category></entry><entry><title>\(\mathrm{AR}(p)\) へ一般化(4)</title><link href="/mathrmarp-heyi-ban-hua-4.html" rel="alternate"></link><published>2021-01-31T10:00:00+09:00</published><updated>2021-01-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-31:/mathrmarp-heyi-ban-hua-4.html</id><content type="html">&lt;p&gt;rejectはショックやなあ…コメント悪くなかっただけに…。&lt;/p&gt;
+&lt;p&gt;一般化については記述した。残りは調査だと思う。しかし次の論文書きの期限が迫る。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Auto Regressive"></category><category term="Inverse Auto Correlation"></category></entry><entry><title>\(\mathrm{AR}(p)\) へ一般化(3)</title><link href="/mathrmarp-heyi-ban-hua-3.html" rel="alternate"></link><published>2021-01-25T10:00:00+09:00</published><updated>2021-01-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-25:/mathrmarp-heyi-ban-hua-3.html</id><content type="html">&lt;p&gt;論文読みを通し、紙に書いた。一般的な逆行列の構造が見えた。かなり美しいし、もうやってるだろという直感がある。。。
+しかし、査読結果が返るまでに勾配更新の一般化までやっておこう。&lt;/p&gt;
+&lt;p&gt;どこかで徹底的な調査が必要と考える。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Auto Regressive"></category><category term="Inverse Auto Correlation"></category></entry><entry><title>\(\mathrm{AR}(p)\) へ一般化(2)</title><link href="/mathrmarp-heyi-ban-hua-2.html" rel="alternate"></link><published>2021-01-24T10:00:00+09:00</published><updated>2021-01-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-24:/mathrmarp-heyi-ban-hua-2.html</id><summary type="html">&lt;p&gt;午前中に &lt;span class="math"&gt;\(p=2\)&lt;/span&gt; のケースをまとめた。やっぱ成り立っている。しかも2次形式はどうも &lt;span class="math"&gt;\(\mathcal{O}(1)\)&lt;/span&gt; で更新できるっぽい。&lt;/p&gt;
+&lt;p&gt;午後、一般化のために論文を読み始めた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.aoms/1177706636"&gt;On the Inversion of the Sample Covariance Matrix in a Stationary Autoregressive Process&lt;/a&gt; これ。読めないものでもない。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/648856/how-to-prove-that-the-inverse-of-a-persymmetric-matrix-is-also-persymmetric"&gt;How to prove that the inverse of a persymmetric matrix is also persymmetric?&lt;/a&gt; persymmetricの逆はまたpersymmetricであることの証明。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em …&lt;/script&gt;</summary><content type="html">&lt;p&gt;午前中に &lt;span class="math"&gt;\(p=2\)&lt;/span&gt; のケースをまとめた。やっぱ成り立っている。しかも2次形式はどうも &lt;span class="math"&gt;\(\mathcal{O}(1)\)&lt;/span&gt; で更新できるっぽい。&lt;/p&gt;
+&lt;p&gt;午後、一般化のために論文を読み始めた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.aoms/1177706636"&gt;On the Inversion of the Sample Covariance Matrix in a Stationary Autoregressive Process&lt;/a&gt; これ。読めないものでもない。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://math.stackexchange.com/questions/648856/how-to-prove-that-the-inverse-of-a-persymmetric-matrix-is-also-persymmetric"&gt;How to prove that the inverse of a persymmetric matrix is also persymmetric?&lt;/a&gt; persymmetricの逆はまたpersymmetricであることの証明。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Auto Regressive"></category><category term="Inverse Auto Correlation"></category></entry><entry><title>\(\mathrm{AR}(p)\) へ一般化(1)</title><link href="/mathrmarp-heyi-ban-hua-1.html" rel="alternate"></link><published>2021-01-23T10:00:00+09:00</published><updated>2021-01-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-23:/mathrmarp-heyi-ban-hua-1.html</id><summary type="html">&lt;p&gt;手始めに &lt;span class="math"&gt;\(p=2\)&lt;/span&gt; で効率的に計算できることを示すべきだろう。
+また、 &lt;span class="math"&gt;\(p=2\)&lt;/span&gt; の場合の自己相関行列がどうなっているかももう少し見たい。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text …&lt;/script&gt;</summary><content type="html">&lt;p&gt;手始めに &lt;span class="math"&gt;\(p=2\)&lt;/span&gt; で効率的に計算できることを示すべきだろう。
+また、 &lt;span class="math"&gt;\(p=2\)&lt;/span&gt; の場合の自己相関行列がどうなっているかももう少し見たい。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Auto Regressive"></category><category term="Inverse Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(34) (完)</title><link href="/r-1-noji-suan-34-wan.html" rel="alternate"></link><published>2021-01-22T10:00:00+09:00</published><updated>2021-01-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-22:/r-1-noji-suan-34-wan.html</id><summary type="html">&lt;p&gt;だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。&lt;/p&gt;
 &lt;p&gt;まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。&lt;/p&gt;
 &lt;p&gt;1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・）&lt;/p&gt;
 &lt;p&gt;1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp;amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。&lt;/p&gt;
@@ -105,7 +392,7 @@
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(33)</title><link href="/r-1-noji-suan-33.html" rel="alternate"></link><published>2021-01-02T10:00:00+09:00</published><updated>2021-01-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-02:/r-1-noji-suan-33.html</id><summary type="html">&lt;p&gt;Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。
+&lt;/script&gt;</content><category term="雑記"></category><category term="Sign Algorithm"></category><category term="Auto Correlation"></category></entry><entry><title>\(R^{-1}\) の計算(33)</title><link href="/r-1-noji-suan-33.html" rel="alternate"></link><published>2021-01-03T10:00:00+09:00</published><updated>2021-01-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-01-03:/r-1-noji-suan-33.html</id><summary type="html">&lt;p&gt;Overleafにまとめようと思ってガリガリ書いてたら、AR(1)の自己相関行列の逆って一様三項行列になっていないことに気づく。
 簡単な式変形で行けないかなと思ったけどうまく行かずハマっていた。
 （一様三項行列も差分方程式が出てくるのでかなり手強い。。。）&lt;/p&gt;
 &lt;p&gt;5時間くらい苦悶した後にネットの海を泳いで探していた所、AR(1)の逆行列を議論しているところがあった

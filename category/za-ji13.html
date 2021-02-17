@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
+<head>
+    <title>雑記 - Aiki's Blog</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+
+
+    <meta name="author" content="aiki" />
+    <meta name="keywords" content="雑記" />
+
+    <!-- Open Graph tags -->
+        <meta property="og:site_name" content="Aiki's Blog" />
+        <meta property="og:type" content="website"/>
+        <meta property="og:title" content="Aiki's Blog"/>
+        <meta property="og:url" content=""/>
+        <meta property="og:description" content="Aiki's Blog"/>
+
+
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="/theme/css/pygments/native.css" rel="stylesheet">
+    <link href="/theme/tipuesearch/tipuesearch.css" rel="stylesheet">
+    <link rel="stylesheet" href="/theme/css/style.css" type="text/css"/>
+
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog ATOM Feed"/>
+
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="/" class="navbar-brand">
+Aiki's Blog            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li >
+                            <a href="/category/ji-shi.html">記事</a>
+                        </li>
+                        <li >
+                            <a href="/category/qu-wei.html">趣味</a>
+                        </li>
+                        <li >
+                            <a href="/category/shi-yan.html">実験</a>
+                        </li>
+                        <li class="active">
+                            <a href="/category/za-ji.html">雑記</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><span>
+                <form class="navbar-search" action="/search.html">
+                  <input type="text" class="search-query" placeholder="Search" name="q" id="tipue_search_input" required>
+                </form></span>
+              </li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+
+<!-- Banner -->
+<!-- End Banner -->
+
+<!-- Content Container -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <article>
+                <h2><a href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">続・古いロスレス音声コーデックの調査</a></h2>
+                <div class="summary"><p>古いロスレス音声コーデックと理論の概要を取りまとめた雑誌の特集があった:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.eie.polyu.edu.hk/~enyhchan/ce_ac_p1.pdf">Lossless Compression of Digital Audio</a></li>
+</ul>
+<p>理論としてもその通りだし、雑誌発行時点(1998)からさしたるブレークスルーが無いように見える。</p>
+<p>AudioPak, OggSquish, Philips, Sonarc, WAという謎のコーデック現る…。いったい何個あるんだ。</p>
+
+                    <a class="btn btn-default btn-xs" href="/sok-gu-irosuresuyin-sheng-kodetsukunodiao-cha.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html">古いロスレス音声コーデックの調査/スパース適応フィルタ</a></h2>
+                <div class="summary"><p>ロスレス音声の歴史を探るために古いロスレス音声コーデックの情報を探っている。以下のサイトが <a class="reference external" href="https://wiki.hydrogenaud.io/index.php?title=Lossless_comparison">Hydrogenaudioでの比較</a> よりも古い内容を扱っている。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html">Lossless Compression of Audio</a></li>
+</ul>
+<p>見つけたロスレス音声コーデックを一覧する。というかほぼ <a class="reference external" href="https://www.rarewares.org/rrw/about.php">Really Rare Wares</a> 様へのリンク。</p>
+<div class="section" id="id2">
+<h2>古めのロスレス音声コーデック</h2>
+<div class="section" id="rkau-rk-audio">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/rkau.php">RKAU(RK Audio)</a></h3>
+<p>古い比較において優秀な圧縮率を誇っていた。当時のMonkey's Audioよりも上。サイトを覗いたら exe と dll のみの配布だった。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://web.archive.org/web/20020124045327/http://rksoft.virtualave.net/rkau.html">RKAUのホームページ（魚拓）</a> を見ても特に情報なし。</li>
+</ul>
+</div>
+<div class="section" id="audiozip">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/audiozip.php">AudioZip</a></h3>
+<p>これも圧縮率が比較的優秀。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://web.archive.org/web/20020207080740/http://www.csp.ntu.edu.sg:8000/MMS/MMCProjects.htm">AudioZipのホームページ（魚拓）</a> を見てもこちらも特に情報なし。</li>
+</ul>
+</div>
+<div class="section" id="wavarc">
+<h3><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/wavarc/0readme.html">WavArc</a></h3>
+<p>こちらも最大圧縮率(-c5)を選択するとそれなりに優秀な結果を出していた。このページにexeとドキュメントをまとめたzipもあり。</p>
+</div>
+<div class="section" id="wavezip">
+<h3><a class="reference external" href="https://www.rarewares.org/rrw/wavezip.php">WaveZip</a></h3>
+<p>圧縮率よりは速度重視のコーデックのようだ。MUSICompress というアルゴリズムの実装。 <a class="reference external" href="https://www.rarewares.org/rrw/files/lossless/musi_txt.txt">WaveZipのデータシート</a> によると符号化にはLZ(Lampel-Ziv)を使用しているようだ。</p>
+<p><a class="reference external" href="http://www.firstpr.com.au/audiocomp/lossless/index.html#wavezip">WaveZipの概要</a> が比較サイトに掲載されていた。どうやら …</p></div></div>
+                    <a class="btn btn-default btn-xs" href="/gu-irosuresuyin-sheng-kodetsukunodiao-cha-supasushi-ying-huiruta.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/burogudao-ru.html">ブログ導入</a></h2>
+                <div class="summary"><p>GitHub io + Pelican を使ってみた。しばらくこちらで日報を書きたい。
+GitHub io + Pelicanは以下の記事を参考にしている。まだあんまり分かってない。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://qiita.com/yusukew62/items/7b01d2370cdbe170b28d">Python製静的HTMLジェネレータのPelicanでGitHub Pagesを公開する方法</a></li>
+<li><a class="reference external" href="https://qiita.com/ririli/items/0e06b21cb709beae4514">GitHub Pagesで静的サイトを簡単に作る</a></li>
+<li><a class="reference external" href="https://qiita.com/saira/items/71faa202efb4320cb41d">Python製 Pelican を使ってサクッとブログを公開する</a></li>
+<li><a class="reference external" href="http://www.pelicanthemes.com">Pelicanのテーマ集</a></li>
+<li><a class="reference external" href="https://github.com/getpelican/pelican-themes/issues/460#issuecomment-346652986">テーマ導入時にハマったので参考にしたissue comment</a></li>
+</ul>
+<p>今日は（というか3月末）からSLAの高速化作業とまとめをしていた。</p>
+<p>格子型フィルタ演算はどうしても1乗算型にできず。次数演算を4次数にしてSSE演算するのがやっと。
+SSE化するときに、スカラー演算とベクトル演算が混じったときに処理負荷が大きく上がってハマった。
+<a class="reference external" href="https://stackoverflow.com/questions/10313397/where-does-the-sse-instructions-outperform-normal-instructions">StackOverFlowの記事</a> では <cite>_mm_set_epi32</cite> のコストが高い旨記述あり。 <cite>_mm_loadu_si128</cite> の使用に置き換えた。
+<a class="reference external" href="https://stackoverflow.com/questions/24446516/performance-worsens-when-using-sse-simple-addition-of-integer-arrays">他の記事</a> で言及があってようやく分かった。全てをベクトル演算化したところ、処理負荷は4/5倍になった。あんまり早くなっていない。遺憾。</p>
+<p><a class="reference external" href="http://herumi.in.coocan.jp/prog/gcc-and-vc.html">gccとVC</a> にはgccとVisual Studioの挙動の差異について色々と書いてあった。</p>
+
+                    <a class="btn btn-default btn-xs" href="/burogudao-ru.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+
+        <ul class="pagination">
+                <li class="prev"><a href="/category/za-ji12.html">&laquo;</a>
+                </li>
+                    <li class=""><a
+                            href="/category/za-ji.html">1</a></li>
+                    <li class=""><a
+                            href="/category/za-ji2.html">2</a></li>
+                    <li class=""><a
+                            href="/category/za-ji3.html">3</a></li>
+                    <li class=""><a
+                            href="/category/za-ji4.html">4</a></li>
+                    <li class=""><a
+                            href="/category/za-ji5.html">5</a></li>
+                    <li class=""><a
+                            href="/category/za-ji6.html">6</a></li>
+                    <li class=""><a
+                            href="/category/za-ji7.html">7</a></li>
+                    <li class=""><a
+                            href="/category/za-ji8.html">8</a></li>
+                    <li class=""><a
+                            href="/category/za-ji9.html">9</a></li>
+                    <li class=""><a
+                            href="/category/za-ji10.html">10</a></li>
+                    <li class=""><a
+                            href="/category/za-ji11.html">11</a></li>
+                    <li class=""><a
+                            href="/category/za-ji12.html">12</a></li>
+                    <li class="active"><a
+                            href="/category/za-ji13.html">13</a></li>
+                <li class="next disabled"><a href="#">&raquo;</a></li>
+        </ul>
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+<!-- Sidebar -->
+<section class="well well-sm">
+  <ul class="list-group list-group-flush">
+
+<!-- Sidebar/Social -->
+<li class="list-group-item">
+  <h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+  <ul class="list-group" id="social">
+    <li class="list-group-item"><a href="https://github.com/aikiriao/"><i class="fa fa-github-square fa-lg"></i> GitHub</a></li>
+  </ul>
+</li>
+<!-- End Sidebar/Social -->
+
+<!-- Sidebar/Tag Cloud -->
+<li class="list-group-item">
+  <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+  <ul class="list-group " id="tags">
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Tag Cloud -->
+
+<!-- Sidebar/Links -->
+<li class="list-group-item">
+  <h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+  <ul class="list-group" id="links">
+    <li class="list-group-item">
+      <a href="http://getpelican.com/" target="_blank">Pelican</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://python.org/" target="_blank">Python.org</a>
+    </li>
+    <li class="list-group-item">
+      <a href="http://jinja.pocoo.org/" target="_blank">Jinja2</a>
+    </li>
+    <li class="list-group-item">
+      <a href="https://policies.google.com/technologies/partner-sites" target="_blank">Google Analytics</a>
+    </li>
+  </ul>
+</li>
+<!-- End Sidebar/Links -->
+  </ul>
+</section>
+<!-- End Sidebar -->            </aside>
+        </div>
+    </div>
+</div>
+<!-- End Content Container -->
+
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2021 aiki
+            &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
+         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="/theme/js/respond.min.js"></script>
+
+
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-169927697-1']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+
+</body>
+</html>
