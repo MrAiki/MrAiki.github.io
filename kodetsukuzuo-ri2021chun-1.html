@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>\(\mathrm{AR}(p)\) へ一般化(6) - Aiki's Blog</title>
+    <title>コーデック作り2021春(1) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,21 +9,20 @@
 
 
 
-<link rel="canonical" href="/mathrmarp-heyi-ban-hua-6.html">
+<link rel="canonical" href="/kodetsukuzuo-ri2021chun-1.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="Auto Regressive,Inverse Auto Correlation" />
-        <meta name="description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \end{equation*} 論文出したけど、自己共分散と自己相関でまだ混乱してる。 実装時には嘘つけないので整理しないといけない。 Chapter 3 Autoregressive processes 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。 AR(1)なら \(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\) が分散になる。以下、システムノイズを標準正規分布 \(N(0,1)\) とする …" />
+        <meta name="keywords" content="Lossless Audio Codec" />
+        <meta name="description" content="さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。 テストもctestを使おうと思っており、その導入検討を行う。 まず、ctestのほかにgoogleが出しているgtestというのがある。これもcmakeとの親和性が良いらしい。 今回はctestで試してみる...と思ったらgtestがいいかも。できないことはないはずなのでやってみよう。 Testing With CTest ピンと来ないのでKitware公式情報を見る。 うーん？どうもCtestは enable_testing() によってテスト用のディレクトリを生成するのを有効化しているだけ？ add_test でテスト追加。 make test でテスト実行。 多分、プログラム実行時の返り値だけをみているっぽい。アサーションマクロとかはサポートしていない？？ それだと gtest が良いということになる。 C++ のユニットテストをいい感じにする がいいかも...と思ったらgtest使ってる。うーん。 ExternalProject でCMakeの機能でgtestを導入することができる。これで可搬性が担保できそう。 GitHubはこちら 構成はmain除きこれに前ならえでよいはずだ。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="\(\mathrm{AR}(p)\) へ一般化(6)"/>
-        <meta property="og:url" content="/mathrmarp-heyi-ban-hua-6.html"/>
-        <meta property="og:description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]} \end{equation*} 論文出したけど、自己共分散と自己相関でまだ混乱してる。 実装時には嘘つけないので整理しないといけない。 Chapter 3 Autoregressive processes 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。 AR(1)なら \(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\) が分散になる。以下、システムノイズを標準正規分布 \(N(0,1)\) とする …"/>
-        <meta property="article:published_time" content="2021-02-12" />
+        <meta property="og:title" content="コーデック作り2021春(1)"/>
+        <meta property="og:url" content="/kodetsukuzuo-ri2021chun-1.html"/>
+        <meta property="og:description" content="さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。 テストもctestを使おうと思っており、その導入検討を行う。 まず、ctestのほかにgoogleが出しているgtestというのがある。これもcmakeとの親和性が良いらしい。 今回はctestで試してみる...と思ったらgtestがいいかも。できないことはないはずなのでやってみよう。 Testing With CTest ピンと来ないのでKitware公式情報を見る。 うーん？どうもCtestは enable_testing() によってテスト用のディレクトリを生成するのを有効化しているだけ？ add_test でテスト追加。 make test でテスト実行。 多分、プログラム実行時の返り値だけをみているっぽい。アサーションマクロとかはサポートしていない？？ それだと gtest が良いということになる。 C++ のユニットテストをいい感じにする がいいかも...と思ったらgtest使ってる。うーん。 ExternalProject でCMakeの機能でgtestを導入することができる。これで可搬性が担保できそう。 GitHubはこちら 構成はmain除きこれに前ならえでよいはずだ。"/>
+        <meta property="article:published_time" content="2021-02-19" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="Auto Regressive" />
-            <meta property="article:tag" content="Inverse Auto Correlation" />
+            <meta property="article:tag" content="Lossless Audio Codec" />
             <meta property="article:author" content="aiki" />
 
 
@@ -94,10 +93,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/mathrmarp-heyi-ban-hua-6.html"
+                    <a href="/kodetsukuzuo-ri2021chun-1.html"
                        rel="bookmark"
-                       title="Permalink to \(\mathrm{AR}(p)\) へ一般化(6)">
-                        <span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(6)
+                       title="Permalink to コーデック作り2021春(1)">
+                        コーデック作り2021春(1)
                     </a>
                 </h1>
             </header>
@@ -107,7 +106,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2021-02-12T10:00:00+09:00"> Fri 12 February 2021</time>
+        <i class="fa fa-calendar"></i><time datetime="2021-02-19T10:00:00+09:00"> Fri 19 February 2021</time>
     </span>
 
 
@@ -115,119 +114,35 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/auto-regressive.html">Auto Regressive</a>
-        /
-	<a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+	<a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>論文出したけど、自己共分散と自己相関でまだ混乱してる。
-実装時には嘘つけないので整理しないといけない。</p>
+                <p>さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。
+テストもctestを使おうと思っており、その導入検討を行う。</p>
+<p>まず、ctestのほかにgoogleが出しているgtestというのがある。これもcmakeとの親和性が良いらしい。
+今回はctestで試してみる...と思ったらgtestがいいかも。できないことはないはずなのでやってみよう。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://bookdown.org/gary_a_napier/time_series_lecture_notes/ChapterThree.html">Chapter 3 Autoregressive processes</a> 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。<ul>
-<li>AR(1)なら <span class="math">\(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\)</span> が分散になる。以下、システムノイズを標準正規分布 <span class="math">\(N(0,1)\)</span> とする。すると <span class="math">\(\sigma_{z}^{2} = 1\)</span> だから <span class="math">\(\sigma_{x}^{2} = \frac{1}{1 - \rho^{2}}\)</span> となる。</li>
-<li><span class="math">\((\ve{K})_{ij} = \rho^{|i-j|}\)</span> とすると、自己相関行列は <span class="math">\(\ve{R} = \sigma_{x}^{2}\ve{K} = \frac{1}{1 - \rho^{2}}\ve{K}\)</span> と書ける。ここで、自己相関行列と自己共分散行列は全く同じものを指しているので注意。</li>
-<li><span class="math">\(\ve{R}^{-1} = \left(\frac{1}{1 - \rho^{2}}\right)^{-1} \ve{K}^{-1} = \frac{1 - \rho^{2}}{1 - \rho^{2}} \ve{A}^{-1} = \ve{A}^{-1}\)</span> ここで <span class="math">\(\ve{A}^{-1}\)</span> は <a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.aoms/1177706636">共分散の逆を求める論文</a> で求めたもの。だから、スカラーはキャンセルされて、結局 <span class="math">\(\ve{A}^{-1}\)</span> で良かったことになる。おそらく一般の <span class="math">\(\mathrm{AR}(p)\)</span> でスカラーがキャンセルされるはず。</li>
-<li>overleafに書いてる <span class="math">\(\sigma^{2}\)</span> は <span class="math">\(\sigma_{x}^{2}\)</span> と考えればよい…はず。</li>
+<li><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest">Testing With CTest</a> ピンと来ないのでKitware公式情報を見る。<ul>
+<li>うーん？どうもCtestは <cite>enable_testing()</cite> によってテスト用のディレクトリを生成するのを有効化しているだけ？</li>
+<li><cite>add_test</cite> でテスト追加。 <cite>make test</cite> でテスト実行。</li>
+<li>多分、プログラム実行時の返り値だけをみているっぽい。アサーションマクロとかはサポートしていない？？</li>
+<li>それだと gtest が良いということになる。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://qiita.com/janus_wel/items/4e6c12f9104f501104c7">C++ のユニットテストをいい感じにする</a> がいいかも...と思ったらgtest使ってる。うーん。<ul>
+<li><cite>ExternalProject</cite> でCMakeの機能でgtestを導入することができる。これで可搬性が担保できそう。</li>
+<li><a class="reference external" href="https://github.com/januswel/ctest-gtest">GitHubはこちら</a> 構成はmain除きこれに前ならえでよいはずだ。</li>
 </ul>
 </li>
 </ul>
-<p><span class="math">\(\ve{R}_{1}^{-1}\)</span> の替わりに <span class="math">\(\ve{K}_{1}^{-1}\)</span> を使ってLMS/Newtonアルゴリズムを実装すると、収束範囲はどうなるか。 <span class="math">\(\ve{R}_{1} = \frac{1}{1 - \rho^{2}}\ve{K}_{1}\)</span> だから、 <span class="math">\(\ve{R}_{1}\)</span> の固有値 <span class="math">\(\lambda_{k}\)</span> に対し <span class="math">\(\ve{K}_{1}\)</span> の固有値 <span class="math">\(\mu_{k}\)</span> の範囲は、</p>
-<div class="math">
-\begin{align*}
-\frac{\sigma_{x}^{2} (1 - \rho^{2})}{1 + 2 \rho + \rho^{2}} &lt; \lambda_{k} &lt; \frac{\sigma_{x}^{2} (1 - \rho^{2})}{1 - 2 \rho + \rho^{2}} \\
-\iff \frac{\sigma_{x}^{2}}{1 + 2 \rho + \rho^{2}} &lt; \mu_{k} &lt; \frac{\sigma_{x}^{2}}{1 - 2 \rho + \rho^{2}} \\
-\iff \frac{\sigma_{x}^{2}}{(1 + \rho)^{2}} &lt; \mu_{k} &lt; \frac{\sigma_{x}^{2}}{(1 - \rho)^{2}}
-\end{align*}
-</div>
-<p>これより、一般化固有値問題 <span class="math">\(\ve{R}\ve{x} = \eta\ve{K}_{1}\ve{x}\)</span> の最大固有値 <span class="math">\(\eta_{\max}\)</span> は、</p>
-<div class="math">
-\begin{align*}
-\eta_{\max} &amp;= \max_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{R}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{K}_{1}\ve{x}} = \max_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{R}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{x}} \frac{\ve{x}^{\mathsf{T}}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{K}_{1}\ve{x}} \\
-&amp;\leq \left( \max_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{R}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{x}} \right) \left( \min_{\ve{x} \neq \ve{0}} \frac{\ve{x}^{\mathsf{T}}\ve{K}_{1}\ve{x}}{\ve{x}^{\mathsf{T}}\ve{x}} \right)^{-1} \\
-&amp;&lt; N\sigma_{x}^{2} \left\{ \frac{\sigma_{x}^{2}}{(1 + \rho)^{2}} \right\}^{-1} = N (1 + \rho)^{2} \\
-&amp;&lt; 2N
-\end{align*}
-</div>
-<p>となる。しかし、ここまでやっておいてあれだけど、逆行列は <span class="math">\(\ve{R}^{-1} = \ve{A}^{-1}\)</span> で間違いない（わざわざ <span class="math">\(\ve{K}_{1}^{-1}\)</span> を計算するのが大変で不自然）ので問題なことが分かった。むしろ問題は標準正規分布と書いてないことだろうか。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/mathrmarp-heyi-ban-hua-5.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(5)</a></li>
-        <li><a href="/mathrmarp-heyi-ban-hua-4.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(4)</a></li>
-        <li><a href="/mathrmarp-heyi-ban-hua-3.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(3)</a></li>
-        <li><a href="/mathrmarp-heyi-ban-hua-2.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(2)</a></li>
-        <li><a href="/mathrmarp-heyi-ban-hua-1.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(1)</a></li>
+        <li><a href="/kodetsukuzuo-ri2021chun-2.html">コーデック作り2021春(2)</a></li>
     </ul>
 </section>
         </article>
