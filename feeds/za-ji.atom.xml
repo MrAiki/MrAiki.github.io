@@ -1,30 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-02-22T10:00:00+09:00</updated><entry><title>コーデック作り2021春(2)</title><link href="/kodetsukuzuo-ri2021chun-2.html" rel="alternate"></link><published>2021-02-22T10:00:00+09:00</published><updated>2021-02-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-22:/kodetsukuzuo-ri2021chun-2.html</id><summary type="html">&lt;p&gt;テスト環境整備中。&lt;/p&gt;
-&lt;p&gt;gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ &lt;cite&gt;&amp;lt;limits&amp;gt;&lt;/cite&gt; なんて無い、と言われた）。
-でも無理やりビルドするためにcmakeの CXX で新しくプロジェクトを作った。
-かなり強引にやった。色々警告でてるし、C89との差異で苦しむかもしれない。&lt;/p&gt;
-&lt;p&gt;さて、フォーマットを決めよう。フォーマットが決まればあとはそのとおり実装していくだけのはずだ。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;基本設計方針&lt;/h2&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-03-12T10:00:00+09:00</updated><entry><title>コーデック作り2021春(19)</title><link href="/kodetsukuzuo-ri2021chun-19.html" rel="alternate"></link><published>2021-03-12T10:00:00+09:00</published><updated>2021-03-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-12:/kodetsukuzuo-ri2021chun-19.html</id><summary type="html">&lt;p&gt;Riceパラメータはlog2で記録するようにした。
+残差が大きく(=圧縮率が悪化)なったら対策を考える。問題後回し。&lt;/p&gt;
+&lt;p&gt;そして、固定小数幅を14bitにするのを試行する。→やってみたら実音声で大幅悪化。やめやめ。&lt;/p&gt;
+&lt;p&gt;残りで大きいところは&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;AR(p) Natural Gradientの実装。&lt;/li&gt;
-&lt;li&gt;符号はSLAの再帰的ライスを使用する。SLAの実装はそのままでポーティングする。&lt;/li&gt;
-&lt;li&gt;目標はTTA, Wavpackの圧縮率を超えること。（超えたら対外発表可能とする）&lt;/li&gt;
-&lt;li&gt;圧縮性能を試すだけなので、SIMDやアセンブリレベルの過度な高速化はしない。&lt;/li&gt;
-&lt;li&gt;無音時のランレングス符号化はあり。&lt;ul&gt;
-&lt;li&gt;ひとまずは残差のみで実装していく。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;データの正常性検査はほとんど入れない。（ブロックのシグネチャはあり。CRCはやらない。）&lt;/li&gt;
-&lt;li&gt;ひとまずは16bitwavの対応で良い。&lt;ul&gt;
-&lt;li&gt;やろうと思えばできるが、複雑化のコストが大。&lt;/li&gt;
+&lt;li&gt;リングバッファアクセス高速化&lt;/li&gt;
+&lt;li&gt;ハンドルのワーク配置化&lt;/li&gt;
+&lt;li&gt;コマンドライン整理&lt;/li&gt;
+&lt;li&gt;プリセット選定&lt;ul&gt;
+&lt;li&gt;いまのところ、(NGSA次数, SA次数, ブロックサイズ) と書くとしたとき&lt;ul&gt;
+&lt;li&gt;高速（低圧縮モード）は(4, 4, 8192)&lt;/li&gt;
+&lt;li&gt;通常（デフォルト）は(8, 8, 8192)&lt;/li&gt;
+&lt;li&gt;低速（高圧縮モード）は(16, 8, 16384)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上が残件になるが、致命的なところは除いたつもりなので、今の内容で公開する。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;データフォーマット&lt;/h2&gt;
-&lt;div class="section" id="id4"&gt;
+&lt;div class="section" id="id3"&gt;
 &lt;h3&gt;ヘッダフォーマット&lt;/h3&gt;
 &lt;table border="1" class="docutils"&gt;
 &lt;colgroup&gt;
@@ -40,37 +36,28 @@
 &lt;/thead&gt;
 &lt;tbody valign="top"&gt;
 &lt;tr&gt;&lt;td&gt;32&lt;/td&gt;
-&lt;td&gt;&lt;cite&gt;'A', 'N', 'L', '\0'&lt;/cite&gt;&lt;/td&gt;
-&lt;td&gt;ANLファイルであることを示すシグネチャ&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;32&lt;/td&gt;
-&lt;td&gt;フォーマットバージョン番号&lt;/td&gt;
-&lt;td&gt;エンコードしたときのフォーマットバージョン …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;テスト環境整備中。&lt;/p&gt;
-&lt;p&gt;gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ &lt;cite&gt;&amp;lt;limits&amp;gt;&lt;/cite&gt; なんて無い、と言われた）。
-でも無理やりビルドするためにcmakeの CXX で新しくプロジェクトを作った。
-かなり強引にやった。色々警告でてるし、C89との差異で苦しむかもしれない。&lt;/p&gt;
-&lt;p&gt;さて、フォーマットを決めよう。フォーマットが決まればあとはそのとおり実装していくだけのはずだ。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;基本設計方針&lt;/h2&gt;
+&lt;td&gt;&lt;cite&gt;'N', 'A', 'R', 'U' …&lt;/cite&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Riceパラメータはlog2で記録するようにした。
+残差が大きく(=圧縮率が悪化)なったら対策を考える。問題後回し。&lt;/p&gt;
+&lt;p&gt;そして、固定小数幅を14bitにするのを試行する。→やってみたら実音声で大幅悪化。やめやめ。&lt;/p&gt;
+&lt;p&gt;残りで大きいところは&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;AR(p) Natural Gradientの実装。&lt;/li&gt;
-&lt;li&gt;符号はSLAの再帰的ライスを使用する。SLAの実装はそのままでポーティングする。&lt;/li&gt;
-&lt;li&gt;目標はTTA, Wavpackの圧縮率を超えること。（超えたら対外発表可能とする）&lt;/li&gt;
-&lt;li&gt;圧縮性能を試すだけなので、SIMDやアセンブリレベルの過度な高速化はしない。&lt;/li&gt;
-&lt;li&gt;無音時のランレングス符号化はあり。&lt;ul&gt;
-&lt;li&gt;ひとまずは残差のみで実装していく。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;li&gt;データの正常性検査はほとんど入れない。（ブロックのシグネチャはあり。CRCはやらない。）&lt;/li&gt;
-&lt;li&gt;ひとまずは16bitwavの対応で良い。&lt;ul&gt;
-&lt;li&gt;やろうと思えばできるが、複雑化のコストが大。&lt;/li&gt;
+&lt;li&gt;リングバッファアクセス高速化&lt;/li&gt;
+&lt;li&gt;ハンドルのワーク配置化&lt;/li&gt;
+&lt;li&gt;コマンドライン整理&lt;/li&gt;
+&lt;li&gt;プリセット選定&lt;ul&gt;
+&lt;li&gt;いまのところ、(NGSA次数, SA次数, ブロックサイズ) と書くとしたとき&lt;ul&gt;
+&lt;li&gt;高速（低圧縮モード）は(4, 4, 8192)&lt;/li&gt;
+&lt;li&gt;通常（デフォルト）は(8, 8, 8192)&lt;/li&gt;
+&lt;li&gt;低速（高圧縮モード）は(16, 8, 16384)&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;上が残件になるが、致命的なところは除いたつもりなので、今の内容で公開する。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
 &lt;h2&gt;データフォーマット&lt;/h2&gt;
-&lt;div class="section" id="id4"&gt;
+&lt;div class="section" id="id3"&gt;
 &lt;h3&gt;ヘッダフォーマット&lt;/h3&gt;
 &lt;table border="1" class="docutils"&gt;
 &lt;colgroup&gt;
@@ -86,8 +73,8 @@
 &lt;/thead&gt;
 &lt;tbody valign="top"&gt;
 &lt;tr&gt;&lt;td&gt;32&lt;/td&gt;
-&lt;td&gt;&lt;cite&gt;'A', 'N', 'L', '\0'&lt;/cite&gt;&lt;/td&gt;
-&lt;td&gt;ANLファイルであることを示すシグネチャ&lt;/td&gt;
+&lt;td&gt;&lt;cite&gt;'N', 'A', 'R', 'U'&lt;/cite&gt;&lt;/td&gt;
+&lt;td&gt;NARUファイルであることを示すシグネチャ&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;32&lt;/td&gt;
 &lt;td&gt;フォーマットバージョン番号&lt;/td&gt;
@@ -118,12 +105,12 @@
 &lt;td&gt;現状固定の想定。&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;フィルタ次数&lt;/td&gt;
+&lt;td&gt;フィルタ次数N&lt;/td&gt;
 &lt;td&gt;2の冪定数に限定&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
 &lt;td&gt;AR(p) モデルの次数p&lt;/td&gt;
-&lt;td&gt;フィルタ次数 &amp;gt; 2*p を満たさなければならない&lt;/td&gt;
+&lt;td&gt;N &amp;gt; 2*p を満たさなければならない&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
 &lt;td&gt;チャンネル毎の処理法&lt;/td&gt;
@@ -132,7 +119,7 @@
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
+&lt;div class="section" id="id4"&gt;
 &lt;h3&gt;ブロックフォーマット&lt;/h3&gt;
 &lt;table border="1" class="docutils"&gt;
 &lt;colgroup&gt;
@@ -151,21 +138,448 @@
 &lt;td&gt;&lt;cite&gt;'0xFFFF'&lt;/cite&gt;&lt;/td&gt;
 &lt;td&gt;ブロック先頭を示す同期コード&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
+&lt;tr&gt;&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;ブロックサイズ&lt;/td&gt;
+&lt;td&gt;この領域以降のブロックのサイズ[byte]&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;CRC16&lt;/td&gt;
+&lt;td&gt;この領域以降のブロックのCRC16値&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
 &lt;td&gt;ブロックデータタイプ&lt;/td&gt;
 &lt;td&gt;0:残差、1:無音（ランレングス符号化）、2:生データ&lt;/td&gt;
 &lt;/tr&gt;
-&lt;tr&gt;&lt;td&gt;16*p*ch&lt;/td&gt;
-&lt;td&gt;AR係数&lt;/td&gt;
-&lt;td&gt;1チャンネル目のp個の係数, 2チャンネル目のp個の係数, ... と並ぶ&lt;/td&gt;
-&lt;/tr&gt;
 &lt;tr&gt;&lt;td&gt;不定&lt;/td&gt;
 &lt;td&gt;データ&lt;/td&gt;
-&lt;td&gt;残差 or 生データ&lt;/td&gt;
+&lt;td&gt;圧縮済みデータ or 生データ&lt;/td&gt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(18)</title><link href="/kodetsukuzuo-ri2021chun-18.html" rel="alternate"></link><published>2021-03-11T10:00:00+09:00</published><updated>2021-03-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-11:/kodetsukuzuo-ri2021chun-18.html</id><content type="html">&lt;p&gt;1サンプル単位で振動する信号への対処を考慮中。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;64bit化してオーバーフロー原因かしらべる-&amp;gt;コンパイルエラー多発。そして解決してない。オーバーフローせずに吹っ飛んでるっぽい。&lt;/li&gt;
+&lt;li&gt;プリエンファシスをLPCで計算した1次フィルタに置き換える: 前提がほぼ崩れるので最終手段に近い。&lt;/li&gt;
+&lt;li&gt;アサートしているのは（残差増大に伴って）Rice符号の初期パラメータが大きくなりすぎているからなので、パラメータ保存領域を大きくする&lt;ul&gt;
+&lt;li&gt;うまく行かなかった。発散してるっぽいし、この対処だと本質的な問題（発散）を隠してる気がする。&lt;/li&gt;
+&lt;li&gt;Riceパラメータのlog2ceilをとって記録することで5bitに確実に収まり、アサートは発生しなくなる…が、やっぱ残差が大きくなっている事実は変わらないわけで、どうするか考えるべき。テストケースは18とか出てるので大きいとおもふ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ブロックサンプル数を8192より大きくすると収束する&lt;ul&gt;
+&lt;li&gt;何故？AR係数がうまく求まるから？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;固定小数のビット数を14にしたら性能向上したけど、後の検証に回す。（12,13だと性能悪化）&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(17)</title><link href="/kodetsukuzuo-ri2021chun-17.html" rel="alternate"></link><published>2021-03-10T10:00:00+09:00</published><updated>2021-03-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-10:/kodetsukuzuo-ri2021chun-17.html</id><content type="html">&lt;p&gt;テストケース追加中。実装も並行して修正かけてる。&lt;/p&gt;
+&lt;p&gt;ノイズ（エントロピー大）エンコード時に残差が大きくなってライスパラメータが記録できずクラッシュしていた。このため、生データブロックを追加。&lt;/p&gt;
+&lt;p&gt;同時にブロックヘッダのフォーマットを整理。ビットストリームなしでもブロックヘッダはエンコード/デコードできるようにする。そのためブロックデータタイプを1byteにした。&lt;/p&gt;
+&lt;p&gt;1サンプル周期の振動に対して残差が発散している。。。
+デバッグ中。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;NGSAの勾配がすぐに止まってしまうのを見ている。（定常的だから当然かも知れない）。&lt;/li&gt;
+&lt;li&gt;プリエンファシスが逆効果（振幅増大）している...。オーバーフロー多発。&lt;/li&gt;
+&lt;li&gt;勾配の更新タイミングを履歴更新後にしたら若干改善したが、それでも発散している。（以前圧縮率悪化を確認していたが、あまり悪化しなかった。何故？）&lt;/li&gt;
+&lt;li&gt;係数初期値をLPCで求めるのもありか？&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(16)</title><link href="/kodetsukuzuo-ri2021chun-16.html" rel="alternate"></link><published>2021-03-09T10:00:00+09:00</published><updated>2021-03-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-09:/kodetsukuzuo-ri2021chun-16.html</id><content type="html">&lt;p&gt;テストケース追加中。&lt;/p&gt;
+&lt;p&gt;動かしていて、ブロックにサイズに準じるデータが無いことに気づく。
+AADでは固定ビットレートだからブロックサイズが固定されていたのでいらなかったが、こっち可変ビットレートだから必須のはず。&lt;/p&gt;
+&lt;p&gt;もう少し考えるとサイズのbit幅をいくつにしようか悩む。16bitでは小さい。SLAに倣うか→見たら32bitだった。まあそうか。
+ついでにCRC検査向けに16bit入れとくか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(15)</title><link href="/kodetsukuzuo-ri2021chun-15.html" rel="alternate"></link><published>2021-03-08T10:00:00+09:00</published><updated>2021-03-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-08:/kodetsukuzuo-ri2021chun-15.html</id><content type="html">&lt;p&gt;引き続き発散現象調査。&lt;/p&gt;
+&lt;p&gt;対策として、フィルタ係数のクリップ処理を入れてしまうのはどうかと考えている。&lt;/p&gt;
+&lt;p&gt;なるべく、というか厳密にフィルタの出力を変えないように係数をクリップしたいのだが、どうすればいいのか。その議論ってあんまりされてないように見えるんやがな。（FIRフィルタ係数の同値類ってなんだ？）&lt;/p&gt;
+&lt;p&gt;色々見ると、（あんまり記述無いけど）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.csee.umbc.edu/~tinoosh/cmpe691/slides/Handout.fir.scaling.pdf"&gt;FIR FILTER SCALING&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;にあるように、全係数を定数で割ると案の定ゲインが定数倍だけ小さくなる。しかし周波数特性はそのまま。&lt;/p&gt;
+&lt;p&gt;周波数特性は保たれるからええか、というノリで定数倍の方策を取る。幅は18bit（[-4,4]の範囲）とした。16, 17bitだと顕著に性能が悪い。しっかしオーバーフローが怖いかも。&lt;/p&gt;
+&lt;p&gt;テスト追加に入る。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(14)</title><link href="/kodetsukuzuo-ri2021chun-14.html" rel="alternate"></link><published>2021-03-07T10:00:00+09:00</published><updated>2021-03-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-07:/kodetsukuzuo-ri2021chun-14.html</id><content type="html">&lt;p&gt;「重ねる努力」での発散現象を観察している。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;SAのフィルタ係数が正の値に徐々に吹っ飛んでいる&lt;/li&gt;
+&lt;li&gt;ブロックの切り替わりが原因ぽい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ブロックの切り替わりで怪しい処理はなにかと見ていたら、NGSAの残差初期値がただのデータ履歴で更新されていて、勾配が不連続になっていて怪しいことが見えた。リファレンス通りに、取得した履歴を元に自然勾配の初期値を計算してみる。&lt;/p&gt;
+&lt;p&gt;すると、問題を確認したケースにおいては発散しなくなった。しかし、デバッグのためにブロックサイズを小さくして切り替わりが多く出るようにしたら再度発散。原因を追う。&lt;/p&gt;
+&lt;p&gt;調査したところ、ブロックサイズを1024サンプルにしたとき、「重ねる努力」の1041000サンプル付近で「シャーン」というエントロピーの高い振幅大音源をきっかけにフィルタ係数が発散していた。もっと見たところAR係数が0.3等の低い数値をとっていた（確認したらそれまでは0.9以上をとっていたのに、急落していた。）&lt;/p&gt;
+&lt;p&gt;対策をどうしようか。0.4未満ならリセットするとかやれば、1024では発散しないけど、ブロックサイズを512, 256にしたら発散する。。。（しかも、発散時にAR係数は0.9以上だった。）アドホックなのでやりたくないし、AR係数が本質的な原因では無いと考えている。&lt;/p&gt;
+&lt;p&gt;バグを疑って調査を続ける。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(13)</title><link href="/kodetsukuzuo-ri2021chun-13.html" rel="alternate"></link><published>2021-03-06T10:00:00+09:00</published><updated>2021-03-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-06:/kodetsukuzuo-ri2021chun-13.html</id><content type="html">&lt;p&gt;デコーダを作った。といっても枠は作ってあってプロセッサ部を埋めるだけ。
+動かしたところSAの係数を記録してなかった。追加。&lt;/p&gt;
+&lt;p&gt;処理順序を整理して、たぶんロスレスに戻っていることを確認。&lt;/p&gt;
+&lt;p&gt;テストに入っていく。大規模なテストをやる前に手元のファイルをいくつか試していると、「重ねる努力」でアサート。こいつのバグを潰したら、テスト追加に入ろう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(12)</title><link href="/kodetsukuzuo-ri2021chun-12.html" rel="alternate"></link><published>2021-03-05T10:00:00+09:00</published><updated>2021-03-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-05:/kodetsukuzuo-ri2021chun-12.html</id><content type="html">&lt;p&gt;ちょっとCmake整理した。&lt;/p&gt;
+&lt;p&gt;で、昨日の続きといく。発散している現象はフィルタ係数をダンプしてみたけど、不連続的じゃなくてゆっくりと値が大きくなっていたので、厄介かもしれない。&lt;/p&gt;
+&lt;p&gt;発散対策としてステップサイズをいじる。NGSAの係数右シフト量を4から6にしたら安定する+圧縮率上がる。設定次第でwavpack(-hh)を超える状況になる。&lt;/p&gt;
+&lt;p&gt;ステップサイズをいじってコード整理。デコーダの制作に入ろうと思う。（SAのシフト前に0.5加えたら圧縮率向上した。こういうのがこわい。なお、プリエンファシスは0.5加算は不要。定数乗算だから。）
+デコーダができてビットパーフェクトに戻るまではぬか喜びなので、気合い入れる。&lt;/p&gt;
+&lt;p&gt;デコード側だけでもin-placeな復号ができるといいなあ・・・&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(11)</title><link href="/kodetsukuzuo-ri2021chun-11.html" rel="alternate"></link><published>2021-03-04T10:00:00+09:00</published><updated>2021-03-04T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-04:/kodetsukuzuo-ri2021chun-11.html</id><content type="html">&lt;p&gt;起床ミスって日中の作業時間が、、&lt;/p&gt;
+&lt;p&gt;8bit音声に対して圧縮率が悪いのは、8bit音声を非常に低振幅(-128 - 127)のデータとして扱っているからと思われる。対策としては16bit固定小数に合わせて処理する。後でいいと思う。&lt;/p&gt;
+&lt;p&gt;振幅が高い、ボーカル付きデータとしてカレンダーガールを導入したらMS処理で16bit範囲を超えてしまった…プリエンファシス処理のバッファもシフトしないとだめ。&lt;/p&gt;
+&lt;p&gt;うーん、データ/フィルタ記録が馬鹿になってない。TTAを見習ってすべて8bit範囲に収まるように記録するのが吉か？（シフト量も記録しておく。）
+8bitはやりすぎな気もするから、12bitも検討したい。シフト量は4bitでいいだろう。→でも、SLAでみたように、量子化幅はあんまりドラスティックに効かないとおもう。一応いじれるようにして、調節はあと。と思ったら8bitで保存しても圧縮性能に影響が大きく出ないので、8bitにしてみる。&lt;/p&gt;
+&lt;p&gt;ちょっとした思いつきでSAをさらにもう一段重ねたけど不安定（圧縮率・係数発散）なのでやめておく。&lt;/p&gt;
+&lt;p&gt;実装整理。in-placeにしてみた。でもコーダーが1サンプル単位で動いとらんからバッファがいる状況。早いうちになんとかしたいかも。&lt;/p&gt;
+&lt;p&gt;2段目のフィルタをいじって遊んでたら、発散するパターンを見つけた。現在デバッグ中。落ち着いたらデコーダ作り始めたいところ。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(10)</title><link href="/kodetsukuzuo-ri2021chun-10.html" rel="alternate"></link><published>2021-03-03T10:00:00+09:00</published><updated>2021-03-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-03:/kodetsukuzuo-ri2021chun-10.html</id><summary type="html">&lt;p&gt;NNGSAとのRMS比較をやる。NNGSAが低いのなら後段でSAかませたい。
+残差の振幅分布を見ると、やっぱNGSAの方が良い。0付近へよくデータが集まる。
+RMSEもNGSAのほうが良かった。。。&lt;/p&gt;
+&lt;p&gt;うーん、変だ。確かにSLAのときも全く同様の現象を見たんだけど。
+実験ではNGSAとても悪かったはずなんだがなあ。。。&lt;/p&gt;
+&lt;p&gt;グダグダしてのんびりとしている。根本的な改善策がないか、過去のブログを見直してみる。&lt;/p&gt;
+&lt;p&gt;気になったのはTTAのエンコード部分。再帰的ライスを使っているのは知っていたが、さらに、指数移動平均によって平均を更新していることが分かった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// aiki: 1つの残差出力&lt;/span&gt;
+&lt;span class="kr"&gt;__forceinline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;tta_encoder_put_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TTA_adapt&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TTAint32&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;TTAuint32&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;outval&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 符号付き整数を符号なし整数に変換(非負数は奇, 負数は偶)&lt;/span&gt;
+      &lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ENC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+      &lt;span class="c1"&gt;// encode Rice unsigned&lt;/span&gt;
+      &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 指数移動平均式で平均を更新: sum0 &amp;lt;- (15/16) * sum0 + outval …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;NNGSAとのRMS比較をやる。NNGSAが低いのなら後段でSAかませたい。
+残差の振幅分布を見ると、やっぱNGSAの方が良い。0付近へよくデータが集まる。
+RMSEもNGSAのほうが良かった。。。&lt;/p&gt;
+&lt;p&gt;うーん、変だ。確かにSLAのときも全く同様の現象を見たんだけど。
+実験ではNGSAとても悪かったはずなんだがなあ。。。&lt;/p&gt;
+&lt;p&gt;グダグダしてのんびりとしている。根本的な改善策がないか、過去のブログを見直してみる。&lt;/p&gt;
+&lt;p&gt;気になったのはTTAのエンコード部分。再帰的ライスを使っているのは知っていたが、さらに、指数移動平均によって平均を更新していることが分かった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// aiki: 1つの残差出力&lt;/span&gt;
+&lt;span class="kr"&gt;__forceinline&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;tta_encoder_put_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TTA_adapt&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;TTAint32&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;TTAuint32&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;unary&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;outval&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 符号付き整数を符号なし整数に変換(非負数は奇, 負数は偶)&lt;/span&gt;
+      &lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ENC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+      &lt;span class="c1"&gt;// encode Rice unsigned&lt;/span&gt;
+      &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 指数移動平均式で平均を更新: sum0 &amp;lt;- (15/16) * sum0 + outval&lt;/span&gt;
+      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: shift_16[x] は 2^(4 + x) = 16 * 2^(x) を計算するテーブル.&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: k0 &amp;gt; 0 &amp;amp;&amp;amp; sum0 &amp;lt; 16 * 2^(k0) ならば k0 が大きいので減らす&lt;/span&gt;
+              &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: sum0 &amp;gt; 32 * 2^(k0) ならば k0 が小さいので増やす&lt;/span&gt;
+              &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;bit_shift&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: 出力値が 2^(k0) 以上ならば&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: 出力値を引く: outval -= 2^(k0)&lt;/span&gt;
+              &lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;bit_shift&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+              &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// aiki: 指数移動平均式で平均を更新: sum1 &amp;lt;- (15/16) * sum1 + outval&lt;/span&gt;
+              &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+              &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: k1 &amp;gt; 0 &amp;amp;&amp;amp; sum1 &amp;lt; 16 * 2^(k1) ならば k1 が大きいので減らす&lt;/span&gt;
+                      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: sum0 &amp;gt; 32 * 2^(k1) ならば k1 が小さいので増やす&lt;/span&gt;
+                      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="c1"&gt;// aiki: unaryの計算&lt;/span&gt;
+              &lt;span class="n"&gt;unary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt; &lt;span class="c1"&gt;// aiki: elseをブロックで囲った&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: 出力値が 2^(k0) より小さければ、unaryは0&lt;/span&gt;
+    &lt;span class="n"&gt;unary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: static変数の補足&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: enc_fifo_bcount: static変数。キャッシュ内のビットカウント。&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: enc_fifo_bcache: static変数。キャッシュ内のビット。&lt;/span&gt;
+
+      &lt;span class="c1"&gt;// put unary&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: unaryの連続した1を出力する&lt;/span&gt;
+      &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: キャッシュ内に1バイト以上データがあるなら1バイト未満になるまで出力&lt;/span&gt;
+              &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                      &lt;span class="n"&gt;write_byte&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+                      &lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="p"&gt;}&lt;/span&gt;
+
+              &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;unary&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: bit_mask[x]は下位x[bit]に1が立ったマスク&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: unaryが24以上ならば, 23bit分をマスクで一気に書き出す&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: 24が特別になっているのは, これに7bit以上のデータがあるとオーバーランするから&lt;/span&gt;
+                      &lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;|=&lt;/span&gt; &lt;span class="n"&gt;bit_mask&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;unary&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;23&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: マスクを使って一気に書き出す&lt;/span&gt;
+                      &lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;|=&lt;/span&gt; &lt;span class="n"&gt;bit_mask&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;unary&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;unary&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;unary&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;unary&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+      &lt;span class="c1"&gt;// put binary&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: キャッシュ内に1バイト以上データがあるなら1バイト未満になるまで出力&lt;/span&gt;
+      &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="n"&gt;write_byte&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+              &lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: Rice符号の剰余部出力: k(k0 or k1)が1以上であれば、outvalの下位k[bit]を出力&lt;/span&gt;
+              &lt;span class="n"&gt;enc_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;|=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;outval&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;bit_mask&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;enc_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="c1"&gt;// tta_encoder_put_value&lt;/span&gt;
+
+&lt;span class="c1"&gt;// aiki: 1つの残差を復号&lt;/span&gt;
+&lt;span class="kr"&gt;__forceinline&lt;/span&gt; &lt;span class="n"&gt;TTAint32&lt;/span&gt; &lt;span class="nf"&gt;tta_decoder_get_value&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TTA_adapt&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="n"&gt;TTAuint32&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="n"&gt;TTAint32&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+      &lt;span class="c1"&gt;// decode Rice unsigned&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: unary部を復号し連続した1の数をvalueに&lt;/span&gt;
+  &lt;span class="c1"&gt;// aiki: バイト単位の読み出し&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;^&lt;/span&gt; &lt;span class="n"&gt;bit_mask&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;read_byte&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mh"&gt;0xff&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                      &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;read_byte&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+              &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 残ったビット分のカウント&lt;/span&gt;
+      &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+      &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: valueが0ならlevelは0でk0, それ以上ならlevelは1でk1をつかう&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="n"&gt;level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+              &lt;span class="n"&gt;level&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;k&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: Rice符号の剰余部取得: k(k0 or k1)が1以上であれば、outvalの下位k[bit]を出力&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: キャッシュがk[bit]以上になるまでバイト単位で読み込み&lt;/span&gt;
+              &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+                      &lt;span class="n"&gt;tmp&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;read_byte&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+                      &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;|=&lt;/span&gt; &lt;span class="n"&gt;tmp&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+                      &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: Rice符号の取得値の確定。右辺のvalueはunaryと同等。&lt;/span&gt;
+              &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;bit_mask&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;]);&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: k[bit]読み込み後のキャッシュ更新&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;k&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="n"&gt;dec_fifo_bcache&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;=&lt;/span&gt; &lt;span class="n"&gt;bit_mask&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;dec_fifo_bcount&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: 指数移動平均式で平均を更新: sum1 &amp;lt;- (15/16) * sum1 + outval&lt;/span&gt;
+              &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+              &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: k1 &amp;gt; 0 &amp;amp;&amp;amp; sum1 &amp;lt; 16 * 2^(k1) ならば k1 が大きいので減らす&lt;/span&gt;
+                      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+              &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum1&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="c1"&gt;// aiki: k1 &amp;gt; 0 &amp;amp;&amp;amp; sum1 &amp;lt; 16 * 2^(k1) ならば k1 が大きいので減らす&lt;/span&gt;
+                      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k1&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: 出力値を足す: outval += 2^(k0)&lt;/span&gt;
+              &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;bit_shift&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+      &lt;span class="p"&gt;}&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 指数移動平均式で平均を更新: sum0 &amp;lt;- (15/16) * sum0 + outval&lt;/span&gt;
+      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: k0 &amp;gt; 0 &amp;amp;&amp;amp; sum0 &amp;lt; 16 * 2^(k0) ならば k0 が大きいので減らす&lt;/span&gt;
+              &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;sum0&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;shift_16&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="c1"&gt;// aiki: sum0 &amp;gt; 32 * 2^(k0) ならば k0 が小さいので増やす&lt;/span&gt;
+      &lt;span class="n"&gt;rice&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;k0&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+  &lt;span class="c1"&gt;// aiki: 符号なし整数を符号付き整数に変換&lt;/span&gt;
+      &lt;span class="n"&gt;value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;DEC&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+      &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="c1"&gt;// tta_decoder_get_value&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;ビット出力がよく洗練されている... static変数にしているのはむしろ扱いやすくしているのかもしれない。やっぱ俺はまだまだだ...&lt;/p&gt;
+&lt;p&gt;単独のフィルタでは伸び悩みを感じてきたので、奥の手たるカスケードを召喚した。組み合わせとしてはNGSA-&amp;gt;SA, SA-&amp;gt;NGSA, NGSA-&amp;gt;NGSA, SA-&amp;gt;SAがあったが、NGSA-&amp;gt;SAが最もよく、フィルタ次数とブロックサイズ設定よってはwavpack(-hh)を超える結果を出したので、採用する。&lt;/p&gt;
+&lt;p&gt;良くなる理由は、カスケード接続が一般によい手段であることが指摘されている他、NGSAで相関除去が強く動くからではないかと想像している。&lt;/p&gt;
+&lt;p&gt;コード整理。NNGSAを廃止。1サンプル単位で予測できるように実装する。 &lt;cite&gt;static&lt;/cite&gt; 関数とするのでインライン展開が効くはず。整理していたらすべてin-placeでやりきれそうに見えた。やってしまっていいか、寝てからやってしまおう。&lt;/p&gt;
+&lt;p&gt;AR係数次数0にするとSAになるわけだが、性能が良かったりする。。。。。もう少し検証必須。
+また、SAは次数小さくしたほうが良い結果が出る。4とか、NGSAの半分とか。&lt;/p&gt;
+&lt;p&gt;係数の観察もしたい。丸めの影響も見たいところ。&lt;/p&gt;
+&lt;p&gt;TODO:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;全部in-placeにしてバッファ1つでやりきるように整理&lt;/li&gt;
+&lt;li&gt;SAのフィルタ次数策定&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(9)</title><link href="/kodetsukuzuo-ri2021chun-9.html" rel="alternate"></link><published>2021-03-02T10:00:00+09:00</published><updated>2021-03-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-02:/kodetsukuzuo-ri2021chun-9.html</id><content type="html">&lt;p&gt;NNGSAは一旦置く。NGSAで勝負をしかけていく。&lt;/p&gt;
+&lt;p&gt;ステップサイズの調節を入れてみたが、上がったり下がったり。もっとよく見る必要がある。→ステップサイズに掛ける固定小数の精度を11bitにしたら、総じて良くなったので採用の方向で検討。&lt;/p&gt;
+&lt;p&gt;残差を見たら-2.0, 2.0に近い値をとっており危ないことに気づく。観察した所入力信号に不連続点が入っていた。おそらく、プリエンファシスのときにブロック先頭で毎回0入れてしまっているのが原因。→そのとおりだった。修正の結果範囲は-0.5-0.5以内に収まっている。圧縮率も向上。&lt;/p&gt;
+&lt;p&gt;flacは倒せて、ttaはブロックサイズとフィルタ次数の設定次第で上回る結果。（総じて、ブロックサイズとフィルタ次数を大きく取ると良い。）
+しかしwavpack(-hh)が強い。もう一段フィルタぶち込むか…まだ時期尚早か？&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(8)</title><link href="/kodetsukuzuo-ri2021chun-8.html" rel="alternate"></link><published>2021-03-01T10:00:00+09:00</published><updated>2021-03-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-01:/kodetsukuzuo-ri2021chun-8.html</id><summary type="html">&lt;p&gt;NNGSAをうまく動かしたい。キモは整数除算。&lt;/p&gt;
+&lt;p&gt;と思っていたら正規化定数が負になっているのを見て、異常だと思った。アルゴリズムのミスからPython実装まで疑ったが問題なかった。&lt;/p&gt;
+&lt;p&gt;そこでC言語実装版を見たら誤差が蓄積していた。固定小数演算による誤差蓄積。&lt;/p&gt;
+&lt;p&gt;対策としては、ブロック計算開始時に真の値にセットし直すこと。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.sage-p.com/compone/toda/fixdec.htm"&gt;固定小数&lt;/a&gt; いつもお世話になってる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://midarekazu.g2.xrea.com/math-library.html"&gt;固定小数点数の算術関数ライブラリ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://hp200lx.cocolog-nifty.com/blog/2014/11/memo-a1c8.html"&gt;■固定小数点数の除算&lt;/a&gt; 補正によって32bitのまま精度を良くする方法が載っている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.emit.jp/prog/prog_div.html"&gt;整数除算の高速化&lt;/a&gt; これ、どこかで効いてくるはず。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;また、除算の誤差もなんとか収まって発散は収まったように見える、が、圧縮率が悪い。&lt;/p&gt;
+&lt;p&gt;短めの音声で見てみると、先頭10000サンプルぐらいの残差が大きいことが見えてきていた。正規化定数の最小値を大きく取りすぎていたので小さくするなどの対処で若干改善したが、まだLMS(AR(1))に及ばず。&lt;/p&gt;
+&lt;p&gt;超えないことを真面目に追うべきなのだが、その後色々と弄っていた。すると、（やはりというか…）NGSA（正規化なしの残差の符号を取るだけ）にしたら圧縮性能が向上。。。。しかも、プリエンファシスと組み合わせてさらに圧縮性能向上。。。FLAC(-8)を超えた。SLAでやった残差のlog2を取るのは良くなかった。&lt;/p&gt;
+&lt;p&gt;フィルタを2段重ねることでttaも超えた。が、wavpack(-hh)は超えない。でも2段重ねは最終手段にしたい。ギリギリまでフィルタ次数8で戦い続ける。（8にするのはAR(2 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;NNGSAをうまく動かしたい。キモは整数除算。&lt;/p&gt;
+&lt;p&gt;と思っていたら正規化定数が負になっているのを見て、異常だと思った。アルゴリズムのミスからPython実装まで疑ったが問題なかった。&lt;/p&gt;
+&lt;p&gt;そこでC言語実装版を見たら誤差が蓄積していた。固定小数演算による誤差蓄積。&lt;/p&gt;
+&lt;p&gt;対策としては、ブロック計算開始時に真の値にセットし直すこと。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.sage-p.com/compone/toda/fixdec.htm"&gt;固定小数&lt;/a&gt; いつもお世話になってる。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://midarekazu.g2.xrea.com/math-library.html"&gt;固定小数点数の算術関数ライブラリ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://hp200lx.cocolog-nifty.com/blog/2014/11/memo-a1c8.html"&gt;■固定小数点数の除算&lt;/a&gt; 補正によって32bitのまま精度を良くする方法が載っている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.emit.jp/prog/prog_div.html"&gt;整数除算の高速化&lt;/a&gt; これ、どこかで効いてくるはず。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;また、除算の誤差もなんとか収まって発散は収まったように見える、が、圧縮率が悪い。&lt;/p&gt;
+&lt;p&gt;短めの音声で見てみると、先頭10000サンプルぐらいの残差が大きいことが見えてきていた。正規化定数の最小値を大きく取りすぎていたので小さくするなどの対処で若干改善したが、まだLMS(AR(1))に及ばず。&lt;/p&gt;
+&lt;p&gt;超えないことを真面目に追うべきなのだが、その後色々と弄っていた。すると、（やはりというか…）NGSA（正規化なしの残差の符号を取るだけ）にしたら圧縮性能が向上。。。。しかも、プリエンファシスと組み合わせてさらに圧縮性能向上。。。FLAC(-8)を超えた。SLAでやった残差のlog2を取るのは良くなかった。&lt;/p&gt;
+&lt;p&gt;フィルタを2段重ねることでttaも超えた。が、wavpack(-hh)は超えない。でも2段重ねは最終手段にしたい。ギリギリまでフィルタ次数8で戦い続ける。（8にするのはAR(2)まで試すことができるから。4は高速モード、16は高圧縮モードにしたい。）&lt;/p&gt;
+&lt;p&gt;NGSAで行くとして考えたいのはステップサイズ。分散（とAR係数から決まる係数）を掛けたほうがよいはず。自然勾配法の定義から、AR(1)の場合は &lt;span class="math"&gt;\(1/(1 - \psi_{1}^{2})\)&lt;/span&gt; を掛けてやれば良いことが見えている。
+また、デコーダを作る前準備として、ブロックヘッダの仕様を策定したい。&lt;/p&gt;
+&lt;p&gt;（一瞬怖くなって普通のsignアルゴリズムにしてみたら、NGSAのほうが良いのが確認できた。でも圧縮率の差は1%未満。。。）&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(6)</title><link href="/kodetsukuzuo-ri2021chun-6.html" rel="alternate"></link><published>2021-02-28T10:00:00+09:00</published><updated>2021-02-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-28:/kodetsukuzuo-ri2021chun-6.html</id><content type="html">&lt;p&gt;ナイーブな全体エンコード・デコードはできている。
+また、LMS/Newton AR(1)もまあできたかなというところ。flac, wavpackと同程度に見える。ステップサイズ依存で結構性能が揺らぐ。&lt;/p&gt;
+&lt;p&gt;AR(2)ではステップサイズを小さく取らないと厳しい。
+また、プリエンファシスをかけると結構性能が落ちているように見える。もう少し詳しく見ていく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;AR(1)でプリエンファシスをかけると性能悪化。勾配でプリエンファシスみたいなことしてるからそりゃそうか？&lt;/li&gt;
+&lt;li&gt;AR(2)は良くなった。（けどAR(1)と同じくらいの性能。）直流を削ることで解析精度が良くなっている？&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(7)</title><link href="/kodetsukuzuo-ri2021chun-7.html" rel="alternate"></link><published>2021-02-28T10:00:00+09:00</published><updated>2021-02-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-28:/kodetsukuzuo-ri2021chun-7.html</id><content type="html">&lt;p&gt;プリエンファシスを掛けるとよくない。
+これは確かにAR(1)のアルゴリズム的にもうなずける。&lt;/p&gt;
+&lt;p&gt;今日はNNGSAをためしてみる。が、良くない。
+除算時の左シフトを入れるととても悪い。むしろ乗算と同じ、15bit右シフトを入れるとそれなりに安定してくる…&lt;/p&gt;
+&lt;p&gt;いま一番良いのがLMS/Newton AR(1)でステップサイズ設定無しの組み合わせ。
+しかしflacにすら及んでいない…&lt;/p&gt;
+&lt;p&gt;NNGSAがうまくいかん、というところで終わりそう。除算が鬼門で、すぐにオーバーフローしてしまう。。。
+オーバーフローの他に、正規化定数が小さくなりすぎて係数値が吹っ飛ぶ現象も確認。
+整数除算についてデバッグと調査を続ける。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(5)</title><link href="/kodetsukuzuo-ri2021chun-5.html" rel="alternate"></link><published>2021-02-25T10:00:00+09:00</published><updated>2021-02-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-25:/kodetsukuzuo-ri2021chun-5.html</id><content type="html">&lt;p&gt;今日は少なくともヘッダエンコード・デコード、ハンドル作成までいっておきたい。
+その先は一括エンコード、デコード関数を追加して動作確認フェイズに入りたい。そこでテストを固めてしまうと動きが鈍くなりそうなので、一括エンコード、一括デコード追加中はテスト追加一旦停止で。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(4)</title><link href="/kodetsukuzuo-ri2021chun-4.html" rel="alternate"></link><published>2021-02-24T10:00:00+09:00</published><updated>2021-02-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-24:/kodetsukuzuo-ri2021chun-4.html</id><content type="html">&lt;p&gt;ディレクトリ構成を固めてみた。
+内部依存がある場合がどうなるかわからん。今日コーダーモジュールを持ってくるので、そこで何かわかるはず。&lt;/p&gt;
+&lt;p&gt;→構成をかえたり、ファイル命名規則を統一したりしていたら1日ほぼ終わった。一応コーディングモジュールは持ってきた。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(3)</title><link href="/kodetsukuzuo-ri2021chun-3.html" rel="alternate"></link><published>2021-02-23T10:00:00+09:00</published><updated>2021-02-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-23:/kodetsukuzuo-ri2021chun-3.html</id><content type="html">&lt;p&gt;cmake+gtestのディレクトリ構成を迷っている。。。&lt;/p&gt;
+&lt;p&gt;現在各モジュールごとにtestを作っているが、もしかしたら細かくやりすぎ？
+SLAのときでもsrc以下にすべてを入れていたので、それでいいはず。そちらにしよう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;トップレベルにCMakeLists.txtを置く。そこでテストの分岐をこなす。&lt;/li&gt;
+&lt;li&gt;src以下に全ソース&lt;/li&gt;
+&lt;li&gt;include以下に公開ヘッダ&lt;/li&gt;
+&lt;li&gt;test以下にテストソース&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/januswel/ctest-gtest"&gt;サンプル&lt;/a&gt; をよく見ましょう。。。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(2)</title><link href="/kodetsukuzuo-ri2021chun-2.html" rel="alternate"></link><published>2021-02-22T10:00:00+09:00</published><updated>2021-02-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-22:/kodetsukuzuo-ri2021chun-2.html</id><content type="html">&lt;p&gt;テスト環境整備中。&lt;/p&gt;
+&lt;p&gt;gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ &lt;cite&gt;&amp;lt;limits&amp;gt;&lt;/cite&gt; なんて無い、と言われた）。
+でも無理やりビルドするためにcmakeの CXX で新しくプロジェクトを作った。
+かなり強引にやった。型を中心に色々警告でてるし、C89との差異で苦しむかもしれない。&lt;/p&gt;
+&lt;p&gt;さて、フォーマットを決めよう。フォーマットが決まればあとはそのとおり実装していくだけのはずだ。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;基本設計方針&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;AR(p) Natural Gradientの実装。&lt;/li&gt;
+&lt;li&gt;符号はSLAの再帰的ライスを使用する。SLAの実装はそのままでシンボルを変えてポーティングする。&lt;/li&gt;
+&lt;li&gt;目標はTTA, Wavpackの圧縮率を超えること。（超えたら対外発表可能とする）&lt;/li&gt;
+&lt;li&gt;圧縮性能を試すだけなので、SIMDやアセンブリレベルの過度な高速化はしない。&lt;/li&gt;
+&lt;li&gt;無音時のランレングス符号化はあり。&lt;ul&gt;
+&lt;li&gt;ひとまずは残差のみで実装していく。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;データの正常性検査はほとんど入れない。（ブロックのシグネチャはあり。CRCはやらない。）&lt;/li&gt;
+&lt;li&gt;ひとまずは16bitwavの対応で良い。&lt;ul&gt;
+&lt;li&gt;やろうと思えばできるが、複雑化のコストが大。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/div&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(1)</title><link href="/kodetsukuzuo-ri2021chun-1.html" rel="alternate"></link><published>2021-02-19T10:00:00+09:00</published><updated>2021-02-19T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-02-19:/kodetsukuzuo-ri2021chun-1.html</id><content type="html">&lt;p&gt;さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。
 テストもctestを使おうと思っており、その導入検討を行う。&lt;/p&gt;

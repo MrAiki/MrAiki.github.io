@@ -85,219 +85,173 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/r-1-noji-suan-32.html"><span class="math">\(R^{-1}\)</span> の計算(32)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>追加調査。今日まで見てみてなさそうであれば追加実験に入る。実信号のパフォーマンスが気になっている。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://web.stanford.edu/class/stats253/lectures/lect6.pdf">Autoregressive Processes in Time</a> 前にもみたけどもう一度挙げる。本質的な指摘はここでされている。論文があってもおかしくない。<ul>
-<li>自己共分散行列の逆の解釈もされているから、目を通すべきか。</li>
-</ul>
-</li>
-<li><a class="reference external" href="http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;rep=rep1&amp;type=pdf">Simplified Newton-Type Adaptive Estimation Algorithms</a> これもほぼ同じことを言ってる。少なくとも入力データをAR(p)と見做すという仮定は全く同一。精読がいる。通しで軽く読んでみた。うーん、再帰的に <span class="math">\(R^{-1}\)</span> に該当する行列を求めているようで、効率が良さそう。<ul>
-<li><a class="reference external" href="http://www.ssp.ece.upatras.gr/moustakides/downloads/journals/ada1991.pdf">Fast Newton …</a></li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-32.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-31.html"><span class="math">\(R^{-1}\)</span> の計算(31)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<ul class="simple">
-<li><a class="reference external" href="http://www.cs.cmu.edu/~andrewgw/andrewgwthesis.pdf">Covariance Kernels for Fast Automatic Pattern Discovery and Extrapolation with Gaussian Processes</a> これの61p.あたり。</li>
-<li><a class="reference external" href="https://mloss.org/revision/view/1639/">Toeblitz Toolkit for Fast Toeplitz Matrix Operations 1.03</a> Toeplitz行列をFFTで解くやつのライブラリ</li>
-</ul>
-<p>ミソは、 <span class="math">\(R^{-1}\)</span> そのものではなく、 <span class="math">\(R^{-1}x …</span></p>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-31.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-30.html"><span class="math">\(R^{-1}\)</span> の計算(30)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>まずはCGについての質問を投げておく。
-KWBT先生にメール出す前にCGの状況を要約してみよう。</p>
-<ul>
-<li><p class="first"><a class="reference external" href="http://www.cs.cmu.edu/~pradeepr/convexopt/Lecture_Slides/conjugate_direction_methods.pdf">Conjugate Gradient Descent</a> 後ろの方で 、普通の共役勾配方でもモーメンタムがかかっていることを言っている。</p>
-</li>
-<li><p class="first"><a class="reference external" href="https://users.ece.cmu.edu/~xinli/classes/cmu_18660/Lec23.pdf">18-660: Numerical Methods for Engineering Design and Optimization</a> pre-conditioning（前処理）で共役勾配の性能を維持する方法を紹介。前処理はコレスキー分解に基づいている。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://stanford.edu/class/ee364b/lectures/conj_grad_slides.pdf">Conjugate Gradient Method</a> こっちは理論的にもかなり有益そう。もうちょっと見よう。</li>
-<li><a class="reference external" href="http://www.slis.tsukuba.ac.jp/~fujisawa.makoto.fu/cgi-bin/wiki/index.php?%CF%A2%CE%A91%BC%A1%CA%FD%C4%F8%BC%B0%A1%A7%B6%A6%CC%F2%B8%FB%C7%DB%CB%A1#da9ac0ee">連立1次方程式：共役勾配法</a> 日本語で言ったもの。一般に条件数が悪いと収束特性は悪化する。</li>
-<li><a class="reference external" href="https://www.uio.no/studier/emner/matnat/ifi/nedlagte-emner/INF-MAT4350/h08/undervisningsmateriale/chap15slides.pdf">The Conjugate Gradient …</a></li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-30.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-29.html"><span class="math">\(R^{-1}\)</span> の計算(29)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>うーん、一週間抜けてしまった。木は講義+事務、金土日はマジミラ、月は講義+事務、火はゼミ+レポ、水曜日はレポ。
-こう書くと言い訳がましい。年末は研究にしたい。。実家にも帰れないし。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
+                <h2><a href="/kodetsukuzuo-ri2021chun-9.html">コーデック作り2021春(9)</a></h2>
+                <div class="summary"><p>NNGSAは一旦置く。NGSAで勝負をしかけていく。</p>
+<p>ステップサイズの調節を入れてみたが、上がったり下がったり。もっとよく見る必要がある。→ステップサイズに掛ける固定小数の精度を11bitにしたら、総じて良くなったので採用の方向で検討。</p>
+<p>残差を見たら-2.0, 2.0に近い値をとっており危ないことに気づく。観察した所入力信号に不連続点が入っていた。おそらく、プリエンファシスのときにブロック先頭で毎回0入れてしまっているのが原因。→そのとおりだった。修正の結果範囲は-0.5-0.5以内に収まっている。圧縮率も向上。</p>
+<p>flacは倒せて、ttaはブロックサイズとフィルタ次数の設定次第で上回る結果。（総じて、ブロックサイズとフィルタ次数を大きく取ると良い。）
+しかしwavpack(-hh)が強い。もう一段フィルタぶち込むか…まだ時期尚早か？</p>
 
-    if (false) {
-        align = (screen.width < 768) ? "left …</script>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-29.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-9.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/r-1-noji-suan-28.html"><span class="math">\(R^{-1}\)</span> の計算(28)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>貰ったコメント</p>
+                <h2><a href="/kodetsukuzuo-ri2021chun-8.html">コーデック作り2021春(8)</a></h2>
+                <div class="summary"><p>NNGSAをうまく動かしたい。キモは整数除算。</p>
+<p>と思っていたら正規化定数が負になっているのを見て、異常だと思った。アルゴリズムのミスからPython実装まで疑ったが問題なかった。</p>
+<p>そこでC言語実装版を見たら誤差が蓄積していた。固定小数演算による誤差蓄積。</p>
+<p>対策としては、ブロック計算開始時に真の値にセットし直すこと。</p>
 <ul class="simple">
-<li>CGがうまく行かないのはKWBT先生に相談すべき。<ul>
-<li>なるはや。状況をまとめてメールを送る。</li>
+<li><a class="reference external" href="http://www.sage-p.com/compone/toda/fixdec.htm">固定小数</a> いつもお世話になってる。</li>
+<li><a class="reference external" href="http://midarekazu.g2.xrea.com/math-library.html">固定小数点数の算術関数ライブラリ</a></li>
+<li><a class="reference external" href="http://hp200lx.cocolog-nifty.com/blog/2014/11/memo-a1c8.html">■固定小数点数の除算</a> 補正によって32bitのまま精度を良くする方法が載っている。</li>
+<li><a class="reference external" href="http://www.emit.jp/prog/prog_div.html">整数除算の高速化</a> これ、どこかで効いてくるはず。</li>
+</ul>
+<p>また、除算の誤差もなんとか収まって発散は収まったように見える、が、圧縮率が悪い。</p>
+<p>短めの音声で見てみると、先頭10000サンプルぐらいの残差が大きいことが見えてきていた。正規化定数の最小値を大きく取りすぎていたので小さくするなどの対処で若干改善したが、まだLMS(AR(1))に及ばず。</p>
+<p>超えないことを真面目に追うべきなのだが、その後色々と弄っていた。すると、（やはりというか…）NGSA（正規化なしの残差の符号を取るだけ）にしたら圧縮性能が向上。。。。しかも、プリエンファシスと組み合わせてさらに圧縮性能向上。。。FLAC(-8)を超えた。SLAでやった残差のlog2を取るのは良くなかった。</p>
+<p>フィルタを2段重ねることでttaも超えた。が、wavpack(-hh)は超えない。でも2段重ねは最終手段にしたい。ギリギリまでフィルタ次数8で戦い続ける。（8にするのはAR(2 …</p>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-8.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-6.html">コーデック作り2021春(6)</a></h2>
+                <div class="summary"><p>ナイーブな全体エンコード・デコードはできている。
+また、LMS/Newton AR(1)もまあできたかなというところ。flac, wavpackと同程度に見える。ステップサイズ依存で結構性能が揺らぐ。</p>
+<p>AR(2)ではステップサイズを小さく取らないと厳しい。
+また、プリエンファシスをかけると結構性能が落ちているように見える。もう少し詳しく見ていく。</p>
+<ul class="simple">
+<li>AR(1)でプリエンファシスをかけると性能悪化。勾配でプリエンファシスみたいなことしてるからそりゃそうか？</li>
+<li>AR(2)は良くなった。（けどAR(1)と同じくらいの性能。）直流を削ることで解析精度が良くなっている？</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-7.html">コーデック作り2021春(7)</a></h2>
+                <div class="summary"><p>プリエンファシスを掛けるとよくない。
+これは確かにAR(1)のアルゴリズム的にもうなずける。</p>
+<p>今日はNNGSAをためしてみる。が、良くない。
+除算時の左シフトを入れるととても悪い。むしろ乗算と同じ、15bit右シフトを入れるとそれなりに安定してくる…</p>
+<p>いま一番良いのがLMS/Newton AR(1)でステップサイズ設定無しの組み合わせ。
+しかしflacにすら及んでいない…</p>
+<p>NNGSAがうまくいかん、というところで終わりそう。除算が鬼門で、すぐにオーバーフローしてしまう。。。
+オーバーフローの他に、正規化定数が小さくなりすぎて係数値が吹っ飛ぶ現象も確認。
+整数除算についてデバッグと調査を続ける。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-7.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-5.html">コーデック作り2021春(5)</a></h2>
+                <div class="summary"><p>今日は少なくともヘッダエンコード・デコード、ハンドル作成までいっておきたい。
+その先は一括エンコード、デコード関数を追加して動作確認フェイズに入りたい。そこでテストを固めてしまうと動きが鈍くなりそうなので、一括エンコード、一括デコード追加中はテスト追加一旦停止で。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-4.html">コーデック作り2021春(4)</a></h2>
+                <div class="summary"><p>ディレクトリ構成を固めてみた。
+内部依存がある場合がどうなるかわからん。今日コーダーモジュールを持ってくるので、そこで何かわかるはず。</p>
+<p>→構成をかえたり、ファイル命名規則を統一したりしていたら1日ほぼ終わった。一応コーディングモジュールは持ってきた。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-3.html">コーデック作り2021春(3)</a></h2>
+                <div class="summary"><p>cmake+gtestのディレクトリ構成を迷っている。。。</p>
+<p>現在各モジュールごとにtestを作っているが、もしかしたら細かくやりすぎ？
+SLAのときでもsrc以下にすべてを入れていたので、それでいいはず。そちらにしよう。</p>
+<ul class="simple">
+<li>トップレベルにCMakeLists.txtを置く。そこでテストの分岐をこなす。</li>
+<li>src以下に全ソース</li>
+<li>include以下に公開ヘッダ</li>
+<li>test以下にテストソース</li>
+</ul>
+<p><a class="reference external" href="https://github.com/januswel/ctest-gtest">サンプル</a> をよく見ましょう。。。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-2.html">コーデック作り2021春(2)</a></h2>
+                <div class="summary"><p>テスト環境整備中。</p>
+<p>gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ <cite>&lt;limits&gt;</cite> なんて無い、と言われた）。
+でも無理やりビルドするためにcmakeの CXX で新しくプロジェクトを作った。
+かなり強引にやった。型を中心に色々警告でてるし、C89との差異で苦しむかもしれない。</p>
+<p>さて、フォーマットを決めよう。フォーマットが決まればあとはそのとおり実装していくだけのはずだ。</p>
+<div class="section" id="id2">
+<h2>基本設計方針</h2>
+<ul class="simple">
+<li>AR(p) Natural Gradientの実装。</li>
+<li>符号はSLAの再帰的ライスを使用する。SLAの実装はそのままでシンボルを変えてポーティングする。</li>
+<li>目標はTTA, Wavpackの圧縮率を超えること。（超えたら対外発表可能とする）</li>
+<li>圧縮性能を試すだけなので、SIMDやアセンブリレベルの過度な高速化はしない。</li>
+<li>無音時のランレングス符号化はあり。<ul>
+<li>ひとまずは残差のみで実装していく。</li>
 </ul>
 </li>
-<li>AR(p)がうまく行かないのは、AR以上のダイナミクスがデータにあるからでは？（AR(p)では表現できてない）<ul>
-<li>AR(p)は <span class="math">\(\varepsilon[n]\)</span> がi.i.d.として定式化されるが、そうなってない。</li>
-<li>ARモデルに合った（AR過程に従って生成した）データに対して実験すべきでは？<ul>
-<li>都合の良いデータに対して実験してよし。モデルは都合よくていい。そこから話を作っていい。</li>
-</ul>
-</li>
-<li>モデルの方をリッチにする。ARMAとか、雑音に相関がある場合を組み込んでしまう。</li>
-<li>そもそも …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-28.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-27.html"><span class="math">\(R^{-1}\)</span> の計算(27)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>AR(1), AR(2), 共役勾配は「低次ならうまくいく」という主張が本当か確かめたい。</p>
-<ul class="simple">
-<li>全く逆の結果が出てきている。AR(p), 高次にしたときに強いように見える。<ul>
-<li>128, 256, 512にすると収束速度がNGSAを上回る。。。。（定常誤差は悪い。注意。）<ul>
-<li>512にすると計算量がはんぱない。。その場合AR(p)はSAよりも僅かに良い程度。</li>
-<li>256以上の高次環境下では、NGSA(Sharman-Morrison)はSAよりも収束特性が悪くなっている。</li>
-</ul>
-</li>
-<li>スパース制約（相関は低次までしかないという仮定）が効いている？</li>
-<li>高次でも、i.i.d …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-27.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-26.html"><span class="math">\(R^{-1}\)</span> の計算(26)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>木曜日が潰れているのあんまり良くない。平日あまり進捗が出ていないのは健全とは言えない。総受けでやりすぎている可能性を疑い、タスクを減らすべきかと感じている。</p>
-<p>今日は共役勾配法ベース手法の性能観察を行う。
-土曜日までに各手法の状態をまとめて、来週月・火は報告内容をまとめていくことに集中する。</p>
-<p>基本的なところでは12/8に書いた内容と同じ。</p>
-<ul class="simple">
-<li>i.i.d.でSharman-Morrison式とほぼ同等の性能（少し悪い）</li>
-<li>相関付き雑音でi.i.dと同じステップサイズ・忘却係数に設定していると爆裂に性能が悪くなる。（1000サンプル以内で全く定常状態に入らない）<ul>
-<li>ステップサイズを大きくとってもあまり良くならない。大きくとると開始直後悪化。</li>
-<li>忘却係数を小さく取ると収束はするが定常誤差大。</li>
-<li>eta（共役勾配法の線形結合係数に乗じるパラメータ）を1.0未満にすると収束性能悪化。</li>
-<li>共役勾配法の他手法も試してみるか。<ul>
-<li>Polak-Ribi`ere(PR …</li></ul></li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-26.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-25.html"><span class="math">\(R^{-1}\)</span> の計算(25)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>共役勾配法を動くようにした。。。修正内容は、</p>
-<ul class="simple">
-<li><strong>係数更新が先、共役勾配の更新を後</strong><ul>
-<li>論文の順序に合わせた結果。しかしなぜうまく行ったのか分かっていない。</li>
-<li>金谷先生の本では係数更新が後、これではうまく行かない（発散する）。</li>
-</ul>
-</li>
-<li>Sharman-Morrison式で <span class="math">\(\ve{R}\)</span> を更新<ul>
-<li>これは観察からこっちが正しいことが見えている。</li>
+<li>データの正常性検査はほとんど入れない。（ブロックのシグネチャはあり。CRCはやらない。）</li>
+<li>ひとまずは16bitwavの対応で良い。<ul>
+<li>やろうと思えばできるが、複雑化のコストが大。</li>
 </ul>
 </li>
 </ul>
-<p>性能としては、i.i.d.でSharman-Morrison式とほぼ同等、相関付き雑音でSAと性能が近くなっているように見える。要観察。</p>
-<p>AR(1), AR(2)モデル仮定での <span class="math">\(\ve{R}^{-1}\)</span> を使う手法は、結局あんまりよくないという所で落ち着きそう …</p>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-25.html">more ...</a>
+</div>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-2.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/r-1-noji-suan-24.html"><span class="math">\(R^{-1}\)</span> の計算(24)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>(23)の所でずっと詰まっていた。イベントを通り抜ける。その最中、そういえば共分散行列を忘却係数付きで更新し、その逆行列を求めたときどうなるかを確かめていないことを思い出した。</p>
-<p>すると、共分散行列の更新則の違いで差が出ていることが分かった。忘却係数を <span class="math">\(\lambda\)</span> とすると、</p>
-<div class="math">
-\begin{align*}
-\ve{R}[n+1] &amp;\leftarrow \lambda \ve{R}[n] + (1 - \lambda) \ve{x}[n] \ve{x}[n]^{\mathsf …</div>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-24.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-23.html"><span class="math">\(R^{-1}\)</span> の計算(23)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>glassoが自己相関行列を指数移動平均で更新したら、NGSAとほぼ同等の性能を出していたので、その観察から、
-モーメンタムを込めながらAR(1)仮定の高速計算ができないか、で今考え中。</p>
-<ol class="arabic">
-<li><p class="first">摂動展開</p>
+                <h2><a href="/kodetsukuzuo-ri2021chun-1.html">コーデック作り2021春(1)</a></h2>
+                <div class="summary"><p>さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。
+テストもctestを使おうと思っており、その導入検討を行う。</p>
+<p>まず、ctestのほかにgoogleが出しているgtestというのがある。これもcmakeとの親和性が良いらしい。
+今回はctestで試してみる...と思ったらgtestがいいかも。できないことはないはずなのでやってみよう。</p>
 <ul class="simple">
-<li>詰まってる。</li>
+<li><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest">Testing With CTest</a> ピンと来ないのでKitware公式情報を見る。<ul>
+<li>うーん？どうもCtestは <cite>enable_testing()</cite> によってテスト用のディレクトリを生成するのを有効化しているだけ？</li>
+<li><cite>add_test</cite> でテスト追加。 <cite>make test</cite> でテスト実行。</li>
+<li>多分、プログラム実行時の返り値だけをみているっぽい。アサーションマクロとかはサポートしていない？？</li>
+<li>それだと gtest が良いということになる。</li>
 </ul>
-<div class="math">
+</li>
+<li><a class="reference external" href="https://qiita.com/janus_wel/items/4e6c12f9104f501104c7">C++ のユニットテストをいい感じにする</a> がいいかも...と思ったらgtest使ってる。うーん。<ul>
+<li><cite>ExternalProject</cite> でCMakeの機能でgtestを導入することができる。これで可搬性が担保できそう。</li>
+<li><a class="reference external" href="https://github.com/januswel/ctest-gtest">GitHubはこちら</a> 構成はmain除きこれに前ならえでよいはずだ。</li>
+</ul>
+</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/mathrmarp-heyi-ban-hua-6.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(6)</a></h2>
+                <div class="summary"><div class="math">
 \begin{equation*}
-(\lambda \ve{R} + \ve{M})^{-1} \approx \lambda^{-1}\ve{R}^{-1} - \lambda^{-2} \ve{R}^{-1}\ve{M}\ve …</div></li></ol>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-23.html">more ...</a>
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+</div>
+<p>論文出したけど、自己共分散と自己相関でまだ混乱してる。
+実装時には嘘つけないので整理しないといけない。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://bookdown.org/gary_a_napier/time_series_lecture_notes/ChapterThree.html">Chapter 3 Autoregressive processes</a> 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。<ul>
+<li>AR(1)なら <span class="math">\(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\)</span> が分散になる。以下、システムノイズを標準正規分布 <span class="math">\(N(0,1)\)</span> とする …</li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-6.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -331,6 +285,10 @@ KWBT先生にメール出す前にCGの状況を要約してみよう。</p>
                             href="/category/za-ji12.html">12</a></li>
                     <li class=""><a
                             href="/category/za-ji13.html">13</a></li>
+                    <li class=""><a
+                            href="/category/za-ji14.html">14</a></li>
+                    <li class=""><a
+                            href="/category/za-ji15.html">15</a></li>
                 <li class="next"><a
                         href="/category/za-ji3.html">&raquo;</a></li>
         </ul>
@@ -355,7 +313,16 @@ KWBT先生にメール出す前にCGの状況を要約してみよう。</p>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
@@ -364,61 +331,64 @@ KWBT先生にメール出す前にCGの状況を要約してみよう。</p>
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
@@ -426,62 +396,44 @@ KWBT先生にメール出す前にCGの状況を要約してみよう。</p>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/glasso.html">GLASSO</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
@@ -490,28 +442,34 @@ KWBT先生にメール出す前にCGの状況を要約してみよう。</p>
       <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+      <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
   </ul>
 </li>
