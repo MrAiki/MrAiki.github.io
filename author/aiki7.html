@@ -83,6 +83,60 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/r-1-noji-suan-9.html"><span class="math">\(R^{-1}\)</span> の計算(9)</a></h2>
+                <div class="summary"><p>講義受けてて思ったこと。Cramer-RaoをNGSAの学習能力の評価に使えないか？
+パット見使えなそう。うーむ。右辺というかFisher情報行列の逆は見えてるんだけど、比較対象の左辺が具体的に構成できない。（思い浮かばない）</p>
+<p>共役勾配法を入れて色々試してみてるけど、普通の勾配法とほぼ性能が変わらないという謎の状態。
+2次の情報を使ってるので何かしら変化があるはずなのに、ほぼ変わらないのはおかしい。
+自己相関行列を逐次的ではなく、前もって計算してやってみても同じ。謎。</p>
+<p>また共役勾配を見ると高級なモーメンタム法にしか見えないなあ。</p>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-9.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-8.html"><span class="math">\(R^{-1}\)</span> の計算(8)</a></h2>
+                <div class="summary"><p>今日は共役勾配法を試してみたい、が、その前にソース整理してcommitしとこう。</p>
+<p>pylintやるなりリファクタしてたら時間的にアウトになった。今日は見送りか...若干焦るけどしゃあない。</p>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-8.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-7.html"><span class="math">\(R^{-1}\)</span> の計算(7)</a></h2>
+                <div class="summary"><p>課題にかまけていたら平日全く時間を取れなかった。まずい。
+なんのためにここに来ているのか改めて考えなければなるまい。</p>
+<p>やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、
+他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。
+改めて金谷先生の本を読んでもやれそうに見えるのだ。</p>
+<ul class="simple">
+<li>Graphical LASSOを逐次的に実行する手法はあるか？<ul>
+<li>手法自体は中々見つかっていない・・・<ul>
+<li>繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。</li>
+</ul>
+</li>
+<li>ないとしても、自己相関行列を逐次計算する手法はあるか？<ul>
+<li>共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。</li>
+<li><a class="reference external" href="https://arxiv.org/pdf/1504.02995.pdf">An Overview on the Estimation of Large Covariance and Precision Matrices</a> でかい精度行列を推定する手法のサーベイ</li>
+<li><a class="reference external" href="http://faculty.marshall.usc.edu/Jacob-Bien/papers/biometrika2011spcov.pdf">Sparse Estimation of a Covariance Matrix</a> 共分散行列のスパース推定</li>
+<li><a class="reference external" href="https://webee.technion.ac.il/Sites/People/YoninaEldar/Info/Shrink.pdf">Shrinkage Algorithms for MMSE Covariance Estimation</a></li>
+<li><a class="reference external" href="https://hal.inria.fr/inria-00369468/document">Efficient Covariance Matrix Update for …</a></li></ul></li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-7.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-6.html"><span class="math">\(R^{-1}\)</span> の計算(6)</a></h2>
+                <div class="summary"><p>Graphical LASSOを積み込むべきなのかもしれない。
+まずは遅くてもいいから、NGSAに入れてみて様子を見よう。</p>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/zi-ji-xiang-guan-xing-lie-noni-noguan-cha.html">自己相関行列の逆の観察</a></h2>
                 <div class="summary"><p>1次元信号に対して、自己相関行列の逆はどのような値をとっているのか？GraphicalLassoの挙動と含めて観察。</p>
                     <a class="btn btn-default btn-xs" href="/zi-ji-xiang-guan-xing-lie-noni-noguan-cha.html">more ...</a>
@@ -190,74 +244,6 @@ githubで探してみても同様の実装が多数。</p>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/lun-wen-shu-ki1.html">論文書き(1)</a></h2>
-                <div class="summary"><p>TODO:</p>
-<ul class="simple">
-<li>図:<ul>
-<li>実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？</li>
-<li><a class="reference external" href="http://linuxtricksandtips.blogspot.com/2015/01/how-to-convert-color-eps-to-grayscale.html">カラーeps → グレスケepsの裏技</a></li>
-<li>移動平均サンプル数を増やした。グレスケ画像を作った。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡</li>
-</ul>
-</li>
-<li>概要:<ul>
-<li>短い背景があるだけ。研究の新規性が明確でない。研究の目的が述べられず。すぐにLMSとSAの説明に入ってしまう。<ul>
-<li>ラプラス分布がーがいるかも？→いや、うるさい。</li>
-<li>残差をスパースにする必要がある。したがって、圧縮率改善のためには予測モデルの改善を模索する必要がある。SAは…</li>
-</ul>
-</li>
-<li>論理的なギャップに打ち勝つ新規性(novelty)をはっきりさせる。</li>
-<li>主張を強めるための数量的な改善点を述べよ。（例: 5%良くなった）。行を追加していい。</li>
-<li>実験結果から見れる研究の結論は何？結局コーデックに何が嬉しいの？</li>
-<li>TODO: 背景の既存研究の論理的なギャップを要約。結論の言葉を要約。<ul>
-<li>背景と同じで論理的なギャップなんてなくて、「SAの収束改善」が大事で、これを強調する。To overcome...</li>
-<li>結論の言葉、どうするか。（他のSAの論文見てると、実験結果よかった！で終わってて、おれもそうなってるんだが。）ロスレス音声に関するところだと、Future …</li></ul></li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-shu-ki1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi4.html">論文読み(4)</a></h2>
-                <div class="summary"><p>論文読みのコメント:</p>
-<p>「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？</p>
-<ul class="simple">
-<li>DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。</li>
-<li>筆者(Tianshu Quさん)に連絡してできたらソース貰う。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
-                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
-<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
-</ul>
-<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent …</script>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
-                <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
-Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/aiki6.html">&laquo;</a>
@@ -294,6 +280,8 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
                             href="/author/aiki15.html">15</a></li>
                     <li class=""><a
                             href="/author/aiki16.html">16</a></li>
+                    <li class=""><a
+                            href="/author/aiki17.html">17</a></li>
                 <li class="next"><a
                         href="/author/aiki8.html">&raquo;</a></li>
         </ul>
@@ -321,37 +309,49 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lifting.html">Lifting</a>
@@ -360,31 +360,25 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
@@ -393,16 +387,67 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/glasso.html">GLASSO</a>
@@ -411,70 +456,13 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
       <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/githubio.html">githubio</a>
     </li>
   </ul>
 </li>
