@@ -4,11 +4,13 @@
 &lt;p&gt;論文についての返事がないので実装を進めた。ブロックヘッダにサンプル数を入れた。サンプル作った。この春できるのはここらへんまでかな。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/andormade/1360885/6b239efc7bc59a7dd038b9543b98bdd6afd40559"&gt;Audio Queue example&lt;/a&gt; CoreAudio出力の参考に。&lt;/li&gt;
-&lt;li&gt;WASAPIが一番大変だった
-* &lt;a class="reference external" href="https://gist.github.com/kevinmoran/3d05e190fb4e7f27c1043a3ba321cede"&gt;WASAPI Play .wav File.cpp&lt;/a&gt; わかりやすかったがWAVEFORMATEXを0クリアしてなくてCbsizeが未初期化クラッシュ。ドハマリ
-* &lt;a class="reference external" href="https://charatsoft.sakura.ne.jp/develop/toaru2/index.php?did=7"&gt;WASAPIをプログラムしてみる&lt;/a&gt;
-* &lt;a class="reference external" href="https://ameblo.jp/shuz096/entry-10916035039.html"&gt;WASAPIによる音声再生&lt;/a&gt;
-* &lt;a class="reference external" href="http://achurch.org/SIL/current/src/sysdep/windows/sound-wasapi.c"&gt;System Interface Library for games&lt;/a&gt; ピュアCでやろうとするとGUIDが取れない。自力でGUIDを定義しているのがこれ。&lt;/li&gt;
+&lt;li&gt;WASAPIが一番大変だった&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/kevinmoran/3d05e190fb4e7f27c1043a3ba321cede"&gt;WASAPI Play .wav File.cpp&lt;/a&gt; わかりやすかったがWAVEFORMATEXを0クリアしてなくてCbsizeが未初期化クラッシュ。ドハマリ&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://charatsoft.sakura.ne.jp/develop/toaru2/index.php?did=7"&gt;WASAPIをプログラムしてみる&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ameblo.jp/shuz096/entry-10916035039.html"&gt;WASAPIによる音声再生&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://achurch.org/SIL/current/src/sysdep/windows/sound-wasapi.c"&gt;System Interface Library for games&lt;/a&gt; ピュアCでやろうとするとGUIDが取れない。自力でGUIDを定義しているのがこれ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://0pointer.de/lennart/projects/pulseaudio/doxygen/pacat-simple_8c-example.html"&gt;pacat-simple.c&lt;/a&gt; pulseaudio出力の参考に。pa_simpleで十分だった。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="section" id="id2"&gt;
@@ -37,11 +39,13 @@
 &lt;p&gt;論文についての返事がないので実装を進めた。ブロックヘッダにサンプル数を入れた。サンプル作った。この春できるのはここらへんまでかな。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/andormade/1360885/6b239efc7bc59a7dd038b9543b98bdd6afd40559"&gt;Audio Queue example&lt;/a&gt; CoreAudio出力の参考に。&lt;/li&gt;
-&lt;li&gt;WASAPIが一番大変だった
-* &lt;a class="reference external" href="https://gist.github.com/kevinmoran/3d05e190fb4e7f27c1043a3ba321cede"&gt;WASAPI Play .wav File.cpp&lt;/a&gt; わかりやすかったがWAVEFORMATEXを0クリアしてなくてCbsizeが未初期化クラッシュ。ドハマリ
-* &lt;a class="reference external" href="https://charatsoft.sakura.ne.jp/develop/toaru2/index.php?did=7"&gt;WASAPIをプログラムしてみる&lt;/a&gt;
-* &lt;a class="reference external" href="https://ameblo.jp/shuz096/entry-10916035039.html"&gt;WASAPIによる音声再生&lt;/a&gt;
-* &lt;a class="reference external" href="http://achurch.org/SIL/current/src/sysdep/windows/sound-wasapi.c"&gt;System Interface Library for games&lt;/a&gt; ピュアCでやろうとするとGUIDが取れない。自力でGUIDを定義しているのがこれ。&lt;/li&gt;
+&lt;li&gt;WASAPIが一番大変だった&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gist.github.com/kevinmoran/3d05e190fb4e7f27c1043a3ba321cede"&gt;WASAPI Play .wav File.cpp&lt;/a&gt; わかりやすかったがWAVEFORMATEXを0クリアしてなくてCbsizeが未初期化クラッシュ。ドハマリ&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://charatsoft.sakura.ne.jp/develop/toaru2/index.php?did=7"&gt;WASAPIをプログラムしてみる&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ameblo.jp/shuz096/entry-10916035039.html"&gt;WASAPIによる音声再生&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://achurch.org/SIL/current/src/sysdep/windows/sound-wasapi.c"&gt;System Interface Library for games&lt;/a&gt; ピュアCでやろうとするとGUIDが取れない。自力でGUIDを定義しているのがこれ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://0pointer.de/lennart/projects/pulseaudio/doxygen/pacat-simple_8c-example.html"&gt;pacat-simple.c&lt;/a&gt; pulseaudio出力の参考に。pa_simpleで十分だった。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;div class="section" id="id2"&gt;
