@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-04-15T10:00:00+09:00</updated><entry><title>戦略会議中2021(4)</title><link href="/zhan-lue-hui-yi-zhong-20214.html" rel="alternate"></link><published>2021-04-15T10:00:00+09:00</published><updated>2021-04-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-15:/zhan-lue-hui-yi-zhong-20214.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-04-14T10:00:00+09:00</updated><entry><title>戦略会議中2021(4)</title><link href="/zhan-lue-hui-yi-zhong-20214.html" rel="alternate"></link><published>2021-04-14T10:00:00+09:00</published><updated>2021-04-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-14:/zhan-lue-hui-yi-zhong-20214.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w"&gt;Wavelet Transform Based Adaptive Filters: Analvsis and New Results&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。&lt;/p&gt;
 &lt;blockquote&gt;
@@ -13,7 +13,7 @@
 &lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>戦略会議中2021(3)</title><link href="/zhan-lue-hui-yi-zhong-20213.html" rel="alternate"></link><published>2021-04-11T10:00:00+09:00</published><updated>2021-04-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-11:/zhan-lue-hui-yi-zhong-20213.html</id><content type="html">&lt;p&gt;紹介をほぼ進めた。背景理論をどこまで書くか考える。
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(3)</title><link href="/zhan-lue-hui-yi-zhong-20213.html" rel="alternate"></link><published>2021-04-11T10:00:00+09:00</published><updated>2021-04-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-11:/zhan-lue-hui-yi-zhong-20213.html</id><content type="html">&lt;p&gt;紹介をほぼ進めた。背景理論をどこまで書くか考える。
 また、NARUの警告つぶしをした。ほぼこれで固まるかな。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www5d.biglobe.ne.jp/~noocyte/Programming/CMacros.html"&gt;C/C++ 関数・マクロ集 ((ほぼ？) 処理系・OS 非依存)&lt;/a&gt; Cマクロ集（いつか使える）&lt;/li&gt;
@@ -36,6 +36,11 @@
 &lt;li&gt;&lt;a class="reference external" href="https://zenn.dev/shimat/articles/d9ed0345c9866e"&gt;GitHub ActionsでMSBuildによるビルドを行う&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;ライブラリの整理もしたい。。。ライブラリを細く切りすぎてる感じがある。→オブジェクトファイルのみを取るやり方があった。全てを1つのライブラリにまとめられた。勝利。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(31)</title><link href="/kodetsukuzuo-ri2021chun-31.html" rel="alternate"></link><published>2021-03-31T10:00:00+09:00</published><updated>2021-03-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-31:/kodetsukuzuo-ri2021chun-31.html</id><content type="html">&lt;p&gt;editorconfigに怒られてるが、インデント調整を手でやるのがめんどい。vimでうまくやれないか（プラグイン無しで）調べていたら、tabstop=4として、&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;vim -c &lt;span class="s1"&gt;&amp;#39;normal! gg=G&amp;#39;&lt;/span&gt; -c &lt;span class="s1"&gt;&amp;#39;:wq&amp;#39;&lt;/span&gt; CMakeLists.txt
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;で行けることが分かった。-cはvim起動時にコマンドを実行するコマンド。'normal'はノーマルコマンドをぶち込む。gg=Gでファイル全体をインデント。':wq'で保存して終了。&lt;/p&gt;
+&lt;p&gt;vimのインデントの挙動もすこし辛かったのでいじった。 &lt;a class="reference external" href="https://vim-jp.org/vimdoc-ja/indent.html#cino-E"&gt;ここ&lt;/a&gt; 参照。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>コーデック作り2021春(30)</title><link href="/kodetsukuzuo-ri2021chun-30.html" rel="alternate"></link><published>2021-03-30T10:00:00+09:00</published><updated>2021-03-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-03-30:/kodetsukuzuo-ri2021chun-30.html</id><content type="html">&lt;p&gt;このスキにプロセッサをワーク領域対応させるか。やった。作業なので特に工夫はない。ワークサイズがどこかで重要になるかも。&lt;/p&gt;
 &lt;p&gt;整理として &lt;cite&gt;.editorconfig&lt;/cite&gt; 設定して &lt;cite&gt;editorconfig-checker&lt;/cite&gt; かけたらボロボロであることが分かった。修正しなきゃ。でも論文返ってきた。直す。&lt;/p&gt;
 &lt;ul class="simple"&gt;
