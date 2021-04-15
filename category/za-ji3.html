@@ -85,6 +85,103 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-15.html">コーデック作り2021春(15)</a></h2>
+                <div class="summary"><p>引き続き発散現象調査。</p>
+<p>対策として、フィルタ係数のクリップ処理を入れてしまうのはどうかと考えている。</p>
+<p>なるべく、というか厳密にフィルタの出力を変えないように係数をクリップしたいのだが、どうすればいいのか。その議論ってあんまりされてないように見えるんやがな。（FIRフィルタ係数の同値類ってなんだ？）</p>
+<p>色々見ると、（あんまり記述無いけど）</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.csee.umbc.edu/~tinoosh/cmpe691/slides/Handout.fir.scaling.pdf">FIR FILTER SCALING</a></li>
+</ul>
+<p>にあるように、全係数を定数で割ると案の定ゲインが定数倍だけ小さくなる。しかし周波数特性はそのまま。</p>
+<p>周波数特性は保たれるからええか、というノリで定数倍の方策を取る。幅は18bit（[-4,4]の範囲）とした。16, 17bitだと顕著に性能が悪い。しっかしオーバーフローが怖いかも。</p>
+<p>テスト追加に入る。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-15.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-14.html">コーデック作り2021春(14)</a></h2>
+                <div class="summary"><p>「重ねる努力」での発散現象を観察している。</p>
+<ul class="simple">
+<li>SAのフィルタ係数が正の値に徐々に吹っ飛んでいる</li>
+<li>ブロックの切り替わりが原因ぽい</li>
+</ul>
+<p>ブロックの切り替わりで怪しい処理はなにかと見ていたら、NGSAの残差初期値がただのデータ履歴で更新されていて、勾配が不連続になっていて怪しいことが見えた。リファレンス通りに、取得した履歴を元に自然勾配の初期値を計算してみる。</p>
+<p>すると、問題を確認したケースにおいては発散しなくなった。しかし、デバッグのためにブロックサイズを小さくして切り替わりが多く出るようにしたら再度発散。原因を追う。</p>
+<p>調査したところ、ブロックサイズを1024サンプルにしたとき、「重ねる努力」の1041000サンプル付近で「シャーン」というエントロピーの高い振幅大音源をきっかけにフィルタ係数が発散していた。もっと見たところAR係数が0.3等の低い数値をとっていた（確認したらそれまでは0.9以上をとっていたのに、急落していた。）</p>
+<p>対策をどうしようか。0.4未満ならリセットするとかやれば、1024では発散しないけど、ブロックサイズを512, 256にしたら発散する。。。（しかも、発散時にAR係数は0.9以上だった。）アドホックなのでやりたくないし、AR係数が本質的な原因では無いと考えている。</p>
+<p>バグを疑って調査を続ける。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-14.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-13.html">コーデック作り2021春(13)</a></h2>
+                <div class="summary"><p>デコーダを作った。といっても枠は作ってあってプロセッサ部を埋めるだけ。
+動かしたところSAの係数を記録してなかった。追加。</p>
+<p>処理順序を整理して、たぶんロスレスに戻っていることを確認。</p>
+<p>テストに入っていく。大規模なテストをやる前に手元のファイルをいくつか試していると、「重ねる努力」でアサート。こいつのバグを潰したら、テスト追加に入ろう。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-13.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-12.html">コーデック作り2021春(12)</a></h2>
+                <div class="summary"><p>ちょっとCmake整理した。</p>
+<p>で、昨日の続きといく。発散している現象はフィルタ係数をダンプしてみたけど、不連続的じゃなくてゆっくりと値が大きくなっていたので、厄介かもしれない。</p>
+<p>発散対策としてステップサイズをいじる。NGSAの係数右シフト量を4から6にしたら安定する+圧縮率上がる。設定次第でwavpack(-hh)を超える状況になる。</p>
+<p>ステップサイズをいじってコード整理。デコーダの制作に入ろうと思う。（SAのシフト前に0.5加えたら圧縮率向上した。こういうのがこわい。なお、プリエンファシスは0.5加算は不要。定数乗算だから。）
+デコーダができてビットパーフェクトに戻るまではぬか喜びなので、気合い入れる。</p>
+<p>デコード側だけでもin-placeな復号ができるといいなあ・・・</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-12.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-11.html">コーデック作り2021春(11)</a></h2>
+                <div class="summary"><p>起床ミスって日中の作業時間が、、</p>
+<p>8bit音声に対して圧縮率が悪いのは、8bit音声を非常に低振幅(-128 - 127)のデータとして扱っているからと思われる。対策としては16bit固定小数に合わせて処理する。後でいいと思う。</p>
+<p>振幅が高い、ボーカル付きデータとしてカレンダーガールを導入したらMS処理で16bit範囲を超えてしまった…プリエンファシス処理のバッファもシフトしないとだめ。</p>
+<p>うーん、データ/フィルタ記録が馬鹿になってない。TTAを見習ってすべて8bit範囲に収まるように記録するのが吉か？（シフト量も記録しておく。）
+8bitはやりすぎな気もするから、12bitも検討したい。シフト量は4bitでいいだろう。→でも、SLAでみたように、量子化幅はあんまりドラスティックに効かないとおもう。一応いじれるようにして、調節はあと。と思ったら8bitで保存しても圧縮性能に影響が大きく出ないので、8bitにしてみる。</p>
+<p>ちょっとした思いつきでSAをさらにもう一段重ねたけど不安定（圧縮率・係数発散）なのでやめておく。</p>
+<p>実装整理。in-placeにしてみた。でもコーダーが1サンプル単位で動いとらんからバッファがいる状況。早いうちになんとかしたいかも。</p>
+<p>2段目のフィルタをいじって遊んでたら、発散するパターンを見つけた。現在デバッグ中。落ち着いたらデコーダ作り始めたいところ。</p>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-11.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-10.html">コーデック作り2021春(10)</a></h2>
+                <div class="summary"><p>NNGSAとのRMS比較をやる。NNGSAが低いのなら後段でSAかませたい。
+残差の振幅分布を見ると、やっぱNGSAの方が良い。0付近へよくデータが集まる。
+RMSEもNGSAのほうが良かった。。。</p>
+<p>うーん、変だ。確かにSLAのときも全く同様の現象を見たんだけど。
+実験ではNGSAとても悪かったはずなんだがなあ。。。</p>
+<p>グダグダしてのんびりとしている。根本的な改善策がないか、過去のブログを見直してみる。</p>
+<p>気になったのはTTAのエンコード部分。再帰的ライスを使っているのは知っていたが、さらに、指数移動平均によって平均を更新していることが分かった。</p>
+<div class="highlight"><pre><span></span><span class="c1">// aiki: 1つの残差出力</span>
+<span class="kr">__forceinline</span> <span class="kt">void</span> <span class="nf">tta_encoder_put_value</span><span class="p">(</span><span class="n">TTA_adapt</span> <span class="o">*</span><span class="n">rice</span><span class="p">,</span> <span class="n">TTAint32</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">TTAuint32</span> <span class="n">k</span><span class="p">,</span> <span class="n">unary</span><span class="p">,</span> <span class="n">outval</span><span class="p">;</span>
+
+  <span class="c1">// aiki: 符号付き整数を符号なし整数に変換(非負数は奇, 負数は偶)</span>
+      <span class="n">outval</span> <span class="o">=</span> <span class="n">ENC</span><span class="p">(</span><span class="n">value</span><span class="p">);</span>
+
+      <span class="c1">// encode Rice unsigned</span>
+      <span class="n">k</span> <span class="o">=</span> <span class="n">rice</span><span class="o">-&gt;</span><span class="n">k0</span><span class="p">;</span>
+
+  <span class="c1">// aiki: 指数移動平均式で平均を更新: sum0 &lt;- (15/16) * sum0 + outval …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-10.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-9.html">コーデック作り2021春(9)</a></h2>
                 <div class="summary"><p>NNGSAは一旦置く。NGSAで勝負をしかけていく。</p>
 <p>ステップサイズの調節を入れてみたが、上がったり下がったり。もっとよく見る必要がある。→ステップサイズに掛ける固定小数の精度を11bitにしたら、総じて良くなったので採用の方向で検討。</p>
@@ -144,114 +241,6 @@ Aiki's Blog            </a>
 整数除算についてデバッグと調査を続ける。</p>
 
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-7.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-5.html">コーデック作り2021春(5)</a></h2>
-                <div class="summary"><p>今日は少なくともヘッダエンコード・デコード、ハンドル作成までいっておきたい。
-その先は一括エンコード、デコード関数を追加して動作確認フェイズに入りたい。そこでテストを固めてしまうと動きが鈍くなりそうなので、一括エンコード、一括デコード追加中はテスト追加一旦停止で。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-5.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-4.html">コーデック作り2021春(4)</a></h2>
-                <div class="summary"><p>ディレクトリ構成を固めてみた。
-内部依存がある場合がどうなるかわからん。今日コーダーモジュールを持ってくるので、そこで何かわかるはず。</p>
-<p>→構成をかえたり、ファイル命名規則を統一したりしていたら1日ほぼ終わった。一応コーディングモジュールは持ってきた。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-3.html">コーデック作り2021春(3)</a></h2>
-                <div class="summary"><p>cmake+gtestのディレクトリ構成を迷っている。。。</p>
-<p>現在各モジュールごとにtestを作っているが、もしかしたら細かくやりすぎ？
-SLAのときでもsrc以下にすべてを入れていたので、それでいいはず。そちらにしよう。</p>
-<ul class="simple">
-<li>トップレベルにCMakeLists.txtを置く。そこでテストの分岐をこなす。</li>
-<li>src以下に全ソース</li>
-<li>include以下に公開ヘッダ</li>
-<li>test以下にテストソース</li>
-</ul>
-<p><a class="reference external" href="https://github.com/januswel/ctest-gtest">サンプル</a> をよく見ましょう。。。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-2.html">コーデック作り2021春(2)</a></h2>
-                <div class="summary"><p>テスト環境整備中。</p>
-<p>gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ <cite>&lt;limits&gt;</cite> なんて無い、と言われた）。
-でも無理やりビルドするためにcmakeの CXX で新しくプロジェクトを作った。
-かなり強引にやった。型を中心に色々警告でてるし、C89との差異で苦しむかもしれない。</p>
-<p>さて、フォーマットを決めよう。フォーマットが決まればあとはそのとおり実装していくだけのはずだ。</p>
-<div class="section" id="id2">
-<h2>基本設計方針</h2>
-<ul class="simple">
-<li>AR(p) Natural Gradientの実装。</li>
-<li>符号はSLAの再帰的ライスを使用する。SLAの実装はそのままでシンボルを変えてポーティングする。</li>
-<li>目標はTTA, Wavpackの圧縮率を超えること。（超えたら対外発表可能とする）</li>
-<li>圧縮性能を試すだけなので、SIMDやアセンブリレベルの過度な高速化はしない。</li>
-<li>無音時のランレングス符号化はあり。<ul>
-<li>ひとまずは残差のみで実装していく。</li>
-</ul>
-</li>
-<li>データの正常性検査はほとんど入れない。（ブロックのシグネチャはあり。CRCはやらない。）</li>
-<li>ひとまずは16bitwavの対応で良い。<ul>
-<li>やろうと思えばできるが、複雑化のコストが大。</li>
-</ul>
-</li>
-</ul>
-</div>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-1.html">コーデック作り2021春(1)</a></h2>
-                <div class="summary"><p>さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。
-テストもctestを使おうと思っており、その導入検討を行う。</p>
-<p>まず、ctestのほかにgoogleが出しているgtestというのがある。これもcmakeとの親和性が良いらしい。
-今回はctestで試してみる...と思ったらgtestがいいかも。できないことはないはずなのでやってみよう。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest">Testing With CTest</a> ピンと来ないのでKitware公式情報を見る。<ul>
-<li>うーん？どうもCtestは <cite>enable_testing()</cite> によってテスト用のディレクトリを生成するのを有効化しているだけ？</li>
-<li><cite>add_test</cite> でテスト追加。 <cite>make test</cite> でテスト実行。</li>
-<li>多分、プログラム実行時の返り値だけをみているっぽい。アサーションマクロとかはサポートしていない？？</li>
-<li>それだと gtest が良いということになる。</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://qiita.com/janus_wel/items/4e6c12f9104f501104c7">C++ のユニットテストをいい感じにする</a> がいいかも...と思ったらgtest使ってる。うーん。<ul>
-<li><cite>ExternalProject</cite> でCMakeの機能でgtestを導入することができる。これで可搬性が担保できそう。</li>
-<li><a class="reference external" href="https://github.com/januswel/ctest-gtest">GitHubはこちら</a> 構成はmain除きこれに前ならえでよいはずだ。</li>
-</ul>
-</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/mathrmarp-heyi-ban-hua-6.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(6)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
-\end{equation*}
-</div>
-<p>論文出したけど、自己共分散と自己相関でまだ混乱してる。
-実装時には嘘つけないので整理しないといけない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://bookdown.org/gary_a_napier/time_series_lecture_notes/ChapterThree.html">Chapter 3 Autoregressive processes</a> 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。<ul>
-<li>AR(1)なら <span class="math">\(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\)</span> が分散になる。以下、システムノイズを標準正規分布 <span class="math">\(N(0,1)\)</span> とする …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-6.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -318,16 +307,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
       <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
@@ -338,26 +318,38 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
     <li class="list-group-item tag-1">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/irls.html">IRLS</a>
@@ -366,28 +358,13 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
@@ -396,82 +373,94 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
     </li>
   </ul>
 </li>
