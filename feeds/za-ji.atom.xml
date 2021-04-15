@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-04-14T10:00:00+09:00</updated><entry><title>戦略会議中2021(4)</title><link href="/zhan-lue-hui-yi-zhong-20214.html" rel="alternate"></link><published>2021-04-14T10:00:00+09:00</published><updated>2021-04-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-14:/zhan-lue-hui-yi-zhong-20214.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-04-15T10:00:00+09:00</updated><entry><title>戦略会議中2021(5)</title><link href="/zhan-lue-hui-yi-zhong-20215.html" rel="alternate"></link><published>2021-04-15T10:00:00+09:00</published><updated>2021-04-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-15:/zhan-lue-hui-yi-zhong-20215.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;古いので、もっと新しい論文を見て考えたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(4)</title><link href="/zhan-lue-hui-yi-zhong-20214.html" rel="alternate"></link><published>2021-04-14T10:00:00+09:00</published><updated>2021-04-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-14:/zhan-lue-hui-yi-zhong-20214.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w"&gt;Wavelet Transform Based Adaptive Filters: Analvsis and New Results&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。&lt;/p&gt;
 &lt;blockquote&gt;

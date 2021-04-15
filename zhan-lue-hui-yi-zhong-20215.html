@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>コーデック作り2021春(23) - Aiki's Blog</title>
+    <title>戦略会議中2021(5) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,20 +9,21 @@
 
 
 
-<link rel="canonical" href="/kodetsukuzuo-ri2021chun-23.html">
+<link rel="canonical" href="/zhan-lue-hui-yi-zhong-20215.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="Lossless Audio Codec" />
-        <meta name="description" content="評価スクリプトをSLAから持ってきて試してみると、平均圧縮率が悪い。 なぜだ。手元の音源ではよかったのに。 結果を見ると、音量が控えめな音源でかなり性能が悪くなっている事がわかった。（完全な無音ではない） フィルタ次数を減らしたほうが結果が良い状態。どうする。観察。 フィルタ係数を見ると、次数16では大きくなりすぎている印象。。そこで、フィルタ係数のビット幅を小さくしたら改善に向かったが、flacには及ばない。また、SLAと同じようにライスパラメータが小さいときは固定のゴロム符号を行うようにしたらわずかに改善した。ゴロム符号の対処は最終手段とする。 もっとフィルタ係数の変化を観察すべきかと思う。 AR係数が小さいときはほぼ白色雑音だから係数をリセットする→すこしは良くなったけどだめだった。 フィルタ係数（ブロックヘッダ）の記録にとるビット幅を8から12に増やしたら改善傾向。しかしまだ断然悪い。（追記：NGSAの計算精度向上後は8の方が良かった） 以前フィルタ末尾の重みが大きかったのを見ていた。（末尾が原因で係数右シフトが起きてた）末尾係数を見てみる。 係数の動きが不自然（先頭と末尾の動きが同期してる等）なので自然勾配の更新がおかしいと思って、勾配における積和演算で丸めをやめたら、低振幅音源で圧縮率が大幅に改善した（全体的に良くなったので採用）。。。。固定小数演算よくわからん・・・なんで良くなった…。多分、丸めの方向が正方向にしかできてなかったのが災いしていたかも。引くときは丸めのための加算がいらないはず。 ステップサイズを大きくとると、低振幅音源で改善、大振幅音源で悪化。当然だけど、これから、ステップサイズは分散に合わせて変えるべきであることがわかる。 これでWavpack(-hh)と比べて …" />
+        <meta name="keywords" content="Lossless Audio Codec,Wavelet" />
+        <meta name="description" content="紹介を進め、ウェーブレットの適用について考え始めている。 Wavelet Transform Domain Adaptive FIR Filtering 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。 古いので、もっと新しい論文を見て考えたい。" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="コーデック作り2021春(23)"/>
-        <meta property="og:url" content="/kodetsukuzuo-ri2021chun-23.html"/>
-        <meta property="og:description" content="評価スクリプトをSLAから持ってきて試してみると、平均圧縮率が悪い。 なぜだ。手元の音源ではよかったのに。 結果を見ると、音量が控えめな音源でかなり性能が悪くなっている事がわかった。（完全な無音ではない） フィルタ次数を減らしたほうが結果が良い状態。どうする。観察。 フィルタ係数を見ると、次数16では大きくなりすぎている印象。。そこで、フィルタ係数のビット幅を小さくしたら改善に向かったが、flacには及ばない。また、SLAと同じようにライスパラメータが小さいときは固定のゴロム符号を行うようにしたらわずかに改善した。ゴロム符号の対処は最終手段とする。 もっとフィルタ係数の変化を観察すべきかと思う。 AR係数が小さいときはほぼ白色雑音だから係数をリセットする→すこしは良くなったけどだめだった。 フィルタ係数（ブロックヘッダ）の記録にとるビット幅を8から12に増やしたら改善傾向。しかしまだ断然悪い。（追記：NGSAの計算精度向上後は8の方が良かった） 以前フィルタ末尾の重みが大きかったのを見ていた。（末尾が原因で係数右シフトが起きてた）末尾係数を見てみる。 係数の動きが不自然（先頭と末尾の動きが同期してる等）なので自然勾配の更新がおかしいと思って、勾配における積和演算で丸めをやめたら、低振幅音源で圧縮率が大幅に改善した（全体的に良くなったので採用）。。。。固定小数演算よくわからん・・・なんで良くなった…。多分、丸めの方向が正方向にしかできてなかったのが災いしていたかも。引くときは丸めのための加算がいらないはず。 ステップサイズを大きくとると、低振幅音源で改善、大振幅音源で悪化。当然だけど、これから、ステップサイズは分散に合わせて変えるべきであることがわかる。 これでWavpack(-hh)と比べて …"/>
-        <meta property="article:published_time" content="2021-03-18" />
+        <meta property="og:title" content="戦略会議中2021(5)"/>
+        <meta property="og:url" content="/zhan-lue-hui-yi-zhong-20215.html"/>
+        <meta property="og:description" content="紹介を進め、ウェーブレットの適用について考え始めている。 Wavelet Transform Domain Adaptive FIR Filtering 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。 古いので、もっと新しい論文を見て考えたい。"/>
+        <meta property="article:published_time" content="2021-04-15" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="Lossless Audio Codec" />
+            <meta property="article:tag" content="Wavelet" />
             <meta property="article:author" content="aiki" />
 
 
@@ -93,10 +94,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/kodetsukuzuo-ri2021chun-23.html"
+                    <a href="/zhan-lue-hui-yi-zhong-20215.html"
                        rel="bookmark"
-                       title="Permalink to コーデック作り2021春(23)">
-                        コーデック作り2021春(23)
+                       title="Permalink to 戦略会議中2021(5)">
+                        戦略会議中2021(5)
                     </a>
                 </h1>
             </header>
@@ -106,7 +107,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2021-03-18T10:00:00+09:00"> Thu 18 March 2021</time>
+        <i class="fa fa-calendar"></i><time datetime="2021-04-15T10:00:00+09:00"> Thu 15 April 2021</time>
     </span>
 
 
@@ -115,23 +116,19 @@ Aiki's Blog            </a>
 
 <span class="label label-default">Tags</span>
 	<a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+        /
+	<a href="/tag/wavelet.html">Wavelet</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>評価スクリプトをSLAから持ってきて試してみると、平均圧縮率が悪い。
-なぜだ。手元の音源ではよかったのに。</p>
-<p>結果を見ると、音量が控えめな音源でかなり性能が悪くなっている事がわかった。（完全な無音ではない）</p>
-<p>フィルタ次数を減らしたほうが結果が良い状態。どうする。観察。</p>
-<p>フィルタ係数を見ると、次数16では大きくなりすぎている印象。。そこで、フィルタ係数のビット幅を小さくしたら改善に向かったが、flacには及ばない。また、SLAと同じようにライスパラメータが小さいときは固定のゴロム符号を行うようにしたらわずかに改善した。ゴロム符号の対処は最終手段とする。</p>
-<p>もっとフィルタ係数の変化を観察すべきかと思う。</p>
+                <p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
+<ul>
+<li><p class="first"><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。</p>
+<blockquote>
 <ul class="simple">
-<li>AR係数が小さいときはほぼ白色雑音だから係数をリセットする→すこしは良くなったけどだめだった。</li>
-<li>フィルタ係数（ブロックヘッダ）の記録にとるビット幅を8から12に増やしたら改善傾向。しかしまだ断然悪い。（追記：NGSAの計算精度向上後は8の方が良かった）</li>
-<li>以前フィルタ末尾の重みが大きかったのを見ていた。（末尾が原因で係数右シフトが起きてた）末尾係数を見てみる。<ul>
-<li>係数の動きが不自然（先頭と末尾の動きが同期してる等）なので自然勾配の更新がおかしいと思って、勾配における積和演算で丸めをやめたら、低振幅音源で圧縮率が大幅に改善した（全体的に良くなったので採用）。。。。固定小数演算よくわからん・・・なんで良くなった…。多分、丸めの方向が正方向にしかできてなかったのが災いしていたかも。引くときは丸めのための加算がいらないはず。</li>
-<li>ステップサイズを大きくとると、低振幅音源で改善、大振幅音源で悪化。当然だけど、これから、ステップサイズは分散に合わせて変えるべきであることがわかる。</li>
-<li>これでWavpack(-hh)と比べて+0.5%くらい。ゴロムを加えるのもあり。</li>
+<li>古いので、もっと新しい論文を見て考えたい。</li>
 </ul>
+</blockquote>
 </li>
 </ul>
 
@@ -140,11 +137,11 @@ Aiki's Blog            </a>
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/zhan-lue-hui-yi-zhong-20215.html">戦略会議中2021(5)</a></li>
         <li><a href="/zhan-lue-hui-yi-zhong-20214.html">戦略会議中2021(4)</a></li>
         <li><a href="/zhan-lue-hui-yi-zhong-20213.html">戦略会議中2021(3)</a></li>
         <li><a href="/zhan-lue-hui-yi-zhong-20212.html">戦略会議中2021(2)</a></li>
         <li><a href="/zhan-lue-hui-yi-zhong-20211.html">戦略会議中2021(1)</a></li>
+        <li><a href="/kodetsukuzuo-ri2021chun-32.html">コーデック作り2021春(32)</a></li>
     </ul>
 </section>
         </article>
