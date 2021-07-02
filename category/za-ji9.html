@@ -85,6 +85,39 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/lun-wen-du-mi4.html">論文読み(4)</a></h2>
+                <div class="summary"><p>論文読みのコメント:</p>
+<p>「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？</p>
+<ul class="simple">
+<li>DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。</li>
+<li>筆者(Tianshu Quさん)に連絡してできたらソース貰う。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
+                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
+<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
+</ul>
+<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
+<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width < 768) ? "left" : align;
+        indent …</script>
+                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
                 <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
 Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
@@ -293,40 +326,6 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/zi-you-gong-zuo-5.html">自由工作(5)</a></h2>
-                <div class="summary"><p>ノイズ（差分の量子化誤差）はまさにi.i.d.なラプラスからサンプリングした感じ。全帯域にある。
-人間の声のところは調波構造があるけど、それ以外、ピッチのない楽器などは単純な白色雑音といった印象。</p>
-<p>ノイズシェーピングを試しているが…本当にいいのか疑問。
-プリエンファシスみたく直前サンプルで引くと、たしかにノイズの低域は消える、けど高域はそのままだし、
-ノイズのRMSはむしろ悪化している状態。
-逆に直前サンプルで足すとノイズ高域は消えるけど、低域が残ってｺﾞｰという感じのノイズになる。目立つ。うーん。</p>
-<p>ノイズシェーピングの基本は、ノイズ帯域を&quot;おいやる&quot;ことにあるようで、その後になにかしないとうまみがない？
-（低域のノイズを消してノイズを高域に追いやってからローパスをかけるかんじ。）</p>
-<p>適応フィルタチックなことも試してみたが、不安定になりがち。
-残差の符号だけ使い、ステップサイズをクソ小さくしてなんとか安定するが、ノイズのRMSは何もしないものから悪化。</p>
-<p>一旦ノイズシェーピングなしのやつをアップする。
-自己流のやつを試してみたい気持ちがある。</p>
-
-                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-5.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zi-you-gong-zuo-4.html">自由工作(4)</a></h2>
-                <div class="summary"><p>エンコードもできた印象。まずは、量子化誤差の観察を開始している。
-ラプラス分布っぽいので頻度を出してみる。→すごいラプラスだった。</p>
-<p>gnuplotで頻度を出すには以下で行ける。素晴らしい。</p>
-<dl class="docutils">
-<dt>::</dt>
-<dd>plot &quot;foo.txt&quot; u 1 smooth frequency with boxes
-plot &quot;foo.txt&quot; u 1 smooth frequency with lines</dd>
-</dl>
-
-                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/category/za-ji8.html">&laquo;</a>
@@ -363,6 +362,8 @@ plot &quot;foo.txt&quot; u 1 smooth frequency with lines</dd>
                             href="/category/za-ji15.html">15</a></li>
                     <li class=""><a
                             href="/category/za-ji16.html">16</a></li>
+                    <li class=""><a
+                            href="/category/za-ji17.html">17</a></li>
                 <li class="next"><a
                         href="/category/za-ji10.html">&raquo;</a></li>
         </ul>
@@ -387,55 +388,43 @@ plot &quot;foo.txt&quot; u 1 smooth frequency with lines</dd>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -444,19 +433,34 @@ plot &quot;foo.txt&quot; u 1 smooth frequency with lines</dd>
       <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -465,85 +469,88 @@ plot &quot;foo.txt&quot; u 1 smooth frequency with lines</dd>
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
+      <a href="/tag/ribabu.html">リバーブ</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
   </ul>
 </li>

@@ -84,15 +84,44 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20217.html">戦略会議中2021(7)</a></h2>
+                <div class="summary"><p>改めて音声符号化にウェーブレットを使うことの是非を見る意図で、「ウェーブレットとサブバンド符号化」をつまんでいる。
+概要を述べているだけなので厳しい。見つかった文献を漁る。高音質と中音質に分けていたので分類に従って列挙。</p>
+<div class="section" id="id2">
+<h2>高音質</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.aes.org/e-lib/online/browse.cfm?elib=6768">High-Quality, Low-Rate Audio Transform Coding for Transmission and Multimedia Applications</a> AES会員でないと読めないっぽい。</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/151054">A MUSICAM source codec for digital audio broadcasting and storage</a> MPEG-Iの基礎になっている考え方。フィルタバンクを使用。知覚符号化そのものか？</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/225993">Sum-difference stereo transform coding</a> これもフィルタバンク+量子化の流れ。</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a> 適応的（辞書的）にウェーブレットを選んで冗長性を減らす。ウェーブレットパケットの構成も動的に決めている …</li></ul></div>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20217.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20216.html">戦略会議中2021(6)</a></h2>
+                <div class="summary"><p>4月からここまでだいたい論文執筆やら発表準備、ゼミ輪講で潰れていた。
+GWはウェーブレット理解のために合宿。高速ウェーブレット変換まではOKということで資料公開。
+論文発表の準備がようやく落ち着いてきた。7月からは調査に再度着手したい。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
+<li>これから再度スタートする。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://yukara-13.hatenablog.com/entry/2013/12/01/222742">【Python】 Constant-Q 変換 (対数周波数スペクトログラム)</a> 定Q変換について。周波数に応じて窓幅を変えて解析する。それってウェーブレットの問題意識と全く同じ。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20216.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/zhan-lue-hui-yi-zhong-20215.html">戦略会議中2021(5)</a></h2>
                 <div class="summary"><p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
-<ul>
-<li><p class="first"><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。</p>
-<blockquote>
 <ul class="simple">
-<li>古いので、もっと新しい論文を見て考えたい。</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
+<li>こっちも古いので、もっと新しい論文を見て考えたい。</li>
 </ul>
-</blockquote>
 </li>
 </ul>
 
@@ -103,17 +132,14 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/zhan-lue-hui-yi-zhong-20214.html">戦略会議中2021(4)</a></h2>
                 <div class="summary"><p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
-<ul>
-<li><p class="first"><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w">Wavelet Transform Based Adaptive Filters: Analvsis and New Results</a> 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。</p>
-<blockquote>
 <ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w">Wavelet Transform Based Adaptive Filters: Analvsis and New Results</a> 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。<ul>
 <li>ざっと読んでみた。入力信号とウェーブレット関数の内積でウェーブレット領域に飛ばして、その領域での係数を適応学習するというもの。定常的な信号ではDFT領域に飛ばして適応するアルゴリズムには敵わなかったが、インパルーシブな信号に対しては、（ドベシィウェーブレットで）速い収束性能を示していた。また、理論的に条件数が向上することが示され、普通のLMSよりも収束が速いことが分かっている。紙に印刷したい。</li>
 <li>ウェーブレット関数の自己相関行列のようなものが出てきている。すげえ気になる。</li>
 <li>SAのように、ラプラス分布仮定を入れるとどうなるか試してみたい。</li>
 <li>他のウェーブレットはどうか？も気になる。</li>
 <li>古いので、もっと新しい論文を見て考えたい。</li>
 </ul>
-</blockquote>
 </li>
 </ul>
 
@@ -197,63 +223,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-29.html">コーデック作り2021春(29)</a></h2>
-                <div class="summary"><p>プレーヤー作成中、ブロックデコード関数を公開したけど、仕様の厳しさを感じている。末端でブロックサンプル数が少なくなったときの処理が難しい。</p>
-<p>ブロックヘッダにサンプル数を記録すべきでは無いかと考えている。そしてヘッダのブロックあたりサンプル数は最大ブロックサンプル数に変更。そうしないと現在のブロックをデコードするときに何サンプルデコードすべきかわからなくなる。末端までサンプル数固定にするのもありだけど、無音が挿入されるのが汚い。</p>
-<p>論文についての返事がないので実装を進めた。ブロックヘッダにサンプル数を入れた。</p>
-<p>単純再生サンプル作った。この春できるのはここらへんまでかな。参考にしたリンクは以下。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://gist.github.com/andormade/1360885/6b239efc7bc59a7dd038b9543b98bdd6afd40559">Audio Queue example</a> CoreAudio出力の参考に。</li>
-<li>WASAPIが一番大変だった<ul>
-<li><a class="reference external" href="https://gist.github.com/kevinmoran/3d05e190fb4e7f27c1043a3ba321cede">WASAPI Play .wav File.cpp</a> わかりやすかったがWAVEFORMATEXを0クリアしてなくてCbsizeが未初期化クラッシュ。ドハマリ</li>
-<li><a class="reference external" href="https://charatsoft.sakura.ne.jp/develop/toaru2/index.php?did=7">WASAPIをプログラムしてみる</a></li>
-<li><a class="reference external" href="https://ameblo.jp/shuz096/entry-10916035039.html">WASAPIによる音声再生</a></li>
-<li><a class="reference external" href="http://achurch.org/SIL/current/src/sysdep/windows/sound-wasapi.c">System Interface Library for games</a> ピュアCでやろうとするとGUIDが取れない。自力でGUIDを定義しているのがこれ。</li>
-</ul>
-</li>
-<li><a class="reference external" href="http://0pointer.de/lennart/projects/pulseaudio/doxygen/pacat-simple_8c-example.html">pacat-simple.c</a> pulseaudio出力の参考に。pa_simpleで十分だった。</li>
-</ul>
-<div class="section" id="id2">
-<h2>データフォーマット</h2>
-<div class="section" id="id3">
-<h3>ヘッダフォーマット</h3>
-<table border="1" class="docutils">
-<colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
-</colgroup>
-<thead valign="bottom">
-<tr><th class="head">bit幅</th>
-<th class="head">内容</th>
-<th class="head">補足</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr><td>32</td>
-<td><cite>'N', 'A', 'R', 'U'</cite></td>
-<td>NARUファイルであることを示すシグネチャ …</td></tr></tbody></table></div></div>
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-29.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-28.html">コーデック作り2021春(28)</a></h2>
-                <div class="summary"><p>論文化が入ってしまったので作業が止まった。。。ギリギリ形にはなってる。</p>
-<p>Monkey's AudioがCNN使ってるのを改めて見る。Binarised NNとか使えないか妄想する。</p>
-<ul class="simple">
-<li>コーダーのパラメーター数は定数でいい。引数いらん。<ul>
-<li>と思ってやってみたけど、さして負荷変わるわけでもなし、実装が単純になったかというとそうでもないのでやめる。</li>
-</ul>
-</li>
-<li>プレーヤー作りたい。サウンドドライバのインターフェイスは最小限に。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-28.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -289,55 +258,43 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -346,19 +303,34 @@ Aiki's Blog            </a>
       <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -367,85 +339,88 @@ Aiki's Blog            </a>
       <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
+      <a href="/tag/ribabu.html">リバーブ</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
   </ul>
 </li>

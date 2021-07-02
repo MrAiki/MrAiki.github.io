@@ -1,26 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-04-15T10:00:00+09:00</updated><entry><title>戦略会議中2021(5)</title><link href="/zhan-lue-hui-yi-zhong-20215.html" rel="alternate"></link><published>2021-04-15T10:00:00+09:00</published><updated>2021-04-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-15:/zhan-lue-hui-yi-zhong-20215.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;/p&gt;
-&lt;blockquote&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-07-02T10:00:00+09:00</updated><entry><title>戦略会議中2021(7)</title><link href="/zhan-lue-hui-yi-zhong-20217.html" rel="alternate"></link><published>2021-07-02T10:00:00+09:00</published><updated>2021-07-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-02:/zhan-lue-hui-yi-zhong-20217.html</id><summary type="html">&lt;p&gt;改めて音声符号化にウェーブレットを使うことの是非を見る意図で、「ウェーブレットとサブバンド符号化」をつまんでいる。
+概要を述べているだけなので厳しい。見つかった文献を漁る。高音質と中音質に分けていたので分類に従って列挙。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;高音質&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;古いので、もっと新しい論文を見て考えたい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.aes.org/e-lib/online/browse.cfm?elib=6768"&gt;High-Quality, Low-Rate Audio Transform Coding for Transmission and Multimedia Applications&lt;/a&gt; AES会員でないと読めないっぽい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/151054"&gt;A MUSICAM source codec for digital audio broadcasting and storage&lt;/a&gt; MPEG-Iの基礎になっている考え方。フィルタバンクを使用。知覚符号化そのものか？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/225993"&gt;Sum-difference stereo transform coding&lt;/a&gt; これもフィルタバンク+量子化の流れ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt; 適応的（辞書的）にウェーブレットを選んで冗長性を減らす。ウェーブレットパケットの構成も動的に決めている …&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;改めて音声符号化にウェーブレットを使うことの是非を見る意図で、「ウェーブレットとサブバンド符号化」をつまんでいる。
+概要を述べているだけなので厳しい。見つかった文献を漁る。高音質と中音質に分けていたので分類に従って列挙。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;高音質&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.aes.org/e-lib/online/browse.cfm?elib=6768"&gt;High-Quality, Low-Rate Audio Transform Coding for Transmission and Multimedia Applications&lt;/a&gt; AES会員でないと読めないっぽい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/151054"&gt;A MUSICAM source codec for digital audio broadcasting and storage&lt;/a&gt; MPEG-Iの基礎になっている考え方。フィルタバンクを使用。知覚符号化そのものか？&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/225993"&gt;Sum-difference stereo transform coding&lt;/a&gt; これもフィルタバンク+量子化の流れ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt; 適応的（辞書的）にウェーブレットを選んで冗長性を減らす。ウェーブレットパケットの構成も動的に決めている？これってICASSPのやつと同等に見える。腰を入れて読むべきかも。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/117212"&gt;High quality audio bit-rate reduction system family for different applications&lt;/a&gt; MUSICAMの解説論文。より概要に寄った感じ。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.mp3-tech.org/programmer/docs/ac3-flex.pdf"&gt;AC-3: Flexible Perceptual Coding for Audio Transmission and Storage&lt;/a&gt; ドルビーが提案しているっぽいコーデック。フィルタバンク+知覚符号化。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/234825071_Acoustic_Signal_Compression_with_Wavelet_Packets"&gt;Acoustic Signal Compression with Wavelet Packets&lt;/a&gt; コスト関数の最適化に基づいてウェーブレット基底を選択する手法。ちゃんと読めず。そういえばリフィティング使ってないけど、リフィティングが現れる前の話？&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;中音質&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/6769805"&gt;Digital Coding of Speech in Sub-bands&lt;/a&gt; ノキアベルラボの人。だいぶクラシカルだけど、基本が詰まっている。小さめのサブバンドに分割して符号化。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/1170341"&gt;Application of quadrature mirror filters to split band voice coding schemes&lt;/a&gt; これもフィルタバンク(QMF)で分割して、フィルタ出力を量子化して送るというもの。単純極まるけど基本的でわかりやすい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;amp;arnumber=1170894"&gt;16kbps Real time QMF sub-band coding implementation&lt;/a&gt; これもQMF+線形量子化。自分も試してみるか？問題点はQMFの設計だけに思える。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf"&gt;G.722: a new CCITT coding standard for digital transmission of wideband audio signals&lt;/a&gt; QMF出力に対して、低域と高域でそれぞれADPCM。これは素晴らしい。ピンときたし、ウェーブレット変換領域での適応フィルタに一致していると思う。これも読みたい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;ul&gt;
+&lt;li&gt;改めてこれも関連していそうに見える。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(6)</title><link href="/zhan-lue-hui-yi-zhong-20216.html" rel="alternate"></link><published>2021-06-28T10:00:00+09:00</published><updated>2021-06-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-28:/zhan-lue-hui-yi-zhong-20216.html</id><content type="html">&lt;p&gt;4月からここまでだいたい論文執筆やら発表準備、ゼミ輪講で潰れていた。
+GWはウェーブレット理解のために合宿。高速ウェーブレット変換まではOKということで資料公開。
+論文発表の準備がようやく落ち着いてきた。7月からは調査に再度着手したい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;ul&gt;
+&lt;li&gt;これから再度スタートする。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://yukara-13.hatenablog.com/entry/2013/12/01/222742"&gt;【Python】 Constant-Q 変換 (対数周波数スペクトログラム)&lt;/a&gt; 定Q変換について。周波数に応じて窓幅を変えて解析する。それってウェーブレットの問題意識と全く同じ。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(5)</title><link href="/zhan-lue-hui-yi-zhong-20215.html" rel="alternate"></link><published>2021-04-15T10:00:00+09:00</published><updated>2021-04-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-15:/zhan-lue-hui-yi-zhong-20215.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;ul&gt;
+&lt;li&gt;こっちも古いので、もっと新しい論文を見て考えたい。&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(4)</title><link href="/zhan-lue-hui-yi-zhong-20214.html" rel="alternate"></link><published>2021-04-14T10:00:00+09:00</published><updated>2021-04-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-14:/zhan-lue-hui-yi-zhong-20214.html</id><content type="html">&lt;p&gt;紹介を進め、ウェーブレットの適用について考え始めている。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w"&gt;Wavelet Transform Based Adaptive Filters: Analvsis and New Results&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。&lt;/p&gt;
-&lt;blockquote&gt;
 &lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w"&gt;Wavelet Transform Based Adaptive Filters: Analvsis and New Results&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。&lt;ul&gt;
 &lt;li&gt;ざっと読んでみた。入力信号とウェーブレット関数の内積でウェーブレット領域に飛ばして、その領域での係数を適応学習するというもの。定常的な信号ではDFT領域に飛ばして適応するアルゴリズムには敵わなかったが、インパルーシブな信号に対しては、（ドベシィウェーブレットで）速い収束性能を示していた。また、理論的に条件数が向上することが示され、普通のLMSよりも収束が速いことが分かっている。紙に印刷したい。&lt;/li&gt;
 &lt;li&gt;ウェーブレット関数の自己相関行列のようなものが出てきている。すげえ気になる。&lt;/li&gt;
 &lt;li&gt;SAのように、ラプラス分布仮定を入れるとどうなるか試してみたい。&lt;/li&gt;
 &lt;li&gt;他のウェーブレットはどうか？も気になる。&lt;/li&gt;
 &lt;li&gt;古いので、もっと新しい論文を見て考えたい。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(3)</title><link href="/zhan-lue-hui-yi-zhong-20213.html" rel="alternate"></link><published>2021-04-11T10:00:00+09:00</published><updated>2021-04-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-04-11:/zhan-lue-hui-yi-zhong-20213.html</id><content type="html">&lt;p&gt;紹介をほぼ進めた。背景理論をどこまで書くか考える。

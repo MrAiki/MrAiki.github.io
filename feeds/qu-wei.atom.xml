@@ -1,5 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2020-11-22T22:00:00+09:00</updated><entry><title>麻雀プログラミング</title><link href="/ma-que-puroguramingu.html" rel="alternate"></link><published>2020-11-14T12:00:00+09:00</published><updated>2020-11-22T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-14:/ma-que-puroguramingu.html</id><summary type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2021-06-18T22:00:00+09:00</updated><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><content type="html">&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html"&gt;FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法&lt;/a&gt;&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;文字化けしてるのでEUCで読むべし&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/fft_note_s.pdf"&gt;pdf資料&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/ftmn2_1.html#sec2_1"&gt;実離散Fourier変換&lt;/a&gt; 複素部を0埋めするのはもったいない視点に立ち、複素FFTを用いて効率的に計算する&lt;/dt&gt;
+&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/ftmn2_12.html"&gt;実離散Fourier変換の実装例&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;li&gt;Numerical recipies in Cのrealftと同じだ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;&lt;a class="reference external" href="http://wwwa.pikara.ne.jp/okojisan/stockham/stockham3.html#stockham4"&gt;４基底の Stockham FFT&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;ul class="first last simple"&gt;
+&lt;li&gt;Stockham FFTはビットリバース不要なFFT&lt;/li&gt;
+&lt;li&gt;普通のFFTは分解を2サンプル単位でやるが、こちらは4サンプル単位&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;統合すると、realft方式で行きたい。そして基板部のFFTは4基底のStockhamFFTで。&lt;/p&gt;
+</content><category term="趣味"></category><category term="リバーブ"></category><category term="エフェクター"></category></entry><entry><title>麻雀プログラミング</title><link href="/ma-que-puroguramingu.html" rel="alternate"></link><published>2020-11-14T12:00:00+09:00</published><updated>2020-11-22T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-14:/ma-que-puroguramingu.html</id><summary type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
 すこし成果がまとまってきたので記事にしてみよう。&lt;/p&gt;
 &lt;p&gt;なんと言っても、&lt;/p&gt;
 &lt;ul class="simple"&gt;
