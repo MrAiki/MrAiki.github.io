@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>趣味 - Aiki's Blog</title>
+    <title>戦略会議中2021(8) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,16 +9,22 @@
 
 
 
+<link rel="canonical" href="/zhan-lue-hui-yi-zhong-20218.html">
 
-    <meta name="author" content="aiki" />
-    <meta name="keywords" content="趣味" />
+        <meta name="author" content="aiki" />
+        <meta name="keywords" content="Lossless Audio Codec,Wavelet" />
+        <meta name="description" content="昨日見た下記3論文を読んで、展望を考えたい。 Wavelet Transform Domain Adaptive FIR Filtering 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。 かるく見たけど、…ん？まじで変換域で適応フィルタしてるだけ？自己相関の逆かけて白色化するのはたしかに大事だけど、これでいいのか？ 不思議なのは、自己回帰過程を考えていてその自己相関行列も計算しているが、逆の計算を考えていない。 Low Bit Rate Transparent Audio Compression using Adapted Wavelets G.722: a new CCITT coding standard for digital transmission of wideband audio signals" />
 
-    <!-- Open Graph tags -->
         <meta property="og:site_name" content="Aiki's Blog" />
-        <meta property="og:type" content="website"/>
-        <meta property="og:title" content="Aiki's Blog"/>
-        <meta property="og:url" content=""/>
-        <meta property="og:description" content="Aiki's Blog"/>
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="戦略会議中2021(8)"/>
+        <meta property="og:url" content="/zhan-lue-hui-yi-zhong-20218.html"/>
+        <meta property="og:description" content="昨日見た下記3論文を読んで、展望を考えたい。 Wavelet Transform Domain Adaptive FIR Filtering 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。 かるく見たけど、…ん？まじで変換域で適応フィルタしてるだけ？自己相関の逆かけて白色化するのはたしかに大事だけど、これでいいのか？ 不思議なのは、自己回帰過程を考えていてその自己相関行列も計算しているが、逆の計算を考えていない。 Low Bit Rate Transparent Audio Compression using Adapted Wavelets G.722: a new CCITT coding standard for digital transmission of wideband audio signals"/>
+        <meta property="article:published_time" content="2021-07-03" />
+            <meta property="article:section" content="雑記" />
+            <meta property="article:tag" content="Lossless Audio Codec" />
+            <meta property="article:tag" content="Wavelet" />
+            <meta property="article:author" content="aiki" />
 
 
 
@@ -33,8 +39,8 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-        <link href="/feeds/qu-wei.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog 趣味 ATOM Feed"/>
+        <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
+              title="Aiki's Blog 雑記 ATOM Feed"/>
 </head>
 <body>
 
@@ -55,13 +61,13 @@ Aiki's Blog            </a>
                         <li >
                             <a href="/category/ji-shi.html">記事</a>
                         </li>
-                        <li class="active">
+                        <li >
                             <a href="/category/qu-wei.html">趣味</a>
                         </li>
                         <li >
                             <a href="/category/shi-yan.html">実験</a>
                         </li>
-                        <li >
+                        <li class="active">
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -84,88 +90,66 @@ Aiki's Blog            </a>
 <div class="container">
     <div class="row">
         <div class="col-sm-9">
-            <article>
-                <h2><a href="/ribabukai-fa.html">リバーブ開発</a></h2>
-                <div class="summary"><ul class="simple">
-<li><dl class="first docutils">
-<dt><a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html">FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法</a></dt>
-<dd><ul class="first last">
-<li>文字化けしてるのでEUCで読むべし</li>
-<li><a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/fft_note_s.pdf">pdf資料</a></li>
-<li><dl class="first docutils">
-<dt><a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/ftmn2_1.html#sec2_1">実離散Fourier変換</a> 複素部を0埋めするのはもったいない視点に立ち、複素FFTを用いて効率的に計算する</dt>
-<dd><ul class="first last">
-<li><a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/ftmn2_12.html">実離散Fourier変換の実装例</a></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li>Numerical recipies in Cのrealftと同じだ</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><a class="reference external" href="http://wwwa.pikara.ne.jp/okojisan/stockham/stockham3.html#stockham4">４基底の Stockham FFT</a></dt>
-<dd><ul class="first last">
-<li>Stockham FFTはビットリバース不要なFFT</li>
-<li>普通のFFTは分解を2サンプル単位でやるが、こちらは4サンプル単位</li>
-</ul>
-</dd>
-</dl>
-</li>
-</ul>
-<p>統合すると、realft方式で行きたい。そして基板部のFFTは4基底のStockhamFFTで。</p>
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="/zhan-lue-hui-yi-zhong-20218.html"
+                       rel="bookmark"
+                       title="Permalink to 戦略会議中2021(8)">
+                        戦略会議中2021(8)
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2021-07-03T10:00:00+09:00"> Sat 03 July 2021</time>
+    </span>
 
-                    <a class="btn btn-default btn-xs" href="/ribabukai-fa.html">more ...</a>
+
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+        /
+	<a href="/tag/wavelet.html">Wavelet</a>
+    
+</footer><!-- /.post-info -->                    </div>
                 </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/ma-que-puroguramingu.html">麻雀プログラミング</a></h2>
-                <div class="summary"><p>秋口あたりから麻雀のプログラミングにハマっているフシがある。
-すこし成果がまとまってきたので記事にしてみよう。</p>
-<p>なんと言っても、</p>
+                <p>昨日見た下記3論文を読んで、展望を考えたい。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://web.archive.org/web/20190402234201/http://cmj3.web.fc2.com/index.htm">麻雀C言語プログラム集</a></li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。</dt>
+<dd><ul class="first last">
+<li>かるく見たけど、…ん？まじで変換域で適応フィルタしてるだけ？自己相関の逆かけて白色化するのはたしかに大事だけど、これでいいのか？</li>
+<li>不思議なのは、自己回帰過程を考えていてその自己相関行列も計算しているが、逆の計算を考えていない。</li>
 </ul>
-<p>がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。あと有効牌判定。
-そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。</p>
-<div class="section" id="id2">
-<h2>お役立ちリンク</h2>
-<div class="section" id="id3">
-<h3>他の有名な？プロジェクト</h3>
-<ul class="simple">
-<li><a class="reference external" href="https://ja.osdn.net/projects/openmahjong/">オープン麻雀プロジェクト(仮称)</a></li>
-<li><a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri">mahjong-serverのクライアント実装例</a></li>
-<li><a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/">爆打の中の人</a> ちゃんと研究に落とし込んでいる方。</li>
-<li><a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/">まうじゃん的空間</a> フリーでプレーヤーを自前実装できる「まうじゃん」の配布サイト。</li>
-<li><a class="reference external" href="https://github.com/nekobean/mahjong-cpp">mahjong-cpp</a> C++17(+ boost)で美しく書かれたライブラリ。テストも充実。</li>
+</dd>
+</dl>
+</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a></li>
+<li><a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf">G.722: a new CCITT coding standard for digital transmission of wideband audio signals</a></li>
 </ul>
-</div>
-<div class="section" id="id4">
-<h3>アルゴリズム全般</h3>
-<ul class="simple">
-<li><a class="reference external" href="https://ksta.skr.jp/topic/diaryb15.html#20101230">気まぐれな戯れ言 バックナンバー１５</a> 役判定アルゴリズムの概要がつかめる。</li>
-<li><a class="reference external" href="http://hp.vector.co.jp/authors/VA046927/mjscore/mjalgorism.html">麻雀 和了判定（役の判定） アルゴリズム</a> バックトラック法とインデックスを用いた約判定アルゴリズムについて。</li>
-<li><a class="reference external" href="https://mahjong.org/training/training_006/">牌理/牌効率ツール</a> 有効牌列挙の動作確認に。</li>
-</ul>
-</div>
-<div class="section" id="id5">
-<h3>数理的側面</h3>
-<ul class="simple">
-<li><a class="reference external" href="http://www10.plala.or.jp/rascalhp/mjmath.htm">麻雀の数学</a> 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。</li>
-<li><a class="reference external" href="http://jankenso.com/dataroom.asp">雀賢荘データ室</a> 強い打ち手の統計情報の要約</li>
-</ul>
-<div class="section" id="id6">
-<h4>乱数について</h4>
-<p>端的に言って沼。</p>
-<ul>
-<li><p class="first"><a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html">ランダムシャッフル | Programming Place …</a></p></li></ul></div></div></div>
-                    <a class="btn btn-default btn-xs" href="/ma-que-puroguramingu.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
+
+            </div>
+            <!-- /.entry-content -->
+<section class="well" id="related-posts">
+    <h4>Related Posts:</h4>
+    <ul>
+        <li><a href="/zhan-lue-hui-yi-zhong-20219.html">戦略会議中2021(9)</a></li>
+        <li><a href="/zhan-lue-hui-yi-zhong-20217.html">戦略会議中2021(7)</a></li>
+        <li><a href="/zhan-lue-hui-yi-zhong-20216.html">戦略会議中2021(6)</a></li>
+        <li><a href="/zhan-lue-hui-yi-zhong-20215.html">戦略会議中2021(5)</a></li>
+        <li><a href="/zhan-lue-hui-yi-zhong-20214.html">戦略会議中2021(4)</a></li>
+    </ul>
+</section>
+        </article>
+    </section>
 
         </div>
         <div class="col-sm-3" id="sidebar">

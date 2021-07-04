@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2021-06-18T22:00:00+09:00</updated><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><content type="html">&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html"&gt;FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法&lt;/a&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;ul class="simple"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2021-06-18T22:00:00+09:00</updated><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><content type="html">&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;dl class="first docutils"&gt;
+&lt;dt&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html"&gt;FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法&lt;/a&gt;&lt;/dt&gt;
+&lt;dd&gt;&lt;ul class="first last"&gt;
 &lt;li&gt;文字化けしてるのでEUCで読むべし&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/fft_note_s.pdf"&gt;pdf資料&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
@@ -15,11 +15,12 @@
 &lt;/li&gt;
 &lt;li&gt;Numerical recipies in Cのrealftと同じだ&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/blockquote&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;dl class="first docutils"&gt;
 &lt;dt&gt;&lt;a class="reference external" href="http://wwwa.pikara.ne.jp/okojisan/stockham/stockham3.html#stockham4"&gt;４基底の Stockham FFT&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last simple"&gt;
+&lt;dd&gt;&lt;ul class="first last"&gt;
 &lt;li&gt;Stockham FFTはビットリバース不要なFFT&lt;/li&gt;
 &lt;li&gt;普通のFFTは分解を2サンプル単位でやるが、こちらは4サンプル単位&lt;/li&gt;
 &lt;/ul&gt;
