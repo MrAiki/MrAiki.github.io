@@ -84,175 +84,173 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-21.html">コーデック作り2021春(21)</a></h2>
-                <div class="summary"><p>ワーク配置をする。</p>
-<ul class="simple">
-<li>LPC計算ハンドル: 済</li>
-<li>コーダー: 済（まよったけど、今後別用途ありうる）</li>
-<li>プロセッサ: やめる。内部モジュールであって構造体公開してるし。</li>
-<li>エンコーダ: 済</li>
-<li>デコーダ: 済</li>
-</ul>
-<p>の順に。かるくデコーダのワークサイズみた。8ch, 最大32次とすると9kくらい。プロセッサがほとんどを占めてる。まだメモリを削る要望はないけど、やるとしたらここかな。コンフィグの最大次数に合わせて動的確保する実装に変えるべき。</p>
-<p>Windowsで軽く動かしてたら、NLZは <cite>_BitScanReverse</cite> を使えば早くできそうな印象で、やっつけたらたしかに早くなった。630ms-&gt;550msとか。全部NLZ(CLZ)使ってんのもよくなくて、CTZも使ったほうがいいんじゃないか。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://blog.jiubao.org/2015/01/gcc-bitscanforward-bitscanreverse-msvc.html">gcc で _BitScanForward &amp; _BitScanReverse 互換関数、MSVC で __builtin_clz &amp; __builtin_ctz 互換関数</a></li>
-</ul>
+                <h2><a href="/zhan-lue-hui-yi-zhong-202111.html">戦略会議中2021(11)</a></h2>
+                <div class="summary"><p>ウェーブレット係数の適応について考えている。
+昨日見たwavenetは制約もコスト関数に入れて逐次最適化により係数を求めている。が、もっとうまくやれないか？制約付き最適化問題として、未定乗数法に突っ込めないか考えている。</p>
+<p>考えるより手を動かしてできるかどうか見るのが良いかも。wavenetが2018年と考えるとあんまり考えている人がいなそう。
+単純な、1層だけの（パーセプトロン）ウェーブレットを係数で微分してみてどうなる？</p>
 
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-21.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202111.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-20.html">コーデック作り2021春(20)</a></h2>
-                <div class="summary"><p>3/13はイベント、3/14はリングバッファ高速化（やった）。今日3/15は事務用で一日潰れる。</p>
-<p>作業開始は22:30となる。また、論文にまとめないといけなそうな雰囲気。しかし焦りたくない。</p>
-<p>今日はフィルタモジュール整理から初めて、できれば</p>
+                <h2><a href="/zhan-lue-hui-yi-zhong-202110.html">戦略会議中2021(10)</a></h2>
+                <div class="summary"><p>Adaptive liftingについて見る。</p>
 <ul class="simple">
-<li>LPC計算ハンドル</li>
-<li>コーダー</li>
-<li>プロセッサ</li>
+<li><a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.1481&amp;rep=rep1&amp;type=pdf">ADAPTIVE WAVELET TRANSFORMS VIA LIFTING</a> 1999年。<ul>
+<li>軽く読んだ。短くてあんまり詳細はつかめてないが。2通りの適応手法を紹介。<ul>
+<li>スケール適応: （スケーリング係数が満たすべき制約(6式)のもとで）予測誤差最小化でフィルタを構築しているだけに見える。そんな単純だったかな…<ul>
+<li>ラグランジェ未定乗数法で解けないかね？</li>
 </ul>
-<p>をワーク配置形式に作っていきたい。フィルタモジュール整理してたら24時回りそう。。。。</p>
-<p>AR次数が2以上の場合に対処していたら1:00回ったので切り上げる。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-20.html">more ...</a>
+</li>
+<li>スペース適応: 1サンプルごとに更新する手法。詳細がまったくない。</li>
+</ul>
+</li>
+<li>ドベシィ8, Haarと比べて同等かちょっと優れた結果（エントロピー尺度で）</li>
+<li>引用してる文献を更に見るべきかも。具体的な更新が見えてこない</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://drum.lib.umd.edu/bitstream/handle/1903/5588/TR_94-3.pdf;jsessionid=745E02179D775527EE4DF35D420BA176?sequence=1">On the optimal choice of a wavelet for signal representation</a><ul>
+<li>これはウェーブレット係数勾配を計算してエントロピー最小化の意味で最小化していそう。読む。</li>
+<li>まさにやりたいことで感動した。</li>
+<li>エントロピー尺度最小の基底を探す…って言ってるけど、これ指数型分布のなかで最小のポテンシャルを持つ基底（座標変換）を探しているのと同じでは…。</li>
+<li>信号fを固定し、基底をウェーブレット（スケーリング）関数にとって変換して、エントロピー尺度で最小化を行う。</li>
+<li>実験結果がない …</li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202110.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-19.html">コーデック作り2021春(19)</a></h2>
-                <div class="summary"><p>Riceパラメータはlog2で記録するようにした。
-残差が大きく(=圧縮率が悪化)なったら対策を考える。問題後回し。</p>
-<p>そして、固定小数幅を14bitにするのを試行する。→やってみたら実音声で大幅悪化。やめやめ。</p>
-<p>残りで大きいところは</p>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20219.html">戦略会議中2021(9)</a></h2>
+                <div class="summary"><p>論文をざっと読んだ。まだ腰を落ち着けるべきではなさそう。</p>
 <ul class="simple">
-<li>リングバッファアクセス高速化</li>
-<li>ハンドルのワーク配置化</li>
-<li>コマンドライン整理</li>
-<li>プリセット選定<ul>
-<li>いまのところ、(NGSA次数, SA次数, ブロックサイズ) と書くとしたとき<ul>
-<li>高速（低圧縮モード）は(4, 4, 8192)</li>
-<li>通常（デフォルト）は(8, 8, 8192)</li>
-<li>低速（高圧縮モード）は(16, 8, 16384)</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
+<li>ウェーブレット変換域でLMS/Newtonを使う。うまいことコレスキー分解して、スパース推定を使って計算効率化を図る。</li>
+<li>当然単純な変換域でのLMSよりは性能が良い。</li>
+<li>変換域で自己相関行列を見ており、しかもその逆はスパースであると言っている。</li>
+<li>自分の発想を突っ込めそうに思える。が、変換域でAR過程になるのだろうか？</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a><ul>
+<li>最大消失モーメントを持つウェーブレットはタップ数に応じて有限個しか無い（ドベシィ。例えばタップ数40なら最大で20次までのモーメントを消せるが、そのウェーブレットの組み合わせは1024通りしか無いとのこと。10bitで送れる。）より、その中から適切なウェーブレットを適応的に選ぶ<ul>
+<li>この事実は気になる。ウェーブレット10講に書いてあるかな。</li>
+</ul>
+</li>
+<li>選択尺度は等誤差面の議論から割と自然に出てくる。しかしその選択は総当りっぽい。デコード負荷は低いから許されるか…</li>
+<li>ほかにも、LPCは人間の声道管モデルベースだから音楽などでの無声音（ピッチがない音）は厳しいという指摘があった。確かに。</li>
+</ul>
+</li>
+<li><a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf">G.722: a new …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20219.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20218.html">戦略会議中2021(8)</a></h2>
+                <div class="summary"><p>昨日見た下記3論文を読んで、展望を考えたい。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
+<li>かるく見たけど、…ん？まじで変換域で適応フィルタしてるだけ？自己相関の逆かけて白色化するのはたしかに大事だけど、これでいいのか？</li>
+<li>不思議なのは、自己回帰過程を考えていてその自己相関行列も計算しているが、逆の計算を考えていない。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a></li>
+<li><a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf">G.722: a new CCITT coding standard for digital transmission of wideband audio signals</a></li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20218.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20217.html">戦略会議中2021(7)</a></h2>
+                <div class="summary"><p>改めて音声符号化にウェーブレットを使うことの是非を見る意図で、「ウェーブレットとサブバンド符号化」をつまんでいる。
+概要を述べているだけなので厳しい。見つかった文献を漁る。高音質と中音質に分けていたので分類に従って列挙。</p>
+<div class="section" id="id2">
+<h2>高音質</h2>
+<ul class="simple">
+<li><a class="reference external" href="https://www.aes.org/e-lib/online/browse.cfm?elib=6768">High-Quality, Low-Rate Audio Transform Coding for Transmission and Multimedia Applications</a> AES会員でないと読めないっぽい。</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/151054">A MUSICAM source codec for digital audio broadcasting and storage</a> MPEG-Iの基礎になっている考え方。フィルタバンクを使用。知覚符号化そのものか？</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/225993">Sum-difference stereo transform coding</a> これもフィルタバンク+量子化の流れ。</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a> 適応的（辞書的）にウェーブレットを選んで冗長性を減らす。ウェーブレットパケットの構成も動的に決めている …</li></ul></div>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20217.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20216.html">戦略会議中2021(6)</a></h2>
+                <div class="summary"><p>4月からここまでだいたい論文執筆やら発表準備、ゼミ輪講で潰れていた。
+GWはウェーブレット理解のために合宿。高速ウェーブレット変換まではOKということで資料公開。
+論文発表の準備がようやく落ち着いてきた。7月からは調査に再度着手したい。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
+<li>これから再度スタートする。</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://yukara-13.hatenablog.com/entry/2013/12/01/222742">【Python】 Constant-Q 変換 (対数周波数スペクトログラム)</a> 定Q変換について。周波数に応じて窓幅を変えて解析する。それってウェーブレットの問題意識と全く同じ。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20216.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20215.html">戦略会議中2021(5)</a></h2>
+                <div class="summary"><p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
+<li>こっちも古いので、もっと新しい論文を見て考えたい。</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<p>上が残件になるが、致命的なところは除いたつもりなので、今の内容で公開する。</p>
 
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-19.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20215.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-18.html">コーデック作り2021春(18)</a></h2>
-                <div class="summary"><p>1サンプル単位で振動する信号への対処を考慮中。</p>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20214.html">戦略会議中2021(4)</a></h2>
+                <div class="summary"><p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
 <ul class="simple">
-<li>64bit化してオーバーフロー原因かしらべる-&gt;コンパイルエラー多発。そして解決してない。オーバーフローせずに吹っ飛んでるっぽい。</li>
-<li>プリエンファシスをLPCで計算した1次フィルタに置き換える: 前提がほぼ崩れるので最終手段に近い。</li>
-<li>アサートしているのは（残差増大に伴って）Rice符号の初期パラメータが大きくなりすぎているからなので、パラメータ保存領域を大きくする<ul>
-<li>うまく行かなかった。発散してるっぽいし、この対処だと本質的な問題（発散）を隠してる気がする。</li>
-<li>Riceパラメータのlog2ceilをとって記録することで5bitに確実に収まり、アサートは発生しなくなる…が、やっぱ残差が大きくなっている事実は変わらないわけで、どうするか考えるべき。テストケースは18とか出てるので大きいとおもふ。</li>
-</ul>
-</li>
-<li>ブロックサンプル数を8192より大きくすると収束する<ul>
-<li>何故？AR係数がうまく求まるから？</li>
+<li><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w">Wavelet Transform Based Adaptive Filters: Analvsis and New Results</a> 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。<ul>
+<li>ざっと読んでみた。入力信号とウェーブレット関数の内積でウェーブレット領域に飛ばして、その領域での係数を適応学習するというもの。定常的な信号ではDFT領域に飛ばして適応するアルゴリズムには敵わなかったが、インパルーシブな信号に対しては、（ドベシィウェーブレットで）速い収束性能を示していた。また、理論的に条件数が向上することが示され、普通のLMSよりも収束が速いことが分かっている。紙に印刷したい。</li>
+<li>ウェーブレット関数の自己相関行列のようなものが出てきている。すげえ気になる。</li>
+<li>SAのように、ラプラス分布仮定を入れるとどうなるか試してみたい。</li>
+<li>他のウェーブレットはどうか？も気になる。</li>
+<li>古いので、もっと新しい論文を見て考えたい。</li>
 </ul>
 </li>
 </ul>
-<p>固定小数のビット数を14にしたら性能向上したけど、後の検証に回す。（12,13だと性能悪化）</p>
 
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-18.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20214.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-17.html">コーデック作り2021春(17)</a></h2>
-                <div class="summary"><p>テストケース追加中。実装も並行して修正かけてる。</p>
-<p>ノイズ（エントロピー大）エンコード時に残差が大きくなってライスパラメータが記録できずクラッシュしていた。このため、生データブロックを追加。</p>
-<p>同時にブロックヘッダのフォーマットを整理。ビットストリームなしでもブロックヘッダはエンコード/デコードできるようにする。そのためブロックデータタイプを1byteにした。</p>
-<p>1サンプル周期の振動に対して残差が発散している。。。
-デバッグ中。</p>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20213.html">戦略会議中2021(3)</a></h2>
+                <div class="summary"><p>紹介をほぼ進めた。背景理論をどこまで書くか考える。
+また、NARUの警告つぶしをした。ほぼこれで固まるかな。</p>
 <ul class="simple">
-<li>NGSAの勾配がすぐに止まってしまうのを見ている。（定常的だから当然かも知れない）。</li>
-<li>プリエンファシスが逆効果（振幅増大）している...。オーバーフロー多発。</li>
-<li>勾配の更新タイミングを履歴更新後にしたら若干改善したが、それでも発散している。（以前圧縮率悪化を確認していたが、あまり悪化しなかった。何故？）</li>
-<li>係数初期値をLPCで求めるのもありか？</li>
+<li><a class="reference external" href="http://www5d.biglobe.ne.jp/~noocyte/Programming/CMacros.html">C/C++ 関数・マクロ集 ((ほぼ？) 処理系・OS 非依存)</a> Cマクロ集（いつか使える）</li>
+<li><a class="reference external" href="http://cppemb.blog17.fc2.com/blog-entry-21.html">境界調整（アラインメント）を調べる</a> alignofの可搬性のある実装。どこかで刺さるはず。</li>
+<li><a class="reference external" href="https://git.sr.ht/~rabbits/uxn/tree/master/item/src/uxn.c">~rabbits/uxn</a> 200行以内の8bit(16bitもっぽい)スタックマシン実装。本質が全て詰まっている。解説本あったら買う。</li>
+<li><a class="reference external" href="https://ethw.org/History_of_Lossless_Data_Compression_Algorithms">History of Lossless Data Compression Algorithms</a> ロスレスデータ圧縮アルゴリズムの歴史と特許批判</li>
+<li><a class="reference external" href="https://android.googlesource.com/platform/external/libldac/">libldac</a> ソニーの高音質ロッシーコーデックLDACのソース。オープンソース化している。DCTベースのようだが詳細不明。</li>
 </ul>
 
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-17.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20213.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-16.html">コーデック作り2021春(16)</a></h2>
-                <div class="summary"><p>テストケース追加中。</p>
-<p>動かしていて、ブロックにサイズに準じるデータが無いことに気づく。
-AADでは固定ビットレートだからブロックサイズが固定されていたのでいらなかったが、こっち可変ビットレートだから必須のはず。</p>
-<p>もう少し考えるとサイズのbit幅をいくつにしようか悩む。16bitでは小さい。SLAに倣うか→見たら32bitだった。まあそうか。
-ついでにCRC検査向けに16bit入れとくか。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-16.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-15.html">コーデック作り2021春(15)</a></h2>
-                <div class="summary"><p>引き続き発散現象調査。</p>
-<p>対策として、フィルタ係数のクリップ処理を入れてしまうのはどうかと考えている。</p>
-<p>なるべく、というか厳密にフィルタの出力を変えないように係数をクリップしたいのだが、どうすればいいのか。その議論ってあんまりされてないように見えるんやがな。（FIRフィルタ係数の同値類ってなんだ？）</p>
-<p>色々見ると、（あんまり記述無いけど）</p>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20212.html">戦略会議中2021(2)</a></h2>
+                <div class="summary"><p>研究紹介を進めながら、今年一年をどうするか考えつつある。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.csee.umbc.edu/~tinoosh/cmpe691/slides/Handout.fir.scaling.pdf">FIR FILTER SCALING</a></li>
+<li><a class="reference external" href="http://elvera.nue.tu-berlin.de/files/0843Purat1997.pdf">Lossless Transform Coding of Audio Signals</a> LTACの理論解説論文</li>
 </ul>
-<p>にあるように、全係数を定数で割ると案の定ゲインが定数倍だけ小さくなる。しかし周波数特性はそのまま。</p>
-<p>周波数特性は保たれるからええか、というノリで定数倍の方策を取る。幅は18bit（[-4,4]の範囲）とした。16, 17bitだと顕著に性能が悪い。しっかしオーバーフローが怖いかも。</p>
-<p>テスト追加に入る。</p>
 
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-15.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-14.html">コーデック作り2021春(14)</a></h2>
-                <div class="summary"><p>「重ねる努力」での発散現象を観察している。</p>
-<ul class="simple">
-<li>SAのフィルタ係数が正の値に徐々に吹っ飛んでいる</li>
-<li>ブロックの切り替わりが原因ぽい</li>
-</ul>
-<p>ブロックの切り替わりで怪しい処理はなにかと見ていたら、NGSAの残差初期値がただのデータ履歴で更新されていて、勾配が不連続になっていて怪しいことが見えた。リファレンス通りに、取得した履歴を元に自然勾配の初期値を計算してみる。</p>
-<p>すると、問題を確認したケースにおいては発散しなくなった。しかし、デバッグのためにブロックサイズを小さくして切り替わりが多く出るようにしたら再度発散。原因を追う。</p>
-<p>調査したところ、ブロックサイズを1024サンプルにしたとき、「重ねる努力」の1041000サンプル付近で「シャーン」というエントロピーの高い振幅大音源をきっかけにフィルタ係数が発散していた。もっと見たところAR係数が0.3等の低い数値をとっていた（確認したらそれまでは0.9以上をとっていたのに、急落していた。）</p>
-<p>対策をどうしようか。0.4未満ならリセットするとかやれば、1024では発散しないけど、ブロックサイズを512, 256にしたら発散する。。。（しかも、発散時にAR係数は0.9以上だった。）アドホックなのでやりたくないし、AR係数が本質的な原因では無いと考えている。</p>
-<p>バグを疑って調査を続ける。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-13.html">コーデック作り2021春(13)</a></h2>
-                <div class="summary"><p>デコーダを作った。といっても枠は作ってあってプロセッサ部を埋めるだけ。
-動かしたところSAの係数を記録してなかった。追加。</p>
-<p>処理順序を整理して、たぶんロスレスに戻っていることを確認。</p>
-<p>テストに入っていく。大規模なテストをやる前に手元のファイルをいくつか試していると、「重ねる努力」でアサート。こいつのバグを潰したら、テスト追加に入ろう。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-13.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-12.html">コーデック作り2021春(12)</a></h2>
-                <div class="summary"><p>ちょっとCmake整理した。</p>
-<p>で、昨日の続きといく。発散している現象はフィルタ係数をダンプしてみたけど、不連続的じゃなくてゆっくりと値が大きくなっていたので、厄介かもしれない。</p>
-<p>発散対策としてステップサイズをいじる。NGSAの係数右シフト量を4から6にしたら安定する+圧縮率上がる。設定次第でwavpack(-hh)を超える状況になる。</p>
-<p>ステップサイズをいじってコード整理。デコーダの制作に入ろうと思う。（SAのシフト前に0.5加えたら圧縮率向上した。こういうのがこわい。なお、プリエンファシスは0.5加算は不要。定数乗算だから。）
-デコーダができてビットパーフェクトに戻るまではぬか喜びなので、気合い入れる。</p>
-<p>デコード側だけでもin-placeな復号ができるといいなあ・・・</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-12.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20212.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -270,6 +268,10 @@ AADでは固定ビットレートだからブロックサイズが固定され�
                             href="/tag/lossless-audio-codec4.html">4</a></li>
                     <li class=""><a
                             href="/tag/lossless-audio-codec5.html">5</a></li>
+                    <li class=""><a
+                            href="/tag/lossless-audio-codec6.html">6</a></li>
+                    <li class=""><a
+                            href="/tag/lossless-audio-codec7.html">7</a></li>
                 <li class="next"><a
                         href="/tag/lossless-audio-codec4.html">&raquo;</a></li>
         </ul>
@@ -294,169 +296,169 @@ AADでは固定ビットレートだからブロックサイズが固定され�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
   </ul>
 </li>

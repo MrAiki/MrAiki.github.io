@@ -83,91 +83,13 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">研究会に向けて(17) - 中間発表</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。</p>
+                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
+                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
+<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
 <ul class="simple">
-<li>SA、実はヘブ則そのものでは？<ul>
-<li>全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。</li>
+<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
 </ul>
-</li>
-<li>グラフは正方形にすべし。<ul>
-<li>全くその通り。すぐに修正するべし。</li>
-</ul>
-</li>
-<li>尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や</li>
-<li>NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。</li>
-<li><span class="math">\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …</span></li></ul>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete16.html">研究会に向けて(16)</a></h2>
-                <div class="summary"><p>引き続き資料を作っている。</p>
-<p>昨日気になっていた</p>
-<blockquote>
-NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。</blockquote>
-<p>は並行して確認中。直交原理（勾配が0になる解）を満たす解はWienner解に一致するのか？というところ。
-怪しいかもしれない。適応ステップサイズがミソで、最適係数時、そいつを含めて平均をとったときにゼロになるとは思えない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://towardsdatascience.com/natural-gradient-ce454b3dcdfa">Natural Gradient A better gradient for gradient descent?</a> 面白そうだけどちとタイミングが悪い。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete16.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete15.html">研究会に向けて(15)</a></h2>
-                <div class="summary"><p>淡々と資料を作っている。
-NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。</p>
-
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete15.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete14.html">研究会に向けて(14)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand{\parfrac}[2]{{\frac{\partial #1}{\partial #2}}}
-\end{equation*}
-</div>
-<p>今日から発表資料作る。久々にBeamerでやろうかね。</p>
-<p>資料作ってたら、ラグランジュ未定乗数法による定式化で <span class="math">\((\ve{h} - \ve{h}^{\prime})^{\mathsf{T}}\ve{R}(\ve{h} - \ve{h}^{\prime})\)</span> の最小化を考えたけど、これってレイリー商の下限すなわち最小固有値が答えでは。もうちょっと考えたくなってきた。 <span class="math">\(\mu(n)\)</span> は垂線の長さに対応するんだっけ？</p>
-<p>アフィン写像アルゴリズムへの拡張は、NLMSの制約を増やしたものに過ぎない。ラグランジュの未定乗数法を使って、</p>
-<div class="math">
-\begin{align*}
-\mathcal{L} &amp;= (\ve{h …</div>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete13.html">研究会に向けて(13)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>発表向けの脚本を書いてた。</p>
-<p>正規化アルゴリズムに関して、まだしたりない考察がある。</p>
-<ul class="simple">
-<li>射影先の超平面の曲率はもしかして <span class="math">\(\ve{R}\)</span> だったりしない？漠然とした超平面ではなく、何らかの性質がないか？<ul>
-<li>これは、制約が一次式だから絶対に超平面になる。</li>
-</ul>
-</li>
-<li>アフィン写像アルゴリズムへ拡張するべきでは？<ul>
-<li>やってみた。次の日へどうぞ。</li>
-</ul>
-</li>
-</ul>
+<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -175,128 +97,236 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
 
     if (false) {
         align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen …</script>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete13.html">more ...</a>
+        indent …</script>
+                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete12.html">研究会に向けて(12)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>発表に向けてのプロットに集中したい。また、正規化自然勾配SAが事後残差最小化ではなくラグランジュから導いて同じ結論が得られるか見たい。（もしかしたら、別の更新式が出る可能性がある）</p>
-<p>ラグランジュの結果、かなり良い解釈が得られた。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
+                <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
+                <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
+Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
+                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lun-wen-du-mi1.html">論文読み(1)</a></h2>
+                <div class="summary"><p>標準化されたロスレス音声規格IEEE 1857.2、くっそ怪しい。 <a class="reference external" href="https://hydrogenaud.io/index.php?topic=111683.0">リファレンスエンコーダが公開されてないっぽい。</a>
+一応概要みたいのは以下:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://150.162.46.34:8080/icassp2014/papers/p6984-haibin.pdf">LOSSLESS AUDIO COMPRESSION IN THE NEW IEEE STANDARD FOR ADVANCED AUDIO CODING</a></li>
+</ul>
+<p>さっと読んだ。工夫したのは、ブロック先頭で残差が大きくなるから、それをビットシフトして振幅を潰し、下位ビットの情報は別に送ること、算術符号はテンプレートとなる確率分布を使用すること、がメインである。うーん。かなり泥臭いと思う。モデルがすごいと言うよりは工夫メインな印象を受ける。また、他の論文でウェーブレットを使っているみたいな話があるけど、どうにもこちらも怪しい。</p>
+<p>ロスレス音声でウェーブレット+BPを使う話。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://150.162.46.34:8080/icassp2013/pdfs/0000552.pdf">AUDIO LOSSLESS CODING/DECODING METHOD USING BASIS PURSUIT ALGORITHM</a></li>
+</ul>
+<p>音声圧縮でウェーブレットを使うのは筋が悪かったので、少なくとも自分には衝撃ではある。で、ちゃんと読んでみようと思ったのだが4pで概要しか示されてない。</p>
+<p>肝となる部分でわからないのが、ウェーブレット辞書を結合して過完備な辞書を作るところ。基礎が抜けていることを疑って、Donohoを読む …</p>
+                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lun-wen-shu-kitsutsu1.html">論文書きつつ(1)</a></h2>
+                <div class="summary"><p>英語論文シコシコ書きつつ。断然収まらないので削ることを考えながら。</p>
+<p>GLASSO見てる。2重ループ最適化で、重そうに見える。。。
+βの更新でO(N)、さらに変数選択でO(N)。。。</p>
+<p>簡略化して、一回の更新でβの一要素更新でいいのでは？
+とりあえず、実装を考えていく。</p>
+<p>しっかし書き始める前に、論文を軽く漁ってみよう。</p>
 
-    var mathjaxscript = document …</script>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete12.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/lun-wen-shu-kitsutsu1.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete11.html">研究会に向けて(11)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>乗せるデータをまとめる。</p>
-<ol class="arabic simple">
-<li>自然勾配SA法の有効性を示す。</li>
-</ol>
+                <h2><a href="/zi-you-gong-zuo-10.html">自由工作(10)</a></h2>
+                <div class="summary"><p>黙々と進めた。残タスクは、</p>
 <ul class="simple">
-<li>人口データに対する実験: SA(ステップサイズ=0.005,0.01,0.02)と比較して収束が速いことを示す。しかし係数適応は遅いことは同時に指摘。</li>
+<li>コマンドラインの整備:DONE<ul>
+<li>残差出力モードの追加(-e):DONE</li>
+<li>統計情報出力モードの追加(-c):DONE</li>
 </ul>
-<ol class="arabic simple" start="2">
-<li>正規化自然勾配SA法の有効性を示す。</li>
-</ol>
-<ul class="simple">
-<li>人口データに対する実験: RLS(忘却係数=1,0.9,0.99)と比較。収束は遅い場合があるが、定常誤差は小さく、また係数変更時の適応が早い。忘却係数に依存せず安定した収束性能を示す。</li>
+</li>
+<li>テストケース追加:DONE<ul>
+<li>白色雑音入力(randで生成したものでよい):DONE</li>
 </ul>
-<ol class="arabic simple" start="3">
-<li>自然勾配法の有効性を示す。</li>
-</ol>
-<ul class="simple">
-<li>実データに対する実験: 音楽の一部データに対する比較。SA, RLS(忘却係数=0.99), 正規化自然勾配SA, 自然勾配SAで比較。</li>
-<li>RMSを比較。RLSとほぼ同等の性能を達成している。</li>
+</li>
+<li>リリース実行確認:DONE</li>
+<li>先頭で一発空エンコードして適応を早める:DONE</li>
+<li>コード整理<ul>
+<li>エンコーダとデコーダを分ける: DONE</li>
+<li>ブロックデータエンコード/デコード関数が大きいので関数化: 小さくまとまったのでいいかな。</li>
 </ul>
-<script type='text/javascript'>if (!document …</script>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete11.html">more ...</a>
+</li>
+<li>音質向上への工夫<ul>
+<li>MS処理の再興。MS処理のスイッチオプションを追加<ul>
+<li>もう一度試してみたらRMSEが悪化していることが分かった。（BGMとアイカツ音源で調べた）</li>
+<li>実際に聞いてみるとパチパチ言ってる。不連続点が出ている。パチパチ言ってた記憶はないので、何かがおかしい。デバッグ。<ul>
+<li>デコード時にLRに戻す前にオーバーフローしていた。</li>
+<li>バグや。ブロックヘッダにLRが入っているが、フィルタはMSで予測していた。そらパチパチ言うわ。</li>
+<li>パチパチは直したが、得られた結果は微妙と言わざるを得ない。最大誤差は減ってるけど、平均誤差は増大した傾向。
+オプションにしてもデフォルトでオフかなあ。</li>
+<li>MSでうまく行かない例としては、振幅が大きい振動波で、side成分が割れている場合。（ピエトロの気絶の55秒付近）そこをADPCM化すると …</li></ul></li></ul></li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-10.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete10.html">研究会に向けて(10)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
+                <h2><a href="/zi-you-gong-zuo-9.html">自由工作(9)</a></h2>
+                <div class="summary"><p>AADのフォーマットを書いてく。デバッグ効率のため（データ到着順で見れるようにしたい）に、ビッグエンディアンで...</p>
+<div class="section" id="id2">
+<h2>ヘッダフォーマット</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="28%" />
+<col width="9%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">名前</th>
+<th class="head">サイズ[byte]</th>
+<th class="head">内容（補足）</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>AADシグネチャ</td>
+<td>4</td>
+<td>'A', 'A', 'D', '0'</td>
+</tr>
+<tr><td>フォーマットバージョン番号</td>
+<td>4</td>
+<td>1</td>
+</tr>
+<tr><td>チャンネル数</td>
+<td>2</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>サンプル数</td>
+<td>4</td>
+<td>1チャンネルあたりの全サンプル数</td>
+</tr>
+<tr><td>サンプリングレート</td>
+<td>4</td>
+<td>&nbsp;</td>
+</tr>
+<tr><td>サンプルあたりビット数</td>
+<td>2</td>
+<td>2, 3, 4のいずれか。1もいつかは対応したい。</td>
+</tr>
+<tr><td>ブロックサイズ</td>
+<td>2</td>
+<td>ブロックのヘッダと圧縮済みデータを含めたサイズ。末尾のブロックではこの値以下になる</td>
+</tr>
+<tr><td>ブロックあたりサンプル数</td>
+<td>4</td>
+<td>末尾のブロックではこの値以下になる</td>
+</tr>
+</tbody>
+</table>
+<p>ブロックサイズは256の倍数にしたい。デフォルト1024で。</p>
 </div>
-<p>今日あたりで目処を…というか、デフォルトの自然勾配法に対する言い訳を考えておきたい。
-ガチャガチャいじっていると、LMSに <span class="math">\(\ve{R}^{-1}\)</span> を掛けたのも強いということが分かってくる…。</p>
-<div class="math">
-\begin{equation*}
-\ve{h}^{\prime} \leftarrow \ve{h} + \mu \ve{R}^{-1} \varepsilon(n) \ve{x}(n)
-\end{equation*}
-</div>
-<p>何度も見てきた通りだが、上式のステップサイズを（事後誤差最小化基準により）適応化すると正規化版の式に一致する。ちなみに、LMSに対してはフィッシャー情報行列が意味のある統計量に結びつかない。Signアルゴリズムの改良から話を初めて、ステップサイズ適応化してまでたどり着くと、初めてLMS版に対応する式が導かれる。</p>
-<p>確かに上は性能が良いが、裏付けが薄く眉唾の感を逃れられない。疑似自然勾配LMSと名付けて実装しておく。名目としては …</p>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete10.html">more ...</a>
+<div class="section" id="id3">
+<h2>ブロックヘッダフォーマット</h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="27%" />
+<col width="12%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr><th class="head">名前</th>
+<th class="head">サイズ[byte]</th>
+<th class="head">内容（補足）</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr><td>フィルタ係数</td>
+<td>8 …</td></tr></tbody></table></div>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-9.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete9.html">研究会に向けて(9)</a></h2>
-                <div class="summary"><p>トイデータに対する実験をやっているが、色々と悲しい。</p>
+                <h2><a href="/zi-you-gong-zuo-8.html">自由工作(8)</a></h2>
+                <div class="summary"><ul class="simple">
+<li>ステップサイズテーブルの再設計。256エントリでいいはず。8bitの領域を使い切るべき。
+* インデックス更新テーブルの吟味(特に3bit)。</li>
+<li>LMSフィルタの吟味（プリエンファシスもやったところで再度SAを確かめてみたい。→かんたんにやってみたけど、低音圧でSA、高音圧でLMSの印象。一応SAにしておく。発散する場合がみられている。。。nibbleが2の補数になったらそれを残差として突っ込むという夢がある。）</li>
+<li>フォーマット再度策定。2,3,4bitの書き出し処理分割。</li>
+<li>nibble（出力コード）は2の補数でいい。符号+絶対値だとエンコードデコードが複雑になる。</li>
+</ul>
+<p>ここまでやってて色々弄ってたら、なーんか音質が悪化していることに気付く。デフォルトのADPCMの方がよくね？
+耳で聞くよりはRMSでがっちり評価していきたい。</p>
+<p>プリエンファシスが悪そう。実装を整理してON/OFFできるようにして調査する。</p>
 <ul class="simple">
-<li>自然勾配SignAlgorithmの性能が悪い。下手するとSignAlgorithmとどっこい<ul>
-<li>実データに対しては良い結果を出していた。</li>
-<li>原因を調べていたら、係数の初期値が最適値の近くにあると収束が早いということが分かった。</li>
-<li>トイデータ実験は[-1,1]から一様乱数選択していたので、それだと広すぎるらしく、収束が遅い。勾配が平坦に広がりすぎている可能性がある。</li>
-<li>忘却係数を低く（ステップサイズを大きく）すると応答は良くなるけどオフセットが残る。</li>
-<li>実データはサンプル数が多いのと、係数が大きな値を取りにくいことから性能が良かったものと想像。<ul>
-<li>正規化版は自己相関行列の逆行列の二次形式で割ってるから、自己相関の逆数で割ってる、即ち、自己相関を掛けてると見れる。じゃあ、簡易的に入力データのノルムの平均値を掛けてやればいいんじゃねと思ってやってみたらそれなりに安定してきた。</li>
-<li>眉唾だから再度要検証。</li>
+<li>インデックス更新値を持ち越して次サンプルで使う手法、あんまり美味しくない。</li>
+<li>テーブルを256エントリに拡張したら、高音圧音源ではグッドだけど、低音圧音源でジャリジャリが目立つ。sin波で適応が遅い感じ。<ul>
+<li>2bitだとどうしても適応が遅い印象。</li>
+<li>フィルタの学習も遅い印象も受ける。最初のブロックを何回か回して処理開始するとかどうでしょう。いいアイデアだけど、フィルタの状態をブロックヘッダに入れる実装がまだなので、それができてから。</li>
 </ul>
 </li>
 </ul>
-</li>
-<li>RLSが強すぎる。忘却係数付きRLSが一番強い。<ul>
-<li>忘却係数はトレードオフという感じ。0.9まで下げると収束は早いけどオフセットが残る。0.99だと係数が変わったときに収束が遅くなる。1.0（普通のRLS）だと係数が変わったときにまったく収束していかない。</li>
-<li>正規化自然勾配SignAlgorithmは忘却係数の値によらずほぼ同じ学習曲線になる。依存するのはステップサイズくらいか。そこは主張できるかも。</li>
-</ul>
-</li>
-<li>NLMSもMSD（係数誤差）の意味ではRLSと同程度まで下げられているが、正規化自然勾配SignAlgorithmは収束ははやいがそこまで誤差が下がらない。</li>
-<li>実装ミスあり。係数更新がFinvの更新前に行われていた。<ul>
-<li>普通の自然勾配法は大きな影響あり。あれ？でも正規化自然勾配の方はあまり影響がない。</li>
-<li>実装ミスなのか微妙 …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete9.html">more ...</a>
+<p>さて、コーデックとして仕立てていくか。基本的なAPIはIMAADPCMと同じで良いとして、</p>
+<ul class="simple">
+<li>命名規則の変更: IMAADPCM -&gt; AAD (Ayashi Adaptive Differential …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-8.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/yan-jiu-hui-nixiang-kete8.html">研究会に向けて(8)</a></h2>
-                <div class="summary"><p>昨日の結果を受けて、相関があるガウス雑音信号を実験の対象にしたいと思っている。（なぜなら、現実のデータは相関があるから。そして、NLMSは相関のあるデータに弱いから。）いろんな論文で構成法が乗っていたので再調査。</p>
-<p><a class="reference external" href="https://arxiv.org/pdf/1303.2261.pdf">l0 Norm Constraint LMS Algorithm for Sparse System Identification</a> に明確に記述あり。v[t]をi.i.dなガウス雑音として、1次の自己回帰(Auto Regressive)フィルタ x[t] = x[t-1] * 0.8 + v[t] で信号に相関をもたせたあとに、正規化（標準偏差で割る）して分散を1にしている。有色雑音と言っていた。</p>
-<p>また、昨日の夜にモデルに係数を状態として持たせるか考えた。係数が途中で変わるケースの結果が取りにくいので。
-でも、扱う側でうまく計算すればできそうなのでやめた。モデル側の実装が複雑になるのは避けたい。</p>
-<p>実験ケースを分類しよう。</p>
-<ol class="arabic simple">
-<li>人口データ: 観測雑音: -40dBの白色ガウス雑音、MSD …</li></ol>
-                    <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete8.html">more ...</a>
+                <h2><a href="/zi-you-gong-zuo-7.html">自由工作(7)</a></h2>
+                <div class="summary"><ul class="simple">
+<li><a class="reference external" href="https://www.drdobbs.com/database/algorithm-alley/184410326">Inside IMA ADPCM</a>  <a class="reference external" href="http://orion.lcg.ufrj.br/Dr.Dobbs/books/book10/9711m/9711m.htm">こっちも同じ内容</a></li>
+<li><a class="reference external" href="https://multimedia.cx/simpleaudio.html#tth_sEc4.2">Simple Time Domain Audio Coding</a> MediaWikiの前身となる資料。時間領域符号化の包括的なまとめでもある。有益そう。</li>
+</ul>
+<p>強引に3,2bit化してみた。なんとなくできてしまっているが、2bitは流石にジリジリいう。
+なんでかな、と思ったらステップサイズが4bitむけのものになっていて、テーブル参照インデックスが0でも7になってしまい、確実に揺れてしまうのが問題であると想像している。テーブル自作を試みているが、なかなかに苦戦。</p>
+<p>IMA-ADPCMのステップサイズが謎。どっから導出したんだろうか。
+純粋な指数関数ではなさそう。とくに、最初の8要素は線形関数になってるのが奇特。（テーブルの情報量を増やしたいのかな？）しかし、後になると指数関数 <span class="math">\(2^{\log_{2}(32767/7)/88 x + \log_{2}(7)}\)</span> とほぼ一致。
+自作のテーブルより、IMA-ADPCMのテーブルの方がいいRMSを出している。。。何故やろ・・・。</p>
+<p>テーブルは一旦諦めて、モデルの改善を考えたが、あんまり良くない。
+フィルタ次数を8にしたり、IIR（予測値をフィードバック …</p>
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-7.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-6.html">自由工作(6)</a></h2>
+                <div class="summary"><p>群論再開させつつ。</p>
+<p>mac update以降、コンパイル警告がうざったくてしょうがなくなっていた。どうやら /usr/include が消えたようで…</p>
+<p>export SDKROOT=&quot;$(xcrun --sdk macosx --show-sdk-path)&quot;</p>
+<p>で黙らせている。</p>
+<p>4次の適応フィルタを予測に突っ込んでみた。平均的な平均絶対値誤差は前値予測よりもガッツリ減っているが、音質はあんまり替わってない印象。
+カレンダーガールを突っ込んだら高域（20k〜）にガッツリノイズがついた。ナイキストレートの早さでノイスがのってる。
+48k音源ではどうも共通して現れる特徴のようだ。</p>
+<p>音質は、原音と変わんねえだろと思い続けている。ここがおかしいというのを具体的に指摘できないでいる。スペクトログラムを見て初めて分かる感じ。</p>
+<p>ビット数減らしに行くのがよさそう。試すのであれば、残差は4bitで書き出すけど、内容は3bitまでしか持たないようにするという方策。
+3,2bitに応じたテーブル作成が熱い。</p>
+
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-you-gong-zuo-5.html">自由工作(5)</a></h2>
+                <div class="summary"><p>ノイズ（差分の量子化誤差）はまさにi.i.d.なラプラスからサンプリングした感じ。全帯域にある。
+人間の声のところは調波構造があるけど、それ以外、ピッチのない楽器などは単純な白色雑音といった印象。</p>
+<p>ノイズシェーピングを試しているが…本当にいいのか疑問。
+プリエンファシスみたく直前サンプルで引くと、たしかにノイズの低域は消える、けど高域はそのままだし、
+ノイズのRMSはむしろ悪化している状態。
+逆に直前サンプルで足すとノイズ高域は消えるけど、低域が残ってｺﾞｰという感じのノイズになる。目立つ。うーん。</p>
+<p>ノイズシェーピングの基本は、ノイズ帯域を&quot;おいやる&quot;ことにあるようで、その後になにかしないとうまみがない？
+（低域のノイズを消してノイズを高域に追いやってからローパスをかけるかんじ。）</p>
+<p>適応フィルタチックなことも試してみたが、不安定になりがち。
+残差の符号だけ使い、ステップサイズをクソ小さくしてなんとか安定するが、ノイズのRMSは何もしないものから悪化。</p>
+<p>一旦ノイズシェーピングなしのやつをアップする。
+自己流のやつを試してみたい気持ちがある。</p>
+
+                    <a class="btn btn-default btn-xs" href="/zi-you-gong-zuo-5.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -340,6 +370,12 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
                             href="/index17.html">17</a></li>
                     <li class=""><a
                             href="/index18.html">18</a></li>
+                    <li class=""><a
+                            href="/index19.html">19</a></li>
+                    <li class=""><a
+                            href="/index20.html">20</a></li>
+                    <li class=""><a
+                            href="/index21.html">21</a></li>
                 <li class="next"><a
                         href="/index13.html">&raquo;</a></li>
         </ul>
@@ -364,169 +400,169 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
   </ul>
 </li>

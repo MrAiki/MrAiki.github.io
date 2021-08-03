@@ -84,188 +84,266 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-20219.html">戦略会議中2021(9)</a></h2>
-                <div class="summary"><ul class="simple">
-<li><dl class="first docutils">
-<dt><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。</dt>
-<dd><ul class="first last">
-<li>ウェーブレット変換域でLMS/Newtonを使う。うまいことコレスキー分解して、スパース推定を使って計算効率化を図る。</li>
-<li>当然単純な変換域でのLMSよりは性能が良い。</li>
-<li>変換域で自己相関行列を見ており、しかもその逆はスパースであると言っている。</li>
-<li>自分の発想を突っ込めそうに思える。が、変換域でAR過程になるのだろうか？</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a></dt>
-<dd><ul class="first last">
-<li><dl class="first docutils">
-<dt>最大消失モーメントを持つウェーブレットはタップ数に応じて有限個しか無い（ドベシィ。例えばタップ数40なら最大で20次までのモーメントを消せるが、そのウェーブレットの組み合わせは1024通りしか無いとのこと。10bitで送れる。）より、その中から適切なウェーブレットを適応的に選ぶ</dt>
-<dd><ul class="first last">
-<li>この事実は気になる。ウェーブレット10講に書いてあるかな。。。</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li>選択尺度は等誤差面の議論から割と自然に出てくる。しかしその選択は総当りっぽい。デコード負荷は低いから許されるか…</li>
-<li>ほかにも、LPCは人間の声道管モデルベースだから音楽などでの無声音（ピッチがない音）は厳しいという指摘があった。確かに。</li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt><a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf">G.722: a new CCITT coding …</a></dt></dl></li></ul>
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20219.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-20218.html">戦略会議中2021(8)</a></h2>
-                <div class="summary"><p>昨日見た下記3論文を読んで、展望を考えたい。</p>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-5.html">リフティングの組み込み検証(5)</a></h2>
+                <div class="summary"><p>ローカルなメモをブログに移行していた。読み返すと、論文調べがあんまり活きてないように見える。。。
+でもリフティングを適応させるのは難しいということがわかったしなあ。L2ノルムなどの評価関数を最小化する係数は求まるが、直交性や消失モーメントがなくなる。</p>
+<div class="section" id="todo">
+<h2>TODO</h2>
 <ul class="simple">
-<li><dl class="first docutils">
-<dt><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。</dt>
-<dd><ul class="first last">
-<li>かるく見たけど、…ん？まじで変換域で適応フィルタしてるだけ？自己相関の逆かけて白色化するのはたしかに大事だけど、これでいいのか？</li>
-<li>不思議なのは、自己回帰過程を考えていてその自己相関行列も計算しているが、逆の計算を考えていない。</li>
+<li>2パス符号化を試す（一発8192サンプルでLPC+2048で4分割してLPC+CDF42+...）</li>
+<li>NGSA突っ込んでみる</li>
+<li>Sign-Signアルゴリズムの自然勾配考察</li>
+<li>最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？</li>
 </ul>
-</dd>
-</dl>
-</li>
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a></li>
-<li><a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf">G.722: a new CCITT coding standard for digital transmission of wideband audio signals</a></li>
-</ul>
+</div>
 
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20218.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-5.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-20217.html">戦略会議中2021(7)</a></h2>
-                <div class="summary"><p>改めて音声符号化にウェーブレットを使うことの是非を見る意図で、「ウェーブレットとサブバンド符号化」をつまんでいる。
-概要を述べているだけなので厳しい。見つかった文献を漁る。高音質と中音質に分けていたので分類に従って列挙。</p>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-4.html">リフティングの組み込み検証(4)</a></h2>
+                <div class="summary"><p>Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。</p>
+<p>「再考・適応アルゴリズム」を再びにらみながら考え中。考えてたら、Sign-Signアルゴリズムの評価関数が見えて、それを対数尤度と思ってFisher情報行列を計算したら、入力の符号の自己相関行列が出てきた。</p>
+<p>符号の自己相関行列は陽に求められることが分かっていて、答えは、自己相関行列の各要素で <span class="math">\(2/\pi \arcsin(r_{ij}) r_{ij}: \text{正規化自己相関}\)</span> といった感じ。</p>
+<ul class="simple">
+<li>対角要素は必ず全て1。よって固有値は0からNを取る。次数を増やすと条件数が悪くなりそうなのはすぐわかる。</li>
+<li>arcsinを使っているので相関が高くとも1に近づきにくい。高相関な信号でもSAより性能劣化しにくいっぽい。</li>
+</ul>
+<p>ところまで見えた。見えないのは次の2点。</p>
+<ul class="simple">
+<li>逆行列が計算できれば高速化に至れるがまだ分からない。</li>
+<li>対数尤度から分布を逆算できるが、これは一体何の分布だろうか。</li>
+</ul>
+<p>ちょっと置いて実装に戻ろう。ひとまずSign-Signを導入。</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%<ul>
+<li>SAと比べて0.8%の改善。これは大きい …</li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></h2>
+                <div class="summary"><p>さて、今月から過ごし方を変えていく。</p>
+<ul class="simple">
+<li>午前: 情報幾何と群論（本進める）</li>
+<li>午後: 研究</li>
+<li>飯ピアノ後: リスニング, Rust, サマポケ</li>
+</ul>
+<p>さっそくバイトがあったので午前は予定通りではなかった。
+午後、まずはSAの次数を変えて様子を見てみる。帯域分割前と帯域分割後で変えた方が良いというのが直感。</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(4): 58.5%</li>
+<li>MS変換 + 最適プリエンファシス x2 + SA適用(8) + CDF42を2段 + 各帯域でSA(4): 59.3%</li>
+<li>MS変換 + 最適プリエンファシス x2 + SA適用(12) + CDF42を2段 + 各帯域でSA(4): 59.2%</li>
+<li>MS変換 + 最適プリエンファシス x2 + SA適用(4 …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></h2>
+                <div class="summary"><p>帯域分割信号に対してSAを適用してどれくらい減るか様子を見る。こればかりはやってみないと分からない。</p>
+<p>試してみた概観。ブロックサイズは8192。</p>
+<ul class="simple">
+<li>MS変換: 89.4%</li>
+<li>MS変換 + SA適用: 72.4%</li>
+<li>MS変換 + CDF42の1段適用: 74.3%</li>
+<li>MS変換 + CDF42の2段適用: 71.72%</li>
+<li>MS変換 + CDF42の1段適用で両帯域にSA: 66.5%</li>
+<li>MS変換 + CDF42の2段適用で全帯域にSA: 66.4%</li>
+</ul>
+<p>うーん、パット見渋い。エントロピー見て符号が悪いかどうか判定する。</p>
+<ul class="simple">
+<li>MS変換 + CDF42の2段適用で全帯域にSA: で9.87[bit] -&gt; 61.69%</li>
+</ul>
+<p>だから、理論上FLACより悪い。。。符号というよりは残差のエントロピーがまだ高い。
+SAじゃ弱すぎるか。LPC使うか。。。</p>
+<p>悲しみに暮れていたが、MS変換の後ろにプリエンファシスを突っ込むと有意に改善。。。</p>
+<ul class="simple">
+<li>MS変換 + プリエンファシス: 76.7%</li>
+<li>MS変換 + プリエンファシス …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-1.html">リフティングの組み込み検証(1)</a></h2>
+                <div class="summary"><p>CDF42をC言語で実装してみた。懸念だった1ループによる実装もOK。想像通り。
+分散は確かに減っているからエントロピーも減っているはず。</p>
+<p>さて、もう符号化まで試してしまうべきか？
+ちょっと考えてたけど、やってしまおうと思う。
+今までのありあわせの符号化スキームを転用してやってみる。</p>
+<p>やっつけで超簡易コーデックを作った。風の巡る場所で試す。観察としては、</p>
+<ul class="simple">
+<li>何もしないで直接再帰的ライス符号を適用すると（元データ比）90%</li>
+<li>Haarの1段適用では84%, 2段適用で82.7%</li>
+<li>CDF22の1段適用では81%, 2段適用で79.0%</li>
+<li>CDF42を1段かませた場合76%<ul>
+<li>低域が42%</li>
+<li>高域が34%</li>
+</ul>
+</li>
+<li>CDF42を2段かませると75%<ul>
+<li>低域/低域が20%</li>
+<li>低域/高域が20%</li>
+<li>高域が34%</li>
+</ul>
+</li>
+<li>高域を分割すると悪化（77%くらい）</li>
+<li>flac(-8)は60.2%, WavPack(-hh)は59.1%</li>
+<li>ブロックサイズを4096から8192に上げると0.05%程度の減少。</li>
+</ul>
+<p>SAの導入はこれから、さてどれくらい減らせるだろうか。
+分割設定を変えながら見るべし。</p>
+<p>CDF(8,2 …</p>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteinguguan-cha-6.html">リフティング観察(6)</a></h2>
+                <div class="summary"><p>「音声の高能率符号化」の3.4節「予測符号化」で予測による分散（ひいてはビット数）の減少について記述がある。
+これをリフティングで考えるとどうなるだろうか？
+誤差分散を最小にしようとすると線形予測符号化にぶつかってしまうが、リフティングによる効果を知りたい。</p>
+<p>ロスレス圧縮に組み込む前に、やはりもう少し調査したい。
+リフティングで帯域分割した信号に対してLMSしたとき、さてエントロピーは改善するのか？</p>
+<p>ステップサイズを変えつつ観察したら、どのステップサイズでもエントロピーが減少していた。実データで1bit程度（16bitPCMの仮定で）の減少。これは大きい。</p>
+<p>さらに、多段に帯域分割したときはさらにエントロピーが減少していた。</p>
+<p>計算負荷的にはCDF(4,2)を推したい。C言語で実装して、整数値でエントロピーがマジで減ってるか見てみたい。</p>
+
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteinguguan-cha-5.html">リフティング観察(5)</a></h2>
+                <div class="summary"><p>「音声の高能率符号化」はやはり素晴らしい。今日に通じる基本事項がもれなく列挙されている。
+逆に言うと、技術進歩がまったくないと言うことになるが。</p>
+<p>今日は2段階適用したときの相関変化をよく見たい。相関はさらに減るだろうというのが大方の予測だが、</p>
+<ul class="simple">
+<li>相関は減っていく傾向<ul>
+<li>ただし、周期的な構造は縮んで表れてくる</li>
+<li>実データ（ピアノ）でCDF(4,2)を2回まで適用すると低域の1次相関が0.5くらいになっている。これはプリエンファシスより優れている。</li>
+</ul>
+</li>
+<li>2回適用したとき、高域+低域のエントロピーが底を打っている印象を受ける。<ul>
+<li>高域のエントロピーは増加傾向。低次の高域成分は構造的だが、高次では取り除ききれない成分が出てくるので当然だと思うことに。</li>
+</ul>
+</li>
+</ul>
+<p>実験をやりながら漠然と思っていたが、CDF(4,2)が以下の意味で優れている。</p>
+<ul class="simple">
+<li>高域はもちろん、低域成分の分散減少も多きい。</li>
+<li>相関除去能力</li>
+<li>負荷の低さ（シフト演算を多く使える）<ul>
+<li>CDF(5,1), CDF(6,2)も同様の効果を与えているが、負荷はより高い印象。</li>
+</ul>
+</li>
+</ul>
+<p>画像ではCDF(2,2)がJPEG2000ロスレスに採用されているが、画像の方が低域成分が多いから有効に作用していると想像する。音声の方が高域周波数成分が多いからより高次のモーメントを必要としているように見受けられる。</p>
+<p>上記の意味でCDF(4 …</p>
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteinguguan-cha-4.html">リフティング観察(4)</a></h2>
+                <div class="summary"><p>「音声の高能率符号化」を読んでいたら、音声データ一般で相関が高い理由が明確に書いてあった。それは、低域の信号をオーバーサンプリングしているからである。
+人の声は8kHzがいい所の上限だが、それに対して44100Hzでサンプリングすると明らかにオーバーサンプリングになる。つまり、低域信号はゆっくり変化しているのに過剰にサンプリングされ、相関が高くなる。</p>
+<p>この意味でも帯域分割は意味を持ちそうな印象を受ける。ウェーブレットで低域/高域に分けると低域のオーバーサンプリング効果が低減する。実際、相関が下がることを確認している。</p>
+<p>ストーリーとしては、</p>
+<ol class="arabic simple">
+<li>適応アルゴリズムの収束特性が悪いのは音声データに相関があるから</li>
+<li>相関は低域信号のオーバーサンプリングにより生じている</li>
+<li>ウェーブレットで低域信号をリサンプリングすることでレートを下げて扱える、相関は下がっているので有効なはずだ</li>
+</ol>
+<p>相関を消すというのもウェーブレット設計の方針になる。</p>
+
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteinguguan-cha-3.html">リフティング観察(3)</a></h2>
+                <div class="summary"><p>より次数を上げたCDFを実装して様子（統計量）を見る。</p>
+<p>CDF(5,1), (5,3), (6,2), (6,4)まで実装してみた。</p>
+<ul class="simple">
+<li>4以上になると低域成分の分散の減少も顕著</li>
+<li>しかし5,6では高域の分散は上昇傾向</li>
+</ul>
+<p>全体的にいえることとしては、</p>
+<ul class="simple">
+<li>相関は減少している。高域は勿論だが、低域も。</li>
+<li>高周波（10000以上）に対して自己相関がほぼ同じになる。（低域の振幅は減少しているが）</li>
+<li>ナイキスト周波数での振動に対して高域が大きな定数値をとる（分散はほぼ0）</li>
+<li>スイープも高周波数帯域で高域が大きな定数値をとりがち。<ul>
+<li>高域の予測は外れがちのよう。低域の分離はできているようだ。</li>
+</ul>
+</li>
+</ul>
+<p>プリエンファシスと比較している。前どっかで見たけど、周波数特性も低域が完全に消えていないし、高域は強調されてる。
+相関はリフティングとどっこいどっこい。合計のエントロピーもどっこい？いや、リフティングの方が高域がかなり小さい。
+低域にプリエンファシスを適用することもできるし。</p>
+<p>また、純音（440Hz）に対してプリエンファシスをかけると自己相関はほぼ変わらないが、リフティングの場合は高域にて相関が減少（高次になるにつれてすぐに0に収斂）し、低域も相関の減少が見られた。</p>
 <div class="section" id="id2">
-<h2>高音質</h2>
+<h2>所感</h2>
+<p>音声圧縮に適したリフティングウェーブレットの設計は、テーマとしてありだと思う。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://www.aes.org/e-lib/online/browse.cfm?elib=6768">High-Quality, Low-Rate Audio Transform Coding for Transmission and Multimedia Applications</a> AES会員でないと読めないっぽい。</li>
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/151054">A MUSICAM source codec for digital audio broadcasting and storage</a> MPEG-Iの基礎になっている考え方。フィルタバンクを使用。知覚符号化そのものか？</li>
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/225993">Sum-difference stereo transform coding</a> これもフィルタバンク+量子化の流れ。</li>
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/258086">Low Bit Rate Transparent Audio Compression using Adapted Wavelets</a> 適応的（辞書的）にウェーブレットを選んで冗長性を減らす。ウェーブレットパケットの構成も動的に決めている …</li></ul></div>
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20217.html">more ...</a>
+<li>消失モーメント多め …</li></ul></div>
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-3.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-20216.html">戦略会議中2021(6)</a></h2>
-                <div class="summary"><p>4月からここまでだいたい論文執筆やら発表準備、ゼミ輪講で潰れていた。
-GWはウェーブレット理解のために合宿。高速ウェーブレット変換まではOKということで資料公開。
-論文発表の準備がようやく落ち着いてきた。7月からは調査に再度着手したい。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
-<li>これから再度スタートする。</li>
+                <h2><a href="/rihuteinguguan-cha-2.html">リフティング観察(2)</a></h2>
+                <div class="summary"><p>前日までで、MSの代わりにCDF(2,2)を使うのは有効ではないというのが分かった。LRの信号は一般にズレており、線形予測のような局所的な予測はうまくいかない。周波数特性としてもずれがある。
+従って1チャンネルの信号に対してウェーブレットを適用する道を探る。
+次はどうするか。</p>
+<p>単にCDF(2,2)で帯域分割して各帯域でLPC/適応フィルタするのは安直すぎるし工夫の余地がない。
+もっと何か理論的な工夫は及ばないか？考えてみる。</p>
+<p>リフティングによって何が変わるのかをまだ観察してなかったかも。</p>
+<ol class="arabic simple">
+<li>適応的にリフティング係数を設定する<ul>
+<li>予測・更新フィルタを両方ともSAにしちゃうとか。</li>
 </ul>
 </li>
-<li><a class="reference external" href="https://yukara-13.hatenablog.com/entry/2013/12/01/222742">【Python】 Constant-Q 変換 (対数周波数スペクトログラム)</a> 定Q変換について。周波数に応じて窓幅を変えて解析する。それってウェーブレットの問題意識と全く同じ。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20216.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-20215.html">戦略会議中2021(5)</a></h2>
-                <div class="summary"><p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/558477">Wavelet Transform Domain Adaptive FIR Filtering</a> 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。<ul>
-<li>こっちも古いので、もっと新しい論文を見て考えたい。</li>
+<li>CDF(2,2)通した後の信号の特性<ul>
+<li>分かり切ってることだが、2次までのモーメントが消えてる。</li>
+<li>信号の統計量（平均、分散、自己相関、L1ノルム、エントロピー）はどのように変化するか？</li>
+<li>高域と低域で分けて考える。</li>
 </ul>
 </li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20215.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-20214.html">戦略会議中2021(4)</a></h2>
-                <div class="summary"><p>紹介を進め、ウェーブレットの適用について考え始めている。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/536674?casa_token=fIVBeh0AOcIAAAAA:Q_3gyG3siw1wY-Eqm9y7B1IVmAQEG8EJ0sExiLhSlmGR2iA4260KPX-BApaRWjfyyXNrgDzN39w">Wavelet Transform Based Adaptive Filters: Analvsis and New Results</a> 「ウェーブレット変換とその応用」で触れられていたウェーブレット変換してから適用フィルタをかませる論文。<ul>
-<li>ざっと読んでみた。入力信号とウェーブレット関数の内積でウェーブレット領域に飛ばして、その領域での係数を適応学習するというもの。定常的な信号ではDFT領域に飛ばして適応するアルゴリズムには敵わなかったが、インパルーシブな信号に対しては、（ドベシィウェーブレットで）速い収束性能を示していた。また、理論的に条件数が向上することが示され、普通のLMSよりも収束が速いことが分かっている。紙に印刷したい。</li>
-<li>ウェーブレット関数の自己相関行列のようなものが出てきている。すげえ気になる。</li>
-<li>SAのように、ラプラス分布仮定を入れるとどうなるか試してみたい。</li>
-<li>他のウェーブレットはどうか？も気になる。</li>
-<li>古いので、もっと新しい論文を見て考えたい。</li>
+<li>プリエンファシスをリフティングに置き換えることの是非。<ul>
+<li>例えばHaarは直流成分（0次モーメント）を完全に消す。</li>
+<li>変換域適応と同じになると思う。</li>
 </ul>
 </li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20214.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi4.html">論文読み(4)</a></h2>
-                <div class="summary"><p>論文読みのコメント:</p>
-<p>「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？</p>
+</ol>
+<p>2.が大事に思える。地味に論じている文献ないし。
+リフティング後の信号の性質は、NoteBook上でいろいろ見てみるのが良さそう。</p>
+<p>というわけで実装を進めている。Haar, CDFは良さそうだけど、ドベシィの実装は</p>
 <ul class="simple">
-<li>DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。</li>
-<li>筆者(Tianshu Quさん)に連絡してできたらソース貰う。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
-                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
-<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
-</ul>
-<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent …</script>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
-                <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
-Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi1.html">論文読み(1)</a></h2>
-                <div class="summary"><p>標準化されたロスレス音声規格IEEE 1857.2、くっそ怪しい。 <a class="reference external" href="https://hydrogenaud.io/index.php?topic=111683.0">リファレンスエンコーダが公開されてないっぽい。</a>
-一応概要みたいのは以下:</p>
-<ul class="simple">
-<li><a class="reference external" href="http://150.162.46.34:8080/icassp2014/papers/p6984-haibin.pdf">LOSSLESS AUDIO COMPRESSION IN THE NEW IEEE STANDARD FOR ADVANCED AUDIO CODING</a></li>
-</ul>
-<p>さっと読んだ。工夫したのは、ブロック先頭で残差が大きくなるから、それをビットシフトして振幅を潰し、下位ビットの情報は別に送ること、算術符号はテンプレートとなる確率分布を使用すること、がメインである。うーん。かなり泥臭いと思う。モデルがすごいと言うよりは工夫メインな印象を受ける。また、他の論文でウェーブレットを使っているみたいな話があるけど、どうにもこちらも怪しい。</p>
-<p>ロスレス音声でウェーブレット+BPを使う話。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://150.162.46.34:8080/icassp2013/pdfs/0000552.pdf">AUDIO LOSSLESS CODING/DECODING METHOD USING BASIS PURSUIT ALGORITHM</a></li>
-</ul>
-<p>音声圧縮でウェーブレットを使うのは筋が悪かったので、少なくとも自分には衝撃ではある。で、ちゃんと読んでみようと思ったのだが4pで概要しか示されてない。</p>
-<p>肝となる部分でわからないのが、ウェーブレット辞書を結合して過完備な辞書を作るところ。基礎が抜けていることを疑って、Donohoを読む …</p>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi1.html">more ...</a>
+<li><a class="reference external" href="https://core.ac.uk/download/pdf/226136339.pdf">DESIGN …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-2.html">more ...</a>
                 </div>
             </article>
             <hr/>
 
+        <ul class="pagination">
+                <li class="prev disabled"><a href="#">&laquo;</a></li>
+                    <li class="active"><a
+                            href="/tag/wavelet.html">1</a></li>
+                    <li class=""><a
+                            href="/tag/wavelet2.html">2</a></li>
+                    <li class=""><a
+                            href="/tag/wavelet3.html">3</a></li>
+                    <li class=""><a
+                            href="/tag/wavelet4.html">4</a></li>
+                <li class="next"><a
+                        href="/tag/wavelet2.html">&raquo;</a></li>
+        </ul>
         </div>
         <div class="col-sm-3" id="sidebar">
             <aside>
@@ -287,169 +365,169 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+      <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
   </ul>
 </li>

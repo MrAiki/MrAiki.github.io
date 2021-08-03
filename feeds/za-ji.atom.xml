@@ -1,84 +1,1235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-07-04T10:00:00+09:00</updated><entry><title>戦略会議中2021(9)</title><link href="/zhan-lue-hui-yi-zhong-20219.html" rel="alternate"></link><published>2021-07-04T10:00:00+09:00</published><updated>2021-07-04T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-04:/zhan-lue-hui-yi-zhong-20219.html</id><summary type="html">&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-03T10:00:00+09:00</updated><entry><title>リフティングの組み込み検証(5)</title><link href="/rihuteingunozu-miip-mijian-zheng-5.html" rel="alternate"></link><published>2021-08-03T10:00:00+09:00</published><updated>2021-08-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-03:/rihuteingunozu-miip-mijian-zheng-5.html</id><content type="html">&lt;p&gt;ローカルなメモをブログに移行していた。読み返すと、論文調べがあんまり活きてないように見える。。。
+でもリフティングを適応させるのは難しいということがわかったしなあ。L2ノルムなどの評価関数を最小化する係数は求まるが、直交性や消失モーメントがなくなる。&lt;/p&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;2パス符号化を試す（一発8192サンプルでLPC+2048で4分割してLPC+CDF42+...）&lt;/li&gt;
+&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
+&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
+&lt;li&gt;最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(4)</title><link href="/rihuteingunozu-miip-mijian-zheng-4.html" rel="alternate"></link><published>2021-08-02T10:00:00+09:00</published><updated>2021-08-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-02:/rihuteingunozu-miip-mijian-zheng-4.html</id><summary type="html">&lt;p&gt;Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。&lt;/p&gt;
+&lt;p&gt;「再考・適応アルゴリズム」を再びにらみながら考え中。考えてたら、Sign-Signアルゴリズムの評価関数が見えて、それを対数尤度と思ってFisher情報行列を計算したら、入力の符号の自己相関行列が出てきた。&lt;/p&gt;
+&lt;p&gt;符号の自己相関行列は陽に求められることが分かっていて、答えは、自己相関行列の各要素で &lt;span class="math"&gt;\(2/\pi \arcsin(r_{ij}) r_{ij}: \text{正規化自己相関}\)&lt;/span&gt; といった感じ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;対角要素は必ず全て1。よって固有値は0からNを取る。次数を増やすと条件数が悪くなりそうなのはすぐわかる。&lt;/li&gt;
+&lt;li&gt;arcsinを使っているので相関が高くとも1に近づきにくい。高相関な信号でもSAより性能劣化しにくいっぽい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ところまで見えた。見えないのは次の2点。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;逆行列が計算できれば高速化に至れるがまだ分からない。&lt;/li&gt;
+&lt;li&gt;対数尤度から分布を逆算できるが、これは一体何の分布だろうか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ちょっと置いて実装に戻ろう。ひとまずSign-Signを導入。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%&lt;ul&gt;
+&lt;li&gt;SAと比べて0.8%の改善。これは大きい …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。&lt;/p&gt;
+&lt;p&gt;「再考・適応アルゴリズム」を再びにらみながら考え中。考えてたら、Sign-Signアルゴリズムの評価関数が見えて、それを対数尤度と思ってFisher情報行列を計算したら、入力の符号の自己相関行列が出てきた。&lt;/p&gt;
+&lt;p&gt;符号の自己相関行列は陽に求められることが分かっていて、答えは、自己相関行列の各要素で &lt;span class="math"&gt;\(2/\pi \arcsin(r_{ij}) r_{ij}: \text{正規化自己相関}\)&lt;/span&gt; といった感じ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;対角要素は必ず全て1。よって固有値は0からNを取る。次数を増やすと条件数が悪くなりそうなのはすぐわかる。&lt;/li&gt;
+&lt;li&gt;arcsinを使っているので相関が高くとも1に近づきにくい。高相関な信号でもSAより性能劣化しにくいっぽい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ところまで見えた。見えないのは次の2点。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;逆行列が計算できれば高速化に至れるがまだ分からない。&lt;/li&gt;
+&lt;li&gt;対数尤度から分布を逆算できるが、これは一体何の分布だろうか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ちょっと置いて実装に戻ろう。ひとまずSign-Signを導入。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%&lt;ul&gt;
+&lt;li&gt;SAと比べて0.8%の改善。これは大きい。採用。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;残差を見ていると、高域のプチノイズがかなり気になる。ほぼインパルスで誤差が出ており、しかもブロック周期でもない。と思ったらブロック周期だった。端点処理の問題。直す。&lt;/p&gt;
+&lt;p&gt;デバッグしていたら、低域の先頭要素と高域の末尾への書き込みが抜けていることが分かった。先頭要素は状態を持たせればよいけど、末尾は未来の値を知らないといけないので難しい。
+状態を持たせるのは好きではないので、0次ホールドか2サンプルの線形補間で良い方を選びたい。
+と思ったけど端点処理以外に難しいな。完全再構成するために計算依存関係を見なければならない。今日はこれでつぶれそう。0次ホールド補間で再構成できるようにした。&lt;/p&gt;
+&lt;p&gt;CDF42での不連続点が改善（注: 0次ホールド補間なので消えてない）して若干の圧縮率改善が見られた。しかし最終予測結果は大量のインパルス形誤差が…。&lt;/p&gt;
+&lt;p&gt;折を見てLPC分析前に窓かけしてるんだけどよくならない。&lt;/p&gt;
+&lt;p&gt;フィルタカスケード接続を試す。案の定良くなるが、これは最適な構造を見つけるのが大変に思える。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4)+SS(4), 高域でSS(4): 56.0%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)+SS(4): 55.7%&lt;ul&gt;
+&lt;li&gt;高域の方が伸びしろがある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)+SS(2): 55.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(2)+SS(2): 55.9%&lt;ul&gt;
+&lt;li&gt;SS(4)を1回やるよりSS(2)を連結した方が性能が高い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(2)+SS(2)+SS(2): 55.8%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(2)+SS(2)+SS(2)+SS(2): 55.8%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)+SS(2)+SS(2): 55.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)+SS(2)+SS(2)+SS(2): 55.7%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;カスケード構造は最後に回した方が良さそう。もっとほかの改善策を探るべき。&lt;/p&gt;
+&lt;p&gt;残差wavをflac(-8)やwavpack(-hh)で圧縮してみると、今のベストより小さくなる。
+この現象前も見て落胆したけど今なら分かる。これ、2パスエンコードが有効であることを示唆してる。
+やるのであれば、例えば250ms拾ってきて1回目をLPCなりでやって、その残差に対し2回目を4096サンプルなどの短い区間でLPCなどを実行する。
+これがTAKの秘訣ではないか？TAKの250msの異様に長いフレームと短い&amp;quot;サブフレーム&amp;quot;（公式に最大5つのサブブロックに分割されるとある）はそれを指しているのでは？&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(3)</title><link href="/rihuteingunozu-miip-mijian-zheng-3.html" rel="alternate"></link><published>2021-08-01T10:00:00+09:00</published><updated>2021-08-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-01:/rihuteingunozu-miip-mijian-zheng-3.html</id><summary type="html">&lt;p&gt;さて、今月から過ごし方を変えていく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;午前: 情報幾何と群論（本進める）&lt;/li&gt;
+&lt;li&gt;午後: 研究&lt;/li&gt;
+&lt;li&gt;飯ピアノ後: リスニング, Rust, サマポケ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さっそくバイトがあったので午前は予定通りではなかった。
+午後、まずはSAの次数を変えて様子を見てみる。帯域分割前と帯域分割後で変えた方が良いというのが直感。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(4): 58.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(8) + CDF42を2段 + 各帯域でSA(4): 59.3%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(12) + CDF42を2段 + 各帯域でSA(4): 59.2%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;さて、今月から過ごし方を変えていく。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;午前: 情報幾何と群論（本進める）&lt;/li&gt;
+&lt;li&gt;午後: 研究&lt;/li&gt;
+&lt;li&gt;飯ピアノ後: リスニング, Rust, サマポケ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さっそくバイトがあったので午前は予定通りではなかった。
+午後、まずはSAの次数を変えて様子を見てみる。帯域分割前と帯域分割後で変えた方が良いというのが直感。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(4): 58.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(8) + CDF42を2段 + 各帯域でSA(4): 59.3%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(12) + CDF42を2段 + 各帯域でSA(4): 59.2%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(8): 58.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(12): 58.7%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CDF42の2段適用は性能が悪いので一旦外す。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を1段 + 各帯域でSA(4): 57.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(8) + CDF42を1段 + 各帯域でSA(4): 58.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(12) + CDF42を1段 + 各帯域でSA(4): 58.3%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を1段 + 各帯域でSA(8): 57.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を1段 + 各帯域でSA(12): 57.9%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;業を煮やしてLPCを導入。ALAのPARCORを拝借。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSA(4): 57.2%&lt;ul&gt;
+&lt;li&gt;SA(4)を入れ替えて約0.5%の改善。大。&lt;/li&gt;
+&lt;li&gt;エントロピーは8.88(55.6%)、まだ残差を減らすべき&lt;/li&gt;
+&lt;li&gt;低域31.4%&lt;/li&gt;
+&lt;li&gt;高域25.8%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(8) + CDF42を1段 + 各帯域でSA(4): 56.9%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(16) + CDF42を1段 + 各帯域でSA(4): 56.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(8) + SA(4): 58.5%&lt;ul&gt;
+&lt;li&gt;やはり帯域分割はあった方が良い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(8) + CDF22を1段 + 各帯域でSA(4): 59.2%&lt;ul&gt;
+&lt;li&gt;...といっても適切なリフティングをすべき。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(8) + CDF62を1段 + 各帯域でSA(4): 56.9%&lt;ul&gt;
+&lt;li&gt;CDF(8,2)はきっと自分で導かなけらばならないが、その予備試験としてCDF(6,2)を実装して試した。&lt;/li&gt;
+&lt;li&gt;CDF(4,2)とほぼ変わらない。しばらくCDF(4,2)で粘る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + PARCOR(4) + CDF42を1段 + 各帯域でSA(4): 58.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス + PARCOR(4) + CDF42を1段 + 各帯域でSA(4): 57.6%&lt;ul&gt;
+&lt;li&gt;プリエンファシスはやる価値あり。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x3 + PARCOR(4) + CDF42を1段 + 各帯域でSA(4): 57.1%&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + CDF42を1段 + 各帯域でPARCOR(4), SA(4): 60.5%&lt;/li&gt;
+&lt;li&gt;SAをSign-Signに置き換えると0.5%ほど改善したが踏み込まない。&lt;ul&gt;
+&lt;li&gt;ハイパラいじらずに、良い構造を見つけたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;TAKに張り合うには53%はほしい。52%なら勝てる兆しあり。&lt;/p&gt;
+&lt;p&gt;一発で1ラグ相関を打ち消すフィルタ、代数計算できないか？なんか、最適プリエンファシスの2回がけは果たして意味があるか気になってきた。
+2次の相関使ってプリエンファシスできない？→やっつけでやってみたがだめ。粗悪なLPCになっていそう
+最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？代数計算したい。&lt;/p&gt;
+&lt;p&gt;ずーっと気になっていたこと。自分の再帰ライス符号が貧弱なのではないかという点にメスを入れたい。
+（手詰まり感が半端ないので符号に逃げている。しかし気になって仕方ない。）
+TTAでは符号対象値の移動平均sum0を元に、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;sum0が(k &amp;gt; 0) &amp;amp;&amp;amp; (sum0 &amp;lt; (k &amp;lt;&amp;lt; 4))ならばk--&lt;/li&gt;
+&lt;li&gt;sum0が(sum0 &amp;gt; (k &amp;lt;&amp;lt; 5))ならばk++&lt;/li&gt;
+&lt;li&gt;注意: 更新前にkの値を取り、その値でRice符号化してる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;実装してみた、が、微妙に悪化。つまり、自前の方が良かったということになる。
+しかしTTA側の実装の単純さは非常に魅力的ではある。&lt;/p&gt;
+&lt;p&gt;符号をいじるときに、値が周期的（ブロック長/2の周期）にでかい値を取っていたのを確認した。
+かなり気になるので消しにかかる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;プリエンファシスに状態を持たせた&lt;/li&gt;
+&lt;li&gt;LPC予測器に状態を持たせた&lt;/li&gt;
+&lt;li&gt;CDFの端点処理が抜けている。。。。と思ったがこれが本質的原因ではなかった。上2つが主原因。&lt;ul&gt;
+&lt;li&gt;端点処理の要らないHaarウェーブレットでだいぶ高域に不連続点が出る。&lt;ul&gt;
+&lt;li&gt;特にSide成分高域。ダイナミックレンジが高まっているのは確かにわかる。&lt;/li&gt;
+&lt;li&gt;(M,低域) &amp;lt; (M,高域), (S,低域) &amp;lt; (S,高域)に気を付けてビット配分するのがミソ？&lt;/li&gt;
+&lt;li&gt;クリップしている可能性大。&lt;/li&gt;
+&lt;li&gt;端点処理を加えても特に外形変わらず。若干圧縮率が改善する程度。&lt;/li&gt;
+&lt;li&gt;CDF42の遮断特性が素晴らしい。高域はほぼ16k以上（注意：ダウンサンプル後の残差波形の周波数）しか残っていない。音楽的要素はほぼない。&lt;ul&gt;
+&lt;li&gt;これロッシーコーデック作れるわ。高域適当に線形量子化して。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CDF22ではまだ若干高域に音楽が残る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSA(4): 56.9%&lt;ul&gt;
+&lt;li&gt;不連続点を除くことで0.3%ほどの改善&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Sign-Signが有意に良い成果を出している。。切り替えてしまおうか。&lt;/p&gt;
+&lt;p&gt;MPEG4-ALSでもそうだったけど、FLACの-mオプションは符号量見てMS変換するかどうか判定するみたいね。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(2)</title><link href="/rihuteingunozu-miip-mijian-zheng-2.html" rel="alternate"></link><published>2021-07-31T10:00:00+09:00</published><updated>2021-07-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-31:/rihuteingunozu-miip-mijian-zheng-2.html</id><summary type="html">&lt;p&gt;帯域分割信号に対してSAを適用してどれくらい減るか様子を見る。こればかりはやってみないと分からない。&lt;/p&gt;
+&lt;p&gt;試してみた概観。ブロックサイズは8192。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換: 89.4%&lt;/li&gt;
+&lt;li&gt;MS変換 + SA適用: 72.4%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の1段適用: 74.3%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の2段適用: 71.72%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の1段適用で両帯域にSA: 66.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の2段適用で全帯域にSA: 66.4%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;うーん、パット見渋い。エントロピー見て符号が悪いかどうか判定する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + CDF42の2段適用で全帯域にSA: で9.87[bit] -&amp;gt; 61.69%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;だから、理論上FLACより悪い。。。符号というよりは残差のエントロピーがまだ高い。
+SAじゃ弱すぎるか。LPC使うか。。。&lt;/p&gt;
+&lt;p&gt;悲しみに暮れていたが、MS変換の後ろにプリエンファシスを突っ込むと有意に改善。。。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + プリエンファシス: 76.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;帯域分割信号に対してSAを適用してどれくらい減るか様子を見る。こればかりはやってみないと分からない。&lt;/p&gt;
+&lt;p&gt;試してみた概観。ブロックサイズは8192。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換: 89.4%&lt;/li&gt;
+&lt;li&gt;MS変換 + SA適用: 72.4%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の1段適用: 74.3%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の2段適用: 71.72%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の1段適用で両帯域にSA: 66.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + CDF42の2段適用で全帯域にSA: 66.4%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;うーん、パット見渋い。エントロピー見て符号が悪いかどうか判定する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + CDF42の2段適用で全帯域にSA: で9.87[bit] -&amp;gt; 61.69%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;だから、理論上FLACより悪い。。。符号というよりは残差のエントロピーがまだ高い。
+SAじゃ弱すぎるか。LPC使うか。。。&lt;/p&gt;
+&lt;p&gt;悲しみに暮れていたが、MS変換の後ろにプリエンファシスを突っ込むと有意に改善。。。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + プリエンファシス: 76.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用: 66.0%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + CDF42を1段: 69.9%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + CDF42を2段: 69.7%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + CDF42を1段 + 各帯域でSA: 63.2%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + CDF42を2段 + 各帯域でSA: 63.3% （エントロピー: 9.63bit, 60.2%）&lt;ul&gt;
+&lt;li&gt;ただし瞬間的に大きい残差が出ているようだ（サンプルカウントでSEGVした）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + CDF42を1段: 63.4%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + CDF42を1段 + 各帯域でSA: 58.8% &amp;lt;- !!!&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + CDF42を2段 + 各帯域でSA: 59.5%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + SA適用: 60.6%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + SA適用 + SA適用: 59.2%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + SA適用 + CDF42を1段: 59.9%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + SA適用 + CDF42を2段: 61.0%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + SA適用 + CDF42を2段 + 各帯域でSA: 59.8%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + SA適用 + SA適用 + SA適用 + CDF42を2段 + 各帯域でSA: 60.9%&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + プリエンファシス + SA適用 + CDF42を2段 + 各帯域でSA: 58.7% &amp;lt;- !!!&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + プリエンファシス + SA適用 + CDF42を1段 + 各帯域でSA: 58.0% &amp;lt;- !!!&lt;/li&gt;
+&lt;li&gt;MS変換 + プリエンファシス + プリエンファシス + SA適用: 64.5%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CDFは、2段適用より1段の方が良さそう。&lt;/p&gt;
+&lt;p&gt;SAを適用してから帯域分割すると有意…？どう考察すればよい？
+また、次数4のSAでここまでやれているから、まだ伸びしろがありそうに思える。
+いや、弱いフィルタを連結しているから性能が良くなっているのか？&lt;/p&gt;
+&lt;p&gt;「音声の高能率符号化」で、プリエンファシスのような差分処理によって確か分散（符号量）が減ることは言及していた。
+（書籍を確認すると、1ラグの正規化相関を乗じて差分符号化すると確実に分散（符号量）を落とせると書いてある。式的にも明らか。）
+かといって2連結でさらに小さくなるのは聞いてない。初めての経験。1処理で消しきれない分があるということだ。
+ガチの1ラグ相関（=最適値）でプリエンファシスやるとどうなる？→良くなった。統計的にもそうか。
+多段適用すると、頭打ちになるけど減り続けている。&lt;/p&gt;
+&lt;p&gt;上の構成を並べて思ったのは、予測は大域的なものから局所的なものに持っていくと良さそうに見える。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(1)</title><link href="/rihuteingunozu-miip-mijian-zheng-1.html" rel="alternate"></link><published>2021-07-30T10:00:00+09:00</published><updated>2021-07-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-30:/rihuteingunozu-miip-mijian-zheng-1.html</id><summary type="html">&lt;p&gt;CDF42をC言語で実装してみた。懸念だった1ループによる実装もOK。想像通り。
+分散は確かに減っているからエントロピーも減っているはず。&lt;/p&gt;
+&lt;p&gt;さて、もう符号化まで試してしまうべきか？
+ちょっと考えてたけど、やってしまおうと思う。
+今までのありあわせの符号化スキームを転用してやってみる。&lt;/p&gt;
+&lt;p&gt;やっつけで超簡易コーデックを作った。風の巡る場所で試す。観察としては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;何もしないで直接再帰的ライス符号を適用すると（元データ比）90%&lt;/li&gt;
+&lt;li&gt;Haarの1段適用では84%, 2段適用で82.7%&lt;/li&gt;
+&lt;li&gt;CDF22の1段適用では81%, 2段適用で79.0%&lt;/li&gt;
+&lt;li&gt;CDF42を1段かませた場合76%&lt;ul&gt;
+&lt;li&gt;低域が42%&lt;/li&gt;
+&lt;li&gt;高域が34%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CDF42を2段かませると75%&lt;ul&gt;
+&lt;li&gt;低域/低域が20%&lt;/li&gt;
+&lt;li&gt;低域/高域が20%&lt;/li&gt;
+&lt;li&gt;高域が34%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;高域を分割すると悪化（77%くらい）&lt;/li&gt;
+&lt;li&gt;flac(-8)は60.2%, WavPack(-hh)は59.1%&lt;/li&gt;
+&lt;li&gt;ブロックサイズを4096から8192に上げると0.05%程度の減少。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SAの導入はこれから、さてどれくらい減らせるだろうか。
+分割設定を変えながら見るべし。&lt;/p&gt;
+&lt;p&gt;CDF(8,2 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;CDF42をC言語で実装してみた。懸念だった1ループによる実装もOK。想像通り。
+分散は確かに減っているからエントロピーも減っているはず。&lt;/p&gt;
+&lt;p&gt;さて、もう符号化まで試してしまうべきか？
+ちょっと考えてたけど、やってしまおうと思う。
+今までのありあわせの符号化スキームを転用してやってみる。&lt;/p&gt;
+&lt;p&gt;やっつけで超簡易コーデックを作った。風の巡る場所で試す。観察としては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;何もしないで直接再帰的ライス符号を適用すると（元データ比）90%&lt;/li&gt;
+&lt;li&gt;Haarの1段適用では84%, 2段適用で82.7%&lt;/li&gt;
+&lt;li&gt;CDF22の1段適用では81%, 2段適用で79.0%&lt;/li&gt;
+&lt;li&gt;CDF42を1段かませた場合76%&lt;ul&gt;
+&lt;li&gt;低域が42%&lt;/li&gt;
+&lt;li&gt;高域が34%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CDF42を2段かませると75%&lt;ul&gt;
+&lt;li&gt;低域/低域が20%&lt;/li&gt;
+&lt;li&gt;低域/高域が20%&lt;/li&gt;
+&lt;li&gt;高域が34%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;高域を分割すると悪化（77%くらい）&lt;/li&gt;
+&lt;li&gt;flac(-8)は60.2%, WavPack(-hh)は59.1%&lt;/li&gt;
+&lt;li&gt;ブロックサイズを4096から8192に上げると0.05%程度の減少。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SAの導入はこれから、さてどれくらい減らせるだろうか。
+分割設定を変えながら見るべし。&lt;/p&gt;
+&lt;p&gt;CDF(8,2)も試したいと思い係数を探していたが見つからず。代わりに以下の論文がヒット。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/30791653.pdf"&gt;Optimization of biorthogonal wavelet filters for signal and image compression&lt;/a&gt; フィルタ係数を代数的に求めている？制約を入れて望ましいフィルタを設計しているように見える。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティング観察(6)</title><link href="/rihuteinguguan-cha-6.html" rel="alternate"></link><published>2021-07-29T10:00:00+09:00</published><updated>2021-07-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-29:/rihuteinguguan-cha-6.html</id><content type="html">&lt;p&gt;「音声の高能率符号化」の3.4節「予測符号化」で予測による分散（ひいてはビット数）の減少について記述がある。
+これをリフティングで考えるとどうなるだろうか？
+誤差分散を最小にしようとすると線形予測符号化にぶつかってしまうが、リフティングによる効果を知りたい。&lt;/p&gt;
+&lt;p&gt;ロスレス圧縮に組み込む前に、やはりもう少し調査したい。
+リフティングで帯域分割した信号に対してLMSしたとき、さてエントロピーは改善するのか？&lt;/p&gt;
+&lt;p&gt;ステップサイズを変えつつ観察したら、どのステップサイズでもエントロピーが減少していた。実データで1bit程度（16bitPCMの仮定で）の減少。これは大きい。&lt;/p&gt;
+&lt;p&gt;さらに、多段に帯域分割したときはさらにエントロピーが減少していた。&lt;/p&gt;
+&lt;p&gt;計算負荷的にはCDF(4,2)を推したい。C言語で実装して、整数値でエントロピーがマジで減ってるか見てみたい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティング観察(5)</title><link href="/rihuteinguguan-cha-5.html" rel="alternate"></link><published>2021-07-28T10:00:00+09:00</published><updated>2021-07-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-28:/rihuteinguguan-cha-5.html</id><summary type="html">&lt;p&gt;「音声の高能率符号化」はやはり素晴らしい。今日に通じる基本事項がもれなく列挙されている。
+逆に言うと、技術進歩がまったくないと言うことになるが。&lt;/p&gt;
+&lt;p&gt;今日は2段階適用したときの相関変化をよく見たい。相関はさらに減るだろうというのが大方の予測だが、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;相関は減っていく傾向&lt;ul&gt;
+&lt;li&gt;ただし、周期的な構造は縮んで表れてくる&lt;/li&gt;
+&lt;li&gt;実データ（ピアノ）でCDF(4,2)を2回まで適用すると低域の1次相関が0.5くらいになっている。これはプリエンファシスより優れている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2回適用したとき、高域+低域のエントロピーが底を打っている印象を受ける。&lt;ul&gt;
+&lt;li&gt;高域のエントロピーは増加傾向。低次の高域成分は構造的だが、高次では取り除ききれない成分が出てくるので当然だと思うことに。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;実験をやりながら漠然と思っていたが、CDF(4,2)が以下の意味で優れている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;高域はもちろん、低域成分の分散減少も多きい。&lt;/li&gt;
+&lt;li&gt;相関除去能力&lt;/li&gt;
+&lt;li&gt;負荷の低さ（シフト演算を多く使える）&lt;ul&gt;
+&lt;li&gt;CDF(5,1), CDF(6,2)も同様の効果を与えているが、負荷はより高い印象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;画像ではCDF(2,2)がJPEG2000ロスレスに採用されているが、画像の方が低域成分が多いから有効に作用していると想像する。音声の方が高域周波数成分が多いからより高次のモーメントを必要としているように見受けられる。&lt;/p&gt;
+&lt;p&gt;上記の意味でCDF(4 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;「音声の高能率符号化」はやはり素晴らしい。今日に通じる基本事項がもれなく列挙されている。
+逆に言うと、技術進歩がまったくないと言うことになるが。&lt;/p&gt;
+&lt;p&gt;今日は2段階適用したときの相関変化をよく見たい。相関はさらに減るだろうというのが大方の予測だが、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;相関は減っていく傾向&lt;ul&gt;
+&lt;li&gt;ただし、周期的な構造は縮んで表れてくる&lt;/li&gt;
+&lt;li&gt;実データ（ピアノ）でCDF(4,2)を2回まで適用すると低域の1次相関が0.5くらいになっている。これはプリエンファシスより優れている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2回適用したとき、高域+低域のエントロピーが底を打っている印象を受ける。&lt;ul&gt;
+&lt;li&gt;高域のエントロピーは増加傾向。低次の高域成分は構造的だが、高次では取り除ききれない成分が出てくるので当然だと思うことに。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;実験をやりながら漠然と思っていたが、CDF(4,2)が以下の意味で優れている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;高域はもちろん、低域成分の分散減少も多きい。&lt;/li&gt;
+&lt;li&gt;相関除去能力&lt;/li&gt;
+&lt;li&gt;負荷の低さ（シフト演算を多く使える）&lt;ul&gt;
+&lt;li&gt;CDF(5,1), CDF(6,2)も同様の効果を与えているが、負荷はより高い印象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;画像ではCDF(2,2)がJPEG2000ロスレスに採用されているが、画像の方が低域成分が多いから有効に作用していると想像する。音声の方が高域周波数成分が多いからより高次のモーメントを必要としているように見受けられる。&lt;/p&gt;
+&lt;p&gt;上記の意味でCDF(4,2)を超えるフィルタ設計を行いたいな。
+同時に、CDF(4,2)を使ったコーデック（ロッシー可）はどれくらい良いのか実装して確かめたい。AAD2とか？&lt;/p&gt;
+&lt;p&gt;例のBuildingの資料を読んでいる。DDウェーブレットは多項式補間、Donohoウェーブレットは平均値補間でDilation方程式の解になっているところはなんとなく読めた。しかし、具体的に設計するにはどうすればよいか書いてないように見受けられる。集中力が切れたので風呂入って「音声の高能率符号化」を流し読みする。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティング観察(4)</title><link href="/rihuteinguguan-cha-4.html" rel="alternate"></link><published>2021-07-26T10:00:00+09:00</published><updated>2021-07-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-26:/rihuteinguguan-cha-4.html</id><content type="html">&lt;p&gt;「音声の高能率符号化」を読んでいたら、音声データ一般で相関が高い理由が明確に書いてあった。それは、低域の信号をオーバーサンプリングしているからである。
+人の声は8kHzがいい所の上限だが、それに対して44100Hzでサンプリングすると明らかにオーバーサンプリングになる。つまり、低域信号はゆっくり変化しているのに過剰にサンプリングされ、相関が高くなる。&lt;/p&gt;
+&lt;p&gt;この意味でも帯域分割は意味を持ちそうな印象を受ける。ウェーブレットで低域/高域に分けると低域のオーバーサンプリング効果が低減する。実際、相関が下がることを確認している。&lt;/p&gt;
+&lt;p&gt;ストーリーとしては、&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;適応アルゴリズムの収束特性が悪いのは音声データに相関があるから&lt;/li&gt;
+&lt;li&gt;相関は低域信号のオーバーサンプリングにより生じている&lt;/li&gt;
+&lt;li&gt;ウェーブレットで低域信号をリサンプリングすることでレートを下げて扱える、相関は下がっているので有効なはずだ&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;相関を消すというのもウェーブレット設計の方針になる。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティング観察(3)</title><link href="/rihuteinguguan-cha-3.html" rel="alternate"></link><published>2021-07-25T10:00:00+09:00</published><updated>2021-07-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-25:/rihuteinguguan-cha-3.html</id><summary type="html">&lt;p&gt;より次数を上げたCDFを実装して様子（統計量）を見る。&lt;/p&gt;
+&lt;p&gt;CDF(5,1), (5,3), (6,2), (6,4)まで実装してみた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;4以上になると低域成分の分散の減少も顕著&lt;/li&gt;
+&lt;li&gt;しかし5,6では高域の分散は上昇傾向&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;全体的にいえることとしては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;相関は減少している。高域は勿論だが、低域も。&lt;/li&gt;
+&lt;li&gt;高周波（10000以上）に対して自己相関がほぼ同じになる。（低域の振幅は減少しているが）&lt;/li&gt;
+&lt;li&gt;ナイキスト周波数での振動に対して高域が大きな定数値をとる（分散はほぼ0）&lt;/li&gt;
+&lt;li&gt;スイープも高周波数帯域で高域が大きな定数値をとりがち。&lt;ul&gt;
+&lt;li&gt;高域の予測は外れがちのよう。低域の分離はできているようだ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリエンファシスと比較している。前どっかで見たけど、周波数特性も低域が完全に消えていないし、高域は強調されてる。
+相関はリフティングとどっこいどっこい。合計のエントロピーもどっこい？いや、リフティングの方が高域がかなり小さい。
+低域にプリエンファシスを適用することもできるし。&lt;/p&gt;
+&lt;p&gt;また、純音（440Hz）に対してプリエンファシスをかけると自己相関はほぼ変わらないが、リフティングの場合は高域にて相関が減少（高次になるにつれてすぐに0に収斂）し、低域も相関の減少が見られた。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;p&gt;音声圧縮に適したリフティングウェーブレットの設計は、テーマとしてありだと思う。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;消失モーメント多め …&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;より次数を上げたCDFを実装して様子（統計量）を見る。&lt;/p&gt;
+&lt;p&gt;CDF(5,1), (5,3), (6,2), (6,4)まで実装してみた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;4以上になると低域成分の分散の減少も顕著&lt;/li&gt;
+&lt;li&gt;しかし5,6では高域の分散は上昇傾向&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;全体的にいえることとしては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;相関は減少している。高域は勿論だが、低域も。&lt;/li&gt;
+&lt;li&gt;高周波（10000以上）に対して自己相関がほぼ同じになる。（低域の振幅は減少しているが）&lt;/li&gt;
+&lt;li&gt;ナイキスト周波数での振動に対して高域が大きな定数値をとる（分散はほぼ0）&lt;/li&gt;
+&lt;li&gt;スイープも高周波数帯域で高域が大きな定数値をとりがち。&lt;ul&gt;
+&lt;li&gt;高域の予測は外れがちのよう。低域の分離はできているようだ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリエンファシスと比較している。前どっかで見たけど、周波数特性も低域が完全に消えていないし、高域は強調されてる。
+相関はリフティングとどっこいどっこい。合計のエントロピーもどっこい？いや、リフティングの方が高域がかなり小さい。
+低域にプリエンファシスを適用することもできるし。&lt;/p&gt;
+&lt;p&gt;また、純音（440Hz）に対してプリエンファシスをかけると自己相関はほぼ変わらないが、リフティングの場合は高域にて相関が減少（高次になるにつれてすぐに0に収斂）し、低域も相関の減少が見られた。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;p&gt;音声圧縮に適したリフティングウェーブレットの設計は、テーマとしてありだと思う。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;消失モーメント多め（CDF(2,2)よりもCDF(4,2)の方が良いことを受け）&lt;/li&gt;
+&lt;li&gt;シフトと加算で実装可能&lt;/li&gt;
+&lt;li&gt;L1ノルムの意味スパース or エントロピー最小化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;どうやればいいかつかみどころがないけど、確かお家で自分だけのウェーブレットを作る論文あったと思うので、そこからアプローチしてみるか。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://cm-bell-labs.github.io/who/wim/papers/athome/"&gt;Building Your Own Wavelets At Home&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;今なら目的意識をもって戦えそう。スライドもある。もらっていこう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティング観察(2)</title><link href="/rihuteinguguan-cha-2.html" rel="alternate"></link><published>2021-07-24T10:00:00+09:00</published><updated>2021-07-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-24:/rihuteinguguan-cha-2.html</id><summary type="html">&lt;p&gt;前日までで、MSの代わりにCDF(2,2)を使うのは有効ではないというのが分かった。LRの信号は一般にズレており、線形予測のような局所的な予測はうまくいかない。周波数特性としてもずれがある。
+従って1チャンネルの信号に対してウェーブレットを適用する道を探る。
+次はどうするか。&lt;/p&gt;
+&lt;p&gt;単にCDF(2,2)で帯域分割して各帯域でLPC/適応フィルタするのは安直すぎるし工夫の余地がない。
+もっと何か理論的な工夫は及ばないか？考えてみる。&lt;/p&gt;
+&lt;p&gt;リフティングによって何が変わるのかをまだ観察してなかったかも。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;適応的にリフティング係数を設定する&lt;ul&gt;
+&lt;li&gt;予測・更新フィルタを両方ともSAにしちゃうとか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CDF(2,2)通した後の信号の特性&lt;ul&gt;
+&lt;li&gt;分かり切ってることだが、2次までのモーメントが消えてる。&lt;/li&gt;
+&lt;li&gt;信号の統計量（平均、分散、自己相関、L1ノルム、エントロピー）はどのように変化するか？&lt;/li&gt;
+&lt;li&gt;高域と低域で分けて考える。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;プリエンファシスをリフティングに置き換えることの是非。&lt;ul&gt;
+&lt;li&gt;例えばHaarは直流成分（0次モーメント）を完全に消す。&lt;/li&gt;
+&lt;li&gt;変換域適応と同じになると思う。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2.が大事に思える。地味に論じている文献ないし。
+リフティング後の信号の性質は、NoteBook上でいろいろ見てみるのが良さそう。&lt;/p&gt;
+&lt;p&gt;というわけで実装を進めている。Haar, CDFは良さそうだけど、ドベシィの実装は&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/226136339.pdf"&gt;DESIGN …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;前日までで、MSの代わりにCDF(2,2)を使うのは有効ではないというのが分かった。LRの信号は一般にズレており、線形予測のような局所的な予測はうまくいかない。周波数特性としてもずれがある。
+従って1チャンネルの信号に対してウェーブレットを適用する道を探る。
+次はどうするか。&lt;/p&gt;
+&lt;p&gt;単にCDF(2,2)で帯域分割して各帯域でLPC/適応フィルタするのは安直すぎるし工夫の余地がない。
+もっと何か理論的な工夫は及ばないか？考えてみる。&lt;/p&gt;
+&lt;p&gt;リフティングによって何が変わるのかをまだ観察してなかったかも。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;適応的にリフティング係数を設定する&lt;ul&gt;
+&lt;li&gt;予測・更新フィルタを両方ともSAにしちゃうとか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;CDF(2,2)通した後の信号の特性&lt;ul&gt;
+&lt;li&gt;分かり切ってることだが、2次までのモーメントが消えてる。&lt;/li&gt;
+&lt;li&gt;信号の統計量（平均、分散、自己相関、L1ノルム、エントロピー）はどのように変化するか？&lt;/li&gt;
+&lt;li&gt;高域と低域で分けて考える。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;プリエンファシスをリフティングに置き換えることの是非。&lt;ul&gt;
+&lt;li&gt;例えばHaarは直流成分（0次モーメント）を完全に消す。&lt;/li&gt;
+&lt;li&gt;変換域適応と同じになると思う。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2.が大事に思える。地味に論じている文献ないし。
+リフティング後の信号の性質は、NoteBook上でいろいろ見てみるのが良さそう。&lt;/p&gt;
+&lt;p&gt;というわけで実装を進めている。Haar, CDFは良さそうだけど、ドベシィの実装は&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://core.ac.uk/download/pdf/226136339.pdf"&gt;DESIGN AND IMPLEMENTATION OF LIFTING BASED DAUBECHIES WAVELET TRANSFORMS USING ALGEBRAIC INTEGERS&lt;/a&gt; の22pあたりを参照。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CDF9/7については実装あり&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20110714234934/http://www.olhovsky.com/content/wavelet/2dwavelet97lift.py"&gt;2D CDF 9/7 Wavelet Forward and Inverse Transform (lifting implementation)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20120305164605/http://www.embl.de/~gpau/misc/dwt97.c"&gt;dwt97.c - Fast discrete biorthogonal CDF 9/7 wavelet forward and inverse transform (lifting implementation)&lt;/a&gt; マージで予測・更新の度にループ回している。。。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CDF(1,1)(=Haar), CDF(2,2), CDF(3,1), CDF(4,2)と実装してみたが、どうもprimal liftingの次数を上げていくと良好な結果になる。良好というのは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;高域成分の分散、L1ノルム、エントロピー減少（自己相関はほぼ0に）&lt;/li&gt;
+&lt;li&gt;低域成分の分散、L1ノルム減少（(3,1), (4,2)で顕著）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;より次数を上げたCDFを実装して観察してみる。音声では次数を上げた方が良いのかもしれないという示唆。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティング観察(1)</title><link href="/rihuteinguguan-cha-1.html" rel="alternate"></link><published>2021-07-23T10:00:00+09:00</published><updated>2021-07-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-23:/rihuteinguguan-cha-1.html</id><summary type="html">&lt;p&gt;今考えているウェーブレットによるチャンネル間相関除去って既知の技術だと思ったんだがなあ。資料がないように見える。&lt;/p&gt;
+&lt;p&gt;音声のLRチャンネルの相互相関を観察してみよう。そして、LRをレイジーウェーブレット（スプリット）の結果と考えてリフティングしてみる。
+作って動かしてみてるけど、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;無音部（とリリース）でしか相関が高くならない&lt;ul&gt;
+&lt;li&gt;残響成分はなんやかんやで位相が揃っているのかもしれない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS処理してみると全体的に相関が小さくなる。（1次以上のラグ相関も消えている感じ）&lt;/li&gt;
+&lt;li&gt;CDF22をやっつけで適用してみたけどMS処理とほぼ変わらず。まじで？実装ミスを疑っている。良くなる予想なんだが。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CDF22をNARUに突っ込んでみた（MSで使ってみた）が、案の定というか性能悪化の傾向。
+LRは周波数特性が違うから、スプリット（レイジーウェーブレット）した状態とは違う状態になっているかかも。スプリットしたら正確にサンプリングの半周期分遅れた自分に対して処理できるけど、LR信号はスピーカー配置とかで変わってくる。
+そしてもっと重大なことに可逆じゃない。端点処理が怪しい。デバッグしてたらくたばってしまい夕方…。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;CDF22Forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;今考えているウェーブレットによるチャンネル間相関除去って既知の技術だと思ったんだがなあ。資料がないように見える。&lt;/p&gt;
+&lt;p&gt;音声のLRチャンネルの相互相関を観察してみよう。そして、LRをレイジーウェーブレット（スプリット）の結果と考えてリフティングしてみる。
+作って動かしてみてるけど、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;無音部（とリリース）でしか相関が高くならない&lt;ul&gt;
+&lt;li&gt;残響成分はなんやかんやで位相が揃っているのかもしれない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;MS処理してみると全体的に相関が小さくなる。（1次以上のラグ相関も消えている感じ）&lt;/li&gt;
+&lt;li&gt;CDF22をやっつけで適用してみたけどMS処理とほぼ変わらず。まじで？実装ミスを疑っている。良くなる予想なんだが。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;CDF22をNARUに突っ込んでみた（MSで使ってみた）が、案の定というか性能悪化の傾向。
+LRは周波数特性が違うから、スプリット（レイジーウェーブレット）した状態とは違う状態になっているかかも。スプリットしたら正確にサンプリングの半周期分遅れた自分に対して処理できるけど、LR信号はスピーカー配置とかで変わってくる。
+そしてもっと重大なことに可逆じゃない。端点処理が怪しい。デバッグしてたらくたばってしまい夕方…。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;CDF22Forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;CDF22Inverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;どう見ても順変換で &lt;cite&gt;data[0][smpl + 1]&lt;/cite&gt; が書き換え前に参照されてて、逆変換で戻す前の値を参照していてうまくいくはずがない。
+悶絶してたら &lt;a class="reference external" href="https://fussy.web.fc2.com/algo/compress9_wavelet2.htm"&gt;(9) ウェーブレット変換 -2-&lt;/a&gt; に実装があって、以下のように書き換えたら可逆になった。性能はHaarより少し悪い。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;CDF22Forward&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;CDF22Inverse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;確かに可逆になるんだけどループ2回回すのがかっこ悪い。1回でやり切れるはずなんだな。しかしこれ以上は追わない。MS変換を置き換えるには至らない感じか。でも、CDF(2,2)は低域と高域で2次までのモーメントを消せるのが強い。チャンネル毎の処理としては使ってみたい。&lt;/p&gt;
+&lt;p&gt;他に少し収穫。MS処理をHaarリフティングと考えると以下のように簡潔かつ高速になる。
+（ただし現行のMS処理と圧縮結果が微妙に変わることに注意。）&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cm"&gt;/* LR -&amp;gt; MS（int32_t） */&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;LRtoMSInt32&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* MS -&amp;gt; LR（int32_t） */&lt;/span&gt;
+&lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;MStoLRInt32&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;][&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(20)</title><link href="/zhan-lue-hui-yi-zhong-202120.html" rel="alternate"></link><published>2021-07-22T10:00:00+09:00</published><updated>2021-07-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-22:/zhan-lue-hui-yi-zhong-202120.html</id><content type="html">&lt;p&gt;S+P変換を踏まえて次を考えているが、今気になるのはチャンネル間の相関。チャンネルx信号の2次元でウェーブレットしようと考えているけど、実際の信号はどれくらい相関があるのか気になる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ieice.org/publications/conference-FIT-DVDs/FIT2004/pdf/M/M_016.pdf"&gt;チャンネル間相関を用いた多チャンネル信号の可逆圧縮符号化&lt;/a&gt; チャンネル配置の幾何学的位置に基づいた相関係数により、MS処理の重みを決める。MPEG4より良くなっていることを確認。&lt;ul&gt;
+&lt;li&gt;面子がだいぶMPEG4に寄っとる。標準に取り込まれている？それとも採用されなかったネタ？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1603.03364.pdf"&gt;Channel Decorrelation For Stereo Acoustic Echo Cancellation In High-Quality Audio Communication&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;チャンネル間の干渉により音質が悪化するので改善を試みる研究。&lt;/li&gt;
+&lt;li&gt;Vorbisの聴覚モデルの評価関数が高くなるように、各チャンネルでノイズ付加とオールパスフィルタを適用&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/6287809"&gt;Inter-channel decorrelation by sub-band resampling in frequency domain&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;集中が途切れた…読めてない…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;うーん、いい情報が出てこない。
+窓関数に対する完全再構成条件がPrincen-Bradley条件。論文で触れていたので気になった。すると以下の資料がヒット。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.spcom.ecei.tohoku.ac.jp/~aito/kisosemi/slides2.pdf"&gt;高効率音楽符号化&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;音声符号化に関する包括的な資料 &lt;a class="reference external" href="http://www.spcom.ecei.tohoku.ac.jp/~aito/kisosemi/slides.pdf"&gt;こちら&lt;/a&gt; もよい。&lt;/li&gt;
+&lt;li&gt;というか、伊藤教授が音声全般でかなり突っ込んだことやってる。 &lt;a class="reference external" href="http://www.spcom.ecei.tohoku.ac.jp/index.html"&gt;研究室サイト&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(19)</title><link href="/zhan-lue-hui-yi-zhong-202119.html" rel="alternate"></link><published>2021-07-19T10:00:00+09:00</published><updated>2021-07-19T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-19:/zhan-lue-hui-yi-zhong-202119.html</id><content type="html">&lt;p&gt;バッテリー交換した翌日からMacくんkernel_taskが暴走。SMC/PRAMリセットしても改善せず。
+炎天下で持ち出したのが災いしたか…？（土曜日はリリイベ）
+今一度修理に出した。しばらくは仮環境で作業せざるを得ない。&lt;/p&gt;
+&lt;p&gt;今日は出先で藤ノ木先生のリフティング資料を流し読みした。なんとなくはつかめた感じ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/2610733_An_Image_Multiresolution_Representation_for_Lossless_and_Lossy_Compression"&gt;An Image Multiresolution Representation for Lossless and Lossy Compression&lt;/a&gt; S(Sequential) + P(Predict) Transformの論文。といってもリフティングに含まれるが。&lt;ul&gt;
+&lt;li&gt;S+P変換による分散の変化を論じているところが腑に落ちた。ここを突破点にもっと議論を進められないか？&lt;/li&gt;
+&lt;li&gt;高級なプリエンファシスとしてリフティングを使うのはあり。そして相関が確かに除去できていることが示せるとなおよい。&lt;/li&gt;
+&lt;li&gt;もうちょっと読みたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(18)</title><link href="/zhan-lue-hui-yi-zhong-202118.html" rel="alternate"></link><published>2021-07-15T10:00:00+09:00</published><updated>2021-07-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-15:/zhan-lue-hui-yi-zhong-202118.html</id><summary type="html">&lt;p&gt;ちょっと目的もなくふらふら見ている。。。どうするか方針が立たない。
+良いWavelet係数を学習適応するのはwavenetで微妙（できるけど、直交条件が崩れる）と分かったし、かといって出来合いのwaveletを使ってしまうと理論的な新しさがない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/6658828"&gt;1857.2-2013 - IEEE Standard for Advanced Audio Coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;IEEE 1857.2 の公式文書&lt;/li&gt;
+&lt;li&gt;Wavelet係数組の選定経緯は特に言及されてない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ウェーブレット係数の比較で調べてみる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/785671"&gt;Performance evaluation of reversible integer-to-integer wavelet transforms for image compression&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;画像圧縮向けの整数Wavelet変換の比較。5/3(CDF(2,2))がリーズナブルといういう結論。&lt;/li&gt;
+&lt;li&gt;音声はどうだろうか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://d-nb.info/97013312X/34"&gt;Lossless Wideband Audio Compression: Prediction and Transform&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;あやしい博論。6.6.2にて音声ロスレス圧縮の比較あり …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;ちょっと目的もなくふらふら見ている。。。どうするか方針が立たない。
+良いWavelet係数を学習適応するのはwavenetで微妙（できるけど、直交条件が崩れる）と分かったし、かといって出来合いのwaveletを使ってしまうと理論的な新しさがない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/6658828"&gt;1857.2-2013 - IEEE Standard for Advanced Audio Coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;IEEE 1857.2 の公式文書&lt;/li&gt;
+&lt;li&gt;Wavelet係数組の選定経緯は特に言及されてない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ウェーブレット係数の比較で調べてみる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/785671"&gt;Performance evaluation of reversible integer-to-integer wavelet transforms for image compression&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;画像圧縮向けの整数Wavelet変換の比較。5/3(CDF(2,2))がリーズナブルといういう結論。&lt;/li&gt;
+&lt;li&gt;音声はどうだろうか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://d-nb.info/97013312X/34"&gt;Lossless Wideband Audio Compression: Prediction and Transform&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;あやしい博論。6.6.2にて音声ロスレス圧縮の比較あり。&lt;/li&gt;
+&lt;li&gt;CDF(2,2), つまり5/3の平均ビットレートが優れていたという結論。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;リフティングの理解をもう少し進めるべきかと感じできた。藤ノ木先生のドキュメントを印刷する。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(17)</title><link href="/zhan-lue-hui-yi-zhong-202117.html" rel="alternate"></link><published>2021-07-14T10:00:00+09:00</published><updated>2021-07-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-14:/zhan-lue-hui-yi-zhong-202117.html</id><summary type="html">&lt;p&gt;昨日試したリフティングの意味をぐるぐる考えていた。
+偶数成分と奇数成分で分けて、偶数（奇数）成分から奇数（偶数）成分を予測するとどうなるか。
+DPCMとは違った成分になるのは分かっていて、Haarと同じく低域と高域に分割することも分かっているつもりだけど、その意味とか、LPCやる価値はあるのかがすっきり来ない。&lt;/p&gt;
+&lt;p&gt;リフティングを復習したくて &lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jsiamt/28/2/28_72/_pdf/-char/ja"&gt;リフティングスキームによるウェーブレットの構成法&lt;/a&gt; を流し読みした。多項式分解などの細かいところは追えないが、相当な良資料と思っている。任意の離散ウェーブレット変換はLiftingで表現できることを再度確認。証明はまだ追ってない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.cpp.edu/~jskang/files/integer.pdf"&gt;WAVELET TRANSFORMS THAT MAP INTEGERS TO INTEGERS&lt;/a&gt; 整数ウェーブレット変換について。整数liftingについても取り扱っている。各ウェーブレットでの画像に対するエントロピー比較あり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/221026663_Integer_wavelet_transforms_based_lossless_audio_compression"&gt;INTEGER WAVELET TRANSFORM BASED LOSSLESS AUDIO COMPRESSION&lt;/a&gt; 1999年の。整数ウェーブレット変換したのをGolomb-Rice。&lt;ul&gt;
+&lt;li&gt;事前知識を排したいと言ってる。まさにそうだな&lt;/li&gt;
+&lt;li&gt;試してみた取った感じのproceedings。ヒントがあるかもしれないのでガン見。&lt;/li&gt;
+&lt;li&gt;DD(4,2)を使っている。理由は各帯域でゲインが同じだから？とのこと（？）&lt;/li&gt;
+&lt;li&gt;お、Rice符号の最適条件を久々に見た。 &lt;span class="math"&gt;\(\theta …&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;昨日試したリフティングの意味をぐるぐる考えていた。
+偶数成分と奇数成分で分けて、偶数（奇数）成分から奇数（偶数）成分を予測するとどうなるか。
+DPCMとは違った成分になるのは分かっていて、Haarと同じく低域と高域に分割することも分かっているつもりだけど、その意味とか、LPCやる価値はあるのかがすっきり来ない。&lt;/p&gt;
+&lt;p&gt;リフティングを復習したくて &lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jsiamt/28/2/28_72/_pdf/-char/ja"&gt;リフティングスキームによるウェーブレットの構成法&lt;/a&gt; を流し読みした。多項式分解などの細かいところは追えないが、相当な良資料と思っている。任意の離散ウェーブレット変換はLiftingで表現できることを再度確認。証明はまだ追ってない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.cpp.edu/~jskang/files/integer.pdf"&gt;WAVELET TRANSFORMS THAT MAP INTEGERS TO INTEGERS&lt;/a&gt; 整数ウェーブレット変換について。整数liftingについても取り扱っている。各ウェーブレットでの画像に対するエントロピー比較あり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/221026663_Integer_wavelet_transforms_based_lossless_audio_compression"&gt;INTEGER WAVELET TRANSFORM BASED LOSSLESS AUDIO COMPRESSION&lt;/a&gt; 1999年の。整数ウェーブレット変換したのをGolomb-Rice。&lt;ul&gt;
+&lt;li&gt;事前知識を排したいと言ってる。まさにそうだな&lt;/li&gt;
+&lt;li&gt;試してみた取った感じのproceedings。ヒントがあるかもしれないのでガン見。&lt;/li&gt;
+&lt;li&gt;DD(4,2)を使っている。理由は各帯域でゲインが同じだから？とのこと（？）&lt;/li&gt;
+&lt;li&gt;お、Rice符号の最適条件を久々に見た。 &lt;span class="math"&gt;\(\theta^{l}(1 + \theta) \leq 1 &amp;lt; \theta^{l}(1 + \theta^{-1})\)&lt;/span&gt; けどこんな形だったっけ？&lt;/li&gt;
+&lt;li&gt;Rice符号の工夫は自分と同じかもしくはより進んでいる。移動平均のバイアス除去手法があるというのを初めて聞いた。&lt;/li&gt;
+&lt;li&gt;コンテキスト選択を入れてる。やり方分かってない。&lt;/li&gt;
+&lt;li&gt;他手法の比較がなく、提案手法内での比較だけ。結言がないのでもやっとする。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;思うことは、リフティングとLMS/LPCを組み合わせてコーデック作りましただけでは弱いと思っている。何か理論的な新しさがほしいが、lifting回りで新しさを出すとしたらどうしたらいいか？&lt;/p&gt;
+&lt;p&gt;Haarのliftingの式はMS変換と一致するなあ。つまり、L,Rチャンネルをそれぞれ偶奇でスプリットしたと考えてもいいわけか。CDFとか突っ込めそうだなと即座に思う。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(16)</title><link href="/zhan-lue-hui-yi-zhong-202116.html" rel="alternate"></link><published>2021-07-13T10:00:00+09:00</published><updated>2021-07-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-13:/zhan-lue-hui-yi-zhong-202116.html</id><content type="html">&lt;p&gt;Haarウェーブレット（lifting）で2分割して、それぞれにSAを適用してみた。
+分割しないでSAを実行するものと予測誤差を比較したところ、RMSの意味で悪化。
+ステップサイズをまったく同じにしているがそれはいいのかなど気になる。&lt;/p&gt;
+&lt;p&gt;いやでも、単純にHaarかけるだけでも平均絶対値は下がってるな。有益に見える。
+L2ノルムも半分になってるのはどうしてだ？パーセバルの等式やいかに。&lt;/p&gt;
+&lt;p&gt;純音を相手にしているので綺麗に性質が表れている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;奇数（差分）成分は周期を2倍（周波数0.5倍）にした成分。&lt;ul&gt;
+&lt;li&gt;差分なので振幅は小さい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;偶数成分は周期を0.5倍（周波数2倍）にした成分&lt;ul&gt;
+&lt;li&gt;振幅は元の信号と変わらない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;分割した帯域に対してLPC/LMSするなり帯域ごとに異なる符号を割り当てるのはまったく自然な発想に思える。他の信号でも試して様子を見るべきかもしれない。&lt;/p&gt;
+&lt;p&gt;LPCしたらどうなるだろうか。分割しない場合との比較をしたい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(15)</title><link href="/zhan-lue-hui-yi-zhong-202115.html" rel="alternate"></link><published>2021-07-12T10:00:00+09:00</published><updated>2021-07-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-12:/zhan-lue-hui-yi-zhong-202115.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf"&gt;Adaptive Polyphase Subband Decomposition Structures for Image Compression&lt;/a&gt; を引用している音声関連の文献を漁る。もしくは適応的リフティング、整数ウェーブレット変換の音声圧縮への適用を探る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.126.1893&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Lossless Sound Compression using the Discrete Wavelet Transform&lt;/a&gt; 離散ウェーブレット変換を使って圧縮を試みる。算術符号を使用。Shortenよりも高い圧縮率。しかし当然遅い。&lt;ul&gt;
+&lt;li&gt;試してみたという感じの文体だが、ウェーブレットでロスレス圧縮するときの示唆にはなっている。&lt;/li&gt;
+&lt;li&gt;まとめにおいて &lt;strong&gt;Ultimately, our experiences suggest that wavelets may not be the right paradigm for lossless sound compression.&lt;/strong&gt; と言った。LPCの方が少ないパラメータで信号を表現できているとも指摘している。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://support.hdfgroup.org/doc_resource/SZIP/"&gt;SZIP&lt;/a&gt; というRice符号の変種を比較対象としていた。強いかも。よく見るべし。下記所感に詳しく。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.idmt.fraunhofer.de/content/dam/idmt/documents/IL/Personal%20Websites/Schuller/publications/asilomar2003.pdf"&gt;IMPROVED …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf"&gt;Adaptive Polyphase Subband Decomposition Structures for Image Compression&lt;/a&gt; を引用している音声関連の文献を漁る。もしくは適応的リフティング、整数ウェーブレット変換の音声圧縮への適用を探る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.126.1893&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;Lossless Sound Compression using the Discrete Wavelet Transform&lt;/a&gt; 離散ウェーブレット変換を使って圧縮を試みる。算術符号を使用。Shortenよりも高い圧縮率。しかし当然遅い。&lt;ul&gt;
+&lt;li&gt;試してみたという感じの文体だが、ウェーブレットでロスレス圧縮するときの示唆にはなっている。&lt;/li&gt;
+&lt;li&gt;まとめにおいて &lt;strong&gt;Ultimately, our experiences suggest that wavelets may not be the right paradigm for lossless sound compression.&lt;/strong&gt; と言った。LPCの方が少ないパラメータで信号を表現できているとも指摘している。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://support.hdfgroup.org/doc_resource/SZIP/"&gt;SZIP&lt;/a&gt; というRice符号の変種を比較対象としていた。強いかも。よく見るべし。下記所感に詳しく。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.idmt.fraunhofer.de/content/dam/idmt/documents/IL/Personal%20Websites/Schuller/publications/asilomar2003.pdf"&gt;IMPROVED INTEGER TRANSFORMS FOR LOSSLESS AUDIO CODING&lt;/a&gt; 整数DCTベースの手法。LTACでダメだったということがわかっている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://aip.scitation.org/doi/pdf/10.1063/1.5002024"&gt;A review of lossless audio compression standards and algorithms&lt;/a&gt; ロスレス音声符号化のまとめ2017年度版。&lt;ul&gt;
+&lt;li&gt;IEEE 1857.2が整数ウェーブレット変換したのをLPC予測にかけている。つまり変換域適応している。&lt;/li&gt;
+&lt;li&gt;なるほど正しい流れっぽいな。IEEE 1857.2にもっと探り入れるか。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/publication/317829002_Investigation_of_Lossless_Audio_Compression_using_IEEE_18572_Advanced_Audio_Coding"&gt;Investigation of Lossless Audio Compression using IEEE 1857.2 Advanced Audio Coding&lt;/a&gt; 固定係数Liftingの後にLPCが刺さっている。&lt;ul&gt;
+&lt;li&gt;固定係数なのがうーんという感じ。&lt;/li&gt;
+&lt;li&gt;符号は算術符号。これもうーん。&lt;/li&gt;
+&lt;li&gt;論文での比較によると圧縮率はMonkey's Audioより高いけど圧縮速度は遅い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="ezw"&gt;
+&lt;h2&gt;EZW（符号化手法）について&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://dns2.asia.edu.tw/~ysho/YSHO-English/2000%20Engineering/PDF/IEE%20Tra%20Sig%20Pro41,%203445.pdf"&gt;Embedded Image Coding Using Zerotrees of Wavelet Coefficients&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Embeded zerotree wavelet の略らしい&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/136597"&gt;Image coding using wavelet transform&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;ドベシィ含む。EZWのさらに原点たる文献。Embeded zero tree(EZT)を提案。Adaptive Polyphase Subband Decomposition Structures for Image Compression はEZTを使用。&lt;/li&gt;
+&lt;li&gt;内容は基礎的なので腰を入れて読むのが良いかも？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;適応リフティング（適応フィルタ）試してみるか。そんなんで良くなるとはどうも思えないが見てみよう。間引き（受容野拡大）で何か魔法が起こるかもしれない。間引いてLPCは常套手段だったりしない？（フィルタバンクの適応みたいな話になりそう）&lt;/li&gt;
+&lt;li&gt;間引きLPC（適応的フィルタバンク）が次世代標準だったりしないかとちょっと思う。&lt;ul&gt;
+&lt;li&gt;というか、フィルタバンクの適応やってるんだよな今の研究。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/486471"&gt;Adaptive filtering using filter banks&lt;/a&gt; 完全再構成に突っ込みすぎてて難解かも&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;なんかタンペレ大でロスレス音声の研究をやってた残骸があるな。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://support.hdfgroup.org/doc_resource/SZIP/"&gt;SZIP&lt;/a&gt; 気になる。ライス符号ベースというのがいい印象だし、再帰的Golomb-Riceを見切ってもよさそう。
+- &lt;a class="reference external" href="https://oku.edu.mie-u.ac.jp/~okumura/compression.html"&gt;奥村先生&lt;/a&gt; によるとBurrows-Wheeler 変換（ブロック整列法）を使った手法のようだ。つまりブロック整列+Rice符号か。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(14)</title><link href="/zhan-lue-hui-yi-zhong-202114.html" rel="alternate"></link><published>2021-07-11T10:00:00+09:00</published><updated>2021-07-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-11:/zhan-lue-hui-yi-zhong-202114.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf"&gt;Adaptive Polyphase Subband Decomposition Structures for Image Compression&lt;/a&gt; を引用している文献を漁る。改善したやつ、音声に適用したやつが出てくるはず。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://web.stanford.edu/~bgirod/pdfs/ChangTransIP2007.pdf"&gt;Direction-Adaptive Discrete Wavelet Transform for Image Compression&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;画像の方位性に着目したウェーブレットの適応。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdf.sciencedirectassets.com/272379/1-s2.0-S1063520309X00023/1-s2.0-S1063520308000444/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEMz%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFmEkvxq3HJFRXo7Vzj6LjewHyylZw4drd1raiifgOUUAiBttYw%2FFIwbsG35Z3i%2FsekJxbteMdHWCDH%2FunUnWaZAniqDBAi1%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAQaDDA1OTAwMzU0Njg2NSIMFYoJ4DsgIydz%2Fi%2BAKtcDRegAb8fO985CrVG7UPs1Sp6CJb02Y4WGIL%2FPVs3Wr22E0pXt%2BqcBmahKy25H99GaG%2B5zulEfyVWTcZ7iwOBLiC%2FDuOEan4oKITBjXu0FzBO9heJ37kQ1xBNEorE1kkNAukcAFujp8DTSfwEu72m9QH4ApG8XxB1Ss0jmC9dCowZy2yW7ceuVgV24HnrAadz3JfNxq2I18Wsrh3BB7kq3c24pgM8D2H1W3Afrfov%2Fpsc80%2BaNmtnVPlIqVI0RMFOD8aordkvhcQ2DTLrJGkOfbniCDNXEiwWJOZbWzzmCf5QEDQezlzUysfQbylx5yBVL9HENUEWCqfPhzXFZe6qrhYgt3so12QVwIspfA6f02yvG6zbqd8YcSia94D%2Bk7rQaWc%2FGc2wEYtkzUE%2FSdIkcALnpereQu7cBISz4TmtQiSqsvlKVRKxD%2B85fPJ4VQBsEjEgDJ74Sygt232PcaMQl3Ms3ZtsSkOgl7xsgY4iM%2Fhg%2FDhhK2h0hl9VAmDtcj0roV0dlujKozm2DjCqIbmNV%2FsTM%2BKvirpHzfWVOXG7gvmIpcMWWigKnen5XPn3xeAWaZ7Kb%2BRvDaJZpwFEoT%2BXEM0sBFEesKSGtMxUiODQ2cSeaRV1EdU%2FmMKjTqYcGOqYBnusoQIMgtLG88X4hLsBtndo0boqW%2BL5BbfxfgOIDD5VfnhbxBnLjgfYriuLAfObo5UuFBMd3Vkiu%2Fo8iGiXvjqFQVsdiPb9Ujp1QnjpS6I%2Ftn2cSyNNfws56Uh%2Bt%2FHvKxnKae5cxhfrXYkAJI4TCyO9rDYLBc2UcUCjhte%2FkH3hMvER5%2FQhwVUez6azll54gyum8NbOC3es8pgvwU%2FTLiN382Cxq%2FA%3D%3D&amp;amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Date=20210711T042207Z&amp;amp;X-Amz-SignedHeaders=host&amp;amp;X-Amz-Expires=300&amp;amp;X-Amz-Credential=ASIAQ3PHCVTY2YYWOK3U%2F20210711%2Fus-east-1%2Fs3%2Faws4_request&amp;amp;X-Amz-Signature=707f095234c580099e4e7c88d904a9a67f2d5b9e3891f3091a54fc210d0a9c4d&amp;amp;hash=7f97fac7e48d0b9eac518b5a1b683c62e29f7c8035a87c548306821b5d080813&amp;amp;host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&amp;amp;pii=S1063520308000444&amp;amp;tid=spdf-f0ee7752-c063-46e3-8c8f-8c2106a538d1&amp;amp;sid=101f207585c9304d8d3823245aab047baeb5gxrqa&amp;amp;type=client"&gt;Geometrical grouplets&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;勾配ベースで適応する手法は、直交していないし、安定性(stability)がしばしば保証されてないという指摘。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/4106738"&gt;Direction-Adaptive Discrete Wavelet Transform via Directional Lifting and Bandeletization&lt;/a&gt; が源流のようだが、これも得られるウェーブレットが直交してないと指摘。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/23883/bilkent-research-paper.pdf?sequence=1"&gt;A 2-D Orientation-Adaptive Prediction Filter in Lifting Structures for Image Coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;(5,3 …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf"&gt;Adaptive Polyphase Subband Decomposition Structures for Image Compression&lt;/a&gt; を引用している文献を漁る。改善したやつ、音声に適用したやつが出てくるはず。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://web.stanford.edu/~bgirod/pdfs/ChangTransIP2007.pdf"&gt;Direction-Adaptive Discrete Wavelet Transform for Image Compression&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;画像の方位性に着目したウェーブレットの適応。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pdf.sciencedirectassets.com/272379/1-s2.0-S1063520309X00023/1-s2.0-S1063520308000444/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEMz%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFmEkvxq3HJFRXo7Vzj6LjewHyylZw4drd1raiifgOUUAiBttYw%2FFIwbsG35Z3i%2FsekJxbteMdHWCDH%2FunUnWaZAniqDBAi1%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAQaDDA1OTAwMzU0Njg2NSIMFYoJ4DsgIydz%2Fi%2BAKtcDRegAb8fO985CrVG7UPs1Sp6CJb02Y4WGIL%2FPVs3Wr22E0pXt%2BqcBmahKy25H99GaG%2B5zulEfyVWTcZ7iwOBLiC%2FDuOEan4oKITBjXu0FzBO9heJ37kQ1xBNEorE1kkNAukcAFujp8DTSfwEu72m9QH4ApG8XxB1Ss0jmC9dCowZy2yW7ceuVgV24HnrAadz3JfNxq2I18Wsrh3BB7kq3c24pgM8D2H1W3Afrfov%2Fpsc80%2BaNmtnVPlIqVI0RMFOD8aordkvhcQ2DTLrJGkOfbniCDNXEiwWJOZbWzzmCf5QEDQezlzUysfQbylx5yBVL9HENUEWCqfPhzXFZe6qrhYgt3so12QVwIspfA6f02yvG6zbqd8YcSia94D%2Bk7rQaWc%2FGc2wEYtkzUE%2FSdIkcALnpereQu7cBISz4TmtQiSqsvlKVRKxD%2B85fPJ4VQBsEjEgDJ74Sygt232PcaMQl3Ms3ZtsSkOgl7xsgY4iM%2Fhg%2FDhhK2h0hl9VAmDtcj0roV0dlujKozm2DjCqIbmNV%2FsTM%2BKvirpHzfWVOXG7gvmIpcMWWigKnen5XPn3xeAWaZ7Kb%2BRvDaJZpwFEoT%2BXEM0sBFEesKSGtMxUiODQ2cSeaRV1EdU%2FmMKjTqYcGOqYBnusoQIMgtLG88X4hLsBtndo0boqW%2BL5BbfxfgOIDD5VfnhbxBnLjgfYriuLAfObo5UuFBMd3Vkiu%2Fo8iGiXvjqFQVsdiPb9Ujp1QnjpS6I%2Ftn2cSyNNfws56Uh%2Bt%2FHvKxnKae5cxhfrXYkAJI4TCyO9rDYLBc2UcUCjhte%2FkH3hMvER5%2FQhwVUez6azll54gyum8NbOC3es8pgvwU%2FTLiN382Cxq%2FA%3D%3D&amp;amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;amp;X-Amz-Date=20210711T042207Z&amp;amp;X-Amz-SignedHeaders=host&amp;amp;X-Amz-Expires=300&amp;amp;X-Amz-Credential=ASIAQ3PHCVTY2YYWOK3U%2F20210711%2Fus-east-1%2Fs3%2Faws4_request&amp;amp;X-Amz-Signature=707f095234c580099e4e7c88d904a9a67f2d5b9e3891f3091a54fc210d0a9c4d&amp;amp;hash=7f97fac7e48d0b9eac518b5a1b683c62e29f7c8035a87c548306821b5d080813&amp;amp;host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&amp;amp;pii=S1063520308000444&amp;amp;tid=spdf-f0ee7752-c063-46e3-8c8f-8c2106a538d1&amp;amp;sid=101f207585c9304d8d3823245aab047baeb5gxrqa&amp;amp;type=client"&gt;Geometrical grouplets&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;勾配ベースで適応する手法は、直交していないし、安定性(stability)がしばしば保証されてないという指摘。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/4106738"&gt;Direction-Adaptive Discrete Wavelet Transform via Directional Lifting and Bandeletization&lt;/a&gt; が源流のようだが、これも得られるウェーブレットが直交してないと指摘。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/23883/bilkent-research-paper.pdf?sequence=1"&gt;A 2-D Orientation-Adaptive Prediction Filter in Lifting Structures for Image Coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;(5,3)を斜め方向（±45°）に対応したフィルタを作った。画像に特化しすぎ？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://d1wqtxts1xzle7.cloudfront.net/50223070/Design_of_Signal-Adapted_Multidimensiona20161109-18656-1ywkqwt.pdf?1478752780=&amp;amp;response-content-disposition=inline%3B+filename%3DDesign_of_signal_adapted_multidimensiona.pdf&amp;amp;Expires=1625981295&amp;amp;Signature=DFFnOGgdFojfMUn-8KzExqu5lYiITRmnkM8iE2g5k3jwxlYud8zIBNfaQA~LnIpVejGnZ2Aw4dNWhPOIfOJiOttOnrsPPATNtSmHZNO3fCCKMTtgpqZvNpYL-Ku09u9TjLryRQNWLIoDTaKpKoYkGu4M-XNS1cNZxWLaHYeNRVR4K9q65~NVh5mHx7qAxMFfRaG6MnNdQvzzabenVAA6OcNoikPI9N3O2rQvq5AL8wMVsTueSu81nn7VPA7~MqNF5DAU6magfBG6ZXdLdEH86z7~drA8NPJwBImSip1NgXctppaHe1Qx811jj7WqwlL5NWFVr8nxWSw9k5K78gk0Qw__&amp;amp;Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA"&gt;Design of signal-adapted multidimensional lifting scheme for lossy coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;2乗誤差最小化+直交制約をつけてラグランジュ未定乗数で解く。&lt;/li&gt;
+&lt;li&gt;ロッシー向けと言っているが有益そう。&lt;/li&gt;
+&lt;li&gt;まだちゃんと読めてない。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://reader.elsevier.com/reader/sd/pii/S1063520304000879?token=526F3D01C1CE5CF3BF516BFA6E078BB030C91D79A90601D2F8F691F73B6CFC211182591B49A1569D8A889ADF426D4EA4&amp;amp;originRegion=us-east-1&amp;amp;originCreation=20210710051603"&gt;Building nonredundant adaptive wavelets by update lifting&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;適応リフティングを通じてウェーブレットを設計する手段を提案？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://d1wqtxts1xzle7.cloudfront.net/47476681/tgrs.2002.80384520160724-24253-bg93bf.pdf?1469370223=&amp;amp;response-content-disposition=inline%3B+filename%3DVector_lifting_schemes_for_lossless_codi.pdf&amp;amp;Expires=1625981862&amp;amp;Signature=Wf2~T~eUn0EgyqG1vp-yAs2jGZ7xPagLcW94ZVZ5JeH~dyueSybc-6DgDINlopu-oie0HetIftHjuogHECHgcfzpUyEPic5XDWqg43vo2SGSuyfX1dZkFAIua~zDCjUILfnx987eDWcuZL3nHAtJrNDEYkf5HvEUK5WjOhYEFULutT5YY2yIW6kApYkNqZh1bu2BGiVnPoy3AUdLsAzH49QcFz2LKLtJ20ia5g3tVVre~1dMDTywNqSszouL5zqdXOQ4NF9YGovifGd~Grn-LihIAC-60Q~52aBBSmM9LtjgpGmSKULCwMErCZ39E9v6WwTDgDT8CdqPRS3jF1kpXg__&amp;amp;Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA"&gt;Vector-Lifting Schemes for Lossless Coding and Progressive Archival of Multispectral Images&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.researchgate.net/profile/Peng-Lang-Shui-2/publication/3481086_Image_denoising_algorithm_via_best_wavelet_packet_base_using_Wiener_cost_function/links/00b495332855a0f174000000/Image-denoising-algorithm-via-best-wavelet-packet-base-using-Wiener-cost-function.pdf"&gt;Image denoising algorithm via best wavelet packet base using Wiener cost function&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;Wienerコスト、つまり誤差分散最小化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://imatge.upc.edu/web/sites/default/files/bkp/pub/ICASSP_2004_Sole_Salembier.pdf"&gt;ADAPTIVE DISCRETE GENERALIZED LIFTING FOR LOSSLESS COMPRESSION&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;これも決定写像ベースに見える。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.12.76&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;ADAPTIVE MULTIRESOLUTION DECOMPOSITION: APPLICATION TO LOSSLESS IMAGE COMPRESSION&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;適応的フィルタベースのロスレス静止画圧縮手法。RLSで適応。&lt;/li&gt;
+&lt;li&gt;ICASSPなので短い。気になる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/27213/LMS%20based%20adaptive%20prediction%20for%20scalable%20video%20coding.pdf?sequence=1"&gt;LMS BASED ADAPTIVE PREDICTION FOR SCALABLE VIDEO CODING&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;動画の動き補償の文脈で適応フィルタを使用している？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/6825819"&gt;Efficient Least Absolute Deviation Adaptive Wavelet Filter Bank&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;誤差絶対値基準で最小化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/24897/Lossless%20image%20compression%20by%20LMS%20adaptive%20filter%20banks.pdf?sequence=1"&gt;Lossless image compression by LMS adaptive filter banks&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;短いけど、まさに自分がイメージしていること。適応フィルタ学習によるロスレス圧縮。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;音声への適用が見つからないのはどういうこと？確かに2013ICASSPでもウェーブレットパケットで満足してたから少ないのはうなずけるけど不穏かも。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(13)</title><link href="/zhan-lue-hui-yi-zhong-202113.html" rel="alternate"></link><published>2021-07-10T10:00:00+09:00</published><updated>2021-07-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-10:/zhan-lue-hui-yi-zhong-202113.html</id><summary type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jsiamt/28/2/28_72/_pdf"&gt;リフティングスキームによるウェーブレットの構成法&lt;/a&gt; の6.2節で挙げられた論文を見やる。良さそうなものは読む。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/892438"&gt;Lossless Image Compression Based on Optimal Prediction, Adaptive Lifting, and Conditional Arithmetic Coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;一般のn次元でのリフティング構成を提案。算術符号を使った画像ロスレス圧縮で高い圧縮率。算術符号は強すぎでは？JPEG2000-LSってライス符号だったような。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf"&gt;Adaptive Polyphase Subband Decomposition Structures for Image Compression&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;適応フィルタっぽくやってるな。よく見よう。&lt;/li&gt;
+&lt;li&gt;その通りで、リフティングの予測フィルタを誤差に応じて学習するというもの。&lt;ul&gt;
+&lt;li&gt;NLMSで、誤差の大きさに応じてスケールサイズを変える方策をとっていた。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;誰でも思いつくやり方だよなあ、、性能は良いとのこと。試してみる？&lt;ul&gt;
+&lt;li&gt;NGSAを突っ込めそうに思える。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/25983/Adaptive%20Filtering%20for%20Non-Gaussian%20Stable%20Processes.pdf?sequence=1&amp;amp;isAllowed=y"&gt;Adaptive Filtering for Non-Gaussian Stable Processes&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;本文に出てちょっと気になったので。非ガウスな雑音での適応。誤差Lpノルム最小化の話になる。&lt;/li&gt;
+&lt;li&gt;p=1でしかFisher計量が簡易にならないことを再度確認 …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jsiamt/28/2/28_72/_pdf"&gt;リフティングスキームによるウェーブレットの構成法&lt;/a&gt; の6.2節で挙げられた論文を見やる。良さそうなものは読む。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/892438"&gt;Lossless Image Compression Based on Optimal Prediction, Adaptive Lifting, and Conditional Arithmetic Coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;一般のn次元でのリフティング構成を提案。算術符号を使った画像ロスレス圧縮で高い圧縮率。算術符号は強すぎでは？JPEG2000-LSってライス符号だったような。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf"&gt;Adaptive Polyphase Subband Decomposition Structures for Image Compression&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;適応フィルタっぽくやってるな。よく見よう。&lt;/li&gt;
+&lt;li&gt;その通りで、リフティングの予測フィルタを誤差に応じて学習するというもの。&lt;ul&gt;
+&lt;li&gt;NLMSで、誤差の大きさに応じてスケールサイズを変える方策をとっていた。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;誰でも思いつくやり方だよなあ、、性能は良いとのこと。試してみる？&lt;ul&gt;
+&lt;li&gt;NGSAを突っ込めそうに思える。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/25983/Adaptive%20Filtering%20for%20Non-Gaussian%20Stable%20Processes.pdf?sequence=1&amp;amp;isAllowed=y"&gt;Adaptive Filtering for Non-Gaussian Stable Processes&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;本文に出てちょっと気になったので。非ガウスな雑音での適応。誤差Lpノルム最小化の話になる。&lt;/li&gt;
+&lt;li&gt;p=1でしかFisher計量が簡易にならないことを再度確認。特に新しいことなし。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/1355939"&gt;Design of signal-adapted multidimensional lifting scheme for lossy coding&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;ロッシーと言ってるけどロスレスに活かせる可能性がある。&lt;/li&gt;
+&lt;li&gt;Wienerフィルタの要領で、最小二乗誤差（分散）基準で係数の最小化をしている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/5430944"&gt;Adaptive 2-D Wavelet Transform Based on the Lifting Scheme With Preserved Vanishing Moments&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;消失モーメントを保つように適応。（普通に適応すると消失モーメントが無くなるらしい）デノイジングでいい結果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.worldscientific.com/doi/abs/10.1142/S0219691306001087"&gt;ADAPTIVE WAVELETS FOR IMAGE COMPRESSION USING UPDATE LIFTING: QUANTIZATION AND ERROR ANALYSIS&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;内容は読めず。&lt;/li&gt;
+&lt;li&gt;適応リフティングによる量子誤差を評価&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=1011203"&gt;Adaptive Lifting Schemes With Perfect Reconstruction&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;完全再構成となるような適応リフティング手法の提案。これは重要そう。&lt;/li&gt;
+&lt;li&gt;リフティングによって（モルフォロジーなどの）非線形処理もできるようになったけど、局所な特徴はとらえられてないよね、という問題意識。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.di.ens.fr/~mallat/papiers/WaveletTourChap1-2-3.pdf"&gt;A Wavelet Tour of Signal Processing&lt;/a&gt; Mallatさん。ブロック単位で最適な係数を計算&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;上から2番目の論文とはアプローチが違うとのこと&lt;/li&gt;
+&lt;li&gt;スプリットした後の入力を元に決定写像（decision map）を決めて適応する&lt;ul&gt;
+&lt;li&gt;この決定が完全再構成となる条件を導いている&lt;/li&gt;
+&lt;li&gt;うーん、筋が悪い気がしてならない。写像設計が難しい印象を受けるし、事実論文では簡易な結果しか見せられてない。そして作った写像の評価も難しそうな印象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/1043871"&gt;Adaptive update lifting with a decision rule based on derivative filters&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;上の論文の拡張。決定写像を拡張している。あんまりちゃんと読んでない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(12)</title><link href="/zhan-lue-hui-yi-zhong-202112.html" rel="alternate"></link><published>2021-07-09T10:00:00+09:00</published><updated>2021-07-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-09:/zhan-lue-hui-yi-zhong-202112.html</id><summary type="html">&lt;p&gt;7月上旬、macのバッテリーがもうヘタれてしまったのでバッテリーを取り替えてもらった。
+1週間後には修理が終わったが、受け取った次の日にkernel_taskが暴走・・・再度修理に出して2週間。
+8月3日にようやく落ち着いたとのことで受け取る。&lt;/p&gt;
+&lt;p&gt;それまでのメモは全てWローカルに残していたので、こちらに移していく。今日はメモ以降で終わるかな。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Learning optimal wavelet bases using a natural network approach を読んだ。&lt;ul&gt;
+&lt;li&gt;直行条件は制約条件として入ってきて、それを最適化するように学習する&lt;/li&gt;
+&lt;li&gt;でもそれは学習の途中では完全に直交していない状態を経由することになる（筆者も論文中でsub-orthogonalと言ってた）&lt;/li&gt;
+&lt;li&gt;ラグランジュ未定乗数法で閉形式で解ければ格好いいが、係数による偏微分が係数の和を含むので閉形式に持っていくのが難しい。&lt;ul&gt;
+&lt;li&gt;相互最適化、というかEMアルゴリズムのように、係数を損失最小化するように更新→制約を満たすように更新→損失最小化→…でやれないか？少し考えたけどピントこない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ウェーブレットを学習する方策は筋が悪いように思える。近似解になってしまうのがどうも納得いかない。ロッシーならともかく、再構成が絶対要件になるロスレスと相性が悪い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;前から思っていたけど、適応的リフティングに舵を切る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_action_common_download&amp;amp;item_id=111421&amp;amp;item_no=1&amp;amp;attribute_id=1&amp;amp;file_no=1"&gt;個人の音声特徴を適応的に抽出するリフティングウェーブレットフィルタの設計&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;ほしい周波数特性を持つリフティングウェーブレットフィルタを評価関数ベースで作成。&lt;/li&gt;
+&lt;li&gt;どうやって評価関数を最小化するかはなぞ。&lt;/li&gt;
+&lt;li&gt;リフティングの解説見てると、自由パラメータがあってそれを調節することで適応を実現しているな。そんなのあったっけ。リフティングに立ち戻る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.iadisportal.org/digital-library/speaker-identification-system-using-lifting-wavelet-filters"&gt;SPEAKER IDENTIFICATION SYSTEM USING LIFTING …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;7月上旬、macのバッテリーがもうヘタれてしまったのでバッテリーを取り替えてもらった。
+1週間後には修理が終わったが、受け取った次の日にkernel_taskが暴走・・・再度修理に出して2週間。
+8月3日にようやく落ち着いたとのことで受け取る。&lt;/p&gt;
+&lt;p&gt;それまでのメモは全てWローカルに残していたので、こちらに移していく。今日はメモ以降で終わるかな。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Learning optimal wavelet bases using a natural network approach を読んだ。&lt;ul&gt;
+&lt;li&gt;直行条件は制約条件として入ってきて、それを最適化するように学習する&lt;/li&gt;
+&lt;li&gt;でもそれは学習の途中では完全に直交していない状態を経由することになる（筆者も論文中でsub-orthogonalと言ってた）&lt;/li&gt;
+&lt;li&gt;ラグランジュ未定乗数法で閉形式で解ければ格好いいが、係数による偏微分が係数の和を含むので閉形式に持っていくのが難しい。&lt;ul&gt;
+&lt;li&gt;相互最適化、というかEMアルゴリズムのように、係数を損失最小化するように更新→制約を満たすように更新→損失最小化→…でやれないか？少し考えたけどピントこない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ウェーブレットを学習する方策は筋が悪いように思える。近似解になってしまうのがどうも納得いかない。ロッシーならともかく、再構成が絶対要件になるロスレスと相性が悪い。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;前から思っていたけど、適応的リフティングに舵を切る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_action_common_download&amp;amp;item_id=111421&amp;amp;item_no=1&amp;amp;attribute_id=1&amp;amp;file_no=1"&gt;個人の音声特徴を適応的に抽出するリフティングウェーブレットフィルタの設計&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;ほしい周波数特性を持つリフティングウェーブレットフィルタを評価関数ベースで作成。&lt;/li&gt;
+&lt;li&gt;どうやって評価関数を最小化するかはなぞ。&lt;/li&gt;
+&lt;li&gt;リフティングの解説見てると、自由パラメータがあってそれを調節することで適応を実現しているな。そんなのあったっけ。リフティングに立ち戻る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.iadisportal.org/digital-library/speaker-identification-system-using-lifting-wavelet-filters"&gt;SPEAKER IDENTIFICATION SYSTEM USING LIFTING WAVELET FILTERS&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;話者識別の文脈&lt;/li&gt;
+&lt;li&gt;GMMでフィッティングしている？未知入力に対してGAを使ってGMMのパラメータを推定し、話者識別を行う。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://cm-bell-labs.github.io/who/wim/papers/lift2.pdf"&gt;THE LIFTING SCHEME: A CONSTRUCTION OF SECOND GENERATION WAVELETS&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;リフティングの原論文&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jsiamt/28/2/28_72/_pdf"&gt;リフティングスキームによるウェーブレットの構成法&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;何回目かわからんが挙げとく。&lt;/li&gt;
+&lt;li&gt;6.2節で適応的リフティングの文献を挙げている。これは舐めよう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(11)</title><link href="/zhan-lue-hui-yi-zhong-202111.html" rel="alternate"></link><published>2021-07-06T10:00:00+09:00</published><updated>2021-07-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-06:/zhan-lue-hui-yi-zhong-202111.html</id><content type="html">&lt;p&gt;ウェーブレット係数の適応について考えている。
+昨日見たwavenetは制約もコスト関数に入れて逐次最適化により係数を求めている。が、もっとうまくやれないか？制約付き最適化問題として、未定乗数法に突っ込めないか考えている。&lt;/p&gt;
+&lt;p&gt;考えるより手を動かしてできるかどうか見るのが良いかも。wavenetが2018年と考えるとあんまり考えている人がいなそう。
+単純な、1層だけの（パーセプトロン）ウェーブレットを係数で微分してみてどうなる？&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(10)</title><link href="/zhan-lue-hui-yi-zhong-202110.html" rel="alternate"></link><published>2021-07-05T10:00:00+09:00</published><updated>2021-07-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-05:/zhan-lue-hui-yi-zhong-202110.html</id><summary type="html">&lt;p&gt;Adaptive liftingについて見る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.1481&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;ADAPTIVE WAVELET TRANSFORMS VIA LIFTING&lt;/a&gt; 1999年。&lt;ul&gt;
+&lt;li&gt;軽く読んだ。短くてあんまり詳細はつかめてないが。2通りの適応手法を紹介。&lt;ul&gt;
+&lt;li&gt;スケール適応: （スケーリング係数が満たすべき制約(6式)のもとで）予測誤差最小化でフィルタを構築しているだけに見える。そんな単純だったかな…&lt;ul&gt;
+&lt;li&gt;ラグランジェ未定乗数法で解けないかね？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;スペース適応: 1サンプルごとに更新する手法。詳細がまったくない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ドベシィ8, Haarと比べて同等かちょっと優れた結果（エントロピー尺度で）&lt;/li&gt;
+&lt;li&gt;引用してる文献を更に見るべきかも。具体的な更新が見えてこない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drum.lib.umd.edu/bitstream/handle/1903/5588/TR_94-3.pdf;jsessionid=745E02179D775527EE4DF35D420BA176?sequence=1"&gt;On the optimal choice of a wavelet for signal representation&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;これはウェーブレット係数勾配を計算してエントロピー最小化の意味で最小化していそう。読む。&lt;/li&gt;
+&lt;li&gt;まさにやりたいことで感動した。&lt;/li&gt;
+&lt;li&gt;エントロピー尺度最小の基底を探す…って言ってるけど、これ指数型分布のなかで最小のポテンシャルを持つ基底（座標変換）を探しているのと同じでは…。&lt;/li&gt;
+&lt;li&gt;信号fを固定し、基底をウェーブレット（スケーリング）関数にとって変換して、エントロピー尺度で最小化を行う。&lt;/li&gt;
+&lt;li&gt;実験結果がない …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Adaptive liftingについて見る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.76.1481&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;ADAPTIVE WAVELET TRANSFORMS VIA LIFTING&lt;/a&gt; 1999年。&lt;ul&gt;
+&lt;li&gt;軽く読んだ。短くてあんまり詳細はつかめてないが。2通りの適応手法を紹介。&lt;ul&gt;
+&lt;li&gt;スケール適応: （スケーリング係数が満たすべき制約(6式)のもとで）予測誤差最小化でフィルタを構築しているだけに見える。そんな単純だったかな…&lt;ul&gt;
+&lt;li&gt;ラグランジェ未定乗数法で解けないかね？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;スペース適応: 1サンプルごとに更新する手法。詳細がまったくない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ドベシィ8, Haarと比べて同等かちょっと優れた結果（エントロピー尺度で）&lt;/li&gt;
+&lt;li&gt;引用してる文献を更に見るべきかも。具体的な更新が見えてこない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drum.lib.umd.edu/bitstream/handle/1903/5588/TR_94-3.pdf;jsessionid=745E02179D775527EE4DF35D420BA176?sequence=1"&gt;On the optimal choice of a wavelet for signal representation&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;これはウェーブレット係数勾配を計算してエントロピー最小化の意味で最小化していそう。読む。&lt;/li&gt;
+&lt;li&gt;まさにやりたいことで感動した。&lt;/li&gt;
+&lt;li&gt;エントロピー尺度最小の基底を探す…って言ってるけど、これ指数型分布のなかで最小のポテンシャルを持つ基底（座標変換）を探しているのと同じでは…。&lt;/li&gt;
+&lt;li&gt;信号fを固定し、基底をウェーブレット（スケーリング）関数にとって変換して、エントロピー尺度で最小化を行う。&lt;/li&gt;
+&lt;li&gt;実験結果がない。続く論文を見たい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/547754"&gt;Constructing optimal wavelet basis for image compression&lt;/a&gt; 上記理論の画像に対する実験結果。&lt;ul&gt;
+&lt;li&gt;上手くいってドベシィ4よりは良い圧縮率（+エントロピー）を達成している&lt;/li&gt;
+&lt;li&gt;制限としては局所最適に止まりやすいことが指摘されてた。局所最適でもまあ良い（acceptableな）結果だったとのこと。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1706.03041.pdf"&gt;Learning optimal wavelet bases using a neural network approach&lt;/a&gt; MRAをDCNNと捉えて学習する手法。わかる。&lt;ul&gt;
+&lt;li&gt;ウェーブレットをまとめているときに、ストライドつきコンボリューションと言いたのがすべてここにかかっている。&lt;/li&gt;
+&lt;li&gt;重要な気がしてきた。ちゃんと読む。&lt;/li&gt;
+&lt;li&gt;制約を保ったまま学習しているだけに見える。本当にうまくいくかなあ。実装見てみるか&lt;/li&gt;
+&lt;li&gt;実装:&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/asogaard/Wavenet"&gt;https://github.com/asogaard/Wavenet&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/asogaard/wavenet-pytorch"&gt;https://github.com/asogaard/wavenet-pytorch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/abstract/document/887001"&gt;Algorithms for Designing Wavelets to Match a Specified Signal&lt;/a&gt; まだ読めてないが、スペクトラムベースでマッチングしてる。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>戦略会議中2021(9)</title><link href="/zhan-lue-hui-yi-zhong-20219.html" rel="alternate"></link><published>2021-07-04T10:00:00+09:00</published><updated>2021-07-04T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-04:/zhan-lue-hui-yi-zhong-20219.html</id><summary type="html">&lt;p&gt;論文をざっと読んだ。まだ腰を落ち着けるべきではなさそう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;ul&gt;
 &lt;li&gt;ウェーブレット変換域でLMS/Newtonを使う。うまいことコレスキー分解して、スパース推定を使って計算効率化を図る。&lt;/li&gt;
 &lt;li&gt;当然単純な変換域でのLMSよりは性能が良い。&lt;/li&gt;
 &lt;li&gt;変換域で自己相関行列を見ており、しかもその逆はスパースであると言っている。&lt;/li&gt;
 &lt;li&gt;自分の発想を突っ込めそうに思える。が、変換域でAR過程になるのだろうか？&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;最大消失モーメントを持つウェーブレットはタップ数に応じて有限個しか無い（ドベシィ。例えばタップ数40なら最大で20次までのモーメントを消せるが、そのウェーブレットの組み合わせは1024通りしか無いとのこと。10bitで送れる。）より、その中から適切なウェーブレットを適応的に選ぶ&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
-&lt;li&gt;この事実は気になる。ウェーブレット10講に書いてあるかな。。。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;最大消失モーメントを持つウェーブレットはタップ数に応じて有限個しか無い（ドベシィ。例えばタップ数40なら最大で20次までのモーメントを消せるが、そのウェーブレットの組み合わせは1024通りしか無いとのこと。10bitで送れる。）より、その中から適切なウェーブレットを適応的に選ぶ&lt;ul&gt;
+&lt;li&gt;この事実は気になる。ウェーブレット10講に書いてあるかな。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;選択尺度は等誤差面の議論から割と自然に出てくる。しかしその選択は総当りっぽい。デコード負荷は低いから許されるか…&lt;/li&gt;
 &lt;li&gt;ほかにも、LPCは人間の声道管モデルベースだから音楽などでの無声音（ピッチがない音）は厳しいという指摘があった。確かに。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf"&gt;G.722: a new CCITT coding …&lt;/a&gt;&lt;/dt&gt;&lt;/dl&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf"&gt;G.722: a new …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;論文をざっと読んだ。まだ腰を落ち着けるべきではなさそう。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;ul&gt;
 &lt;li&gt;ウェーブレット変換域でLMS/Newtonを使う。うまいことコレスキー分解して、スパース推定を使って計算効率化を図る。&lt;/li&gt;
 &lt;li&gt;当然単純な変換域でのLMSよりは性能が良い。&lt;/li&gt;
 &lt;li&gt;変換域で自己相関行列を見ており、しかもその逆はスパースであると言っている。&lt;/li&gt;
 &lt;li&gt;自分の発想を突っ込めそうに思える。が、変換域でAR過程になるのだろうか？&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;最大消失モーメントを持つウェーブレットはタップ数に応じて有限個しか無い（ドベシィ。例えばタップ数40なら最大で20次までのモーメントを消せるが、そのウェーブレットの組み合わせは1024通りしか無いとのこと。10bitで送れる。）より、その中から適切なウェーブレットを適応的に選ぶ&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
-&lt;li&gt;この事実は気になる。ウェーブレット10講に書いてあるかな。。。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;最大消失モーメントを持つウェーブレットはタップ数に応じて有限個しか無い（ドベシィ。例えばタップ数40なら最大で20次までのモーメントを消せるが、そのウェーブレットの組み合わせは1024通りしか無いとのこと。10bitで送れる。）より、その中から適切なウェーブレットを適応的に選ぶ&lt;ul&gt;
+&lt;li&gt;この事実は気になる。ウェーブレット10講に書いてあるかな。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;選択尺度は等誤差面の議論から割と自然に出てくる。しかしその選択は総当りっぽい。デコード負荷は低いから許されるか…&lt;/li&gt;
 &lt;li&gt;ほかにも、LPCは人間の声道管モデルベースだから音楽などでの無声音（ピッチがない音）は厳しいという指摘があった。確かに。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf"&gt;G.722: a new CCITT coding standard for digital transmission of wideband audio signals&lt;/a&gt;&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf"&gt;G.722: a new CCITT coding standard for digital transmission of wideband audio signals&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;QMF(20タップ)で高域と低域に分け、それぞれの帯域でG.711のADPCMを使う。高域は低いビットを割り当てる。&lt;/li&gt;
-&lt;li&gt;音質がよくなったことを報告しとる。そうだよなあという感じ。&lt;/li&gt;
+&lt;li&gt;G721.などと比べ音質がよくなったことを報告しとる。そうだよなあという感じ。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;予め用意してあるウェーブレットから選ぶというのはどうなんだろう…個人的には適応的リフィティングを検討してみたい。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category></entry><entry><title>戦略会議中2021(8)</title><link href="/zhan-lue-hui-yi-zhong-20218.html" rel="alternate"></link><published>2021-07-03T10:00:00+09:00</published><updated>2021-07-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-07-03:/zhan-lue-hui-yi-zhong-20218.html</id><content type="html">&lt;p&gt;昨日見た下記3論文を読んで、展望を考えたい。&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;dl class="first docutils"&gt;
-&lt;dt&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;/dt&gt;
-&lt;dd&gt;&lt;ul class="first last"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/558477"&gt;Wavelet Transform Domain Adaptive FIR Filtering&lt;/a&gt; 「ウェーブレット変換とその応用」で触れられていたもう一つの論文。&lt;ul&gt;
 &lt;li&gt;かるく見たけど、…ん？まじで変換域で適応フィルタしてるだけ？自己相関の逆かけて白色化するのはたしかに大事だけど、これでいいのか？&lt;/li&gt;
 &lt;li&gt;不思議なのは、自己回帰過程を考えていてその自己相関行列も計算しているが、逆の計算を考えていない。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;/dd&gt;
-&lt;/dl&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/document/258086"&gt;Low Bit Rate Transparent Audio Compression using Adapted Wavelets&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.seas.ucla.edu/spapl/codecs/G722tut.pdf"&gt;G.722: a new CCITT coding standard for digital transmission of wideband audio signals&lt;/a&gt;&lt;/li&gt;
