@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>研究会に向けて(17) - 中間発表 - Aiki's Blog</title>
+    <title>リフティングの組み込み検証(6) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,22 +9,22 @@
 
 
 
-<link rel="canonical" href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">
+<link rel="canonical" href="/rihuteingunozu-miip-mijian-zheng-6.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="Signed LMS,LMS,Natural Gradient" />
-        <meta name="description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \end{equation*} 資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。 SA、実はヘブ則そのものでは？ 全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。 グラフは正方形にすべし。 全くその通り。すぐに修正するべし。 尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。 \(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …" />
+        <meta name="keywords" content="Lossless Audio Codec,Wavelet,Lifting" />
+        <meta name="description" content="2パス符号化を試す。 MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1% からスタート。単純にブロックサイズ8192, サブブロックサイズ2048とする MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0% 薬効あり。1.1%減った。 MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでCDF42を1段 + 低域でSS(4), 高域でSS(4): 56.2% MS変換 + 最適プリエンファシス x2, サブブロックでPARCOR(4) + CDF42を1段 …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="研究会に向けて(17) - 中間発表"/>
-        <meta property="og:url" content="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html"/>
-        <meta property="og:description" content="\begin{equation*} \newcommand\ve[1]{\boldsymbol{#1}} \end{equation*} 資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。 SA、実はヘブ則そのものでは？ 全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。 グラフは正方形にすべし。 全くその通り。すぐに修正するべし。 尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。 \(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …"/>
-        <meta property="article:published_time" content="2020-07-20" />
+        <meta property="og:title" content="リフティングの組み込み検証(6)"/>
+        <meta property="og:url" content="/rihuteingunozu-miip-mijian-zheng-6.html"/>
+        <meta property="og:description" content="2パス符号化を試す。 MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1% からスタート。単純にブロックサイズ8192, サブブロックサイズ2048とする MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0% 薬効あり。1.1%減った。 MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでCDF42を1段 + 低域でSS(4), 高域でSS(4): 56.2% MS変換 + 最適プリエンファシス x2, サブブロックでPARCOR(4) + CDF42を1段 …"/>
+        <meta property="article:published_time" content="2021-08-04" />
             <meta property="article:section" content="雑記" />
-            <meta property="article:tag" content="Signed LMS" />
-            <meta property="article:tag" content="LMS" />
-            <meta property="article:tag" content="Natural Gradient" />
+            <meta property="article:tag" content="Lossless Audio Codec" />
+            <meta property="article:tag" content="Wavelet" />
+            <meta property="article:tag" content="Lifting" />
             <meta property="article:author" content="aiki" />
 
 
@@ -95,10 +95,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html"
+                    <a href="/rihuteingunozu-miip-mijian-zheng-6.html"
                        rel="bookmark"
-                       title="Permalink to 研究会に向けて(17) - 中間発表">
-                        研究会に向けて(17) - 中間発表
+                       title="Permalink to リフティングの組み込み検証(6)">
+                        リフティングの組み込み検証(6)
                     </a>
                 </h1>
             </header>
@@ -108,7 +108,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2020-07-20T11:00:00+09:00"> Mon 20 July 2020</time>
+        <i class="fa fa-calendar"></i><time datetime="2021-08-04T10:00:00+09:00"> Wed 04 August 2021</time>
     </span>
 
 
@@ -116,123 +116,129 @@ Aiki's Blog            </a>
 
 
 <span class="label label-default">Tags</span>
-	<a href="/tag/signed-lms.html">Signed LMS</a>
+	<a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
         /
-	<a href="/tag/lms.html">LMS</a>
+	<a href="/tag/wavelet.html">Wavelet</a>
         /
-	<a href="/tag/natural-gradient.html">Natural Gradient</a>
+	<a href="/tag/lifting.html">Lifting</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\end{equation*}
-</div>
-<p>資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。</p>
+                <p>2パス符号化を試す。</p>
 <ul class="simple">
-<li>SA、実はヘブ則そのものでは？<ul>
-<li>全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。</li>
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%</li>
+</ul>
+<p>からスタート。単純にブロックサイズ8192, サブブロックサイズ2048とする</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%<ul>
+<li>薬効あり。1.1%減った。</li>
 </ul>
 </li>
-<li>グラフは正方形にすべし。<ul>
-<li>全くその通り。すぐに修正するべし。</li>
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでCDF42を1段 + 低域でSS(4), 高域でSS(4): 56.2%</li>
+<li>MS変換 + 最適プリエンファシス x2, サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 56.0%<ul>
+<li>0.1%改善。</li>
+<li>これもわかる。プリエンファシスはより正確な相関でやるべきでより長い区間を見れているから正確にプリエンファシスできている。</li>
 </ul>
 </li>
-<li>尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や</li>
-<li>NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。</li>
-<li><span class="math">\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right] = \frac{1}{\sigma^{2}} \mathrm{E} \left[ \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right]\)</span> はほんまか？a.e.では？近似では？ <span class="math">\(\mathrm{E}\)</span> だから厳密？<ul>
-<li>やっぱり要審査。自分は期待値操作でルベーグ積分するから、測度0の点は抜いても大丈夫だと思っている。</li>
-<li><strong>厳密にいけそう。</strong> <span class="math">\(\mathrm{sgn}(x) := \frac{x}{|x|}\)</span> と定義すると、 <span class="math">\((\mathrm{sgn}(x))^{2} = \frac{x^{2}}{|x|^{2}} = 1\)</span> 。 <span class="math">\(x=0\)</span> のときが怪しくなるが、これは、 <span class="math">\(\mathrm{sgn}(x) \approx \frac{x}{\sqrt{x^{2} + \varepsilon}}\)</span> としてやって（ <span class="math">\(\varepsilon \to 0\)</span> とすれば符号関数に一致）、 <span class="math">\((\mathrm{sgn}(x))^{2} \approx \frac{x^{2}}{x^{2} + \varepsilon}\)</span> で、 <span class="math">\(\varepsilon \to 0\)</span> としてやれば恒等的に1になる。多分、近似を使ったやり方のほうが <span class="math">\(x=0\)</span> でややこしくならないから筋がいい。</li>
-<li>答えとしては、 <span class="math">\(\mathrm{sgn}(x) := \lim_{\varepsilon \to 0} \frac{x}{\sqrt{x^{2} + \varepsilon}}\)</span> がいいかも。</li>
-<li>いや、まだ怪しい… <span class="math">\(\mathrm{sgn}(0) = 0\)</span> という定義だから、絶対 <span class="math">\((\mathrm{sgn}(0))^{2} = 0\)</span> になる。積分を絡めて考えないとだめか。至るところ1なんだけど、1点 <span class="math">\(x=0\)</span> において <span class="math">\(0\)</span> を取る関数の平均。。。</li>
+<li>MS変換 + PARCOR(4), サブブロックで最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.1%<ul>
+<li>ブロック単位で最適プリエンファシスを行ったほうが0.1%減る。</li>
 </ul>
 </li>
-<li>グラフのitaration → iteration</li>
-<li><span class="math">\(\ve{R}^{-1}\)</span> の計算について。<ul>
-<li>低ランク近似、とくに、 <span class="math">\(n\)</span> 重対角行列で近似できん？→確かに。相関行列は端っこに近づくほど0になっていくから、有効かも。</li>
-<li>DFTしてなだらかに変化する要素（つまり低域信号）のパワーは切り捨てる近似がオッケーだったりしないか。→まったくそのとおり、<span class="math">\(\ve{R}\)</span> をDFTすると、ウィーナ・ヒンチンが顔を出しそう。</li>
-<li>スレ―ビングというらしい。</li>
+</ul>
+<p>プリエンファシスの観察からわかるように、圧縮は、大域的（定常的）なものからだんだん細かく（パラメータが大きいモデルを使う）していくのがミソでは。</p>
+<p>(ブロックサイズ, サブブロックサイズ)をいじって様子を見よう。以下のモデルを使用。</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)<ul>
+<li>( 4096,   512): 55.0%</li>
+<li>( 4096,  1024): 55.0%</li>
+<li>( 4096,  2048): 55.0%</li>
+<li>( 4096,  4098): 55.2%</li>
+<li>( 8192,   512): 55.0% (1024より微妙に減った)</li>
+<li>( 8192,  1024): 55.0% (2048より微妙に減った)</li>
+<li>( 8192,  2048): 55.0%</li>
+<li>( 8192,  4096): 55.1%</li>
+<li>( 8192,  8192): 55.2% &lt;- PARCOR(4)の2段適用で減るということ</li>
+<li>(16384,   512): 54.9%</li>
+<li>(16384,  1024): 54.9%</li>
+<li>(16384,  2048): 55.0%</li>
+<li>(16384,  4096): 55.1%</li>
+<li>(16384,  8192): 55.2%</li>
+<li>(16384, 16384): 55.2%</li>
 </ul>
 </li>
-<li>（所感）残差がガウス分布に従うとしたLMS ←ちょっと突然すぎる。<ul>
-<li>LMS（残差がガウス分布に従う）は… ←こっちのほうがいい。むしろ、ガウス分布の話はいらない。</li>
+</ul>
+<p>細かく分けたほうが0.1%単位で得のようだ。一応(8192, 2048)で話をすすめる。</p>
+<p>次気になるのが、LPCの次数。予測としては、ブロック単位のLPC次数は小さくしたほうが良いと思っている。(ブロック次数, サブブロック次数)で考えよう</p>
+<ul class="simple">
+<li>( 0, 64): 52.9% &lt;-</li>
+<li>( 0,128): 52.4% &lt;-</li>
+<li>( 2,  4): 55.3%</li>
+<li>( 2, 16): 54.0%</li>
+<li>( 2, 32): 53.4%</li>
+<li>( 2, 64): 52.7% &lt;-</li>
+<li>( 2,128): 52.1% &lt;-</li>
+<li>( 4,  4): 55.0%</li>
+<li>( 8,  4): 55.0% ((4,4)よりは微妙に減る)</li>
+<li>(12,  4): 54.8%</li>
+<li>(16,  4): 54.7%</li>
+<li>(20,  4): 54.6%</li>
+<li>( 4,  8): 54.7%</li>
+<li>( 4, 12): 54.3%</li>
+<li>( 4, 16): 54.1%</li>
+<li>( 4, 20): 53.9%</li>
+<li>( 4, 32): 53.4% &lt;- !!!</li>
+<li>( 4, 64): 52.7% &lt;- !!!</li>
+<li>( 4,128): 52.1% &lt;- !!!</li>
+<li>( 8,  8): 54.8%</li>
+<li>( 8, 12): 54.5%</li>
+<li>( 8, 16): 54.2%</li>
+<li>( 8, 20): 54.0%</li>
+</ul>
+<p>これも予測通りというか、大ブロック単位では次数を小さく、サブブロックは次数を大きくした方が改善度合いが大きい。しかもサブブロックは増やし続けても悪化しない。スケールする。
+ひとまず(4,4)を使い続ける。現在のベースラインは以下:</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%
+- ブロックサイズ8192, サブブロックサイズ2048</li>
+</ul>
+<p>次は、Sign-Signアルゴリズムの出力をフィードバックして効果を確かめたい。
+「情報源符号化 歪みのあるデータ圧縮」（大名著）で触れられていて思い出した。次数を(履歴次数, 出力次数)で変えてみた結果は以下:</p>
+<ul class="simple">
+<li>(4, 0): 55.0% (ベースライン)</li>
+<li>(4, 2): 54.89%</li>
+<li>(4, 4): 54.87%</li>
+<li>(4, 6): 54.82%</li>
+</ul>
+<p>かつてのワン・ツー・スゥイーツ突っ込んだら微妙な結果を出していた。とくに出力次数をいじるとボロボロ(使わない方が10%低かった)。特にダイナミックな音源で、極型フィルタにしてしまうと発散する危険があると見て良いと思う。海苔音源は多いと思うので <strong>不採用とする。</strong></p>
+<div class="section" id="todo">
+<h2>TODO</h2>
+<ul class="simple">
+<li>Sign-SignアルゴリズムとCDF42いるか否か再度検討。2パスの枠組みでの順番を再度検討。<ul>
+<li>2パスでサブブロックの次数を上げるといくらでも良くなっていくのがやばい。サブブロックの処理を再度検討すべし。</li>
+<li>根源的に2パスの何が良いのか、2パス前のプリエンファシスx2とLPCを外して見たほうが良い。</li>
 </ul>
 </li>
-<li>損失関数はReLuにしても良いのでは→あり。でもどうなるんだろう。</li>
+<li>NGSA突っ込んでみる</li>
+<li>Sign-Signアルゴリズムの自然勾配考察</li>
+<li>最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？</li>
 </ul>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
+</div>
+<div class="section" id="id2">
+<h2>所感</h2>
+<ul class="simple">
+<li>.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて</li>
+</ul>
+</div>
 
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
-
-    var configscript = document.createElement('script');
-    configscript.type = 'text/x-mathjax-config';
-    configscript[(window.opera ? "innerHTML" : "text")] =
-        "MathJax.Hub.Config({" +
-        "    config: ['MMLorHTML.js']," +
-        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
-        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
-        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
-        "    displayAlign: '"+ align +"'," +
-        "    displayIndent: '"+ indent +"'," +
-        "    showMathMenu: true," +
-        "    messageStyle: 'normal'," +
-        "    tex2jax: { " +
-        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
-        "        displayMath: [ ['$$','$$'] ]," +
-        "        processEscapes: true," +
-        "        preview: 'TeX'," +
-        "    }, " +
-        "    'HTML-CSS': { " +
-        "        availableFonts: ['STIX', 'TeX']," +
-        "        preferredFont: 'STIX'," +
-        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
-        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
-        "    }, " +
-        "}); " +
-        "if ('default' !== 'default') {" +
-            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
-                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
-                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
-                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
-                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
-                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
-            "});" +
-        "}";
-
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
-    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
-}
-</script>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">研究会に向けて - 執筆(5)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">研究会に向けて - 執筆(4)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">研究会に向けて - 執筆(3)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html">研究会に向けて - 執筆(2)</a></li>
-        <li><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">研究会に向けて - 執筆(1)</a></li>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-5.html">リフティングの組み込み検証(5)</a></li>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-4.html">リフティングの組み込み検証(4)</a></li>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></li>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></li>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-1.html">リフティングの組み込み検証(1)</a></li>
     </ul>
 </section>
         </article>

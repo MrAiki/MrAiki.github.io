@@ -85,6 +85,40 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/rihuteinguguan-cha-2.html">リフティング観察(2)</a></h2>
+                <div class="summary"><p>前日までで、MSの代わりにCDF(2,2)を使うのは有効ではないというのが分かった。LRの信号は一般にズレており、線形予測のような局所的な予測はうまくいかない。周波数特性としてもずれがある。
+従って1チャンネルの信号に対してウェーブレットを適用する道を探る。
+次はどうするか。</p>
+<p>単にCDF(2,2)で帯域分割して各帯域でLPC/適応フィルタするのは安直すぎるし工夫の余地がない。
+もっと何か理論的な工夫は及ばないか？考えてみる。</p>
+<p>リフティングによって何が変わるのかをまだ観察してなかったかも。</p>
+<ol class="arabic simple">
+<li>適応的にリフティング係数を設定する<ul>
+<li>予測・更新フィルタを両方ともSAにしちゃうとか。</li>
+</ul>
+</li>
+<li>CDF(2,2)通した後の信号の特性<ul>
+<li>分かり切ってることだが、2次までのモーメントが消えてる。</li>
+<li>信号の統計量（平均、分散、自己相関、L1ノルム、エントロピー）はどのように変化するか？</li>
+<li>高域と低域で分けて考える。</li>
+</ul>
+</li>
+<li>プリエンファシスをリフティングに置き換えることの是非。<ul>
+<li>例えばHaarは直流成分（0次モーメント）を完全に消す。</li>
+<li>変換域適応と同じになると思う。</li>
+</ul>
+</li>
+</ol>
+<p>2.が大事に思える。地味に論じている文献ないし。
+リフティング後の信号の性質は、NoteBook上でいろいろ見てみるのが良さそう。</p>
+<p>というわけで実装を進めている。Haar, CDFは良さそうだけど、ドベシィの実装は</p>
+<ul class="simple">
+<li><a class="reference external" href="https://core.ac.uk/download/pdf/226136339.pdf">DESIGN …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/rihuteinguguan-cha-1.html">リフティング観察(1)</a></h2>
                 <div class="summary"><p>今考えているウェーブレットによるチャンネル間相関除去って既知の技術だと思ったんだがなあ。資料がないように見える。</p>
 <p>音声のLRチャンネルの相互相関を観察してみよう。そして、LRをレイジーウェーブレット（スプリット）の結果と考えてリフティングしてみる。
@@ -286,37 +320,6 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-202112.html">戦略会議中2021(12)</a></h2>
-                <div class="summary"><p>7月上旬、macのバッテリーがもうヘタれてしまったのでバッテリーを取り替えてもらった。
-1週間後には修理が終わったが、受け取った次の日にkernel_taskが暴走・・・再度修理に出して2週間。
-8月3日にようやく落ち着いたとのことで受け取る。</p>
-<p>それまでのメモは全てWローカルに残していたので、こちらに移していく。今日はメモ以降で終わるかな。</p>
-<ul class="simple">
-<li>Learning optimal wavelet bases using a natural network approach を読んだ。<ul>
-<li>直行条件は制約条件として入ってきて、それを最適化するように学習する</li>
-<li>でもそれは学習の途中では完全に直交していない状態を経由することになる（筆者も論文中でsub-orthogonalと言ってた）</li>
-<li>ラグランジュ未定乗数法で閉形式で解ければ格好いいが、係数による偏微分が係数の和を含むので閉形式に持っていくのが難しい。<ul>
-<li>相互最適化、というかEMアルゴリズムのように、係数を損失最小化するように更新→制約を満たすように更新→損失最小化→…でやれないか？少し考えたけどピントこない。</li>
-</ul>
-</li>
-<li>ウェーブレットを学習する方策は筋が悪いように思える。近似解になってしまうのがどうも納得いかない。ロッシーならともかく、再構成が絶対要件になるロスレスと相性が悪い。</li>
-</ul>
-</li>
-</ul>
-<p>前から思っていたけど、適応的リフティングに舵を切る。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://ipsj.ixsq.nii.ac.jp/ej/?action=repository_action_common_download&amp;item_id=111421&amp;item_no=1&amp;attribute_id=1&amp;file_no=1">個人の音声特徴を適応的に抽出するリフティングウェーブレットフィルタの設計</a><ul>
-<li>ほしい周波数特性を持つリフティングウェーブレットフィルタを評価関数ベースで作成。</li>
-<li>どうやって評価関数を最小化するかはなぞ。</li>
-<li>リフティングの解説見てると、自由パラメータがあってそれを調節することで適応を実現しているな。そんなのあったっけ。リフティングに立ち戻る。</li>
-</ul>
-</li>
-<li><a class="reference external" href="http://www.iadisportal.org/digital-library/speaker-identification-system-using-lifting-wavelet-filters">SPEAKER IDENTIFICATION SYSTEM USING LIFTING …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202112.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/category/za-ji.html">&laquo;</a>
@@ -386,79 +389,55 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/irls.html">IRLS</a>
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
@@ -466,77 +445,65 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+      <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
@@ -545,7 +512,43 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
       <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
   </ul>
 </li>
