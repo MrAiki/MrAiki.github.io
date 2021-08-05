@@ -170,18 +170,18 @@ Aiki's Blog            </a>
 <p>細かく分けたほうが0.1%単位で得のようだ。一応(8192, 2048)で話をすすめる。</p>
 <p>次気になるのが、LPCの次数。予測としては、ブロック単位のLPC次数は小さくしたほうが良いと思っている。(ブロック次数, サブブロック次数)で考えよう</p>
 <ul class="simple">
-<li>( 0, 64): 52.9% &lt;-</li>
-<li>( 0,128): 52.4% &lt;-</li>
+<li>( 0,  4): 56.0% &lt;- !!!</li>
+<li>( 0,  8): 54.8% &lt;- !!!</li>
+<li>( 0, 16): 54.2% &lt;- !!!</li>
+<li>( 0, 32): 53.5% &lt;- !!!</li>
+<li>( 0, 64): 52.9% &lt;- !!!</li>
+<li>( 0,128): 52.4% &lt;- !!!</li>
 <li>( 2,  4): 55.3%</li>
 <li>( 2, 16): 54.0%</li>
 <li>( 2, 32): 53.4%</li>
 <li>( 2, 64): 52.7% &lt;-</li>
 <li>( 2,128): 52.1% &lt;-</li>
 <li>( 4,  4): 55.0%</li>
-<li>( 8,  4): 55.0% ((4,4)よりは微妙に減る)</li>
-<li>(12,  4): 54.8%</li>
-<li>(16,  4): 54.7%</li>
-<li>(20,  4): 54.6%</li>
 <li>( 4,  8): 54.7%</li>
 <li>( 4, 12): 54.3%</li>
 <li>( 4, 16): 54.1%</li>
@@ -193,8 +193,12 @@ Aiki's Blog            </a>
 <li>( 8, 12): 54.5%</li>
 <li>( 8, 16): 54.2%</li>
 <li>( 8, 20): 54.0%</li>
+<li>( 8,  4): 55.0% ((4,4)よりは微妙に減る)</li>
+<li>(12,  4): 54.8%</li>
+<li>(16,  4): 54.7%</li>
+<li>(20,  4): 54.6%</li>
 </ul>
-<p>これも予測通りというか、大ブロック単位では次数を小さく、サブブロックは次数を大きくした方が改善度合いが大きい。しかもサブブロックは増やし続けても悪化しない。スケールする。
+<p>これも予測通りというか、大ブロック単位では次数を小さく、サブブロックは次数を大きくした方が改善度合いが大きい。 <strong>大ブロックでは適用しなくても良い結果。</strong> しかもサブブロックは増やし続けても悪化しない。スケールする。
 ひとまず(4,4)を使い続ける。現在のベースラインは以下:</p>
 <ul class="simple">
 <li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%
@@ -209,23 +213,20 @@ Aiki's Blog            </a>
 <li>(4, 6): 54.82%</li>
 </ul>
 <p>かつてのワン・ツー・スゥイーツ突っ込んだら微妙な結果を出していた。とくに出力次数をいじるとボロボロ(使わない方が10%低かった)。特にダイナミックな音源で、極型フィルタにしてしまうと発散する危険があると見て良いと思う。海苔音源は多いと思うので <strong>不採用とする。</strong></p>
-<div class="section" id="todo">
-<h2>TODO</h2>
+<div class="section" id="flac">
+<h2>FLACの係数の扱い</h2>
+<p>おそらくLPCをやることになる。今のうちFLACのソースガン見して係数の扱いをよく見ておく。</p>
 <ul class="simple">
-<li>Sign-SignアルゴリズムとCDF42いるか否か再度検討。2パスの枠組みでの順番を再度検討。<ul>
-<li>2パスでサブブロックの次数を上げるといくらでも良くなっていくのがやばい。サブブロックの処理を再度検討すべし。</li>
-<li>根源的に2パスの何が良いのか、2パス前のプリエンファシスx2とLPCを外して見たほうが良い。</li>
+<li><a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/lpc.c#L122">LPC係数の計算はここ</a> 。結果は2次元配列で、最大次数を与えると0次から最大次数までのLPC係数を求める。</li>
+<li><a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/lpc.c#L166">LPC係数の量子化</a> 量子化。予め決めたビット幅precisionに収めるように丸め込む。同時にシフト幅も計算。 <cite>FLAC__SUBFRAME_LPC_QLP_SHIFT_LEN</cite> bit(=5bit)で表現できる範囲で計算している。5bitは大きすぎないか。 <cite>frexp</cite> で指数部を取り出して計算してるのはスマート。</li>
+<li><a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/lpc.c#L267">予測</a> 。マジで1サンプルごとにLPC予測を実行。ただし積和した結果を <cite>lp_quantization</cite> だけ右シフト。<ul>
+<li>シフト幅は <a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/stream_encoder.c#L3783">エンコーダ側の呼び出し</a> を見るに、量子化で得られたシフト幅をそのまま入力している。</li>
+<li><a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/stream_encoder.c#L677-L697">ビット幅はここ</a> で定めている。サンプルあたりのビット幅とブロックサイズに応じて決めている。最大は <cite>FLAC__MAX_QLP_COEFF_PRECISION</cite> =15。そういやあTAKは14と言ってたな。</li>
+<li>今まで自分は固定シフトでやってきたので新鮮。こっちのほうが有効に使えるビット幅が広くて良いかもしれない。</li>
+<li><a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/stream_encoder.c#L3820">24bitのために関数は分けてなくて、係数ビット幅と次数によって64bit整数を使うか呼び分けている。</a></li>
 </ul>
 </li>
-<li>NGSA突っ込んでみる</li>
-<li>Sign-Signアルゴリズムの自然勾配考察</li>
-<li>最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？</li>
-</ul>
-</div>
-<div class="section" id="id2">
-<h2>所感</h2>
-<ul class="simple">
-<li>.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて</li>
+<li><a class="reference external" href="https://github.com/xiph/flac/blob/1.3.3/src/libFLAC/lpc.c#L784">合成</a> 。予測の逆。特に難しいことはないはず。</li>
 </ul>
 </div>
 
@@ -234,11 +235,11 @@ Aiki's Blog            </a>
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-7.html">リフティングの組み込み検証(7)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-5.html">リフティングの組み込み検証(5)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-4.html">リフティングの組み込み検証(4)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></li>
-        <li><a href="/rihuteingunozu-miip-mijian-zheng-1.html">リフティングの組み込み検証(1)</a></li>
     </ul>
 </section>
         </article>
@@ -265,10 +266,22 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
@@ -279,155 +292,143 @@ Aiki's Blog            </a>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/glasso.html">GLASSO</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
     </li>
   </ul>
 </li>

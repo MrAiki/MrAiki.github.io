@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja" prefix="og: http://ogp.me/ns# fb: https://www.facebook.com/2008/fbml">
 <head>
-    <title>コーデック作り2021春(11) - Aiki's Blog</title>
+    <title>リフティングの組み込み検証(7) - Aiki's Blog</title>
     <!-- Using the latest rendering mode for IE -->
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta charset="utf-8">
@@ -9,20 +9,22 @@
 
 
 
-<link rel="canonical" href="/kodetsukuzuo-ri2021chun-11.html">
+<link rel="canonical" href="/rihuteingunozu-miip-mijian-zheng-7.html">
 
         <meta name="author" content="aiki" />
-        <meta name="keywords" content="Lossless Audio Codec" />
-        <meta name="description" content="起床ミスって日中の作業時間が、、 8bit音声に対して圧縮率が悪いのは、8bit音声を非常に低振幅(-128 - 127)のデータとして扱っているからと思われる。対策としては16bit固定小数に合わせて処理する。後でいいと思う。 振幅が高い、ボーカル付きデータとしてカレンダーガールを導入したらMS処理で16bit範囲を超えてしまった…プリエンファシス処理のバッファもシフトしないとだめ。 うーん、データ/フィルタ記録が馬鹿になってない。TTAを見習ってすべて8bit範囲に収まるように記録するのが吉か？（シフト量も記録しておく。） 8bitはやりすぎな気もするから、12bitも検討したい。シフト量は4bitでいいだろう。→でも、SLAでみたように、量子化幅はあんまりドラスティックに効かないとおもう。一応いじれるようにして、調節はあと。と思ったら8bitで保存しても圧縮性能に影響が大きく出ないので、8bitにしてみる。 ちょっとした思いつきでSAをさらにもう一段重ねたけど不安定（圧縮率・係数発散）なのでやめておく。 実装整理。in-placeにしてみた。でもコーダーが1サンプル単位で動いとらんからバッファがいる状況。早いうちになんとかしたいかも。 2段目のフィルタをいじって遊んでたら、発散するパターンを見つけた。現在デバッグ中。落ち着いたらデコーダ作り始めたいところ。" />
+        <meta name="keywords" content="Lossless Audio Codec,Wavelet,Lifting" />
+        <meta name="description" content="Sign-SignアルゴリズムとCDF42の組み合わせを再度検討。 MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0% をベースラインに、サブブロックを変えてみる。 MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4): 59.3% MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段: 58.0% MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(8) + CDF42を1段: 56.1% MS変換 + 最適プリエンファシス x2 + PARCOR …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
-        <meta property="og:title" content="コーデック作り2021春(11)"/>
-        <meta property="og:url" content="/kodetsukuzuo-ri2021chun-11.html"/>
-        <meta property="og:description" content="起床ミスって日中の作業時間が、、 8bit音声に対して圧縮率が悪いのは、8bit音声を非常に低振幅(-128 - 127)のデータとして扱っているからと思われる。対策としては16bit固定小数に合わせて処理する。後でいいと思う。 振幅が高い、ボーカル付きデータとしてカレンダーガールを導入したらMS処理で16bit範囲を超えてしまった…プリエンファシス処理のバッファもシフトしないとだめ。 うーん、データ/フィルタ記録が馬鹿になってない。TTAを見習ってすべて8bit範囲に収まるように記録するのが吉か？（シフト量も記録しておく。） 8bitはやりすぎな気もするから、12bitも検討したい。シフト量は4bitでいいだろう。→でも、SLAでみたように、量子化幅はあんまりドラスティックに効かないとおもう。一応いじれるようにして、調節はあと。と思ったら8bitで保存しても圧縮性能に影響が大きく出ないので、8bitにしてみる。 ちょっとした思いつきでSAをさらにもう一段重ねたけど不安定（圧縮率・係数発散）なのでやめておく。 実装整理。in-placeにしてみた。でもコーダーが1サンプル単位で動いとらんからバッファがいる状況。早いうちになんとかしたいかも。 2段目のフィルタをいじって遊んでたら、発散するパターンを見つけた。現在デバッグ中。落ち着いたらデコーダ作り始めたいところ。"/>
-        <meta property="article:published_time" content="2021-03-04" />
+        <meta property="og:title" content="リフティングの組み込み検証(7)"/>
+        <meta property="og:url" content="/rihuteingunozu-miip-mijian-zheng-7.html"/>
+        <meta property="og:description" content="Sign-SignアルゴリズムとCDF42の組み合わせを再度検討。 MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0% をベースラインに、サブブロックを変えてみる。 MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4): 59.3% MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段: 58.0% MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(8) + CDF42を1段: 56.1% MS変換 + 最適プリエンファシス x2 + PARCOR …"/>
+        <meta property="article:published_time" content="2021-08-05" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="Lossless Audio Codec" />
+            <meta property="article:tag" content="Wavelet" />
+            <meta property="article:tag" content="Lifting" />
             <meta property="article:author" content="aiki" />
 
 
@@ -93,10 +95,10 @@ Aiki's Blog            </a>
         <article>
             <header class="page-header">
                 <h1>
-                    <a href="/kodetsukuzuo-ri2021chun-11.html"
+                    <a href="/rihuteingunozu-miip-mijian-zheng-7.html"
                        rel="bookmark"
-                       title="Permalink to コーデック作り2021春(11)">
-                        コーデック作り2021春(11)
+                       title="Permalink to リフティングの組み込み検証(7)">
+                        リフティングの組み込み検証(7)
                     </a>
                 </h1>
             </header>
@@ -106,7 +108,7 @@ Aiki's Blog            </a>
 <footer class="post-info">
     <span class="label label-default">Date</span>
     <span class="published">
-        <i class="fa fa-calendar"></i><time datetime="2021-03-04T10:00:00+09:00"> Thu 04 March 2021</time>
+        <i class="fa fa-calendar"></i><time datetime="2021-08-05T10:00:00+09:00"> Thu 05 August 2021</time>
     </span>
 
 
@@ -115,28 +117,85 @@ Aiki's Blog            </a>
 
 <span class="label label-default">Tags</span>
 	<a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+        /
+	<a href="/tag/wavelet.html">Wavelet</a>
+        /
+	<a href="/tag/lifting.html">Lifting</a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
-                <p>起床ミスって日中の作業時間が、、</p>
-<p>8bit音声に対して圧縮率が悪いのは、8bit音声を非常に低振幅(-128 - 127)のデータとして扱っているからと思われる。対策としては16bit固定小数に合わせて処理する。後でいいと思う。</p>
-<p>振幅が高い、ボーカル付きデータとしてカレンダーガールを導入したらMS処理で16bit範囲を超えてしまった…プリエンファシス処理のバッファもシフトしないとだめ。</p>
-<p>うーん、データ/フィルタ記録が馬鹿になってない。TTAを見習ってすべて8bit範囲に収まるように記録するのが吉か？（シフト量も記録しておく。）
-8bitはやりすぎな気もするから、12bitも検討したい。シフト量は4bitでいいだろう。→でも、SLAでみたように、量子化幅はあんまりドラスティックに効かないとおもう。一応いじれるようにして、調節はあと。と思ったら8bitで保存しても圧縮性能に影響が大きく出ないので、8bitにしてみる。</p>
-<p>ちょっとした思いつきでSAをさらにもう一段重ねたけど不安定（圧縮率・係数発散）なのでやめておく。</p>
-<p>実装整理。in-placeにしてみた。でもコーダーが1サンプル単位で動いとらんからバッファがいる状況。早いうちになんとかしたいかも。</p>
-<p>2段目のフィルタをいじって遊んでたら、発散するパターンを見つけた。現在デバッグ中。落ち着いたらデコーダ作り始めたいところ。</p>
+                <p>Sign-SignアルゴリズムとCDF42の組み合わせを再度検討。</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%</li>
+</ul>
+<p>をベースラインに、サブブロックを変えてみる。</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4): 59.3%</li>
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段: 58.0%</li>
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(8) + CDF42を1段: 56.1%</li>
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでCDF42を1段: 62.0%</li>
+<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでCDF42を1段 + 低域でSS(4), 高域でSS(4): 56.2%</li>
+<li>MS変換, サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 58.0%<ul>
+<li>単に分割サイズが小さいだけで性能が上がることを示している</li>
+</ul>
+</li>
+<li>サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 60.6%<ul>
+<li>MS変換は重要。</li>
+</ul>
+</li>
+<li>最適プリエンファシス, サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 59.1%</li>
+<li>最適プリエンファシス x2, サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 58.6%<ul>
+<li>プリエンファシスは1つで1.5%，2つで2.0%の利益。</li>
+</ul>
+</li>
+<li>サブブロックで最適プリエンファシス + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 60.9%</li>
+<li>サブブロックで最適プリエンファシスx2 + PARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 60.9%<ul>
+<li><strong>プリエンファシスは大ブロック（長い区間）でやったほうが良いということを強く支持する結果</strong></li>
+<li>1ラグ相関は長い区間で計算しましょう。</li>
+</ul>
+</li>
+<li>MS変換 + 最適プリエンファシス x2, サブブロックでPARCOR(4) + SS(4) + CDF42を1段: 58.0%<ul>
+<li>最後のSAはCDF42の後が良い。</li>
+</ul>
+</li>
+<li>MS変換 + 最適プリエンファシス x2, サブブロックでPARCOR(4) + SS(4): 58.6%<ul>
+<li>CDF42で分けてSA、そして帯域分割符号化は有効な筋</li>
+</ul>
+</li>
+<li>MS変換 + 最適プリエンファシス x2, サブブロックでCDF42を1段 + 各帯域でPARCOR(4) + SS(4): 60.4%<ul>
+<li>CDF42で帯域を分けるのは早すぎてもいけない。</li>
+</ul>
+</li>
+</ul>
+<p>2パスが強いのは、プリエンファシスが精密になるからに尽きるのではないか？</p>
+<p>そしてPARCORをLPCに差し替えようと思って結構強引に修正していったら、案の定良くない状態。圧縮率が大幅に悪化。
+間違いがあるだろうが（予測結果をプロットしたらだいぶ外れている）、頭が動いておらんので今日はここまでにする。</p>
+<div class="section" id="todo">
+<h2>TODO</h2>
+<ul class="simple">
+<li>PARCORをLPCに差し替える（LPCの方が誤差分散が大きかったはずなので、早めに要検討）</li>
+<li>最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？</li>
+<li>Sign-Signアルゴリズムの自然勾配考察</li>
+<li>NGSA突っ込んでみる</li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h2>所感</h2>
+<ul class="simple">
+<li>.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて</li>
+</ul>
+</div>
 
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/rihuteingunozu-miip-mijian-zheng-7.html">リフティングの組み込み検証(7)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-6.html">リフティングの組み込み検証(6)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-5.html">リフティングの組み込み検証(5)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-4.html">リフティングの組み込み検証(4)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></li>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></li>
     </ul>
 </section>
         </article>
