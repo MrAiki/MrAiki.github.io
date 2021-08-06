@@ -1,5 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-05T10:00:00+09:00</updated><entry><title>リフティングの組み込み検証(7)</title><link href="/rihuteingunozu-miip-mijian-zheng-7.html" rel="alternate"></link><published>2021-08-05T10:00:00+09:00</published><updated>2021-08-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-05:/rihuteingunozu-miip-mijian-zheng-7.html</id><summary type="html">&lt;p&gt;Sign-SignアルゴリズムとCDF42の組み合わせを再度検討。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-06T10:00:00+09:00</updated><entry><title>リフティングの組み込み検証(8)</title><link href="/rihuteingunozu-miip-mijian-zheng-8.html" rel="alternate"></link><published>2021-08-06T10:00:00+09:00</published><updated>2021-08-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-06:/rihuteingunozu-miip-mijian-zheng-8.html</id><summary type="html">&lt;p&gt;LPCへの移行中。昨夜の不具合は残差をもとに予測していたのが問題。in-placeで実行できると勘違いしていた。
+そしてなんとなく動くようになったが現在0.1%程度の悪化を観測している。量子化でだいぶ手を抜いているのでそれが原因か。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;まず、前に経験したようにフィルタ加算前に0.5を加算→だいぶ良くなった。これでほぼPARCORと同等。&lt;/li&gt;
+&lt;li&gt;前（SLA開発時代）も見たけど量子化ビット幅はあんまりいらないことが分かっている。12bitにした。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;結果、ほぼ同一の圧縮性能:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;これでLPCは一旦いいだろう。再度構成を考えていく。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;プリエンファシスによる分散の減少について&lt;/h2&gt;
+&lt;p&gt;TODOにあったプリエンファシスによる分散の減少について考えた。いま、2連結でやってて経験的によくなることが分かっているが、さてどれくらい良いのか。
+信号の分散を &lt;span class="math"&gt;\(\sigma^{2}\)&lt;/span&gt; 、1次,2次の正規化相関をそれぞれ &lt;span class="math"&gt;\(\rho_{1}, \rho_{2}\)&lt;/span&gt; と書く。平均0の離散時間系列信号 …&lt;/p&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;LPCへの移行中。昨夜の不具合は残差をもとに予測していたのが問題。in-placeで実行できると勘違いしていた。
+そしてなんとなく動くようになったが現在0.1%程度の悪化を観測している。量子化でだいぶ手を抜いているのでそれが原因か。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;まず、前に経験したようにフィルタ加算前に0.5を加算→だいぶ良くなった。これでほぼPARCORと同等。&lt;/li&gt;
+&lt;li&gt;前（SLA開発時代）も見たけど量子化ビット幅はあんまりいらないことが分かっている。12bitにした。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;結果、ほぼ同一の圧縮性能:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス x2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;これでLPCは一旦いいだろう。再度構成を考えていく。&lt;/p&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;プリエンファシスによる分散の減少について&lt;/h2&gt;
+&lt;p&gt;TODOにあったプリエンファシスによる分散の減少について考えた。いま、2連結でやってて経験的によくなることが分かっているが、さてどれくらい良いのか。
+信号の分散を &lt;span class="math"&gt;\(\sigma^{2}\)&lt;/span&gt; 、1次,2次の正規化相関をそれぞれ &lt;span class="math"&gt;\(\rho_{1}, \rho_{2}\)&lt;/span&gt; と書く。平均0の離散時間系列信号 &lt;span class="math"&gt;\(x_{n}\)&lt;/span&gt; に対して、 &lt;span class="math"&gt;\(x_{n} - \rho_{1} x_{n-1}\)&lt;/span&gt; の分散は&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[(x_{n} - \rho_{1} x_{n-1})^{2}] &amp;amp;= E[x_{n}^{2} - \rho_{1} x_{n} x_{n-1} + \rho_{1}^{2} x_{n-1}^{2}] \\
+&amp;amp;= E[x_{n}^{2}] - \rho_{1} E[x_{n} x_{n-1}] + \rho_{1}^{2} E[x_{n-1}^{2}] \\
+&amp;amp;= \sigma^{2} - 2 \rho_{1}^{2} \sigma^{2} + \rho_{1}^{2} \sigma^{2} \\
+&amp;amp;= \sigma^{2} (1 - \rho_{1}^{2})
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。（これは1次のLPCなので、最小の分散を達成している。）さて、この操作の後になおも残る1次の相関は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[(x_{n} - \rho_{1} x_{n-1})(x_{n-1} - \rho_{1}x_{n-2})] &amp;amp;= E[x_{n}x_{n-1} - \rho_{1} x_{n} x_{n-2} - \rho_{1} x_{n-1}^{2} + \rho_{1}^{2} x_{n-1} x_{n-2}] \\
+&amp;amp;= \rho_{1} \sigma^{2} - \rho_{1} \rho_{2} \sigma^{2} - \rho_{1} \sigma^{2} + \rho_{1}^{3} \sigma^{2} \\
+&amp;amp;= \sigma^{2} \rho_{1} (\rho_{1}^{2} - \rho_{2})
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;より、正規化すると &lt;span class="math"&gt;\(\frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}}\)&lt;/span&gt; となる。この正規化相関を使ってもう一度プリエンファシスをかけると、分散は&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right] = \sigma^{2} (1 - \rho_{1}^{2}) \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となって、元の分散 &lt;span class="math"&gt;\(\sigma^{2}\)&lt;/span&gt; と比を取ると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+(1 - \rho_{1}^{2}) \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;だけ分散が減少することになる。どんな感じになるかプロットしたのが以下：&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="分散比" src="./images/var_ratio.png" /&gt;
+&lt;/div&gt;
+&lt;p&gt;色がついていない領域は負値を取っている（実現できない値？）
+大体の音声では &lt;span class="math"&gt;\(\rho_{1} \approx 0.9\)&lt;/span&gt; を取るので（低域成分がオーバーサンプリングされているから）、 &lt;span class="math"&gt;\(\rho_{2}\)&lt;/span&gt; に関係なく相当の分散減少が期待できる。&lt;/p&gt;
+&lt;p&gt;プリエンファシスを1回だけ行った場合の分散比 &lt;span class="math"&gt;\((1 - \rho_{1}^{2})\)&lt;/span&gt; と比べ、 &lt;span class="math"&gt;\(\left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \geq 0\)&lt;/span&gt; だからより小さくなるはずである。&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;構成再検討、比較wav追加&lt;/li&gt;
+&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
+&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id3"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(7)</title><link href="/rihuteingunozu-miip-mijian-zheng-7.html" rel="alternate"></link><published>2021-08-05T10:00:00+09:00</published><updated>2021-08-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-05:/rihuteingunozu-miip-mijian-zheng-7.html</id><summary type="html">&lt;p&gt;Sign-SignアルゴリズムとCDF42の組み合わせを再度検討。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%&lt;/li&gt;
 &lt;/ul&gt;
@@ -54,21 +194,6 @@
 &lt;p&gt;2パスが強いのは、プリエンファシスが精密になるからに尽きるのではないか？&lt;/p&gt;
 &lt;p&gt;そしてPARCORをLPCに差し替えようと思って結構強引に修正していったら、案の定良くない状態。圧縮率が大幅に悪化。
 間違いがあるだろうが（予測結果をプロットしたらだいぶ外れている）、頭が動いておらんので今日はここまでにする。&lt;/p&gt;
-&lt;div class="section" id="todo"&gt;
-&lt;h2&gt;TODO&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;PARCORをLPCに差し替える（LPCの方が誤差分散が大きかったはずなので、早めに要検討）&lt;/li&gt;
-&lt;li&gt;最適プリエンファシスをかけた後の信号の1ラグ相関はどうなっている？&lt;/li&gt;
-&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
-&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;所感&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(6)</title><link href="/rihuteingunozu-miip-mijian-zheng-6.html" rel="alternate"></link><published>2021-08-04T10:00:00+09:00</published><updated>2021-08-04T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-04:/rihuteingunozu-miip-mijian-zheng-6.html</id><summary type="html">&lt;p&gt;2パス符号化を試す。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%&lt;/li&gt;

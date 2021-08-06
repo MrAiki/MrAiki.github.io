@@ -84,6 +84,23 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/rihuteinguguan-cha-4.html">リフティング観察(4)</a></h2>
+                <div class="summary"><p>「音声の高能率符号化」を読んでいたら、音声データ一般で相関が高い理由が明確に書いてあった。それは、低域の信号をオーバーサンプリングしているからである。
+人の声は8kHzがいい所の上限だが、それに対して44100Hzでサンプリングすると明らかにオーバーサンプリングになる。つまり、低域信号はゆっくり変化しているのに過剰にサンプリングされ、相関が高くなる。</p>
+<p>この意味でも帯域分割は意味を持ちそうな印象を受ける。ウェーブレットで低域/高域に分けると低域のオーバーサンプリング効果が低減する。実際、相関が下がることを確認している。</p>
+<p>ストーリーとしては、</p>
+<ol class="arabic simple">
+<li>適応アルゴリズムの収束特性が悪いのは音声データに相関があるから</li>
+<li>相関は低域信号のオーバーサンプリングにより生じている</li>
+<li>ウェーブレットで低域信号をリサンプリングすることでレートを下げて扱える、相関は下がっているので有効なはずだ</li>
+</ol>
+<p>相関を消すというのもウェーブレット設計の方針になる。</p>
+
+                    <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/rihuteinguguan-cha-3.html">リフティング観察(3)</a></h2>
                 <div class="summary"><p>より次数を上げたCDFを実装して様子（統計量）を見る。</p>
 <p>CDF(5,1), (5,3), (6,2), (6,4)まで実装してみた。</p>
@@ -306,25 +323,6 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/zhan-lue-hui-yi-zhong-202114.html">戦略会議中2021(14)</a></h2>
-                <div class="summary"><p><a class="reference external" href="http://yoksis.bilkent.edu.tr/pdf/files/10.1109-83.869176.pdf">Adaptive Polyphase Subband Decomposition Structures for Image Compression</a> を引用している文献を漁る。改善したやつ、音声に適用したやつが出てくるはず。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://web.stanford.edu/~bgirod/pdfs/ChangTransIP2007.pdf">Direction-Adaptive Discrete Wavelet Transform for Image Compression</a><ul>
-<li>画像の方位性に着目したウェーブレットの適応。</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://pdf.sciencedirectassets.com/272379/1-s2.0-S1063520309X00023/1-s2.0-S1063520308000444/main.pdf?X-Amz-Security-Token=IQoJb3JpZ2luX2VjEMz%2F%2F%2F%2F%2F%2F%2F%2F%2F%2FwEaCXVzLWVhc3QtMSJGMEQCIFmEkvxq3HJFRXo7Vzj6LjewHyylZw4drd1raiifgOUUAiBttYw%2FFIwbsG35Z3i%2FsekJxbteMdHWCDH%2FunUnWaZAniqDBAi1%2F%2F%2F%2F%2F%2F%2F%2F%2F%2F8BEAQaDDA1OTAwMzU0Njg2NSIMFYoJ4DsgIydz%2Fi%2BAKtcDRegAb8fO985CrVG7UPs1Sp6CJb02Y4WGIL%2FPVs3Wr22E0pXt%2BqcBmahKy25H99GaG%2B5zulEfyVWTcZ7iwOBLiC%2FDuOEan4oKITBjXu0FzBO9heJ37kQ1xBNEorE1kkNAukcAFujp8DTSfwEu72m9QH4ApG8XxB1Ss0jmC9dCowZy2yW7ceuVgV24HnrAadz3JfNxq2I18Wsrh3BB7kq3c24pgM8D2H1W3Afrfov%2Fpsc80%2BaNmtnVPlIqVI0RMFOD8aordkvhcQ2DTLrJGkOfbniCDNXEiwWJOZbWzzmCf5QEDQezlzUysfQbylx5yBVL9HENUEWCqfPhzXFZe6qrhYgt3so12QVwIspfA6f02yvG6zbqd8YcSia94D%2Bk7rQaWc%2FGc2wEYtkzUE%2FSdIkcALnpereQu7cBISz4TmtQiSqsvlKVRKxD%2B85fPJ4VQBsEjEgDJ74Sygt232PcaMQl3Ms3ZtsSkOgl7xsgY4iM%2Fhg%2FDhhK2h0hl9VAmDtcj0roV0dlujKozm2DjCqIbmNV%2FsTM%2BKvirpHzfWVOXG7gvmIpcMWWigKnen5XPn3xeAWaZ7Kb%2BRvDaJZpwFEoT%2BXEM0sBFEesKSGtMxUiODQ2cSeaRV1EdU%2FmMKjTqYcGOqYBnusoQIMgtLG88X4hLsBtndo0boqW%2BL5BbfxfgOIDD5VfnhbxBnLjgfYriuLAfObo5UuFBMd3Vkiu%2Fo8iGiXvjqFQVsdiPb9Ujp1QnjpS6I%2Ftn2cSyNNfws56Uh%2Bt%2FHvKxnKae5cxhfrXYkAJI4TCyO9rDYLBc2UcUCjhte%2FkH3hMvER5%2FQhwVUez6azll54gyum8NbOC3es8pgvwU%2FTLiN382Cxq%2FA%3D%3D&amp;X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Date=20210711T042207Z&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Expires=300&amp;X-Amz-Credential=ASIAQ3PHCVTY2YYWOK3U%2F20210711%2Fus-east-1%2Fs3%2Faws4_request&amp;X-Amz-Signature=707f095234c580099e4e7c88d904a9a67f2d5b9e3891f3091a54fc210d0a9c4d&amp;hash=7f97fac7e48d0b9eac518b5a1b683c62e29f7c8035a87c548306821b5d080813&amp;host=68042c943591013ac2b2430a89b270f6af2c76d8dfd086a07176afe7c76c2c61&amp;pii=S1063520308000444&amp;tid=spdf-f0ee7752-c063-46e3-8c8f-8c2106a538d1&amp;sid=101f207585c9304d8d3823245aab047baeb5gxrqa&amp;type=client">Geometrical grouplets</a><ul>
-<li>勾配ベースで適応する手法は、直交していないし、安定性(stability)がしばしば保証されてないという指摘。</li>
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/4106738">Direction-Adaptive Discrete Wavelet Transform via Directional Lifting and Bandeletization</a> が源流のようだが、これも得られるウェーブレットが直交してないと指摘。</li>
-</ul>
-</li>
-<li><a class="reference external" href="http://repository.bilkent.edu.tr/bitstream/handle/11693/23883/bilkent-research-paper.pdf?sequence=1">A 2-D Orientation-Adaptive Prediction Filter in Lifting Structures for Image Coding</a><ul>
-<li>(5,3 …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202114.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/tag/wavelet.html">&laquo;</a>
@@ -361,16 +359,25 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
@@ -378,38 +385,56 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
@@ -417,62 +442,26 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
@@ -481,31 +470,40 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+      <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+      <a href="/tag/sse.html">SSE</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
+      <a href="/tag/ribabu.html">リバーブ</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
@@ -514,16 +512,16 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
+      <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+      <a href="/tag/glasso.html">GLASSO</a>
     </li>
   </ul>
 </li>
