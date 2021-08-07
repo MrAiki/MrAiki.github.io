@@ -155,7 +155,7 @@ E[(x_{n} - \rho_{1} x_{n-1})(x_{n-1} - \rho_{1}x_{n-2})] &amp;= E[x_{n}x_{n-1} -
 &amp;= \sigma^{2} \rho_{1} (\rho_{1}^{2} - \rho_{2})
 \end{align*}
 </div>
-<p>より、正規化すると <span class="math">\(\frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}}\)</span> となる。この正規化相関を使ってもう一度プリエンファシスをかけると、分散は</p>
+<p>より、分散で割って正規化すると <span class="math">\(\frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}}\)</span> となる。この正規化相関を使ってもう一度プリエンファシスをかけると、分散は</p>
 <div class="math">
 \begin{equation*}
 E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right] = \sigma^{2} (1 - \rho_{1}^{2}) \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right]
@@ -174,20 +174,15 @@ E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2
 <p>色がついていない領域は負値を取っている（実現できない値？）
 大体の音声では <span class="math">\(\rho_{1} \approx 0.9\)</span> を取るので（低域成分がオーバーサンプリングされているから）、 <span class="math">\(\rho_{2}\)</span> に関係なく相当の分散減少が期待できる。</p>
 <p>プリエンファシスを1回だけ行った場合の分散比 <span class="math">\((1 - \rho_{1}^{2})\)</span> と比べ、 <span class="math">\(\left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \geq 0\)</span> だからより小さくなるはずである。</p>
+<p>時間をおいて銭湯サウナでぼんやりしてたら、上記って必ずしも最適では無い気がしてきた。要は、2パラメータ <span class="math">\(a,b\)</span> があって、 <span class="math">\(y_{n} = x_{n} - a x_{n-1}, z_{n} = y_{n} - b y_{n-1}\)</span> としたとき、分散 <span class="math">\(E[z_{n}^{2}]\)</span> を最小にする <span class="math">\(a,b\)</span> は少なくとも <span class="math">\(a=\rho_{1}\)</span> とは限らない気がしている。もっと小さい値を取れるはずじゃないのか。</p>
+<p>多分、もっと良いパラメータ組 <span class="math">\((a,b)\)</span> があると踏んでいる。なぜならプリエンファシスは直交変換ではないように見えるから。1次の相関が残っているところを見ると、分散をより小さくする変換があるはず。早速試してるけど簡単に見た感じでは難しそう。小さくできれば利益が大きい。1日考えてみようか。</p>
+<p>と思ったが、冷静になる（ならなくても）と、</p>
+<div class="math">
+\begin{equation*}
+z_{n} = (x_{n} - a x_{n-1}) - b (x_{n-1} - a x_{n-2}) = x_{n} - (a + b) x_{n-1} + ab x_{n-2}
+\end{equation*}
 </div>
-<div class="section" id="todo">
-<h2>TODO</h2>
-<ul class="simple">
-<li>構成再検討、比較wav追加</li>
-<li>Sign-Signアルゴリズムの自然勾配考察</li>
-<li>NGSA突っ込んでみる</li>
-</ul>
-</div>
-<div class="section" id="id3">
-<h2>所感</h2>
-<ul class="simple">
-<li>.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて</li>
-</ul>
+<p>となってその分散の最小化を考えているので、結局プリエンファシス2段で最適なのは2次のプリエンファシスということになる。しかし、1次を2段重ねることとの差をちゃんと見たい。</p>
 </div>
 <script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
@@ -256,11 +251,11 @@ E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
+        <li><a href="/rihuteingunozu-miip-mijian-zheng-9.html">リフティングの組み込み検証(9)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-7.html">リフティングの組み込み検証(7)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-6.html">リフティングの組み込み検証(6)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-5.html">リフティングの組み込み検証(5)</a></li>
         <li><a href="/rihuteingunozu-miip-mijian-zheng-4.html">リフティングの組み込み検証(4)</a></li>
-        <li><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></li>
     </ul>
 </section>
         </article>
@@ -287,22 +282,10 @@ E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/wavelet.html">Wavelet</a>
@@ -311,58 +294,64 @@ E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
+      <a href="/tag/lad.html">LAD</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
@@ -370,86 +359,92 @@ E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2
     <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lpc.html">LPC</a>
     </li>
   </ul>
 </li>

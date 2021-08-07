@@ -1,5 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-06T10:00:00+09:00</updated><entry><title>リフティングの組み込み検証(8)</title><link href="/rihuteingunozu-miip-mijian-zheng-8.html" rel="alternate"></link><published>2021-08-06T10:00:00+09:00</published><updated>2021-08-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-06:/rihuteingunozu-miip-mijian-zheng-8.html</id><summary type="html">&lt;p&gt;LPCへの移行中。昨夜の不具合は残差をもとに予測していたのが問題。in-placeで実行できると勘違いしていた。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-07T10:00:00+09:00</updated><entry><title>リフティングの組み込み検証(9)</title><link href="/rihuteingunozu-miip-mijian-zheng-9.html" rel="alternate"></link><published>2021-08-07T10:00:00+09:00</published><updated>2021-08-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-07:/rihuteingunozu-miip-mijian-zheng-9.html</id><summary type="html">&lt;p&gt;早速2段階プリエンファシスを2次のLPCに切り替えてみた。予想としては丸め誤差除き同じになると思っていたが、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + LPC(2) + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.3%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;0.3%悪化。これは有意に差があるといえるだろう。数値演算誤差だけの話じゃないと思う。
+そしてLPC(2)使用時の分散と2段プリエンファシスの分散を比較しようと思った。これも同じと思っていたが、、、違う…&lt;/p&gt;
+&lt;p&gt;LPC(2)のときの分散は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[z_{2}^{2}] &amp;amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}] \\
+&amp;amp;= \sigma …&lt;/div&gt;</summary><content type="html">&lt;p&gt;早速2段階プリエンファシスを2次のLPCに切り替えてみた。予想としては丸め誤差除き同じになると思っていたが、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + LPC(2) + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.3%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;0.3%悪化。これは有意に差があるといえるだろう。数値演算誤差だけの話じゃないと思う。
+そしてLPC(2)使用時の分散と2段プリエンファシスの分散を比較しようと思った。これも同じと思っていたが、、、違う…&lt;/p&gt;
+&lt;p&gt;LPC(2)のときの分散は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[z_{2}^{2}] &amp;amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}] \\
+&amp;amp;= \sigma^{2} (1 + a_{1}^{2} + a_{2}^{2} - 2 \rho_{1} a_{1}  - 2 \rho_{2} a_{2} + 2 \rho_{1} a_{1} a_{2})
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;より、これを係数で偏微分すると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\frac{\partial}{\partial a_{1}} E[z_{2}^{2}] &amp;amp;= 2\sigma^{2} (c - \rho_{1} + \rho_{1}d) \\
+\frac{\partial}{\partial a_{2}} E[z_{2}^{2}] &amp;amp;= 2\sigma^{2} (d - \rho_{2} + \rho_{1}c)
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;で、それぞれ0とおいて &lt;span class="math"&gt;\(a_{1}, a_{2}\)&lt;/span&gt; について解くと（省略）&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+a_{1} = \frac{\rho_{1}(1 - \rho_{2})}{1 - \rho_{1}^{2}}, a_{2} = \frac{\rho_{2} - \rho_{1}^{2}}{1 - \rho_{1}^{2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;これを &lt;span class="math"&gt;\(E[z_{2}^{2}]\)&lt;/span&gt; に代入してプロットすると以下のようになる（きれいな式に整理できなかったので苦し紛れにプロット）&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="LPC(2)分散比" src="./images/var_ratio_lpc2.png" /&gt;
+&lt;/div&gt;
+&lt;p&gt;明らかに2段プリエンファシスとは違う。 &lt;span class="math"&gt;\(\rho_{2} \approx 1\)&lt;/span&gt; でも分散が小さくなる。そして、2段プリエンファシスとの比較として、 &lt;span class="math"&gt;\(\text{(2段プリエンファシスの分散比)} - \text{(LPC(2)の分散比)}\)&lt;/span&gt; をプロットした結果が以下。&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="分散比の比較" src="./images/var_ratio_diff.png" /&gt;
+&lt;/div&gt;
+&lt;p&gt;殆どの領域でLPC(2)の方が分散をよく減らしていることがわかる。kanonop.wavでも、LPC(2)のトータル分散は0.001947, プリエンファシス2段は0.002008だったので実際に分散削減効果はLPC(2)の方が高い。&lt;/p&gt;
+&lt;p&gt;では、2段プリエンファシスの方がより良い圧縮性能に寄与していたのはなぜ？&lt;/p&gt;
+&lt;p&gt;kanonop.wavのトータル正規化相関を見ると、LPC(2)は0.383299、プリエンファシス2段は0.377010で、プリエンファシス2段の方が1次の相関を消せている事がわかる。この結果のみから考えると、1次相関を減らすことが大事ということか？いや、まだ時期尚早。2次相関まで見ておく。LPC(2)は-0.421879、プリエンファシス2段は-0.454856だった。2次相関はLPC(2)の方が絶対値が小さい。&lt;/p&gt;
+&lt;p&gt;すると、1次相関を消すのが大事ということ？最適なフィルタ設計もできるで試してみる。
+フィルタ係数を &lt;span class="math"&gt;\(a\)&lt;/span&gt; とする。1フィルタ処理後の1次相関は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[(x_{n} - ax_{n-1})(x_{n-1} - ax_{n-2})] &amp;amp;= E[x_{n}x_{n-1} - ax_{n}x_{n-2} - ax_{n-1}^{2} + a^{2}x_{n-1}x_{n-2}] \\
+&amp;amp;= \sigma^{2} (\rho_{1} - \rho_{2} a - a + \rho_{1} a^{2}) \\
+&amp;amp;= \sigma^{2} \left\{ \rho_{1} \left( a^{2} - \frac{1 + \rho_{2}}{\rho_{1}} a \right) + \rho_{1} \right\} \\
+&amp;amp;= \sigma^{2} \left\{ \rho_{1} \left( a - \frac{1 + \rho_{2}}{2\rho_{1}} \right)^{2} + \rho_{1} - \frac{(1 + \rho_{2})^{2}}{4\rho_{1}} \right\}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;だから &lt;span class="math"&gt;\(a\)&lt;/span&gt; に関して凸な関数になっている。実信号では &lt;span class="math"&gt;\(\rho_{1} &amp;gt; 0\)&lt;/span&gt; だから下に凸と考えていい。そして、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+a = \frac{1 + \rho_{2}}{2\rho_{1}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;とすれば最小値 &lt;span class="math"&gt;\(\rho_{1} - \frac{(1 + \rho_{2})^{2}}{4\rho_{1}}\)&lt;/span&gt; が達成できる。この係数を使って2回適用してみた。すると、1次相関が 0.324132 になって54.9%を叩き出した。分散は0.002333で悪いのだが最終的な圧縮率はよい。これは効いているし、 &lt;strong&gt;1次相関を消すことが重要であることを示している&lt;/strong&gt; 。そして今は1次のフィルタだったけど、n次でも良いわけだから試してみたい。&lt;/p&gt;
+&lt;p&gt;一方、1次相関が0になるときの &lt;span class="math"&gt;\(a\)&lt;/span&gt; は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+a = \frac{1 + \rho_{2}}{2\rho_{1}} \pm \sqrt{ \left(\frac{1 + \rho_{2}}{2\rho_{1}} \right)^{2} - 1}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となるが、実装したところ発散した。おそらく上記方程式の判別式が負で解無し（ルートの中身が負に）になっている？&lt;span class="math"&gt;\(\rho_{1} - \frac{(1 + \rho_{2})^{2}}{4\rho_{1}} &amp;lt; 0\)&lt;/span&gt; ならばこの値を使うのが良いという示唆かもしれない。&lt;/p&gt;
+&lt;p&gt;要調査。&lt;/p&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;プリエンファシス再考&lt;/li&gt;
+&lt;li&gt;構成再検討、比較wav追加&lt;/li&gt;
+&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
+&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(8)</title><link href="/rihuteingunozu-miip-mijian-zheng-8.html" rel="alternate"></link><published>2021-08-06T10:00:00+09:00</published><updated>2021-08-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-06:/rihuteingunozu-miip-mijian-zheng-8.html</id><summary type="html">&lt;p&gt;LPCへの移行中。昨夜の不具合は残差をもとに予測していたのが問題。in-placeで実行できると勘違いしていた。
 そしてなんとなく動くようになったが現在0.1%程度の悪化を観測している。量子化でだいぶ手を抜いているのでそれが原因か。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;まず、前に経験したようにフィルタ加算前に0.5を加算→だいぶ良くなった。これでほぼPARCORと同等。&lt;/li&gt;
@@ -44,7 +192,7 @@ E[(x_{n} - \rho_{1} x_{n-1})(x_{n-1} - \rho_{1}x_{n-2})] &amp;amp;= E[x_{n}x_{n-
 &amp;amp;= \sigma^{2} \rho_{1} (\rho_{1}^{2} - \rho_{2})
 \end{align*}
 &lt;/div&gt;
-&lt;p&gt;より、正規化すると &lt;span class="math"&gt;\(\frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}}\)&lt;/span&gt; となる。この正規化相関を使ってもう一度プリエンファシスをかけると、分散は&lt;/p&gt;
+&lt;p&gt;より、分散で割って正規化すると &lt;span class="math"&gt;\(\frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}}\)&lt;/span&gt; となる。この正規化相関を使ってもう一度プリエンファシスをかけると、分散は&lt;/p&gt;
 &lt;div class="math"&gt;
 \begin{equation*}
 E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right] = \sigma^{2} (1 - \rho_{1}^{2}) \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \right]
@@ -63,20 +211,15 @@ E[(x_{n} - \rho_{1} x_{n-1})^{2}] \left[ 1 - \left\{ \frac{\rho_{1} (\rho_{1}^{2
 &lt;p&gt;色がついていない領域は負値を取っている（実現できない値？）
 大体の音声では &lt;span class="math"&gt;\(\rho_{1} \approx 0.9\)&lt;/span&gt; を取るので（低域成分がオーバーサンプリングされているから）、 &lt;span class="math"&gt;\(\rho_{2}\)&lt;/span&gt; に関係なく相当の分散減少が期待できる。&lt;/p&gt;
 &lt;p&gt;プリエンファシスを1回だけ行った場合の分散比 &lt;span class="math"&gt;\((1 - \rho_{1}^{2})\)&lt;/span&gt; と比べ、 &lt;span class="math"&gt;\(\left\{ \frac{\rho_{1} (\rho_{1}^{2} - \rho_{2})}{1 - \rho_{1}^{2}} \right\}^{2} \geq 0\)&lt;/span&gt; だからより小さくなるはずである。&lt;/p&gt;
+&lt;p&gt;時間をおいて銭湯サウナでぼんやりしてたら、上記って必ずしも最適では無い気がしてきた。要は、2パラメータ &lt;span class="math"&gt;\(a,b\)&lt;/span&gt; があって、 &lt;span class="math"&gt;\(y_{n} = x_{n} - a x_{n-1}, z_{n} = y_{n} - b y_{n-1}\)&lt;/span&gt; としたとき、分散 &lt;span class="math"&gt;\(E[z_{n}^{2}]\)&lt;/span&gt; を最小にする &lt;span class="math"&gt;\(a,b\)&lt;/span&gt; は少なくとも &lt;span class="math"&gt;\(a=\rho_{1}\)&lt;/span&gt; とは限らない気がしている。もっと小さい値を取れるはずじゃないのか。&lt;/p&gt;
+&lt;p&gt;多分、もっと良いパラメータ組 &lt;span class="math"&gt;\((a,b)\)&lt;/span&gt; があると踏んでいる。なぜならプリエンファシスは直交変換ではないように見えるから。1次の相関が残っているところを見ると、分散をより小さくする変換があるはず。早速試してるけど簡単に見た感じでは難しそう。小さくできれば利益が大きい。1日考えてみようか。&lt;/p&gt;
+&lt;p&gt;と思ったが、冷静になる（ならなくても）と、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+z_{n} = (x_{n} - a x_{n-1}) - b (x_{n-1} - a x_{n-2}) = x_{n} - (a + b) x_{n-1} + ab x_{n-2}
+\end{equation*}
 &lt;/div&gt;
-&lt;div class="section" id="todo"&gt;
-&lt;h2&gt;TODO&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;構成再検討、比較wav追加&lt;/li&gt;
-&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
-&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h2&gt;所感&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;となってその分散の最小化を考えているので、結局プリエンファシス2段で最適なのは2次のプリエンファシスということになる。しかし、1次を2段重ねることとの差をちゃんと見たい。&lt;/p&gt;
 &lt;/div&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
