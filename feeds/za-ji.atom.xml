@@ -1,5 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-07T10:00:00+09:00</updated><entry><title>リフティングの組み込み検証(9)</title><link href="/rihuteingunozu-miip-mijian-zheng-9.html" rel="alternate"></link><published>2021-08-07T10:00:00+09:00</published><updated>2021-08-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-07:/rihuteingunozu-miip-mijian-zheng-9.html</id><summary type="html">&lt;p&gt;早速2段階プリエンファシスを2次のLPCに切り替えてみた。予想としては丸め誤差除き同じになると思っていたが、&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-08T17:30:00+09:00</updated><entry><title>リフティングの組み込み検証(10)</title><link href="/rihuteingunozu-miip-mijian-zheng-10.html" rel="alternate"></link><published>2021-08-08T10:00:00+09:00</published><updated>2021-08-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-08:/rihuteingunozu-miip-mijian-zheng-10.html</id><summary type="html">&lt;p&gt;最近はプリエンファシスばっかやってる。&lt;/p&gt;
+&lt;p&gt;昨日の議論の一般化をしようとして、まず2次フィルタを使って1次の相関を消す場合を考えて導いたが、以下の難点があるのでスルー。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;解が複雑になる&lt;/li&gt;
+&lt;li&gt;今のプリエンファシスを置き換えられない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;代わりに &lt;span class="math"&gt;\(k\)&lt;/span&gt; 次相関を消す1次のフィルタはまとまった。フィルタ係数を &lt;span class="math"&gt;\(a\)&lt;/span&gt; と書き、分散で正規化した &lt;span class="math"&gt;\(k\)&lt;/span&gt; 次相関を &lt;span class="math"&gt;\(\rho_{k}\)&lt;/span&gt; と書く（&lt;span class="math"&gt;\(\rho_{0} = 1, \rho_{-k} = \rho_{k}\)&lt;/span&gt; ）&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[(x_{n} - ax_{n-1})(x_{n-k} - ax_{n-k-1})] &amp;amp;= E[x_{n}x_{n-k} - ax_{n}x_{n-k-1} - ax_{n-1}x_{n-k} + a …&lt;/div&gt;</summary><content type="html">&lt;p&gt;最近はプリエンファシスばっかやってる。&lt;/p&gt;
+&lt;p&gt;昨日の議論の一般化をしようとして、まず2次フィルタを使って1次の相関を消す場合を考えて導いたが、以下の難点があるのでスルー。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;解が複雑になる&lt;/li&gt;
+&lt;li&gt;今のプリエンファシスを置き換えられない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;代わりに &lt;span class="math"&gt;\(k\)&lt;/span&gt; 次相関を消す1次のフィルタはまとまった。フィルタ係数を &lt;span class="math"&gt;\(a\)&lt;/span&gt; と書き、分散で正規化した &lt;span class="math"&gt;\(k\)&lt;/span&gt; 次相関を &lt;span class="math"&gt;\(\rho_{k}\)&lt;/span&gt; と書く（&lt;span class="math"&gt;\(\rho_{0} = 1, \rho_{-k} = \rho_{k}\)&lt;/span&gt; ）&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+E[(x_{n} - ax_{n-1})(x_{n-k} - ax_{n-k-1})] &amp;amp;= E[x_{n}x_{n-k} - ax_{n}x_{n-k-1} - ax_{n-1}x_{n-k} + a^{2}x_{n-1}x_{n-k-1}] \\
+&amp;amp;= \sigma^{2} (\rho_{k} - a \rho_{k+1} - a \rho_{k-1} + a^{2} \rho_{k}) \\
+&amp;amp;= \sigma^{2} \left\{ a^{2} \rho_{k} - (\rho_{k+1} + \rho_{k-1}) a + \rho_{k} \right\} \\
+&amp;amp;= \sigma^{2} \left[ \rho_{k} \left\{ a^{2} - \frac{\rho_{k+1} + \rho_{k-1}}{\rho_{k}} a \right\} + \rho_{k} \right\} \\
+&amp;amp;= \sigma^{2} \left[ \rho_{k} \left( a - \frac{\rho_{k+1} + \rho_{k-1}}{2\rho_{k}} \right)^{2} + \rho_{k} - \frac{(\rho_{k+1} + \rho_{k-1})^{2}}{4\rho_{k}} \right]
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;よって、 &lt;span class="math"&gt;\(\rho_{k} &amp;gt; 0 (&amp;lt; 0)\)&lt;/span&gt; のとき最小（大）値は &lt;span class="math"&gt;\(\rho_{k} - \frac{(\rho_{k+1} + \rho_{k-1})^{2}}{4\rho_{k}}\ (a = \frac{\rho_{k+1} + \rho_{k-1}}{2\rho_{k}})\)&lt;/span&gt; となる。解（&lt;span class="math"&gt;\(k\)&lt;/span&gt; 次相関が0になる点）は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+a &amp;amp;= \frac{(\rho_{k+1} + \rho_{k-1}) \pm \sqrt{(\rho_{k+1} + \rho_{k-1})^{2} - 4\rho_{k}^{2}}}{2\rho_{k}} \\
+&amp;amp;= \frac{\rho_{k+1} + \rho_{k-1}}{2\rho_{k}} \pm \sqrt{\left( \frac{\rho_{k+1} + \rho_{k-1}}{2\rho_{k}} \right)^{2} - 1}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;で、 &lt;span class="math"&gt;\(\left| \frac{\rho_{k+1} + \rho_{k-1}}{2\rho_{k}} \right| &amp;gt; 1\)&lt;/span&gt; ならば解あり。&lt;/p&gt;
+&lt;p&gt;一般化ができたので2次相関を消してみたが、分散が上昇したり、2回連続で適用すると発散してしまう。やっぱり1次相関除去に命かけた方が良いか。&lt;/p&gt;
+&lt;p&gt;改めて、今のボーダーラインは&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシス(1)x2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 54.9%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリエンファシス次の右シフト量を落とすと性能改善の傾向あり。あんまり精度がいらないということ？
+1次相関除去が他の音源でも有効なのか検証必要あり。→うーん、ワン・ツー・スゥイーツとSPARKLEで1次相関より分散減らしのほうが良かった。。&lt;/p&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;本当に分散を減らすよりも1次相関除去の方がよいのか調査&lt;/li&gt;
+&lt;li&gt;構成再検討、比較wav追加&lt;/li&gt;
+&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
+&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id2"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(9)</title><link href="/rihuteingunozu-miip-mijian-zheng-9.html" rel="alternate"></link><published>2021-08-07T10:00:00+09:00</published><updated>2021-08-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-07:/rihuteingunozu-miip-mijian-zheng-9.html</id><summary type="html">&lt;p&gt;早速2段階プリエンファシスを2次のLPCに切り替えてみた。予想としては丸め誤差除き同じになると思っていたが、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;MS変換 + LPC(2) + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.3%&lt;/li&gt;
 &lt;/ul&gt;
@@ -69,23 +185,15 @@ a = \frac{1 + \rho_{2}}{2\rho_{1}}
 a = \frac{1 + \rho_{2}}{2\rho_{1}} \pm \sqrt{ \left(\frac{1 + \rho_{2}}{2\rho_{1}} \right)^{2} - 1}
 \end{equation*}
 &lt;/div&gt;
-&lt;p&gt;となるが、実装したところ発散した。おそらく上記方程式の判別式が負で解無し（ルートの中身が負に）になっている？&lt;span class="math"&gt;\(\rho_{1} - \frac{(1 + \rho_{2})^{2}}{4\rho_{1}} &amp;lt; 0\)&lt;/span&gt; ならばこの値を使うのが良いという示唆かもしれない。&lt;/p&gt;
-&lt;p&gt;要調査。&lt;/p&gt;
-&lt;div class="section" id="todo"&gt;
-&lt;h2&gt;TODO&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;プリエンファシス再考&lt;/li&gt;
-&lt;li&gt;構成再検討、比較wav追加&lt;/li&gt;
-&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
-&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
-&lt;/ul&gt;
+&lt;p&gt;となるが、実装したところ発散した。おそらく上記方程式の判別式が負で解無し（ルートの中身が負に）になっている？判別式 &lt;span class="math"&gt;\(\left(\frac{1 + \rho_{2}}{\rho_{1}} \right)^{2} - 4\)&lt;/span&gt; が正、すなわち&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\left(\frac{1 + \rho_{2}}{\rho_{1}} \right)^{2} - 4 &amp;gt; 0 &amp;amp;\iff \left| \frac{1 + \rho_{2}}{\rho_{1}} \right| &amp;gt; 2 \\
+&amp;amp;\iff \left| \frac{1 + \rho_{2}}{2\rho_{1}} \right| &amp;gt; 1
+\end{align*}
 &lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;所感&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
+&lt;p&gt;ならば解を使うのが良いという示唆かもしれない。2段で早速使ってみたら、分散0.002227、1次相関0.325073、2次相関-0.546465で圧縮率は54.9%だけど解を直接使うより良くなってる。&lt;/p&gt;
+&lt;p&gt;2次以上については要調査。&lt;/p&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",
@@ -455,24 +563,66 @@ z_{n} = (x_{n} - a x_{n-1}) - b (x_{n-1} - a x_{n-2}) = x_{n} - (a + b) x_{n-1} 
 &lt;/div&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(5)</title><link href="/rihuteingunozu-miip-mijian-zheng-5.html" rel="alternate"></link><published>2021-08-03T10:00:00+09:00</published><updated>2021-08-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-03:/rihuteingunozu-miip-mijian-zheng-5.html</id><content type="html">&lt;p&gt;ローカルなメモをブログに移行していた。読み返すと、論文調べがあんまり活きてないように見える。。。
 でもリフティングを適応させるのは難しいということがわかったしなあ。L2ノルムなどの評価関数を最小化する係数は求まるが、直交性や消失モーメントがなくなる。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(4)</title><link href="/rihuteingunozu-miip-mijian-zheng-4.html" rel="alternate"></link><published>2021-08-02T10:00:00+09:00</published><updated>2021-08-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-02:/rihuteingunozu-miip-mijian-zheng-4.html</id><summary type="html">&lt;p&gt;Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(4)</title><link href="/rihuteingunozu-miip-mijian-zheng-4.html" rel="alternate"></link><published>2021-08-02T10:00:00+09:00</published><updated>2021-08-08T17:30:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-02:/rihuteingunozu-miip-mijian-zheng-4.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\sgn{\mathrm{sgn}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。&lt;/p&gt;
 &lt;p&gt;「再考・適応アルゴリズム」を再びにらみながら考え中。考えてたら、Sign-Signアルゴリズムの評価関数が見えて、それを対数尤度と思ってFisher情報行列を計算したら、入力の符号の自己相関行列が出てきた。&lt;/p&gt;
-&lt;p&gt;符号の自己相関行列は陽に求められることが分かっていて、答えは、自己相関行列の各要素で &lt;span class="math"&gt;\(2/\pi \arcsin(r_{ij}) r_{ij}: \text{正規化自己相関}\)&lt;/span&gt; といった感じ。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;対角要素は必ず全て1。よって固有値は0からNを取る。次数を増やすと条件数が悪くなりそうなのはすぐわかる。&lt;/li&gt;
-&lt;li&gt;arcsinを使っているので相関が高くとも1に近づきにくい。高相関な信号でもSAより性能劣化しにくいっぽい。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;ところまで見えた。見えないのは次の2点。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;逆行列が計算できれば高速化に至れるがまだ分からない。&lt;/li&gt;
-&lt;li&gt;対数尤度から分布を逆算できるが、これは一体何の分布だろうか。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;ちょっと置いて実装に戻ろう。ひとまずSign-Signを導入。&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%&lt;ul&gt;
-&lt;li&gt;SAと比べて0.8%の改善。これは大きい …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。&lt;/p&gt;
+&lt;p&gt;Sign-Signアルゴリズムの評価関数 &lt;span class="math"&gt;\(J(\ve{h})\)&lt;/span&gt; は、符号成分を入力したシステムの残差 &lt;span class="math"&gt;\(\hat{e} = \ve{h}^{\ast\mathsf{T}} \sgn(\ve{x}) - \ve{h}^{\mathsf{T}} \sgn(\ve{x})\)&lt;/span&gt; を使って&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation …&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\sgn{\mathrm{sgn}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。&lt;/p&gt;
 &lt;p&gt;「再考・適応アルゴリズム」を再びにらみながら考え中。考えてたら、Sign-Signアルゴリズムの評価関数が見えて、それを対数尤度と思ってFisher情報行列を計算したら、入力の符号の自己相関行列が出てきた。&lt;/p&gt;
-&lt;p&gt;符号の自己相関行列は陽に求められることが分かっていて、答えは、自己相関行列の各要素で &lt;span class="math"&gt;\(2/\pi \arcsin(r_{ij}) r_{ij}: \text{正規化自己相関}\)&lt;/span&gt; といった感じ。&lt;/p&gt;
+&lt;p&gt;Sign-Signアルゴリズムの評価関数 &lt;span class="math"&gt;\(J(\ve{h})\)&lt;/span&gt; は、符号成分を入力したシステムの残差 &lt;span class="math"&gt;\(\hat{e} = \ve{h}^{\ast\mathsf{T}} \sgn(\ve{x}) - \ve{h}^{\mathsf{T}} \sgn(\ve{x})\)&lt;/span&gt; を使って&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+J(\ve{h}) = \sgn(e) \hat{e}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;と書くことができる（SAでは &lt;span class="math"&gt;\(\hat{e}\)&lt;/span&gt; を &lt;span class="math"&gt;\(|e|\)&lt;/span&gt; に入れ替える）。理由は、&lt;span class="math"&gt;\(e\)&lt;/span&gt; の符号に応じて場合分けすればよい。 &lt;span class="math"&gt;\(e &amp;gt; 0\)&lt;/span&gt; のときは&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+J(\ve{h}) = \hat{e} = (\ve{h}^{\ast} - \ve{h})^{\mathsf{T}} \sgn(\ve{x}) \\
+\Rightarrow \frac{\partial}{\partial \ve{h}} J(\ve{h}) = - \sgn(\ve{x})
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;で、&lt;span class="math"&gt;\(e &amp;lt; 0\)&lt;/span&gt; のときは&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+J(\ve{h}) = -\hat{e} = -(\ve{h}^{\ast} - \ve{h})^{\mathsf{T}} \sgn(\ve{x}) \\
+\Rightarrow \frac{\partial}{\partial \ve{h}} J(\ve{h}) = \sgn(\ve{x})
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となって、まとめると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\frac{\partial}{\partial \ve{h}} J(\ve{h}) = - \sgn(e) \sgn(\ve{x})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となってSign-Signアルゴリズムが得られた。これを対数尤度の偏微分（スコア関数）と思って Fisher情報行列 &lt;span class="math"&gt;\(\ve{F}\)&lt;/span&gt; を計算すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{F} &amp;amp;= E\left[ J(\ve{h}) J(\ve{h})^{\mathsf{T}} \right] \\
+&amp;amp;= E\left[ \sgn(e) \sgn(\ve{x}) \sgn(e) \sgn(\ve{x})^{\mathsf{T}} \right] \\
+&amp;amp;= E\left[ \sgn(\ve{x}) \sgn(\ve{x})^{\mathsf{T}} \right] \ (a.e.)
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。Fisher情報行列の各要素 &lt;span class="math"&gt;\((\ve{F})_{ij}\)&lt;/span&gt; に着目すると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+(\ve{F})_{ij} &amp;amp;= E\left[ \sgn(x_{i}) \sgn(x_{j}) \right] \\
+&amp;amp;= \frac{2}{\pi} \sin^{-1}\left(\frac{\rho_{ij}}{\sigma_{i} \sigma_{j}} \right)\ E[x_{i}x_{j}] = \rho_{ij}, E[x_{i}^{2}] = \sigma_{i}^{2}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となっている。最後の結果は自明ではない。「 &lt;a class="reference external" href="https://ieeexplore.ieee.org/document/50391"&gt;Sign-sign LMS convergence with independent stochastic inputs&lt;/a&gt; 」に証明がある。簡単に観察すると、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;対角要素は必ず全て1。よって固有値は0からNを取る。次数を増やすと条件数が悪くなりそうなのはすぐわかる。&lt;/li&gt;
 &lt;li&gt;arcsinを使っているので相関が高くとも1に近づきにくい。高相関な信号でもSAより性能劣化しにくいっぽい。&lt;/li&gt;
