@@ -83,195 +83,216 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-10.html">リフティングの組み込み検証(10)</a></h2>
-                <div class="summary"><p>最近はプリエンファシスばっかやってる。</p>
-<p>昨日の議論の一般化をしようとして、まず2次フィルタを使って1次の相関を消す場合を考えて導いたが、以下の難点があるのでスルー。</p>
-<ul class="simple">
-<li>解が複雑になる</li>
-<li>今のプリエンファシスを置き換えられない</li>
-</ul>
-<p>代わりに <span class="math">\(k\)</span> 次相関を消す1次のフィルタはまとまった。フィルタ係数を <span class="math">\(a\)</span> と書き、分散で正規化した <span class="math">\(k\)</span> 次相関を <span class="math">\(\rho_{k}\)</span> と書く（<span class="math">\(\rho_{0} = 1, \rho_{-k} = \rho_{k}\)</span> ）</p>
-<div class="math">
-\begin{align*}
-E[(x_{n} - ax_{n-1})(x_{n-k} - ax_{n-k-1})] &amp;= E[x_{n}x_{n-k} - ax_{n}x_{n-k-1} - ax_{n-1}x_{n-k} + a …</div>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-10.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-9.html">リフティングの組み込み検証(9)</a></h2>
-                <div class="summary"><p>早速2段階プリエンファシスを2次のLPCに切り替えてみた。予想としては丸め誤差除き同じになると思っていたが、</p>
-<ul class="simple">
-<li>MS変換 + LPC(2) + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.3%</li>
-</ul>
-<p>0.3%悪化。これは有意に差があるといえるだろう。数値演算誤差だけの話じゃないと思う。
-そしてLPC(2)使用時の分散と2段プリエンファシスの分散を比較しようと思った。これも同じと思っていたが、、、違う…</p>
-<p>LPC(2)のときの分散は、</p>
-<div class="math">
-\begin{align*}
-E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}] \\
-&amp;= \sigma …</div>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-9.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-8.html">リフティングの組み込み検証(8)</a></h2>
-                <div class="summary"><p>LPCへの移行中。昨夜の不具合は残差をもとに予測していたのが問題。in-placeで実行できると勘違いしていた。
-そしてなんとなく動くようになったが現在0.1%程度の悪化を観測している。量子化でだいぶ手を抜いているのでそれが原因か。</p>
-<ul class="simple">
-<li>まず、前に経験したようにフィルタ加算前に0.5を加算→だいぶ良くなった。これでほぼPARCORと同等。</li>
-<li>前（SLA開発時代）も見たけど量子化ビット幅はあんまりいらないことが分かっている。12bitにした。</li>
-</ul>
-<p>結果、ほぼ同一の圧縮性能:</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%</li>
-</ul>
-<p>これでLPCは一旦いいだろう。再度構成を考えていく。</p>
-<div class="section" id="id2">
-<h2>プリエンファシスによる分散の減少について</h2>
-<p>TODOにあったプリエンファシスによる分散の減少について考えた。いま、2連結でやってて経験的によくなることが分かっているが、さてどれくらい良いのか。
-信号の分散を <span class="math">\(\sigma^{2}\)</span> 、1次,2次の正規化相関をそれぞれ <span class="math">\(\rho_{1}, \rho_{2}\)</span> と書く。平均0の離散時間系列信号 …</p></div>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-8.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-7.html">リフティングの組み込み検証(7)</a></h2>
-                <div class="summary"><p>Sign-SignアルゴリズムとCDF42の組み合わせを再度検討。</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%</li>
-</ul>
-<p>をベースラインに、サブブロックを変えてみる。</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4): 59.3%</li>
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段: 58.0%</li>
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(8) + CDF42を1段: 56.1%</li>
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-7.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-6.html">リフティングの組み込み検証(6)</a></h2>
-                <div class="summary"><p>2パス符号化を試す。</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4) + CDF42を1段 + 各帯域でSS(4): 56.1%</li>
-</ul>
-<p>からスタート。単純にブロックサイズ8192, サブブロックサイズ2048とする</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでPARCOR(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4): 55.0%<ul>
-<li>薬効あり。1.1%減った。</li>
-</ul>
-</li>
-<li>MS変換 + 最適プリエンファシス x2 + PARCOR(4), サブブロックでCDF42を1段 + 低域でSS(4), 高域でSS(4): 56.2%</li>
-<li>MS変換 + 最適プリエンファシス x2, サブブロックでPARCOR(4) + CDF42を1段 …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-6.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-5.html">リフティングの組み込み検証(5)</a></h2>
-                <div class="summary"><p>ローカルなメモをブログに移行していた。読み返すと、論文調べがあんまり活きてないように見える。。。
-でもリフティングを適応させるのは難しいということがわかったしなあ。L2ノルムなどの評価関数を最小化する係数は求まるが、直交性や消失モーメントがなくなる。</p>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html">LPCの多段構成検証(10)</a></h2>
+                <div class="summary"><p>もうすこしテスト追加して学習結果がPython版とおなじになるように。
+手元で確認した限りではOK。しっかし演算精度で差が出たのでfloatからdoubleに変えた。いつもどおり速度が問題になったらfloatにすれば良い。</p>
+<p>ネットワークモジュールとトレーナーを追加した。
+あとはLebinson-Durvinによる適応的分割数決定やな。</p>
 
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-5.html">more ...</a>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-4.html">リフティングの組み込み検証(4)</a></h2>
-                <div class="summary"><div class="math">
-\begin{equation*}
-\newcommand\ve[1]{\boldsymbol{#1}}
-\newcommand\sgn{\mathrm{sgn}}
-\end{equation*}
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-9.html">LPCの多段構成検証(9)</a></h2>
+                <div class="summary"><p>今日もデバッグを優先。8月中にはPython版と同様の状態に持っていきたい。
+分割時の挙動もしっかり合わせる必要がある。</p>
+<p>かなりバグが有った。インデックス端点とか。Python側にもcol2im(cmat2frame)にバグがあったりした。他にもL1ロスでの誤差逆伝播で入力サイズで割ってたのを見つけた。バッチサイズで割るべきで、除算は不要だった。学習がだいぶ遅くなっていたはず。
+ひとまず動くように見えるけどやっつけ感ある。明日テストケースを増やして確認。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-9.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-8.html">LPCの多段構成検証(8)</a></h2>
+                <div class="summary"><p>学会Done。英語力の低さがやはり響く。</p>
+<p>学習のC言語版実装を進めている。なんとなく動いているが、まだPython版と学習曲線が一致していない。一致するまでデバッグ。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-8.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-7.html">LPCの多段構成検証(7)</a></h2>
+                <div class="summary"><p>22はイベ。疲労か23は全く動けなかった。全く動けないのは問題。</p>
+<p>今日からC言語実装を試していく。まずは2層で様子見。分割の探索も試す。
+8月以内にはバックプロパゲーション学習も実装したい。</p>
+<p>分割の探索を導入したところ、当然というか、固定分割よりも向上（4分割固定だったのを可変にしたら0.8%向上。明らかによいので導入）</p>
+<p>1層目も可変分割にしたら僅かであるが確かに減る。というわけで全ての層で可変分割を入れる。</p>
+<p>層を重ねると予想外に減っていくことに気づく。メモしていく。</p>
+<table border="1" class="docutils">
+<caption>1層のパラメータが16のとき</caption>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>層数 \ 音源</td>
+<td>ワンツー</td>
+<td>SPARKLE</td>
+</tr>
+<tr><td>0(なし)</td>
+<td>80.85</td>
+<td>69.49</td>
+</tr>
+<tr><td>1</td>
+<td>73.03</td>
+<td>61.49</td>
+</tr>
+<tr><td>2</td>
+<td>71.51</td>
+<td>60.05</td>
+</tr>
+<tr><td>3</td>
+<td>71.20</td>
+<td>59.68</td>
+</tr>
+<tr><td>4</td>
+<td>71.04</td>
+<td>59.53</td>
+</tr>
+<tr><td>8 …</td></tr></tbody></table>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-7.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-6.html">LPCの多段構成検証(6)</a></h2>
+                <div class="summary"><p>これまでの結果をまとめることを試みる。いい加減グダグダ実験するのはやめ。</p>
+<ul class="simple">
+<li>パラメータ（LPC係数）は多いほうが低いロスを達成する<ul>
+<li>ロスの減少は頭打ちになるが、実用的な範囲（8192サンプルフレームに256パラメータまで）は下がり続ける</li>
+</ul>
+</li>
+<li>2層構成が最も低いロスを達成することが多かった<ul>
+<li>ただし、パラメータを各層に等しく振り分けた場合。</li>
+<li>パラメータを各層で変えた場合は、3層でよりよい構成が見つかる場合が多数あった。</li>
+</ul>
+</li>
+<li>1層目は分割しないほうがロスが小さい<ul>
+<li>はっきりとした傾向として出ている。</li>
+<li>これが何故良いのかはっきりと説明できない。以下に仮説を述べる。<ol class="arabic">
+<li>プリエンファシスで見たように相関を消せるから。またその相関を消すには長い区間で分析すべきだから。（正確な統計量を計算すべきだから）</li>
+<li>マルチスケールで分析できているから。分割しないで計算すると長区間の傾向を捉えることができる</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>2層目以降の分割は法則が見えない<ul>
+<li>分割時に見る波形に依存してパフォーマンスがブレるから</li>
+<li>これは適応的に定めるべきかと。分割数を変えて最も低いロスを出す構成を探すのが良い</li>
+</ul>
+</li>
+<li>学習はいつでも有効。学習率を上げすぎると発散する<ul>
+<li>Momentumで加速する。プラトーにもあんまりはまらない。単調に減っていく。</li>
+<li>初期値をLebinson-Durbin法で設定すると良い。ランダム初期値/ゼロ初期値よりも低いロスを達成していた。</li>
+</ul>
+</li>
+</ul>
+<p>で、コーデックにどう還元していくか。</p>
+<ul class="simple">
+<li>2層をベースに、2層目の適応分割をおこなって性能を見る。</li>
+<li>学習実装<ul>
+<li>学習による改善は少ないように思える。絶対値にして2~3の改善はどれくらい圧縮に効いてくるか不明…</li>
+<li>しかしLebinson-Durbin法によって設定するより確実によい係数が見つかっている。</li>
+</ul>
+</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-5.html">LPCの多段構成検証(5)</a></h2>
+                <div class="summary"><p>だいぶ副反応は楽になった。</p>
+<p>バラバラと実験している。。音源も少ないので客観的な結果が出てないかもしれないのがとても怖い。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-4.html">LPCの多段構成検証(4)</a></h2>
+                <div class="summary"><p>大体の傾向はつかめた。しかし実践で網羅探索するのはつらい。
+そこで、前から思っていた手法を試してみたい。</p>
+<ul class="simple">
+<li>浅い層から深い層に向けて分割数を変えてLevinson-Durbin法を実行して、誤差分散最小の分割数を選ぶ</li>
+<li>実装も楽にできるはず。</li>
+</ul>
+<p>ワクチン2回目打って体調が悪い！寒気が止まらん！</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-3.html">LPCの多段構成検証(3)</a></h2>
+                <div class="summary"><p>調査してみたら、やはり前日と同じ傾向。</p>
+<ul>
+<li><p class="first">16</p>
+<blockquote>
+<p>('[(8, 1), (8, 2)]', 0.004464827723304184)
+('[(8, 1), (8, 1)]', 0.004511942895091376)
+('[(8, 1), (8, 4)]', 0.004585848876812132)
+('[(8, 1), (8, 8)]', 0.004621162135462672)
+('[(8, 2), (8, 1)]', 0.00474587468751301)
+('[(16, 1)]', 0.004797777841798966)
+('[(8, 2), (8, 2)]', 0.005024862442518435)
+('[(16, 2)]', 0.0051091371014737865)
+('[(8, 2), (8 …</p></blockquote></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-2.html">LPCの多段構成検証(2)</a></h2>
+                <div class="summary"><p>実装に没頭してしまい、記録が疎かになっていた。8/13,14は実装していた。ほぼカサゴ本を参考に。
+しかし日〜月はライブとその後で放心状態になっていた。これからイベントラッシュなのでこの傾向は良くない。</p>
+<p>見えてきたことといえば、</p>
+<ul class="simple">
+<li>同一のパラメータ数では、分割しないほうがロス（L1ノルム）が低い</li>
+<li>次数を入力直後は大きくし、末尾に行くに従って小さくすると最もロスが低い<ul>
+<li>しかし学習が不安定になりやすい。</li>
+</ul>
+</li>
+<li>Levinson-Durbinで学習した状態から6くらいいロスが減る。平均絶対値でこれくらい減ってるから有益かも？でも負荷が気になる。</li>
+<li>オールゼロを初期値とするとLPCのロスまでたどり着かない</li>
+</ul>
+<p>Levinson-Durbinが大域最適値ではないことは見えてきたが、一方、初期値としては妥当っぽいので構成の評価には使える。</p>
+<p>今日は、どんな構成が一番良いのか評価したい。</p>
+<p>どうも以下の傾向があるようだ</p>
+<ul class="simple">
+<li>1段目は分割しない</li>
+<li>2段目は分割数を多くする</li>
+<li>それ以降はあまり法則見えず</li>
+</ul>
+<p>気になるのは次数を増やすのがよいか、層を深くするのが良いかという点。
+合計32次数でFixして調査すべきか。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-1.html">LPCの多段構成検証(1)</a></h2>
+                <div class="summary"><p>迷ったけど性能が高いし研究室のテーマに合致するのでテーマを変えるのがいいと思った。</p>
+<p>今やっているLPCの多段構成はResNetとの類似が指摘できる。F(x)がLPCの予測（に負号をとったもの）で、xと足すと残差が出力される。そして見ている区間を変えるのはストライド付きの畳み込みだ。</p>
+<div class="figure">
+<img alt="白板に書いたイメージ図" src="./images/LPC_NN.jpg" />
 </div>
-<p>Sign-Signアルゴリズムを導入する。良くなるのは以前からよくわかっているが、さてなんでというところに考えが至っていない。ここで見るだけ見ておきたい。</p>
-<p>「再考・適応アルゴリズム」を再びにらみながら考え中。考えてたら、Sign-Signアルゴリズムの評価関数が見えて、それを対数尤度と思ってFisher情報行列を計算したら、入力の符号の自己相関行列が出てきた。</p>
-<p>Sign-Signアルゴリズムの評価関数 <span class="math">\(J(\ve{h})\)</span> は、符号成分を入力したシステムの残差 <span class="math">\(\hat{e} = \ve{h}^{\ast\mathsf{T}} \sgn(\ve{x}) - \ve{h}^{\mathsf{T}} \sgn(\ve{x})\)</span> を使って</p>
-<div class="math">
-\begin{equation …</div>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></h2>
-                <div class="summary"><p>さて、今月から過ごし方を変えていく。</p>
+<p>これがすごいのが学習できるということ。最終層でL1ノルムとかエントロピーを損失に設定して微分してバックプロパゲーション学習する。何なら最小二乗誤差で学習してもいい。LPCは層ごとに学習している（制約ボルツマシンの単層学習に相当？）からより良い解が見つかる可能性がある。</p>
+<p>この構成は単純なLPCの組み合わせに過ぎないが性能がよい。時間がかかるのは学習（エンコード）のときだけだ。
+しかし、まだ整理できてないし既存研究があるかどうかも不定。学習は詰めて定式化しなければなるまい。</p>
+<p>ひとまず試すべきなのは、細かい分割から始めて荒くしていく方針はどうかというところ。以前試したが圧縮性能は良くなかった。今一度試してみる。</p>
+<p>最小分割単位を2048, 最大ブロックサイズを(2048*8)として、LPCの次数はすべて4とする。</p>
+<p>ワン・ツー・スゥイーツでは、</p>
 <ul class="simple">
-<li>午前: 情報幾何と群論（本進める）</li>
-<li>午後: 研究</li>
-<li>飯ピアノ後: リスニング, Rust, サマポケ</li>
-</ul>
-<p>さっそくバイトがあったので午前は予定通りではなかった。
-午後、まずはSAの次数を変えて様子を見てみる。帯域分割前と帯域分割後で変えた方が良いというのが直感。</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(4): 58.5%</li>
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(8) + CDF42を2段 + 各帯域でSA(4): 59.3%</li>
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(12) + CDF42を2段 + 各帯域でSA(4): 59.2%</li>
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(4 …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></h2>
-                <div class="summary"><p>帯域分割信号に対してSAを適用してどれくらい減るか様子を見る。こればかりはやってみないと分からない。</p>
-<p>試してみた概観。ブロックサイズは8192。</p>
-<ul class="simple">
-<li>MS変換: 89.4%</li>
-<li>MS変換 + SA適用: 72.4%</li>
-<li>MS変換 + CDF42の1段適用: 74.3%</li>
-<li>MS変換 + CDF42の2段適用: 71.72%</li>
-<li>MS変換 + CDF42の1段適用で両帯域にSA: 66.5%</li>
-<li>MS変換 + CDF42の2段適用で全帯域にSA: 66.4%</li>
-</ul>
-<p>うーん、パット見渋い。エントロピー見て符号が悪いかどうか判定する。</p>
-<ul class="simple">
-<li>MS変換 + CDF42の2段適用で全帯域にSA: で9.87[bit] -&gt; 61.69%</li>
-</ul>
-<p>だから、理論上FLACより悪い。。。符号というよりは残差のエントロピーがまだ高い。
-SAじゃ弱すぎるか。LPC使うか。。。</p>
-<p>悲しみに暮れていたが、MS変換の後ろにプリエンファシスを突っ込むと有意に改善。。。</p>
-<ul class="simple">
-<li>MS変換 + プリエンファシス: 76.7%</li>
-<li>MS変換 + プリエンファシス …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-1.html">リフティングの組み込み検証(1)</a></h2>
-                <div class="summary"><p>CDF42をC言語で実装してみた。懸念だった1ループによる実装もOK。想像通り。
-分散は確かに減っているからエントロピーも減っているはず。</p>
-<p>さて、もう符号化まで試してしまうべきか？
-ちょっと考えてたけど、やってしまおうと思う。
-今までのありあわせの符号化スキームを転用してやってみる。</p>
-<p>やっつけで超簡易コーデックを作った。風の巡る場所で試す。観察としては、</p>
-<ul class="simple">
-<li>何もしないで直接再帰的ライス符号を適用すると（元データ比）90%</li>
-<li>Haarの1段適用では84%, 2段適用で82.7%</li>
-<li>CDF22の1段適用では81%, 2段適用で79.0%</li>
-<li>CDF42を1段かませた場合76%<ul>
-<li>低域が42%</li>
-<li>高域が34%</li>
-</ul>
-</li>
-<li>CDF42を2段かませると75%<ul>
-<li>低域/低域が20%</li>
-<li>低域/高域が20%</li>
-<li>高域が34%</li>
-</ul>
-</li>
-<li>高域を分割すると悪化（77%くらい）</li>
-<li>flac(-8)は60.2%, WavPack(-hh)は59.1%</li>
-<li>ブロックサイズを4096から8192に上げると0.05%程度の減少。</li>
-</ul>
-<p>SAの導入はこれから、さてどれくらい減らせるだろうか。
-分割設定を変えながら見るべし。</p>
-<p>CDF(8,2 …</p>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-1.html">more ...</a>
+<li>(2048*8, 2048*4, 2048*2, 2048) の構成: 74.83% 係数全部8で71.89% (1024にしてもほぼ変わらず)</li>
+<li>(2048, 2048 …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-1.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -320,6 +341,8 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
                             href="/index20.html">20</a></li>
                     <li class=""><a
                             href="/index21.html">21</a></li>
+                    <li class=""><a
+                            href="/index22.html">22</a></li>
                 <li class="next"><a
                         href="/index2.html">&raquo;</a></li>
         </ul>
@@ -344,31 +367,55 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/resnet.html">ResNet</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
@@ -376,29 +423,29 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
@@ -407,43 +454,22 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
@@ -452,61 +478,61 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
       <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
   </ul>
 </li>

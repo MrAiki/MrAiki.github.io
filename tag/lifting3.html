@@ -84,6 +84,47 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-202118.html">戦略会議中2021(18)</a></h2>
+                <div class="summary"><p>ちょっと目的もなくふらふら見ている。。。どうするか方針が立たない。
+良いWavelet係数を学習適応するのはwavenetで微妙（できるけど、直交条件が崩れる）と分かったし、かといって出来合いのwaveletを使ってしまうと理論的な新しさがない。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/6658828">1857.2-2013 - IEEE Standard for Advanced Audio Coding</a><ul>
+<li>IEEE 1857.2 の公式文書</li>
+<li>Wavelet係数組の選定経緯は特に言及されてない。</li>
+</ul>
+</li>
+</ul>
+<p>ウェーブレット係数の比較で調べてみる。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://ieeexplore.ieee.org/document/785671">Performance evaluation of reversible integer-to-integer wavelet transforms for image compression</a><ul>
+<li>画像圧縮向けの整数Wavelet変換の比較。5/3(CDF(2,2))がリーズナブルといういう結論。</li>
+<li>音声はどうだろうか</li>
+</ul>
+</li>
+<li><a class="reference external" href="https://d-nb.info/97013312X/34">Lossless Wideband Audio Compression: Prediction and Transform</a><ul>
+<li>あやしい博論。6.6.2にて音声ロスレス圧縮の比較あり …</li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202118.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-202117.html">戦略会議中2021(17)</a></h2>
+                <div class="summary"><p>昨日試したリフティングの意味をぐるぐる考えていた。
+偶数成分と奇数成分で分けて、偶数（奇数）成分から奇数（偶数）成分を予測するとどうなるか。
+DPCMとは違った成分になるのは分かっていて、Haarと同じく低域と高域に分割することも分かっているつもりだけど、その意味とか、LPCやる価値はあるのかがすっきり来ない。</p>
+<p>リフティングを復習したくて <a class="reference external" href="https://www.jstage.jst.go.jp/article/jsiamt/28/2/28_72/_pdf/-char/ja">リフティングスキームによるウェーブレットの構成法</a> を流し読みした。多項式分解などの細かいところは追えないが、相当な良資料と思っている。任意の離散ウェーブレット変換はLiftingで表現できることを再度確認。証明はまだ追ってない。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.cpp.edu/~jskang/files/integer.pdf">WAVELET TRANSFORMS THAT MAP INTEGERS TO INTEGERS</a> 整数ウェーブレット変換について。整数liftingについても取り扱っている。各ウェーブレットでの画像に対するエントロピー比較あり。</li>
+<li><a class="reference external" href="https://www.researchgate.net/publication/221026663_Integer_wavelet_transforms_based_lossless_audio_compression">INTEGER WAVELET TRANSFORM BASED LOSSLESS AUDIO COMPRESSION</a> 1999年の。整数ウェーブレット変換したのをGolomb-Rice。<ul>
+<li>事前知識を排したいと言ってる。まさにそうだな</li>
+<li>試してみた取った感じのproceedings。ヒントがあるかもしれないのでガン見。</li>
+<li>DD(4,2)を使っている。理由は各帯域でゲインが同じだから？とのこと（？）</li>
+<li>お、Rice符号の最適条件を久々に見た。 <span class="math">\(\theta …</span></li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202117.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/zhan-lue-hui-yi-zhong-202116.html">戦略会議中2021(16)</a></h2>
                 <div class="summary"><p>Haarウェーブレット（lifting）で2分割して、それぞれにSAを適用してみた。
 分割しないでSAを実行するものと予測誤差を比較したところ、RMSの意味で悪化。
@@ -249,35 +290,6 @@ L2ノルムも半分になってるのはどうしてだ？パーセバルの等
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
-                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
-<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
-</ul>
-<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent …</script>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi2.html">論文読み(2)</a></h2>
-                <div class="summary"><p>今日でCBCの概要を掴んで、プロット、スライド作成に入りたい。
-Context-dependent bitplane coding in China AVS Audio あった。読んでる。なんとなくつかめたので、説明を試みたい。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/tag/lifting2.html">&laquo;</a>
@@ -314,31 +326,55 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/resnet.html">ResNet</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
@@ -346,29 +382,29 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
@@ -377,43 +413,22 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
@@ -422,61 +437,61 @@ Context-dependent bitplane coding in China AVS Audio あった。読んでる。
       <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
   </ul>
 </li>

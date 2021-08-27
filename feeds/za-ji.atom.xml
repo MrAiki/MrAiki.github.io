@@ -1,5 +1,474 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-08T17:30:00+09:00</updated><entry><title>リフティングの組み込み検証(10)</title><link href="/rihuteingunozu-miip-mijian-zheng-10.html" rel="alternate"></link><published>2021-08-08T10:00:00+09:00</published><updated>2021-08-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-08:/rihuteingunozu-miip-mijian-zheng-10.html</id><summary type="html">&lt;p&gt;最近はプリエンファシスばっかやってる。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-27T10:00:00+09:00</updated><entry><title>LPCの多段構成検証(10)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html" rel="alternate"></link><published>2021-08-27T10:00:00+09:00</published><updated>2021-08-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-27:/lpcnoduo-duan-gou-cheng-jian-zheng-10.html</id><content type="html">&lt;p&gt;もうすこしテスト追加して学習結果がPython版とおなじになるように。
+手元で確認した限りではOK。しっかし演算精度で差が出たのでfloatからdoubleに変えた。いつもどおり速度が問題になったらfloatにすれば良い。&lt;/p&gt;
+&lt;p&gt;ネットワークモジュールとトレーナーを追加した。
+あとはLebinson-Durvinによる適応的分割数決定やな。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(9)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-9.html" rel="alternate"></link><published>2021-08-26T10:00:00+09:00</published><updated>2021-08-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-26:/lpcnoduo-duan-gou-cheng-jian-zheng-9.html</id><content type="html">&lt;p&gt;今日もデバッグを優先。8月中にはPython版と同様の状態に持っていきたい。
+分割時の挙動もしっかり合わせる必要がある。&lt;/p&gt;
+&lt;p&gt;かなりバグが有った。インデックス端点とか。Python側にもcol2im(cmat2frame)にバグがあったりした。他にもL1ロスでの誤差逆伝播で入力サイズで割ってたのを見つけた。バッチサイズで割るべきで、除算は不要だった。学習がだいぶ遅くなっていたはず。
+ひとまず動くように見えるけどやっつけ感ある。明日テストケースを増やして確認。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(8)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-8.html" rel="alternate"></link><published>2021-08-25T10:00:00+09:00</published><updated>2021-08-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-25:/lpcnoduo-duan-gou-cheng-jian-zheng-8.html</id><content type="html">&lt;p&gt;学会Done。英語力の低さがやはり響く。&lt;/p&gt;
+&lt;p&gt;学習のC言語版実装を進めている。なんとなく動いているが、まだPython版と学習曲線が一致していない。一致するまでデバッグ。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(7)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-7.html" rel="alternate"></link><published>2021-08-24T10:00:00+09:00</published><updated>2021-08-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-24:/lpcnoduo-duan-gou-cheng-jian-zheng-7.html</id><summary type="html">&lt;p&gt;22はイベ。疲労か23は全く動けなかった。全く動けないのは問題。&lt;/p&gt;
+&lt;p&gt;今日からC言語実装を試していく。まずは2層で様子見。分割の探索も試す。
+8月以内にはバックプロパゲーション学習も実装したい。&lt;/p&gt;
+&lt;p&gt;分割の探索を導入したところ、当然というか、固定分割よりも向上（4分割固定だったのを可変にしたら0.8%向上。明らかによいので導入）&lt;/p&gt;
+&lt;p&gt;1層目も可変分割にしたら僅かであるが確かに減る。というわけで全ての層で可変分割を入れる。&lt;/p&gt;
+&lt;p&gt;層を重ねると予想外に減っていくことに気づく。メモしていく。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;1層のパラメータが16のとき&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="33%" /&gt;
+&lt;col width="33%" /&gt;
+&lt;col width="33%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;層数 \ 音源&lt;/td&gt;
+&lt;td&gt;ワンツー&lt;/td&gt;
+&lt;td&gt;SPARKLE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;0(なし)&lt;/td&gt;
+&lt;td&gt;80.85&lt;/td&gt;
+&lt;td&gt;69.49&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;73.03&lt;/td&gt;
+&lt;td&gt;61.49&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;71.51&lt;/td&gt;
+&lt;td&gt;60.05&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;71.20&lt;/td&gt;
+&lt;td&gt;59.68&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;71.04&lt;/td&gt;
+&lt;td&gt;59.53&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;8 …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</summary><content type="html">&lt;p&gt;22はイベ。疲労か23は全く動けなかった。全く動けないのは問題。&lt;/p&gt;
+&lt;p&gt;今日からC言語実装を試していく。まずは2層で様子見。分割の探索も試す。
+8月以内にはバックプロパゲーション学習も実装したい。&lt;/p&gt;
+&lt;p&gt;分割の探索を導入したところ、当然というか、固定分割よりも向上（4分割固定だったのを可変にしたら0.8%向上。明らかによいので導入）&lt;/p&gt;
+&lt;p&gt;1層目も可変分割にしたら僅かであるが確かに減る。というわけで全ての層で可変分割を入れる。&lt;/p&gt;
+&lt;p&gt;層を重ねると予想外に減っていくことに気づく。メモしていく。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;1層のパラメータが16のとき&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="33%" /&gt;
+&lt;col width="33%" /&gt;
+&lt;col width="33%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;層数 \ 音源&lt;/td&gt;
+&lt;td&gt;ワンツー&lt;/td&gt;
+&lt;td&gt;SPARKLE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;0(なし)&lt;/td&gt;
+&lt;td&gt;80.85&lt;/td&gt;
+&lt;td&gt;69.49&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;73.03&lt;/td&gt;
+&lt;td&gt;61.49&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;71.51&lt;/td&gt;
+&lt;td&gt;60.05&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;71.20&lt;/td&gt;
+&lt;td&gt;59.68&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;71.04&lt;/td&gt;
+&lt;td&gt;59.53&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;70.79&lt;/td&gt;
+&lt;td&gt;59.38&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;1層のパラメータが32のとき&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="33%" /&gt;
+&lt;col width="33%" /&gt;
+&lt;col width="33%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;層数 \ 音源&lt;/td&gt;
+&lt;td&gt;ワンツー&lt;/td&gt;
+&lt;td&gt;SPARKLE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;0(なし)&lt;/td&gt;
+&lt;td&gt;80.85&lt;/td&gt;
+&lt;td&gt;69.49&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;72.68&lt;/td&gt;
+&lt;td&gt;61.15&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;71.00&lt;/td&gt;
+&lt;td&gt;59.65&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;70.69&lt;/td&gt;
+&lt;td&gt;59.29&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;70.53&lt;/td&gt;
+&lt;td&gt;59.15&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;70.20&lt;/td&gt;
+&lt;td&gt;59.01&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;層を増やしても圧縮率は単調減少。&lt;ul&gt;
+&lt;li&gt;直感的にも層ごとに二乗誤差最小化しているので増えることは無いのは分かる。&lt;/li&gt;
+&lt;li&gt;減り方は頭打ち。1層-&amp;gt;2層が最も意義があり、1.5%改善する。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;層構造の前に次数低め(4, 8)のLPC予測を分割せず突っ込むと0.2%~0.3%ほど改善&lt;ul&gt;
+&lt;li&gt;擬似的に分割のない1層目が実現できているからと思われる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;あとはパラメータをこねくり回すだけになるので、引き続き学習を実装しよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(6)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-6.html" rel="alternate"></link><published>2021-08-21T10:00:00+09:00</published><updated>2021-08-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-21:/lpcnoduo-duan-gou-cheng-jian-zheng-6.html</id><content type="html">&lt;p&gt;これまでの結果をまとめることを試みる。いい加減グダグダ実験するのはやめ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;パラメータ（LPC係数）は多いほうが低いロスを達成する&lt;ul&gt;
+&lt;li&gt;ロスの減少は頭打ちになるが、実用的な範囲（8192サンプルフレームに256パラメータまで）は下がり続ける&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2層構成が最も低いロスを達成することが多かった&lt;ul&gt;
+&lt;li&gt;ただし、パラメータを各層に等しく振り分けた場合。&lt;/li&gt;
+&lt;li&gt;パラメータを各層で変えた場合は、3層でよりよい構成が見つかる場合が多数あった。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1層目は分割しないほうがロスが小さい&lt;ul&gt;
+&lt;li&gt;はっきりとした傾向として出ている。&lt;/li&gt;
+&lt;li&gt;これが何故良いのかはっきりと説明できない。以下に仮説を述べる。&lt;ol class="arabic"&gt;
+&lt;li&gt;プリエンファシスで見たように相関を消せるから。またその相関を消すには長い区間で分析すべきだから。（正確な統計量を計算すべきだから）&lt;/li&gt;
+&lt;li&gt;マルチスケールで分析できているから。分割しないで計算すると長区間の傾向を捉えることができる&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;2層目以降の分割は法則が見えない&lt;ul&gt;
+&lt;li&gt;分割時に見る波形に依存してパフォーマンスがブレるから&lt;/li&gt;
+&lt;li&gt;これは適応的に定めるべきかと。分割数を変えて最も低いロスを出す構成を探すのが良い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;学習はいつでも有効。学習率を上げすぎると発散する&lt;ul&gt;
+&lt;li&gt;Momentumで加速する。プラトーにもあんまりはまらない。単調に減っていく。&lt;/li&gt;
+&lt;li&gt;初期値をLebinson-Durbin法で設定すると良い。ランダム初期値/ゼロ初期値よりも低いロスを達成していた。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;で、コーデックにどう還元していくか。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;2層をベースに、2層目の適応分割をおこなって性能を見る。&lt;/li&gt;
+&lt;li&gt;学習実装&lt;ul&gt;
+&lt;li&gt;学習による改善は少ないように思える。絶対値にして2~3の改善はどれくらい圧縮に効いてくるか不明…&lt;/li&gt;
+&lt;li&gt;しかしLebinson-Durbin法によって設定するより確実によい係数が見つかっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(5)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-5.html" rel="alternate"></link><published>2021-08-20T10:00:00+09:00</published><updated>2021-08-20T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-20:/lpcnoduo-duan-gou-cheng-jian-zheng-5.html</id><content type="html">&lt;p&gt;だいぶ副反応は楽になった。&lt;/p&gt;
+&lt;p&gt;バラバラと実験している。。音源も少ないので客観的な結果が出てないかもしれないのがとても怖い。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(4)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-4.html" rel="alternate"></link><published>2021-08-19T10:00:00+09:00</published><updated>2021-08-19T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-19:/lpcnoduo-duan-gou-cheng-jian-zheng-4.html</id><content type="html">&lt;p&gt;大体の傾向はつかめた。しかし実践で網羅探索するのはつらい。
+そこで、前から思っていた手法を試してみたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;浅い層から深い層に向けて分割数を変えてLevinson-Durbin法を実行して、誤差分散最小の分割数を選ぶ&lt;/li&gt;
+&lt;li&gt;実装も楽にできるはず。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ワクチン2回目打って体調が悪い！寒気が止まらん！&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(3)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-3.html" rel="alternate"></link><published>2021-08-18T10:00:00+09:00</published><updated>2021-08-18T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-18:/lpcnoduo-duan-gou-cheng-jian-zheng-3.html</id><summary type="html">&lt;p&gt;調査してみたら、やはり前日と同じ傾向。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;16&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;('[(8, 1), (8, 2)]', 0.004464827723304184)
+('[(8, 1), (8, 1)]', 0.004511942895091376)
+('[(8, 1), (8, 4)]', 0.004585848876812132)
+('[(8, 1), (8, 8)]', 0.004621162135462672)
+('[(8, 2), (8, 1)]', 0.00474587468751301)
+('[(16, 1)]', 0.004797777841798966)
+('[(8, 2), (8, 2)]', 0.005024862442518435)
+('[(16, 2)]', 0.0051091371014737865)
+('[(8, 2), (8 …&lt;/p&gt;&lt;/blockquote&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;調査してみたら、やはり前日と同じ傾向。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;16&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;('[(8, 1), (8, 2)]', 0.004464827723304184)
+('[(8, 1), (8, 1)]', 0.004511942895091376)
+('[(8, 1), (8, 4)]', 0.004585848876812132)
+('[(8, 1), (8, 8)]', 0.004621162135462672)
+('[(8, 2), (8, 1)]', 0.00474587468751301)
+('[(16, 1)]', 0.004797777841798966)
+('[(8, 2), (8, 2)]', 0.005024862442518435)
+('[(16, 2)]', 0.0051091371014737865)
+('[(8, 2), (8, 4)]', 0.005357035338875968)
+('[(8, 4), (8, 1)]', 0.005369198865788604)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;32&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;('[(8, 1), (16, 4), (8, 1)]', 0.004193440403001765)
+('[(8, 1), (16, 8), (8, 1)]', 0.004198748182943823)
+('[(8, 1), (16, 2), (8, 8)]', 0.0042179607825672824)
+('[(8, 1), (8, 4), (16, 2)]', 0.004219042849385237)
+('[(8, 1), (16, 8), (8, 2)]', 0.0042271081205968635)
+('[(8, 1), (8, 8), (16, 4)]', 0.004227474822867072)
+('[(8, 1), (8, 1), (16, 4)]', 0.004232727332568911)
+('[(8, 1), (8, 4), (8, 8), (8, 1)]', 0.004238654463289194)
+('[(16, 1), (16, 4)]', 0.004239532857106851)
+('[(8, 1), (8, 4), (8, 2), (8, 1)]', 0.004241416904835525)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;64&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;('[(32, 1), (16, 8), (16, 2)]', 0.003914014978180023)
+('[(32, 1), (32, 4)]', 0.003916940916529179)
+('[(32, 1), (8, 8), (16, 4), (8, 1)]', 0.003927724967759615)
+('[(32, 1), (16, 8), (8, 2), (8, 1)]', 0.003929616594921038)
+('[(32, 1), (16, 8), (8, 1), (8, 2)]', 0.003941842588266561)
+('[(32, 1), (16, 4), (8, 8), (8, 1)]', 0.003942065244126739)
+('[(32, 1), (16, 4), (8, 1), (8, 8)]', 0.003942362549652674)
+('[(32, 1), (8, 2), (16, 8), (8, 1)]', 0.003947254766650566)
+('[(32, 1), (8, 4), (16, 2), (8, 8)]', 0.003954088359130106)
+('[(32, 1), (16, 4), (16, 2)]', 0.0039544232569613084)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;96&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;('[(64, 1), (32, 4)]', 0.0036990251119209)
+('[(64, 1), (16, 8), (16, 2)]', 0.0037016600715085324)
+('[(64, 1), (16, 8), (8, 2), (8, 1)]', 0.0037156882096881583)
+('[(64, 1), (8, 8), (16, 4), (8, 1)]', 0.003717281269845087)
+('[(8, 1), (8, 8), (16, 4), (64, 1)]', 0.0037240095186138623)
+('[(64, 1), (16, 8), (8, 1), (8, 2)]', 0.0037245477708627195)
+('[(8, 1), (16, 8), (64, 1), (8, 2)]', 0.003727027030949939)
+('[(8, 1), (16, 8), (8, 2), (64, 1)]', 0.003727921779451059)
+('[(64, 1), (16, 4), (8, 1), (8, 8)]', 0.0037290389284781963)
+('[(8, 1), (16, 4), (64, 1), (8, 8)]', 0.0037291228854336414)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;128&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;('[(64, 1), (64, 8)]', 0.0035595342792548975)
+('[(64, 1), (32, 8), (32, 4)]', 0.0035857287584252565)
+('[(64, 1), (32, 4), (32, 8)]', 0.0035918334574457068)
+('[(64, 1), (16, 8), (32, 8), (16, 2)]', 0.0036013132060243092)
+('[(64, 1), (16, 8), (32, 4), (16, 1)]', 0.003604358199604862)
+('[(16, 1), (16, 8), (64, 1), (32, 4)]', 0.0036052681630675773)
+('[(16, 1), (64, 1), (16, 8), (32, 4)]', 0.0036059253610609423)
+('[(64, 1), (16, 8), (16, 1), (32, 4)]', 0.003606505587211954)
+('[(64, 1), (16, 1), (16, 8), (32, 4)]', 0.0036074719356301247)
+('[(64, 1), (16, 8), (16, 8), (32, 4)]', 0.003609187475720838)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;一般的に言えそうなことは&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;4層構成で有効な構成はなかった
+- かといって1層構成は上位に表れない。多層にする意味はある。&lt;/li&gt;
+&lt;li&gt;やはり1段目は1分割&lt;/li&gt;
+&lt;li&gt;2段目は分割数多めに&lt;/li&gt;
+&lt;li&gt;3段目以降は少なく&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(2)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-2.html" rel="alternate"></link><published>2021-08-17T10:00:00+09:00</published><updated>2021-08-17T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-17:/lpcnoduo-duan-gou-cheng-jian-zheng-2.html</id><content type="html">&lt;p&gt;実装に没頭してしまい、記録が疎かになっていた。8/13,14は実装していた。ほぼカサゴ本を参考に。
+しかし日〜月はライブとその後で放心状態になっていた。これからイベントラッシュなのでこの傾向は良くない。&lt;/p&gt;
+&lt;p&gt;見えてきたことといえば、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;同一のパラメータ数では、分割しないほうがロス（L1ノルム）が低い&lt;/li&gt;
+&lt;li&gt;次数を入力直後は大きくし、末尾に行くに従って小さくすると最もロスが低い&lt;ul&gt;
+&lt;li&gt;しかし学習が不安定になりやすい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Levinson-Durbinで学習した状態から6くらいいロスが減る。平均絶対値でこれくらい減ってるから有益かも？でも負荷が気になる。&lt;/li&gt;
+&lt;li&gt;オールゼロを初期値とするとLPCのロスまでたどり着かない&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Levinson-Durbinが大域最適値ではないことは見えてきたが、一方、初期値としては妥当っぽいので構成の評価には使える。&lt;/p&gt;
+&lt;p&gt;今日は、どんな構成が一番良いのか評価したい。&lt;/p&gt;
+&lt;p&gt;どうも以下の傾向があるようだ&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;1段目は分割しない&lt;/li&gt;
+&lt;li&gt;2段目は分割数を多くする&lt;/li&gt;
+&lt;li&gt;それ以降はあまり法則見えず&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;気になるのは次数を増やすのがよいか、層を深くするのが良いかという点。
+合計32次数でFixして調査すべきか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(1)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-1.html" rel="alternate"></link><published>2021-08-11T10:00:00+09:00</published><updated>2021-08-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-11:/lpcnoduo-duan-gou-cheng-jian-zheng-1.html</id><summary type="html">&lt;p&gt;迷ったけど性能が高いし研究室のテーマに合致するのでテーマを変えるのがいいと思った。&lt;/p&gt;
+&lt;p&gt;今やっているLPCの多段構成はResNetとの類似が指摘できる。F(x)がLPCの予測（に負号をとったもの）で、xと足すと残差が出力される。そして見ている区間を変えるのはストライド付きの畳み込みだ。&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="白板に書いたイメージ図" src="./images/LPC_NN.jpg" /&gt;
+&lt;/div&gt;
+&lt;p&gt;これがすごいのが学習できるということ。最終層でL1ノルムとかエントロピーを損失に設定して微分してバックプロパゲーション学習する。何なら最小二乗誤差で学習してもいい。LPCは層ごとに学習している（制約ボルツマシンの単層学習に相当？）からより良い解が見つかる可能性がある。&lt;/p&gt;
+&lt;p&gt;この構成は単純なLPCの組み合わせに過ぎないが性能がよい。時間がかかるのは学習（エンコード）のときだけだ。
+しかし、まだ整理できてないし既存研究があるかどうかも不定。学習は詰めて定式化しなければなるまい。&lt;/p&gt;
+&lt;p&gt;ひとまず試すべきなのは、細かい分割から始めて荒くしていく方針はどうかというところ。以前試したが圧縮性能は良くなかった。今一度試してみる。&lt;/p&gt;
+&lt;p&gt;最小分割単位を2048, 最大ブロックサイズを(2048*8)として、LPCの次数はすべて4とする。&lt;/p&gt;
+&lt;p&gt;ワン・ツー・スゥイーツでは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;(2048*8, 2048*4, 2048*2, 2048) の構成: 74.83% 係数全部8で71.89% (1024にしてもほぼ変わらず)&lt;/li&gt;
+&lt;li&gt;(2048, 2048 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;迷ったけど性能が高いし研究室のテーマに合致するのでテーマを変えるのがいいと思った。&lt;/p&gt;
+&lt;p&gt;今やっているLPCの多段構成はResNetとの類似が指摘できる。F(x)がLPCの予測（に負号をとったもの）で、xと足すと残差が出力される。そして見ている区間を変えるのはストライド付きの畳み込みだ。&lt;/p&gt;
+&lt;div class="figure"&gt;
+&lt;img alt="白板に書いたイメージ図" src="./images/LPC_NN.jpg" /&gt;
+&lt;/div&gt;
+&lt;p&gt;これがすごいのが学習できるということ。最終層でL1ノルムとかエントロピーを損失に設定して微分してバックプロパゲーション学習する。何なら最小二乗誤差で学習してもいい。LPCは層ごとに学習している（制約ボルツマシンの単層学習に相当？）からより良い解が見つかる可能性がある。&lt;/p&gt;
+&lt;p&gt;この構成は単純なLPCの組み合わせに過ぎないが性能がよい。時間がかかるのは学習（エンコード）のときだけだ。
+しかし、まだ整理できてないし既存研究があるかどうかも不定。学習は詰めて定式化しなければなるまい。&lt;/p&gt;
+&lt;p&gt;ひとまず試すべきなのは、細かい分割から始めて荒くしていく方針はどうかというところ。以前試したが圧縮性能は良くなかった。今一度試してみる。&lt;/p&gt;
+&lt;p&gt;最小分割単位を2048, 最大ブロックサイズを(2048*8)として、LPCの次数はすべて4とする。&lt;/p&gt;
+&lt;p&gt;ワン・ツー・スゥイーツでは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;(2048*8, 2048*4, 2048*2, 2048) の構成: 74.83% 係数全部8で71.89% (1024にしてもほぼ変わらず)&lt;/li&gt;
+&lt;li&gt;(2048, 2048*2, 2048*4, 2048*8) の構成: 75.13% 係数全部8で74.50%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;SPARKLEでは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;(2048*8, 2048*4, 2048*2, 2048): 62.60% 係数次数全部8で60.15% (1024にしてもほぼ変わらず)&lt;/li&gt;
+&lt;li&gt;(2048, 2048*2, 2048*4, 2048*8): 63.74% 係数次数全部8で63.54%&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;荒い方から始めて順に細かくしていった方が明らかに良い。&lt;/p&gt;
+&lt;p&gt;ソースを切り出して、学習則を具体的に導くことを考える。&lt;/p&gt;
+&lt;div class="section" id="todo"&gt;
+&lt;h2&gt;TODO&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;学習則（バックプロパゲーション）の検討・導出&lt;/li&gt;
+&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
+&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;所感&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>リフティングの組み込み検証(12)</title><link href="/rihuteingunozu-miip-mijian-zheng-12.html" rel="alternate"></link><published>2021-08-10T10:00:00+09:00</published><updated>2021-08-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-10:/rihuteingunozu-miip-mijian-zheng-12.html</id><summary type="html">&lt;p&gt;CDF22の性能が良いことをうけて、CDF22の端点対応をする。
+うーん、端点0次ホールドしたほうが圧縮率がほんの僅かに悪い。実装間違いを疑いつつコミット。&lt;/p&gt;
+&lt;p&gt;再び残差に注目した。まだ残差波形に対してflacをかけるとかなり小さくなる。これはやはりまだパス数を増やすべきという示唆だと思っている。&lt;/p&gt;
+&lt;p&gt;そして次は3パス（サブブロックのサイズを2倍, 4倍, ...と変える）を試してみた。するとまた劇的な減少が見られた。。。。LPCを連結するのではなく、ブロックサイズを変えて適用していくとかなりの効果が見られている。。。&lt;/p&gt;
+&lt;p&gt;さらにブロック内での分割数を増やしていくと、どんどん圧縮率が上がっていく。今まで見たような、連結や次数上げによる圧縮率上昇とは違ったレベルで、次数の影響を受けずに上がっていく。。。少なくとも、ワン・ツー・スゥイーツではtakのp4を超えたかもしれない。残差をflac(-8)で圧縮してももう小さくならない。&lt;/p&gt;
+&lt;p&gt;冷静になって見たいが、何故これが起きてるのか説明できない。スケールを変えることがなにか本質的に効いている？&lt;/p&gt;
+&lt;p&gt;もはや、リフティングによる分割+SSによる帯域別適応が可愛く見えるレベルで効いているように見受けられる。→そのとおりで、リフティング+SSは0.1%程度のゲインでしか無い…。&lt;/p&gt;
+&lt;p&gt;どうしよう。もうウェーブレットとか関係なくて、LPCの連打で高圧縮率を達成してしまっている。しかもLPCだから逆も早いのが分かっている。段階的に残差分散を減らすのがかなり効いているが、なぜうまくいっているか。裏付けが取れないのがすごい厳しい。&lt;/p&gt;
+&lt;p&gt;気になるのは係数記録サイズ。ネストするとそのノード数だけ係数を用意しなければならない。特に一番下段では次数を上げると圧縮率の向上度合いが良いが、大量の係数が必要になる …&lt;/p&gt;</summary><content type="html">&lt;p&gt;CDF22の性能が良いことをうけて、CDF22の端点対応をする。
+うーん、端点0次ホールドしたほうが圧縮率がほんの僅かに悪い。実装間違いを疑いつつコミット。&lt;/p&gt;
+&lt;p&gt;再び残差に注目した。まだ残差波形に対してflacをかけるとかなり小さくなる。これはやはりまだパス数を増やすべきという示唆だと思っている。&lt;/p&gt;
+&lt;p&gt;そして次は3パス（サブブロックのサイズを2倍, 4倍, ...と変える）を試してみた。するとまた劇的な減少が見られた。。。。LPCを連結するのではなく、ブロックサイズを変えて適用していくとかなりの効果が見られている。。。&lt;/p&gt;
+&lt;p&gt;さらにブロック内での分割数を増やしていくと、どんどん圧縮率が上がっていく。今まで見たような、連結や次数上げによる圧縮率上昇とは違ったレベルで、次数の影響を受けずに上がっていく。。。少なくとも、ワン・ツー・スゥイーツではtakのp4を超えたかもしれない。残差をflac(-8)で圧縮してももう小さくならない。&lt;/p&gt;
+&lt;p&gt;冷静になって見たいが、何故これが起きてるのか説明できない。スケールを変えることがなにか本質的に効いている？&lt;/p&gt;
+&lt;p&gt;もはや、リフティングによる分割+SSによる帯域別適応が可愛く見えるレベルで効いているように見受けられる。→そのとおりで、リフティング+SSは0.1%程度のゲインでしか無い…。&lt;/p&gt;
+&lt;p&gt;どうしよう。もうウェーブレットとか関係なくて、LPCの連打で高圧縮率を達成してしまっている。しかもLPCだから逆も早いのが分かっている。段階的に残差分散を減らすのがかなり効いているが、なぜうまくいっているか。裏付けが取れないのがすごい厳しい。&lt;/p&gt;
+&lt;p&gt;気になるのは係数記録サイズ。ネストするとそのノード数だけ係数を用意しなければならない。特に一番下段では次数を上げると圧縮率の向上度合いが良いが、大量の係数が必要になる。。嬉しいことには、LPC係数のビット幅を6bitとかに設定しても &lt;strong&gt;あまり圧縮性能が悪化しない&lt;/strong&gt; ことを確認している。困ったら昔手を付けたPARCOR係数の量子化が効く可能性を考えている。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(11)</title><link href="/rihuteingunozu-miip-mijian-zheng-11.html" rel="alternate"></link><published>2021-08-09T10:00:00+09:00</published><updated>2021-08-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-09:/rihuteingunozu-miip-mijian-zheng-11.html</id><summary type="html">&lt;p&gt;プリエンファシスの評価をする。1次相関除去がよいのか、分散除去がよいのか、それとも組み合わせが良いのか？&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシスx2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;のモデルで、最適プリエンファシスの次数を(1回目, 2回目)として調べる。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;最適プリエンファシスの組み合わせと圧縮率&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;楽曲 \ 手法&lt;/td&gt;
+&lt;td&gt;(0, 0)&lt;/td&gt;
+&lt;td&gt;(0, 1)&lt;/td&gt;
+&lt;td&gt;(1, 0)&lt;/td&gt;
+&lt;td&gt;(1, 1)&lt;/td&gt;
+&lt;td&gt;(0, -)&lt;/td&gt;
+&lt;td&gt;何もしない&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;kanonop&lt;/td&gt;
+&lt;td&gt;55.01&lt;/td&gt;
+&lt;td&gt;54.98&lt;/td&gt;
+&lt;td&gt;54.94&lt;/td&gt;
+&lt;td&gt;54.91&lt;/td&gt;
+&lt;td&gt;55.14&lt;/td&gt;
+&lt;td&gt;55.44&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ワン・ツー・スゥイーツ&lt;/td&gt;
+&lt;td&gt;73 …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</summary><content type="html">&lt;p&gt;プリエンファシスの評価をする。1次相関除去がよいのか、分散除去がよいのか、それとも組み合わせが良いのか？&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;MS変換 + 最適プリエンファシスx2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;のモデルで、最適プリエンファシスの次数を(1回目, 2回目)として調べる。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;最適プリエンファシスの組み合わせと圧縮率&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;col width="14%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;楽曲 \ 手法&lt;/td&gt;
+&lt;td&gt;(0, 0)&lt;/td&gt;
+&lt;td&gt;(0, 1)&lt;/td&gt;
+&lt;td&gt;(1, 0)&lt;/td&gt;
+&lt;td&gt;(1, 1)&lt;/td&gt;
+&lt;td&gt;(0, -)&lt;/td&gt;
+&lt;td&gt;何もしない&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;kanonop&lt;/td&gt;
+&lt;td&gt;55.01&lt;/td&gt;
+&lt;td&gt;54.98&lt;/td&gt;
+&lt;td&gt;54.94&lt;/td&gt;
+&lt;td&gt;54.91&lt;/td&gt;
+&lt;td&gt;55.14&lt;/td&gt;
+&lt;td&gt;55.44&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;ワン・ツー・スゥイーツ&lt;/td&gt;
+&lt;td&gt;73.43&lt;/td&gt;
+&lt;td&gt;73.43&lt;/td&gt;
+&lt;td&gt;73.45&lt;/td&gt;
+&lt;td&gt;73.46&lt;/td&gt;
+&lt;td&gt;73.56&lt;/td&gt;
+&lt;td&gt;73.85&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;SPARKLE&lt;/td&gt;
+&lt;td&gt;61.22&lt;/td&gt;
+&lt;td&gt;61.37&lt;/td&gt;
+&lt;td&gt;61.24&lt;/td&gt;
+&lt;td&gt;61.33&lt;/td&gt;
+&lt;td&gt;61.22&lt;/td&gt;
+&lt;td&gt;61.47&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;クラシック(RWC先頭)&lt;/td&gt;
+&lt;td&gt;42.46&lt;/td&gt;
+&lt;td&gt;42.60&lt;/td&gt;
+&lt;td&gt;42.46&lt;/td&gt;
+&lt;td&gt;42.61&lt;/td&gt;
+&lt;td&gt;42.28&lt;/td&gt;
+&lt;td&gt;42.40&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;ちゃんとしたCD音源（ロスのない音源）で分散減らしが有効である示唆。そして2連続も怪しいことが分かってきた。1次相関の除去はkanon音源だけで有効だったということで、これからは分散減らしをメインに据えていく。&lt;/p&gt;
+&lt;p&gt;クラシック音源に対してLPCの次数上げがあんまり効いてないことを確認したあたりで、急に集中力がきれてくたばってしまった。&lt;/p&gt;
+&lt;p&gt;残りは構成再検討くらいしか無いと思っている。&lt;/p&gt;
+&lt;p&gt;CDF42をCDF22に入れ替えたらkanonop &lt;strong&gt;以外&lt;/strong&gt; が軒並み0.4%くらい改善したので、リフティングも含めて検討すべきだし、CDF22の端点も丁寧にしておきたい。残差を見ると、CDF42はCDF22に比べ低域の分散は小さいが、高域がかなり暴れている印象。帯域ロスなくフルに入っている音源は高域成分が残ってしまうということか。CDFは高域の成分が低域に漏れ出ているのであまりひどいことになっていないのかという想像。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Wavelet"></category><category term="Lifting"></category></entry><entry><title>リフティングの組み込み検証(10)</title><link href="/rihuteingunozu-miip-mijian-zheng-10.html" rel="alternate"></link><published>2021-08-08T10:00:00+09:00</published><updated>2021-08-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-08:/rihuteingunozu-miip-mijian-zheng-10.html</id><summary type="html">&lt;p&gt;最近はプリエンファシスばっかやってる。&lt;/p&gt;
 &lt;p&gt;昨日の議論の一般化をしようとして、まず2次フィルタを使って1次の相関を消す場合を考えて導いたが、以下の難点があるのでスルー。&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;解が複雑になる&lt;/li&gt;
@@ -39,21 +508,6 @@ a &amp;amp;= \frac{(\rho_{k+1} + \rho_{k-1}) \pm \sqrt{(\rho_{k+1} + \rho_{k-1})
 &lt;/ul&gt;
 &lt;p&gt;プリエンファシス次の右シフト量を落とすと性能改善の傾向あり。あんまり精度がいらないということ？
 1次相関除去が他の音源でも有効なのか検証必要あり。→うーん、ワン・ツー・スゥイーツとSPARKLEで1次相関より分散減らしのほうが良かった。。&lt;/p&gt;
-&lt;div class="section" id="todo"&gt;
-&lt;h2&gt;TODO&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;本当に分散を減らすよりも1次相関除去の方がよいのか調査&lt;/li&gt;
-&lt;li&gt;構成再検討、比較wav追加&lt;/li&gt;
-&lt;li&gt;Sign-Signアルゴリズムの自然勾配考察&lt;/li&gt;
-&lt;li&gt;NGSA突っ込んでみる&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;所感&lt;/h2&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;.cal(lossless audio codecの逆) いいな。カレンダーガールに掛けて&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 &lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
     var align = "center",
         indent = "0em",

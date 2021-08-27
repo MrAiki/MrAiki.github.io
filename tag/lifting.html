@@ -84,6 +84,62 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-12.html">リフティングの組み込み検証(12)</a></h2>
+                <div class="summary"><p>CDF22の性能が良いことをうけて、CDF22の端点対応をする。
+うーん、端点0次ホールドしたほうが圧縮率がほんの僅かに悪い。実装間違いを疑いつつコミット。</p>
+<p>再び残差に注目した。まだ残差波形に対してflacをかけるとかなり小さくなる。これはやはりまだパス数を増やすべきという示唆だと思っている。</p>
+<p>そして次は3パス（サブブロックのサイズを2倍, 4倍, ...と変える）を試してみた。するとまた劇的な減少が見られた。。。。LPCを連結するのではなく、ブロックサイズを変えて適用していくとかなりの効果が見られている。。。</p>
+<p>さらにブロック内での分割数を増やしていくと、どんどん圧縮率が上がっていく。今まで見たような、連結や次数上げによる圧縮率上昇とは違ったレベルで、次数の影響を受けずに上がっていく。。。少なくとも、ワン・ツー・スゥイーツではtakのp4を超えたかもしれない。残差をflac(-8)で圧縮してももう小さくならない。</p>
+<p>冷静になって見たいが、何故これが起きてるのか説明できない。スケールを変えることがなにか本質的に効いている？</p>
+<p>もはや、リフティングによる分割+SSによる帯域別適応が可愛く見えるレベルで効いているように見受けられる。→そのとおりで、リフティング+SSは0.1%程度のゲインでしか無い…。</p>
+<p>どうしよう。もうウェーブレットとか関係なくて、LPCの連打で高圧縮率を達成してしまっている。しかもLPCだから逆も早いのが分かっている。段階的に残差分散を減らすのがかなり効いているが、なぜうまくいっているか。裏付けが取れないのがすごい厳しい。</p>
+<p>気になるのは係数記録サイズ。ネストするとそのノード数だけ係数を用意しなければならない。特に一番下段では次数を上げると圧縮率の向上度合いが良いが、大量の係数が必要になる …</p>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-12.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/rihuteingunozu-miip-mijian-zheng-11.html">リフティングの組み込み検証(11)</a></h2>
+                <div class="summary"><p>プリエンファシスの評価をする。1次相関除去がよいのか、分散除去がよいのか、それとも組み合わせが良いのか？</p>
+<ul class="simple">
+<li>MS変換 + 最適プリエンファシスx2 + LPC(4), サブブロックでLPC(4) + CDF42を1段 + 低域でSS(4), 高域でSS(4)</li>
+</ul>
+<p>のモデルで、最適プリエンファシスの次数を(1回目, 2回目)として調べる。</p>
+<table border="1" class="docutils">
+<caption>最適プリエンファシスの組み合わせと圧縮率</caption>
+<colgroup>
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+<col width="14%" />
+</colgroup>
+<tbody valign="top">
+<tr><td>楽曲 \ 手法</td>
+<td>(0, 0)</td>
+<td>(0, 1)</td>
+<td>(1, 0)</td>
+<td>(1, 1)</td>
+<td>(0, -)</td>
+<td>何もしない</td>
+</tr>
+<tr><td>kanonop</td>
+<td>55.01</td>
+<td>54.98</td>
+<td>54.94</td>
+<td>54.91</td>
+<td>55.14</td>
+<td>55.44</td>
+</tr>
+<tr><td>ワン・ツー・スゥイーツ</td>
+<td>73 …</td></tr></tbody></table>
+                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-11.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/rihuteingunozu-miip-mijian-zheng-10.html">リフティングの組み込み検証(10)</a></h2>
                 <div class="summary"><p>最近はプリエンファシスばっかやってる。</p>
 <p>昨日の議論の一般化をしようとして、まず2次フィルタを使って1次の相関を消す場合を考えて導いたが、以下の難点があるのでスルー。</p>
@@ -216,66 +272,6 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></h2>
-                <div class="summary"><p>帯域分割信号に対してSAを適用してどれくらい減るか様子を見る。こればかりはやってみないと分からない。</p>
-<p>試してみた概観。ブロックサイズは8192。</p>
-<ul class="simple">
-<li>MS変換: 89.4%</li>
-<li>MS変換 + SA適用: 72.4%</li>
-<li>MS変換 + CDF42の1段適用: 74.3%</li>
-<li>MS変換 + CDF42の2段適用: 71.72%</li>
-<li>MS変換 + CDF42の1段適用で両帯域にSA: 66.5%</li>
-<li>MS変換 + CDF42の2段適用で全帯域にSA: 66.4%</li>
-</ul>
-<p>うーん、パット見渋い。エントロピー見て符号が悪いかどうか判定する。</p>
-<ul class="simple">
-<li>MS変換 + CDF42の2段適用で全帯域にSA: で9.87[bit] -&gt; 61.69%</li>
-</ul>
-<p>だから、理論上FLACより悪い。。。符号というよりは残差のエントロピーがまだ高い。
-SAじゃ弱すぎるか。LPC使うか。。。</p>
-<p>悲しみに暮れていたが、MS変換の後ろにプリエンファシスを突っ込むと有意に改善。。。</p>
-<ul class="simple">
-<li>MS変換 + プリエンファシス: 76.7%</li>
-<li>MS変換 + プリエンファシス …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-1.html">リフティングの組み込み検証(1)</a></h2>
-                <div class="summary"><p>CDF42をC言語で実装してみた。懸念だった1ループによる実装もOK。想像通り。
-分散は確かに減っているからエントロピーも減っているはず。</p>
-<p>さて、もう符号化まで試してしまうべきか？
-ちょっと考えてたけど、やってしまおうと思う。
-今までのありあわせの符号化スキームを転用してやってみる。</p>
-<p>やっつけで超簡易コーデックを作った。風の巡る場所で試す。観察としては、</p>
-<ul class="simple">
-<li>何もしないで直接再帰的ライス符号を適用すると（元データ比）90%</li>
-<li>Haarの1段適用では84%, 2段適用で82.7%</li>
-<li>CDF22の1段適用では81%, 2段適用で79.0%</li>
-<li>CDF42を1段かませた場合76%<ul>
-<li>低域が42%</li>
-<li>高域が34%</li>
-</ul>
-</li>
-<li>CDF42を2段かませると75%<ul>
-<li>低域/低域が20%</li>
-<li>低域/高域が20%</li>
-<li>高域が34%</li>
-</ul>
-</li>
-<li>高域を分割すると悪化（77%くらい）</li>
-<li>flac(-8)は60.2%, WavPack(-hh)は59.1%</li>
-<li>ブロックサイズを4096から8192に上げると0.05%程度の減少。</li>
-</ul>
-<p>SAの導入はこれから、さてどれくらい減らせるだろうか。
-分割設定を変えながら見るべし。</p>
-<p>CDF(8,2 …</p>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -311,31 +307,55 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/resnet.html">ResNet</a>
     </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
@@ -343,29 +363,29 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
@@ -374,43 +394,22 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
       <a href="/tag/irls.html">IRLS</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
@@ -419,61 +418,61 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
       <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lpc.html">LPC</a>
+      <a href="/tag/test.html">test</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+      <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
   </ul>
 </li>
