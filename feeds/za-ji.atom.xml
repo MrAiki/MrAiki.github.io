@@ -1,8 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-27T10:00:00+09:00</updated><entry><title>LPCの多段構成検証(10)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html" rel="alternate"></link><published>2021-08-27T10:00:00+09:00</published><updated>2021-08-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-27:/lpcnoduo-duan-gou-cheng-jian-zheng-10.html</id><content type="html">&lt;p&gt;もうすこしテスト追加して学習結果がPython版とおなじになるように。
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-08-30T10:00:00+09:00</updated><entry><title>LPCの多段構成検証(11)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-11.html" rel="alternate"></link><published>2021-08-30T10:00:00+09:00</published><updated>2021-08-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-30:/lpcnoduo-duan-gou-cheng-jian-zheng-11.html</id><content type="html">&lt;p&gt;イベ中に地味に進めた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Lebinson-Durvinによる適応的分割数決定: 済&lt;/li&gt;
+&lt;li&gt;演算結果の取得API追加: まだ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;L1ロスの平均操作必須だった。サンプル数増やすと安定しない。
+また、純音とか突っ込むと学習全然安定しない。うーん実データは問題なかったんやが。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(10)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html" rel="alternate"></link><published>2021-08-27T10:00:00+09:00</published><updated>2021-08-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-27:/lpcnoduo-duan-gou-cheng-jian-zheng-10.html</id><content type="html">&lt;p&gt;もうすこしテスト追加して学習結果がPython版とおなじになるように。
 手元で確認した限りではOK。しっかし演算精度で差が出たのでfloatからdoubleに変えた。いつもどおり速度が問題になったらfloatにすれば良い。&lt;/p&gt;
 &lt;p&gt;ネットワークモジュールとトレーナーを追加した。
-あとはLebinson-Durvinによる適応的分割数決定やな。&lt;/p&gt;
+あとは&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Lebinson-Durvinによる適応的分割数決定&lt;/li&gt;
+&lt;li&gt;演算結果の取得API追加&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;やな。ここまでいけば圧縮試せそう。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(9)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-9.html" rel="alternate"></link><published>2021-08-26T10:00:00+09:00</published><updated>2021-08-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-08-26:/lpcnoduo-duan-gou-cheng-jian-zheng-9.html</id><content type="html">&lt;p&gt;今日もデバッグを優先。8月中にはPython版と同様の状態に持っていきたい。
 分割時の挙動もしっかり合わせる必要がある。&lt;/p&gt;
 &lt;p&gt;かなりバグが有った。インデックス端点とか。Python側にもcol2im(cmat2frame)にバグがあったりした。他にもL1ロスでの誤差逆伝播で入力サイズで割ってたのを見つけた。バッチサイズで割るべきで、除算は不要だった。学習がだいぶ遅くなっていたはず。

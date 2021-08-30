@@ -84,6 +84,26 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-1.html">LPCの多段構成検証(1)</a></h2>
+                <div class="summary"><p>迷ったけど性能が高いし研究室のテーマに合致するのでテーマを変えるのがいいと思った。</p>
+<p>今やっているLPCの多段構成はResNetとの類似が指摘できる。F(x)がLPCの予測（に負号をとったもの）で、xと足すと残差が出力される。そして見ている区間を変えるのはストライド付きの畳み込みだ。</p>
+<div class="figure">
+<img alt="白板に書いたイメージ図" src="./images/LPC_NN.jpg" />
+</div>
+<p>これがすごいのが学習できるということ。最終層でL1ノルムとかエントロピーを損失に設定して微分してバックプロパゲーション学習する。何なら最小二乗誤差で学習してもいい。LPCは層ごとに学習している（制約ボルツマシンの単層学習に相当？）からより良い解が見つかる可能性がある。</p>
+<p>この構成は単純なLPCの組み合わせに過ぎないが性能がよい。時間がかかるのは学習（エンコード）のときだけだ。
+しかし、まだ整理できてないし既存研究があるかどうかも不定。学習は詰めて定式化しなければなるまい。</p>
+<p>ひとまず試すべきなのは、細かい分割から始めて荒くしていく方針はどうかというところ。以前試したが圧縮性能は良くなかった。今一度試してみる。</p>
+<p>最小分割単位を2048, 最大ブロックサイズを(2048*8)として、LPCの次数はすべて4とする。</p>
+<p>ワン・ツー・スゥイーツでは、</p>
+<ul class="simple">
+<li>(2048*8, 2048*4, 2048*2, 2048) の構成: 74.83% 係数全部8で71.89% (1024にしてもほぼ変わらず)</li>
+<li>(2048, 2048 …</li></ul>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/rihuteingunozu-miip-mijian-zheng-12.html">リフティングの組み込み検証(12)</a></h2>
                 <div class="summary"><p>CDF22の性能が良いことをうけて、CDF22の端点対応をする。
 うーん、端点0次ホールドしたほうが圧縮率がほんの僅かに悪い。実装間違いを疑いつつコミット。</p>
@@ -253,25 +273,6 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/rihuteingunozu-miip-mijian-zheng-3.html">リフティングの組み込み検証(3)</a></h2>
-                <div class="summary"><p>さて、今月から過ごし方を変えていく。</p>
-<ul class="simple">
-<li>午前: 情報幾何と群論（本進める）</li>
-<li>午後: 研究</li>
-<li>飯ピアノ後: リスニング, Rust, サマポケ</li>
-</ul>
-<p>さっそくバイトがあったので午前は予定通りではなかった。
-午後、まずはSAの次数を変えて様子を見てみる。帯域分割前と帯域分割後で変えた方が良いというのが直感。</p>
-<ul class="simple">
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(4) + CDF42を2段 + 各帯域でSA(4): 58.5%</li>
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(8) + CDF42を2段 + 各帯域でSA(4): 59.3%</li>
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(12) + CDF42を2段 + 各帯域でSA(4): 59.2%</li>
-<li>MS変換 + 最適プリエンファシス x2 + SA適用(4 …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/tag/lossless-audio-codec.html">&laquo;</a>
@@ -292,6 +293,8 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
                             href="/tag/lossless-audio-codec7.html">7</a></li>
                     <li class=""><a
                             href="/tag/lossless-audio-codec8.html">8</a></li>
+                    <li class=""><a
+                            href="/tag/lossless-audio-codec9.html">9</a></li>
                 <li class="next"><a
                         href="/tag/lossless-audio-codec3.html">&raquo;</a></li>
         </ul>
@@ -316,55 +319,31 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/resnet.html">ResNet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
@@ -372,17 +351,47 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/resnet.html">ResNet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/information-geometry.html">Information Geometry</a>
@@ -394,16 +403,16 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
       <a href="/tag/hessian.html">Hessian</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/manifold.html">Manifold</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/gu-shi-ji.html">古事記</a>
@@ -412,13 +421,49 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
       <a href="/tag/githubio.html">githubio</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
@@ -427,61 +472,19 @@ E[z_{2}^{2}] &amp;= E[\left\{ x_{n} - a_{1} x_{n-1} - a_{2} x_{n-2} \right\}^{2}
       <a href="/tag/xiang-ting-shu.html">向聴数</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
   </ul>
 </li>
