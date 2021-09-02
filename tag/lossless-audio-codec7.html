@@ -84,6 +84,50 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-24.html">コーデック作り2021春(24)</a></h2>
+                <div class="summary"><ul class="simple">
+<li>ゴロムは減るけど、最終手段としよう。気になってるのはステップサイズのとり方かな。</li>
+<li>ブロックヘッダのデータのビット幅は8でもよかったしサイズ削減に貢献したので8に戻した。</li>
+<li>いろいろあがく。低振幅音源で効くのでゴロム符号は採用。SAの残差をsignからlogに置き換えたら低振幅音源で改善傾向。wavpack+0.4%くらい(-m4だと+0.1%)</li>
+<li>うーん、Golomb符号ありなら、signもlogもあんまり変わらない感じ。Golombの影響力が大きい。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-24.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-23.html">コーデック作り2021春(23)</a></h2>
+                <div class="summary"><p>評価スクリプトをSLAから持ってきて試してみると、平均圧縮率が悪い。
+なぜだ。手元の音源ではよかったのに。</p>
+<p>結果を見ると、音量が控えめな音源でかなり性能が悪くなっている事がわかった。（完全な無音ではない）</p>
+<p>フィルタ次数を減らしたほうが結果が良い状態。どうする。観察。</p>
+<p>フィルタ係数を見ると、次数16では大きくなりすぎている印象。。そこで、フィルタ係数のビット幅を小さくしたら改善に向かったが、flacには及ばない。また、SLAと同じようにライスパラメータが小さいときは固定のゴロム符号を行うようにしたらわずかに改善した。ゴロム符号の対処は最終手段とする。</p>
+<p>もっとフィルタ係数の変化を観察すべきかと思う。</p>
+<ul class="simple">
+<li>AR係数が小さいときはほぼ白色雑音だから係数をリセットする→すこしは良くなったけどだめだった。</li>
+<li>フィルタ係数（ブロックヘッダ）の記録にとるビット幅を8から12に増やしたら改善傾向。しかしまだ断然悪い。（追記：NGSAの計算精度向上後は8の方が良かった）</li>
+<li>以前フィルタ末尾の重みが大きかったのを見ていた。（末尾が原因で係数右シフトが起きてた）末尾係数を見てみる。<ul>
+<li>係数の動きが不自然（先頭と末尾の動きが同期してる等）なので自然勾配の更新がおかしいと思って、勾配における積和演算で丸めをやめたら、低振幅音源で圧縮率が大幅に改善した（全体的に良くなったので採用）。。。。固定小数演算よくわからん・・・なんで良くなった…。多分、丸めの方向が正方向にしかできてなかったのが災いしていたかも。引くときは丸めのための加算がいらないはず。</li>
+<li>ステップサイズを大きくとると、低振幅音源で改善、大振幅音源で悪化。当然だけど、これから、ステップサイズは分散に合わせて変えるべきであることがわかる。</li>
+<li>これでWavpack(-hh)と比べて …</li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-23.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-22.html">コーデック作り2021春(22)</a></h2>
+                <div class="summary"><p>CRC16対応をした。あとはコマンドライン整理とプリセット精査なんだけど、処理負荷でどこが重くなってんのか見ておきたい。</p>
+<p>負荷測定については、instrumentsがdeparchedなので、 <cite>xcrun xctrace</cite> を使う。</p>
+<pre class="code literal-block">
+xcrun xctrace record --template 'Time Profiler' --launch -- ./naru -e a.wav a.nar
+</pre>
+
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-22.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-21.html">コーデック作り2021春(21)</a></h2>
                 <div class="summary"><p>ワーク配置をする。</p>
 <ul class="simple">
@@ -215,47 +259,6 @@ AADでは固定ビットレートだからブロックサイズが固定され�
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-14.html">コーデック作り2021春(14)</a></h2>
-                <div class="summary"><p>「重ねる努力」での発散現象を観察している。</p>
-<ul class="simple">
-<li>SAのフィルタ係数が正の値に徐々に吹っ飛んでいる</li>
-<li>ブロックの切り替わりが原因ぽい</li>
-</ul>
-<p>ブロックの切り替わりで怪しい処理はなにかと見ていたら、NGSAの残差初期値がただのデータ履歴で更新されていて、勾配が不連続になっていて怪しいことが見えた。リファレンス通りに、取得した履歴を元に自然勾配の初期値を計算してみる。</p>
-<p>すると、問題を確認したケースにおいては発散しなくなった。しかし、デバッグのためにブロックサイズを小さくして切り替わりが多く出るようにしたら再度発散。原因を追う。</p>
-<p>調査したところ、ブロックサイズを1024サンプルにしたとき、「重ねる努力」の1041000サンプル付近で「シャーン」というエントロピーの高い振幅大音源をきっかけにフィルタ係数が発散していた。もっと見たところAR係数が0.3等の低い数値をとっていた（確認したらそれまでは0.9以上をとっていたのに、急落していた。）</p>
-<p>対策をどうしようか。0.4未満ならリセットするとかやれば、1024では発散しないけど、ブロックサイズを512, 256にしたら発散する。。。（しかも、発散時にAR係数は0.9以上だった。）アドホックなのでやりたくないし、AR係数が本質的な原因では無いと考えている。</p>
-<p>バグを疑って調査を続ける。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-13.html">コーデック作り2021春(13)</a></h2>
-                <div class="summary"><p>デコーダを作った。といっても枠は作ってあってプロセッサ部を埋めるだけ。
-動かしたところSAの係数を記録してなかった。追加。</p>
-<p>処理順序を整理して、たぶんロスレスに戻っていることを確認。</p>
-<p>テストに入っていく。大規模なテストをやる前に手元のファイルをいくつか試していると、「重ねる努力」でアサート。こいつのバグを潰したら、テスト追加に入ろう。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-13.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-12.html">コーデック作り2021春(12)</a></h2>
-                <div class="summary"><p>ちょっとCmake整理した。</p>
-<p>で、昨日の続きといく。発散している現象はフィルタ係数をダンプしてみたけど、不連続的じゃなくてゆっくりと値が大きくなっていたので、厄介かもしれない。</p>
-<p>発散対策としてステップサイズをいじる。NGSAの係数右シフト量を4から6にしたら安定する+圧縮率上がる。設定次第でwavpack(-hh)を超える状況になる。</p>
-<p>ステップサイズをいじってコード整理。デコーダの制作に入ろうと思う。（SAのシフト前に0.5加えたら圧縮率向上した。こういうのがこわい。なお、プリエンファシスは0.5加算は不要。定数乗算だから。）
-デコーダができてビットパーフェクトに戻るまではぬか喜びなので、気合い入れる。</p>
-<p>デコード側だけでもin-placeな復号ができるといいなあ・・・</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-12.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/tag/lossless-audio-codec6.html">&laquo;</a>
@@ -302,64 +305,85 @@ AADでは固定ビットレートだからブロックサイズが固定され�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/resnet.html">ResNet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lpc.html">LPC</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/resnet.html">ResNet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
@@ -368,52 +392,13 @@ AADでは固定ビットレートだからブロックサイズが固定され�
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
+      <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
@@ -422,52 +407,76 @@ AADでは固定ビットレートだからブロックサイズが固定され�
       <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
     </li>
   </ul>
 </li>

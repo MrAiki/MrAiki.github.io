@@ -83,6 +83,44 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20213.html">戦略会議中2021(3)</a></h2>
+                <div class="summary"><p>紹介をほぼ進めた。背景理論をどこまで書くか考える。
+また、NARUの警告つぶしをした。ほぼこれで固まるかな。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www5d.biglobe.ne.jp/~noocyte/Programming/CMacros.html">C/C++ 関数・マクロ集 ((ほぼ？) 処理系・OS 非依存)</a> Cマクロ集（いつか使える）</li>
+<li><a class="reference external" href="http://cppemb.blog17.fc2.com/blog-entry-21.html">境界調整（アラインメント）を調べる</a> alignofの可搬性のある実装。どこかで刺さるはず。</li>
+<li><a class="reference external" href="https://git.sr.ht/~rabbits/uxn/tree/master/item/src/uxn.c">~rabbits/uxn</a> 200行以内の8bit(16bitもっぽい)スタックマシン実装。本質が全て詰まっている。解説本あったら買う。</li>
+<li><a class="reference external" href="https://ethw.org/History_of_Lossless_Data_Compression_Algorithms">History of Lossless Data Compression Algorithms</a> ロスレスデータ圧縮アルゴリズムの歴史と特許批判</li>
+<li><a class="reference external" href="https://android.googlesource.com/platform/external/libldac/">libldac</a> ソニーの高音質ロッシーコーデックLDACのソース。オープンソース化している。DCTベースのようだが詳細不明。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20213.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20212.html">戦略会議中2021(2)</a></h2>
+                <div class="summary"><p>研究紹介を進めながら、今年一年をどうするか考えつつある。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://elvera.nue.tu-berlin.de/files/0843Purat1997.pdf">Lossless Transform Coding of Audio Signals</a> LTACの理論解説論文</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20212.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zhan-lue-hui-yi-zhong-20211.html">戦略会議中2021(1)</a></h2>
+                <div class="summary"><p>今年一年をどう過ごすか決めつつある。今年はウェーブレットを攻める。</p>
+<ul class="simple">
+<li><a class="reference external" href="https://www.oreilly.co.jp/BOOK/osp/OpenSource_Web_Version/Web_version000106.html">オープンソースソフトウェア 彼らはいかにしてビジネススタンダードになったのか</a> OSSの偉人たちのコメントがただで見れる。</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-20211.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-32.html">コーデック作り2021春(32)</a></h2>
                 <div class="summary"><p>.editorconfigのチェックを追加。github actionsに追加。便利で宜しい。</p>
 <p>つかの間の休息。今日はmsbuild対応と、playerビルド時にpulseaudioを導入したい（sudo apt-getでいいらしい）。また、gtestをWindowsで動かすには…？</p>
@@ -210,47 +248,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-25.html">コーデック作り2021春(25)</a></h2>
-                <div class="summary"><p>金曜日に試した項目を整理。やはり低振幅信号ではGolomb符号が重要なので突っ込んだ。移動が多くて夕方過ぎは失神した。</p>
-<p>ほぼ最終手段だけど、エンコードを複数回実行する手段を突っ込んだ。とうぜん圧縮率は上がる。当然エンコード負荷もあがる。これから評価。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-25.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-24.html">コーデック作り2021春(24)</a></h2>
-                <div class="summary"><ul class="simple">
-<li>ゴロムは減るけど、最終手段としよう。気になってるのはステップサイズのとり方かな。</li>
-<li>ブロックヘッダのデータのビット幅は8でもよかったしサイズ削減に貢献したので8に戻した。</li>
-<li>いろいろあがく。低振幅音源で効くのでゴロム符号は採用。SAの残差をsignからlogに置き換えたら低振幅音源で改善傾向。wavpack+0.4%くらい(-m4だと+0.1%)</li>
-<li>うーん、Golomb符号ありなら、signもlogもあんまり変わらない感じ。Golombの影響力が大きい。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-24.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-23.html">コーデック作り2021春(23)</a></h2>
-                <div class="summary"><p>評価スクリプトをSLAから持ってきて試してみると、平均圧縮率が悪い。
-なぜだ。手元の音源ではよかったのに。</p>
-<p>結果を見ると、音量が控えめな音源でかなり性能が悪くなっている事がわかった。（完全な無音ではない）</p>
-<p>フィルタ次数を減らしたほうが結果が良い状態。どうする。観察。</p>
-<p>フィルタ係数を見ると、次数16では大きくなりすぎている印象。。そこで、フィルタ係数のビット幅を小さくしたら改善に向かったが、flacには及ばない。また、SLAと同じようにライスパラメータが小さいときは固定のゴロム符号を行うようにしたらわずかに改善した。ゴロム符号の対処は最終手段とする。</p>
-<p>もっとフィルタ係数の変化を観察すべきかと思う。</p>
-<ul class="simple">
-<li>AR係数が小さいときはほぼ白色雑音だから係数をリセットする→すこしは良くなったけどだめだった。</li>
-<li>フィルタ係数（ブロックヘッダ）の記録にとるビット幅を8から12に増やしたら改善傾向。しかしまだ断然悪い。（追記：NGSAの計算精度向上後は8の方が良かった）</li>
-<li>以前フィルタ末尾の重みが大きかったのを見ていた。（末尾が原因で係数右シフトが起きてた）末尾係数を見てみる。<ul>
-<li>係数の動きが不自然（先頭と末尾の動きが同期してる等）なので自然勾配の更新がおかしいと思って、勾配における積和演算で丸めをやめたら、低振幅音源で圧縮率が大幅に改善した（全体的に良くなったので採用）。。。。固定小数演算よくわからん・・・なんで良くなった…。多分、丸めの方向が正方向にしかできてなかったのが災いしていたかも。引くときは丸めのための加算がいらないはず。</li>
-<li>ステップサイズを大きくとると、低振幅音源で改善、大振幅音源で悪化。当然だけど、これから、ステップサイズは分散に合わせて変えるべきであることがわかる。</li>
-<li>これでWavpack(-hh)と比べて …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-23.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/index5.html">&laquo;</a>
@@ -299,6 +296,8 @@ Aiki's Blog            </a>
                             href="/index21.html">21</a></li>
                     <li class=""><a
                             href="/index22.html">22</a></li>
+                    <li class=""><a
+                            href="/index23.html">23</a></li>
                 <li class="next"><a
                         href="/index7.html">&raquo;</a></li>
         </ul>
@@ -323,64 +322,85 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+      <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/resnet.html">ResNet</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lpc.html">LPC</a>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/resnet.html">ResNet</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
@@ -389,52 +409,13 @@ Aiki's Blog            </a>
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
+      <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
@@ -443,52 +424,76 @@ Aiki's Blog            </a>
       <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+      <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
     </li>
   </ul>
 </li>
