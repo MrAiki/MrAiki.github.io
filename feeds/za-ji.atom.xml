@@ -1,5 +1,277 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-09-02T10:00:00+09:00</updated><entry><title>Monkey's Audio (version. 6.61) 実装を見やる(1)</title><link href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html" rel="alternate"></link><published>2021-09-02T10:00:00+09:00</published><updated>2021-09-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-02:/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html</id><summary type="html">&lt;p&gt;自分のやってることに近いことが分かっているのでMonkey's Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-09-14T10:00:00+09:00</updated><entry><title>LPCの多段構成検証(20)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html" rel="alternate"></link><published>2021-09-14T10:00:00+09:00</published><updated>2021-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-14:/lpcnoduo-duan-gou-cheng-jian-zheng-20.html</id><content type="html">&lt;p&gt;実装をまとめていったんGitHubにあげた（まだprivate）。
+まだテストや評価が残っている。また、色々圧縮してみるがエンコード負荷が高すぎる。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(21) 一旦中断</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html" rel="alternate"></link><published>2021-09-14T10:00:00+09:00</published><updated>2021-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-14:/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html</id><content type="html">&lt;p&gt;論文執筆に戻らないといけないことが分かった。&lt;/p&gt;
+&lt;p&gt;解析的最適化を行いたいのはもちろんだが、後回しになりそう。
+今日で一旦実装に整理をつけておく。明日以降論文のプロットを打つ。&lt;/p&gt;
+&lt;p&gt;今日試したいのは勾配を直線探索する試み。理由は2点&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;最急降下法で直線的に降下しているところを見ると、もしかしたら誤差平面は単純な凸に近いのかもしれない&lt;ul&gt;
+&lt;li&gt;これは嘘っぽい。最急降下法でも勾配を毎回計算しているから、方向は逐次変わっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;勾配計算（とくに逆誤差伝播）の負荷が大きすぎるでなるべく勾配計算回数を減らしたい。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;試してみた。確かに収束は早いが、圧縮率が悪化した。また、原因は詳しく終えてないが別音源で無限ループ。
+全体的に性能が良くないため直線探索は採用しない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(19)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-19.html" rel="alternate"></link><published>2021-09-13T10:00:00+09:00</published><updated>2021-09-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-13:/lpcnoduo-duan-gou-cheng-jian-zheng-19.html</id><summary type="html">&lt;p&gt;9/11, 9/12 はAIR聖地巡り。美しい。聖地以外も。そして飯がうまい。日高のクエ鍋は冬料理（10〜3月）だが、いつかきっと食べに行こう。&lt;/p&gt;
+&lt;p&gt;コーデックの実装に戻る。ここからが勝負になると思っている。今日は帰りの新幹線のぞみで、Adamを試してみたい。
+実装してみたがすごい不安定。デフォルトの推奨値（学習率:0.001、beta1:0.9、beta2:0.999、イプシロン1e-8）でないと実用的とは思えない。
+上パラメータは &lt;a class="reference external" href="https://machinelearningmastery.com/adam-optimization-algorithm-for-deep-learning/"&gt;ここ&lt;/a&gt; を参照した。&lt;/p&gt;
+&lt;p&gt;薄紅10secの末尾をエンコードしたところ、モーメンタムが120223byte, AdaGradが120115byte, Adamが120192byteでAdaGradに軍配が上がっている。
+もうすこし本格的に調査すべきかもしれないが、学習曲線の安定性から見てもAdaGradを選ぶことになりそう。&lt;/p&gt;
+&lt;p&gt;学習の良し悪しが圧縮率に影響しているので面白くもあり同時に恐ろしくもある。とりあえず今は収束速度重視で考えたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ai-gakkai.or.jp/jsai2006/program/pdf/100171.pdf"&gt;部分時系列クラスタリングの理論的基礎&lt;/a&gt; 時系列データの窓をランダムに切り出してk-means法を適用すると、セントロイドに正弦波しか表れないということを理論的に示している。すごいが、フーリエ変換し始めたあたりでたしかにそうだよなあと思った。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;帰っている途中で、AdaGradの実装が間違っていることに気付いた。全ての次元で2乗和をとっていた …&lt;/p&gt;</summary><content type="html">&lt;p&gt;9/11, 9/12 はAIR聖地巡り。美しい。聖地以外も。そして飯がうまい。日高のクエ鍋は冬料理（10〜3月）だが、いつかきっと食べに行こう。&lt;/p&gt;
+&lt;p&gt;コーデックの実装に戻る。ここからが勝負になると思っている。今日は帰りの新幹線のぞみで、Adamを試してみたい。
+実装してみたがすごい不安定。デフォルトの推奨値（学習率:0.001、beta1:0.9、beta2:0.999、イプシロン1e-8）でないと実用的とは思えない。
+上パラメータは &lt;a class="reference external" href="https://machinelearningmastery.com/adam-optimization-algorithm-for-deep-learning/"&gt;ここ&lt;/a&gt; を参照した。&lt;/p&gt;
+&lt;p&gt;薄紅10secの末尾をエンコードしたところ、モーメンタムが120223byte, AdaGradが120115byte, Adamが120192byteでAdaGradに軍配が上がっている。
+もうすこし本格的に調査すべきかもしれないが、学習曲線の安定性から見てもAdaGradを選ぶことになりそう。&lt;/p&gt;
+&lt;p&gt;学習の良し悪しが圧縮率に影響しているので面白くもあり同時に恐ろしくもある。とりあえず今は収束速度重視で考えたい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ai-gakkai.or.jp/jsai2006/program/pdf/100171.pdf"&gt;部分時系列クラスタリングの理論的基礎&lt;/a&gt; 時系列データの窓をランダムに切り出してk-means法を適用すると、セントロイドに正弦波しか表れないということを理論的に示している。すごいが、フーリエ変換し始めたあたりでたしかにそうだよなあと思った。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;帰っている途中で、AdaGradの実装が間違っていることに気付いた。全ての次元で2乗和をとっていた。
+直したが、学習率は低く取らないと発散しがち。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(18)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-18.html" rel="alternate"></link><published>2021-09-10T10:00:00+09:00</published><updated>2021-09-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-10:/lpcnoduo-duan-gou-cheng-jian-zheng-18.html</id><content type="html">&lt;p&gt;9/8,9,10 とエンコーダ・デコーダの実装をしていた。
+フルスクラッチではなく構造としてはほぼNARUと同じだから早い。今日にはとりあえずロスレスで戻るものを確認している。
+やはりデコード時間が早い。&lt;/p&gt;
+&lt;p&gt;テストを固めながら、プリセットの選定を行っていきたい。&lt;/p&gt;
+&lt;p&gt;今の所気になっている項目は、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;末尾が2の冪数になっていないと問題が起こりそう&lt;ul&gt;
+&lt;li&gt;しかし切り上げとかするとデコード時に追加の領域が必要になりそう&lt;/li&gt;
+&lt;li&gt;2の冪数が問題になるのは分析学習時のときだった。予測のときは剰余サンプルは無視しても問題ない（合成のときも同様に無視されるから）&lt;/li&gt;
+&lt;li&gt;おそらく対応できたはず。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;BPが遅い。微分を直接計算することで高速化できないか？微分すると結局BPに帰着するかもしれないが追うだけ追ってみたい&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/71/11/71_KJ00010109335/_pdf"&gt;亀岡さんの研究&lt;/a&gt; のように補助関数を使う。初期値設定をこれに従うのがいいのか？&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://retrofocus28.blogspot.com/2015/09/iteratively-reweighted-least-squares.html?m=1"&gt;IRLS&lt;/a&gt; もあり得るのでは&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;手っ取り早いところではAdamを試すとか。&lt;ul&gt;
+&lt;li&gt;AdaGradが案外良いと言うのを見ている。振動しない。（逆に言うとMomentumが振動しがち）&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.anarchive-beta.com/entry/2020/08/13/180000"&gt;6.1.6：Adam【ゼロつく1のノート(実装)】&lt;/a&gt; わりと沼だと思うんだな...&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(17)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-17.html" rel="alternate"></link><published>2021-09-07T10:00:00+09:00</published><updated>2021-09-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-07:/lpcnoduo-duan-gou-cheng-jian-zheng-17.html</id><content type="html">&lt;p&gt;バイト後疲れてくたばってしまった。なんとか手を動かして骨格は作れたつもり。
+順次エンコーダ・デコーダの実装に入る。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(16)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-16.html" rel="alternate"></link><published>2021-09-06T10:00:00+09:00</published><updated>2021-09-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-06:/lpcnoduo-duan-gou-cheng-jian-zheng-16.html</id><content type="html">&lt;p&gt;昨日の移動中にモックを仕上げた。が、ワンツーの末尾のほぼ無音になっているところでアサートして落ちていた。
+原因を見たら係数が非常に小さくなっているところの整数量子化で、右シフト量が大きくなりすぎていた(26とか。16bit深度を超えてる)。
+普通にLPCで計算すると発生せず（むしろ、LPCではゼロに設定していたが）、学習によって小さいながらも非ゼロの係数が得られていた。
+その小さい係数に対して律儀に右シフト量を計算してしまっていた。係数がビット表現精度未満の場合は0に丸め込むようにした。&lt;/p&gt;
+&lt;p&gt;ひとまずモックまではできた感じ。ソース全体を見て、削れるところを削った上で、CMakeプロジェクトを作っていきたい。
+今日はソースを見て使っていない関数を削る。ついでにCMakeの骨格も作ってしまおう。
+コーデック名は LInear-predictive Neural Net Encoder, LINNE とする。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(15)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-15.html" rel="alternate"></link><published>2021-09-04T10:00:00+09:00</published><updated>2021-09-04T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-04:/lpcnoduo-duan-gou-cheng-jian-zheng-15.html</id><content type="html">&lt;p&gt;LPCネットワークを使ったコーデックのモックを作成中。
+パラメータ領域を含めてエンコードしておるが、なんか性能が渋くなってきた印象。
+文句行ってないで早くビットパーフェクトに戻るものを作ろう。&lt;/p&gt;
+&lt;p&gt;明日出発するので今日はここまでとする。
+予測側で係数計算と符号化が分けられてないのがだいぶ苦しみの元になっている（プリエンファシスとか）。
+明日帰省しながら直す。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(14)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-14.html" rel="alternate"></link><published>2021-09-03T10:00:00+09:00</published><updated>2021-09-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-03:/lpcnoduo-duan-gou-cheng-jian-zheng-14.html</id><summary type="html">&lt;p&gt;LPCネットワークの検証に戻る。(i)1層あたりのパラメータを増やす, (ii)層数を増やす の2軸で様子見。
+構成は全部LD法初期値から学習するものとする。（前回と(8, 8)の結果が違うのはモーメンタムに修正が入ったから）&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;パラメータ数/層数を変えたときの圧縮率&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;音源 \ 手法&lt;/td&gt;
+&lt;td&gt;(  8)&lt;/td&gt;
+&lt;td&gt;( 16)&lt;/td&gt;
+&lt;td&gt;( 32)&lt;/td&gt;
+&lt;td&gt;( 64)&lt;/td&gt;
+&lt;td&gt;(  8,  8)&lt;/td&gt;
+&lt;td&gt;( 16, 16)&lt;/td&gt;
+&lt;td&gt;( 32, 32)&lt;/td&gt;
+&lt;td&gt;(  8,  8,  8)&lt;/td&gt;
+&lt;td&gt;( 16, 16, 16)&lt;/td&gt;
+&lt;td&gt;( 32, 32, 32)&lt;/td&gt;
+&lt;td&gt;(  8,  8,  8,  8)&lt;/td&gt;
+&lt;td&gt;( 16, 16, 16, 16)&lt;/td&gt;
+&lt;td&gt;( 32, 32, 32, 32)&lt;/td&gt;
+&lt;td&gt;FLAC(-8)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;薄紅先頭10sec&lt;/td&gt;
+&lt;td&gt;64 …&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</summary><content type="html">&lt;p&gt;LPCネットワークの検証に戻る。(i)1層あたりのパラメータを増やす, (ii)層数を増やす の2軸で様子見。
+構成は全部LD法初期値から学習するものとする。（前回と(8, 8)の結果が違うのはモーメンタムに修正が入ったから）&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;パラメータ数/層数を変えたときの圧縮率&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;col width="7%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;音源 \ 手法&lt;/td&gt;
+&lt;td&gt;(  8)&lt;/td&gt;
+&lt;td&gt;( 16)&lt;/td&gt;
+&lt;td&gt;( 32)&lt;/td&gt;
+&lt;td&gt;( 64)&lt;/td&gt;
+&lt;td&gt;(  8,  8)&lt;/td&gt;
+&lt;td&gt;( 16, 16)&lt;/td&gt;
+&lt;td&gt;( 32, 32)&lt;/td&gt;
+&lt;td&gt;(  8,  8,  8)&lt;/td&gt;
+&lt;td&gt;( 16, 16, 16)&lt;/td&gt;
+&lt;td&gt;( 32, 32, 32)&lt;/td&gt;
+&lt;td&gt;(  8,  8,  8,  8)&lt;/td&gt;
+&lt;td&gt;( 16, 16, 16, 16)&lt;/td&gt;
+&lt;td&gt;( 32, 32, 32, 32)&lt;/td&gt;
+&lt;td&gt;FLAC(-8)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;薄紅先頭10sec&lt;/td&gt;
+&lt;td&gt;64.78&lt;/td&gt;
+&lt;td&gt;63.84&lt;/td&gt;
+&lt;td&gt;63.16&lt;/td&gt;
+&lt;td&gt;62.33&lt;/td&gt;
+&lt;td&gt;63.80&lt;/td&gt;
+&lt;td&gt;63.08&lt;/td&gt;
+&lt;td&gt;62.25&lt;/td&gt;
+&lt;td&gt;63.43&lt;/td&gt;
+&lt;td&gt;62.64&lt;/td&gt;
+&lt;td&gt;61.91&lt;/td&gt;
+&lt;td&gt;63.20&lt;/td&gt;
+&lt;td&gt;62.45&lt;/td&gt;
+&lt;td&gt;61.61&lt;/td&gt;
+&lt;td&gt;64.94&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サマーマジック先頭10sec&lt;/td&gt;
+&lt;td&gt;58.75&lt;/td&gt;
+&lt;td&gt;57.73&lt;/td&gt;
+&lt;td&gt;56.94&lt;/td&gt;
+&lt;td&gt;56.44&lt;/td&gt;
+&lt;td&gt;57.74&lt;/td&gt;
+&lt;td&gt;56.87&lt;/td&gt;
+&lt;td&gt;56.19&lt;/td&gt;
+&lt;td&gt;57.33&lt;/td&gt;
+&lt;td&gt;56.53&lt;/td&gt;
+&lt;td&gt;55.90&lt;/td&gt;
+&lt;td&gt;57.10&lt;/td&gt;
+&lt;td&gt;56.34&lt;/td&gt;
+&lt;td&gt;55.67&lt;/td&gt;
+&lt;td&gt;57.72&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;パラメータ/層を増やせば増やすほど圧縮率は改善していく（注意：パラメータ領域は記録していない）。
+Pythonで観察したように、全体の総パラメータ数が同一ならば、2層構成が一番良い。&lt;/p&gt;
+&lt;p&gt;じゃあ、具体的にコーデックに仕立てようか。プリエンファシス含め前段に何が良いのかを確定させる。LPCNetは(8,8)で固定、Pは固定プリエンファシス、OPは最適プリエンファシスとしてチェック。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;前処理構成を変えたときの圧縮率&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;col width="13%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;音源 \ 手法&lt;/td&gt;
+&lt;td&gt;(  P,  P)&lt;/td&gt;
+&lt;td&gt;(  P, OP)&lt;/td&gt;
+&lt;td&gt;( OP,  P)&lt;/td&gt;
+&lt;td&gt;( OP, OP)&lt;/td&gt;
+&lt;td&gt;( OP, OP, OP)&lt;/td&gt;
+&lt;td&gt;(  P, OP, OP)&lt;/td&gt;
+&lt;td&gt;( OP, OP,  P)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;薄紅先頭10sec&lt;/td&gt;
+&lt;td&gt;64.78&lt;/td&gt;
+&lt;td&gt;64.49&lt;/td&gt;
+&lt;td&gt;63.99&lt;/td&gt;
+&lt;td&gt;63.80&lt;/td&gt;
+&lt;td&gt;63.80&lt;/td&gt;
+&lt;td&gt;64.46&lt;/td&gt;
+&lt;td&gt;63.95&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サマーマジック先頭10sec&lt;/td&gt;
+&lt;td&gt;58.52&lt;/td&gt;
+&lt;td&gt;58.18&lt;/td&gt;
+&lt;td&gt;57.96&lt;/td&gt;
+&lt;td&gt;57.74&lt;/td&gt;
+&lt;td&gt;57.79&lt;/td&gt;
+&lt;td&gt;58.21&lt;/td&gt;
+&lt;td&gt;58.11&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;これは、間違いなく最適プリエンファシス2段で確定かな。他にも、(OP, OP)で固定してさらにLPCNetの前にLPCを入れると性能が良くなることを見ている。その次数はいくつがいいか？見てみよう。&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;LPCNetの前に入れるLPCの次数による圧縮率&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;/colgroup&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;音源 \ 手法&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;薄紅先頭10sec&lt;/td&gt;
+&lt;td&gt;63.65&lt;/td&gt;
+&lt;td&gt;63.64&lt;/td&gt;
+&lt;td&gt;63.65&lt;/td&gt;
+&lt;td&gt;63.21&lt;/td&gt;
+&lt;td&gt;62.70&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;サマーマジック先頭10sec&lt;/td&gt;
+&lt;td&gt;57.67&lt;/td&gt;
+&lt;td&gt;57.54&lt;/td&gt;
+&lt;td&gt;57.51&lt;/td&gt;
+&lt;td&gt;57.20&lt;/td&gt;
+&lt;td&gt;56.88&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;次数を上げれば上げるほどよい。8であんまり改善しないのは、後段のLPCNetの1層目が1分割になることが多く、結果次数8が2連結になってしまい性能が上がりにくくなっていると考えられる。&lt;/p&gt;
+&lt;p&gt;LPCNetの前に入れるLPCもNetに取り込むべきではないかと考える。すると、層ごとのパラメータ数を変えるべきという発想に至る。
+各層でパラメータ可変になるように対応した。2層がベストという観察だけど、LPCNet前のLPCも取り入れて3層で勝負してみる。つまり、プリエンファシス2段+LPCNet。悪ければ変える。&lt;/p&gt;
+&lt;p&gt;よし、汚くてもいいからコーデックに仕上げてみよう。出来上がり次第、CMakeでプロジェクトを作ってきれいに実装し、評価フェーズに入る。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>Monkey's Audio (version. 6.61) 実装を見やる(1)</title><link href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html" rel="alternate"></link><published>2021-09-02T10:00:00+09:00</published><updated>2021-09-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-02:/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html</id><summary type="html">&lt;p&gt;自分のやってることに近いことが分かっているのでMonkey's Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// aiki: サンプルnA, nBを圧縮。ステレオ信号ならnA, nB両方にデータが入る&lt;/span&gt;
 &lt;span class="c1"&gt;// aiki: 片方のチャンネルが無音の場合はnBは0になる。&lt;/span&gt;
 &lt;span class="c1"&gt;// aiki: nA, nBの呼び分けは CAPECompressCore::EncodeFrame にて行われる&lt;/span&gt;
@@ -207,7 +479,16 @@
 &lt;p&gt;Extra High以上では多層構成になっている。
 Extra Highでは一段目は256次数、二段目は32次数。二段目の方により弱いフィルタを噛ましている。INSANE頭おかしい…（小声）
 層を増やすたびに次数が急激に減り過ぎでは、という印象。
-だいたい理解したと思いこんでいる。不足があればもっと読み込んで見る。&lt;/p&gt;
+他にも圧縮オプションに応じてフレームサイズが変わっていた。(CAPECompressCreate::Start 関数)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// initialize (creates the base classes)&lt;/span&gt;
+&lt;span class="n"&gt;m_nSamplesPerFrame&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;73728&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nCompressionLevel&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;MAC_COMPRESSION_LEVEL_EXTRA_HIGH&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;m_nSamplesPerFrame&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt; &lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="nf"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nCompressionLevel&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;MAC_COMPRESSION_LEVEL_INSANE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;m_nSamplesPerFrame&lt;/span&gt; &lt;span class="o"&gt;*=&lt;/span&gt; &lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;クソデカフレームサイズだな。&lt;/p&gt;
+&lt;p&gt;だいたい理解したと思いこんでいる。不足があればもっと読み込んでみる。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Monkey's Audio"></category><category term="CNN"></category></entry><entry><title>LPCの多段構成検証(13)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-13.html" rel="alternate"></link><published>2021-09-01T10:00:00+09:00</published><updated>2021-09-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-01:/lpcnoduo-duan-gou-cheng-jian-zheng-13.html</id><summary type="html">&lt;p&gt;今日からはLPCネットの性能評価メインで。まずは簡単な音源で色々動かしてみよう。&lt;/p&gt;
 &lt;p&gt;簡単な音源として薄紅先頭10secとサマーマジック先頭10secを用意した。
 ネットワーク構成はとりあえずレイヤー数2, レイヤーあたりパラメータ数8, ブロックサイズ8192, 学習率0.9&lt;/p&gt;
