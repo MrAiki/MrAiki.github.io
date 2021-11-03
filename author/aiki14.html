@@ -83,6 +83,107 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/r-1-noji-suan-11.html"><span class="math">\(R^{-1}\)</span> の計算(11)</a></h2>
+                <div class="summary"><p>共役勾配法をもうちょっと見てから、準ニュートン法を試そうかというのが今日の目標。</p>
+<p>共役勾配法の性能をまとめると、</p>
+<ul class="simple">
+<li>SAより同程度かそれ以下。</li>
+<li>自己相関行列は逐次的に求めていった方がほんのわずかに性能が良い。</li>
+</ul>
+<img alt="共役勾配法を使ったNGSAとSAの性能比較（i.i.d.な雑音入力, 自己相関は逐次的に計算）" class="align-center" src="./images/ngsa_cg_learning_curves_case01.png" style="width: 400px;" />
+<p>で、なんで？というところで答えが出ない。
+勾配プロットすりゃいいんじゃねと思うんだが、共役勾配は明示的に前ステップの情報を使うから、静的な勾配を見ることができない。</p>
+<p>準ニュートン法を試す。勾配をどれくらい進めるかを決める直線探索をいかに上手くやるかがポイントだった。
+いつもの事後残差最小化で行ったら実に上手く行った。（直線探索を上手くやらず固定ステップサイズにすると性能悪化）
+じゃあ共役勾配も事後残差最小基準でステップサイズ設定してやる→性能向上しない。なぜだ。</p>
+<p>今の所、準ニュートン法の結果は不安定に見える。異常に早いときは2~3イテレーションで極値近くに達する。</p>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-11.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/zi-ji-xiang-guan-xing-lie-noni-ji-suan-wobi-kerushi-mi.html">自己相関行列の逆計算を避ける試み</a></h2>
+                <div class="summary"><p>自己相関の逆計算を避ける試み。共役勾配法、準ニュートン法、そしてGraphical LASSOの威力を試す。</p>
+                    <a class="btn btn-default btn-xs" href="/zi-ji-xiang-guan-xing-lie-noni-ji-suan-wobi-kerushi-mi.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-10.html"><span class="math">\(R^{-1}\)</span> の計算(10)</a></h2>
+                <div class="summary"><p>共役勾配法を実装して（fが二次として金谷先生の例題3.5をそのまま使用）試してはいるが、性能が良くない。具体的には普通のSAと変わらんくらい。
+実装ミスを疑っている。確かめるためにJupyterで検証しているけど、無難な結果が出ていると思われる。。。</p>
+<p>でもおかしいんだよなあ。発想自体は自然勾配と全く同じはずなのにあまり良くならないのは、やっぱり引っかかる。
+もう少し追うけど、ダメそうなら切り替えて、次は準ニュートン法を試してみたい。
+しっかし共役勾配法についてはもう少し粘るし、準ニュートン法との比較はちゃんとすること。投げっぱなし良くない。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.uno.nuem.nagoya-u.ac.jp/~taji/lecture/mathprog/no9_18.pdf">制約なし問題の解法</a></li>
+<li><a class="reference external" href="https://tm23forest.com/contents/bfgs-formula-quasi-newton-method-scipy-motivated">BFGS公式による準ニュートン法</a><ul>
+<li>丁寧目の説明。ん？セカント方程式は劣決定問題だと言ってる。スパースな何かを使えないか？</li>
+</ul>
+</li>
+<li><a class="reference external" href="http://imclab.sys.okayama-u.ac.jp/~kent/DIR/opt08.pdf">システム制御最適化特論 非線形最適化</a><ul>
+<li>証明多め。丁寧な説明。</li>
+</ul>
+</li>
+<li><a class="reference external" href="http://www.orsj.or.jp/archive2/or59-03/or59_3_131.pdf">無制約最適化問題に対する アルゴリズムの最前線 ―非線形共役勾配法を中心に―</a></li>
+<li><a class="reference external" href="https://www.coyote009.com/non-linear-optimization">制約無し非線形最適化手法のいろいろ</a></li>
+<li><a class="reference external" href="https://www.sist.ac.jp/~suganuma/kougi/other_lecture/SE/opt/nonlinear/nonlinear.htm">システムの最適化 － ２．非線形計画法（ NP: Nonlinear Programming ） －</a><ul>
+<li>簡単めな説明で実装しやすさがある。</li>
+</ul>
+</li>
+</ul>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-10.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-9.html"><span class="math">\(R^{-1}\)</span> の計算(9)</a></h2>
+                <div class="summary"><p>講義受けてて思ったこと。Cramer-RaoをNGSAの学習能力の評価に使えないか？
+パット見使えなそう。うーむ。右辺というかFisher情報行列の逆は見えてるんだけど、比較対象の左辺が具体的に構成できない。（思い浮かばない）</p>
+<p>共役勾配法を入れて色々試してみてるけど、普通の勾配法とほぼ性能が変わらないという謎の状態。
+2次の情報を使ってるので何かしら変化があるはずなのに、ほぼ変わらないのはおかしい。
+自己相関行列を逐次的ではなく、前もって計算してやってみても同じ。謎。</p>
+<p>また共役勾配を見ると高級なモーメンタム法にしか見えないなあ。</p>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-9.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-8.html"><span class="math">\(R^{-1}\)</span> の計算(8)</a></h2>
+                <div class="summary"><p>今日は共役勾配法を試してみたい、が、その前にソース整理してcommitしとこう。</p>
+<p>pylintやるなりリファクタしてたら時間的にアウトになった。今日は見送りか...若干焦るけどしゃあない。</p>
+
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-8.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/r-1-noji-suan-7.html"><span class="math">\(R^{-1}\)</span> の計算(7)</a></h2>
+                <div class="summary"><p>課題にかまけていたら平日全く時間を取れなかった。まずい。
+なんのためにここに来ているのか改めて考えなければなるまい。</p>
+<p>やるべきは、NGSAにGraphical LASSOを入れるのが最終目的として、
+他にもいきなり思い出したことがある。夏に一瞬、共役勾配法を使えないかと言うのを考えていた。
+改めて金谷先生の本を読んでもやれそうに見えるのだ。</p>
+<ul class="simple">
+<li>Graphical LASSOを逐次的に実行する手法はあるか？<ul>
+<li>手法自体は中々見つかっていない・・・<ul>
+<li>繰り返し回数を1で固定して、経験自己相関を逐次的に更新できれば。。。</li>
+</ul>
+</li>
+<li>ないとしても、自己相関行列を逐次計算する手法はあるか？<ul>
+<li>共分散行列としたら色々出てきている…が、ピンとくる手法は無いように思える。</li>
+<li><a class="reference external" href="https://arxiv.org/pdf/1504.02995.pdf">An Overview on the Estimation of Large Covariance and Precision Matrices</a> でかい精度行列を推定する手法のサーベイ</li>
+<li><a class="reference external" href="http://faculty.marshall.usc.edu/Jacob-Bien/papers/biometrika2011spcov.pdf">Sparse Estimation of a Covariance Matrix</a> 共分散行列のスパース推定</li>
+<li><a class="reference external" href="https://webee.technion.ac.il/Sites/People/YoninaEldar/Info/Shrink.pdf">Shrinkage Algorithms for MMSE Covariance Estimation</a></li>
+<li><a class="reference external" href="https://hal.inria.fr/inria-00369468/document">Efficient Covariance Matrix Update for …</a></li></ul></li></ul></li></ul>
+                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-7.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/r-1-noji-suan-6.html"><span class="math">\(R^{-1}\)</span> の計算(6)</a></h2>
                 <div class="summary"><p>Graphical LASSOを積み込むべきなのかもしれない。
 まずは遅くてもいいから、NGSAに入れてみて様子を見よう。</p>
@@ -144,120 +245,6 @@ githubで探してみても同様の実装が多数。</p>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-3.html"><span class="math">\(R^{-1}\)</span> の計算(3)</a></h2>
-                <div class="summary"><p>要約すると、もうGraphical LASSO実装して試してみるべきかと思う。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://github.com/scikit-learn/scikit-learn/blob/0fb307bf3/sklearn/covariance/_graph_lasso.py">sklearnのソース(Github)</a></li>
-</ul>
-<p>数式との対応を追っていく。（しっかし昼は全く集中できない。。。）
-気になるのはオプティマイザ（勾配法orLARS）の実装が他のモジュールでやってるところか。</p>
-
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-2.html"><span class="math">\(R^{-1}\)</span> の計算(2)</a></h2>
-                <div class="summary"><p>今更ながら三重対角行列、かなり具合が良さそうに見える。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://mathtrain.jp/tridiagonal">三重対角行列の特殊形の固有値は綺麗</a></li>
-<li><a class="reference external" href="https://gg-hogehoge.hatenablog.com/entry/2013/07/20/140341">三重対角行列の固有値と固有ベクトルを計算したい</a></li>
-<li><a class="reference external" href="http://hooktail.org/computer/index.php?%BB%B0%BD%C5%C2%D0%B3%D1%B2%BD">三重対角化 - [物理のかぎしっぽ]</a> 頭に入れときたいのは、「対称行列は直交行列との積（直交変換）で3重対角行列に変換できる」ということ。</li>
-<li><a class="reference external" href="http://www.stat.yale.edu/~hz68/sparsePM.pdf">Estimating sparse precision matrices</a> スパース（三重対角）な精度行列（共分散行列の逆行列）を求める。これ、かなり近いのでは。</li>
-</ul>
-<p>やはり、Graphical LASSOを遅くてもいいから試したくある。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://omedstu.jimdofree.com/2018/03/28/graph-lassoによる変数間の関係のグラフ化/">GraphLassoによる変数間の関係のグラフ化</a></li>
-</ul>
-<p>sklearnで実装されているから、逐次計算じゃなくても計算してみることはできる。次はsklearnによる結果と比較してみよう。</p>
-
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-1.html"><span class="math">\(R^{-1}\)</span> の計算(1)</a></h2>
-                <div class="summary"><p><span class="math">\(R^{-1}\)</span> の計算高速化を考えていく。
-なにより対象を知るのが一番だと思うので、まずは確認コードと真値の計算とその確認を行っていく。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text/javascript';
-    mathjaxscript.src …</script>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-shu-ki1.html">論文書き(1)</a></h2>
-                <div class="summary"><p>TODO:</p>
-<ul class="simple">
-<li>図:<ul>
-<li>実データの結果、グレスケにすると手法の区別がつかない。移動平均サンプル数を多くする？</li>
-<li><a class="reference external" href="http://linuxtricksandtips.blogspot.com/2015/01/how-to-convert-color-eps-to-grayscale.html">カラーeps → グレスケepsの裏技</a></li>
-<li>移動平均サンプル数を増やした。グレスケ画像を作った。でもグレスケ置換はしない。白黒印刷で問題ないことがわかればOK｡</li>
-</ul>
-</li>
-<li>概要:<ul>
-<li>短い背景があるだけ。研究の新規性が明確でない。研究の目的が述べられず。すぐにLMSとSAの説明に入ってしまう。<ul>
-<li>ラプラス分布がーがいるかも？→いや、うるさい。</li>
-<li>残差をスパースにする必要がある。したがって、圧縮率改善のためには予測モデルの改善を模索する必要がある。SAは…</li>
-</ul>
-</li>
-<li>論理的なギャップに打ち勝つ新規性(novelty)をはっきりさせる。</li>
-<li>主張を強めるための数量的な改善点を述べよ。（例: 5%良くなった）。行を追加していい。</li>
-<li>実験結果から見れる研究の結論は何？結局コーデックに何が嬉しいの？</li>
-<li>TODO: 背景の既存研究の論理的なギャップを要約。結論の言葉を要約。<ul>
-<li>背景と同じで論理的なギャップなんてなくて、「SAの収束改善」が大事で、これを強調する。To overcome...</li>
-<li>結論の言葉、どうするか。（他のSAの論文見てると、実験結果よかった！で終わってて、おれもそうなってるんだが。）ロスレス音声に関するところだと、Future …</li></ul></li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-shu-ki1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi4.html">論文読み(4)</a></h2>
-                <div class="summary"><p>論文読みのコメント:</p>
-<p>「新板 情報幾何学の新展開」の15.7節（p190）にFisher情報行列の固有値の分布の議論が有る。なにか使えないか？</p>
-<ul class="simple">
-<li>DCの件、自分の研究内容にフォーカスしすぎてて広がりが見えにくかったという指摘があった。来年早いうちに着手する。春休み入ってからとか。</li>
-<li>筆者(Tianshu Quさん)に連絡してできたらソース貰う。</li>
-</ul>
-
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lun-wen-du-mi3.html">論文読み(3)</a></h2>
-                <div class="summary"><p>一気に追い込んで資料を作成。雑かも。</p>
-<p>一点気になっていたのが <span class="math">\(l^{2}\)</span> と <span class="math">\(L^{2}\)</span> の違い。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://scicomp.stackexchange.com/questions/21761/difference-between-l2-norm-and-l2-norm">Difference between l2 norm and L2 norm</a> 実数列に対するノルムは <span class="math">\(l\)</span> 、有界な定義域 <span class="math">\(\Omega\)</span> 上に定義されたルベーグ可測関数のノルムは <span class="math">\(L\)</span> で良さそう。</li>
-</ul>
-<p>クソ大雑把に言うと、列に対するノルムは <span class="math">\(l\)</span> となり、関数に対するノルムは <span class="math">\(L\)</span> と考えて良さそう。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent …</script>
-                    <a class="btn btn-default btn-xs" href="/lun-wen-du-mi3.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev"><a href="/author/aiki13.html">&laquo;</a>
@@ -308,6 +295,8 @@ githubで探してみても同様の実装が多数。</p>
                             href="/author/aiki22.html">22</a></li>
                     <li class=""><a
                             href="/author/aiki23.html">23</a></li>
+                    <li class=""><a
+                            href="/author/aiki24.html">24</a></li>
                 <li class="next"><a
                         href="/author/aiki15.html">&raquo;</a></li>
         </ul>
@@ -332,16 +321,28 @@ githubで探してみても同様の実装が多数。</p>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/resnet.html">ResNet</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
@@ -350,34 +351,19 @@ githubで探してみても同様の実装が多数。</p>
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/resnet.html">ResNet</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
@@ -386,73 +372,76 @@ githubで探してみても同様の実装が多数。</p>
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+      <a href="/tag/cnn.html">CNN</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/test.html">test</a>
@@ -461,49 +450,52 @@ githubで探してみても同様の実装が多数。</p>
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
   </ul>
 </li>

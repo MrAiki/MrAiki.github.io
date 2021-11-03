@@ -1,7 +1,427 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-09-14T10:00:00+09:00</updated><entry><title>LPCの多段構成検証(20)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html" rel="alternate"></link><published>2021-09-14T10:00:00+09:00</published><updated>2021-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-14:/lpcnoduo-duan-gou-cheng-jian-zheng-20.html</id><content type="html">&lt;p&gt;実装をまとめていったんGitHubにあげた（まだprivate）。
-まだテストや評価が残っている。また、色々圧縮してみるがエンコード負荷が高すぎる。&lt;/p&gt;
-</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(21) 一旦中断</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html" rel="alternate"></link><published>2021-09-14T10:00:00+09:00</published><updated>2021-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-14:/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html</id><content type="html">&lt;p&gt;論文執筆に戻らないといけないことが分かった。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2021-11-02T10:00:00+09:00</updated><entry><title>LPCの多段構成執筆(6)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-6.html" rel="alternate"></link><published>2021-11-02T10:00:00+09:00</published><updated>2021-11-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-11-02:/lpcnoduo-duan-gou-cheng-zhi-bi-6.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;予稿を書きつつある。同時にWavenetを読み込んでいる。
+今日思ったのが、プリエンファシスもAuxiliary FunctionでL1スパース解が求まるのでは無いかという想像。式導出だけでもできるはずなのでやってみたい。&lt;/p&gt;
+&lt;p&gt;試しにやってみたが、圧縮率が微妙に悪化。
+値の範囲チェックが悪かったりするかもしれない。コメントアウトで残すには汚いので、ここに供養する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cm"&gt;/* 残差絶対値平均を最小にするプリエンファシスフィルタ係数計算 */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;LINNEPreemphasisFilter_CalculateLADCoefficient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;LINNEPreemphasisFilter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;preem&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;itr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;obj_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prev_obj_value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;curr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;LINNE_ASSERT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;preem …&lt;/span&gt;&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;予稿を書きつつある。同時にWavenetを読み込んでいる。
+今日思ったのが、プリエンファシスもAuxiliary FunctionでL1スパース解が求まるのでは無いかという想像。式導出だけでもできるはずなのでやってみたい。&lt;/p&gt;
+&lt;p&gt;試しにやってみたが、圧縮率が微妙に悪化。
+値の範囲チェックが悪かったりするかもしれない。コメントアウトで残すには汚いので、ここに供養する。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cm"&gt;/* 残差絶対値平均を最小にするプリエンファシスフィルタ係数計算 */&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt; &lt;span class="kt"&gt;void&lt;/span&gt; &lt;span class="nf"&gt;LINNEPreemphasisFilter_CalculateLADCoefficient&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;
+        &lt;span class="k"&gt;struct&lt;/span&gt; &lt;span class="n"&gt;LINNEPreemphasisFilter&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;preem&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;int32_t&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="kt"&gt;uint32_t&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;itr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;obj_value&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;prev_obj_value&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;curr&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+    &lt;span class="n"&gt;LINNE_ASSERT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;preem&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="n"&gt;LINNE_ASSERT&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;buffer&lt;/span&gt; &lt;span class="o"&gt;!=&lt;/span&gt; &lt;span class="nb"&gt;NULL&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+&lt;span class="cp"&gt;#if 0&lt;/span&gt;&lt;span class="c"&gt;&lt;/span&gt;
+&lt;span class="c"&gt;    /* 係数の初期値を最小二乗法で定める */&lt;/span&gt;
+&lt;span class="c"&gt;    {&lt;/span&gt;
+&lt;span class="c"&gt;        double corr[2];&lt;/span&gt;
+&lt;span class="c"&gt;        curr = buffer[0] * pow(2.0f, -15);&lt;/span&gt;
+&lt;span class="c"&gt;        for (smpl = 0; smpl &amp;lt; num_samples - 1; smpl++) {&lt;/span&gt;
+&lt;span class="c"&gt;            const double succ = buffer[smpl + 1] * pow(2.0f, -15);&lt;/span&gt;
+&lt;span class="c"&gt;            corr[0] += curr * curr;&lt;/span&gt;
+&lt;span class="c"&gt;            corr[1] += curr * succ;&lt;/span&gt;
+&lt;span class="c"&gt;            curr = succ;&lt;/span&gt;
+&lt;span class="c"&gt;        }&lt;/span&gt;
+&lt;span class="c"&gt;        coef = (corr[0] &amp;lt;= 1e-6) ? 0.0f : (corr[1] / corr[0]);&lt;/span&gt;
+&lt;span class="c"&gt;    }&lt;/span&gt;
+&lt;span class="cp"&gt;#endif&lt;/span&gt;
+
+    &lt;span class="n"&gt;prev_obj_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;FLT_MAX&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;itr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;itr&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;itr&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;r01&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;r11&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="cm"&gt;/* 方程式の係数計算 */&lt;/span&gt;
+        &lt;span class="n"&gt;obj_value&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;0.0f&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="n"&gt;curr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;pow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="n"&gt;smpl&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;inv_res&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="k"&gt;const&lt;/span&gt; &lt;span class="kt"&gt;double&lt;/span&gt; &lt;span class="n"&gt;succ&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;buffer&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;smpl&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;pow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;15&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="cm"&gt;/* 絶対値残差計算 */&lt;/span&gt;
+            &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;fabs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;succ&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;curr&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+            &lt;span class="n"&gt;obj_value&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="cm"&gt;/* 正則化 */&lt;/span&gt;
+            &lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;res&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mf"&gt;1e-8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; &lt;span class="mf"&gt;1e-8&lt;/span&gt; &lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;inv_res&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0f&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;res&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;r01&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;succ&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;curr&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;inv_res&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;r11&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="n"&gt;curr&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;curr&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;inv_res&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+            &lt;span class="n"&gt;curr&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;succ&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+
+        &lt;span class="n"&gt;obj_value&lt;/span&gt; &lt;span class="o"&gt;/=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;num_samples&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+
+        &lt;span class="cm"&gt;/* 係数更新 */&lt;/span&gt;
+        &lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;r01&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;r11&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+
+        &lt;span class="cm"&gt;/* 収束判定 */&lt;/span&gt;
+        &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fabs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prev_obj_value&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;obj_value&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mf"&gt;1e-8&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+
+    &lt;span class="cm"&gt;/* 係数設定 */&lt;/span&gt;
+    &lt;span class="n"&gt;preem&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;LINNEUtility_Round&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;pow&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mf"&gt;2.0f&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;LINNE_PREEMPHASIS_COEF_SHIFT&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;
+    &lt;span class="cm"&gt;/* 丸め込み */&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;preem&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LINNE_PREEMPHASIS_COEF_SHIFT&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="n"&gt;preem&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;coef&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;LINNE_PREEMPHASIS_COEF_SHIFT&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;1次線形近似で平均絶対値が最小になるのは中央値 &lt;span class="math"&gt;\(m\)&lt;/span&gt; のときだから、 &lt;span class="math"&gt;\(\mean{}{|x_{n} - a x_{n-1}|}\)&lt;/span&gt; を最小化すると考えると、 &lt;span class="math"&gt;\(a x_{n-1} = m\)&lt;/span&gt; となるようにすれば良くて、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\mean{}{|x_{n} - a x_{n-1}|}
+\end{equation*}
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="Auxiliary Function"></category></entry><entry><title>LPCの多段構成執筆(5)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-5.html" rel="alternate"></link><published>2021-10-31T10:00:00+09:00</published><updated>2021-10-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-10-31:/lpcnoduo-duan-gou-cheng-zhi-bi-5.html</id><summary type="html">&lt;p&gt;土曜日はkolme&amp;#64;西川口。とくにStep by stepがよい。Youtubeと比べると進歩が歴然。
+移動中SoundStream読んでた。新しいのは残差のVQのやり方に尽きるかも？でも面白くはあるから紹介する。&lt;/p&gt;
+&lt;p&gt;日曜日の今日は、補助関数法をコーデックに移植して試している。
+結果、手元の音源でわずかに圧縮率が改善している。（まだ不具合があるかも）&lt;/p&gt;
+&lt;p&gt;繰り返しの過程を見ている。目的関数値（残差L1ノルム）は単調減少しているが、係数が安定しない印象を受ける。これは少なくともPythonで簡単な信号を処理するときには見られなかった。
+また、繰り返し回数や収束判定でもだいぶ圧縮率に差が出る（0.1%オーダー）。これはアルゴリズムバグを疑っている。&lt;/p&gt;
+&lt;p&gt;そして学習をスキップできるかと思ったら、そうでもなくて学習したほうが減る。。
+学習にあたっては、1回だけ補助関数法を実行→次の層の残差計算 というやり方が考えられるけどどうだろう。試してみたい欲はあるが、理論がまったくない。
+うーん、やはりBPは有効なのかも。なぜなら、最終的な残差を最小にするように層全体に対して学習が動くから。LPCと補助関数法は1層間に対してしか最適化しない。&lt;/p&gt;
+&lt;p&gt;残差イプシロン、目的関数イプシロンを変えてもだいぶ結果に差が出るのは怪しい。引き続きデバッグする。Python実装と比べても何も思い浮かばないから、もはやテストコード書いたほうがいいかも？&lt;/p&gt;
+&lt;p&gt;補助関数法の途中の補助変数の絶対値逆数が0割りの可能性があるので、そのイプシロンを設けたところイプシロンの値によってだいぶ結果が変わってくる。補助関数をもっと良いものを構成できないか、原論文を漁った。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kecl.ntt.co.jp/people/kameoka.hirokazu/publications/Kameoka2008IEICEPaper.pdf"&gt;予測誤差の Golomb-Rice …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;土曜日はkolme&amp;#64;西川口。とくにStep by stepがよい。Youtubeと比べると進歩が歴然。
+移動中SoundStream読んでた。新しいのは残差のVQのやり方に尽きるかも？でも面白くはあるから紹介する。&lt;/p&gt;
+&lt;p&gt;日曜日の今日は、補助関数法をコーデックに移植して試している。
+結果、手元の音源でわずかに圧縮率が改善している。（まだ不具合があるかも）&lt;/p&gt;
+&lt;p&gt;繰り返しの過程を見ている。目的関数値（残差L1ノルム）は単調減少しているが、係数が安定しない印象を受ける。これは少なくともPythonで簡単な信号を処理するときには見られなかった。
+また、繰り返し回数や収束判定でもだいぶ圧縮率に差が出る（0.1%オーダー）。これはアルゴリズムバグを疑っている。&lt;/p&gt;
+&lt;p&gt;そして学習をスキップできるかと思ったら、そうでもなくて学習したほうが減る。。
+学習にあたっては、1回だけ補助関数法を実行→次の層の残差計算 というやり方が考えられるけどどうだろう。試してみたい欲はあるが、理論がまったくない。
+うーん、やはりBPは有効なのかも。なぜなら、最終的な残差を最小にするように層全体に対して学習が動くから。LPCと補助関数法は1層間に対してしか最適化しない。&lt;/p&gt;
+&lt;p&gt;残差イプシロン、目的関数イプシロンを変えてもだいぶ結果に差が出るのは怪しい。引き続きデバッグする。Python実装と比べても何も思い浮かばないから、もはやテストコード書いたほうがいいかも？&lt;/p&gt;
+&lt;p&gt;補助関数法の途中の補助変数の絶対値逆数が0割りの可能性があるので、そのイプシロンを設けたところイプシロンの値によってだいぶ結果が変わってくる。補助関数をもっと良いものを構成できないか、原論文を漁った。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kecl.ntt.co.jp/people/kameoka.hirokazu/publications/Kameoka2008IEICEPaper.pdf"&gt;予測誤差の Golomb-Rice 符号量を最小化する線形予測分析&lt;/a&gt; 原論文。&lt;ul&gt;
+&lt;li&gt;Golomb-Rice符号の最短符号の範囲は広いから、絶対値関数の原点付近は単に0に近づけるより遊びをもたせるのが良いとの記述。それで別の補助関数を作成。その適用法はまだ読み込めてない。&lt;/li&gt;
+&lt;li&gt;最適解の1つを出力するが、大域最適解は一意とは限らない。まじかあ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリセットをもう少し真面目に設定し直した。圧縮率とデコード速度でwavpack(-hh)は越えてる想定。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ibisml.org/archive/ibis2014/Kameoka2014IBIS11ver3.pdf"&gt;音声音響信号処理のための 確率モデルと学習アルゴリズム&lt;/a&gt; これの後ろの方に補助関数設計クックブックがある。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="Auxiliary Function"></category></entry><entry><title>LPCの多段構成執筆(4)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-4.html" rel="alternate"></link><published>2021-10-29T10:00:00+09:00</published><updated>2021-10-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-10-29:/lpcnoduo-duan-gou-cheng-zhi-bi-4.html</id><content type="html">&lt;p&gt;昨日の続きで、もう少しPython実装で補助変数法が有効か確かめてみた。
+どうも単純な線形関数に対してはLevinson-Durbinの方がL1ロスでも良い傾向がある。
+また、単純な入力では学習によってロスが振動するか、のんびり悪化していく。
+怪しくなってもう一度Notebookで試してみたが、実信号の方では補助関数法のほうがよい。
+また、学習によってロスが減少していくことも見ている。この差は一体なんだろう。&lt;/p&gt;
+&lt;p&gt;C組み込みに着手してよいのだろうか。。。迷いどころ。
+結構内部実装に手を入れそうだから、ブランチを切ろう。&lt;/p&gt;
+&lt;p&gt;初手LU分解でいいはず。と思ったらNumerical recipies in Cで超簡易実装が（日本語訳されてない）&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://kfes-16.karlov.mff.cuni.cz/~standa/nc/www.library.cornell.edu/nr/bookcpdf/c2-9.pdf"&gt;2.9 Cholesky Decomposition&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;これを実装しない手はない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="Auxiliary Function"></category></entry><entry><title>LPCの多段構成執筆(3)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-3.html" rel="alternate"></link><published>2021-10-28T10:00:00+09:00</published><updated>2021-10-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-10-28:/lpcnoduo-duan-gou-cheng-zhi-bi-3.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;論文書きが一旦落ち着きそうなのを見て、学習の高速化を考えている。ダイレクトに微分を計算して解くのは、やはり解析的でないこともありいい方向じゃない。&lt;/p&gt;
+&lt;p&gt;L1ロスの最適化（しかもARモデルで）を調べていたら、亀岡さんの補助関数法を思い出した（ &lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/71/11/71_KJ00010109335/_pdf"&gt;スパース表現に基づく音声音響符号化&lt;/a&gt; ）。これ、ずっと気になっていたがLPCだし気にしていなかった。結果としてはかなり有用そうで、試してみたい。最急勾配よりはよい性質がある（目的関数値が単調減少する。目的関数は凸だから大域最適値への収束が保証）。&lt;/p&gt;
+&lt;p&gt;以下に概要をまとめよう。&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;定義（補助関数）&lt;/dt&gt;
+&lt;dd&gt;&lt;span class="math"&gt;\(\ve{\theta …&lt;/span&gt;&lt;/dd&gt;&lt;/dl&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;論文書きが一旦落ち着きそうなのを見て、学習の高速化を考えている。ダイレクトに微分を計算して解くのは、やはり解析的でないこともありいい方向じゃない。&lt;/p&gt;
+&lt;p&gt;L1ロスの最適化（しかもARモデルで）を調べていたら、亀岡さんの補助関数法を思い出した（ &lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/71/11/71_KJ00010109335/_pdf"&gt;スパース表現に基づく音声音響符号化&lt;/a&gt; ）。これ、ずっと気になっていたがLPCだし気にしていなかった。結果としてはかなり有用そうで、試してみたい。最急勾配よりはよい性質がある（目的関数値が単調減少する。目的関数は凸だから大域最適値への収束が保証）。&lt;/p&gt;
+&lt;p&gt;以下に概要をまとめよう。&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;定義（補助関数）&lt;/dt&gt;
+&lt;dd&gt;&lt;span class="math"&gt;\(\ve{\theta}\)&lt;/span&gt; をパラメータとする目的関数 &lt;span class="math"&gt;\(D(\ve{\theta})\)&lt;/span&gt; に対し &lt;span class="math"&gt;\(D(\ve{\theta}) = \min_{\ve{\alpha}} G(\ve{\theta}, \ve{\alpha})\)&lt;/span&gt; が成り立つとき、 &lt;span class="math"&gt;\(G(\ve{\theta}, \ve{\alpha})\)&lt;/span&gt; を &lt;span class="math"&gt;\(D(\ve{\theta})\)&lt;/span&gt; の補助関数(Auxiliary Function)、 &lt;span class="math"&gt;\(\ve{\alpha}\)&lt;/span&gt; を補助変数と呼ぶ。&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;補助関数の基本的かつ重要な定理が以下。&lt;/p&gt;
+&lt;dl class="docutils"&gt;
+&lt;dt&gt;定理&lt;/dt&gt;
+&lt;dd&gt;&lt;p class="first"&gt;補助関数 &lt;span class="math"&gt;\(G(\ve{\theta}, \ve{\alpha})\)&lt;/span&gt; に対し、以下の手続き&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\ve{\alpha} &amp;amp;\leftarrow \underset{\ve{\alpha}}{\mathrm{argmin}} \ G(\ve{\theta}, \ve{\alpha}) \tag{1} \\
+\ve{\theta} &amp;amp;\leftarrow \underset{\ve{\theta}}{\mathrm{argmin}} \ G(\ve{\theta}, \ve{\alpha}) \tag{2}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;を繰り返すと、目的関数の値は単調減少する。&lt;/p&gt;
+&lt;p&gt;（証明） &lt;span class="math"&gt;\((\ve{\theta}^{(l)}, \ve{\alpha}^{(l)})\)&lt;/span&gt; から &lt;span class="math"&gt;\((\ve{\theta}^{(l+1)}, \ve{\alpha}^{(l+1)})\)&lt;/span&gt; と更新したときに、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+D(\ve{\theta}^{(l)}) &amp;amp;:= \min_{\ve{\alpha}} G(\ve{\theta}^{(l)}, \ve{\alpha}) \\
+&amp;amp;= G(\ve{\theta}^{(l)}, \ve{\alpha}^{(l+1)}) \quad (\because (1)) \\
+&amp;amp;\geq G(\ve{\theta}^{(l+1)}, \ve{\alpha}^{(l+1)}) \quad (\because (2)) \\
+&amp;amp;\geq D(\ve{\theta}^{(l+1)}) \quad (\because 補助関数の定義)
+\end{align*}
+&lt;/div&gt;
+&lt;p class="last"&gt;（証明終）&lt;/p&gt;
+&lt;/dd&gt;
+&lt;/dl&gt;
+&lt;p&gt;これをARモデルの絶対値誤差問題&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+J(\ve{a}) = \mean{}{\left| s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i} \right|}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;に適用することを考える。今、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+|x| \leq \frac{x^{2}}{2 |w|} + \frac{|w|}{2}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;だから（ &lt;span class="math"&gt;\(\because \frac{x^{2}}{2 |w|} + \frac{|w|}{2} - |x| = \frac{1}{2 |w|}(x^{2} + |w|^{2} - 2|w|x) = (x - |w|)^{2} \geq 0\)&lt;/span&gt; 、 &lt;span class="math"&gt;\(x = w\)&lt;/span&gt; のとき等号成立）、補助変数 &lt;span class="math"&gt;\(w_{t}\)&lt;/span&gt; を導入すると、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+J(\ve{a}) &amp;amp;= \mean{}{\left| s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i} \right|} \\
+&amp;amp;\leq \mean{}{\frac{1}{2|w_{t}|} \left( s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i} \right)^{2} + \frac{|w_{t}|}{2}} = \mean{}{\frac{1}{2|w_{t}|} \left( s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i} \right)^{2}} + \frac{1}{2} \mean{}{|w_{t}|}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;となる。そこで補助関数 &lt;span class="math"&gt;\(I(\ve{a}, \ve{w})\)&lt;/span&gt; を&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+I(\ve{a}, \ve{w}) := \mean{}{\frac{1}{2|w_{t}|} \left( s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i} \right)^{2}} + \frac{1}{2} \mean{}{|w_{t}|}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;と定義する。 &lt;span class="math"&gt;\(w_{t} = s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i}\)&lt;/span&gt; とすれば、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+I(\ve{a}, \ve{w}) = \mean{}{\frac{1}{2|w_{t}|} w_{t}^{2}} + \frac{1}{2} \mean{}{|w_{t}|} = \mean{}{|w_{t}|} = J(\ve{a})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;だから、この &lt;span class="math"&gt;\(w_{t}\)&lt;/span&gt; は &lt;span class="math"&gt;\(\underset{\ve{w}}{\mathrm{argmin}} \ I(\ve{a}, \ve{w})\)&lt;/span&gt; を満たしている。一方、 &lt;span class="math"&gt;\(\ve{w}\)&lt;/span&gt; を固定したとき、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\parfrac{}{a_{j}} I(\ve{a}, \ve{w}) &amp;amp;= \mean{}{\frac{1}{2|w_{t}|} 2 \left( s_{t} - \sum_{i = 1}^{L} a_{i} s_{t-i} \right)(-s_{t-j})} \\
+&amp;amp;= \mean{}{\frac{1}{|w_{t}|} \left( \sum_{i = 1}^{L} a_{i} s_{t-i} s_{t-j} - s_{t} s_{t-j} \right)} \\
+&amp;amp;= \sum_{i = 1}^{L} a_{i} \mean{}{\frac{1}{|w_{t}|} s_{t-i} s_{t-j}} - \mean{}{\frac{1}{|w_{t}|} s_{t} s_{t-j}} \\
+&amp;amp;= \sum_{i = 1}^{L} a_{i} r_{ij} - r_{0j}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;ここで &lt;span class="math"&gt;\(r_{ij} := \mean{}{\frac{1}{|w_{t}|} s_{t-i} s_{t-j}}\)&lt;/span&gt; とおいている。さて、 &lt;span class="math"&gt;\(\parfrac{}{a_{j}} I(\ve{a}, \ve{w}) = 0\ (j = 1,...,L)\)&lt;/span&gt; とおいて &lt;span class="math"&gt;\(\ve{a}\)&lt;/span&gt; について解くと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\left[
+\begin{array}{ccc}
+  r_{11} &amp;amp; ...    &amp;amp; r_{1L} \\
+  \vdots &amp;amp; \ddots &amp;amp; \vdots \\
+  r_{L1} &amp;amp; ...    &amp;amp; r_{LL} \\
+\end{array}
+\right]
+\left[
+\begin{array}{c}
+  a_{1} \\
+  \vdots \\
+  a_{L} \\
+\end{array}
+\right]
+=
+\left[
+\begin{array}{c}
+  r_{01} \\
+  \vdots \\
+  r_{0L} \\
+\end{array}
+\right]
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;だから、上記の方程式を満たす &lt;span class="math"&gt;\(\ve{a}\)&lt;/span&gt; が &lt;span class="math"&gt;\(I(\ve{a}, \ve{w})\)&lt;/span&gt; を最小にする。なお、 &lt;span class="math"&gt;\((\ve{R})_{ij} = r_{ij}\)&lt;/span&gt; なる行列をおくと、 &lt;span class="math"&gt;\(r_{ij} = r_{ji}\)&lt;/span&gt; だから &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; は対称で、任意の &lt;span class="math"&gt;\(\ve{x} \neq \ve{0}\)&lt;/span&gt; に対し、 &lt;span class="math"&gt;\(\ve{s}_{t} := [ s_{t-1} ... s_{t-L} ]^{\mathsf{T}}\)&lt;/span&gt; とおくと、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\ve{x}^{\mathsf{T}} \ve{R} \ve{x} = \ve{x}^{\mathsf{T}} \mean{}{\frac{1}{|w_{t}|} \ve{s}_{t} \ve{s}_{t}^{\mathsf{T}}} \ve{x} = \mean{}{\frac{1}{|w_{t}|} (\ve{x}^{\mathsf{T}} \ve{s}_{t})^{2}} \geq 0
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;だから &lt;span class="math"&gt;\(\ve{R}\)&lt;/span&gt; は半正定値なので、コレスキー分解などで高速に解ける（注： &lt;span class="math"&gt;\(r_{00} = \mean{}{\frac{1}{|w_{t}|} s_{t}^{2}} \neq r_{11} = \mean{}{\frac{1}{|w_{t}|} s_{t-1}^{2}}\)&lt;/span&gt; なのでPersymmetric行列でなく、Levinson-Durbinは使えない）。&lt;/p&gt;
+&lt;p&gt;よって、次のアルゴリズムにより &lt;span class="math"&gt;\(J(\ve{a})\)&lt;/span&gt; を単調減少させられる。&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\ve{a}\)&lt;/span&gt; を初期値に設定（Lebinson-Durbinとかで決める？）&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(w_{t} \leftarrow s_{t} - \sum_{i=1}^{L} a_{i} s_{t-i}\)&lt;/span&gt; （予測）&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(r_{ij} \leftarrow \mean{}{\frac{1}{|w_{t}|} s_{t-i} s_{t-j}}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\ve{a} \leftarrow \left[ \begin{array}{ccc} r_{11} &amp;amp; ...    &amp;amp; r_{1L} \\ \vdots &amp;amp; \ddots &amp;amp; \vdots \\ r_{L1} &amp;amp; ...    &amp;amp; r_{LL} \\ \end{array} \right]^{-1} \left[ \begin{array}{c} r_{01} \\ \vdots \\ r_{0L} \\ \end{array} \right]\)&lt;/span&gt; （コレスキー分解などで解く）&lt;/li&gt;
+&lt;li&gt;2.に戻る&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(J(\ve{a})\)&lt;/span&gt; は &lt;span class="math"&gt;\(\ve{a}\)&lt;/span&gt; に関して凸なので、この問題に関しては上記アルゴリズムは大域最適解に収束する。&lt;/p&gt;
+&lt;p&gt;例えば、提案するモデルにおいて順行方向か逆方向に2, 3, 4を実行するのは、BPの代替手段としてあり。&lt;/p&gt;
+&lt;p&gt;ちょっと試している。初期値についてはゼロでもLevinson-Durbinでもあんまり最終的な結果に差は出てこない。また、論文では平均ではなく和で計算しているが、和では安定しない（係数行列の要素が大きくなる+解が収束しない）傾向。
+LPCNet（仮。名称変更予定）でLevinson-Durbinを入れ替えてみた（NNの構造選択と初期値設定で上記手法を使った）ら、割と劇的な平均絶対値残差減少が見られた。ひとまず機能追加。&lt;/p&gt;
+&lt;div class="section" id="id1"&gt;
+&lt;h2&gt;補助関数の文献&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/68/11/68_KJ00008328911/_article/-char/ja/"&gt;補助関数法による最適化アルゴリズムとその音響信号処理への応用(&amp;lt;小特集&amp;gt;近年の音響信号処理における数理科学の進展)&lt;/a&gt; MM(majorization minimization)法とも言うらしい。&lt;ul&gt;
+&lt;li&gt;補助関数設計のコツは、よく知られた不等式を使うことにある。確かに。&lt;/li&gt;
+&lt;li&gt;Jensenの不等式、コーシーシュワルツの不等式、凸関数の接平面が満たす不等式、凸関数の定義不等式などなど&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\log(\cosh(x))\)&lt;/span&gt; が &lt;span class="math"&gt;\(|x|\)&lt;/span&gt; に近い挙動をするのも参考になる。 &lt;span class="math"&gt;\(\log(\cosh(x)) + \log(2)\)&lt;/span&gt; は &lt;span class="math"&gt;\(x \to \pm \infty\)&lt;/span&gt; で &lt;span class="math"&gt;\(|x|\)&lt;/span&gt; に上から漸近する。なにかに使えないか少しだけ考えたが、補助関数はキツイか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="Auxiliary Function"></category></entry><entry><title>LPCの多段構成執筆(2)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-2.html" rel="alternate"></link><published>2021-10-22T10:00:00+09:00</published><updated>2021-10-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-10-22:/lpcnoduo-duan-gou-cheng-zhi-bi-2.html</id><content type="html">&lt;p&gt;改めてお話づくりが必要だと思っている。→土日月マジミラやりながらお話づくり。論文も修正。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成執筆(1)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-1.html" rel="alternate"></link><published>2021-10-21T10:00:00+09:00</published><updated>2021-10-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-10-21:/lpcnoduo-duan-gou-cheng-zhi-bi-1.html</id><content type="html">&lt;p&gt;合宿で9月末から今週頭まで全く動けず。進捗報告を行ったところ以下のコメント。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;LPCを多段構成するとき、解像度の低い方から処理していくのはやはり特殊&lt;ul&gt;
+&lt;li&gt;画像向きのResNetやロッシーコーデックでは解像度が高い（細かい領域）から処理していく。ロスレスに特有の現象か。&lt;/li&gt;
+&lt;li&gt;これは周波数空間でいつもの処理をしているのでは？（次元が逆になっているから）←これとても興味深い&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ResNet, VGG, DNNでも、係数を量子化することによる影響は少ないという実験的結果がある。すなわち係数のビット幅は小さくして良さそう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(21) 一旦中断</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html" rel="alternate"></link><published>2021-09-15T10:00:00+09:00</published><updated>2021-09-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-15:/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html</id><content type="html">&lt;p&gt;論文執筆に戻らないといけないことが分かった。&lt;/p&gt;
 &lt;p&gt;解析的最適化を行いたいのはもちろんだが、後回しになりそう。
 今日で一旦実装に整理をつけておく。明日以降論文のプロットを打つ。&lt;/p&gt;
 &lt;p&gt;今日試したいのは勾配を直線探索する試み。理由は2点&lt;/p&gt;
@@ -14,6 +434,8 @@
 &lt;/ul&gt;
 &lt;p&gt;試してみた。確かに収束は早いが、圧縮率が悪化した。また、原因は詳しく終えてないが別音源で無限ループ。
 全体的に性能が良くないため直線探索は採用しない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(20)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html" rel="alternate"></link><published>2021-09-14T10:00:00+09:00</published><updated>2021-09-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-14:/lpcnoduo-duan-gou-cheng-jian-zheng-20.html</id><content type="html">&lt;p&gt;実装をまとめていったんGitHubにあげた（まだprivate）。
+まだテストや評価が残っている。また、色々圧縮してみるがエンコード負荷が高すぎる。&lt;/p&gt;
 </content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category></entry><entry><title>LPCの多段構成検証(19)</title><link href="/lpcnoduo-duan-gou-cheng-jian-zheng-19.html" rel="alternate"></link><published>2021-09-13T10:00:00+09:00</published><updated>2021-09-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-09-13:/lpcnoduo-duan-gou-cheng-jian-zheng-19.html</id><summary type="html">&lt;p&gt;9/11, 9/12 はAIR聖地巡り。美しい。聖地以外も。そして飯がうまい。日高のクエ鍋は冬料理（10〜3月）だが、いつかきっと食べに行こう。&lt;/p&gt;
 &lt;p&gt;コーデックの実装に戻る。ここからが勝負になると思っている。今日は帰りの新幹線のぞみで、Adamを試してみたい。
 実装してみたがすごい不安定。デフォルトの推奨値（学習率:0.001、beta1:0.9、beta2:0.999、イプシロン1e-8）でないと実用的とは思えない。

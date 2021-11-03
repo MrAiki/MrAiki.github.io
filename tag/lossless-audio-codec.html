@@ -84,11 +84,107 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html">LPCの多段構成検証(20)</a></h2>
-                <div class="summary"><p>実装をまとめていったんGitHubにあげた（まだprivate）。
-まだテストや評価が残っている。また、色々圧縮してみるがエンコード負荷が高すぎる。</p>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-6.html">LPCの多段構成執筆(6)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\end{equation*}
+</div>
+<p>予稿を書きつつある。同時にWavenetを読み込んでいる。
+今日思ったのが、プリエンファシスもAuxiliary FunctionでL1スパース解が求まるのでは無いかという想像。式導出だけでもできるはずなのでやってみたい。</p>
+<p>試しにやってみたが、圧縮率が微妙に悪化。
+値の範囲チェックが悪かったりするかもしれない。コメントアウトで残すには汚いので、ここに供養する。</p>
+<div class="highlight"><pre><span></span><span class="cm">/* 残差絶対値平均を最小にするプリエンファシスフィルタ係数計算 */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">LINNEPreemphasisFilter_CalculateLADCoefficient</span><span class="p">(</span>
+        <span class="k">struct</span> <span class="n">LINNEPreemphasisFilter</span> <span class="o">*</span><span class="n">preem</span><span class="p">,</span> <span class="k">const</span> <span class="kt">int32_t</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">num_samples</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">uint32_t</span> <span class="n">smpl</span><span class="p">,</span> <span class="n">itr</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">coef</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">,</span> <span class="n">obj_value</span><span class="p">,</span> <span class="n">prev_obj_value</span><span class="p">;</span>
+    <span class="kt">double</span> <span class="n">curr</span><span class="p">;</span>
 
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html">more ...</a>
+    <span class="n">LINNE_ASSERT</span><span class="p">(</span><span class="n">preem …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-zhi-bi-6.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-5.html">LPCの多段構成執筆(5)</a></h2>
+                <div class="summary"><p>土曜日はkolme&#64;西川口。とくにStep by stepがよい。Youtubeと比べると進歩が歴然。
+移動中SoundStream読んでた。新しいのは残差のVQのやり方に尽きるかも？でも面白くはあるから紹介する。</p>
+<p>日曜日の今日は、補助関数法をコーデックに移植して試している。
+結果、手元の音源でわずかに圧縮率が改善している。（まだ不具合があるかも）</p>
+<p>繰り返しの過程を見ている。目的関数値（残差L1ノルム）は単調減少しているが、係数が安定しない印象を受ける。これは少なくともPythonで簡単な信号を処理するときには見られなかった。
+また、繰り返し回数や収束判定でもだいぶ圧縮率に差が出る（0.1%オーダー）。これはアルゴリズムバグを疑っている。</p>
+<p>そして学習をスキップできるかと思ったら、そうでもなくて学習したほうが減る。。
+学習にあたっては、1回だけ補助関数法を実行→次の層の残差計算 というやり方が考えられるけどどうだろう。試してみたい欲はあるが、理論がまったくない。
+うーん、やはりBPは有効なのかも。なぜなら、最終的な残差を最小にするように層全体に対して学習が動くから。LPCと補助関数法は1層間に対してしか最適化しない。</p>
+<p>残差イプシロン、目的関数イプシロンを変えてもだいぶ結果に差が出るのは怪しい。引き続きデバッグする。Python実装と比べても何も思い浮かばないから、もはやテストコード書いたほうがいいかも？</p>
+<p>補助関数法の途中の補助変数の絶対値逆数が0割りの可能性があるので、そのイプシロンを設けたところイプシロンの値によってだいぶ結果が変わってくる。補助関数をもっと良いものを構成できないか、原論文を漁った。</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.kecl.ntt.co.jp/people/kameoka.hirokazu/publications/Kameoka2008IEICEPaper.pdf">予測誤差の Golomb-Rice …</a></li></ul>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-zhi-bi-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-4.html">LPCの多段構成執筆(4)</a></h2>
+                <div class="summary"><p>昨日の続きで、もう少しPython実装で補助変数法が有効か確かめてみた。
+どうも単純な線形関数に対してはLevinson-Durbinの方がL1ロスでも良い傾向がある。
+また、単純な入力では学習によってロスが振動するか、のんびり悪化していく。
+怪しくなってもう一度Notebookで試してみたが、実信号の方では補助関数法のほうがよい。
+また、学習によってロスが減少していくことも見ている。この差は一体なんだろう。</p>
+<p>C組み込みに着手してよいのだろうか。。。迷いどころ。
+結構内部実装に手を入れそうだから、ブランチを切ろう。</p>
+<p>初手LU分解でいいはず。と思ったらNumerical recipies in Cで超簡易実装が（日本語訳されてない）</p>
+<ul class="simple">
+<li><a class="reference external" href="http://kfes-16.karlov.mff.cuni.cz/~standa/nc/www.library.cornell.edu/nr/bookcpdf/c2-9.pdf">2.9 Cholesky Decomposition</a></li>
+</ul>
+<p>これを実装しない手はない。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-zhi-bi-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-3.html">LPCの多段構成執筆(3)</a></h2>
+                <div class="summary"><div class="math">
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\end{equation*}
+</div>
+<p>論文書きが一旦落ち着きそうなのを見て、学習の高速化を考えている。ダイレクトに微分を計算して解くのは、やはり解析的でないこともありいい方向じゃない。</p>
+<p>L1ロスの最適化（しかもARモデルで）を調べていたら、亀岡さんの補助関数法を思い出した（ <a class="reference external" href="https://www.jstage.jst.go.jp/article/jasj/71/11/71_KJ00010109335/_pdf">スパース表現に基づく音声音響符号化</a> ）。これ、ずっと気になっていたがLPCだし気にしていなかった。結果としてはかなり有用そうで、試してみたい。最急勾配よりはよい性質がある（目的関数値が単調減少する。目的関数は凸だから大域最適値への収束が保証）。</p>
+<p>以下に概要をまとめよう。</p>
+<dl class="docutils">
+<dt>定義（補助関数）</dt>
+<dd><span class="math">\(\ve{\theta …</span></dd></dl>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-zhi-bi-3.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-2.html">LPCの多段構成執筆(2)</a></h2>
+                <div class="summary"><p>改めてお話づくりが必要だと思っている。→土日月マジミラやりながらお話づくり。論文も修正。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-zhi-bi-2.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-1.html">LPCの多段構成執筆(1)</a></h2>
+                <div class="summary"><p>合宿で9月末から今週頭まで全く動けず。進捗報告を行ったところ以下のコメント。</p>
+<ul class="simple">
+<li>LPCを多段構成するとき、解像度の低い方から処理していくのはやはり特殊<ul>
+<li>画像向きのResNetやロッシーコーデックでは解像度が高い（細かい領域）から処理していく。ロスレスに特有の現象か。</li>
+<li>これは周波数空間でいつもの処理をしているのでは？（次元が逆になっているから）←これとても興味深い</li>
+</ul>
+</li>
+</ul>
+<p>ResNet, VGG, DNNでも、係数を量子化することによる影響は少ないという実験的結果がある。すなわち係数のビット幅は小さくして良さそう。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-zhi-bi-1.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -109,6 +205,15 @@ Aiki's Blog            </a>
 全体的に性能が良くないため直線探索は採用しない。</p>
 
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-21-yi-dan-zhong-duan.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html">LPCの多段構成検証(20)</a></h2>
+                <div class="summary"><p>実装をまとめていったんGitHubにあげた（まだprivate）。
+まだテストや評価が残っている。また、色々圧縮してみるがエンコード負荷が高すぎる。</p>
+
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-20.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -161,150 +266,6 @@ Aiki's Blog            </a>
                 </div>
             </article>
             <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-17.html">LPCの多段構成検証(17)</a></h2>
-                <div class="summary"><p>バイト後疲れてくたばってしまった。なんとか手を動かして骨格は作れたつもり。
-順次エンコーダ・デコーダの実装に入る。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-17.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-16.html">LPCの多段構成検証(16)</a></h2>
-                <div class="summary"><p>昨日の移動中にモックを仕上げた。が、ワンツーの末尾のほぼ無音になっているところでアサートして落ちていた。
-原因を見たら係数が非常に小さくなっているところの整数量子化で、右シフト量が大きくなりすぎていた(26とか。16bit深度を超えてる)。
-普通にLPCで計算すると発生せず（むしろ、LPCではゼロに設定していたが）、学習によって小さいながらも非ゼロの係数が得られていた。
-その小さい係数に対して律儀に右シフト量を計算してしまっていた。係数がビット表現精度未満の場合は0に丸め込むようにした。</p>
-<p>ひとまずモックまではできた感じ。ソース全体を見て、削れるところを削った上で、CMakeプロジェクトを作っていきたい。
-今日はソースを見て使っていない関数を削る。ついでにCMakeの骨格も作ってしまおう。
-コーデック名は LInear-predictive Neural Net Encoder, LINNE とする。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-16.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-15.html">LPCの多段構成検証(15)</a></h2>
-                <div class="summary"><p>LPCネットワークを使ったコーデックのモックを作成中。
-パラメータ領域を含めてエンコードしておるが、なんか性能が渋くなってきた印象。
-文句行ってないで早くビットパーフェクトに戻るものを作ろう。</p>
-<p>明日出発するので今日はここまでとする。
-予測側で係数計算と符号化が分けられてないのがだいぶ苦しみの元になっている（プリエンファシスとか）。
-明日帰省しながら直す。</p>
-
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-15.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-14.html">LPCの多段構成検証(14)</a></h2>
-                <div class="summary"><p>LPCネットワークの検証に戻る。(i)1層あたりのパラメータを増やす, (ii)層数を増やす の2軸で様子見。
-構成は全部LD法初期値から学習するものとする。（前回と(8, 8)の結果が違うのはモーメンタムに修正が入ったから）</p>
-<table border="1" class="docutils">
-<caption>パラメータ数/層数を変えたときの圧縮率</caption>
-<colgroup>
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-<col width="7%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>音源 \ 手法</td>
-<td>(  8)</td>
-<td>( 16)</td>
-<td>( 32)</td>
-<td>( 64)</td>
-<td>(  8,  8)</td>
-<td>( 16, 16)</td>
-<td>( 32, 32)</td>
-<td>(  8,  8,  8)</td>
-<td>( 16, 16, 16)</td>
-<td>( 32, 32, 32)</td>
-<td>(  8,  8,  8,  8)</td>
-<td>( 16, 16, 16, 16)</td>
-<td>( 32, 32, 32, 32)</td>
-<td>FLAC(-8)</td>
-</tr>
-<tr><td>薄紅先頭10sec</td>
-<td>64 …</td></tr></tbody></table>
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html">Monkey's Audio (version. 6.61) 実装を見やる(1)</a></h2>
-                <div class="summary"><p>自分のやってることに近いことが分かっているのでMonkey's Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。</p>
-<div class="highlight"><pre><span></span><span class="c1">// aiki: サンプルnA, nBを圧縮。ステレオ信号ならnA, nB両方にデータが入る</span>
-<span class="c1">// aiki: 片方のチャンネルが無音の場合はnBは0になる。</span>
-<span class="c1">// aiki: nA, nBの呼び分けは CAPECompressCore::EncodeFrame にて行われる</span>
-<span class="n">int64</span> <span class="n">CPredictorCompressNormal</span><span class="o">::</span><span class="n">CompressValue</span><span class="p">(</span><span class="n">int64</span> <span class="n">nA</span><span class="p">,</span> <span class="n">int64</span> <span class="n">nB</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">// roll the buffers if necessary</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_nCurrentIndex</span> <span class="o">==</span> <span class="n">WINDOW_BLOCKS</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_rbPrediction</span><span class="p">.</span><span class="n">Roll</span><span class="p">();</span> <span class="n">m_rbAdapt</span><span class="p">.</span><span class="n">Roll</span><span class="p">();</span>
-        <span class="n">m_nCurrentIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
-
-    <span class="c1">// stage 1: simple, non-adaptive order 1 prediction</span>
-    <span class="c1">// aiki: 固定係数フィルタによる予測。これはTTAと全く同じ（！）プリエンファシスフィルタ …</span></pre></div>
-                    <a class="btn btn-default btn-xs" href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-13.html">LPCの多段構成検証(13)</a></h2>
-                <div class="summary"><p>今日からはLPCネットの性能評価メインで。まずは簡単な音源で色々動かしてみよう。</p>
-<p>簡単な音源として薄紅先頭10secとサマーマジック先頭10secを用意した。
-ネットワーク構成はとりあえずレイヤー数2, レイヤーあたりパラメータ数8, ブロックサイズ8192, 学習率0.9</p>
-<table border="1" class="docutils">
-<caption>LPCNetの学習による圧縮率寄与</caption>
-<colgroup>
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-<col width="20%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>音源 \ 手法</td>
-<td>レイヤー数1, パラメータ数8でLD法で設定</td>
-<td>LD法で設定</td>
-<td>ゼロから学習</td>
-<td>LD法初期値から学習</td>
-</tr>
-<tr><td>薄紅先頭10sec</td>
-<td>65.16</td>
-<td>64.33</td>
-<td>64.07</td>
-<td>63.81</td>
-</tr>
-<tr><td>サマーマジック先頭10sec</td>
-<td>59.08</td>
-<td>58.35</td>
-<td>57.87</td>
-<td>57.75</td>
-</tr>
-</tbody>
-</table>
-<p>Python版でも見ていたが、LD(Levinson-Durbin)で初期値設定して学習すると、（ロスがより下がり）圧縮率がよくなっている。LD初期値から学習すると、LD初期値と比べ学習により0.5%ほどの改善が見受けられる。案外高い。
-試しにゼロから（パラメータ全部0）から学習してみたら、LD法を設定するだけよりは良いがLD法+学習には敵わない感じ …</p>
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-13.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
 
         <ul class="pagination">
                 <li class="prev disabled"><a href="#">&laquo;</a></li>
@@ -352,16 +313,28 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
+      <a href="/tag/lms.html">LMS</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lifting.html">Lifting</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lpc.html">LPC</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/resnet.html">ResNet</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/auto-correlation.html">Auto Correlation</a>
@@ -370,34 +343,19 @@ Aiki's Blog            </a>
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lifting.html">Lifting</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/signedlms.html">SignedLMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/resnet.html">ResNet</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
@@ -406,73 +364,76 @@ Aiki's Blog            </a>
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/xin-hao-chu-li.html">信号処理</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/bp.html">BP</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/jupyter.html">Jupyter</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
+      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+      <a href="/tag/cnn.html">CNN</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+      <a href="/tag/pelican.html">pelican</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/test.html">test</a>
@@ -481,49 +442,52 @@ Aiki's Blog            </a>
       <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
     </li>
   </ul>
 </li>
