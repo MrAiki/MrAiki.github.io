@@ -10,6 +10,170 @@
 
 
 
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
+
     <meta name="author" content="aiki" />
     <meta name="keywords" content="LMS" />
 
@@ -33,7 +197,6 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-
 </head>
 <body>
 
@@ -56,9 +219,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -87,10 +247,7 @@ Aiki's Blog            </a>
                 <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">研究会に向けて - 執筆(5)</a></h2>
                 <div class="summary"><p>自己相関行列の逆の推定、グラフィカルLASSOが有効ではというありがたい指摘あり。</p>
 <ul class="simple">
-<li><a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf">依存関係にスパース性を入れる — グラフィカル lasso の話</a></li>
-</ul>
-<p>他にも精度行列の推定を（スパース制約を入れて）高速にやるみたいな話がたくさん出てきている。参考にすべし。</p>
-
+<li><a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf">依存関係にスパース性を入れる …</a></li></ul>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-5.html">more ...</a>
                 </div>
             </article>
@@ -98,10 +255,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">研究会に向けて - 執筆(4)</a></h2>
                 <div class="summary"><p>引き続き執筆。今日あたりであらすじ書いてレビュー予定。</p>
-<p>思ったのが、先にデータの自己相関行列の逆を計算して勾配計算用のデータを用意しちゃう発想はどうよ？という点。
-もしくは、自己相関（の偏り）を打ち消すようなフィルタを先にかけてからフィルタ処理をおこなうのはどうか？演算誤差が気になるけど、ありえる発想。
-これはもしかしたらプリエンファシスの一般化かもしれない。</p>
-
+<p>思ったのが、先にデータの自己相関行列の逆を計算して勾 …</p>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-4.html">more ...</a>
                 </div>
             </article>
@@ -109,12 +263,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">研究会に向けて - 執筆(3)</a></h2>
                 <div class="summary"><p>土日は黙々と執筆してた。
-1点気になったのが、自然勾配法を共役勾配法的にやれないかというところ。そうすれば逆行列を計算しなくて済む。
-ここらへん誰かやってないのかな？誰でも思いつくと思うけど。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://edisciplinas.usp.br/pluginfile.php/227194/mod_resource/content/1/Nascimento_Silva_2014_Adaptive_Filters.pdf">Adaptive Filters</a> 適応フィルタの新しい良さげなまとめ。</li>
-</ul>
-
+1点気になったのが、自然勾配法を共役勾配法的にやれないかというところ。そうすれば逆行 …</p>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-3.html">more ...</a>
                 </div>
             </article>
@@ -133,10 +282,7 @@ Aiki's Blog            </a>
 </ul>
 <p>が参照されてて、その中で</p>
 <ul class="simple">
-<li><a class="reference external" href="http://www02.smt.ufrj.br/~diniz/conf/confi12.pdf">Performance of LMS-Newton Adaptation Algorithms With Variable Convergence Factor in Nonstationary Environments</a></li>
-</ul>
-<p>が参照されてたけど、全く同じやん…</p>
-<p>どうも、Winner解を求める最適化問題のニュートン法を求めると、自己相関行列の逆が自然に出てくるみたい。そして、その適応ステップ版アルゴリズム（LMS Newton Algorithm, 初出はAdaptive Signal …</p>
+<li><a class="reference external" href="http://www02.smt.ufrj.br/~diniz/conf/confi12.pdf">Performance of …</a></li></ul>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-2.html">more ...</a>
                 </div>
             </article>
@@ -144,12 +290,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">研究会に向けて - 執筆(1)</a></h2>
                 <div class="summary"><p>今日から執筆していく。目標、7/27に第一般。</p>
-<p>しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表とおんなじだが、
-イントロをしっかり書きたいから、既存のロスレス音声の論文の構成を参考にしていく。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.cs.tut.fi/~tabus/2013GhidoTabus.pdf">Sparse modeling for lossless audio compression</a> OptimFROGのひと。<ul>
-<li>オーディオ環境は高級化している。その中でロスレス圧縮は現実的である。プレーヤが使うから、デコーダは高速実装できるべきだ。今現在使われているいろんなコーデックがある。MP4-ALS, WMAL, ALAC, Monkey's Audio, FLAC, OptimFROG等。それぞれ異なる予測モデルと圧縮アルゴリズムを使用している。圧縮率、エンコード速度、デコード速度の3つの評価軸があるが、全てを最大にすることはできず、トレードオフの関係にある。例えば、予測次数を最大にすれば圧縮率は向上するが、エンコード/デコード速度が悪化する。</li>
-<li><a class="reference external" href="http://decoy.iki.fi/dsound/ambisonic/motherlode/source/01215233.pdf">An Introduction to Super Audio CD and DVD-Audio</a> Super Audio CD(SACD …</li></ul></li></ul>
+<p>しかしまだ書き始めず、プロットを練る。プロットの構成はだいたい発表と …</p>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete-zhi-bi-1.html">more ...</a>
                 </div>
             </article>
@@ -161,19 +302,7 @@ Aiki's Blog            </a>
 \newcommand\ve[1]{\boldsymbol{#1}}
 \end{equation*}
 </div>
-<p>資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなのをメモる。</p>
-<ul class="simple">
-<li>SA、実はヘブ則そのものでは？<ul>
-<li>全くその通り。識別タスクにしたらまんまそれ。NN的に見ると〜はヘブ則と言ってもいいくらい。</li>
-</ul>
-</li>
-<li>グラフは正方形にすべし。<ul>
-<li>全くその通り。すぐに修正するべし。</li>
-</ul>
-</li>
-<li>尤度は独立な観測では不完全。独立同分布な(i.i.d.)な観測や</li>
-<li>NNGSAの最適化問題による定式化ってリッジ回帰に似てる。対角行列を計量にしてる。</li>
-<li><span class="math">\(\mathrm{E}\left[ \left\{ \frac{\mathrm{sgn}(\varepsilon[n])}{\sigma} \right\}^{2} \ve{x}[n] \ve{x}[n]^{\mathsf{T}} \right …</span></li></ul>
+<p>資料に追い込みを掛けていたので、あまり進捗なし。発表してもらったコメントで大きそうなの …</p>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete17-zhong-jian-fa-biao.html">more ...</a>
                 </div>
             </article>
@@ -183,13 +312,7 @@ Aiki's Blog            </a>
                 <div class="summary"><p>引き続き資料を作っている。</p>
 <p>昨日気になっていた</p>
 <blockquote>
-NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり。</blockquote>
-<p>は並行して確認中。直交原理（勾配が0になる解）を満たす解はWienner解に一致するのか？というところ。
-怪しいかもしれない。適応ステップサイズがミソで、最適係数時、そいつを含めて平均をとったときにゼロになるとは思えない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://towardsdatascience.com/natural-gradient-ce454b3dcdfa">Natural Gradient A better gradient for gradient descent?</a> 面白そうだけどちとタイミングが悪い。</li>
-</ul>
-
+NNGSAの収束する最適係数はWienner解で間違いないのか検証する必要あり …</blockquote>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete16.html">more ...</a>
                 </div>
             </article>
@@ -212,11 +335,7 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
 \end{equation*}
 </div>
 <p>今日から発表資料作る。久々にBeamerでやろうかね。</p>
-<p>資料作ってたら、ラグランジュ未定乗数法による定式化で <span class="math">\((\ve{h} - \ve{h}^{\prime})^{\mathsf{T}}\ve{R}(\ve{h} - \ve{h}^{\prime})\)</span> の最小化を考えたけど、これってレイリー商の下限すなわち最小固有値が答えでは。もうちょっと考えたくなってきた。 <span class="math">\(\mu(n)\)</span> は垂線の長さに対応するんだっけ？</p>
-<p>アフィン写像アルゴリズムへの拡張は、NLMSの制約を増やしたものに過ぎない。ラグランジュの未定乗数法を使って、</p>
-<div class="math">
-\begin{align*}
-\mathcal{L} &amp;= (\ve{h …</div>
+<p>資料作ってたら、ラグランジュ未 …</p>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete14.html">more ...</a>
                 </div>
             </article>
@@ -231,24 +350,7 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
 <p>発表向けの脚本を書いてた。</p>
 <p>正規化アルゴリズムに関して、まだしたりない考察がある。</p>
 <ul class="simple">
-<li>射影先の超平面の曲率はもしかして <span class="math">\(\ve{R}\)</span> だったりしない？漠然とした超平面ではなく、何らかの性質がないか？<ul>
-<li>これは、制約が一次式だから絶対に超平面になる。</li>
-</ul>
-</li>
-<li>アフィン写像アルゴリズムへ拡張するべきでは？<ul>
-<li>やってみた。次の日へどうぞ。</li>
-</ul>
-</li>
-</ul>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen …</script>
+<li>射影先の …</li></ul>
                     <a class="btn btn-default btn-xs" href="/yan-jiu-hui-nixiang-kete13.html">more ...</a>
                 </div>
             </article>
@@ -266,8 +368,6 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
                             href="/tag/lms4.html">4</a></li>
                     <li class=""><a
                             href="/tag/lms5.html">5</a></li>
-                    <li class=""><a
-                            href="/tag/lms6.html">6</a></li>
                 <li class="next"><a
                         href="/tag/lms2.html">&raquo;</a></li>
         </ul>
@@ -292,19 +392,7 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -316,31 +404,37 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -349,34 +443,28 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -384,92 +472,95 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -542,6 +633,19 @@ NNGSAの収束する最適係数はWienner解で間違いないのか検証す�
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

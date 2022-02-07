@@ -9,6 +9,170 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="/yin-guan-shu-ding-li-tosonoying-yong.html">
 
         <meta name="author" content="aiki" />
@@ -39,8 +203,7 @@
               title="Aiki's Blog ATOM Feed"/>
 
         <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog 記事 ATOM Feed"/>
-</head>
+              title="Aiki's Blog 記事 ATOM Feed"/></head>
 <body>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -62,9 +225,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -118,6 +278,7 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
+                <main>
                 <div class="math">
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}
@@ -130,39 +291,39 @@ Aiki's Blog            </a>
 </div>
 <p>逆写像定理をちゃんと振り返ろうとしたら、ついでに色々出てきてまとめる必要があるなと感じた。
 記述は笠原皓司「微分積分学」を大幅に参考にしている。</p>
-<div class="contents local topic" id="id2">
+<div class="contents local topic" id="topic-1">
 <ul class="simple">
-<li><a class="reference internal" href="#id3" id="id17">準備</a><ul>
-<li><a class="reference internal" href="#id4" id="id18">多変数関数の微分と偏微分</a></li>
-<li><a class="reference internal" href="#id5" id="id19">偏導関数の連続性による微分可能性の条件</a></li>
-<li><a class="reference internal" href="#id6" id="id20">写像の微分と偏微分</a></li>
-<li><a class="reference internal" href="#id7" id="id21">積分公式</a></li>
-<li><a class="reference internal" href="#id8" id="id22">連続関数の集合の完備性</a></li>
-<li><a class="reference internal" href="#id9" id="id23">不動点定理</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-1">準備</a><ul>
+<li><a class="reference internal" href="#section-3" id="toc-entry-2">多変数関数の微分と偏微分</a></li>
+<li><a class="reference internal" href="#section-4" id="toc-entry-3">偏導関数の連続性による微分可能性の条件</a></li>
+<li><a class="reference internal" href="#section-5" id="toc-entry-4">写像の微分と偏微分</a></li>
+<li><a class="reference internal" href="#section-6" id="toc-entry-5">積分公式</a></li>
+<li><a class="reference internal" href="#section-7" id="toc-entry-6">連続関数の集合の完備性</a></li>
+<li><a class="reference internal" href="#section-8" id="toc-entry-7">不動点定理</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id10" id="id24">陰関数定理</a><ul>
-<li><a class="reference internal" href="#id11" id="id25">多変数の場合</a></li>
+<li><a class="reference internal" href="#section-9" id="toc-entry-8">陰関数定理</a><ul>
+<li><a class="reference internal" href="#section-10" id="toc-entry-9">多変数の場合</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id12" id="id26">陰関数定理の応用</a><ul>
-<li><a class="reference internal" href="#id13" id="id27">逆写像定理</a><ul>
-<li><a class="reference internal" href="#id14" id="id28">多変数の場合</a></li>
+<li><a class="reference internal" href="#section-11" id="toc-entry-10">陰関数定理の応用</a><ul>
+<li><a class="reference internal" href="#section-12" id="toc-entry-11">逆写像定理</a><ul>
+<li><a class="reference internal" href="#section-13" id="toc-entry-12">多変数の場合</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id15" id="id29">制約付き極値問題</a><ul>
-<li><a class="reference internal" href="#id16" id="id30">ラグランジュの未定乗数法</a></li>
-<li><a class="reference internal" href="#kkt" id="id31">KKT条件</a></li>
+<li><a class="reference internal" href="#section-14" id="toc-entry-13">制約付き極値問題</a><ul>
+<li><a class="reference internal" href="#section-15" id="toc-entry-14">ラグランジュの未定乗数法</a></li>
+<li><a class="reference internal" href="#kkt" id="toc-entry-15">KKT条件</a></li>
 </ul>
 </li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="id3">
-<h2><a class="toc-backref" href="#id17">準備</a></h2>
-<div class="section" id="id4">
-<h3><a class="toc-backref" href="#id18">多変数関数の微分と偏微分</a></h3>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-1">準備</a></h2>
+<div class="section" id="section-3">
+<h3><a class="toc-backref" href="#toc-entry-2">多変数関数の微分と偏微分</a></h3>
 <p>1変数関数のグラフは一般に曲線で、それに接線が引けるときに関数は微分可能と言った。2変数以上を持つ関数のグラフは一般に曲面になる。この関数が微分可能というときは、接平面が構築できれば良い。これを数学的にもう少し詳しく述べると次のようになる。</p>
 <p>2変数関数 <span class="math">\(z = f(x, y)\)</span> のグラフの一点 <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> における <span class="math">\(f({x}_{0}, y_{0})\)</span> の接平面を考える。今、接平面ができたとしてその方程式を考えると、定数 <span class="math">\(\alpha, \beta\)</span> を用いて</p>
 <div class="math">
@@ -276,8 +437,8 @@ f(x_{1}^{0}, ..., x_{i}, ..., x_{n}^{0}) &amp;= f(\ve{x}_{0}) + \alpha_{i}(x_{i}
 </div>
 <p>と書く。</p>
 </div>
-<div class="section" id="id5">
-<h3><a class="toc-backref" href="#id19">偏導関数の連続性による微分可能性の条件</a></h3>
+<div class="section" id="section-4">
+<h3><a class="toc-backref" href="#toc-entry-3">偏導関数の連続性による微分可能性の条件</a></h3>
 <p><span class="math">\(f(x, y)\)</span> が <span class="math">\(\ve{x}_{0} = (x_{0}, y_{0})\)</span> において微分可能であれば、 <span class="math">\(x, y\)</span> によって偏微分可能であるが、その逆（偏微分可能ならば微分可能）は成り立たない。しかし、以下の定理により、偏導関数に連続性を付与すれば、微分可能であることが示せる。</p>
 <dl class="docutils">
 <dt>偏導関数の連続性による微分可能性の条件</dt>
@@ -362,8 +523,8 @@ f(\ve{x}, \ve{y}) &amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f
 </dd>
 </dl>
 </div>
-<div class="section" id="id6">
-<h3><a class="toc-backref" href="#id20">写像の微分と偏微分</a></h3>
+<div class="section" id="section-5">
+<h3><a class="toc-backref" href="#toc-entry-4">写像の微分と偏微分</a></h3>
 <p><span class="math">\(\mathbb{R}^{n}\)</span> の領域 <span class="math">\(\Omega\)</span> から <span class="math">\(\mathbb{R}^{m}\)</span> への写像 <span class="math">\(\ve{f}\)</span> を考える。 <span class="math">\(\ve{x} = [x_{1}, ..., x_{n}]^{\mathsf{T}} \in \Omega\)</span> に対して <span class="math">\(\ve{f}(\ve{x}) = [ f_{1}(\ve{x}), ..., f_{m}(\ve{x}) ]^{\mathsf{T}} \in \mathbb{R}^{m}\)</span> と書けるから、 <span class="math">\(f_{1}(\ve{x}), ..., f_{m}(\ve{x})\)</span> が <span class="math">\(\ve{x}_{0} = [ x_{1}^{0}, ..., x_{n}^{0} ]^{\mathsf{T}}\)</span> で連続な時、</p>
 <div class="math">
 \begin{equation*}
@@ -477,8 +638,8 @@ f(\ve{x}, \ve{y}) &amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f
 </dd>
 </dl>
 </div>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id21">積分公式</a></h3>
+<div class="section" id="section-6">
+<h3><a class="toc-backref" href="#toc-entry-5">積分公式</a></h3>
 <p>平均値の定理を応用した便利な公式。以下の証明で頻繁に使用するため証明を与える。</p>
 <dl class="docutils">
 <dt>積分公式</dt>
@@ -502,8 +663,8 @@ f(\ve{x}, \ve{y}) &amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f
 </dd>
 </dl>
 </div>
-<div class="section" id="id8">
-<h3><a class="toc-backref" href="#id22">連続関数の集合の完備性</a></h3>
+<div class="section" id="section-7">
+<h3><a class="toc-backref" href="#toc-entry-6">連続関数の集合の完備性</a></h3>
 <p>かなり基礎的だが、以下の証明に必要なため書く。区間 <span class="math">\(I\)</span> で連続な関数の集合を <span class="math">\(C^{0}(I)\)</span> と書く。 <span class="math">\(f \in C^{0}(I)\)</span> に対して、関数の &quot;大きさ&quot; を次のノルムとして定義する。</p>
 <dl class="docutils">
 <dt>関数のノルム</dt>
@@ -574,8 +735,8 @@ f(\ve{x}, \ve{y}) &amp;= f(\ve{x}_{0}, \ve{y}_{0}) + \sum_{i = 1}^{p} \parfrac{f
 </dl>
 <p>一般に、コーシー列が必ず収束列になるとき、その集合を <strong>完備</strong> であるという。直感的には、集合上にコーシー列を構成したときに、極限値がその集合から飛び出ることがないことを指す。 <span class="math">\(C^{0}(I)\)</span> はノルムに関して完備な集合である。</p>
 </div>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id23">不動点定理</a></h3>
+<div class="section" id="section-8">
+<h3><a class="toc-backref" href="#toc-entry-7">不動点定理</a></h3>
 <p>本稿では（「微分積分学」を参考に）陰関数の存在を示すために不動点定理を使用する。本節では不動点定理について説明する。</p>
 <dl class="docutils">
 <dt>縮小写像</dt>
@@ -644,8 +805,8 @@ f = \Phi(f)
 </dl>
 </div>
 </div>
-<div class="section" id="id10">
-<h2><a class="toc-backref" href="#id24">陰関数定理</a></h2>
+<div class="section" id="section-9">
+<h2><a class="toc-backref" href="#toc-entry-8">陰関数定理</a></h2>
 <p>まずは2変数 <span class="math">\(x, y\)</span> で考えてみる。 <span class="math">\(x^{2} + y^{2} - 2 = 0\)</span> のように <span class="math">\(y = f(x)\)</span> が陽に分からない場合がある。この2変数関数 <span class="math">\(F(x, y)\)</span> による等式 <span class="math">\(F(x, y) = 0\)</span> を陰関数表示という。 <span class="math">\(F(x, y) = 0\)</span> に対して、何らかの関数 <span class="math">\(y = f(x)\)</span> （もしくは <span class="math">\(x = h(y)\)</span> ）の存在を保証するのが陰関数定理である。</p>
 <dl class="docutils">
 <dt>陰関数定理（2変数）</dt>
@@ -792,8 +953,8 @@ F(x, f(x)) = 0 &amp;= F(x_{0}, f(x_{0})) + \alpha(x, f(x))(x - x_{0}) + \beta(x,
 <p class="last">の右辺は <span class="math">\(C^{m-1}\)</span> 級の関数 <span class="math">\(F_{x}, F_{y}\)</span> に <span class="math">\(C^{m-1}\)</span> 級の関数 <span class="math">\(f(x)\)</span> を代入したもので、合成関数の微分法から右辺は <span class="math">\(C^{m-1}\)</span> 級である。 <span class="math">\(\dfrac{f}{x}(x)\)</span> が <span class="math">\(C^{m-1}\)</span> 級だから、 <span class="math">\(f(x)\)</span> は <span class="math">\(C^{m}\)</span> 級。（4.の証明終）</p>
 </dd>
 </dl>
-<div class="section" id="id11">
-<h3><a class="toc-backref" href="#id25">多変数の場合</a></h3>
+<div class="section" id="section-10">
+<h3><a class="toc-backref" href="#toc-entry-9">多変数の場合</a></h3>
 <p>3変数 <span class="math">\(x, y, z\)</span> による連立陰関数</p>
 <div class="math">
 \begin{equation*}
@@ -1052,10 +1213,10 @@ U_{2} = \left\{ \ve{y} | |\ve{y} - \ve{y}_{0}| \leq \delta \right\}
 </dl>
 </div>
 </div>
-<div class="section" id="id12">
-<h2><a class="toc-backref" href="#id26">陰関数定理の応用</a></h2>
-<div class="section" id="id13">
-<h3><a class="toc-backref" href="#id27">逆写像定理</a></h3>
+<div class="section" id="section-11">
+<h2><a class="toc-backref" href="#toc-entry-10">陰関数定理の応用</a></h2>
+<div class="section" id="section-12">
+<h3><a class="toc-backref" href="#toc-entry-11">逆写像定理</a></h3>
 <p>2変数を例に取って考える。 <span class="math">\(\mathbb{R}^{2}\)</span> から <span class="math">\(\mathbb{R}^{2}\)</span> への写像</p>
 <div class="math">
 \begin{equation*}
@@ -1106,8 +1267,8 @@ F(x, y, s, t) = G(x, y, s, t) = 0
 \end{equation*}
 </div>
 <p>が <span class="math">\((s_{0}, t_{0})\)</span> の近傍で連続かつ正則であることを示している。</p>
-<div class="section" id="id14">
-<h4><a class="toc-backref" href="#id28">多変数の場合</a></h4>
+<div class="section" id="section-13">
+<h4><a class="toc-backref" href="#toc-entry-12">多変数の場合</a></h4>
 <p>上記の議論を一般の <span class="math">\(n\)</span> 変数に拡張したのが次の <strong>逆写像定理</strong> である。</p>
 <dl class="docutils">
 <dt>逆写像定理</dt>
@@ -1131,10 +1292,10 @@ F(x, y, s, t) = G(x, y, s, t) = 0
 </dl>
 </div>
 </div>
-<div class="section" id="id15">
-<h3><a class="toc-backref" href="#id29">制約付き極値問題</a></h3>
-<div class="section" id="id16">
-<h4><a class="toc-backref" href="#id30">ラグランジュの未定乗数法</a></h4>
+<div class="section" id="section-14">
+<h3><a class="toc-backref" href="#toc-entry-13">制約付き極値問題</a></h3>
+<div class="section" id="section-15">
+<h4><a class="toc-backref" href="#toc-entry-14">ラグランジュの未定乗数法</a></h4>
 <p>ラグランジュの未定乗数法も、勾配の図を用いた直感に頼るのではなく陰関数定理により説明が可能である。</p>
 <p>やはり例として2変数 <span class="math">\(x, y\)</span> で考える。 <span class="math">\(\mathbb{R}^{2}\)</span> のある領域 <span class="math">\(\Omega\)</span> 上で、2つの2変数関数 <span class="math">\(f(x, y),\ g(x, y)\)</span> が与えたられたとき、 <span class="math">\(g(x, y) = 0\)</span> という条件下で <span class="math">\(f(x, y)\)</span> の極値を求めることを考える。</p>
 <p><span class="math">\(g(x, y) = 0\)</span> と交わる <span class="math">\(f(x, y) = a\)</span> の交点が極値をとるならば、その点で <span class="math">\(f(x, y) = a\)</span> と <span class="math">\(g(x, y) = 0\)</span> のグラフは接しなければならない。その様な点では、法線ベクトル <span class="math">\(\parfrac{f}{\ve{x}}, \parfrac{f}{\ve{x}}\)</span> は同じ方向を向いているから、</p>
@@ -1226,7 +1387,7 @@ y = F(\ve{x}^{\prime}) = f(\ve{x}^{\prime}, \ve{\varphi}(\ve{x}^{\prime}))
 </dl>
 </div>
 <div class="section" id="kkt">
-<h4><a class="toc-backref" href="#id31">KKT条件</a></h4>
+<h4><a class="toc-backref" href="#toc-entry-15">KKT条件</a></h4>
 <p>不等式制約 <span class="math">\(g(x, y) \geq 0\)</span> の条件下で <span class="math">\(f(x, y)\)</span> の極値を見つける問題を考える。</p>
 <dl class="docutils">
 <dt>簡単な例: <span class="math">\(g(x, y) = y \geq 0\)</span></dt>
@@ -1401,6 +1562,7 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
+                </main>
             </div>
             <!-- /.entry-content -->
         </article>
@@ -1427,19 +1589,7 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -1451,31 +1601,37 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -1484,34 +1640,28 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -1519,92 +1669,95 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -1641,7 +1794,7 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -1677,6 +1830,19 @@ z_{i} \geq 0 &amp; (i = 1,...,m)
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

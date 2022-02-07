@@ -10,6 +10,170 @@
 
 
 
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
+
     <meta name="author" content="aiki" />
     <meta name="keywords" content="Lifting" />
 
@@ -33,7 +197,6 @@
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
 
-
 </head>
 <body>
 
@@ -56,9 +219,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -86,25 +246,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/rihuteingunozu-miip-mijian-zheng-2.html">リフティングの組み込み検証(2)</a></h2>
                 <div class="summary"><p>帯域分割信号に対してSAを適用してどれくらい減るか様子を見る。こればかりはやってみないと分からない。</p>
-<p>試してみた概観。ブロックサイズは8192。</p>
-<ul class="simple">
-<li>MS変換: 89.4%</li>
-<li>MS変換 + SA適用: 72.4%</li>
-<li>MS変換 + CDF42の1段適用: 74.3%</li>
-<li>MS変換 + CDF42の2段適用: 71.72%</li>
-<li>MS変換 + CDF42の1段適用で両帯域にSA: 66.5%</li>
-<li>MS変換 + CDF42の2段適用で全帯域にSA: 66.4%</li>
-</ul>
-<p>うーん、パット見渋い。エントロピー見て符号が悪いかどうか判定する。</p>
-<ul class="simple">
-<li>MS変換 + CDF42の2段適用で全帯域にSA: で9.87[bit] -&gt; 61.69%</li>
-</ul>
-<p>だから、理論上FLACより悪い。。。符号というよりは残差のエントロピーがまだ高い。
-SAじゃ弱すぎるか。LPC使うか。。。</p>
-<p>悲しみに暮れていたが、MS変換の後ろにプリエンファシスを突っ込むと有意に改善。。。</p>
-<ul class="simple">
-<li>MS変換 + プリエンファシス: 76.7%</li>
-<li>MS変換 + プリエンファシス …</li></ul>
+<p>試して …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-2.html">more ...</a>
                 </div>
             </article>
@@ -112,33 +254,7 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
             <article>
                 <h2><a href="/rihuteingunozu-miip-mijian-zheng-1.html">リフティングの組み込み検証(1)</a></h2>
                 <div class="summary"><p>CDF42をC言語で実装してみた。懸念だった1ループによる実装もOK。想像通り。
-分散は確かに減っているからエントロピーも減っているはず。</p>
-<p>さて、もう符号化まで試してしまうべきか？
-ちょっと考えてたけど、やってしまおうと思う。
-今までのありあわせの符号化スキームを転用してやってみる。</p>
-<p>やっつけで超簡易コーデックを作った。風の巡る場所で試す。観察としては、</p>
-<ul class="simple">
-<li>何もしないで直接再帰的ライス符号を適用すると（元データ比）90%</li>
-<li>Haarの1段適用では84%, 2段適用で82.7%</li>
-<li>CDF22の1段適用では81%, 2段適用で79.0%</li>
-<li>CDF42を1段かませた場合76%<ul>
-<li>低域が42%</li>
-<li>高域が34%</li>
-</ul>
-</li>
-<li>CDF42を2段かませると75%<ul>
-<li>低域/低域が20%</li>
-<li>低域/高域が20%</li>
-<li>高域が34%</li>
-</ul>
-</li>
-<li>高域を分割すると悪化（77%くらい）</li>
-<li>flac(-8)は60.2%, WavPack(-hh)は59.1%</li>
-<li>ブロックサイズを4096から8192に上げると0.05%程度の減少。</li>
-</ul>
-<p>SAの導入はこれから、さてどれくらい減らせるだろうか。
-分割設定を変えながら見るべし。</p>
-<p>CDF(8,2 …</p>
+分散は確かに減っているからエントロピ …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteingunozu-miip-mijian-zheng-1.html">more ...</a>
                 </div>
             </article>
@@ -146,14 +262,7 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
             <article>
                 <h2><a href="/rihuteinguguan-cha-6.html">リフティング観察(6)</a></h2>
                 <div class="summary"><p>「音声の高能率符号化」の3.4節「予測符号化」で予測による分散（ひいてはビット数）の減少について記述がある。
-これをリフティングで考えるとどうなるだろうか？
-誤差分散を最小にしようとすると線形予測符号化にぶつかってしまうが、リフティングによる効果を知りたい。</p>
-<p>ロスレス圧縮に組み込む前に、やはりもう少し調査したい。
-リフティングで帯域分割した信号に対してLMSしたとき、さてエントロピーは改善するのか？</p>
-<p>ステップサイズを変えつつ観察したら、どのステップサイズでもエントロピーが減少していた。実データで1bit程度（16bitPCMの仮定で）の減少。これは大きい。</p>
-<p>さらに、多段に帯域分割したときはさらにエントロピーが減少していた。</p>
-<p>計算負荷的にはCDF(4,2)を推したい。C言語で実装して、整数値でエントロピーがマジで減ってるか見てみたい。</p>
-
+これをリ …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-6.html">more ...</a>
                 </div>
             </article>
@@ -161,47 +270,14 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
             <article>
                 <h2><a href="/rihuteinguguan-cha-5.html">リフティング観察(5)</a></h2>
                 <div class="summary"><p>「音声の高能率符号化」はやはり素晴らしい。今日に通じる基本事項がもれなく列挙されている。
-逆に言うと、技術進歩がまったくないと言うことになるが。</p>
-<p>今日は2段階適用したときの相関変化をよく見たい。相関はさらに減るだろうというのが大方の予測だが、</p>
-<ul class="simple">
-<li>相関は減っていく傾向<ul>
-<li>ただし、周期的な構造は縮んで表れてくる</li>
-<li>実データ（ピアノ）でCDF(4,2)を2回まで適用すると低域の1次相関が0.5くらいになっている。これはプリエンファシスより優れている。</li>
-</ul>
-</li>
-<li>2回適用したとき、高域+低域のエントロピーが底を打っている印象を受ける。<ul>
-<li>高域のエントロピーは増加傾向。低次の高域成分は構造的だが、高次では取り除ききれない成分が出てくるので当然だと思うことに。</li>
-</ul>
-</li>
-</ul>
-<p>実験をやりながら漠然と思っていたが、CDF(4,2)が以下の意味で優れている。</p>
-<ul class="simple">
-<li>高域はもちろん、低域成分の分散減少も多きい。</li>
-<li>相関除去能力</li>
-<li>負荷の低さ（シフト演算を多く使える）<ul>
-<li>CDF(5,1), CDF(6,2)も同様の効果を与えているが、負荷はより高い印象。</li>
-</ul>
-</li>
-</ul>
-<p>画像ではCDF(2,2)がJPEG2000ロスレスに採用されているが、画像の方が低域成分が多いから有効に作用していると想像する。音声の方が高域周波数成分が多いからより高次のモーメントを必要としているように見受けられる。</p>
-<p>上記の意味でCDF(4 …</p>
+逆に言うと、技術進歩が …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-5.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/rihuteinguguan-cha-4.html">リフティング観察(4)</a></h2>
-                <div class="summary"><p>「音声の高能率符号化」を読んでいたら、音声データ一般で相関が高い理由が明確に書いてあった。それは、低域の信号をオーバーサンプリングしているからである。
-人の声は8kHzがいい所の上限だが、それに対して44100Hzでサンプリングすると明らかにオーバーサンプリングになる。つまり、低域信号はゆっくり変化しているのに過剰にサンプリングされ、相関が高くなる。</p>
-<p>この意味でも帯域分割は意味を持ちそうな印象を受ける。ウェーブレットで低域/高域に分けると低域のオーバーサンプリング効果が低減する。実際、相関が下がることを確認している。</p>
-<p>ストーリーとしては、</p>
-<ol class="arabic simple">
-<li>適応アルゴリズムの収束特性が悪いのは音声データに相関があるから</li>
-<li>相関は低域信号のオーバーサンプリングにより生じている</li>
-<li>ウェーブレットで低域信号をリサンプリングすることでレートを下げて扱える、相関は下がっているので有効なはずだ</li>
-</ol>
-<p>相関を消すというのもウェーブレット設計の方針になる。</p>
-
+                <div class="summary"><p>「音声の高能率符号化」を読んでいたら、音声データ一般で相関が高い理由が明確に書いてあった。それは、低域の信号を …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-4.html">more ...</a>
                 </div>
             </article>
@@ -211,120 +287,28 @@ SAじゃ弱すぎるか。LPC使うか。。。</p>
                 <div class="summary"><p>より次数を上げたCDFを実装して様子（統計量）を見る。</p>
 <p>CDF(5,1), (5,3), (6,2), (6,4)まで実装してみた。</p>
 <ul class="simple">
-<li>4以上になると低域成分の分散の減少も顕著</li>
-<li>しかし5,6では高域の分散は上昇傾向</li>
-</ul>
-<p>全体的にいえることとしては、</p>
-<ul class="simple">
-<li>相関は減少している。高域は勿論だが、低域も。</li>
-<li>高周波（10000以上）に対して自己相関がほぼ同じになる。（低域の振幅は減少しているが）</li>
-<li>ナイキスト周波数での振動に対して高域が大きな定数値をとる（分散はほぼ0）</li>
-<li>スイープも高周波数帯域で高域が大きな定数値をとりがち。<ul>
-<li>高域の予測は外れがちのよう。低域の分離はできているようだ。</li>
-</ul>
-</li>
-</ul>
-<p>プリエンファシスと比較している。前どっかで見たけど、周波数特性も低域が完全に消えていないし、高域は強調されてる。
-相関はリフティングとどっこいどっこい。合計のエントロピーもどっこい？いや、リフティングの方が高域がかなり小さい。
-低域にプリエンファシスを適用することもできるし。</p>
-<p>また、純音（440Hz）に対してプリエンファシスをかけると自己相関はほぼ変わらないが、リフティングの場合は高域にて相関が減少（高次になるにつれてすぐに0に収斂）し、低域も相関の減少が見られた。</p>
-<div class="section" id="id2">
-<h2>所感</h2>
-<p>音声圧縮に適したリフティングウェーブレットの設計は、テーマとしてありだと思う。</p>
-<ul class="simple">
-<li>消失モーメント多め …</li></ul></div>
+<li>4以上になると低域成分 …</li></ul>
                     <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-3.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/rihuteinguguan-cha-2.html">リフティング観察(2)</a></h2>
-                <div class="summary"><p>前日までで、MSの代わりにCDF(2,2)を使うのは有効ではないというのが分かった。LRの信号は一般にズレており、線形予測のような局所的な予測はうまくいかない。周波数特性としてもずれがある。
-従って1チャンネルの信号に対してウェーブレットを適用する道を探る。
-次はどうするか。</p>
-<p>単にCDF(2,2)で帯域分割して各帯域でLPC/適応フィルタするのは安直すぎるし工夫の余地がない。
-もっと何か理論的な工夫は及ばないか？考えてみる。</p>
-<p>リフティングによって何が変わるのかをまだ観察してなかったかも。</p>
-<ol class="arabic simple">
-<li>適応的にリフティング係数を設定する<ul>
-<li>予測・更新フィルタを両方ともSAにしちゃうとか。</li>
-</ul>
-</li>
-<li>CDF(2,2)通した後の信号の特性<ul>
-<li>分かり切ってることだが、2次までのモーメントが消えてる。</li>
-<li>信号の統計量（平均、分散、自己相関、L1ノルム、エントロピー）はどのように変化するか？</li>
-<li>高域と低域で分けて考える。</li>
-</ul>
-</li>
-<li>プリエンファシスをリフティングに置き換えることの是非。<ul>
-<li>例えばHaarは直流成分（0次モーメント）を完全に消す。</li>
-<li>変換域適応と同じになると思う。</li>
-</ul>
-</li>
-</ol>
-<p>2.が大事に思える。地味に論じている文献ないし。
-リフティング後の信号の性質は、NoteBook上でいろいろ見てみるのが良さそう。</p>
-<p>というわけで実装を進めている。Haar, CDFは良さそうだけど、ドベシィの実装は</p>
-<ul class="simple">
-<li><a class="reference external" href="https://core.ac.uk/download/pdf/226136339.pdf">DESIGN …</a></li></ul>
+                <div class="summary"><p>前日までで、MSの代わりにCDF(2,2)を使うのは有効ではないというのが分かった。LRの信号は一般にズレており、線形予 …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-2.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/rihuteinguguan-cha-1.html">リフティング観察(1)</a></h2>
-                <div class="summary"><p>今考えているウェーブレットによるチャンネル間相関除去って既知の技術だと思ったんだがなあ。資料がないように見える。</p>
-<p>音声のLRチャンネルの相互相関を観察してみよう。そして、LRをレイジーウェーブレット（スプリット）の結果と考えてリフティングしてみる。
-作って動かしてみてるけど、</p>
-<ul class="simple">
-<li>無音部（とリリース）でしか相関が高くならない<ul>
-<li>残響成分はなんやかんやで位相が揃っているのかもしれない。</li>
-</ul>
-</li>
-<li>MS処理してみると全体的に相関が小さくなる。（1次以上のラグ相関も消えている感じ）</li>
-<li>CDF22をやっつけで適用してみたけどMS処理とほぼ変わらず。まじで？実装ミスを疑っている。良くなる予想なんだが。</li>
-</ul>
-<p>CDF22をNARUに突っ込んでみた（MSで使ってみた）が、案の定というか性能悪化の傾向。
-LRは周波数特性が違うから、スプリット（レイジーウェーブレット）した状態とは違う状態になっているかかも。スプリットしたら正確にサンプリングの半周期分遅れた自分に対して処理できるけど、LR信号はスピーカー配置とかで変わってくる。
-そしてもっと重大なことに可逆じゃない。端点処理が怪しい。デバッグしてたらくたばってしまい夕方…。</p>
-<div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">CDF22Forward</span><span class="p">(</span><span class="kt">int32_t</span> <span class="o">**</span><span class="n">data</span><span class="p">,</span> <span class="kt">uint32_t</span> <span class="n">num_samples</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">uint32_t</span> <span class="n">smpl</span><span class="p">;</span>
-
-    <span class="k">for</span> <span class="p">(</span><span class="n">smpl</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="n">smpl</span> <span class="o">&lt;</span> <span class="n">num_samples</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span> <span class="n">smpl</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">data</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">smpl</span><span class="p">]</span> <span class="o">-=</span> <span class="p">(</span><span class="n">data …</span></pre></div>
+                <div class="summary"><p>今考えているウェーブレットによるチャンネル間相関除去って既知の技術だと思ったんだがなあ。資料がないよう …</p>
                     <a class="btn btn-default btn-xs" href="/rihuteinguguan-cha-1.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
                 <h2><a href="/zhan-lue-hui-yi-zhong-202120.html">戦略会議中2021(20)</a></h2>
-                <div class="summary"><p>S+P変換を踏まえて次を考えているが、今気になるのはチャンネル間の相関。チャンネルx信号の2次元でウェーブレットしようと考えているけど、実際の信号はどれくらい相関があるのか気になる。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.ieice.org/publications/conference-FIT-DVDs/FIT2004/pdf/M/M_016.pdf">チャンネル間相関を用いた多チャンネル信号の可逆圧縮符号化</a> チャンネル配置の幾何学的位置に基づいた相関係数により、MS処理の重みを決める。MPEG4より良くなっていることを確認。<ul>
-<li>面子がだいぶMPEG4に寄っとる。標準に取り込まれている？それとも採用されなかったネタ？</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://arxiv.org/pdf/1603.03364.pdf">Channel Decorrelation For Stereo Acoustic Echo Cancellation In High-Quality Audio Communication</a><ul>
-<li>チャンネル間の干渉により音質が悪化するので改善を試みる研究。</li>
-<li>Vorbisの聴覚モデルの評価関数が高くなるように、各チャンネルでノイズ付加とオールパスフィルタを適用</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://ieeexplore.ieee.org/document/6287809">Inter-channel decorrelation by sub-band resampling in frequency domain</a><ul>
-<li>集中が途切れた…読めてない…</li>
-</ul>
-</li>
-</ul>
-<p>うーん、いい情報が出てこない。
-窓関数に対する完全再構成条件がPrincen-Bradley条件。論文で触れていたので気になった。すると以下の資料がヒット。</p>
-<ul class="simple">
-<li><a class="reference external" href="http://www.spcom.ecei.tohoku.ac.jp/~aito/kisosemi/slides2.pdf">高効率音楽符号化</a><ul>
-<li>音声符号化に関する包括的な資料 <a class="reference external" href="http://www.spcom.ecei.tohoku.ac.jp/~aito/kisosemi/slides.pdf">こちら</a> もよい。</li>
-<li>というか、伊藤教授が音声全般でかなり突っ込んだことやってる。 <a class="reference external" href="http://www.spcom.ecei.tohoku.ac.jp/index.html">研究室サイト</a></li>
-</ul>
-</li>
-</ul>
-
+                <div class="summary"><p>S+P変換を踏まえて次を考えているが、今気になるのはチャンネル間の相関。チャンネルx信号の2次元でウェーブ …</p>
                     <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202120.html">more ...</a>
                 </div>
             </article>
@@ -332,18 +316,7 @@ LRは周波数特性が違うから、スプリット（レイジーウェーブ
             <article>
                 <h2><a href="/zhan-lue-hui-yi-zhong-202119.html">戦略会議中2021(19)</a></h2>
                 <div class="summary"><p>バッテリー交換した翌日からMacくんkernel_taskが暴走。SMC/PRAMリセットしても改善せず。
-炎天下で持ち出したのが災いしたか…？（土曜日はリリイベ）
-今一度修理に出した。しばらくは仮環境で作業せざるを得ない。</p>
-<p>今日は出先で藤ノ木先生のリフティング資料を流し読みした。なんとなくはつかめた感じ。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.researchgate.net/publication/2610733_An_Image_Multiresolution_Representation_for_Lossless_and_Lossy_Compression">An Image Multiresolution Representation for Lossless and Lossy Compression</a> S(Sequential) + P(Predict) Transformの論文。といってもリフティングに含まれるが。<ul>
-<li>S+P変換による分散の変化を論じているところが腑に落ちた。ここを突破点にもっと議論を進められないか？</li>
-<li>高級なプリエンファシスとしてリフティングを使うのはあり。そして相関が確かに除去できていることが示せるとなおよい。</li>
-<li>もうちょっと読みたい。</li>
-</ul>
-</li>
-</ul>
-
+炎天下で持ち出したのが災いしたか …</p>
                     <a class="btn btn-default btn-xs" href="/zhan-lue-hui-yi-zhong-202119.html">more ...</a>
                 </div>
             </article>
@@ -384,19 +357,7 @@ LRは周波数特性が違うから、スプリット（レイジーウェーブ
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -408,31 +369,37 @@ LRは周波数特性が違うから、スプリット（レイジーウェーブ
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -441,34 +408,28 @@ LRは周波数特性が違うから、スプリット（レイジーウェーブ
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -476,92 +437,95 @@ LRは周波数特性が違うから、スプリット（レイジーウェーブ
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -634,6 +598,19 @@ LRは周波数特性が違うから、スプリット（レイジーウェーブ
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

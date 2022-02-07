@@ -9,6 +9,170 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="/paseputoronxi-hua.html">
 
         <meta name="author" content="aiki" />
@@ -40,8 +204,7 @@
               title="Aiki's Blog ATOM Feed"/>
 
         <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog 記事 ATOM Feed"/>
-</head>
+              title="Aiki's Blog 記事 ATOM Feed"/></head>
 <body>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -63,9 +226,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -121,14 +281,15 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
+                <main>
                 <p><strong>ニューラルネットワーク（Neural Network,
 以下NN）</strong>は機械学習の歴史と共に歩んできたと言っても過言ではない.
-戦後間もないウィーナーの時代 <a class="footnote-reference" href="#id25" id="id2">[1]</a> からモデルが構築され始め,
+戦後間もないウィーナーの時代 <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a> からモデルが構築され始め,
 幾つかの冬の時代（挫折）を超えて,
 そして現在流行りのディープラーニング（深層学習）は多層構造のNNによって構成されている.
 ここでは, NNの歴史に少しずつ触れながら,
 多層パーセプトロンの学習則（逆誤差伝搬）までを解説していく.
-本稿は主に <a class="footnote-reference" href="#id26" id="id3">[2]</a>, <a class="footnote-reference" href="#id27" id="id4">[3]</a> を参照している.</p>
+本稿は主に <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a>, <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> を参照している.</p>
 <div class="math">
 \begin{align*}
 \newcommand{\bvec}[1]{\boldsymbol{#1}}
@@ -153,29 +314,29 @@ Aiki's Blog            </a>
 \def\sign{\mathop{\rm sign}\nolimits}
 \end{align*}
 </div>
-<div class="contents local topic" id="id5">
+<div class="contents local topic" id="topic-1">
 <ul class="simple">
-<li><a class="reference internal" href="#id6" id="id38">脳機能のモデル化</a><ul>
-<li><a class="reference internal" href="#id8" id="id39">活性化関数の例</a></li>
-<li><a class="reference internal" href="#id9" id="id40">形式ニューロン</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-1">脳機能のモデル化</a><ul>
+<li><a class="reference internal" href="#section-3" id="toc-entry-2">活性化関数の例</a></li>
+<li><a class="reference internal" href="#section-4" id="toc-entry-3">形式ニューロン</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id10" id="id41">単純パーセプトロンと単層パーセプトロン（パーセプトロン）</a><ul>
-<li><a class="reference internal" href="#id11" id="id42">単層パーセプトロンの学習則 - ヘブ則とデルタ則</a><ul>
-<li><a class="reference internal" href="#id13" id="id43">ヘブ則</a></li>
-<li><a class="reference internal" href="#id18" id="id44">デルタ則</a></li>
+<li><a class="reference internal" href="#section-5" id="toc-entry-4">単純パーセプトロンと単層パーセプトロン（パーセプトロン）</a><ul>
+<li><a class="reference internal" href="#section-6" id="toc-entry-5">単層パーセプトロンの学習則 - ヘブ則とデルタ則</a><ul>
+<li><a class="reference internal" href="#section-7" id="toc-entry-6">ヘブ則</a></li>
+<li><a class="reference internal" href="#section-8" id="toc-entry-7">デルタ則</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id22" id="id45">多層パーセプトロン</a><ul>
-<li><a class="reference internal" href="#id24" id="id46">多層パーセプトロンの学習則 - 逆誤差伝搬法</a></li>
+<li><a class="reference internal" href="#section-9" id="toc-entry-8">多層パーセプトロン</a><ul>
+<li><a class="reference internal" href="#section-10" id="toc-entry-9">多層パーセプトロンの学習則 - 逆誤差伝搬法</a></li>
 </ul>
 </li>
 </ul>
 </div>
-<div class="section" id="id6">
-<h2><a class="toc-backref" href="#id38">脳機能のモデル化</a></h2>
+<div class="section" id="section-2">
+<h2><a class="toc-backref" href="#toc-entry-1">脳機能のモデル化</a></h2>
 <p>NNは脳の神経回路網を数学的なモデルで表現したものである. その為,
 理論の出発点は生理学となる. その知識によると,
 神経回路の構成要素であるニューロン（神経細胞）はシナプスを介して他の細胞と結合しており,
@@ -205,13 +366,13 @@ function）</strong><span class="math">\(f\)</span>をおき, 出力を<span cla
 そして<span class="math">\(-b\)</span>はニューロン発火の条件を与える<strong>しきい値（bias,
 threshold）</strong>を表している.
 以上によってモデル化されるニューロンの機能の単位は図にまとめられ,
-<strong>ユニット（unit）</strong>と呼ばれる <a class="footnote-reference" href="#id28" id="id7">[4]</a> .</p>
+<strong>ユニット（unit）</strong>と呼ばれる <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[4]</a> .</p>
 <div class="figure">
 <img alt="NNを構成する単位：ユニット" src="./images/unit.eps" />
 <p class="caption">NNを構成する単位：ユニット</p>
 </div>
-<div class="section" id="id8">
-<h3><a class="toc-backref" href="#id39">活性化関数の例</a></h3>
+<div class="section" id="section-3">
+<h3><a class="toc-backref" href="#toc-entry-2">活性化関数の例</a></h3>
 <p>実際に良く使われる活性化関数<span class="math">\(f\)</span>としては, 次が挙げられる:</p>
 <dl class="docutils">
 <dt>単位ステップ関数（ハードリミタ）<span class="math">\(U(u)\)</span></dt>
@@ -325,8 +486,8 @@ threshold）</strong>を表している.
 <p class="caption">よく使われる活性化関数のグラフ</p>
 </div>
 </div>
-<div class="section" id="id9">
-<h3><a class="toc-backref" href="#id40">形式ニューロン</a></h3>
+<div class="section" id="section-4">
+<h3><a class="toc-backref" href="#toc-entry-3">形式ニューロン</a></h3>
 <p>最初にニューロンをモデル化して研究を行ったのはMcCulloch-Pitts（ウォーレン・マカロック-ウォルター・ピッツ）であり,
 彼らは1943年に<strong>形式ニューロン（formal neuron）</strong>を提案した.
 形式ニューロンでは活性化関数は単にステップ関数<span class="math">\(U(u)\)</span>となる:</p>
@@ -364,8 +525,8 @@ threshold）</strong>を表している.
 それらを能動的に変更することで学習が実現されうるという示唆は既に生まれていたものと考えられる.</p>
 </div>
 </div>
-<div class="section" id="id10">
-<h2><a class="toc-backref" href="#id41">単純パーセプトロンと単層パーセプトロン（パーセプトロン）</a></h2>
+<div class="section" id="section-5">
+<h2><a class="toc-backref" href="#toc-entry-4">単純パーセプトロンと単層パーセプトロン（パーセプトロン）</a></h2>
 <p>1957年にRosenblatt（ローゼンブラッド）は形式ニューロンを入力層（Sensory
 Layer, S層）, 中間層（Associative Layer, A層）, 出力層（Response Layer,
 R層）の3つに分けて階層的に結合し,
@@ -399,14 +560,14 @@ S層とA層間の重みをランダムに決定した後は単層パーセプト
 <img alt="単層パーセプトロン（パーセプトロン）" id="fig-single-layer-perceptron" src="./images/single_layer_perceptron.eps" />
 <p class="caption">単層パーセプトロン（パーセプトロン）</p>
 </div>
-<div class="section" id="id11">
-<h3><a class="toc-backref" href="#id42">単層パーセプトロンの学習則 - ヘブ則とデルタ則</a></h3>
+<div class="section" id="section-6">
+<h3><a class="toc-backref" href="#toc-entry-5">単層パーセプトロンの学習則 - ヘブ則とデルタ則</a></h3>
 <p>単層パーセプトロンの学習にはサンプルが必要となるため,
 まずはサンプルの表記から行う. 学習の中でも特に教師あり学習（supervised
 learning）はサンプルのデータにラベルが付いている.
 ラベルは一般的にはなんでも良いが,
 基本的にはデータがある性質を満たす場合（正例）はラベルを<span class="math">\(1\)</span>に,
-満たさない場合（負例）はラベルを<span class="math">\(-1\)</span>とする <a class="footnote-reference" href="#id29" id="id12">[5]</a> .
+満たさない場合（負例）はラベルを<span class="math">\(-1\)</span>とする <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[5]</a> .
 そして<span class="math">\(N\)</span>個のデータからなるサンプルの集合<span class="math">\(Z\)</span>は,
 データ<span class="math">\(\ve{x}\)</span>とその（教師）ラベル<span class="math">\(t\)</span>の組の集合で表される:</p>
 <div class="math">
@@ -430,8 +591,8 @@ learning）はサンプルのデータにラベルが付いている.
 </div>
 <p>これは常に<span class="math">\(1\)</span>を入力するユニットを仮定し,
 その結合重みを<span class="math">\(b\)</span>とすることで説明できる.</p>
-<div class="section" id="id13">
-<h4><a class="toc-backref" href="#id43">ヘブ則</a></h4>
+<div class="section" id="section-7">
+<h4><a class="toc-backref" href="#toc-entry-6">ヘブ則</a></h4>
 <p>前節で述べたとおり,
 ヘブ則は「同時に発火したニューロン間のシナプス結合は強められる」というものであった.
 これはラベルを<span class="math">\(t_{l} \in \{ 1, 0 \}\ (l=1,\dots,N)\)</span>（正例を1,
@@ -485,12 +646,12 @@ rate）</strong>と呼ばれる.
 <p>この更新規則もヘブ則と呼ばれる事がある.</p>
 <p>ヘブ則の重要な性質に,
 最適な重みが存在するならば有限ステップで学習が停止（サンプルの誤識別がなくなる）する事が示されている.
-ここでは,  <a class="footnote-reference" href="#id30" id="id14">[6]</a> に従ってその証明を行う. まず,
+ここでは,  <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[6]</a> に従ってその証明を行う. まず,
 存在が仮定された最適な重みを<span class="math">\(\ve{w}^{\ast}\)</span>と表し,
-<span class="math">\(||\ve{w}^{\ast}||^{2} = \ve{w}^{\ast\mathsf{T}}\ve{w}^{\ast} = \sum_{i=1}^{n} w_{i}^{\ast 2} = 1\)</span>となる様に正規化しておく <a class="footnote-reference" href="#id31" id="id15">[7]</a> .
+<span class="math">\(||\ve{w}^{\ast}||^{2} = \ve{w}^{\ast\mathsf{T}}\ve{w}^{\ast} = \sum_{i=1}^{n} w_{i}^{\ast 2} = 1\)</span>となる様に正規化しておく <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[7]</a> .
 ここで,
 <span class="math">\(||\ve{v}||\)</span>はベクトル<span class="math">\(\ve{v}\)</span>の2乗ノルムである. また,
-<span class="math">\(\gamma = \displaystyle \min_{l} y_{l} u_{l} = \min_{l} y_{l} \ve{w}^{\ast\mathsf{T}} \ve{x}_{l}\)</span>なる定数 <a class="footnote-reference" href="#id32" id="id16">[8]</a> をおき,
+<span class="math">\(\gamma = \displaystyle \min_{l} y_{l} u_{l} = \min_{l} y_{l} \ve{w}^{\ast\mathsf{T}} \ve{x}_{l}\)</span>なる定数 <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[8]</a> をおき,
 <span class="math">\(\gamma &gt; 0\)</span>とする. この時, 更新式により,</p>
 <div class="math">
 \begin{equation*}
@@ -557,7 +718,7 @@ rate）</strong>と呼ばれる.
 \end{equation*}
 </div>
 <p>ここで,
-不等式中央の内積<span class="math">\(\ve{w}^{\ast \mathsf{T}}\ve{w}^{(s)}\)</span>は最適解<span class="math">\(\ve{w}^{\ast}\)</span>と現在の重み<span class="math">\(\ve{w}^{(s)}\)</span>との類似度とも捉えられる <a class="footnote-reference" href="#id33" id="id17">[9]</a> ので,
+不等式中央の内積<span class="math">\(\ve{w}^{\ast \mathsf{T}}\ve{w}^{(s)}\)</span>は最適解<span class="math">\(\ve{w}^{\ast}\)</span>と現在の重み<span class="math">\(\ve{w}^{(s)}\)</span>との類似度とも捉えられる <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[9]</a> ので,
 この不等式によりステップ数<span class="math">\(s\)</span>増加の度に類似度の下限<span class="math">\(s^{2}\eta^{2}\gamma^{2}\)</span>が上限<span class="math">\(s\eta^{2}R^{2}\)</span>よりも早く増加する事が観察できる.
 即ち類似度は単調増加し, 重みは最適解に近づいて行くことが分かる.
 またステップ数<span class="math">\(s\)</span>について解くと<span class="math">\(\displaystyle s \leq \frac{R^{2}}{\gamma^{2}}\)</span>が成立し,
@@ -565,8 +726,8 @@ rate）</strong>と呼ばれる.
 これらの結果により, 有限ステップで<span class="math">\(\ve{w}^{\ast}\)</span>が得られ,
 学習が停止することが示された.</p>
 </div>
-<div class="section" id="id18">
-<h4><a class="toc-backref" href="#id44">デルタ則</a></h4>
+<div class="section" id="section-8">
+<h4><a class="toc-backref" href="#toc-entry-7">デルタ則</a></h4>
 <p>デルタ則（デルタルール）は現在の重み<span class="math">\(\ve{w}\)</span>でのサンプルによる出力とラベルの誤差（経験誤差）<span class="math">\(E(\ve{w})\)</span>を定義し,
 <span class="math">\(E(\ve{w})\)</span>を極小にする様に重みを更新していく学習則である.
 誤差<span class="math">\(E(\ve{w})\)</span>の<span class="math">\(\ve{w}\)</span>による偏微分<span class="math">\(\displaystyle\parfrac{E(\ve{w})}{\ve{w}}\)</span>は勾配,
@@ -582,7 +743,7 @@ rate）</strong>と呼ばれる.
 更新の度に誤差を最小にする様に重み<span class="math">\(\ve{w}\)</span>を更新することができる.
 学習の収束は,
 <span class="math">\(\Delta \ve{w}\)</span>の大きさ（<span class="math">\(||\Delta \ve{w}||^{2}\)</span>等）が十分に小さくなった時とすれば良く,
-そのときは極小解 <a class="footnote-reference" href="#id34" id="id19">[10]</a> が得られている. この手法は<strong>最急勾配法（steepest
+そのときは極小解 <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[10]</a> が得られている. この手法は<strong>最急勾配法（steepest
 gradient method）</strong>と呼ばれる基本的な数値最適化の手法の一種である.
 ここでは, ユニットの活性化関数を単位ステップ関数<span class="math">\(U(u)\)</span>,
 ラベルを<span class="math">\(\{ 1, 0 \}\)</span>として考える.</p>
@@ -593,7 +754,7 @@ gradient method）</strong>と呼ばれる基本的な数値最適化の手法�
   E(\ve{w}) = \frac{1}{2} \sum_{l=1}^{N} (t_{l} - y_{l})^{2} = \frac{1}{2} \sum_{l=1}^{N} \left\{ t_{l} - U(\ve{w}^{\mathsf{T}}\ve{x}_{l}) \right\}^{2}\end{aligned}
 \end{equation*}
 </div>
-<p>とする <a class="footnote-reference" href="#id35" id="id20">[11]</a> と, 後に示す様に局所最適解に嵌ってしまう可能性がある. 第一,
+<p>とする <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[11]</a> と, 後に示す様に局所最適解に嵌ってしまう可能性がある. 第一,
 単位ステップ関数<span class="math">\(U(u)\)</span>はもとより微分可能では無く,
 このままでは学習則を導出できない. そこで, まず,
 ユニットの活性化関数を一旦微分可能なシグモイド関数<span class="math">\(\varphi\)</span>とし,
@@ -676,7 +837,7 @@ learning）と呼ぶが, 1つのサンプル毎に重みを更新するやり方
 \end{equation*}
 </div>
 <p>これは逐次学習（on-line learning）と呼ばれる.
-一般に逐次学習の方が収束が早い事が知られている <a class="footnote-reference" href="#id36" id="id21">[12]</a> .</p>
+一般に逐次学習の方が収束が早い事が知られている <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[12]</a> .</p>
 <p>この更新則による学習が局所最適に陥らないことを示す.
 <span class="math">\(\displaystyle\parfrac{e_{l}(\ve{w})}{w_{i}}\)</span>を更に<span class="math">\(w_{j}\)</span>で偏微分し2階の偏導関数を求めると,</p>
 <div class="math">
@@ -762,9 +923,9 @@ matrix）<span class="math">\(H\)</span>は</p>
 </div>
 </div>
 </div>
-<div class="section" id="id22">
-<h2><a class="toc-backref" href="#id45">多層パーセプトロン</a></h2>
-<p>単層パーセプトロンはサンプルが直線（平面）で分離できる（線形分離可能な）問題にしか適用できない事 <a class="footnote-reference" href="#id37" id="id23">[13]</a> が1969年にMinskey-Papertに指摘された.
+<div class="section" id="section-9">
+<h2><a class="toc-backref" href="#toc-entry-8">多層パーセプトロン</a></h2>
+<p>単層パーセプトロンはサンプルが直線（平面）で分離できる（線形分離可能な）問題にしか適用できない事 <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[13]</a> が1969年にMinskey-Papertに指摘された.
 線形分離不可能な例としてよく例に引き出されるのが図<a class="reference external" href="#fig:XOR_problem">3</a>の<strong>XOR問題</strong>である.</p>
 <div class="figure">
 <img alt="XOR問題" id="fig-xor-problem" src="./images/XOR_problem.eps" />
@@ -799,8 +960,8 @@ layer）, 任意個数の中間（隠れ）層（middle(hidden) layer）,
 <p>多層パーセプトロンは様々な現実的な問題に適用できる為に,
 NNの第二次研究ブームを引き起こした. 現在においても,
 一口にNNと言うと3層（1つの中間層）からなる多層パーセプトロン（3層NN）の事を指すことが多い.</p>
-<div class="section" id="id24">
-<h3><a class="toc-backref" href="#id46">多層パーセプトロンの学習則 - 逆誤差伝搬法</a></h3>
+<div class="section" id="section-10">
+<h3><a class="toc-backref" href="#toc-entry-9">多層パーセプトロンの学習則 - 逆誤差伝搬法</a></h3>
 <p>全ての重みが可変となった多層パーセプトロンでは,
 単層パーセプトロンにおける学習則の様に出力層の重みを更新するだけではなく,
 全ての重みを逐次更新していく必要がある.
@@ -921,31 +1082,31 @@ back-propagation method）</strong>は,
   \delta_{i}^{n} = \sum_{l=1}^{N} (y_{i}^{n} - t_{i}^{l})\end{aligned}
 \end{equation*}
 </div>
-<table class="docutils footnote" frame="void" id="id25" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[1]</a></td><td>ノーバート・ウィーナー, 池原止戈夫, 彌永昌吉, 室賀三郎, 戸田巌,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td>ノーバート・ウィーナー, 池原止戈夫, 彌永昌吉, 室賀三郎, 戸田巌,
 “ウィーナー サイバネティックス ―動物と機械における制御と通信”
 岩波書店, 2011</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id26" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id3">[2]</a></td><td>庄野逸, <a class="reference external" href="http://www.slideshare.net/HAL9801/20140705">Deep Learning
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>庄野逸, <a class="reference external" href="http://www.slideshare.net/HAL9801/20140705">Deep Learning
 勉強会(1)</a></td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id27" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id4">[3]</a></td><td>高橋治久, 堀田一弘, “学習理論” コロナ社, 2009</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[3]</a></td><td>高橋治久, 堀田一弘, “学習理論” コロナ社, 2009</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id28" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id7">[4]</a></td><td>これは非常に単純なモデルであり,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-4">[4]</a></td><td>これは非常に単純なモデルであり,
 理解や応用が簡単な為に様々な場面で用いられる.
 特に機械学習では無批判にこのユニットを用いる向きがある. しかし,
 このモデルは厳密にニューロンの動作を表現できてはいないことに注意が必要である.
@@ -955,67 +1116,67 @@ back-propagation method）</strong>は,
 よりニューロンの動作を精密に表したモデルにホジキン-ハックスレー型のニューロンモデルがある[^13].</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id29" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[5]</a></td><td>正例のラベルを<span class="math">\(1\)</span>,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-5">[5]</a></td><td>正例のラベルを<span class="math">\(1\)</span>,
 負例のラベルを<span class="math">\(0\)</span>としたり問題に応じて都合良く決められるが,
 識別できる二値なら何でもよく, 本質的な違いは存在しない.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id30" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[6]</a></td><td>高橋治久, 堀田一弘, “学習理論” コロナ社, 2009</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[6]</a></td><td>高橋治久, 堀田一弘, “学習理論” コロナ社, 2009</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id31" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id15">[7]</a></td><td>この正規化によっても一般性は全く失われない.
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[7]</a></td><td>この正規化によっても一般性は全く失われない.
 <span class="math">\(\ve{w}\)</span>は入力の重みの比率を定めているに過ぎず,
 実際<span class="math">\(u = \ve{w}^{\mathsf{T}}\ve{x} + b\)</span>から見れるように,
 <span class="math">\(\ve{w}\)</span>は面（識別面という）の法ベクトルとなっている.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id32" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id16">[8]</a></td><td>最も面<span class="math">\(\ve{w}^{\ast}\)</span>に近いベクトルの距離を表しており,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[8]</a></td><td>最も面<span class="math">\(\ve{w}^{\ast}\)</span>に近いベクトルの距離を表しており,
 <strong>マージン</strong>と呼ばれる. かの有名なSVMのマージンそのものである</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id33" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id17">[9]</a></td><td>2つのベクトル<span class="math">\(\ve{v}_{1}, \ve{v}_{2}\)</span>がなす角度<span class="math">\(\theta\)</span>は<span class="math">\(\cos\theta = \ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}/(||\ve{v}_{1}||||\ve{v}_{2}||)\)</span>により求められるので,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[9]</a></td><td>2つのベクトル<span class="math">\(\ve{v}_{1}, \ve{v}_{2}\)</span>がなす角度<span class="math">\(\theta\)</span>は<span class="math">\(\cos\theta = \ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}/(||\ve{v}_{1}||||\ve{v}_{2}||)\)</span>により求められるので,
 <span class="math">\(\theta=0\)</span>ならば2つのベクトルは一致している（類似度が最大）と見ることができる.
 角度<span class="math">\(\theta\)</span>が<span class="math">\(0\)</span>に近い（類似度が高い）時は内積<span class="math">\(\ve{v}_{1}^{\mathsf{T}}\ve{v}_{2}\)</span>が高い値を取ることが分かる</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id34" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id19">[10]</a></td><td>大域的な最小解とは限らない事に注意</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>大域的な最小解とは限らない事に注意</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id35" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id20">[11]</a></td><td>係数の<span class="math">\(1/2\)</span>に本質的な意味は無いが,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[11]</a></td><td>係数の<span class="math">\(1/2\)</span>に本質的な意味は無いが,
 微分の際に計算を簡単にする狙いがある.</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id36" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-12" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id21">[12]</a></td><td>しかし, 局所最適に嵌ってしまうリスクが潜んでいる</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[12]</a></td><td>しかし, 局所最適に嵌ってしまうリスクが潜んでいる</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id37" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id23">[13]</a></td><td><span class="math">\(\ve{w}\)</span>は識別面の法ベクトルを表すが,
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[13]</a></td><td><span class="math">\(\ve{w}\)</span>は識別面の法ベクトルを表すが,
 出力を単位ステップ（もしくは符号）関数とすると入力ベクトルが面の上半領域にある場合は<span class="math">\(1\)</span>を,
 下半領域にある場合は<span class="math">\(0(-1)\)</span>を出力する.</td></tr>
 </tbody>
@@ -1084,6 +1245,7 @@ back-propagation method）</strong>は,
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
+                </main>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
@@ -1118,19 +1280,7 @@ back-propagation method）</strong>は,
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -1142,31 +1292,37 @@ back-propagation method）</strong>は,
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -1175,34 +1331,28 @@ back-propagation method）</strong>は,
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -1210,92 +1360,95 @@ back-propagation method）</strong>は,
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -1332,7 +1485,7 @@ back-propagation method）</strong>は,
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -1368,6 +1521,19 @@ back-propagation method）</strong>は,
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

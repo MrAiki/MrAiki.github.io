@@ -9,6 +9,170 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="">
         <meta name="author" content="aiki" />
 
@@ -31,7 +195,6 @@
 
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
-
 
 </head>
 <body>
@@ -57,9 +220,6 @@ Aiki's Blog            </a>
                             <a href="/category/qu-wei.html">趣味</a>
                         </li>
                         <li >
-                            <a href="/category/shi-yan.html">実験</a>
-                        </li>
-                        <li >
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -83,16 +243,28 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html">Monkey's Audio (version. 6.61) 実装を見やる(1)</a></h2>
+                <div class="summary"><p>自分のやってることに近いことが分かっているのでMonkey's Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。</p>
+<div class="highlight"><pre><span></span><span class="c1">// aiki: サンプルnA, nB …</span></pre></div>
+                    <a class="btn btn-default btn-xs" href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-13.html">LPCの多段構成検証(13)</a></h2>
+                <div class="summary"><p>今日からはLPCネットの性能評価メインで。まずは簡単な音源で色々動かしてみよう。</p>
+<p>簡単な音源として薄紅先頭10secとサ …</p>
+                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-13.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-12.html">LPCの多段構成検証(12)</a></h2>
                 <div class="summary"><ul class="simple">
 <li>Lebinson-Durvinによる適応的分割数決定: 済</li>
 <li>演算結果の取得API追加: 済</li>
 </ul>
-<p>なんとか8月に間に合った。早速コーデックに入れてみる…が、やっぱり渋い。あんまり減っていかない。
-いろいろ試していると、Levinson-Durbinで初期値設定するより、オールゼロで始めたほうが圧縮率がいい結果が出ている。
-要観察か。</p>
-<p>いままでの固定構成と比べてどうよ？というところもしっかり見るべし。</p>
-
+<p>なんとか8月に間に合った。早速コーデックに入れてみる…が …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-12.html">more ...</a>
                 </div>
             </article>
@@ -104,9 +276,7 @@ Aiki's Blog            </a>
 <li>Lebinson-Durvinによる適応的分割数決定: 済</li>
 <li>演算結果の取得API追加: まだ</li>
 </ul>
-<p>L1ロスの平均操作必須だった。サンプル数増やすと安定しない。
-また、純音とか突っ込むと学習全然安定しない。うーん実データは問題なかったんやが。</p>
-
+<p>L1ロスの平均操作必須だった。サン …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-11.html">more ...</a>
                 </div>
             </article>
@@ -114,15 +284,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html">LPCの多段構成検証(10)</a></h2>
                 <div class="summary"><p>もうすこしテスト追加して学習結果がPython版とおなじになるように。
-手元で確認した限りではOK。しっかし演算精度で差が出たのでfloatからdoubleに変えた。いつもどおり速度が問題になったらfloatにすれば良い。</p>
-<p>ネットワークモジュールとトレーナーを追加した。
-あとは</p>
-<ul class="simple">
-<li>Lebinson-Durvinによる適応的分割数決定</li>
-<li>演算結果の取得API追加</li>
-</ul>
-<p>やな。ここまでいけば圧縮試せそう。</p>
-
+手元で確認した限りではOK。しっかし演算精度で …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-10.html">more ...</a>
                 </div>
             </article>
@@ -130,10 +292,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-9.html">LPCの多段構成検証(9)</a></h2>
                 <div class="summary"><p>今日もデバッグを優先。8月中にはPython版と同様の状態に持っていきたい。
-分割時の挙動もしっかり合わせる必要がある。</p>
-<p>かなりバグが有った。インデックス端点とか。Python側にもcol2im(cmat2frame)にバグがあったりした。他にもL1ロスでの誤差逆伝播で入力サイズで割ってたのを見つけた。バッチサイズで割るべきで、除算は不要だった。学習がだいぶ遅くなっていたはず。
-ひとまず動くように見えるけどやっつけ感ある。明日テストケースを増やして確認。</p>
-
+分割時の挙動もしっかり合わせる必要があ …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-9.html">more ...</a>
                 </div>
             </article>
@@ -141,8 +300,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-8.html">LPCの多段構成検証(8)</a></h2>
                 <div class="summary"><p>学会Done。英語力の低さがやはり響く。</p>
-<p>学習のC言語版実装を進めている。なんとなく動いているが、まだPython版と学習曲線が一致していない。一致するまでデバッグ。</p>
-
+<p>学習のC言語版実装を進めている。なんとなく動いているが、まだPython版と学習曲線 …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-8.html">more ...</a>
                 </div>
             </article>
@@ -150,44 +308,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-7.html">LPCの多段構成検証(7)</a></h2>
                 <div class="summary"><p>22はイベ。疲労か23は全く動けなかった。全く動けないのは問題。</p>
-<p>今日からC言語実装を試していく。まずは2層で様子見。分割の探索も試す。
-8月以内にはバックプロパゲーション学習も実装したい。</p>
-<p>分割の探索を導入したところ、当然というか、固定分割よりも向上（4分割固定だったのを可変にしたら0.8%向上。明らかによいので導入）</p>
-<p>1層目も可変分割にしたら僅かであるが確かに減る。というわけで全ての層で可変分割を入れる。</p>
-<p>層を重ねると予想外に減っていくことに気づく。メモしていく。</p>
-<table border="1" class="docutils">
-<caption>1層のパラメータが16のとき</caption>
-<colgroup>
-<col width="33%" />
-<col width="33%" />
-<col width="33%" />
-</colgroup>
-<tbody valign="top">
-<tr><td>層数 \ 音源</td>
-<td>ワンツー</td>
-<td>SPARKLE</td>
-</tr>
-<tr><td>0(なし)</td>
-<td>80.85</td>
-<td>69.49</td>
-</tr>
-<tr><td>1</td>
-<td>73.03</td>
-<td>61.49</td>
-</tr>
-<tr><td>2</td>
-<td>71.51</td>
-<td>60.05</td>
-</tr>
-<tr><td>3</td>
-<td>71.20</td>
-<td>59.68</td>
-</tr>
-<tr><td>4</td>
-<td>71.04</td>
-<td>59.53</td>
-</tr>
-<tr><td>8 …</td></tr></tbody></table>
+<p>今日からC言語実装を試していく。まずは2層で様子 …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-7.html">more ...</a>
                 </div>
             </article>
@@ -196,45 +317,7 @@ Aiki's Blog            </a>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-6.html">LPCの多段構成検証(6)</a></h2>
                 <div class="summary"><p>これまでの結果をまとめることを試みる。いい加減グダグダ実験するのはやめ。</p>
 <ul class="simple">
-<li>パラメータ（LPC係数）は多いほうが低いロスを達成する<ul>
-<li>ロスの減少は頭打ちになるが、実用的な範囲（8192サンプルフレームに256パラメータまで）は下がり続ける</li>
-</ul>
-</li>
-<li>2層構成が最も低いロスを達成することが多かった<ul>
-<li>ただし、パラメータを各層に等しく振り分けた場合。</li>
-<li>パラメータを各層で変えた場合は、3層でよりよい構成が見つかる場合が多数あった。</li>
-</ul>
-</li>
-<li>1層目は分割しないほうがロスが小さい<ul>
-<li>はっきりとした傾向として出ている。</li>
-<li>これが何故良いのかはっきりと説明できない。以下に仮説を述べる。<ol class="arabic">
-<li>プリエンファシスで見たように相関を消せるから。またその相関を消すには長い区間で分析すべきだから。（正確な統計量を計算すべきだから）</li>
-<li>マルチスケールで分析できているから。分割しないで計算すると長区間の傾向を捉えることができる</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>2層目以降の分割は法則が見えない<ul>
-<li>分割時に見る波形に依存してパフォーマンスがブレるから</li>
-<li>これは適応的に定めるべきかと。分割数を変えて最も低いロスを出す構成を探すのが良い</li>
-</ul>
-</li>
-<li>学習はいつでも有効。学習率を上げすぎると発散する<ul>
-<li>Momentumで加速する。プラトーにもあんまりはまらない。単調に減っていく。</li>
-<li>初期値をLebinson-Durbin法で設定すると良い。ランダム初期値/ゼロ初期値よりも低いロスを達成していた。</li>
-</ul>
-</li>
-</ul>
-<p>で、コーデックにどう還元していくか。</p>
-<ul class="simple">
-<li>2層をベースに、2層目の適応分割をおこなって性能を見る。</li>
-<li>学習実装<ul>
-<li>学習による改善は少ないように思える。絶対値にして2~3の改善はどれくらい圧縮に効いてくるか不明…</li>
-<li>しかしLebinson-Durbin法によって設定するより確実によい係数が見つかっている。</li>
-</ul>
-</li>
-</ul>
-
+<li>パラメータ（LPC係数）は多いほうが低い …</li></ul>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-6.html">more ...</a>
                 </div>
             </article>
@@ -242,42 +325,8 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-5.html">LPCの多段構成検証(5)</a></h2>
                 <div class="summary"><p>だいぶ副反応は楽になった。</p>
-<p>バラバラと実験している。。音源も少ないので客観的な結果が出てないかもしれないのがとても怖い。</p>
-
+<p>バラバラと実験している。。音源も少ないので客観的な結果が出てないかもしれないのが …</p>
                     <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-5.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-4.html">LPCの多段構成検証(4)</a></h2>
-                <div class="summary"><p>大体の傾向はつかめた。しかし実践で網羅探索するのはつらい。
-そこで、前から思っていた手法を試してみたい。</p>
-<ul class="simple">
-<li>浅い層から深い層に向けて分割数を変えてLevinson-Durbin法を実行して、誤差分散最小の分割数を選ぶ</li>
-<li>実装も楽にできるはず。</li>
-</ul>
-<p>ワクチン2回目打って体調が悪い！寒気が止まらん！</p>
-
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-4.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/lpcnoduo-duan-gou-cheng-jian-zheng-3.html">LPCの多段構成検証(3)</a></h2>
-                <div class="summary"><p>調査してみたら、やはり前日と同じ傾向。</p>
-<ul>
-<li><p class="first">16</p>
-<blockquote>
-<p>('[(8, 1), (8, 2)]', 0.004464827723304184)
-('[(8, 1), (8, 1)]', 0.004511942895091376)
-('[(8, 1), (8, 4)]', 0.004585848876812132)
-('[(8, 1), (8, 8)]', 0.004621162135462672)
-('[(8, 2), (8, 1)]', 0.00474587468751301)
-('[(16, 1)]', 0.004797777841798966)
-('[(8, 2), (8, 2)]', 0.005024862442518435)
-('[(16, 2)]', 0.0051091371014737865)
-('[(8, 2), (8 …</p></blockquote></li></ul>
-                    <a class="btn btn-default btn-xs" href="/lpcnoduo-duan-gou-cheng-jian-zheng-3.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -359,19 +408,7 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -383,31 +420,37 @@ Aiki's Blog            </a>
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -416,34 +459,28 @@ Aiki's Blog            </a>
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -451,92 +488,95 @@ Aiki's Blog            </a>
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -573,7 +613,7 @@ Aiki's Blog            </a>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -609,6 +649,19 @@ Aiki's Blog            </a>
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

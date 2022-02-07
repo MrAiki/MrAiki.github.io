@@ -10,6 +10,170 @@
 
 
 
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
+
     <meta name="author" content="aiki" />
     <meta name="keywords" content="Lossless Audio Codec" />
 
@@ -32,7 +196,6 @@
 
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
-
 
 </head>
 <body>
@@ -58,9 +221,6 @@ Aiki's Blog            </a>
                             <a href="/category/qu-wei.html">趣味</a>
                         </li>
                         <li >
-                            <a href="/category/shi-yan.html">実験</a>
-                        </li>
-                        <li >
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -84,21 +244,28 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-23.html">コーデック作り2021春(23)</a></h2>
+                <div class="summary"><p>評価スクリプトをSLAから持ってきて試してみると、平均圧縮率が悪い。
+なぜだ。手元の音源ではよかったのに。</p>
+<p>結果を見 …</p>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-23.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-22.html">コーデック作り2021春(22)</a></h2>
+                <div class="summary"><p>CRC16対応をした。あとはコマンドライン整理とプリセット精査なんだけど、処理負荷でどこが重くなってんのか見てお …</p>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-22.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-21.html">コーデック作り2021春(21)</a></h2>
                 <div class="summary"><p>ワーク配置をする。</p>
 <ul class="simple">
 <li>LPC計算ハンドル: 済</li>
 <li>コーダー: 済（まよったけど、今後別用途ありうる）</li>
-<li>プロセッサ: やめる。内部モジュールであって構造体公開してるし。</li>
-<li>エンコーダ: 済</li>
-<li>デコーダ: 済</li>
-</ul>
-<p>の順に。かるくデコーダのワークサイズみた。8ch, 最大32次とすると9kくらい。プロセッサがほとんどを占めてる。まだメモリを削る要望はないけど、やるとしたらここかな。コンフィグの最大次数に合わせて動的確保する実装に変えるべき。</p>
-<p>Windowsで軽く動かしてたら、NLZは <cite>_BitScanReverse</cite> を使えば早くできそうな印象で、やっつけたらたしかに早くなった。630ms-&gt;550msとか。全部NLZ(CLZ)使ってんのもよくなくて、CTZも使ったほうがいいんじゃないか。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://blog.jiubao.org/2015/01/gcc-bitscanforward-bitscanreverse-msvc.html">gcc で _BitScanForward &amp; _BitScanReverse 互換関数、MSVC で __builtin_clz &amp; __builtin_ctz 互換関数</a></li>
-</ul>
-
+<li>プロセッサ: やめる。内部モジュー …</li></ul>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-21.html">more ...</a>
                 </div>
             </article>
@@ -106,16 +273,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-20.html">コーデック作り2021春(20)</a></h2>
                 <div class="summary"><p>3/13はイベント、3/14はリングバッファ高速化（やった）。今日3/15は事務用で一日潰れる。</p>
-<p>作業開始は22:30となる。また、論文にまとめないといけなそうな雰囲気。しかし焦りたくない。</p>
-<p>今日はフィルタモジュール整理から初めて、できれば</p>
-<ul class="simple">
-<li>LPC計算ハンドル</li>
-<li>コーダー</li>
-<li>プロセッサ</li>
-</ul>
-<p>をワーク配置形式に作っていきたい。フィルタモジュール整理してたら24時回りそう。。。。</p>
-<p>AR次数が2以上の場合に対処していたら1:00回ったので切り上げる。</p>
-
+<p>作業開始は22:30となる。また、論 …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-20.html">more ...</a>
                 </div>
             </article>
@@ -124,24 +282,7 @@ Aiki's Blog            </a>
                 <h2><a href="/kodetsukuzuo-ri2021chun-19.html">コーデック作り2021春(19)</a></h2>
                 <div class="summary"><p>Riceパラメータはlog2で記録するようにした。
 残差が大きく(=圧縮率が悪化)なったら対策を考える。問題後回し。</p>
-<p>そして、固定小数幅を14bitにするのを試行する。→やってみたら実音声で大幅悪化。やめやめ。</p>
-<p>残りで大きいところは</p>
-<ul class="simple">
-<li>リングバッファアクセス高速化</li>
-<li>ハンドルのワーク配置化</li>
-<li>コマンドライン整理</li>
-<li>プリセット選定<ul>
-<li>いまのところ、(NGSA次数, SA次数, ブロックサイズ) と書くとしたとき<ul>
-<li>高速（低圧縮モード）は(4, 4, 8192)</li>
-<li>通常（デフォルト）は(8, 8, 8192)</li>
-<li>低速（高圧縮モード）は(16, 8, 16384)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>上が残件になるが、致命的なところは除いたつもりなので、今の内容で公開する。</p>
-
+<p>そして、固定 …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-19.html">more ...</a>
                 </div>
             </article>
@@ -150,20 +291,7 @@ Aiki's Blog            </a>
                 <h2><a href="/kodetsukuzuo-ri2021chun-18.html">コーデック作り2021春(18)</a></h2>
                 <div class="summary"><p>1サンプル単位で振動する信号への対処を考慮中。</p>
 <ul class="simple">
-<li>64bit化してオーバーフロー原因かしらべる-&gt;コンパイルエラー多発。そして解決してない。オーバーフローせずに吹っ飛んでるっぽい。</li>
-<li>プリエンファシスをLPCで計算した1次フィルタに置き換える: 前提がほぼ崩れるので最終手段に近い。</li>
-<li>アサートしているのは（残差増大に伴って）Rice符号の初期パラメータが大きくなりすぎているからなので、パラメータ保存領域を大きくする<ul>
-<li>うまく行かなかった。発散してるっぽいし、この対処だと本質的な問題（発散）を隠してる気がする。</li>
-<li>Riceパラメータのlog2ceilをとって記録することで5bitに確実に収まり、アサートは発生しなくなる…が、やっぱ残差が大きくなっている事実は変わらないわけで、どうするか考えるべき。テストケースは18とか出てるので大きいとおもふ。</li>
-</ul>
-</li>
-<li>ブロックサンプル数を8192より大きくすると収束する<ul>
-<li>何故？AR係数がうまく求まるから？</li>
-</ul>
-</li>
-</ul>
-<p>固定小数のビット数を14にしたら性能向上したけど、後の検証に回す。（12,13だと性能悪化）</p>
-
+<li>64bit化してオーバーフロー原因かしらべる-&gt;コンパイルエラー多発 …</li></ul>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-18.html">more ...</a>
                 </div>
             </article>
@@ -171,17 +299,7 @@ Aiki's Blog            </a>
             <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-17.html">コーデック作り2021春(17)</a></h2>
                 <div class="summary"><p>テストケース追加中。実装も並行して修正かけてる。</p>
-<p>ノイズ（エントロピー大）エンコード時に残差が大きくなってライスパラメータが記録できずクラッシュしていた。このため、生データブロックを追加。</p>
-<p>同時にブロックヘッダのフォーマットを整理。ビットストリームなしでもブロックヘッダはエンコード/デコードできるようにする。そのためブロックデータタイプを1byteにした。</p>
-<p>1サンプル周期の振動に対して残差が発散している。。。
-デバッグ中。</p>
-<ul class="simple">
-<li>NGSAの勾配がすぐに止まってしまうのを見ている。（定常的だから当然かも知れない）。</li>
-<li>プリエンファシスが逆効果（振幅増大）している...。オーバーフロー多発。</li>
-<li>勾配の更新タイミングを履歴更新後にしたら若干改善したが、それでも発散している。（以前圧縮率悪化を確認していたが、あまり悪化しなかった。何故？）</li>
-<li>係数初期値をLPCで求めるのもありか？</li>
-</ul>
-
+<p>ノイズ（エントロピー大）エンコード時に残差が大きくなってライ …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-17.html">more ...</a>
                 </div>
             </article>
@@ -190,10 +308,7 @@ Aiki's Blog            </a>
                 <h2><a href="/kodetsukuzuo-ri2021chun-16.html">コーデック作り2021春(16)</a></h2>
                 <div class="summary"><p>テストケース追加中。</p>
 <p>動かしていて、ブロックにサイズに準じるデータが無いことに気づく。
-AADでは固定ビットレートだからブロックサイズが固定されていたのでいらなかったが、こっち可変ビットレートだから必須のはず。</p>
-<p>もう少し考えるとサイズのbit幅をいくつにしようか悩む。16bitでは小さい。SLAに倣うか→見たら32bitだった。まあそうか。
-ついでにCRC検査向けに16bit入れとくか。</p>
-
+AADでは固定ビットレート …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-16.html">more ...</a>
                 </div>
             </article>
@@ -202,15 +317,7 @@ AADでは固定ビットレートだからブロックサイズが固定され�
                 <h2><a href="/kodetsukuzuo-ri2021chun-15.html">コーデック作り2021春(15)</a></h2>
                 <div class="summary"><p>引き続き発散現象調査。</p>
 <p>対策として、フィルタ係数のクリップ処理を入れてしまうのはどうかと考えている。</p>
-<p>なるべく、というか厳密にフィルタの出力を変えないように係数をクリップしたいのだが、どうすればいいのか。その議論ってあんまりされてないように見えるんやがな。（FIRフィルタ係数の同値類ってなんだ？）</p>
-<p>色々見ると、（あんまり記述無いけど）</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.csee.umbc.edu/~tinoosh/cmpe691/slides/Handout.fir.scaling.pdf">FIR FILTER SCALING</a></li>
-</ul>
-<p>にあるように、全係数を定数で割ると案の定ゲインが定数倍だけ小さくなる。しかし周波数特性はそのまま。</p>
-<p>周波数特性は保たれるからええか、というノリで定数倍の方策を取る。幅は18bit（[-4,4]の範囲）とした。16, 17bitだと顕著に性能が悪い。しっかしオーバーフローが怖いかも。</p>
-<p>テスト追加に入る。</p>
-
+<p>なるべく …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-15.html">more ...</a>
                 </div>
             </article>
@@ -220,39 +327,8 @@ AADでは固定ビットレートだからブロックサイズが固定され�
                 <div class="summary"><p>「重ねる努力」での発散現象を観察している。</p>
 <ul class="simple">
 <li>SAのフィルタ係数が正の値に徐々に吹っ飛んでいる</li>
-<li>ブロックの切り替わりが原因ぽい</li>
-</ul>
-<p>ブロックの切り替わりで怪しい処理はなにかと見ていたら、NGSAの残差初期値がただのデータ履歴で更新されていて、勾配が不連続になっていて怪しいことが見えた。リファレンス通りに、取得した履歴を元に自然勾配の初期値を計算してみる。</p>
-<p>すると、問題を確認したケースにおいては発散しなくなった。しかし、デバッグのためにブロックサイズを小さくして切り替わりが多く出るようにしたら再度発散。原因を追う。</p>
-<p>調査したところ、ブロックサイズを1024サンプルにしたとき、「重ねる努力」の1041000サンプル付近で「シャーン」というエントロピーの高い振幅大音源をきっかけにフィルタ係数が発散していた。もっと見たところAR係数が0.3等の低い数値をとっていた（確認したらそれまでは0.9以上をとっていたのに、急落していた。）</p>
-<p>対策をどうしようか。0.4未満ならリセットするとかやれば、1024では発散しないけど、ブロックサイズを512, 256にしたら発散する。。。（しかも、発散時にAR係数は0.9以上だった。）アドホックなのでやりたくないし、AR係数が本質的な原因では無いと考えている。</p>
-<p>バグを疑って調査を続ける。</p>
-
+<li>ブロックの切り替わり …</li></ul>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-14.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-13.html">コーデック作り2021春(13)</a></h2>
-                <div class="summary"><p>デコーダを作った。といっても枠は作ってあってプロセッサ部を埋めるだけ。
-動かしたところSAの係数を記録してなかった。追加。</p>
-<p>処理順序を整理して、たぶんロスレスに戻っていることを確認。</p>
-<p>テストに入っていく。大規模なテストをやる前に手元のファイルをいくつか試していると、「重ねる努力」でアサート。こいつのバグを潰したら、テスト追加に入ろう。</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-13.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/kodetsukuzuo-ri2021chun-12.html">コーデック作り2021春(12)</a></h2>
-                <div class="summary"><p>ちょっとCmake整理した。</p>
-<p>で、昨日の続きといく。発散している現象はフィルタ係数をダンプしてみたけど、不連続的じゃなくてゆっくりと値が大きくなっていたので、厄介かもしれない。</p>
-<p>発散対策としてステップサイズをいじる。NGSAの係数右シフト量を4から6にしたら安定する+圧縮率上がる。設定次第でwavpack(-hh)を超える状況になる。</p>
-<p>ステップサイズをいじってコード整理。デコーダの制作に入ろうと思う。（SAのシフト前に0.5加えたら圧縮率向上した。こういうのがこわい。なお、プリエンファシスは0.5加算は不要。定数乗算だから。）
-デコーダができてビットパーフェクトに戻るまではぬか喜びなので、気合い入れる。</p>
-<p>デコード側だけでもin-placeな復号ができるといいなあ・・・</p>
-
-                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-12.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -308,19 +384,7 @@ AADでは固定ビットレートだからブロックサイズが固定され�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -332,31 +396,37 @@ AADでは固定ビットレートだからブロックサイズが固定され�
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -365,34 +435,28 @@ AADでは固定ビットレートだからブロックサイズが固定され�
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -400,92 +464,95 @@ AADでは固定ビットレートだからブロックサイズが固定され�
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -522,7 +589,7 @@ AADでは固定ビットレートだからブロックサイズが固定され�
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -558,6 +625,19 @@ AADでは固定ビットレートだからブロックサイズが固定され�
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

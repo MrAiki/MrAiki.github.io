@@ -9,6 +9,170 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="/toarucnopuroguramingupatan.html">
 
         <meta name="author" content="aiki" />
@@ -39,8 +203,7 @@
               title="Aiki's Blog ATOM Feed"/>
 
         <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog 記事 ATOM Feed"/>
-</head>
+              title="Aiki's Blog 記事 ATOM Feed"/></head>
 <body>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -62,9 +225,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -118,6 +278,7 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
+                <main>
                 <h3>注意</h3>
 <ul>
 <li>原理的にCではオブジェクト指向プログラミングはできない。ここで述べるのはオブジェクト指向 <strong>チック</strong> であることに注意。C言語を使わざるを得ない環境で使うと良い。（例：コンパイラがCしかない、ランタイムが貧弱）</li>
@@ -127,62 +288,61 @@ Aiki's Blog            </a>
 <h2>例1：Fooモジュールの実装</h2>
 <p>例として、<code>Foo</code> というモジュールの実装を示す。</p>
 <h3>ヘッダファイル foo.h</h3>
-<div class="highlight"><pre><span></span><code><span class="cm">/* ヘッダの多重インクルード防止（ヘッダインクルードガード） */</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* ヘッダの多重インクルード防止（ヘッダインクルードガード） */</span><span class="w"></span>
 <span class="cp">#ifndef FOO_H_INCLUDED</span>
 <span class="cp">#define FOO_H_INCLUDED</span>
 
-<span class="cm">/* このモジュールが使用する型定義を含むヘッダ(C99) */</span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
+<span class="cm">/* このモジュールが使用する型定義を含むヘッダ(C99) */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
 
-<span class="cm">/* 構造体定義は隠して宣言のみを行う（前方宣言） */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">FooTag</span> <span class="o">*</span><span class="n">FooHn</span><span class="p">;</span>
+<span class="cm">/* 構造体定義は隠して宣言のみを行う（前方宣言） */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">FooTag</span><span class="w"> </span><span class="o">*</span><span class="n">FooHn</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* インスタンスを作成するためのコンフィグ構造体 */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">FooConfigTag</span> <span class="p">{</span>
-    <span class="kt">int32_t</span> <span class="n">num_parameters</span><span class="p">;</span>     <span class="cm">/* パラメータ数 */</span>
-<span class="p">}</span> <span class="n">FooConfig</span><span class="p">;</span>
+<span class="cm">/* インスタンスを作成するためのコンフィグ構造体 */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">FooConfigTag</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">num_parameters</span><span class="p">;</span><span class="w">     </span><span class="cm">/* パラメータ数 */</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">FooConfig</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* APIの成否を示す型 */</span>
-<span class="k">typedef</span> <span class="k">enum</span> <span class="n">FooApiResultTag</span> <span class="p">{</span>
-    <span class="n">FOO_APIRESULT_OK</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>           <span class="cm">/* 成功 */</span>
-    <span class="n">FOO_APIRESULT_NG</span><span class="p">,</span>               <span class="cm">/* 分類不能な失敗 */</span>
-    <span class="n">FOO_APIRESULT_INVALID_ARGUMENT</span>  <span class="cm">/* 引数が不正 */</span>
-<span class="p">}</span> <span class="n">FooApiResult</span><span class="p">;</span>
+<span class="cm">/* APIの成否を示す型 */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">enum</span><span class="w"> </span><span class="n">FooApiResultTag</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">FOO_APIRESULT_OK</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">           </span><span class="cm">/* 成功 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">FOO_APIRESULT_NG</span><span class="p">,</span><span class="w">               </span><span class="cm">/* 分類不能な失敗 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">FOO_APIRESULT_INVALID_ARGUMENT</span><span class="w">  </span><span class="cm">/* 引数が不正 */</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">FooApiResult</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* Cリンケージで関数宣言（補遺にて解説） */</span>
+<span class="cm">/* Cリンケージで関数宣言（補遺にて解説） */</span><span class="w"></span>
 <span class="cp">#ifdef __cplusplus</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
-<span class="cm">/* Fooモジュールの初期化 */</span>
-<span class="cm">/* 必要に応じてリソースの初期化などを行う */</span>
-<span class="kt">void</span> <span class="n">Foo_Initialize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="cm">/* Fooモジュールの初期化 */</span><span class="w"></span>
+<span class="cm">/* 必要に応じてリソースの初期化などを行う */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Initialize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* Fooモジュールの終了 */</span>
-<span class="cm">/* Initializeで初期化した内容を片付ける */</span>
-<span class="kt">void</span> <span class="nf">Foo_Finalize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="cm">/* Fooモジュールの終了 */</span><span class="w"></span>
+<span class="cm">/* Initializeで初期化した内容を片付ける */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Finalize</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* Fooインスタンス作成に必要なワークサイズの計算 */</span>
-<span class="cm">/* 失敗した場合は負値を返す */</span>
-<span class="kt">int32_t</span> <span class="nf">Foo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span> <span class="n">FooConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">);</span>
+<span class="cm">/* Fooインスタンス作成に必要なワークサイズの計算 */</span><span class="w"></span>
+<span class="cm">/* 失敗した場合は負値を返す */</span><span class="w"></span>
+<span class="kt">int32_t</span><span class="w"> </span><span class="nf">Foo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FooConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* Fooインスタンスの作成 */</span>
-<span class="cm">/* 失敗した場合はNULLを返す */</span>
-<span class="n">FooHn</span> <span class="nf">Foo_Create</span><span class="p">(</span><span class="k">const</span> <span class="n">FooConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">);</span>
+<span class="cm">/* Fooインスタンスの作成 */</span><span class="w"></span>
+<span class="cm">/* 失敗した場合はNULLを返す */</span><span class="w"></span>
+<span class="n">FooHn</span><span class="w"> </span><span class="nf">Foo_Create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FooConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* パラメータ数の取得 */</span>
-<span class="n">FooApiResult</span> <span class="nf">Foo_GetNumParameters</span><span class="p">(</span><span class="n">FooHn</span> <span class="n">foo</span><span class="p">,</span> <span class="kt">int32_t</span><span class="o">*</span> <span class="n">num_parameters</span><span class="p">);</span>
+<span class="cm">/* パラメータ数の取得 */</span><span class="w"></span>
+<span class="n">FooApiResult</span><span class="w"> </span><span class="nf">Foo_GetNumParameters</span><span class="p">(</span><span class="n">FooHn</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="o">*</span><span class="w"> </span><span class="n">num_parameters</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* Fooインスタンスの破棄 */</span>
-<span class="kt">void</span> <span class="nf">Foo_Destroy</span><span class="p">(</span><span class="n">FooHn</span> <span class="n">foo</span><span class="p">);</span>
+<span class="cm">/* Fooインスタンスの破棄 */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Destroy</span><span class="p">(</span><span class="n">FooHn</span><span class="w"> </span><span class="n">foo</span><span class="p">);</span><span class="w"></span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
 <span class="cp">#endif </span><span class="cm">/* FOO_H_INCLUDED */</span><span class="cp"></span>
 </code></pre></div>
-
 
 <p><code>Foo</code> というモジュールがあった場合、そのクラスインスタンスを扱う実体（<strong>ハンドル</strong>）は <code>FooHn</code>、関数は <code>Foo_HogePiyo</code> という命名規則をつける（命名規則は各プロダクトのコーディングスタイルによって揺らぐので、この規則は絶対ではない）。</p>
 <ul>
@@ -191,214 +351,212 @@ Aiki's Blog            </a>
 <li>インスタンスを破棄するときには <code>Foo_Destroy</code> を使用する（クラスのデストラクタに該当）。</li>
 </ul>
 <h3>実装ファイル foo.c</h3>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;string.h&gt;</span><span class="cp"></span>
 
-<span class="cm">/* このモジュールが保証するアラインメント */</span>
-<span class="cm">/* アラインメントについては別途説明する */</span>
+<span class="cm">/* このモジュールが保証するアラインメント */</span><span class="w"></span>
+<span class="cm">/* アラインメントについては別途説明する */</span><span class="w"></span>
 <span class="cp">#define FOO_ALIGNMENT 16</span>
 
-<span class="cm">/* アドレスをアラインメント境界に揃えるマクロ */</span>
+<span class="cm">/* アドレスをアラインメント境界に揃えるマクロ */</span><span class="w"></span>
 <span class="cp">#define FOO_ALIGN_NBYTE(ptr, alignment) ((((ptr) + ((alignment) - 1)) / (alignment)) * (alignment))</span>
 
-<span class="cm">/* メモリの無効値を示す値 */</span>
+<span class="cm">/* メモリの無効値を示す値 */</span><span class="w"></span>
 <span class="cp">#define FOO_INVALID_BYTE_PATTERN 0xCD</span>
 
-<span class="cm">/* Fooオブジェクトの構造体定義 */</span>
-<span class="k">struct</span> <span class="n">FooTag</span> <span class="p">{</span>
-    <span class="kt">float</span><span class="o">*</span> <span class="n">parameters</span><span class="p">;</span>      <span class="cm">/* パラメータ領域 */</span>
-    <span class="kt">int32_t</span> <span class="n">num_parameters</span><span class="p">;</span> <span class="cm">/* パラメータ数 */</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">;</span>             <span class="cm">/* ワーク領域先頭アドレス */</span>
-    <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">;</span>      <span class="cm">/* ワークサイズ */</span>
-<span class="p">};</span>
+<span class="cm">/* Fooオブジェクトの構造体定義 */</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">FooTag</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">float</span><span class="o">*</span><span class="w"> </span><span class="n">parameters</span><span class="p">;</span><span class="w">      </span><span class="cm">/* パラメータ領域 */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">num_parameters</span><span class="p">;</span><span class="w"> </span><span class="cm">/* パラメータ数 */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">;</span><span class="w">             </span><span class="cm">/* ワーク領域先頭アドレス */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">;</span><span class="w">      </span><span class="cm">/* ワークサイズ */</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="cm">/* ローカル変数宣言 */</span>
-<span class="cm">/* モジュール初期化フラグ */</span>
-<span class="k">static</span> <span class="kt">int32_t</span> <span class="n">st_foo_is_initialized</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="cm">/* ローカル変数宣言 */</span><span class="w"></span>
+<span class="cm">/* モジュール初期化フラグ */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">st_foo_is_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* Fooモジュールの初期化 */</span>
-<span class="kt">void</span> <span class="nf">Foo_Initialize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* 多重初期化防止 */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">st_foo_is_initialized</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="cm">/* Fooモジュールの初期化 */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Initialize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 多重初期化防止 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">st_foo_is_initialized</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 必要に応じてリソースの初期化・確保 */</span>
+<span class="w">    </span><span class="cm">/* 必要に応じてリソースの初期化・確保 */</span><span class="w"></span>
 
-    <span class="cm">/* 初期化フラグを立てる */</span>
-    <span class="n">st_foo_is_initialized</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 初期化フラグを立てる */</span><span class="w"></span>
+<span class="w">    </span><span class="n">st_foo_is_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Fooモジュールの終了 */</span>
-<span class="kt">void</span> <span class="nf">Foo_Finalize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* 初期化前では実行不可能 */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">st_foo_is_initialized</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="cm">/* Fooモジュールの終了 */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Finalize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 初期化前では実行不可能 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">st_foo_is_initialized</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 必要に応じてリソースの破棄 */</span>
+<span class="w">    </span><span class="cm">/* 必要に応じてリソースの破棄 */</span><span class="w"></span>
 
-    <span class="cm">/* 初期化フラグをクリア */</span>
-    <span class="n">st_foo_is_initialized</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 初期化フラグをクリア */</span><span class="w"></span>
+<span class="w">    </span><span class="n">st_foo_is_initialized</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Fooインスタンス作成に必要なワークサイズの計算 */</span>
-<span class="kt">int32_t</span> <span class="nf">Foo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span> <span class="n">FooConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">;</span>
+<span class="cm">/* Fooインスタンス作成に必要なワークサイズの計算 */</span><span class="w"></span>
+<span class="kt">int32_t</span><span class="w"> </span><span class="nf">Foo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FooConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* コンフィグチェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* コンフィグチェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 構造体分のサイズ */</span>
-    <span class="n">work_size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">FooTag</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* 構造体分のサイズ */</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">FooTag</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* パラメータ領域分のサイズ */</span>
-    <span class="n">work_size</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* パラメータ領域分のサイズ */</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* アラインメント分加算 */</span>
-    <span class="n">work_size</span> <span class="o">+=</span> <span class="n">FOO_ALIGNMENT</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* アラインメント分加算 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_size</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">FOO_ALIGNMENT</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="n">work_size</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">work_size</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Fooインスタンスの作成 */</span>
-<span class="n">FooHn</span> <span class="nf">Foo_Create</span><span class="p">(</span><span class="k">const</span> <span class="n">FooConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">FooHn</span> <span class="n">foo</span><span class="p">;</span>
-    <span class="kt">uint8_t</span><span class="o">*</span> <span class="n">work_ptr</span><span class="p">;</span>
+<span class="cm">/* Fooインスタンスの作成 */</span><span class="w"></span>
+<span class="n">FooHn</span><span class="w"> </span><span class="nf">Foo_Create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">FooConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">FooHn</span><span class="w"> </span><span class="n">foo</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">uint8_t</span><span class="o">*</span><span class="w"> </span><span class="n">work_ptr</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">config</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">work</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">work_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">work</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">work_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* コンフィグチェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* コンフィグチェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 未初期化メモリ領域のアクセス防止（メモリを無効値で埋める） */</span>
-    <span class="n">memset</span><span class="p">(</span><span class="n">work</span><span class="p">,</span> <span class="n">FOO_INVALID_BYTE_PATTERN</span><span class="p">,</span> <span class="n">work_size</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* 未初期化メモリ領域のアクセス防止（メモリを無効値で埋める） */</span><span class="w"></span>
+<span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">FOO_INVALID_BYTE_PATTERN</span><span class="p">,</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* アラインメント境界に揃える */</span>
-    <span class="n">work_ptr</span> <span class="o">=</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="n">FOO_ALIGN_NBYTE</span><span class="p">((</span><span class="kt">uintptr_t</span><span class="p">)</span><span class="n">work</span><span class="p">,</span> <span class="n">FOO_ALIGNMENT</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* アラインメント境界に揃える */</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_ptr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">FOO_ALIGN_NBYTE</span><span class="p">((</span><span class="kt">uintptr_t</span><span class="p">)</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">FOO_ALIGNMENT</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* 構造体の配置 */</span>
-    <span class="n">foo</span> <span class="o">=</span> <span class="p">(</span><span class="n">FooHn</span><span class="p">)</span><span class="n">work_ptr</span><span class="p">;</span>
-    <span class="n">work_ptr</span> <span class="o">+=</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">FooTag</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* 構造体の配置 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">FooHn</span><span class="p">)</span><span class="n">work_ptr</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_ptr</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">FooTag</span><span class="p">);</span><span class="w"></span>
 
-    <span class="cm">/* メンバに値を設定 */</span>
-    <span class="n">foo</span><span class="o">-&gt;</span><span class="n">num_parameters</span> <span class="o">=</span> <span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* メンバに値を設定 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* パラメータ領域の配置 */</span>
-    <span class="n">foo</span><span class="o">-&gt;</span><span class="n">parameters</span> <span class="o">=</span> <span class="p">(</span><span class="kt">float</span> <span class="o">*</span><span class="p">)</span><span class="n">work_ptr</span><span class="p">;</span>
-    <span class="n">work_ptr</span> <span class="o">+=</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="o">*</span> <span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* パラメータ領域の配置 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">parameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="kt">float</span><span class="w"> </span><span class="o">*</span><span class="p">)</span><span class="n">work_ptr</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_ptr</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="k">sizeof</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* バッファオーバーラン検知 */</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">work_ptr</span> <span class="o">-</span> <span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="n">work</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">work_size</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* バッファオーバーラン検知 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">work_ptr</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="kt">uint8_t</span><span class="o">*</span><span class="p">)</span><span class="n">work</span><span class="p">)</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">work_size</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 領域先頭アドレスとワークサイズを記録 */</span>
-    <span class="n">foo</span><span class="o">-&gt;</span><span class="n">work</span> <span class="o">=</span> <span class="n">work</span><span class="p">;</span>
-    <span class="n">foo</span><span class="o">-&gt;</span><span class="n">work_size</span> <span class="o">=</span> <span class="n">work_size</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* 領域先頭アドレスとワークサイズを記録 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">work</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">work_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">work_size</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="n">foo</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">foo</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* 何らかの処理の実行 例: パラメータ数の取得 */</span>
-<span class="n">FooApiResult</span> <span class="nf">Foo_GetNumParameters</span><span class="p">(</span><span class="n">FooHn</span> <span class="n">foo</span><span class="p">,</span> <span class="kt">int32_t</span><span class="o">*</span> <span class="n">num_parameters</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">((</span><span class="n">foo</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="o">||</span> <span class="p">(</span><span class="n">num_parameters</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">))</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="n">FOO_APIRESULT_INVALID_ARGUMENT</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="cm">/* 何らかの処理の実行 例: パラメータ数の取得 */</span><span class="w"></span>
+<span class="n">FooApiResult</span><span class="w"> </span><span class="nf">Foo_GetNumParameters</span><span class="p">(</span><span class="n">FooHn</span><span class="w"> </span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="o">*</span><span class="w"> </span><span class="n">num_parameters</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">((</span><span class="n">foo</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="p">(</span><span class="n">num_parameters</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">))</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">FOO_APIRESULT_INVALID_ARGUMENT</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 結果をセット */</span>
-    <span class="p">(</span><span class="o">*</span><span class="n">num_parameters</span><span class="p">)</span> <span class="o">=</span> <span class="n">foo</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* 結果をセット */</span><span class="w"></span>
+<span class="w">    </span><span class="p">(</span><span class="o">*</span><span class="n">num_parameters</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">num_parameters</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* 成功終了 */</span>
-    <span class="k">return</span> <span class="n">FOO_APIRESULT_OK</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 成功終了 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">FOO_APIRESULT_OK</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Fooインスタンスの破棄 */</span>
-<span class="kt">void</span> <span class="nf">Foo_Destroy</span><span class="p">(</span><span class="n">FooHn</span> <span class="n">foo</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* メモリが無効な場合は何もしない */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="cm">/* Fooインスタンスの破棄 */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Destroy</span><span class="p">(</span><span class="n">FooHn</span><span class="w"> </span><span class="n">foo</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* メモリが無効な場合は何もしない */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">foo</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* メモリを無効値で埋める */</span>
-    <span class="n">memset</span><span class="p">(</span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span> <span class="n">FOO_INVALID_BYTE_PATTERN</span><span class="p">,</span> <span class="n">foo</span><span class="o">-&gt;</span><span class="n">work_size</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* メモリを無効値で埋める */</span><span class="w"></span>
+<span class="w">    </span><span class="n">memset</span><span class="p">(</span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">FOO_INVALID_BYTE_PATTERN</span><span class="p">,</span><span class="w"> </span><span class="n">foo</span><span class="o">-&gt;</span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
-
 
 <h3>メインエントリ main.c</h3>
 <p>ライブラリ使用者たるユーザが書くコードは次のようになる。</p>
-<div class="highlight"><pre><span></span><code><span class="cm">/* 依存ヘッダインクルード */</span>
-<span class="cp">#include</span> <span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* 依存ヘッダインクルード */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;foo.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-<span class="cm">/* メインエントリ */</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">FooHn</span> <span class="n">foo</span><span class="p">;</span>
-    <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">;</span>
-    <span class="n">FooConfig</span> <span class="n">config</span><span class="p">;</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">;</span>
+<span class="cm">/* メインエントリ */</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">FooHn</span><span class="w"> </span><span class="n">foo</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">FooConfig</span><span class="w"> </span><span class="n">config</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* コンフィグの設定 */</span>
-    <span class="n">config</span><span class="p">.</span><span class="n">num_parameters</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* コンフィグの設定 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">config</span><span class="p">.</span><span class="n">num_parameters</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* インスタンス生成に必要なワークサイズ計算 */</span>
-    <span class="n">work_size</span> <span class="o">=</span> <span class="n">Foo_CalculateWorkSize</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">work_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* インスタンス生成に必要なワークサイズ計算 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">work_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foo_CalculateWorkSize</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">work_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* メモリ領域確保 */</span>
-    <span class="n">work</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">work_size</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">work</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* メモリ領域確保 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">work</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">work</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* インスタンス生成 */</span>
-    <span class="n">foo</span> <span class="o">=</span> <span class="n">Foo_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">,</span> <span class="n">work</span><span class="p">,</span> <span class="n">work_size</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">foo</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="cm">/* 確保済み領域は開放 */</span>
-        <span class="n">free</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
-        <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* インスタンス生成 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">foo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Foo_Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">foo</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* 確保済み領域は開放 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">work</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* やりたいことをする */</span>
-    <span class="p">{</span>
-        <span class="kt">int32_t</span> <span class="n">num_params</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">Foo_GetNumParameters</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">num_params</span><span class="p">)</span> <span class="o">==</span> <span class="n">FOO_APIRESULT_OK</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number of parameters: %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">num_params</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* やりたいことをする */</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">num_params</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">Foo_GetNumParameters</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="n">num_params</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">FOO_APIRESULT_OK</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;Number of parameters: %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">num_params</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* インスタンス破棄 */</span>
-    <span class="n">Foo_Destroy</span><span class="p">(</span><span class="n">foo</span><span class="p">);</span>
-    <span class="n">free</span><span class="p">(</span><span class="n">work</span><span class="p">);</span>
+<span class="w">    </span><span class="cm">/* インスタンス破棄 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">Foo_Destroy</span><span class="p">(</span><span class="n">foo</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">free</span><span class="p">(</span><span class="n">work</span><span class="p">);</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
-
 
 <h2>例2：インターフェース</h2>
 <p>多相性（ポリモーフィズム）を実現する例を示す。多相性とは、関数呼び出しは同じだけども振る舞いが変わるようなことを指す。例えば、犬とか猫は共通の「鳴く」という動作（関数）を持つが、実際に実行すると全く違った鳴き声が得られるといったことを指す。</p>
@@ -408,28 +566,27 @@ Aiki's Blog            </a>
 <div class="highlight"><pre><span></span><code><span class="cp">#ifndef ANIMAL_H_INCLUDED</span>
 <span class="cp">#define ANIMAL_H_INCLUDED</span>
 
-<span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
 
-<span class="cm">/* インスタンス生成用のコンフィグ */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">AnimalConfig</span> <span class="p">{</span>
-    <span class="kt">int32_t</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span> <span class="n">AnimalConfig</span><span class="p">;</span>
+<span class="cm">/* インスタンス生成用のコンフィグ */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">AnimalConfig</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* インターフェース定義 */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">AnimalInterfaceTag</span> <span class="p">{</span>
-    <span class="cm">/* ワークサイズ計算 */</span>
-    <span class="kt">int32_t</span><span class="p">(</span><span class="o">*</span><span class="n">CalculateWorkSize</span><span class="p">)(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">);</span>
-    <span class="cm">/* インスタンス生成 */</span>
-    <span class="kt">void</span><span class="o">*</span> <span class="p">(</span><span class="o">*</span><span class="n">Create</span><span class="p">)(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">);</span>
-    <span class="cm">/* 鳴かせる */</span>
-    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">MakeSound</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">);</span>
-    <span class="cm">/* インスタンス破棄 */</span>
-    <span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">Destroy</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">);</span>
-<span class="p">}</span> <span class="n">AnimalInterface</span><span class="p">;</span>
+<span class="cm">/* インターフェース定義 */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">AnimalInterfaceTag</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* ワークサイズ計算 */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="p">(</span><span class="o">*</span><span class="n">CalculateWorkSize</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* インスタンス生成 */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">Create</span><span class="p">)(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 鳴かせる */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">MakeSound</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* インスタンス破棄 */</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="p">(</span><span class="o">*</span><span class="n">Destroy</span><span class="p">)(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="p">;</span><span class="w"></span>
 
 <span class="cp">#endif </span><span class="cm">/* ANIMAL_H_INCLUDED */</span><span class="cp"></span>
 </code></pre></div>
-
 
 <h3>インターフェースの実装例1（Piyo）</h3>
 <h4>Piyoのヘッダ piyo.h</h4>
@@ -437,286 +594,281 @@ Aiki's Blog            </a>
 <div class="highlight"><pre><span></span><code><span class="cp">#ifndef PIYO_H_INCLUDED</span>
 <span class="cp">#define PIYO_H_INCLUDED</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;animal.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;animal.h&quot;</span><span class="cp"></span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
-<span class="cm">/* Piyoインターフェースの取得 */</span>
-<span class="k">const</span> <span class="n">AnimalInterface</span><span class="o">*</span> <span class="n">Piyo_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="cm">/* Piyoインターフェースの取得 */</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="o">*</span><span class="w"> </span><span class="nf">Piyo_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
 <span class="cp">#endif </span><span class="cm">/* PIYO_H_INCLUDED */</span><span class="cp"></span>
 </code></pre></div>
 
-
 <h4>Piyoの実装  piyo.c</h4>
 <p>インターフェースの実装はソースファイル(.c)に行う。</p>
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&quot;piyo.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;piyo.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-<span class="cm">/* Piyoオブジェクト定義 */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">PiyoTag</span> <span class="p">{</span>
-    <span class="kt">int32_t</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span> <span class="o">*</span><span class="n">PiyoHn</span><span class="p">;</span>
+<span class="cm">/* Piyoオブジェクト定義 */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">PiyoTag</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="o">*</span><span class="n">PiyoHn</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* ワークサイズ計算 */</span>
-<span class="k">static</span> <span class="kt">int32_t</span> <span class="nf">Piyo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">);</span>
-<span class="cm">/* Piyoインスタンス生成 */</span>
-<span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="nf">Piyo_Create</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">);</span>
-<span class="cm">/* Piyoを鳴かせる */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Piyo_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">);</span>
-<span class="cm">/* Piyoインスタンス破棄 */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Piyo_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">);</span>
+<span class="cm">/* ワークサイズ計算 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">Piyo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* Piyoインスタンス生成 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">Piyo_Create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* Piyoを鳴かせる */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Piyo_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* Piyoインスタンス破棄 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Piyo_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* Piyoインターフェース定義 */</span>
-<span class="k">static</span> <span class="k">const</span> <span class="n">AnimalInterface</span> <span class="n">st_piyo_interface</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">Piyo_CalculateWorkSize</span><span class="p">,</span>
-    <span class="n">Piyo_Create</span><span class="p">,</span>
-    <span class="n">Piyo_MakeSound</span><span class="p">,</span>
-    <span class="n">Piyo_Destroy</span>
-<span class="p">};</span>
+<span class="cm">/* Piyoインターフェース定義 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="w"> </span><span class="n">st_piyo_interface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Piyo_CalculateWorkSize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Piyo_Create</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Piyo_MakeSound</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Piyo_Destroy</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="cm">/* Piyoインターフェースの取得 */</span>
-<span class="k">const</span> <span class="n">AnimalInterface</span><span class="o">*</span> <span class="nf">Piyo_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="o">&amp;</span><span class="n">st_piyo_interface</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="cm">/* Piyoインターフェースの取得 */</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="o">*</span><span class="w"> </span><span class="nf">Piyo_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="n">st_piyo_interface</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* ワークサイズ計算 */</span>
-<span class="k">static</span> <span class="kt">int32_t</span> <span class="nf">Piyo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="cm">/* ワークサイズ計算 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">Piyo_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 自分でメモリ領域を確保するため要求サイズは0 */</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 自分でメモリ領域を確保するため要求サイズは0 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Piyoインスタンス生成 */</span>
-<span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="nf">Piyo_Create</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">PiyoHn</span> <span class="n">piyo</span><span class="p">;</span>
+<span class="cm">/* Piyoインスタンス生成 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">Piyo_Create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">PiyoHn</span><span class="w"> </span><span class="n">piyo</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* Piyoハンドルの作成 */</span>
-    <span class="n">piyo</span> <span class="o">=</span> <span class="p">(</span><span class="n">PiyoHn</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">PiyoTag</span><span class="p">));</span>
+<span class="w">    </span><span class="cm">/* Piyoハンドルの作成 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">piyo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">PiyoHn</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">PiyoTag</span><span class="p">));</span><span class="w"></span>
 
-    <span class="cm">/* コンフィグ値をセット */</span>
-    <span class="n">piyo</span><span class="o">-&gt;</span><span class="n">age</span> <span class="o">=</span> <span class="n">config</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* コンフィグ値をセット */</span><span class="w"></span>
+<span class="w">    </span><span class="n">piyo</span><span class="o">-&gt;</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="n">piyo</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">piyo</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Piyoを鳴かせる */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Piyo_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">PiyoHn</span> <span class="n">piyo</span><span class="p">;</span>
+<span class="cm">/* Piyoを鳴かせる */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Piyo_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">PiyoHn</span><span class="w"> </span><span class="n">piyo</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="n">piyo</span> <span class="o">=</span> <span class="p">(</span><span class="n">PiyoHn</span><span class="p">)</span><span class="n">handle</span><span class="p">;</span>
+<span class="w">    </span><span class="n">piyo</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">PiyoHn</span><span class="p">)</span><span class="n">handle</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* 鳴く */</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;I&#39;m Piyo. Age: %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">piyo</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 鳴く */</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;I&#39;m Piyo. Age: %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">piyo</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Piyoインスタンス破棄 */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Piyo_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">free</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="cm">/* Piyoインスタンス破棄 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Piyo_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
-
 
 <h3>インターフェースの実装例2（Fuga）</h3>
 <p>同一インターフェースだが、Piyoと異なる振る舞いを示すモジュールFugaのヘッダと実装を示す。</p>
 <div class="highlight"><pre><span></span><code><span class="cp">#ifndef FUGA_H_INCLUDED</span>
 <span class="cp">#define FUGA_H_INCLUDED</span>
 
-<span class="cp">#include</span> <span class="cpf">&quot;animal.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;animal.h&quot;</span><span class="cp"></span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
-<span class="cm">/* Fugaインターフェースの取得 */</span>
-<span class="k">const</span> <span class="n">AnimalInterface</span><span class="o">*</span> <span class="n">Fuga_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="cm">/* Fugaインターフェースの取得 */</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="o">*</span><span class="w"> </span><span class="nf">Fuga_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
 <span class="cp">#endif </span><span class="cm">/* FUGA_H_INCLUDED */</span><span class="cp"></span>
 </code></pre></div>
 
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fuga.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&quot;fuga.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<span class="cm">/* Fugaオブジェクト定義 */</span><span class="w"></span>
+<span class="k">typedef</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">FugaTag</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">age</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"> </span><span class="o">*</span><span class="n">FugaHn</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* Fugaオブジェクト定義 */</span>
-<span class="k">typedef</span> <span class="k">struct</span> <span class="n">FugaTag</span> <span class="p">{</span>
-    <span class="kt">int32_t</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span> <span class="o">*</span><span class="n">FugaHn</span><span class="p">;</span>
+<span class="cm">/* ワークサイズ計算 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">Fuga_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* Fugaインスタンス生成 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">Fuga_Create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* Fugaを鳴かせる */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Fuga_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
+<span class="cm">/* Fugaインスタンス破棄 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Fuga_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
 
-<span class="cm">/* ワークサイズ計算 */</span>
-<span class="k">static</span> <span class="kt">int32_t</span> <span class="nf">Fuga_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">);</span>
-<span class="cm">/* Fugaインスタンス生成 */</span>
-<span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="nf">Fuga_Create</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">);</span>
-<span class="cm">/* Fugaを鳴かせる */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Fuga_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">);</span>
-<span class="cm">/* Fugaインスタンス破棄 */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Fuga_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">);</span>
+<span class="cm">/* Fugaインターフェース定義 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="w"> </span><span class="n">st_fuga_interface</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">Fuga_CalculateWorkSize</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Fuga_Create</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Fuga_MakeSound</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">Fuga_Destroy</span><span class="w"></span>
+<span class="p">};</span><span class="w"></span>
 
-<span class="cm">/* Fugaインターフェース定義 */</span>
-<span class="k">static</span> <span class="k">const</span> <span class="n">AnimalInterface</span> <span class="n">st_fuga_interface</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="n">Fuga_CalculateWorkSize</span><span class="p">,</span>
-    <span class="n">Fuga_Create</span><span class="p">,</span>
-    <span class="n">Fuga_MakeSound</span><span class="p">,</span>
-    <span class="n">Fuga_Destroy</span>
-<span class="p">};</span>
+<span class="cm">/* Fugaインターフェースの取得 */</span><span class="w"></span>
+<span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="o">*</span><span class="w"> </span><span class="nf">Fuga_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="o">&amp;</span><span class="n">st_fuga_interface</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* Fugaインターフェースの取得 */</span>
-<span class="k">const</span> <span class="n">AnimalInterface</span><span class="o">*</span> <span class="nf">Fuga_GetInterface</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="o">&amp;</span><span class="n">st_fuga_interface</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="cm">/* ワークサイズ計算 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="nf">Fuga_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-<span class="cm">/* ワークサイズ計算 */</span>
-<span class="k">static</span> <span class="kt">int32_t</span> <span class="nf">Fuga_CalculateWorkSize</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* 自分でメモリ領域を確保するため要求サイズは0 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 自分でメモリ領域を確保するため要求サイズは0 */</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="cm">/* Fugaインスタンス生成 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="nf">Fuga_Create</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">AnimalConfig</span><span class="o">*</span><span class="w"> </span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">work</span><span class="p">,</span><span class="w"> </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">FugaHn</span><span class="w"> </span><span class="n">fuga</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* Fugaインスタンス生成 */</span>
-<span class="k">static</span> <span class="kt">void</span><span class="o">*</span> <span class="nf">Fuga_Create</span><span class="p">(</span><span class="k">const</span> <span class="n">AnimalConfig</span><span class="o">*</span> <span class="n">config</span><span class="p">,</span> <span class="kt">void</span><span class="o">*</span> <span class="n">work</span><span class="p">,</span> <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">FugaHn</span> <span class="n">fuga</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">config</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">config</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="cm">/* Fugaハンドルの作成 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">fuga</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">FugaHn</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">FugaTag</span><span class="p">));</span><span class="w"></span>
 
-    <span class="cm">/* Fugaハンドルの作成 */</span>
-    <span class="n">fuga</span> <span class="o">=</span> <span class="p">(</span><span class="n">FugaHn</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">FugaTag</span><span class="p">));</span>
+<span class="w">    </span><span class="cm">/* コンフィグ値をセット */</span><span class="w"></span>
+<span class="w">    </span><span class="n">fuga</span><span class="o">-&gt;</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">config</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">;</span><span class="w"></span>
 
-    <span class="cm">/* コンフィグ値をセット */</span>
-    <span class="n">fuga</span><span class="o">-&gt;</span><span class="n">age</span> <span class="o">=</span> <span class="n">config</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">fuga</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="n">fuga</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="cm">/* Fugaを鳴かせる */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Fuga_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="n">FugaHn</span><span class="w"> </span><span class="n">fuga</span><span class="p">;</span><span class="w"></span>
 
-<span class="cm">/* Fugaを鳴かせる */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Fuga_MakeSound</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="n">FugaHn</span> <span class="n">fuga</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* 引数チェック */</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">return</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 引数チェック */</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">return</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="n">fuga</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">FugaHn</span><span class="p">)</span><span class="n">handle</span><span class="p">;</span><span class="w"></span>
 
-    <span class="n">fuga</span> <span class="o">=</span> <span class="p">(</span><span class="n">FugaHn</span><span class="p">)</span><span class="n">handle</span><span class="p">;</span>
+<span class="w">    </span><span class="cm">/* 鳴く */</span><span class="w"></span>
+<span class="w">    </span><span class="n">printf</span><span class="p">(</span><span class="s">&quot;I&#39;m Fuga. Age: %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fuga</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">);</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 
-    <span class="cm">/* 鳴く */</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;I&#39;m Fuga. Age: %d </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">fuga</span><span class="o">-&gt;</span><span class="n">age</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="cm">/* Fugaインスタンス破棄 */</span>
-<span class="k">static</span> <span class="kt">void</span> <span class="nf">Fuga_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span> <span class="n">handle</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">handle</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">free</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="cm">/* Fugaインスタンス破棄 */</span><span class="w"></span>
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">Fuga_Destroy</span><span class="p">(</span><span class="kt">void</span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">handle</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
-
 
 <h3>メインエントリ main.c</h3>
 <p>PiyoとFugaを使用するソースコード例は以下になる。インターフェースを利用する側としては、内部の実装を知らずにインスタンスの操作を行うことができる。</p>
-<div class="highlight"><pre><span></span><code><span class="cm">/* 依存ヘッダインクルード */</span>
-<span class="cp">#include</span> <span class="cpf">&quot;piyo.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&quot;fuga.h&quot;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* 依存ヘッダインクルード */</span><span class="w"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;piyo.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;fuga.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdlib.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdint.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
 
-<span class="cm">/* メインエントリ */</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="kt">void</span> <span class="o">*</span><span class="n">animal</span><span class="p">,</span> <span class="o">*</span><span class="n">animal_work</span><span class="p">;</span>
-    <span class="kt">int32_t</span> <span class="n">work_size</span><span class="p">,</span> <span class="n">i</span><span class="p">;</span>
-    <span class="n">AnimalConfig</span> <span class="n">config</span><span class="p">;</span>
-    <span class="k">const</span> <span class="n">AnimalInterface</span> <span class="o">*</span><span class="n">interface_list</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="cm">/* メインエントリ */</span><span class="w"></span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="o">*</span><span class="n">animal</span><span class="p">,</span><span class="w"> </span><span class="o">*</span><span class="n">animal_work</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="kt">int32_t</span><span class="w"> </span><span class="n">work_size</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">AnimalConfig</span><span class="w"> </span><span class="n">config</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="w"> </span><span class="o">*</span><span class="n">interface_list</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span><span class="w"></span>
 
-    <span class="cm">/* 処理対象のインターフェースを取得 */</span>
-    <span class="n">interface_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">Piyo_GetInterface</span><span class="p">();</span>
-    <span class="n">interface_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">Fuga_GetInterface</span><span class="p">();</span>
+<span class="w">    </span><span class="cm">/* 処理対象のインターフェースを取得 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">interface_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Piyo_GetInterface</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">interface_list</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Fuga_GetInterface</span><span class="p">();</span><span class="w"></span>
 
-    <span class="cm">/* リスト内のインターフェースに対して共通の処理 */</span>
-    <span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-        <span class="k">const</span> <span class="n">AnimalInterface</span><span class="o">*</span> <span class="n">animal_if</span> <span class="o">=</span> <span class="n">interface_list</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="w">    </span><span class="cm">/* リスト内のインターフェースに対して共通の処理 */</span><span class="w"></span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="o">++</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="k">const</span><span class="w"> </span><span class="n">AnimalInterface</span><span class="o">*</span><span class="w"> </span><span class="n">animal_if</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interface_list</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="w"></span>
 
-        <span class="cm">/* コンフィグの設定 */</span>
-        <span class="n">config</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+<span class="w">        </span><span class="cm">/* コンフィグの設定 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">config</span><span class="p">.</span><span class="n">age</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">10</span><span class="p">;</span><span class="w"></span>
 
-        <span class="cm">/* インスタンス生成に必要なワークサイズ計算 */</span>
-        <span class="n">work_size</span> <span class="o">=</span> <span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">CalculateWorkSize</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">work_size</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
+<span class="w">        </span><span class="cm">/* インスタンス生成に必要なワークサイズ計算 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">work_size</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">CalculateWorkSize</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">work_size</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-        <span class="cm">/* メモリ領域確保 */</span>
-        <span class="n">animal_work</span> <span class="o">=</span> <span class="n">malloc</span><span class="p">(</span><span class="n">work_size</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">animal_work</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
+<span class="w">        </span><span class="cm">/* メモリ領域確保 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">animal_work</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">malloc</span><span class="p">(</span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">animal_work</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-        <span class="cm">/* インスタンス生成 */</span>
-        <span class="n">animal</span> <span class="o">=</span> <span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">,</span> <span class="n">animal_work</span><span class="p">,</span> <span class="n">work_size</span><span class="p">);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">animal</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
-            <span class="cm">/* 確保済み領域は開放 */</span>
-            <span class="n">free</span><span class="p">(</span><span class="n">animal_work</span><span class="p">);</span>
-            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="p">}</span>
+<span class="w">        </span><span class="cm">/* インスタンス生成 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">animal</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">Create</span><span class="p">(</span><span class="o">&amp;</span><span class="n">config</span><span class="p">,</span><span class="w"> </span><span class="n">animal_work</span><span class="p">,</span><span class="w"> </span><span class="n">work_size</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">animal</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="nb">NULL</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* 確保済み領域は開放 */</span><span class="w"></span>
+<span class="w">            </span><span class="n">free</span><span class="p">(</span><span class="n">animal_work</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
 
-        <span class="cm">/* 鳴かせる */</span>
-        <span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">MakeSound</span><span class="p">(</span><span class="n">animal</span><span class="p">);</span>
+<span class="w">        </span><span class="cm">/* 鳴かせる */</span><span class="w"></span>
+<span class="w">        </span><span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">MakeSound</span><span class="p">(</span><span class="n">animal</span><span class="p">);</span><span class="w"></span>
 
-        <span class="cm">/* インスタンス破棄 */</span>
-        <span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">Destroy</span><span class="p">(</span><span class="n">animal</span><span class="p">);</span>
-        <span class="n">free</span><span class="p">(</span><span class="n">animal_work</span><span class="p">);</span>
+<span class="w">        </span><span class="cm">/* インスタンス破棄 */</span><span class="w"></span>
+<span class="w">        </span><span class="n">animal_if</span><span class="o">-&gt;</span><span class="n">Destroy</span><span class="p">(</span><span class="n">animal</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">free</span><span class="p">(</span><span class="n">animal_work</span><span class="p">);</span><span class="w"></span>
 
-    <span class="p">}</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
-
 
 <h1>補遺</h1>
 <h2>C言語で書かれたライブラリの提供形態</h2>
@@ -738,23 +890,21 @@ Aiki's Blog            </a>
 <span class="cp">#define BAR_H_INCLUDED</span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="p">{</span>
+<span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
-<span class="kt">void</span> <span class="n">bar</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">bar</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
 
 <span class="cp">#ifdef __cplusplus</span>
-<span class="p">}</span>
+<span class="p">}</span><span class="w"></span>
 <span class="cp">#endif </span><span class="cm">/* __cplusplus */</span><span class="cp"></span>
 
 <span class="cp">#endif </span><span class="cm">/* BAR_H_INCLUDED */</span><span class="cp"></span>
 </code></pre></div>
 
-
 <p>単一の関数（変数）ならば、以下のように書いても良い。</p>
-<div class="highlight"><pre><span></span><code><span class="k">extern</span> <span class="s">&quot;C&quot;</span> <span class="kt">void</span> <span class="n">bar</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">bar</span><span class="p">(</span><span class="kt">void</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
-
 
 <p>これはCとC++との相互運用の際に必要になってくる。C++の言語仕様には名前空間があり、関数（変数）は名前空間に応じた名前（シンボル）を持って（マングルされて）オブジェクトファイル(.obj, .o)に出力される。一方、Cの関数は（<code>static</code>でない限り）全てグローバルなシンボルを持つ。</p>
 <p>何も対策を行わない場合、C++コンパイラとCコンパイラで異なる名前（シンボル）を持つようになってしまい、相互に参照できなくなりリンクエラーが生じてしまう。そこで、<code>extern "C"</code>が必要になってくる。<code>extern "C"</code>で括られた関数はC言語と同様の宣言を行うことを強制するため、上記の問題を回避できる。</p>
@@ -777,16 +927,16 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
 <p>さもなくばメモリの不定領域にアクセスして奇妙な振る舞いを示すようになる。設計の際に注意する。</p>
 <h2>内部モジュールとして使う時</h2>
 <p>ユーザに公開することのない内部モジュールで実装するならば、プログラミングミスを防いだり、デバッグ効率を高めるために、チェックを厳しくしたほうがよい。具体的には <code>assert</code>（C標準の <code>assert.h</code> にマクロ定義がある） を使う。</p>
-<div class="highlight"><pre><span></span><code><span class="cm">/* Fooモジュールの初期化 */</span>
-<span class="kt">void</span> <span class="nf">Foo_Initialize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="cm">/* 多重初期化防止 */</span>
-    <span class="n">assert</span><span class="p">(</span><span class="n">st_foo_is_initialized</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">);</span>
-    <span class="p">...</span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* Fooモジュールの初期化 */</span><span class="w"></span>
+<span class="kt">void</span><span class="w"> </span><span class="nf">Foo_Initialize</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* 多重初期化防止 */</span><span class="w"></span>
+<span class="w">    </span><span class="n">assert</span><span class="p">(</span><span class="n">st_foo_is_initialized</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="mi">0</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">...</span><span class="w"></span>
 </code></pre></div>
 
-
 <p>補足：<code>assert</code> は引数の条件が成立しないときにプログラムを強制停止（アボート）させる。その際、（ランタイムにより多少の差はあるが）条件チェックに失敗した行などの診断メッセージを出せる。（補足の補足：デバッグ向けにコンパイルしていないと <code>assert</code> が有効にならない場合がある。<code>gcc</code>では<code>-DDEBUG</code>フラグを指定する必要がある。）</p>
+                </main>
             </div>
             <!-- /.entry-content -->
         </article>
@@ -813,19 +963,7 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -837,31 +975,37 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -870,34 +1014,28 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -905,92 +1043,95 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -1027,7 +1168,7 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -1063,6 +1204,19 @@ CPUはある特定のバイト境界に合わせてメモリをアクセスし�
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

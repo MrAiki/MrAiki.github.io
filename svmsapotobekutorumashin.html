@@ -9,6 +9,170 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="/svmsapotobekutorumashin.html">
 
         <meta name="author" content="aiki" />
@@ -39,8 +203,7 @@
               title="Aiki's Blog ATOM Feed"/>
 
         <link href="/feeds/ji-shi.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog 記事 ATOM Feed"/>
-</head>
+              title="Aiki's Blog 記事 ATOM Feed"/></head>
 <body>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -62,9 +225,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li >
                             <a href="/category/za-ji.html">雑記</a>
@@ -118,51 +278,52 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
+                <main>
                 <p><strong>SVM(Support Vector Machine,
 サポートベクトルマシン)</strong>は、深層学習の影に隠れがちではあるものの、現在使われている識別学習モデルの中でも比較的認識性能が優れ、実用に供される事はもちろん、様々な研究でも比較対象となる手法の一つである。</p>
 <p>SVMの大雑把な理論的概要を述べると、SVMは与えられた学習サンプルを最も適切に分離（識別）する境界面（<strong>識別面</strong>）を発見する手法である。その識別面は凸計画問題に帰着して求める事ができるので、どの様なサンプルにおいても（存在するならば）最適な識別面を構成できる。</p>
 <p>本稿では、最初に基本となる線形SVMの定式化を行い、次に汎用性をより高めた非線形SVMとソフトマージンSVMを説明し、最後にSVMを回帰問題に適用したSVR(Support
 Vector Regression,
 サポートベクトル回帰)を説明する。最後にC言語による実装例を挙げる。</p>
-<p>SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍 <a class="footnote-reference" href="#id34" id="id1">[1]</a>, <a class="footnote-reference" href="#id35" id="id2">[2]</a> を挙げる。</p>
-<div class="contents local topic" id="id3">
+<p>SVMも知り尽くされており、文献・資料は大量に存在する。ここでは、参考書籍 <a class="footnote-reference" href="#footnote-1" id="footnote-reference-1">[1]</a>, <a class="footnote-reference" href="#footnote-2" id="footnote-reference-2">[2]</a> を挙げる。</p>
+<div class="contents local topic" id="topic-1">
 <ul class="simple">
-<li><a class="reference internal" href="#id4" id="id47">線形SVM</a><ul>
-<li><a class="reference internal" href="#id5" id="id48">マージンの定式化</a></li>
-<li><a class="reference internal" href="#id7" id="id49">マージン最大化</a><ul>
-<li><a class="reference internal" href="#kkt" id="id50">KKT条件</a></li>
+<li><a class="reference internal" href="#svm-1" id="toc-entry-1">線形SVM</a><ul>
+<li><a class="reference internal" href="#section-1" id="toc-entry-2">マージンの定式化</a></li>
+<li><a class="reference internal" href="#section-2" id="toc-entry-3">マージン最大化</a><ul>
+<li><a class="reference internal" href="#kkt" id="toc-entry-4">KKT条件</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id10" id="id51">非線形SVM</a></li>
-<li><a class="reference internal" href="#id13" id="id52">ソフトマージンSVM</a></li>
-<li><a class="reference internal" href="#svr-support-vector-regression" id="id53">SVR（Support Vector Regression, サポートベクトル回帰）</a><ul>
-<li><a class="reference internal" href="#svr" id="id54">1ノルムSVR・双対問題の導出</a></li>
-<li><a class="reference internal" href="#id20" id="id55">2ノルムSVR・双対問題の導出</a></li>
+<li><a class="reference internal" href="#svm-2" id="toc-entry-5">非線形SVM</a></li>
+<li><a class="reference internal" href="#svm-3" id="toc-entry-6">ソフトマージンSVM</a></li>
+<li><a class="reference internal" href="#svr-support-vector-regression" id="toc-entry-7">SVR（Support Vector Regression, サポートベクトル回帰）</a><ul>
+<li><a class="reference internal" href="#svr" id="toc-entry-8">1ノルムSVR・双対問題の導出</a></li>
+<li><a class="reference internal" href="#svr-2" id="toc-entry-9">2ノルムSVR・双対問題の導出</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id22" id="id56">実装の例</a><ul>
-<li><a class="reference internal" href="#id23" id="id57">学習</a><ul>
-<li><a class="reference internal" href="#id24" id="id58">学習則の導出</a></li>
-<li><a class="reference internal" href="#id27" id="id59">実装</a></li>
+<li><a class="reference internal" href="#section-3" id="toc-entry-10">実装の例</a><ul>
+<li><a class="reference internal" href="#section-4" id="toc-entry-11">学習</a><ul>
+<li><a class="reference internal" href="#section-5" id="toc-entry-12">学習則の導出</a></li>
+<li><a class="reference internal" href="#section-6" id="toc-entry-13">実装</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id28" id="id60">制約条件の考慮</a><ul>
-<li><a class="reference internal" href="#id29" id="id61">正例と負例の双対係数の和を等しくする</a></li>
-<li><a class="reference internal" href="#id30" id="id62">双対係数は非負</a></li>
+<li><a class="reference internal" href="#section-7" id="toc-entry-14">制約条件の考慮</a><ul>
+<li><a class="reference internal" href="#section-8" id="toc-entry-15">正例と負例の双対係数の和を等しくする</a></li>
+<li><a class="reference internal" href="#section-9" id="toc-entry-16">双対係数は非負</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a class="reference internal" href="#id31" id="id63">識別</a></li>
-<li><a class="reference internal" href="#id33" id="id64">脚注</a></li>
+<li><a class="reference internal" href="#section-10" id="toc-entry-17">識別</a></li>
+<li><a class="reference internal" href="#section-11" id="toc-entry-18">脚注</a></li>
 </ul>
 </div>
-<div class="section" id="id4">
-<h2><a class="toc-backref" href="#id47">線形SVM</a></h2>
-<div class="section" id="id5">
-<h3><a class="toc-backref" href="#id48">マージンの定式化</a></h3>
+<div class="section" id="svm-1">
+<h2><a class="toc-backref" href="#toc-entry-1">線形SVM</a></h2>
+<div class="section" id="section-1">
+<h3><a class="toc-backref" href="#toc-entry-2">マージンの定式化</a></h3>
 <p>識別の例として、まずは図にあるような、2次元空間<span class="math">\(X\times Z\)</span>に存在する2クラスのサンプルデータ（以下サンプル）を仮定する。各クラスは二値のラベル付け<span class="math">\(y=\{-1, 1\}\)</span>がなされており、識別面（2次元空間では直線）<span class="math">\(ax+bz+c=0\)</span>の上半領域（<span class="math">\(ax+bz+c&gt;0\)</span>）にラベル<span class="math">\(y=1\)</span>のサンプルが、下半領域（<span class="math">\(ax+bz+c&lt;0\)</span>）にラベル<span class="math">\(y=-1\)</span>のサンプルが分布するようにする。</p>
 <div class="figure">
 <img alt="2クラス分離の例" src="./images/2class_separation.png" />
@@ -211,7 +372,7 @@ SVMは、このマージンを最大化することが目的となる。</p>
   \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{s} + b = l , \quad \boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{t} + b = -l\end{aligned}
 \end{equation*}
 </div>
-<p>が成立すると仮定する <a class="footnote-reference" href="#id36" id="id6">[3]</a> と（<span class="math">\(l&gt;0\)</span>）、
+<p>が成立すると仮定する <a class="footnote-reference" href="#footnote-3" id="footnote-reference-3">[3]</a> と（<span class="math">\(l&gt;0\)</span>）、
 <span class="math">\(\boldsymbol{x}\_{s}\)</span>と<span class="math">\(\boldsymbol{x}\_{t}\)</span>の、識別面に対して平行な距離がマージンとして計算できる。マージンを<span class="math">\(\gamma\)</span>と書くと、
 平面の単位法ベクトルは<span class="math">\(\boldsymbol{w}/||\boldsymbol{w}||\)</span>（<span class="math">\(||\boldsymbol{w}|| = \sqrt{\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w}}\)</span>）で与えられるので、マージンは</p>
 <div class="math">
@@ -224,8 +385,8 @@ SVMは、このマージンを最大化することが目的となる。</p>
 </div>
 <p>で求められる。</p>
 </div>
-<div class="section" id="id7">
-<h3><a class="toc-backref" href="#id49">マージン最大化</a></h3>
+<div class="section" id="section-2">
+<h3><a class="toc-backref" href="#toc-entry-3">マージン最大化</a></h3>
 <p>前節でも既に述べたが、
 SVMの目的はマージン<span class="math">\(\gamma\)</span>を最大化することである。単純には<span class="math">\(\max \gamma\)</span>と書けるが、
 最適化を行いやすくするため、<span class="math">\(1/\gamma\)</span>の最小化に置き換え、
@@ -237,11 +398,11 @@ SVMの目的はマージン<span class="math">\(\gamma\)</span>を最大化す�
   &amp;\implies \min_{\scriptsize \boldsymbol{w}} \frac{1}{2} \boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} \quad \text{subject to : } y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}_{i} + b) \geq 1 \quad (i=1, \dots, N)\end{aligned}
 \end{equation*}
 </div>
-<p>この最適化問題は、 凸計画問題 <a class="footnote-reference" href="#id37" id="id8">[4]</a> であり、不等式制約付き非線形計画問題なので、 KKT条件(Karush-Kuhn-Tucker
+<p>この最適化問題は、 凸計画問題 <a class="footnote-reference" href="#footnote-4" id="footnote-reference-4">[4]</a> であり、不等式制約付き非線形計画問題なので、 KKT条件(Karush-Kuhn-Tucker
 condition)を用いる。KKT条件はラグランジェの未定乗数法（等式制約）の一般化であり、次の定理で表される:</p>
 <hr class="docutils" />
 <div class="section" id="kkt">
-<h4><a class="toc-backref" href="#id50">KKT条件</a></h4>
+<h4><a class="toc-backref" href="#toc-entry-4">KKT条件</a></h4>
 <p><span class="math">\(\boldsymbol{v}^{\star}\)</span>を<span class="math">\(f(\boldsymbol{v})\)</span>に関しての最適化問題の最適解とするならば、次の条件を満たす最適重みベクトル<span class="math">\(\boldsymbol{\alpha}^{\star}=[\alpha_{1}^{\star}, \cdots, \alpha_{N}^{\star}]^{\mathsf{T}}\ (\alpha_{i} \geq 0)\)</span>が存在する。</p>
 <div class="math">
 \begin{equation*}
@@ -265,7 +426,7 @@ condition)を用いる。KKT条件はラグランジェの未定乗数法（等�
 \end{aligned}
 \end{equation*}
 </div>
-<p><span class="math">\({\cal L}\)</span>が凸関数ならば、最適点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点にあり、<span class="math">\(\displaystyle\max_{\scriptsize \boldsymbol{v}} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star})\)</span>を主問題とする時、<span class="math">\(\displaystyle\min_{\scriptsize \boldsymbol{\alpha}}{\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})\)</span>を主問題に対する双対問題という。 <a class="footnote-reference" href="#id38" id="id9">[5]</a></p>
+<p><span class="math">\({\cal L}\)</span>が凸関数ならば、最適点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点にあり、<span class="math">\(\displaystyle\max_{\scriptsize \boldsymbol{v}} {\cal L}(\boldsymbol{v}, \boldsymbol{\alpha}^{\star})\)</span>を主問題とする時、<span class="math">\(\displaystyle\min_{\scriptsize \boldsymbol{\alpha}}{\cal L}(\boldsymbol{v}^{\star}, \boldsymbol{\alpha})\)</span>を主問題に対する双対問題という。 <a class="footnote-reference" href="#footnote-5" id="footnote-reference-5">[5]</a></p>
 <hr class="docutils" />
 <p>それでは実際にKKT条件を適用し、最適化問題を主問題(式)から双対問題へ変換する事を考える。
 まず制約条件から</p>
@@ -330,15 +491,15 @@ condition)を用いる。KKT条件はラグランジェの未定乗数法（等�
 </div>
 </div>
 </div>
-<div class="section" id="id10">
-<h2><a class="toc-backref" href="#id51">非線形SVM</a></h2>
+<div class="section" id="svm-2">
+<h2><a class="toc-backref" href="#toc-entry-5">非線形SVM</a></h2>
 <p>前節までの議論は、入力データと同じ空間（次元）で適切な識別面を発見するSVMであり、これを特に<strong>線形SVM</strong>という。
 線形SVMの場合、識別面は入力データ空間の次元<span class="math">\(n\)</span>に対し<span class="math">\(n-1\)</span>次元の平面（<strong>超平面</strong>）であり（例:2次元空間では直線、3次元空間では平面）、図の様に、異なるクラスのサンプルが入り組んだ状態では識別面を構成できない（<strong>線形分離不可能</strong>）。</p>
 <div class="figure">
 <img alt="線形分離不可能な例" src="./images/linearly_unseparatable.png" />
 <p class="caption">線形分離不可能な例</p>
 </div>
-<p>この場合、入力データの空間<span class="math">\(\mathbb{R}^{n}\)</span>から高次元空間<span class="math">\(\mathbb{R}^{h}\)</span>(<span class="math">\(h \gg n\)</span>)への高次元な非線形写像（<strong>特徴写像</strong>）<span class="math">\(\boldsymbol{\phi} : \mathbb{R}^{n} \to \mathbb{R}^{h}\)</span>を用いて高次元空間（特徴空間）へ写像すれば、線形分離不可能だったサンプルを一般位置 <a class="footnote-reference" href="#id39" id="id11">[6]</a> に写し、識別面を構成できる（線形分離可能）ようになる（図参照）。</p>
+<p>この場合、入力データの空間<span class="math">\(\mathbb{R}^{n}\)</span>から高次元空間<span class="math">\(\mathbb{R}^{h}\)</span>(<span class="math">\(h \gg n\)</span>)への高次元な非線形写像（<strong>特徴写像</strong>）<span class="math">\(\boldsymbol{\phi} : \mathbb{R}^{n} \to \mathbb{R}^{h}\)</span>を用いて高次元空間（特徴空間）へ写像すれば、線形分離不可能だったサンプルを一般位置 <a class="footnote-reference" href="#footnote-6" id="footnote-reference-6">[6]</a> に写し、識別面を構成できる（線形分離可能）ようになる（図参照）。</p>
 <div class="figure">
 <img alt="特徴空間で線形分離可能になる例" src="./images/linearly_separatable_in_high_dimension.png" />
 <p class="caption">特徴空間で線形分離可能になる例</p>
@@ -374,7 +535,7 @@ condition)を用いる。KKT条件はラグランジェの未定乗数法（等�
 <p>ここで<span class="math">\(K\)</span>は入力データのみで記述されるので、特徴写像はカーネル関数の中に閉じ込められてしまい、
 陽に現れない。
 即ち、特徴写像を構成する必要がないというのが大きなメリットである。任意の関数がカーネルになるとは限らず、
-マーサーの定理 <a class="footnote-reference" href="#id40" id="id12">[7]</a> という条件をカーネル関数は満たす必要がある。代表的なカーネル関数を以下に挙げる:</p>
+マーサーの定理 <a class="footnote-reference" href="#footnote-7" id="footnote-reference-7">[7]</a> という条件をカーネル関数は満たす必要がある。代表的なカーネル関数を以下に挙げる:</p>
 <ul class="simple">
 <li>線形カーネル:</li>
 </ul>
@@ -418,13 +579,13 @@ condition)を用いる。KKT条件はラグランジェの未定乗数法（等�
 \end{equation*}
 </div>
 </div>
-<div class="section" id="id13">
-<h2><a class="toc-backref" href="#id52">ソフトマージンSVM</a></h2>
+<div class="section" id="svm-3">
+<h2><a class="toc-backref" href="#toc-entry-6">ソフトマージンSVM</a></h2>
 <p>前節までのSVMは、
 マージンの内部にサンプルが入る事を一切許さないので、これを特に<strong>ハードマージンSVM</strong>ということがある。カーネルを用いた非線形ハードマージンSVMは、線形分離不可能なサンプルにでも強引に曲がりくねった識別面を構成する。これは実用に供する場合に問題になることがある。
 例えば、データに雑音が乗っていたり、
 一部のラベルを付け間違えたりする場合であり、これらは実データを扱う場合、
-往々にして起こりうる事である。この様な雑音を拾いすぎてしまうとSVMの汎化性能 <a class="footnote-reference" href="#id41" id="id14">[8]</a> が悪化してしまうので、マージンの制約を緩め、一部のサンプルはマージンの内部に入っても良いようにSVMを改善する事を考える。マージンの内部にサンプルが入ることを許すSVMを<strong>ソフトマージンSVM</strong>と呼ぶことがある。</p>
+往々にして起こりうる事である。この様な雑音を拾いすぎてしまうとSVMの汎化性能 <a class="footnote-reference" href="#footnote-8" id="footnote-reference-8">[8]</a> が悪化してしまうので、マージンの制約を緩め、一部のサンプルはマージンの内部に入っても良いようにSVMを改善する事を考える。マージンの内部にサンプルが入ることを許すSVMを<strong>ソフトマージンSVM</strong>と呼ぶことがある。</p>
 <p>ハードマージンSVMの制約を緩める事を考える。サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>に対応するスラック（緩衝）変数<span class="math">\(\eta_{i} \geq 0\ (i=1, \dots, N)\)</span>を用意して、
 SVMの制約を</p>
 <div class="math">
@@ -447,7 +608,7 @@ SVMの制約を</p>
         \end{aligned}
 \end{equation*}
 </div>
-<ul class="simple" id="svm-1">
+<ul class="simple" id="svm-1-1">
 <li>2ノルムソフトマージンSVM・主問題</li>
 </ul>
 <div class="math">
@@ -458,7 +619,7 @@ SVMの制約を</p>
 \end{equation*}
 </div>
 <p>ここで、
-<span class="math">\(C_{1}, C_{2}\)</span>はハードマージンとソフトマージンのトレードオフを与える定数 <a class="footnote-reference" href="#id42" id="id15">[9]</a> で、最適な値は実験等によって求める必要がある。
+<span class="math">\(C_{1}, C_{2}\)</span>はハードマージンとソフトマージンのトレードオフを与える定数 <a class="footnote-reference" href="#footnote-9" id="footnote-reference-9">[9]</a> で、最適な値は実験等によって求める必要がある。
 双対問題の導出は、前節までの議論と同様に、
 KKT条件に当てはめる事により得られる:</p>
 <ul class="simple">
@@ -509,7 +670,7 @@ KKT条件に当てはめる事により得られる:</p>
       &amp;\text{subject to : } 0 \leq \alpha_{i} \leq C_{1}, \ \sum_{i=1}^{N} \alpha_{i}y_{i} = 0 \quad (i = 1, \dots, N) \nonumber\end{aligned}
 \end{equation*}
 </div>
-<ul class="simple" id="id16">
+<ul class="simple" id="svm-1-2">
 <li>2ノルムソフトマージンSVM・双対問題の導出</li>
 </ul>
 <p>ラグランジアンは、</p>
@@ -569,7 +730,7 @@ KKT条件に当てはめる事により得られる:</p>
 </div>
 <p>を満たす。 2ノルムソフトマージンSVMも、
 結局、カーネル関数を簡単に書き換える事で実現できる。</p>
-<ul class="simple" id="id17">
+<ul class="simple" id="svm-1-3">
 <li>2ノルムソフトマージンSVM・双対問題</li>
 </ul>
 <div class="math">
@@ -582,8 +743,8 @@ KKT条件に当てはめる事により得られる:</p>
 </div>
 </div>
 <div class="section" id="svr-support-vector-regression">
-<h2><a class="toc-backref" href="#id53">SVR（Support Vector Regression, サポートベクトル回帰）</a></h2>
-<p>一般にSVMは識別器として用いられる事がほとんどだが、ラベルを実数とした回帰問題 <a class="footnote-reference" href="#id43" id="id18">[10]</a> にも適用することができる。SVMによる回帰モデルのことを、
+<h2><a class="toc-backref" href="#toc-entry-7">SVR（Support Vector Regression, サポートベクトル回帰）</a></h2>
+<p>一般にSVMは識別器として用いられる事がほとんどだが、ラベルを実数とした回帰問題 <a class="footnote-reference" href="#footnote-10" id="footnote-reference-10">[10]</a> にも適用することができる。SVMによる回帰モデルのことを、
 <strong>SVR</strong>（Support Vector Regression, サポートベクトル回帰）という。
 基本的な考え方としては、図の様に、識別面（回帰面）を中心に幅<span class="math">\(2\varepsilon\)</span>の“帯”に多くのサンプルが入るようにすれば良い。</p>
 <div class="figure">
@@ -658,7 +819,7 @@ KKT条件に当てはめる事により得られる:</p>
 </div>
 <p>後はKKT条件にぶち込むだけの流れ作業である。よし、じゃあぶち込んでやるぜ！</p>
 <div class="section" id="svr">
-<h3><a class="toc-backref" href="#id54">1ノルムSVR・双対問題の導出</a></h3>
+<h3><a class="toc-backref" href="#toc-entry-8">1ノルムSVR・双対問題の導出</a></h3>
 <div class="math">
 \begin{equation*}
 \begin{aligned}
@@ -725,8 +886,8 @@ KKT条件に当てはめる事により得られる:</p>
 \end{equation*}
 </div>
 </div>
-<div class="section" id="id20">
-<span id="id19"></span><h3><a class="toc-backref" href="#id55">2ノルムSVR・双対問題の導出</a></h3>
+<div class="section" id="svr-2">
+<span id="svr-1-1"></span><h3><a class="toc-backref" href="#toc-entry-9">2ノルムSVR・双対問題の導出</a></h3>
 <div class="math">
 \begin{equation*}
 \begin{aligned}
@@ -769,7 +930,7 @@ KKT条件に当てはめる事により得られる:</p>
 \end{equation*}
 </div>
 <p>1ノルムSVRの時と同様に、<span class="math">\(\alpha_{i} = \alpha_{i}^{+} - \alpha_{i}^{-}\)</span>とおくと、<span class="math">\((\alpha_{i}^{+})^{2} + (\alpha_{i}^{-})^{2} = \alpha_{i}^{2}\)</span>が成り立つので、双対問題は以下の様に表現できる。</p>
-<ul class="simple" id="id21">
+<ul class="simple" id="svr-1-2">
 <li>2ノルムSVR・双対問題</li>
 </ul>
 <div class="math">
@@ -782,14 +943,14 @@ KKT条件に当てはめる事により得られる:</p>
 </div>
 </div>
 </div>
-<div class="section" id="id22">
-<h2><a class="toc-backref" href="#id56">実装の例</a></h2>
+<div class="section" id="section-3">
+<h2><a class="toc-backref" href="#toc-entry-10">実装の例</a></h2>
 <p>実装例は <a class="reference external" href="https://github.com/MrAiki/SimpleSVM">ここ</a>
 にある。本稿では要点を絞って見ていく。</p>
-<div class="section" id="id23">
-<h3><a class="toc-backref" href="#id57">学習</a></h3>
-<div class="section" id="id24">
-<h4><a class="toc-backref" href="#id58">学習則の導出</a></h4>
+<div class="section" id="section-4">
+<h3><a class="toc-backref" href="#toc-entry-11">学習</a></h3>
+<div class="section" id="section-5">
+<h4><a class="toc-backref" href="#toc-entry-12">学習則の導出</a></h4>
 <p>SVMの学習は、双対問題</p>
 <div class="math">
 \begin{equation*}
@@ -800,7 +961,7 @@ KKT条件に当てはめる事により得られる:</p>
 \end{equation*}
 </div>
 <p>を解けば良いことになる。
-脚注 <a class="footnote-reference" href="#id44" id="id25">[11]</a> で既に触れたが、SVMのマージン最大化は凸計画問題である。従って局所最適解が存在せず、極大値が大域的な最大値に一致する。
+脚注 <a class="footnote-reference" href="#footnote-11" id="footnote-reference-11">[11]</a> で既に触れたが、SVMのマージン最大化は凸計画問題である。従って局所最適解が存在せず、極大値が大域的な最大値に一致する。
 ソフトマージンに対応する時は、1ノルムソフトマージンの際には係数に値域<span class="math">\(0 \geq \alpha_{i} \geq C_{1}\ (i=1,...,N)\)</span>を設け、2ノルムの際にはカーネル関数<span class="math">\(K\)</span>を次のように書き換えれば良い：</p>
 <div class="math">
 \begin{equation*}
@@ -815,7 +976,7 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 \Delta \boldsymbol{\alpha} = \eta \frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}
 \end{equation*}
 </div>
-<p>とすれば良い <a class="footnote-reference" href="#id45" id="id26">[12]</a> 。学習の収束判定は、例えば<span class="math">\(||\Delta \boldsymbol{\alpha}||\)</span>が十分小さくなった時とすれば良く、その時は極大値が得られている。
+<p>とすれば良い <a class="footnote-reference" href="#footnote-12" id="footnote-reference-12">[12]</a> 。学習の収束判定は、例えば<span class="math">\(||\Delta \boldsymbol{\alpha}||\)</span>が十分小さくなった時とすれば良く、その時は極大値が得られている。
 実際に<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \boldsymbol{\alpha}}\)</span>を計算することを考える。<span class="math">\(\frac{\partial F(\boldsymbol{\alpha})}{\partial \alpha_{i}}\ (i=1,...,N)\)</span>は、</p>
 <div class="math">
 \begin{equation*}
@@ -832,68 +993,68 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 \end{equation*}
 </div>
 </div>
-<div class="section" id="id27">
-<h4><a class="toc-backref" href="#id59">実装</a></h4>
+<div class="section" id="section-6">
+<h4><a class="toc-backref" href="#toc-entry-13">実装</a></h4>
 <p>学習を行っている箇所を抜粋すると次の様になる：</p>
 <pre class="code c literal-block">
-<span class="cm">/* 勾配値の計算 */</span>
-<span class="n">diff_dist</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_x</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_x</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">diff_sum</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-  <span class="k">for</span> <span class="p">(</span><span class="n">i_y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_y</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span>
-    <span class="n">kernel_val</span> <span class="o">=</span> <span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span> <span class="n">i_x</span><span class="p">,</span> <span class="n">i_y</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">==</span> <span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
-      <span class="n">kernel_val</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">/</span> <span class="n">soft_margin_C2</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="n">diff_sum</span> <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span> <span class="o">*</span> <span class="n">kernel_val</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">diff_sum</span> <span class="o">*=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_x</span><span class="p">];</span>
-  <span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_x</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">;</span>
-  <span class="n">diff_dist</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">-</span> <span class="n">diff_sum</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="cm">/* 勾配値の計算 */</span><span class="w">
+</span><span class="n">diff_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_x</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">diff_sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w">
+  </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_y</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span><span class="w">
+    </span><span class="n">kernel_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span><span class="w"> </span><span class="n">i_x</span><span class="p">,</span><span class="w"> </span><span class="n">i_y</span><span class="p">);</span><span class="w">
+    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i_x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i_y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">kernel_val</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">soft_margin_C2</span><span class="p">);</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+    </span><span class="n">diff_sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_y</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">kernel_val</span><span class="p">;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">diff_sum</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_x</span><span class="p">];</span><span class="w">
+  </span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_x</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">diff_sum</span><span class="p">;</span><span class="w">
+  </span><span class="n">diff_dist</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">diff_sum</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">diff_sum</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
-<span class="cm">/* 双対係数の更新 */</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">continue</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="cm">/* printf(&quot;dual_coef[%d]:%f -&gt; &quot;, i_sample, handle-&gt;dual_coef[i_sample]); */</span>
-  <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
-    <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">+</span> <span class="n">SMPSVM_MOMENT_RATE</span> <span class="o">*</span> <span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
-  <span class="cm">/* printf(&quot;%f \n&quot;, handle-&gt;dual_coef[i_sample]); */</span>
+</span><span class="cm">/* 双対係数の更新 */</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_sample</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_sample</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="k">continue</span><span class="p">;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="cm">/* printf(&quot;dual_coef[%d]:%f -&gt; &quot;, i_sample, handle-&gt;dual_coef[i_sample]); */</span><span class="w">
+  </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w">
+    </span><span class="o">+=</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SMPSVM_MOMENT_RATE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span><span class="w">
+  </span><span class="cm">/* printf(&quot;%f \n&quot;, handle-&gt;dual_coef[i_sample]); */</span><span class="w">
 
-  <span class="cm">/* 非数,無限チェック */</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="n">isnan</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span> <span class="o">||</span> <span class="n">isinf</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span> <span class="s">&quot;Detected NaN or Inf Dual-Coffience. </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="o">-</span><span class="mi">3</span><span class="p">;</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+  </span><span class="cm">/* 非数,無限チェック */</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">isnan</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">isinf</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">])</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">fprintf</span><span class="p">(</span><span class="n">stderr</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;Detected NaN or Inf Dual-Coffience. </span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span><span class="w">
+    </span><span class="k">return</span><span class="w"> </span><span class="mi">-3</span><span class="p">;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span>
 </pre>
 <p>既にコメントが付いているが、特筆すべき点について補足する。</p>
 <pre class="code c literal-block">
-<span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span>
-<span class="n">kernel_val</span> <span class="o">=</span> <span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span> <span class="n">i_x</span><span class="p">,</span> <span class="n">i_y</span><span class="p">);</span>
+<span class="cm">/* C2を踏まえたカーネル関数値を計算 */</span><span class="w">
+</span><span class="n">kernel_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GRAM_MATRIX_AT</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">gram_matrix</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">,</span><span class="w"> </span><span class="n">i_x</span><span class="p">,</span><span class="w"> </span><span class="n">i_y</span><span class="p">);</span>
 </pre>
 <p>予め計算しておいたカーネル関数値をグラム行列から取り出している。学習中は何度もカーネル関数値を計算するため、グラム行列を用意しておくことで若干高速化できる。</p>
 <pre class="code c literal-block">
-<span class="k">if</span> <span class="p">(</span><span class="n">i_x</span> <span class="o">==</span> <span class="n">i_y</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">kernel_val</span> <span class="o">+=</span> <span class="p">(</span><span class="mf">1.0f</span> <span class="o">/</span> <span class="n">soft_margin_C2</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">i_x</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">i_y</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">kernel_val</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="mf">1.0f</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">soft_margin_C2</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
 </pre>
 <p>2ノルムソフトマージンのカーネル関数値を加味している。2ノルムソフトマージンを使用しない場合は<tt class="docutils literal">soft_margin_C2 == FLT_MAX</tt>となっているため、無視できる。</p>
 <pre class="code c literal-block">
-<span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
-  <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span> <span class="o">*</span> <span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">+</span> <span class="n">SMPSVM_MOMENT_RATE</span> <span class="o">*</span> <span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
+<span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w">
+  </span><span class="o">+=</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">learning_rate</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">SMPSVM_MOMENT_RATE</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pre_diff_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
 </pre>
 <p>係数更新を行っている。ここでは、単純な最急勾配分のみだけではなく、前回の勾配値に定数を乗じて加えた<strong>モーメント法</strong>を使用している。一般にモーメント法を使用したほうが学習が早くなることが知られている。</p>
 </div>
 </div>
-<div class="section" id="id28">
-<h3><a class="toc-backref" href="#id60">制約条件の考慮</a></h3>
+<div class="section" id="section-7">
+<h3><a class="toc-backref" href="#toc-entry-14">制約条件の考慮</a></h3>
 <p>学習則は単純に見えても実装時に落とし穴になるのが制約条件である。</p>
-<div class="section" id="id29">
-<h4><a class="toc-backref" href="#id61">正例と負例の双対係数の和を等しくする</a></h4>
+<div class="section" id="section-8">
+<h4><a class="toc-backref" href="#toc-entry-15">正例と負例の双対係数の和を等しくする</a></h4>
 <p>KKT条件から導かれる<span class="math">\(\boldsymbol{\alpha}\)</span>についての制約</p>
 <div class="math">
 \begin{equation*}
@@ -912,49 +1073,49 @@ K'(\boldsymbol{x}_{i}, \boldsymbol{x}_{j}) = K(\boldsymbol{x}_{i}, \boldsymbol{x
 <p>が導かれるため、正例と負例の双対係数の和は等しくなる事が分かる。
 本実装では、<span class="math">\(\alpha_{i}y_{i}\)</span>の平均を取り、全係数<span class="math">\(\alpha_{i}\ (i=1,...,N)\)</span>をその平均に寄せることで上記の制約を満たすように係数を修正している。</p>
 <pre class="code c literal-block">
-<span class="cm">/* 制約1: 正例と負例の双対係数和を等しくする. */</span>
-<span class="n">dual_coef_average</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">dual_coef_average</span>
-    <span class="o">+=</span> <span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
-<span class="p">}</span>
-<span class="n">dual_coef_average</span> <span class="o">/=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="k">continue</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
-    <span class="o">-=</span> <span class="p">(</span><span class="n">dual_coef_average</span> <span class="o">/</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span>
-<span class="p">}</span>
+<span class="cm">/* 制約1: 正例と負例の双対係数和を等しくする. */</span><span class="w">
+</span><span class="n">dual_coef_average</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_sample</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_sample</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">dual_coef_average</span><span class="w">
+    </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span><span class="n">dual_coef_average</span><span class="w"> </span><span class="o">/=</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_sample</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_sample</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="k">continue</span><span class="p">;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w">
+    </span><span class="o">-=</span><span class="w"> </span><span class="p">(</span><span class="n">dual_coef_average</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]);</span><span class="w">
+</span><span class="p">}</span>
 </pre>
 <p>この制約を満たすための実装はこの限りではない。</p>
 </div>
-<div class="section" id="id30">
-<h4><a class="toc-backref" href="#id62">双対係数は非負</a></h4>
+<div class="section" id="section-9">
+<h4><a class="toc-backref" href="#toc-entry-16">双対係数は非負</a></h4>
 <p>双対係数は非負でなければならないため、負になった係数は全て0に修正してしまう。
 学習が進むに連れて0の係数が増えていくが、それはSVMの持つスパース学習の効果が現れている状態である。学習が収束した時、0に潰れず非負値となった係数に対応するサンプルが<strong>サポートベクトル</strong>である。</p>
 <pre class="code c literal-block">
-<span class="cm">/* 制約2: 双対係数は非負 */</span>
-<span class="n">coef_dist</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.0f</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">soft_margin_C1</span> <span class="p">)</span> <span class="p">{</span>
-    <span class="cm">/* C1ノルムの制約を適用 */</span>
-    <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">=</span> <span class="n">soft_margin_C1</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="cm">/* ここで最終結果が出る. 前回との変化を計算 */</span>
-  <span class="n">coef_diff</span> <span class="o">=</span> <span class="n">pre_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">-</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">];</span>
-  <span class="n">coef_dist</span> <span class="o">+=</span> <span class="p">(</span><span class="n">coef_diff</span> <span class="o">*</span> <span class="n">coef_diff</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="cm">/* 制約2: 双対係数は非負 */</span><span class="w">
+</span><span class="n">coef_dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_sample</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_sample</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w">
+  </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">soft_margin_C1</span><span class="w"> </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="cm">/* C1ノルムの制約を適用 */</span><span class="w">
+    </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">soft_margin_C1</span><span class="p">;</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="cm">/* ここで最終結果が出る. 前回との変化を計算 */</span><span class="w">
+  </span><span class="n">coef_diff</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pre_dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">];</span><span class="w">
+  </span><span class="n">coef_dist</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">coef_diff</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">coef_diff</span><span class="p">);</span><span class="w">
+</span><span class="p">}</span>
 </pre>
 <p>本実装では、非負条件に咥えて1ノルムソフトマージンの制約も追加で判定している。1ノルムソフトマージンを使用しない時は<tt class="docutils literal">soft_margin_C1 == FLT_MAX</tt>となっているため、無視できる。</p>
 </div>
 </div>
 </div>
-<div class="section" id="id31">
-<h2><a class="toc-backref" href="#id63">識別</a></h2>
-<p><a class="reference external" href="#マージンの定式化">マージンの定式化</a>で述べたが、SVMのクラス識別は出力値<span class="math">\(y\)</span>の正負によって判断する <a class="footnote-reference" href="#id46" id="id32">[13]</a> 。SVMの出力式</p>
+<div class="section" id="section-10">
+<h2><a class="toc-backref" href="#toc-entry-17">識別</a></h2>
+<p><a class="reference external" href="#マージンの定式化">マージンの定式化</a>で述べたが、SVMのクラス識別は出力値<span class="math">\(y\)</span>の正負によって判断する <a class="footnote-reference" href="#footnote-13" id="footnote-reference-13">[13]</a> 。SVMの出力式</p>
 <div class="math">
 \begin{equation*}
 g(\boldsymbol{x}, \boldsymbol{w}) = \boldsymbol{w}^{\mathsf{T}} \boldsymbol{x} + b
@@ -968,47 +1129,47 @@ g(\boldsymbol{x}, \boldsymbol{w}^{\star}) = \sum_{i=1}^{N} \alpha_{i} y_{i} K(\b
 </div>
 <p>識別の際には、学習済みの係数<span class="math">\(\boldsymbol{\alpha}\)</span>を使用して上式を計算し、その正負を判定すれば良い。実装としては次の様になる：</p>
 <pre class="code c literal-block">
-<span class="cm">/* ネットワーク出力計算 */</span>
-<span class="n">network_output</span> <span class="o">=</span> <span class="mf">0.0f</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="n">i_sample</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i_sample</span> <span class="o">&lt;</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span> <span class="o">++</span><span class="n">i_sample</span><span class="p">)</span> <span class="p">{</span>
-  <span class="cm">/* 係数が正に相当するサンプル（サポートベクトル）
-   * のみを計算する */</span>
-  <span class="k">if</span> <span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">network_output</span>
-      <span class="o">+=</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span> <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span>
-      <span class="o">*</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_function</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_data</span><span class="p">[</span><span class="n">i_sample</span><span class="p">],</span> <span class="n">normalized_data</span><span class="p">,</span> <span class="n">data_dim</span><span class="p">,</span> <span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_parameter</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">}</span>
+<span class="cm">/* ネットワーク出力計算 */</span><span class="w">
+</span><span class="n">network_output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">;</span><span class="w">
+</span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i_sample</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i_sample</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_num</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i_sample</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="cm">/* 係数が正に相当するサンプル（サポートベクトル）
+   * のみを計算する */</span><span class="w">
+  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">network_output</span><span class="w">
+      </span><span class="o">+=</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_label</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">dual_coef</span><span class="p">[</span><span class="n">i_sample</span><span class="p">]</span><span class="w">
+      </span><span class="o">*</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_function</span><span class="p">(</span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">sample_data</span><span class="p">[</span><span class="n">i_sample</span><span class="p">],</span><span class="w"> </span><span class="n">normalized_data</span><span class="p">,</span><span class="w"> </span><span class="n">data_dim</span><span class="p">,</span><span class="w"> </span><span class="n">handle</span><span class="o">-&gt;</span><span class="n">kernel_parameter</span><span class="p">);</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
 
-<span class="cm">/* 識別 */</span>
-<span class="o">*</span><span class="n">result</span> <span class="o">=</span> <span class="p">(</span><span class="n">network_output</span> <span class="o">&gt;=</span> <span class="mf">0.0f</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+</span><span class="cm">/* 識別 */</span><span class="w">
+</span><span class="o">*</span><span class="n">result</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">network_output</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="mf">0.0f</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">-1</span><span class="p">;</span>
 </pre>
 </div>
-<div class="section" id="id33">
-<h2><a class="toc-backref" href="#id64">脚注</a></h2>
-<table class="docutils footnote" frame="void" id="id34" rules="none">
+<div class="section" id="section-11">
+<h2><a class="toc-backref" href="#toc-entry-18">脚注</a></h2>
+<table class="docutils footnote" frame="void" id="footnote-1" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id1">[1]</a></td><td>高村大也、 奥村学、 “言語処理のための機械学習入門”、 コロナ社、 2010</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-1">[1]</a></td><td>高村大也、 奥村学、 “言語処理のための機械学習入門”、 コロナ社、 2010</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id35" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-2" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id2">[2]</a></td><td>高橋治久、 堀田一弘、 “学習理論” コロナ社、 2009</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-2">[2]</a></td><td>高橋治久、 堀田一弘、 “学習理論” コロナ社、 2009</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id36" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-3" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id6">[3]</a></td><td>くどいかもしれないが、
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-3">[3]</a></td><td>くどいかもしれないが、
 サポートベクトルは最も識別面に近いサンプルなので、この仮定により<span class="math">\(y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}+b) \geq l \quad (i=1, \dots, N)\)</span>が成り立つ。</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id37" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-4" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id8">[4]</a></td><td><p class="first">（証明） -
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-4">[4]</a></td><td><p class="first">（証明） -
 最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、
 明らかに下に凸である。 -
 制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、</p>
@@ -1036,10 +1197,10 @@ g(\boldsymbol{x}, \boldsymbol{w}^{\star}) = \sum_{i=1}^{N} \alpha_{i} y_{i} K(\b
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id38" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-5" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id9">[5]</a></td><td><p class="first">（鞍点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事の証明）
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-5">[5]</a></td><td><p class="first">（鞍点<span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>が最適点となる事の証明）
 <span class="math">\((\boldsymbol{v}^{\star}, \boldsymbol{\alpha}^{\star})\)</span>は鞍点なので、</p>
 <div class="math">
 \begin{equation*}
@@ -1092,17 +1253,17 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id39" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-6" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id11">[6]</a></td><td>互いに同一平面上<strong>以外</strong>の位置にある事。
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-6">[6]</a></td><td>互いに同一平面上<strong>以外</strong>の位置にある事。
 例えば、2次元空間では同一直線上以外の位置であり、3次元空間では同一平面上以外の位置である。異なるクラスのサンプルが一般位置にあれば、もとより線形分離可能である。</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id40" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-7" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id12">[7]</a></td><td><p class="first">有限個数<span class="math">\(N&lt;\infty\)</span>のサンプルに対し、<span class="math">\((\boldsymbol{G})\_{ij} = K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>、即ち<span class="math">\((i,j)\)</span>成分の値が<span class="math">\(K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>となっている行列<span class="math">\(\boldsymbol{G}\)</span>をグラム（カーネル）行列という。特徴写像が有限次元ならば、グラム行列が（有限）正定値行列ならば<span class="math">\(K\)</span>はカーネル関数となる。特徴写像が無限次元の場合のカーネル関数の条件がマーサーの定理である。
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-7">[7]</a></td><td><p class="first">有限個数<span class="math">\(N&lt;\infty\)</span>のサンプルに対し、<span class="math">\((\boldsymbol{G})\_{ij} = K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>、即ち<span class="math">\((i,j)\)</span>成分の値が<span class="math">\(K(\boldsymbol{x}\_{i}, \boldsymbol{x}\_{j})\)</span>となっている行列<span class="math">\(\boldsymbol{G}\)</span>をグラム（カーネル）行列という。特徴写像が有限次元ならば、グラム行列が（有限）正定値行列ならば<span class="math">\(K\)</span>はカーネル関数となる。特徴写像が無限次元の場合のカーネル関数の条件がマーサーの定理である。
 その内容は、入力空間<span class="math">\(X\subset \mathbb{R}^{n}\)</span>が有界閉集合（<span class="math">\(\iff\)</span>コンパクト）であるとし、対象な連続関数<span class="math">\(K\)</span>が正定値、即ち任意の二乗可積分（二乗積分可能）な関数<span class="math">\(f\)</span>に対し</p>
 <div class="math">
 \begin{equation*}
@@ -1119,29 +1280,29 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id41" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-8" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id14">[8]</a></td><td>サンプルに現れない未知のデータでももれなく識別できる能力</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-8">[8]</a></td><td>サンプルに現れない未知のデータでももれなく識別できる能力</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id42" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-9" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id15">[9]</a></td><td>双対問題において、
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-9">[9]</a></td><td>双対問題において、
 <span class="math">\(C_{1}, C_{2} \to \infty\)</span>とすると、ハードマージンSVMに一致することが分かる</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id43" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-10" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id18">[10]</a></td><td>サンプルに最も当てはまる曲線（面）を探す問題。もう少し形式的に言うと、各サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>でのラベル<span class="math">\(y_{i}\)</span>の平均値を表す関数<span class="math">\(f\)</span>を学習する問題。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-10">[10]</a></td><td>サンプルに最も当てはまる曲線（面）を探す問題。もう少し形式的に言うと、各サンプル<span class="math">\(\boldsymbol{x}\_{i}\)</span>でのラベル<span class="math">\(y_{i}\)</span>の平均値を表す関数<span class="math">\(f\)</span>を学習する問題。</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id44" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-11" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id25">[11]</a></td><td><p class="first">（証明） -
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-11">[11]</a></td><td><p class="first">（証明） -
 最適化対象について、<span class="math">\(\displaystyle \frac{1}{2}\boldsymbol{w}^{\mathsf{T}}\boldsymbol{w} = \frac{1}{2} \sum_{i=1}^{n} w_{i}^{2}\)</span>より（<span class="math">\(\boldsymbol{w}=[w_{1}\dots w_{n}]^\mathsf{T}\)</span>）、
 明らかに下に凸である。 -
 制約条件について、<span class="math">\(W_{i} = \{ \boldsymbol{w} | y_{i}(\boldsymbol{w}^{\mathsf{T}}\boldsymbol{x}\_{i}+b) \geq 1 \}\)</span>とおくと、<span class="math">\(\forall \boldsymbol{w}^{\prime}, \boldsymbol{w}^{\prime\prime} \in W_{i}, \forall t \in [0, 1]\)</span>に対して、</p>
@@ -1169,16 +1330,16 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
 </td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id45" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-12" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id26">[12]</a></td><td>ただし学習率<span class="math">\(\eta\)</span>の決め方は問題依存である。一般に、<span class="math">\(\eta\)</span>が小さすぎると学習が進行せず、大きすぎると極値を飛び越えてしまい学習が収束しない。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-12">[12]</a></td><td>ただし学習率<span class="math">\(\eta\)</span>の決め方は問題依存である。一般に、<span class="math">\(\eta\)</span>が小さすぎると学習が進行せず、大きすぎると極値を飛び越えてしまい学習が収束しない。</td></tr>
 </tbody>
 </table>
-<table class="docutils footnote" frame="void" id="id46" rules="none">
+<table class="docutils footnote" frame="void" id="footnote-13" rules="none">
 <colgroup><col class="label" /><col /></colgroup>
 <tbody valign="top">
-<tr><td class="label"><a class="fn-backref" href="#id32">[13]</a></td><td><span class="math">\(y = 0\)</span>の場合の判断を明確にしている書類がない。ここでは正と判定する。</td></tr>
+<tr><td class="label"><a class="fn-backref" href="#footnote-reference-13">[13]</a></td><td><span class="math">\(y = 0\)</span>の場合の判断を明確にしている書類がない。ここでは正と判定する。</td></tr>
 </tbody>
 </table>
 </div>
@@ -1244,6 +1405,7 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
 </script>
+                </main>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
@@ -1278,19 +1440,7 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -1302,31 +1452,37 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -1335,34 +1491,28 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -1370,92 +1520,95 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -1492,7 +1645,7 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -1528,6 +1681,19 @@ t{\cal L}(\boldsymbol{v}^{\prime}, \boldsymbol{\alpha}^{\star}) \leq t{\cal L}(\
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

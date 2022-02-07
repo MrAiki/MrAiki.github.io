@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2021-06-18T22:00:00+09:00</updated><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><content type="html">&lt;ul class="simple"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2021-06-18T22:00:00+09:00</updated><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><summary type="html">&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html"&gt;FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;文字化けしてるのでEUCで読むべし&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/fft_note_s.pdf"&gt;pdf資料&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/ftmn2_1.html#sec2_1"&gt;実離散Fourier変換&lt;/a&gt; 複 …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html"&gt;FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;文字化けしてるのでEUCで読むべし&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/fft_note_s.pdf"&gt;pdf資料&lt;/a&gt;&lt;/li&gt;
@@ -18,6 +22,7 @@
 &lt;/ul&gt;
 &lt;p&gt;統合すると、realft方式で行きたい。そして基板部のFFTは4基底のStockhamFFTで。&lt;/p&gt;
 </content><category term="趣味"></category><category term="リバーブ"></category><category term="エフェクター"></category></entry><entry><title>麻雀プログラミング</title><link href="/ma-que-puroguramingu.html" rel="alternate"></link><published>2020-11-14T12:00:00+09:00</published><updated>2020-11-22T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-14:/ma-que-puroguramingu.html</id><summary type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
+すこし成果がまとまってきたので記事にしてみ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
 すこし成果がまとまってきたので記事にしてみよう。&lt;/p&gt;
 &lt;p&gt;なんと言っても、&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -25,9 +30,9 @@
 &lt;/ul&gt;
 &lt;p&gt;がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。あと有効牌判定。
 そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
+&lt;div class="section" id="section-2"&gt;
 &lt;h2&gt;お役立ちリンク&lt;/h2&gt;
-&lt;div class="section" id="id3"&gt;
+&lt;div class="section" id="section-3"&gt;
 &lt;h3&gt;他の有名な？プロジェクト&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://ja.osdn.net/projects/openmahjong/"&gt;オープン麻雀プロジェクト(仮称)&lt;/a&gt;&lt;/li&gt;
@@ -37,7 +42,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/nekobean/mahjong-cpp"&gt;mahjong-cpp&lt;/a&gt; C++17(+ boost)で美しく書かれたライブラリ。テストも充実。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
+&lt;div class="section" id="section-4"&gt;
 &lt;h3&gt;アルゴリズム全般&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://ksta.skr.jp/topic/diaryb15.html#20101230"&gt;気まぐれな戯れ言 バックナンバー１５&lt;/a&gt; 役判定アルゴリズムの概要がつかめる。&lt;/li&gt;
@@ -45,51 +50,13 @@
 &lt;li&gt;&lt;a class="reference external" href="https://mahjong.org/training/training_006/"&gt;牌理/牌効率ツール&lt;/a&gt; 有効牌列挙の動作確認に。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
+&lt;div class="section" id="section-5"&gt;
 &lt;h3&gt;数理的側面&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www10.plala.or.jp/rascalhp/mjmath.htm"&gt;麻雀の数学&lt;/a&gt; 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://jankenso.com/dataroom.asp"&gt;雀賢荘データ室&lt;/a&gt; 強い打ち手の統計情報の要約&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="section" id="id6"&gt;
-&lt;h4&gt;乱数について&lt;/h4&gt;
-&lt;p&gt;端的に言って沼。&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;p class="first"&gt;&lt;a class="reference external" href="https://programming-place.net/ppp/contents/algorithm/other/002.html"&gt;ランダムシャッフル | Programming Place …&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
-すこし成果がまとまってきたので記事にしてみよう。&lt;/p&gt;
-&lt;p&gt;なんと言っても、&lt;/p&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20190402234201/http://cmj3.web.fc2.com/index.htm"&gt;麻雀C言語プログラム集&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;がきっかけだし、これがweb魚拓しか残っていないことに危機感を覚えた。シャンテン数計算と役計算は実装したい。あと有効牌判定。
-そこから簡単なシミュレータ作って実験までできればいいなあと思うところ。&lt;/p&gt;
-&lt;div class="section" id="id2"&gt;
-&lt;h2&gt;お役立ちリンク&lt;/h2&gt;
-&lt;div class="section" id="id3"&gt;
-&lt;h3&gt;他の有名な？プロジェクト&lt;/h3&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://ja.osdn.net/projects/openmahjong/"&gt;オープン麻雀プロジェクト(仮称)&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/"&gt;爆打の中の人&lt;/a&gt; ちゃんと研究に落とし込んでいる方。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/"&gt;まうじゃん的空間&lt;/a&gt; フリーでプレーヤーを自前実装できる「まうじゃん」の配布サイト。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/nekobean/mahjong-cpp"&gt;mahjong-cpp&lt;/a&gt; C++17(+ boost)で美しく書かれたライブラリ。テストも充実。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id4"&gt;
-&lt;h3&gt;アルゴリズム全般&lt;/h3&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://ksta.skr.jp/topic/diaryb15.html#20101230"&gt;気まぐれな戯れ言 バックナンバー１５&lt;/a&gt; 役判定アルゴリズムの概要がつかめる。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://hp.vector.co.jp/authors/VA046927/mjscore/mjalgorism.html"&gt;麻雀 和了判定（役の判定） アルゴリズム&lt;/a&gt; バックトラック法とインデックスを用いた約判定アルゴリズムについて。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://mahjong.org/training/training_006/"&gt;牌理/牌効率ツール&lt;/a&gt; 有効牌列挙の動作確認に。&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;div class="section" id="id5"&gt;
-&lt;h3&gt;数理的側面&lt;/h3&gt;
-&lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www10.plala.or.jp/rascalhp/mjmath.htm"&gt;麻雀の数学&lt;/a&gt; 組み合わせの議論。乱数xorshiftじゃ周期が足りないことに気づく。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://jankenso.com/dataroom.asp"&gt;雀賢荘データ室&lt;/a&gt; 強い打ち手の統計情報の要約&lt;/li&gt;
-&lt;/ul&gt;
-&lt;div class="section" id="id6"&gt;
+&lt;div class="section" id="section-6"&gt;
 &lt;h4&gt;乱数について&lt;/h4&gt;
 &lt;p&gt;端的に言って沼。&lt;/p&gt;
 &lt;ul&gt;
@@ -102,14 +69,14 @@
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://takeda25.hatenablog.jp/entry/20130818/1376837093"&gt;いつからその方法で偏りのない乱数が得られると錯覚していた？&lt;/a&gt; まず読みましょう。そして、偏らない乱数を出すためには、以下の実装で行く必要があるようです。&lt;/li&gt;
 &lt;/ul&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="nf"&gt;uniform_int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;adjusted_max&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="kt"&gt;int&lt;/span&gt; &lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
-  &lt;span class="k"&gt;do&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
-     &lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
-  &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;=&lt;/span&gt; &lt;span class="n"&gt;adjusted_max&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)(((&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;adjusted_max&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
-&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;uniform_int&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;adjusted_max&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;RAND_MAX&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;do&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;adjusted_max&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="p"&gt;)(((&lt;/span&gt;&lt;span class="kt"&gt;double&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="n"&gt;r&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;adjusted_max&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;n&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;乱数範囲をnの倍数で切り捨ててから、実数の一様乱数にキャストする。剰余は下位ビットの偏りに影響を受けるからNG。&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -140,7 +107,7 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id7"&gt;
+&lt;div class="section" id="section-7"&gt;
 &lt;h3&gt;牌譜について&lt;/h3&gt;
 &lt;p&gt;可能であれば牌譜出力にも対応できたほうが良い（AIがどんな挙動してるか見える）&lt;/p&gt;
 &lt;ul class="simple"&gt;
@@ -148,7 +115,7 @@
 &lt;li&gt;&lt;a class="reference external" href="https://web.archive.org/web/20190403121158/http://mj.giganet.net/mjscore.htm"&gt;mjscore.txtの書式について&lt;/a&gt; シンプルで可読性あるけど日本語ガッツリ入ってるのでパースに苦戦しそう&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div class="section" id="id8"&gt;
+&lt;div class="section" id="section-8"&gt;
 &lt;h3&gt;麻雀用語の英語&lt;/h3&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://perceptualmahjong.blog.ss-blog.jp/2010-10-08"&gt;英語の麻雀用語集・表現集&lt;/a&gt;&lt;/li&gt;

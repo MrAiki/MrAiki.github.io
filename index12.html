@@ -9,6 +9,170 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="">
         <meta name="author" content="aiki" />
 
@@ -31,7 +195,6 @@
 
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
               title="Aiki's Blog ATOM Feed"/>
-
 
 </head>
 <body>
@@ -57,9 +220,6 @@ Aiki's Blog            </a>
                             <a href="/category/qu-wei.html">趣味</a>
                         </li>
                         <li >
-                            <a href="/category/shi-yan.html">実験</a>
-                        </li>
-                        <li >
                             <a href="/category/za-ji.html">雑記</a>
                         </li>
             </ul>
@@ -83,18 +243,26 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-5.html">コーデック作り2021春(5)</a></h2>
+                <div class="summary"><p>今日は少なくともヘッダエンコード・デコード、ハンドル作成までいっておきたい。
+その先は一括エンコード、デコー …</p>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-5.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
+                <h2><a href="/kodetsukuzuo-ri2021chun-4.html">コーデック作り2021春(4)</a></h2>
+                <div class="summary"><p>ディレクトリ構成を固めてみた。
+内部依存がある場合がどうなるかわからん。今日コーダーモジュールを持ってくる …</p>
+                    <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-4.html">more ...</a>
+                </div>
+            </article>
+            <hr/>
+            <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-3.html">コーデック作り2021春(3)</a></h2>
                 <div class="summary"><p>cmake+gtestのディレクトリ構成を迷っている。。。</p>
 <p>現在各モジュールごとにtestを作っているが、もしかしたら細かくやりすぎ？
-SLAのときでもsrc以下にすべてを入れていたので、それでいいはず。そちらにしよう。</p>
-<ul class="simple">
-<li>トップレベルにCMakeLists.txtを置く。そこでテストの分岐をこなす。</li>
-<li>src以下に全ソース</li>
-<li>include以下に公開ヘッダ</li>
-<li>test以下にテストソース</li>
-</ul>
-<p><a class="reference external" href="https://github.com/januswel/ctest-gtest">サンプル</a> をよく見ましょう。。。</p>
-
+SLA …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-3.html">more ...</a>
                 </div>
             </article>
@@ -102,29 +270,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
             <article>
                 <h2><a href="/kodetsukuzuo-ri2021chun-2.html">コーデック作り2021春(2)</a></h2>
                 <div class="summary"><p>テスト環境整備中。</p>
-<p>gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ <cite>&lt;limits&gt;</cite> なんて無い、と言われた）。
-でも無理やりビルドするためにcmakeの CXX で新しくプロジェクトを作った。
-かなり強引にやった。型を中心に色々警告でてるし、C89との差異で苦しむかもしれない。</p>
-<p>さて、フォーマットを決めよう。フォーマットが決まればあとはそのとおり実装していくだけのはずだ。</p>
-<div class="section" id="id2">
-<h2>基本設計方針</h2>
-<ul class="simple">
-<li>AR(p) Natural Gradientの実装。</li>
-<li>符号はSLAの再帰的ライスを使用する。SLAの実装はそのままでシンボルを変えてポーティングする。</li>
-<li>目標はTTA, Wavpackの圧縮率を超えること。（超えたら対外発表可能とする）</li>
-<li>圧縮性能を試すだけなので、SIMDやアセンブリレベルの過度な高速化はしない。</li>
-<li>無音時のランレングス符号化はあり。<ul>
-<li>ひとまずは残差のみで実装していく。</li>
-</ul>
-</li>
-<li>データの正常性検査はほとんど入れない。（ブロックのシグネチャはあり。CRCはやらない。）</li>
-<li>ひとまずは16bitwavの対応で良い。<ul>
-<li>やろうと思えばできるが、複雑化のコストが大。</li>
-</ul>
-</li>
-</ul>
-</div>
-
+<p>gtestはC++用のフレームワークのようで、Cコンパイラでビルドするとエラーが出る（ <cite>&lt;limits&gt;</cite> なんて無い、と …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-2.html">more ...</a>
                 </div>
             </article>
@@ -133,23 +279,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
                 <h2><a href="/kodetsukuzuo-ri2021chun-1.html">コーデック作り2021春(1)</a></h2>
                 <div class="summary"><p>さて、コーデックづくりに入ろう。今回は、CMake/C89で作る。
 テストもctestを使おうと思っており、その導入検討を行う。</p>
-<p>まず、ctestのほかにgoogleが出しているgtestというのがある。これもcmakeとの親和性が良いらしい。
-今回はctestで試してみる...と思ったらgtestがいいかも。できないことはないはずなのでやってみよう。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://gitlab.kitware.com/cmake/community/-/wikis/doc/ctest/Testing-With-CTest">Testing With CTest</a> ピンと来ないのでKitware公式情報を見る。<ul>
-<li>うーん？どうもCtestは <cite>enable_testing()</cite> によってテスト用のディレクトリを生成するのを有効化しているだけ？</li>
-<li><cite>add_test</cite> でテスト追加。 <cite>make test</cite> でテスト実行。</li>
-<li>多分、プログラム実行時の返り値だけをみているっぽい。アサーションマクロとかはサポートしていない？？</li>
-<li>それだと gtest が良いということになる。</li>
-</ul>
-</li>
-<li><a class="reference external" href="https://qiita.com/janus_wel/items/4e6c12f9104f501104c7">C++ のユニットテストをいい感じにする</a> がいいかも...と思ったらgtest使ってる。うーん。<ul>
-<li><cite>ExternalProject</cite> でCMakeの機能でgtestを導入することができる。これで可搬性が担保できそう。</li>
-<li><a class="reference external" href="https://github.com/januswel/ctest-gtest">GitHubはこちら</a> 構成はmain除きこれに前ならえでよいはずだ。</li>
-</ul>
-</li>
-</ul>
-
+<p>まず、ctestの …</p>
                     <a class="btn btn-default btn-xs" href="/kodetsukuzuo-ri2021chun-1.html">more ...</a>
                 </div>
             </article>
@@ -163,10 +293,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
 \end{equation*}
 </div>
 <p>論文出したけど、自己共分散と自己相関でまだ混乱してる。
-実装時には嘘つけないので整理しないといけない。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://bookdown.org/gary_a_napier/time_series_lecture_notes/ChapterThree.html">Chapter 3 Autoregressive processes</a> 一般のAR(p)モデルの分散の求め方が載ってる。そしてその分散を掛けたものを我々は自己相関と言っている気がする。<ul>
-<li>AR(1)なら <span class="math">\(\sigma_{x}^{2} = \frac{\sigma_{z}^{2}}{1 - \rho^{2}}\)</span> が分散になる。以下、システムノイズを標準正規分布 <span class="math">\(N(0,1)\)</span> とする …</li></ul></li></ul>
+実装時には嘘つ …</p>
                     <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-6.html">more ...</a>
                 </div>
             </article>
@@ -175,9 +302,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
                 <h2><a href="/mathrmarp-heyi-ban-hua-5.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(5)</a></h2>
                 <div class="summary"><p>査読が返るまでの間既存手法の調査をやろう。</p>
 <ul class="simple">
-<li><cite>Simplified Newton-Type Adaptive Estimation Algorithms &lt;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;rep=rep1&amp;type=pdf&gt;</cite> 最初に気になってた所。バシッと言ってくれてない。FNTF(fast Newton transversal filters)というのが源流かもしれない。</li>
-<li><a class="reference external" href="http://www.ssp.ece.upatras.gr/moustakides/downloads/journals/ada1991.pdf">Fast Newton transversal filters--A new class of adaptive estimation algorithms</a> <a class="reference external" href="https://www.researchgate.net/publication/3314234_Fast_Newton_transversal_filters--A_new_class_of_adaptive_estimation_algorithms">ここ</a> からでもいける。とても近いように見えるんだが、、、AR仮定しているし計算量も同等なんだが、、、、適応的に共分散行列の逆を求めているように見受けられる。</li>
-<li><a class="reference external" href="https://pdfs.semanticscholar.org/d142/4e76ba905ce822bc26d59a97e6c3aa18d412.pdf?_ga=2.17625393.981950394.1612533179-1720100206.1612533179">Fast LMS/Newton Algorithms …</a></li></ul>
+<li><cite>Simplified Newton-Type Adaptive Estimation Algorithms &lt;http://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.882.2918&amp;rep=rep1&amp;type=pdf&gt;</cite> 最初に気になって …</li></ul>
                     <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-5.html">more ...</a>
                 </div>
             </article>
@@ -185,8 +310,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
             <article>
                 <h2><a href="/mathrmarp-heyi-ban-hua-4.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(4)</a></h2>
                 <div class="summary"><p>rejectはショックやなあ…コメント悪くなかっただけに…。</p>
-<p>一般化については記述した。残りは調査だと思う。しかし次の論文書きの期限が迫る。</p>
-
+<p>一般化については記述した。残りは調査だと思う。しかし次の論文 …</p>
                     <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-4.html">more ...</a>
                 </div>
             </article>
@@ -194,9 +318,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
             <article>
                 <h2><a href="/mathrmarp-heyi-ban-hua-3.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(3)</a></h2>
                 <div class="summary"><p>論文読みを通し、紙に書いた。一般的な逆行列の構造が見えた。かなり美しいし、もうやってるだろという直感がある。。。
-しかし、査読結果が返るまでに勾配更新の一般化までやっておこう。</p>
-<p>どこかで徹底的な調査が必要と考える。</p>
-
+し …</p>
                     <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-3.html">more ...</a>
                 </div>
             </article>
@@ -204,68 +326,8 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
             <article>
                 <h2><a href="/mathrmarp-heyi-ban-hua-2.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(2)</a></h2>
                 <div class="summary"><p>午前中に <span class="math">\(p=2\)</span> のケースをまとめた。やっぱ成り立っている。しかも2次形式はどうも <span class="math">\(\mathcal{O}(1)\)</span> で更新できるっぽい。</p>
-<p>午後、一般化のために論文を読み始めた。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://projecteuclid.org/download/pdf_1/euclid.aoms/1177706636">On the Inversion of the Sample Covariance Matrix in a Stationary Autoregressive Process</a> これ。読めないものでもない。<ul>
-<li><a class="reference external" href="https://math.stackexchange.com/questions/648856/how-to-prove-that-the-inverse-of-a-persymmetric-matrix-is-also-persymmetric">How to prove that the inverse of a persymmetric matrix is also persymmetric?</a> persymmetricの逆はまたpersymmetricであることの証明。</li>
-</ul>
-</li>
-</ul>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em …</script>
+<p>午後 …</p>
                     <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-2.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/mathrmarp-heyi-ban-hua-1.html"><span class="math">\(\mathrm{AR}(p)\)</span> へ一般化(1)</a></h2>
-                <div class="summary"><p>手始めに <span class="math">\(p=2\)</span> で効率的に計算できることを示すべきだろう。
-また、 <span class="math">\(p=2\)</span> の場合の自己相関行列がどうなっているかももう少し見たい。</p>
-<script type='text/javascript'>if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
-    var align = "center",
-        indent = "0em",
-        linebreak = "false";
-
-    if (false) {
-        align = (screen.width < 768) ? "left" : align;
-        indent = (screen.width < 768) ? "0em" : indent;
-        linebreak = (screen.width < 768) ? 'true' : linebreak;
-    }
-
-    var mathjaxscript = document.createElement('script');
-    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
-    mathjaxscript.type = 'text …</script>
-                    <a class="btn btn-default btn-xs" href="/mathrmarp-heyi-ban-hua-1.html">more ...</a>
-                </div>
-            </article>
-            <hr/>
-            <article>
-                <h2><a href="/r-1-noji-suan-34-wan.html"><span class="math">\(R^{-1}\)</span> の計算(34) (完)</a></h2>
-                <div class="summary"><p>だいぶ更新が滞ってしまった。しかし何もしてなかったわけではない。</p>
-<p>まずOverleafに結果をまとめていた（実験含め）。AR(1)の自己相関行列の固有値はやっぱり陽に求まらない。存在範囲が示されているだけ。</p>
-<p>1/9にはOverleafの内容を先生に公開した（がまだ見てもらってない・・・）</p>
-<p>1/13に論文のRebuttalがきて、1/15までその対応に追われていた。その次の1/18に進捗発表あるのを失念していて、麻雀CUIをガリガリ書いてた。1/20に進捗発表。「Acoustic Speech &amp; Signal Processing」もしくは「Access」に出すのが良いのではないかという啓示を受ける。</p>
-<p>残った仕事は</p>
-<ul class="simple">
-<li>上記論文誌はどうか見てみる</li>
-<li>既存の手法と被ってないか: これは継続してやる。</li>
-<li>一般の <span class="math">\(AR(p)\)</span> について議論する<ul>
-<li>逆行列が一般化して書けるか、とても不安</li>
-</ul>
-</li>
-<li>定常誤差のバウンドを求めたい。<ul>
-<li>SAの評価だと上界しかわからない。Widrow本に書いてないか？</li>
-</ul>
-</li>
-<li>ロスレス音声に突っ込む<ul>
-<li>これは春やる。長期休みで1つコーデックを作ろう。ウェーブレットを使うアイデアも残っている。</li>
-</ul>
-</li>
-<li>卒論とか落ち着いたら突っ込む事を忘れずに。</li>
-</ul>
-<p><span class="math">\(R^{-1}\)</span> にフォーカスして頑張るのは終わったと思う。連載はここで切り上げて、AR …</p>
-                    <a class="btn btn-default btn-xs" href="/r-1-noji-suan-34-wan.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -347,19 +409,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -371,31 +421,37 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -404,34 +460,28 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -439,92 +489,95 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -561,7 +614,7 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -597,6 +650,19 @@ SLAのときでもsrc以下にすべてを入れていたので、それでい�
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>

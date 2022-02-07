@@ -9,17 +9,181 @@
 
 
 
+
+<style type="text/css">
+
+/*some stuff for output/input prompts*/
+div.cell{border:1px solid transparent;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch}div.cell.selected{border-radius:4px;border:thin #ababab solid}
+div.cell.edit_mode{border-radius:4px;border:thin #008000 solid}
+div.cell{width:100%;padding:5px 5px 5px 0;margin:0;outline:none}
+div.prompt{min-width:11ex;padding:.4em;margin:0;font-family:monospace;text-align:right;line-height:1.21429em}
+@media (max-width:480px){div.prompt{text-align:left}}div.inner_cell{display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;display:flex;flex-direction:column;align-items:stretch;-webkit-box-flex:1;-moz-box-flex:1;box-flex:1;flex:1}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;line-height:1.21429em}
+div.prompt:empty{padding-top:0;padding-bottom:0}
+div.input{page-break-inside:avoid;display:-webkit-box;-webkit-box-orient:horizontal;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:horizontal;-moz-box-align:stretch;display:box;box-orient:horizontal;box-align:stretch;}
+div.inner_cell{width:90%;}
+div.input_area{border:1px solid #cfcfcf;border-radius:4px;background:#f7f7f7;}
+div.input_prompt{color:navy;border-top:1px solid transparent;}
+div.output_wrapper{margin-top:5px;position:relative;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.output_scroll{height:24em;width:100%;overflow:auto;border-radius:4px;-webkit-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);-moz-box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);box-shadow:inset 0 2px 8px rgba(0, 0, 0, 0.8);}
+div.output_collapsed{margin:0px;padding:0px;display:-webkit-box;-webkit-box-orient:vertical;-webkit-box-align:stretch;display:-moz-box;-moz-box-orient:vertical;-moz-box-align:stretch;display:box;box-orient:vertical;box-align:stretch;width:100%;}
+div.out_prompt_overlay{height:100%;padding:0px 0.4em;position:absolute;border-radius:4px;}
+div.out_prompt_overlay:hover{-webkit-box-shadow:inset 0 0 1px #000000;-moz-box-shadow:inset 0 0 1px #000000;box-shadow:inset 0 0 1px #000000;background:rgba(240, 240, 240, 0.5);}
+div.output_prompt{color:darkred;}
+
+a.anchor-link:link{text-decoration:none;padding:0px 20px;visibility:hidden;}
+h1:hover .anchor-link,h2:hover .anchor-link,h3:hover .anchor-link,h4:hover .anchor-link,h5:hover .anchor-link,h6:hover .anchor-link{visibility:visible;}
+/* end stuff for output/input prompts*/
+
+
+.highlight-ipynb .hll { background-color: #ffffcc }
+.highlight-ipynb  { background: #f8f8f8; }
+.highlight-ipynb .c { color: #408080; font-style: italic } /* Comment */
+.highlight-ipynb .err { border: 1px solid #FF0000 } /* Error */
+.highlight-ipynb .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight-ipynb .o { color: #666666 } /* Operator */
+.highlight-ipynb .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight-ipynb .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight-ipynb .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight-ipynb .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight-ipynb .gd { color: #A00000 } /* Generic.Deleted */
+.highlight-ipynb .ge { font-style: italic } /* Generic.Emph */
+.highlight-ipynb .gr { color: #FF0000 } /* Generic.Error */
+.highlight-ipynb .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight-ipynb .gi { color: #00A000 } /* Generic.Inserted */
+.highlight-ipynb .go { color: #888888 } /* Generic.Output */
+.highlight-ipynb .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight-ipynb .gs { font-weight: bold } /* Generic.Strong */
+.highlight-ipynb .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight-ipynb .gt { color: #0044DD } /* Generic.Traceback */
+.highlight-ipynb .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight-ipynb .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight-ipynb .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight-ipynb .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight-ipynb .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight-ipynb .kt { color: #B00040 } /* Keyword.Type */
+.highlight-ipynb .m { color: #666666 } /* Literal.Number */
+.highlight-ipynb .s { color: #BA2121 } /* Literal.String */
+.highlight-ipynb .na { color: #7D9029 } /* Name.Attribute */
+.highlight-ipynb .nb { color: #008000 } /* Name.Builtin */
+.highlight-ipynb .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight-ipynb .no { color: #880000 } /* Name.Constant */
+.highlight-ipynb .nd { color: #AA22FF } /* Name.Decorator */
+.highlight-ipynb .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight-ipynb .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight-ipynb .nf { color: #0000FF } /* Name.Function */
+.highlight-ipynb .nl { color: #A0A000 } /* Name.Label */
+.highlight-ipynb .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight-ipynb .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight-ipynb .nv { color: #19177C } /* Name.Variable */
+.highlight-ipynb .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight-ipynb .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight-ipynb .mf { color: #666666 } /* Literal.Number.Float */
+.highlight-ipynb .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight-ipynb .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight-ipynb .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight-ipynb .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight-ipynb .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight-ipynb .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight-ipynb .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight-ipynb .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight-ipynb .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight-ipynb .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight-ipynb .sx { color: #008000 } /* Literal.String.Other */
+.highlight-ipynb .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight-ipynb .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight-ipynb .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight-ipynb .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight-ipynb .vc { color: #19177C } /* Name.Variable.Class */
+.highlight-ipynb .vg { color: #19177C } /* Name.Variable.Global */
+.highlight-ipynb .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight-ipynb .il { color: #666666 } /* Literal.Number.Integer.Long */
+</style>
+
+<style type="text/css">
+/* Overrides of notebook CSS for static HTML export */
+div.entry-content {
+  overflow: visible;
+  padding: 8px;
+}
+.input_area {
+  padding: 0.2em;
+}
+
+a.heading-anchor {
+ white-space: normal;
+}
+
+.rendered_html
+code {
+ font-size: .8em;
+}
+
+pre.ipynb {
+  color: black;
+  background: #f7f7f7;
+  border: none;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  margin: 0px;
+  font-size: 13px;
+}
+
+/* remove the prompt div from text cells */
+div.text_cell .prompt {
+    display: none;
+}
+
+/* remove horizontal padding from text cells, */
+/* so it aligns with outer body text */
+div.text_cell_render {
+    padding: 0.5em 0em;
+}
+
+img.anim_icon{padding:0; border:0; vertical-align:middle; -webkit-box-shadow:none; -box-shadow:none}
+
+div.collapseheader {
+    width=100%;
+    padding: 2px;
+    cursor: pointer;
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML" type="text/javascript"></script>
+<script type="text/javascript">
+init_mathjax = function() {
+    if (window.MathJax) {
+        // MathJax loaded
+        MathJax.Hub.Config({
+            tex2jax: {
+                inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+                displayMath: [ ['$$','$$'], ["\\[","\\]"] ]
+            },
+            displayAlign: 'left', // Change this to 'center' to center equations.
+            "HTML-CSS": {
+                styles: {'.MathJax_Display': {"margin": 0}}
+            }
+        });
+        MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+    }
+}
+init_mathjax();
+</script>
+
 <link rel="canonical" href="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html">
 
         <meta name="author" content="aiki" />
         <meta name="keywords" content="Lossless Audio Codec,Monkey's Audio,CNN" />
-        <meta name="description" content="自分のやってることに近いことが分かっているのでMonkey&#39;s Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。 // aiki: サンプルnA, nBを圧縮。ステレオ信号ならnA, nB両方にデータが入る // aiki: 片方のチャンネルが無音の場合はnBは0になる。 // aiki: nA, nBの呼び分けは CAPECompressCore::EncodeFrame にて行われる int64 CPredictorCompressNormal::CompressValue(int64 nA, int64 nB) { // roll the buffers if necessary if (m_nCurrentIndex == WINDOW_BLOCKS) { m_rbPrediction.Roll(); m_rbAdapt.Roll(); m_nCurrentIndex = 0; } // stage 1: simple, non-adaptive order 1 prediction // aiki: 固定係数フィルタによる予測。これはTTAと全く同じ（！）プリエンファシスフィルタ …" />
+        <meta name="description" content="自分のやってることに近いことが分かっているのでMonkey&#39;s Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。 // aiki: サンプルnA, nB …" />
 
         <meta property="og:site_name" content="Aiki's Blog" />
         <meta property="og:type" content="article"/>
         <meta property="og:title" content="Monkey&#39;s Audio (version. 6.61) 実装を見やる(1)"/>
         <meta property="og:url" content="/monkeys-audio-version-661-shi-zhuang-wojian-yaru1.html"/>
-        <meta property="og:description" content="自分のやってることに近いことが分かっているのでMonkey&#39;s Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。 // aiki: サンプルnA, nBを圧縮。ステレオ信号ならnA, nB両方にデータが入る // aiki: 片方のチャンネルが無音の場合はnBは0になる。 // aiki: nA, nBの呼び分けは CAPECompressCore::EncodeFrame にて行われる int64 CPredictorCompressNormal::CompressValue(int64 nA, int64 nB) { // roll the buffers if necessary if (m_nCurrentIndex == WINDOW_BLOCKS) { m_rbPrediction.Roll(); m_rbAdapt.Roll(); m_nCurrentIndex = 0; } // stage 1: simple, non-adaptive order 1 prediction // aiki: 固定係数フィルタによる予測。これはTTAと全く同じ（！）プリエンファシスフィルタ …"/>
+        <meta property="og:description" content="自分のやってることに近いことが分かっているのでMonkey&#39;s Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。 // aiki: サンプルnA, nB …"/>
         <meta property="article:published_time" content="2021-09-02" />
             <meta property="article:section" content="雑記" />
             <meta property="article:tag" content="Lossless Audio Codec" />
@@ -41,8 +205,7 @@
               title="Aiki's Blog ATOM Feed"/>
 
         <link href="/feeds/za-ji.atom.xml" type="application/atom+xml" rel="alternate"
-              title="Aiki's Blog 雑記 ATOM Feed"/>
-</head>
+              title="Aiki's Blog 雑記 ATOM Feed"/></head>
 <body>
 
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -64,9 +227,6 @@ Aiki's Blog            </a>
                         </li>
                         <li >
                             <a href="/category/qu-wei.html">趣味</a>
-                        </li>
-                        <li >
-                            <a href="/category/shi-yan.html">実験</a>
                         </li>
                         <li class="active">
                             <a href="/category/za-ji.html">雑記</a>
@@ -124,221 +284,223 @@ Aiki's Blog            </a>
     
 </footer><!-- /.post-info -->                    </div>
                 </div>
+                <main>
                 <p>自分のやってることに近いことが分かっているのでMonkey's Audioの実装を見てみよう。まず、NewPredictor.cppの予測処理。</p>
 <div class="highlight"><pre><span></span><span class="c1">// aiki: サンプルnA, nBを圧縮。ステレオ信号ならnA, nB両方にデータが入る</span>
 <span class="c1">// aiki: 片方のチャンネルが無音の場合はnBは0になる。</span>
 <span class="c1">// aiki: nA, nBの呼び分けは CAPECompressCore::EncodeFrame にて行われる</span>
-<span class="n">int64</span> <span class="n">CPredictorCompressNormal</span><span class="o">::</span><span class="n">CompressValue</span><span class="p">(</span><span class="n">int64</span> <span class="n">nA</span><span class="p">,</span> <span class="n">int64</span> <span class="n">nB</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="c1">// roll the buffers if necessary</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_nCurrentIndex</span> <span class="o">==</span> <span class="n">WINDOW_BLOCKS</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_rbPrediction</span><span class="p">.</span><span class="n">Roll</span><span class="p">();</span> <span class="n">m_rbAdapt</span><span class="p">.</span><span class="n">Roll</span><span class="p">();</span>
-        <span class="n">m_nCurrentIndex</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span>
+<span class="n">int64</span><span class="w"> </span><span class="nf">CPredictorCompressNormal::CompressValue</span><span class="p">(</span><span class="n">int64</span><span class="w"> </span><span class="n">nA</span><span class="p">,</span><span class="w"> </span><span class="n">int64</span><span class="w"> </span><span class="n">nB</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="c1">// roll the buffers if necessary</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_nCurrentIndex</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">WINDOW_BLOCKS</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_rbPrediction</span><span class="p">.</span><span class="n">Roll</span><span class="p">();</span><span class="w"> </span><span class="n">m_rbAdapt</span><span class="p">.</span><span class="n">Roll</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_nCurrentIndex</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="c1">// stage 1: simple, non-adaptive order 1 prediction</span>
-    <span class="c1">// aiki: 固定係数フィルタによる予測。これはTTAと全く同じ（！）プリエンファシスフィルタ</span>
-    <span class="n">nA</span> <span class="o">=</span> <span class="n">m_Stage1FilterA</span><span class="p">.</span><span class="n">Compress</span><span class="p">(</span><span class="n">nA</span><span class="p">);</span>
-    <span class="n">nB</span> <span class="o">=</span> <span class="n">m_Stage1FilterB</span><span class="p">.</span><span class="n">Compress</span><span class="p">(</span><span class="n">nB</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// stage 1: simple, non-adaptive order 1 prediction</span>
+<span class="w">    </span><span class="c1">// aiki: 固定係数フィルタによる予測。これはTTAと全く同じ（！）プリエンファシスフィルタ</span>
+<span class="w">    </span><span class="n">nA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Stage1FilterA</span><span class="p">.</span><span class="n">Compress</span><span class="p">(</span><span class="n">nA</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="n">nB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_Stage1FilterB</span><span class="p">.</span><span class="n">Compress</span><span class="p">(</span><span class="n">nB</span><span class="p">);</span><span class="w"></span>
 
-    <span class="c1">// stage 2: adaptive offset filter(s)</span>
-    <span class="c1">// aiki: 適応フィルタによる予測。コードを見る限り4係数</span>
-    <span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">nA</span><span class="p">;</span>
-    <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">];</span>
+<span class="w">    </span><span class="c1">// stage 2: adaptive offset filter(s)</span>
+<span class="w">    </span><span class="c1">// aiki: 適応フィルタによる予測。コードを見る限り4係数</span>
+<span class="w">    </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nA</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-2</span><span class="p">];</span><span class="w"></span>
 
-    <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="n">nB</span><span class="p">;</span>
-    <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span> <span class="o">=</span> <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">-</span> <span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">];</span>
+<span class="w">    </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nB</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-6</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-5</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-6</span><span class="p">];</span><span class="w"></span>
 
-    <span class="n">int64</span> <span class="o">*</span> <span class="n">paryM</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">m_aryM</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span>
+<span class="w">    </span><span class="n">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_aryM</span><span class="p">[</span><span class="mi">8</span><span class="p">];</span><span class="w"></span>
 
-    <span class="n">int64</span> <span class="n">nPredictionA</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">3</span><span class="p">]);</span>
-    <span class="n">int64</span> <span class="n">nPredictionB</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span> <span class="o">+</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">9</span><span class="p">]</span> <span class="o">*</span> <span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">]);</span>
+<span class="w">    </span><span class="n">int64</span><span class="w"> </span><span class="n">nPredictionA</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-3</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-2</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-4</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-3</span><span class="p">]);</span><span class="w"></span>
+<span class="w">    </span><span class="n">int64</span><span class="w"> </span><span class="n">nPredictionB</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-5</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-4</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-6</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-5</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-7</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-6</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-8</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-7</span><span class="p">])</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-9</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">paryM</span><span class="p">[</span><span class="mi">-8</span><span class="p">]);</span><span class="w"></span>
 
-    <span class="n">int64</span> <span class="n">nOutput</span> <span class="o">=</span> <span class="n">nA</span> <span class="o">-</span> <span class="p">((</span><span class="n">nPredictionA</span> <span class="o">+</span> <span class="p">(</span><span class="n">nPredictionB</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">))</span> <span class="o">&gt;&gt;</span> <span class="mi">10</span><span class="p">);</span>
+<span class="w">    </span><span class="n">int64</span><span class="w"> </span><span class="n">nOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nA</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">((</span><span class="n">nPredictionA</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">nPredictionB</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">1</span><span class="p">))</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">10</span><span class="p">);</span><span class="w"></span>
 
-    <span class="c1">// adapt</span>
-    <span class="c1">// aiki: 出力の符号を取る</span>
-    <span class="c1">// aiki: ((x &gt;&gt; 30) &amp; 2) - 1 は符号関数の符号を反転したもの</span>
-    <span class="c1">// aiki: (x &gt;&gt; 30)で0(&gt;0), -1(&lt;0)となり, (x &gt;&gt; 30) &amp; 2で0(&gt;0), 2(&lt;0),</span>
-    <span class="c1">// aiki: ((x &gt;&gt; 30) &amp; 2) - 1 によって-1(&gt;0), 1(&lt;0)</span>
-    <span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">?</span> <span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">m_rbAdapt</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">?</span> <span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">m_rbAdapt</span><span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">])</span> <span class="o">?</span> <span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="n">m_rbAdapt</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">])</span> <span class="o">?</span> <span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span> <span class="o">&gt;&gt;</span> <span class="mi">30</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">:</span> <span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="c1">// adapt</span>
+<span class="w">    </span><span class="c1">// aiki: 出力の符号を取る</span>
+<span class="w">    </span><span class="c1">// aiki: ((x &gt;&gt; 30) &amp; 2) - 1 は符号関数の符号を反転したもの</span>
+<span class="w">    </span><span class="c1">// aiki: (x &gt;&gt; 30)で0(&gt;0), -1(&lt;0)となり, (x &gt;&gt; 30) &amp; 2で0(&gt;0), 2(&lt;0),</span>
+<span class="w">    </span><span class="c1">// aiki: ((x &gt;&gt; 30) &amp; 2) - 1 によって-1(&gt;0), 1(&lt;0)</span>
+<span class="w">    </span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-1</span><span class="p">])</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-2</span><span class="p">])</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-2</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">-4</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-5</span><span class="p">])</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-5</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">-5</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-6</span><span class="p">])</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="p">((</span><span class="n">m_rbPrediction</span><span class="p">[</span><span class="mi">-6</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">30</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-    <span class="c1">// aiki: 係数の更新。残差符号によって更新符号が変わる。</span>
-    <span class="c1">// aiki: すなわちSign-Algorithmで出力フィードバックしている。</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">nOutput</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">int64</span> <span class="o">*</span> <span class="n">pM</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">];</span> <span class="n">int64</span> <span class="o">*</span> <span class="n">pAdapt</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">];</span>
-        <span class="n">EXPAND_9_TIMES</span><span class="p">(</span><span class="o">*</span><span class="n">pM</span><span class="o">++</span> <span class="o">-=</span> <span class="o">*</span><span class="n">pAdapt</span><span class="o">++</span><span class="p">;)</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nOutput</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">int64</span> <span class="o">*</span> <span class="n">pM</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">paryM</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">];</span> <span class="n">int64</span> <span class="o">*</span> <span class="n">pAdapt</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">];</span>
-        <span class="n">EXPAND_9_TIMES</span><span class="p">(</span><span class="o">*</span><span class="n">pM</span><span class="o">++</span> <span class="o">+=</span> <span class="o">*</span><span class="n">pAdapt</span><span class="o">++</span><span class="p">;)</span>
-    <span class="p">}</span>
+<span class="w">    </span><span class="c1">// aiki: 係数の更新。残差符号によって更新符号が変わる。</span>
+<span class="w">    </span><span class="c1">// aiki: すなわちSign-Algorithmで出力フィードバックしている。</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nOutput</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">paryM</span><span class="p">[</span><span class="mi">-8</span><span class="p">];</span><span class="w"> </span><span class="n">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pAdapt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">-8</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="n">EXPAND_9_TIMES</span><span class="p">(</span><span class="o">*</span><span class="n">pM</span><span class="o">++</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="o">*</span><span class="n">pAdapt</span><span class="o">++</span><span class="p">;)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nOutput</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pM</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">paryM</span><span class="p">[</span><span class="mi">-8</span><span class="p">];</span><span class="w"> </span><span class="n">int64</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">pAdapt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_rbAdapt</span><span class="p">[</span><span class="mi">-8</span><span class="p">];</span><span class="w"></span>
+<span class="w">        </span><span class="n">EXPAND_9_TIMES</span><span class="p">(</span><span class="o">*</span><span class="n">pM</span><span class="o">++</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="o">*</span><span class="n">pAdapt</span><span class="o">++</span><span class="p">;)</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="c1">// stage 3: NNFilters</span>
-    <span class="c1">// aiki: CNNフィルタによる予測。圧縮オプションにより使うフィルタ段数が異なる</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_pNNFilter</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">nOutput</span> <span class="o">=</span> <span class="n">m_pNNFilter</span><span class="o">-&gt;</span><span class="n">Compress</span><span class="p">(</span><span class="n">nOutput</span><span class="p">);</span>
+<span class="w">    </span><span class="c1">// stage 3: NNFilters</span>
+<span class="w">    </span><span class="c1">// aiki: CNNフィルタによる予測。圧縮オプションにより使うフィルタ段数が異なる</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_pNNFilter</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">nOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_pNNFilter</span><span class="o">-&gt;</span><span class="n">Compress</span><span class="p">(</span><span class="n">nOutput</span><span class="p">);</span><span class="w"></span>
 
-        <span class="k">if</span> <span class="p">(</span><span class="n">m_pNNFilter1</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">nOutput</span> <span class="o">=</span> <span class="n">m_pNNFilter1</span><span class="o">-&gt;</span><span class="n">Compress</span><span class="p">(</span><span class="n">nOutput</span><span class="p">);</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_pNNFilter1</span><span class="p">)</span><span class="w"></span>
+<span class="w">        </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="n">nOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_pNNFilter1</span><span class="o">-&gt;</span><span class="n">Compress</span><span class="p">(</span><span class="n">nOutput</span><span class="p">);</span><span class="w"></span>
 
-            <span class="k">if</span> <span class="p">(</span><span class="n">m_pNNFilter2</span><span class="p">)</span>
-                <span class="n">nOutput</span> <span class="o">=</span> <span class="n">m_pNNFilter2</span><span class="o">-&gt;</span><span class="n">Compress</span><span class="p">(</span><span class="n">nOutput</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_pNNFilter2</span><span class="p">)</span><span class="w"></span>
+<span class="w">                </span><span class="n">nOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">m_pNNFilter2</span><span class="o">-&gt;</span><span class="n">Compress</span><span class="p">(</span><span class="n">nOutput</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-    <span class="n">m_rbPrediction</span><span class="p">.</span><span class="n">IncrementFast</span><span class="p">();</span> <span class="n">m_rbAdapt</span><span class="p">.</span><span class="n">IncrementFast</span><span class="p">();</span>
-    <span class="n">m_nCurrentIndex</span><span class="o">++</span><span class="p">;</span>
+<span class="w">    </span><span class="n">m_rbPrediction</span><span class="p">.</span><span class="n">IncrementFast</span><span class="p">();</span><span class="w"> </span><span class="n">m_rbAdapt</span><span class="p">.</span><span class="n">IncrementFast</span><span class="p">();</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_nCurrentIndex</span><span class="o">++</span><span class="p">;</span><span class="w"></span>
 
-    <span class="k">return</span> <span class="n">nOutput</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">nOutput</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 <p>注目のCNNの圧縮（予測）処理は以下。NNFilter.cpp にある</p>
-<div class="highlight"><pre><span></span><span class="n">int64</span> <span class="n">CNNFilter</span><span class="o">::</span><span class="n">Compress</span><span class="p">(</span><span class="n">int64</span> <span class="n">nInput</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">m_nBitdepth</span> <span class="o">==</span> <span class="mi">16</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="c1">// convert the input to a short and store it</span>
-        <span class="c1">// aiki: short(たぶん16bit)幅に丸め込む。範囲外の値は0x7FFF(&gt;0), 0x8000(&lt;0)に飽和する (NNFilter.h)</span>
-        <span class="n">m_rbInput16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">GetSaturatedShortFromInt</span><span class="p">(</span><span class="n">nInput</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="n">int64</span><span class="w"> </span><span class="nf">CNNFilter::Compress</span><span class="p">(</span><span class="n">int64</span><span class="w"> </span><span class="n">nInput</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">m_nBitdepth</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// convert the input to a short and store it</span>
+<span class="w">        </span><span class="c1">// aiki: short(たぶん16bit)幅に丸め込む。範囲外の値は0x7FFF(&gt;0), 0x8000(&lt;0)に飽和する (NNFilter.h)</span>
+<span class="w">        </span><span class="n">m_rbInput16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">GetSaturatedShortFromInt</span><span class="p">(</span><span class="n">nInput</span><span class="p">);</span><span class="w"></span>
 
-        <span class="c1">// figure a dot product</span>
-        <span class="c1">// aiki: 内積実行（指定された次数のフィルタを畳み込む）。</span>
-        <span class="n">int64</span> <span class="n">nDotProduct</span><span class="p">;</span>
-        <span class="cp">#ifdef ENABLE_AVX_ASSEMBLY</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useAVX2</span><span class="p">())</span>
-                <span class="n">nDotProduct</span> <span class="o">=</span> <span class="n">CalculateDotProductAVXx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_rbInput16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m_nOrder</span><span class="p">);</span>
-            <span class="k">else</span>
-        <span class="cp">#endif</span>
-        <span class="cp">#ifdef ENABLE_SSE_ASSEMBLY</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useSSE2</span><span class="p">())</span>
-               <span class="n">nDotProduct</span> <span class="o">=</span> <span class="n">CalculateDotProductSSEx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_rbInput16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m_nOrder</span><span class="p">);</span>
-            <span class="k">else</span>
-        <span class="cp">#endif</span>
-        <span class="n">nDotProduct</span> <span class="o">=</span> <span class="n">CalculateDotProductx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_rbInput16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">m_nOrder</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// figure a dot product</span>
+<span class="w">        </span><span class="c1">// aiki: 内積実行（指定された次数のフィルタを畳み込む）。</span>
+<span class="w">        </span><span class="n">int64</span><span class="w"> </span><span class="n">nDotProduct</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="cp">#ifdef ENABLE_AVX_ASSEMBLY</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useAVX2</span><span class="p">())</span><span class="w"></span>
+<span class="w">                </span><span class="n">nDotProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculateDotProductAVXx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_rbInput16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">m_nOrder</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="cp">#endif</span>
+<span class="w">        </span><span class="cp">#ifdef ENABLE_SSE_ASSEMBLY</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useSSE2</span><span class="p">())</span><span class="w"></span>
+<span class="w">               </span><span class="n">nDotProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculateDotProductSSEx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_rbInput16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">m_nOrder</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="cp">#endif</span>
+<span class="w">        </span><span class="n">nDotProduct</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">CalculateDotProductx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_rbInput16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="n">m_nOrder</span><span class="p">);</span><span class="w"></span>
 
-        <span class="c1">// calculate the output</span>
-        <span class="c1">// aiki: 残差計算。シフト量 m_nShift はコンストラクタで指定</span>
-        <span class="n">int64</span> <span class="n">nOutput</span> <span class="o">=</span> <span class="n">int64</span><span class="p">(</span><span class="n">nInput</span><span class="p">)</span> <span class="o">-</span> <span class="n">int64</span><span class="p">((</span><span class="n">int64</span><span class="p">(</span><span class="n">nDotProduct</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="n">int64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">int64</span><span class="p">(</span><span class="n">m_nShift</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)))</span> <span class="o">&gt;&gt;</span> <span class="n">int64</span><span class="p">(</span><span class="n">m_nShift</span><span class="p">));</span>
+<span class="w">        </span><span class="c1">// calculate the output</span>
+<span class="w">        </span><span class="c1">// aiki: 残差計算。シフト量 m_nShift はコンストラクタで指定</span>
+<span class="w">        </span><span class="n">int64</span><span class="w"> </span><span class="n">nOutput</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">int64</span><span class="p">(</span><span class="n">nInput</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">int64</span><span class="p">((</span><span class="n">int64</span><span class="p">(</span><span class="n">nDotProduct</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">int64</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="p">(</span><span class="n">int64</span><span class="p">(</span><span class="n">m_nShift</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)))</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">int64</span><span class="p">(</span><span class="n">m_nShift</span><span class="p">));</span><span class="w"></span>
 
-        <span class="c1">// adapt</span>
-        <span class="c1">// aiki: 適応。nOutputの符号を見て更新方向を決め、m_rbDeltaM16だけ増減する。Sign-Algorithmやな。</span>
-        <span class="cp">#ifdef ENABLE_AVX_ASSEMBLY</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useAVX2</span><span class="p">())</span>
-                <span class="n">AdaptAVXx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span> <span class="n">nOutput</span><span class="p">,</span> <span class="n">m_nOrder</span><span class="p">);</span>
-            <span class="k">else</span>
-        <span class="cp">#endif</span>
-        <span class="cp">#ifdef ENABLE_SSE_ASSEMBLY</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useSSE2</span><span class="p">())</span>
-                <span class="n">AdaptSSEx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span> <span class="n">nOutput</span><span class="p">,</span> <span class="n">m_nOrder</span><span class="p">);</span>
-            <span class="k">else</span>
-        <span class="cp">#endif</span>
-                <span class="n">Adaptx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">&amp;</span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span> <span class="n">nOutput</span><span class="p">,</span> <span class="n">m_nOrder</span><span class="p">);</span>
+<span class="w">        </span><span class="c1">// adapt</span>
+<span class="w">        </span><span class="c1">// aiki: 適応。nOutputの符号を見て更新方向を決め、m_rbDeltaM16だけ増減する。Sign-Algorithmやな。</span>
+<span class="w">        </span><span class="cp">#ifdef ENABLE_AVX_ASSEMBLY</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useAVX2</span><span class="p">())</span><span class="w"></span>
+<span class="w">                </span><span class="n">AdaptAVXx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span><span class="w"> </span><span class="n">nOutput</span><span class="p">,</span><span class="w"> </span><span class="n">m_nOrder</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="cp">#endif</span>
+<span class="w">        </span><span class="cp">#ifdef ENABLE_SSE_ASSEMBLY</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">this</span><span class="o">-&gt;</span><span class="n">useSSE2</span><span class="p">())</span><span class="w"></span>
+<span class="w">                </span><span class="n">AdaptSSEx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span><span class="w"> </span><span class="n">nOutput</span><span class="p">,</span><span class="w"> </span><span class="n">m_nOrder</span><span class="p">);</span><span class="w"></span>
+<span class="w">            </span><span class="k">else</span><span class="w"></span>
+<span class="w">        </span><span class="cp">#endif</span>
+<span class="w">                </span><span class="n">Adaptx16</span><span class="p">(</span><span class="o">&amp;</span><span class="n">m_paryM16</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="w"> </span><span class="o">&amp;</span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="n">m_nOrder</span><span class="p">],</span><span class="w"> </span><span class="n">nOutput</span><span class="p">,</span><span class="w"> </span><span class="n">m_nOrder</span><span class="p">);</span><span class="w"></span>
 
-        <span class="n">int64</span> <span class="n">nTempABS</span> <span class="o">=</span> <span class="n">llabs</span><span class="p">(</span><span class="n">nInput</span><span class="p">);</span>
+<span class="w">        </span><span class="n">int64</span><span class="w"> </span><span class="n">nTempABS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">llabs</span><span class="p">(</span><span class="n">nInput</span><span class="p">);</span><span class="w"></span>
 
-        <span class="c1">// aiki: 入力の絶対値に応じて更新量の更新。入力を量子化。Sign-Algorithmだけど入力を荒くしている。</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">nTempABS</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">m_nRunningAverage</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span>
-            <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">nInput</span> <span class="o">&gt;&gt;</span> <span class="mi">25</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">64</span><span class="p">)</span> <span class="o">-</span> <span class="mi">32</span><span class="p">;</span>
-        <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">nTempABS</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">m_nRunningAverage</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">)</span>
-            <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">nInput</span> <span class="o">&gt;&gt;</span> <span class="mi">26</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">32</span><span class="p">)</span> <span class="o">-</span> <span class="mi">16</span><span class="p">;</span>
-        <span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">nTempABS</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">nInput</span> <span class="o">&gt;&gt;</span> <span class="mi">27</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mi">16</span><span class="p">)</span> <span class="o">-</span> <span class="mi">8</span><span class="p">;</span>
-        <span class="k">else</span>
-            <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// aiki: 入力の絶対値に応じて更新量の更新。入力を量子化。Sign-Algorithmだけど入力を荒くしている。</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nTempABS</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">m_nRunningAverage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">3</span><span class="p">))</span><span class="w"></span>
+<span class="w">            </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">nInput</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">25</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">64</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">32</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nTempABS</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">m_nRunningAverage</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">nInput</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">26</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">32</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nTempABS</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">)</span><span class="w"></span>
+<span class="w">            </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">((</span><span class="n">nInput</span><span class="w"> </span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="mi">27</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mi">16</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="k">else</span><span class="w"></span>
+<span class="w">            </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 
-        <span class="c1">// aiki: 入力の絶対値の移動平均値の更新。</span>
-        <span class="n">m_nRunningAverage</span> <span class="o">+=</span> <span class="p">(</span><span class="n">nTempABS</span> <span class="o">-</span> <span class="n">m_nRunningAverage</span><span class="p">)</span> <span class="o">/</span> <span class="mi">16</span><span class="p">;</span>
+<span class="w">        </span><span class="c1">// aiki: 入力の絶対値の移動平均値の更新。</span>
+<span class="w">        </span><span class="n">m_nRunningAverage</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">(</span><span class="n">nTempABS</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">m_nRunningAverage</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w"></span>
 
-        <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
-        <span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="o">-</span><span class="mi">8</span><span class="p">]</span> <span class="o">&gt;&gt;=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="w">        </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">-1</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">-2</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_rbDeltaM16</span><span class="p">[</span><span class="mi">-8</span><span class="p">]</span><span class="w"> </span><span class="o">&gt;&gt;=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 
-        <span class="c1">// increment and roll if necessary</span>
-        <span class="n">m_rbInput16</span><span class="p">.</span><span class="n">IncrementSafe</span><span class="p">();</span>
-        <span class="n">m_rbDeltaM16</span><span class="p">.</span><span class="n">IncrementSafe</span><span class="p">();</span>
+<span class="w">        </span><span class="c1">// increment and roll if necessary</span>
+<span class="w">        </span><span class="n">m_rbInput16</span><span class="p">.</span><span class="n">IncrementSafe</span><span class="p">();</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_rbDeltaM16</span><span class="p">.</span><span class="n">IncrementSafe</span><span class="p">();</span><span class="w"></span>
 
-        <span class="k">return</span> <span class="n">nOutput</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="c1">// m_nBitdepth == 32</span>
-    <span class="p">{</span>
-        <span class="c1">// aiki: (snip) ビット幅32の場合の処理。</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="n">nOutput</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="c1">// m_nBitdepth == 32</span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="c1">// aiki: (snip) ビット幅32の場合の処理。</span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 <p>大雑把に見ると、層ごとにサンプルごとに適応している。たしかにこれなら圧縮率は高いだろう。</p>
 <p>CNNの設定は以下で決まる。これも NewPredictor.cpp にある。CNNFilterのコンストラクタの第一引数は次数。第二引数はシフト量。</p>
-<div class="highlight"><pre><span></span><span class="n">CPredictorCompressNormal</span><span class="o">::</span><span class="n">CPredictorCompressNormal</span><span class="p">(</span><span class="n">intn</span> <span class="n">nCompressionLevel</span><span class="p">,</span> <span class="n">intn</span> <span class="n">nBitsPerSample</span><span class="p">)</span>
-    <span class="o">:</span> <span class="n">IPredictorCompress</span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_FAST</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pNNFilter</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-        <span class="n">m_pNNFilter1</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-        <span class="n">m_pNNFilter2</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_NORMAL</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pNNFilter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-        <span class="n">m_pNNFilter1</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-        <span class="n">m_pNNFilter2</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_HIGH</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pNNFilter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-        <span class="n">m_pNNFilter1</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-        <span class="n">m_pNNFilter2</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_EXTRA_HIGH</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pNNFilter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-        <span class="n">m_pNNFilter1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-        <span class="n">m_pNNFilter2</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_INSANE</span><span class="p">)</span>
-    <span class="p">{</span>
-        <span class="n">m_pNNFilter</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">1024</span> <span class="o">+</span> <span class="mi">256</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-        <span class="n">m_pNNFilter1</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-        <span class="n">m_pNNFilter2</span> <span class="o">=</span> <span class="n">new</span> <span class="n">CNNFilter</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span> <span class="p">(</span><span class="n">nBitsPerSample</span> <span class="o">==</span> <span class="mi">32</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">);</span>
-    <span class="p">}</span>
-    <span class="k">else</span>
-    <span class="p">{</span>
-        <span class="n">throw</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><span class="n">CPredictorCompressNormal</span><span class="o">::</span><span class="n">CPredictorCompressNormal</span><span class="p">(</span><span class="n">intn</span><span class="w"> </span><span class="n">nCompressionLevel</span><span class="p">,</span><span class="w"> </span><span class="n">intn</span><span class="w"> </span><span class="n">nBitsPerSample</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="o">:</span><span class="w"> </span><span class="n">IPredictorCompress</span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="p">)</span><span class="w"></span>
+<span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_FAST</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_NORMAL</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_HIGH</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_EXTRA_HIGH</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">32</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">NULL</span><span class="p">;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_INSANE</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">1024</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">15</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">        </span><span class="n">m_pNNFilter2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">new</span><span class="w"> </span><span class="n">CNNFilter</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span><span class="w"> </span><span class="mi">11</span><span class="p">,</span><span class="w"> </span><span class="n">MAC_FILE_VERSION_NUMBER</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">nBitsPerSample</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">32</span><span class="p">),</span><span class="w"> </span><span class="nb">NULL</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="k">else</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="n">throw</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </pre></div>
 <p>Extra High以上では多層構成になっている。
 Extra Highでは一段目は256次数、二段目は32次数。二段目の方により弱いフィルタを噛ましている。INSANE頭おかしい…（小声）
 層を増やすたびに次数が急激に減り過ぎでは、という印象。
 他にも圧縮オプションに応じてフレームサイズが変わっていた。(CAPECompressCreate::Start 関数)</p>
 <div class="highlight"><pre><span></span><span class="c1">// initialize (creates the base classes)</span>
-<span class="n">m_nSamplesPerFrame</span> <span class="o">=</span> <span class="mi">73728</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_EXTRA_HIGH</span><span class="p">)</span>
-    <span class="n">m_nSamplesPerFrame</span> <span class="o">*=</span> <span class="mi">4</span><span class="p">;</span>
-<span class="k">else</span> <span class="nf">if</span> <span class="p">(</span><span class="n">nCompressionLevel</span> <span class="o">==</span> <span class="n">MAC_COMPRESSION_LEVEL_INSANE</span><span class="p">)</span>
-    <span class="n">m_nSamplesPerFrame</span> <span class="o">*=</span> <span class="mi">16</span><span class="p">;</span>
+<span class="n">m_nSamplesPerFrame</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">73728</span><span class="p">;</span><span class="w"></span>
+<span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_EXTRA_HIGH</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_nSamplesPerFrame</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mi">4</span><span class="p">;</span><span class="w"></span>
+<span class="k">else</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">nCompressionLevel</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">MAC_COMPRESSION_LEVEL_INSANE</span><span class="p">)</span><span class="w"></span>
+<span class="w">    </span><span class="n">m_nSamplesPerFrame</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="mi">16</span><span class="p">;</span><span class="w"></span>
 </pre></div>
 <p>クソデカフレームサイズだな。</p>
 <p>だいたい理解したと思いこんでいる。不足があればもっと読み込んでみる。</p>
 
+                </main>
             </div>
             <!-- /.entry-content -->
 <section class="well" id="related-posts">
     <h4>Related Posts:</h4>
     <ul>
-        <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-18.html">LPCの多段構成執筆(18)</a></li>
+        <li><a href="/duo-duan-gou-cheng-nogai-shan-jian-tao-1.html">多段構成の改善検討(1)</a></li>
+        <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-20.html">LPCの多段構成執筆(20)</a></li>
         <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-19.html">LPCの多段構成執筆(19)</a></li>
+        <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-18.html">LPCの多段構成執筆(18)</a></li>
         <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-17.html">LPCの多段構成執筆(17)</a></li>
-        <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-16.html">LPCの多段構成執筆(16)</a></li>
-        <li><a href="/lpcnoduo-duan-gou-cheng-zhi-bi-15.html">LPCの多段構成執筆(15)</a></li>
     </ul>
 </section>
         </article>
@@ -365,19 +527,7 @@ Extra Highでは一段目は256次数、二段目は32次数。二段目の方�
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/signed-lms.html">Signed-LMS</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
+      <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
@@ -389,31 +539,37 @@ Extra Highでは一段目は256次数、二段目は32次数。二段目の方�
       <a href="/tag/lifting.html">Lifting</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/lms.html">LMS</a>
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/wavelet.html">Wavelet</a>
+    </li>
+    <li class="list-group-item tag-1">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/adpcm.html">ADPCM</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/regularization.html">Regularization</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+      <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/lad.html">LAD</a>
@@ -422,34 +578,28 @@ Extra Highでは一段目は256次数、二段目は32次数。二段目の方�
       <a href="/tag/rls.html">RLS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/auto-regressive.html">Auto Regressive</a>
+      <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/adpcm.html">ADPCM</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/sla.html">SLA</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/l1norumu.html">L1ノルム</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
-    </li>
-    <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ig.html">IG</a>
@@ -457,92 +607,95 @@ Extra Highでは一段目は256次数、二段目は32次数。二段目の方�
     <li class="list-group-item tag-3">
       <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/sla.html">SLA</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/cnn.html">CNN</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/tong-ji.html">統計</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/graphicallasso.html">GraphicalLasso</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ehuekuta.html">エフェクター</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/zi-ji-xiang-guan-xing-lie.html">自己相関行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/hetsusexing-lie.html">ヘッセ行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/ehuekuta.html">エフェクター</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/criculant-matrix.html">Criculant Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/cnn.html">CNN</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
     </li>
   </ul>
 </li>
@@ -579,7 +732,7 @@ Extra Highでは一段目は256次数、二段目は32次数。二段目の方�
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2021 aiki
+         <div class="col-xs-10">&copy; 2022 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
@@ -615,6 +768,19 @@ Extra Highでは一段目は256次数、二段目は32次数。二段目の方�
     </script>
     <!-- End Google Analytics Code -->
 
-
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+    $("div.collapseheader").click(function () {
+    $header = $(this).children("span").first();
+    $codearea = $(this).children(".input_area");
+    console.log($(this).children());
+    $codearea.slideToggle(500, function () {
+        $header.text(function () {
+            return $codearea.is(":visible") ? "Collapse Code" : "Expand Code";
+        });
+    });
+});
+});
+</script>
 </body>
 </html>
