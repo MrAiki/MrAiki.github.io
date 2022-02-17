@@ -4,6 +4,8 @@
 &lt;ul class="simple"&gt;
 &lt;li&gt;分布を[0,m]で積分すればわかる&lt;ul&gt;
 &lt;li&gt;&lt;span class="math"&gt;\(\int_{0}^{m} p(x) dx = \int_{0}^{m} \frac{\log(2)}{2m} \exp \left( - \frac{\log(2)}{m} |x| \right) dx = \frac{1}{2}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\int_{m}^{2m} p(x) dx = \int_{0}^{m} \frac{\log(2)}{2m} \exp \left( - \frac{\log(2)}{m} |x| \right) dx = \frac{1}{4}\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\int_{(k-1)m}^{km} p(x) dx = \int_{0}^{m} \frac{\log(2)}{2m} \exp \left( - \frac{\log(2)}{m} |x| \right) dx = 2^{-k-1}\)&lt;/span&gt; となるのでα符号が理論上最適。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
