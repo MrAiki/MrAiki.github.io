@@ -1,5 +1,717 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2022-02-07T10:00:00+09:00</updated><entry><title>多段構成の改善検討(1)</title><link href="/duo-duan-gou-cheng-nogai-shan-jian-tao-1.html" rel="alternate"></link><published>2022-02-07T10:00:00+09:00</published><updated>2022-02-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-07:/duo-duan-gou-cheng-nogai-shan-jian-tao-1.html</id><summary type="html">&lt;p&gt;忙しく、だいぶ間が空いてしまった。まだ忙しい状態は続くが、研究は地味にエンジンをかけていきたい。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2022-02-17T10:00:00+09:00</updated><entry><title>符号議論(3) とフィルタ考察</title><link href="/fu-hao-yi-lun-3-tohuirutakao-cha.html" rel="alternate"></link><published>2022-02-17T10:00:00+09:00</published><updated>2022-02-17T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-17:/fu-hao-yi-lun-3-tohuirutakao-cha.html</id><summary type="html">&lt;p&gt;符号で他に思ったことは、Golomb符号の中でも商部が指数分布（ラプラス分布）に従っているはずで、それをハフマン符号化 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;符号で他に思ったことは、Golomb符号の中でも商部が指数分布（ラプラス分布）に従っているはずで、それをハフマン符号化するとよいのではと考えている。
+商部はα符号を使っているが、それはp=1/2の幾何分布を仮定しているはず&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;分布を[0,m]で積分すればわかる&lt;ul&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\int_{0}^{m} p(x) dx = \int_{0}^{m} \frac{\log(2)}{2m} \exp \left( - \frac{\log(2)}{m} |x| \right) dx = \frac{1}{2}\)&lt;/span&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;商だけで見ればそんな大きな値は取らないはず（大きすぎるものは可変長符号で）なので、ハフマン符号は有効に働きそうな気がする。&lt;/p&gt;
+&lt;p&gt;これはまず商部の観察から始めるべきで、さっそく今のLINNEで商の分布をプロットした。&lt;/p&gt;
+&lt;img alt="Quotient distribution" src="../images/quots.png" /&gt;
+&lt;img alt="Quotient distribution (zoom)" src="../images/quots_zoom.png" /&gt;
+&lt;p&gt;2枚目は横軸を制限しただけでデータは同様。やはり裾が広い。というか、残差を割ってるだけだから残差分布が出てるだけか。
+もしα符号で最適ならば、 &lt;span class="math"&gt;\(log_{2}\)&lt;/span&gt; の軸上で &lt;span class="math"&gt;\(-1-x\)&lt;/span&gt; となって直線になるがそうなっていない。 &lt;span class="math"&gt;\(x=10\)&lt;/span&gt; を超えたあたりで直線とのズレが出る。&lt;/p&gt;
+&lt;p&gt;商が大きい場合はガンマなりデルタ符号を使うべしということになる。これは以前やってたな。商が大きい場合はガンマ符号に切り替える手法。そして試してみたけど1KB程度の改善に留まっている（SLAでもそんなんだった）。負荷とのトレードオフで考えると美味しくない。&lt;/p&gt;
+&lt;p&gt;むしろ注目すべきは、商もまた幾何分布に近いというところだろう。早速商をRice符号化したが、悪化。そこまで裾は広くない。&lt;/p&gt;
+&lt;p&gt;うーん、符号については永遠に終わらん気がしてきたので、フィルタ考察に戻る。その前に、Golomb-Rice符号の長さ解析で、エントロピーと比べたときの冗長度比較を追記しておきたい。&lt;/p&gt;
+&lt;p&gt;フィルタの考察も進めたい。flakeの観察から、次数をいじるべきではないかと感じてきている。必ずしもパラメータを全て使って予測するべきではないかもしれない（周波数領域でも激しく振動しており、過適合に見える）。分割をしないケースで考えれば良さそう。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category></entry><entry><title>符号議論(2)</title><link href="/fu-hao-yi-lun-2.html" rel="alternate"></link><published>2022-02-15T10:00:00+09:00</published><updated>2022-02-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-15:/fu-hao-yi-lun-2.html</id><summary type="html">&lt;p&gt;2日くらいかけて、Rice符号の改良を考えていた。基本となるアイディアは、TAKと同じで、パラメータmの冪以外ののとこ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;2日くらいかけて、Rice符号の改良を考えていた。基本となるアイディアは、TAKと同じで、パラメータmの冪以外ののところも使うというもの。しかし、上手くいってない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;パラメータを2の冪以外にすると、剰余部のbit数が剰余によって変わってくる。&lt;ul&gt;
+&lt;li&gt;m=6では剰余として0,1,...,5が出てくるけど、それを3bit符号化してしまうのはあまりにも損。6,7の領域は無駄になる。&lt;ul&gt;
+&lt;li&gt;真のGolomb符号では、上手く場合分けして無駄がないようにしている。けど場合分けのコストを入れたくない。&lt;/li&gt;
+&lt;li&gt;m=4/3,8/3,16/3,...とか考えてみたけど状況は一緒で、むしろデコード時に3除算が出るので望ましくない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;グダグダ理屈をこねる前に、Golomb符号を使って効果を見るのが良いかもしれない。Golomb符号で良くなければ採用には入らない。&lt;ul&gt;
+&lt;li&gt;やっつけでやってみたが、微妙に悪化した。最適なパラメータ設定がうまく動いていない予感。&lt;/li&gt;
+&lt;li&gt;再帰的でもないGolombを使った場合でも微妙に悪化。&lt;/li&gt;
+&lt;li&gt;パラメータの精密化は筋が悪いか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;いやまて、TAKは剰余部の取得が先で、なんかうまいとこ場合分けしてたような気がする。まずlog2(m) bitぶんだけとって、次の1bitが立っているかどうかで処理を分けていたような（違うかも）。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category></entry><entry><title>符号議論(1)</title><link href="/fu-hao-yi-lun-1.html" rel="alternate"></link><published>2022-02-13T10:00:00+09:00</published><updated>2022-02-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-13:/fu-hao-yi-lun-1.html</id><content type="html">&lt;p&gt;Golomb-Rice符号の幾何分布仮定下における平均長さは&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ipnpr.jpl.nasa.gov/progress_report/42-159/159E.pdf"&gt;Selecting the Golomb Parameter in Rice Coding&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;にもあった。要注目。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category></entry><entry><title>フィルタ解析(2)</title><link href="/huirutajie-xi-2.html" rel="alternate"></link><published>2022-02-12T10:00:00+09:00</published><updated>2022-02-12T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-12:/huirutajie-xi-2.html</id><summary type="html">&lt;p&gt;ソースの整理が済んで、早速周波数解析を始めている&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;階層ごとにピークを抑えている&lt;ul&gt;
+&lt;li&gt;飛び出ている帯域を落とす感 …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;ソースの整理が済んで、早速周波数解析を始めている&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;階層ごとにピークを抑えている&lt;ul&gt;
+&lt;li&gt;飛び出ている帯域を落とす感じ。逆に、既に落ちている帯域は持ち上げるような特性&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ネットワーク前段で高次フィルタを入れると、後段のフィルタがほぼフラットになる&lt;ul&gt;
+&lt;li&gt;前段が低次の場合は、後段のフィルタはピークを捉える&lt;/li&gt;
+&lt;li&gt;前段のフィルタは大まかな包絡、後段は詳細なピークを捉える感じ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;という感じで当然の結果は見えるのだが、これ以上が見えてこない。構造を変えても同じような感じ。ロスもほぼおなじに見える。&lt;/p&gt;
+&lt;p&gt;提案したモデルは、入力音声特徴をフラットにしていく過程だと思うが、それを評価する尺度として、spectral flatness (Wiener entropy) を使おうと思う。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;定義に揺れがあるが、 &lt;a class="reference external" href="https://dsp.stackexchange.com/questions/2045/how-do-you-calculate-spectral-flatness-from-an-fft"&gt;Stack Exchange&lt;/a&gt; によると振幅2乗値を使うのが信頼ある定義になる。&lt;ul&gt;
+&lt;li&gt;音声特徴については &lt;a class="reference external" href="http://recherche.ircam.fr/equipes/analyse-synthese/peeters/ARTICLES/Peeters_2003_cuidadoaudiofeatures.pdf"&gt;こちら&lt;/a&gt; も参考になる。純音の場合は0, 白色雑音で1を取る尺度。&lt;/li&gt;
+&lt;li&gt;AR(1), AR(2) のSpectral flatnessは代数計算できるとのこと&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://dsp.stackexchange.com/questions/42598/spectral-flatness-or-wiener-entropy-for-ar1-and-ar2"&gt;stack exchange&lt;/a&gt; スペクトル、まさに固有値だな…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;パワースペクトル密度を使った Spectrum Entropy （ &lt;a class="reference external" href="https://dsp.stackexchange.com/questions/23689/what-is-spectral-entropy"&gt;丁寧な定義&lt;/a&gt; ）と何が違うんだろう…&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://dsp.stackexchange.com/questions/30534/difference-b-w-spectral-entropy-and-flatness-measure"&gt;答えはstack exchage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Spectral Flatnessは一様分布の仮定が暗に入っている。&lt;/li&gt;
+&lt;li&gt;信号自体の構造を入れるならば、Spectrum Entropyに軍配が上がる。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;そして早速Spectral flatnessとSpectrum entropyを測ってみる&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;後段になるにつれ次数を上げていく構成のほうがSpectral flatness大、かつSpectrum entropy大&lt;ul&gt;
+&lt;li&gt;これ要考察。パワースペクトル密度が平坦になっているのは等化に成功していると思えるけど、符号化するのにエントロピー高くていいの？&lt;ul&gt;
+&lt;li&gt;&amp;quot;等化に成功&amp;quot;はわかる。次数を上げていく構成の方がフィルタ特性が最後まで生きている（平坦ではない）から。&lt;/li&gt;
+&lt;li&gt;最初に大雑把なスペクトラム包絡を削って、次第に細かい特徴を削っていく方式になっている。&lt;/li&gt;
+&lt;li&gt;なんかウェーブレット的な考察できん？残差成分に対してスケールを変えたフィルタを適用しているよな。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;少なくとも変換符号化では良くない状態。&lt;/li&gt;
+&lt;li&gt;周波数軸で見ているから、実際の符号化対象とは違うと思っていい？ホワイトノイズが0近傍で揺れていたらそれは良いことになる？？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="CNN"></category></entry><entry><title>フィルタ解析(1)</title><link href="/huirutajie-xi-1.html" rel="alternate"></link><published>2022-02-10T10:00:00+09:00</published><updated>2022-02-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-10:/huirutajie-xi-1.html</id><summary type="html">&lt;p&gt;TAKのソースはGolomb-Rice系であることが読み取れたが、それ以上が見えない。一旦置くべき。しかし、2の冪数以外のパラメータ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;TAKのソースはGolomb-Rice系であることが読み取れたが、それ以上が見えない。一旦置くべき。しかし、2の冪数以外のパラメータも抑えているのは良いアイデア。2の冪数以外のパラメータをテーブル引きで高速計算できればよい。パラメータの選択肢が増えるので圧縮率は上がる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;ただし、線形補間しているのがなんかもったいない。 &lt;span class="math"&gt;\(2^3 = 8, 2^4 = 16\)&lt;/span&gt; だけど、 &lt;span class="math"&gt;\(2^{3.5} \approx 11.3137\)&lt;/span&gt; なので、補間値を12としてしまうのはわずかながらずれが出る。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さて、今日からは重要なフィルタ解析に入る。
+Pythonでちょちょっとやりたかったが、今だいぶC言語実装と差が出てしまっている。どうするべきか。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;C言語実装成果をPythonに移植してから解析&lt;ul&gt;
+&lt;li&gt;移植の手間&lt;/li&gt;
+&lt;li&gt;解析のしやすさは1番&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;C言語実装のままprintfで係数出力して解析&lt;ul&gt;
+&lt;li&gt;手っ取り早さでは1番&lt;/li&gt;
+&lt;li&gt;C言語実装が汚れる、デバッグコードが入るのがやだ&lt;/li&gt;
+&lt;li&gt;出力形式を独自で定めなければいけん&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;今後の結果まとめを考えても、Python移植したほうが良さそう。
+というわけで実装整備を兼ねてPython版に着手。&lt;/p&gt;
+&lt;p&gt;補助関数法にsin関数を入力すると、僅かな演算誤差（演算順序差）で全く違う解が出たり、行列が特異になったりする。。。実際条件数が高いので相当危険。&lt;/p&gt;
+&lt;p&gt;ノイズに関しては問題なかったが、解析になったら困りそう。実際、実信号はノイズ成分が多すぎるのでなるべく簡単な信号から始めようとしている。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="CNN"></category></entry><entry><title>符号の検討(2) TAKソース読み</title><link href="/fu-hao-nojian-tao-2-taksosudu-mi.html" rel="alternate"></link><published>2022-02-08T10:00:00+09:00</published><updated>2022-02-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-08:/fu-hao-nojian-tao-2-taksosudu-mi.html</id><summary type="html">&lt;p&gt;やはりTAKの符号が気になる。
+再帰的Golomb-Riceに近いだろうというのは読めるが、まだ理解しきれてない。&lt;/p&gt;
+&lt;p&gt;ffmpegのソースにある、 &lt;a class="reference external" href="https://ffmpeg.org/doxygen/trunk/libavcodec_2takdec_8c_source.html#l00090"&gt;TAK …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;やはりTAKの符号が気になる。
+再帰的Golomb-Riceに近いだろうというのは読めるが、まだ理解しきれてない。&lt;/p&gt;
+&lt;p&gt;ffmpegのソースにある、 &lt;a class="reference external" href="https://ffmpeg.org/doxygen/trunk/libavcodec_2takdec_8c_source.html#l00090"&gt;TAKの残差デコード実装&lt;/a&gt; は以下。コメントを付す：&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;const&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;CParam&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;       &lt;/span&gt;&lt;span class="cm"&gt;/* xの初期値のビット幅 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;escape&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="cm"&gt;/* おそらく、再帰的Golomb-Riceの1段目の閾値 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;      &lt;/span&gt;&lt;span class="cm"&gt;/* おそらく、Golomb-Riceの商部に乗じる係数 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;aescape&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* おそらく、再帰的Golomb-Riceの2段目の閾値 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;bias&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;xcodes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 略 */&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;};&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="cm"&gt;/* aiki: 略 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;decode_segment&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;TAKDecContext&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int8_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int32_t&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;decoded&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;len&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;struct&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nc"&gt;CParam&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;GetBitContext&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="n"&gt;s&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;memset&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;decoded&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;len&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;sizeof&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;decoded&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FF_ARRAY_ELEMS&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;xcodes&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;AVERROR_INVALIDDATA&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;xcodes&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;];&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;len&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="o"&gt;++&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: xが最終結果 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: まずcode.initビット読み取った結果をセット（Golomb-Riceの剰余部を先に取得している？） */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;get_bits_long&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;escape&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;get_bits1&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: xがcode.escape以上で、続く1ビットが1ならば... （再帰的Golomb-Riceの1段目？） */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 最上位ビットに1をセット 最初の状態からすると x &amp;lt;- get_bits_long(gb, code.init + 1) となるはず */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="cm"&gt;/* TODO: get_bits1(gb) == 0だった場合はifを抜けるけど、これは何を意味する？ */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;|=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;init&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;aescape&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: xがcode.aescape以上ならば... （再帰的Golomb-Riceの2段目？） */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 商部scaleの取得に入る。まずはα符号の取得。9で止める */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;get_unary&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;9&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: scaleが最大の9だったら、scaleの表現ビット数を3ビットで取得 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 後でcode.biasを足し込む */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scale_bits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;get_bits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scale_bits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scale_bits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                            &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: scaleの表現ビットが最大の7の場合はさらに5ビット追加で取得 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                            &lt;/span&gt;&lt;span class="n"&gt;scale_bits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;get_bits&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;5&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                            &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: scaleが29ビットを超えることはない */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                            &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;scale_bits&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;29&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                                &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;AVERROR_INVALIDDATA&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: scaleの差し替え。1だけゲタが入っている */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;get_bits_long&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gb&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scale_bits&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 商部の加算 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                        &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: code.biasの加算 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bias&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 商部の加算。scale &amp;lt; 9の場合はcode.escapeを減じる（TODO: なぜ引くのか？） */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                    &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;scale&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;escape&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: x &amp;gt; code.aescapeの場合はcode.escapeを減じる */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;                &lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;code&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;escape&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: 符号なし整数から符号付き整数に変換 */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;decoded&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;return&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;謎のテーブルxcodeの値をプロットしたのが以下：&lt;/p&gt;
+&lt;img alt="xcodesのグラフ" src="../images/xcodes.png" /&gt;
+&lt;p&gt;明らかに指数的なトレンドがある。コードの内容を10進数に直すと以下：&lt;/p&gt;
+&lt;table border="1" class="docutils"&gt;
+&lt;caption&gt;xcodes&lt;/caption&gt;
+&lt;colgroup&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;col width="17%" /&gt;
+&lt;/colgroup&gt;
+&lt;thead valign="bottom"&gt;
+&lt;tr&gt;&lt;th class="head"&gt;index&lt;/th&gt;
+&lt;th class="head"&gt;init&lt;/th&gt;
+&lt;th class="head"&gt;escape&lt;/th&gt;
+&lt;th class="head"&gt;scale&lt;/th&gt;
+&lt;th class="head"&gt;aescape&lt;/th&gt;
+&lt;th class="head"&gt;bias&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody valign="top"&gt;
+&lt;tr&gt;&lt;td&gt;0&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;2&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;28&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;4&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;26&lt;/td&gt;
+&lt;td&gt;48&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;56&lt;/td&gt;
+&lt;td&gt;50&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;52&lt;/td&gt;
+&lt;td&gt;96&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;44&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;112&lt;/td&gt;
+&lt;td&gt;100&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;td&gt;104&lt;/td&gt;
+&lt;td&gt;192&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;88&lt;/td&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;224&lt;/td&gt;
+&lt;td&gt;200&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td&gt;48&lt;/td&gt;
+&lt;td&gt;48&lt;/td&gt;
+&lt;td&gt;208&lt;/td&gt;
+&lt;td&gt;384&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;176&lt;/td&gt;
+&lt;td&gt;64&lt;/td&gt;
+&lt;td&gt;448&lt;/td&gt;
+&lt;td&gt;400&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td&gt;96&lt;/td&gt;
+&lt;td&gt;96&lt;/td&gt;
+&lt;td&gt;416&lt;/td&gt;
+&lt;td&gt;768&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;352&lt;/td&gt;
+&lt;td&gt;128&lt;/td&gt;
+&lt;td&gt;896&lt;/td&gt;
+&lt;td&gt;800&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;9&lt;/td&gt;
+&lt;td&gt;192&lt;/td&gt;
+&lt;td&gt;192&lt;/td&gt;
+&lt;td&gt;832&lt;/td&gt;
+&lt;td&gt;1536&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;704&lt;/td&gt;
+&lt;td&gt;256&lt;/td&gt;
+&lt;td&gt;1792&lt;/td&gt;
+&lt;td&gt;1600&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;10&lt;/td&gt;
+&lt;td&gt;384&lt;/td&gt;
+&lt;td&gt;384&lt;/td&gt;
+&lt;td&gt;1664&lt;/td&gt;
+&lt;td&gt;3072&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;1408&lt;/td&gt;
+&lt;td&gt;512&lt;/td&gt;
+&lt;td&gt;3584&lt;/td&gt;
+&lt;td&gt;3200&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td&gt;768&lt;/td&gt;
+&lt;td&gt;768&lt;/td&gt;
+&lt;td&gt;3328&lt;/td&gt;
+&lt;td&gt;6144&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;2816&lt;/td&gt;
+&lt;td&gt;1024&lt;/td&gt;
+&lt;td&gt;7168&lt;/td&gt;
+&lt;td&gt;6400&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td&gt;1536&lt;/td&gt;
+&lt;td&gt;1536&lt;/td&gt;
+&lt;td&gt;6656&lt;/td&gt;
+&lt;td&gt;12288&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;5632&lt;/td&gt;
+&lt;td&gt;2048&lt;/td&gt;
+&lt;td&gt;14336&lt;/td&gt;
+&lt;td&gt;12800&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;23&lt;/td&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td&gt;3072&lt;/td&gt;
+&lt;td&gt;3072&lt;/td&gt;
+&lt;td&gt;13312&lt;/td&gt;
+&lt;td&gt;24576&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;24&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;11264&lt;/td&gt;
+&lt;td&gt;4096&lt;/td&gt;
+&lt;td&gt;28672&lt;/td&gt;
+&lt;td&gt;25600&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td&gt;6144&lt;/td&gt;
+&lt;td&gt;6144&lt;/td&gt;
+&lt;td&gt;26624&lt;/td&gt;
+&lt;td&gt;49152&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;26&lt;/td&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;22528&lt;/td&gt;
+&lt;td&gt;8192&lt;/td&gt;
+&lt;td&gt;57344&lt;/td&gt;
+&lt;td&gt;51200&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;27&lt;/td&gt;
+&lt;td&gt;15&lt;/td&gt;
+&lt;td&gt;12288&lt;/td&gt;
+&lt;td&gt;12288&lt;/td&gt;
+&lt;td&gt;53248&lt;/td&gt;
+&lt;td&gt;98304&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;28&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;45056&lt;/td&gt;
+&lt;td&gt;16384&lt;/td&gt;
+&lt;td&gt;114688&lt;/td&gt;
+&lt;td&gt;102400&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;29&lt;/td&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td&gt;24576&lt;/td&gt;
+&lt;td&gt;24576&lt;/td&gt;
+&lt;td&gt;106496&lt;/td&gt;
+&lt;td&gt;196608&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;30&lt;/td&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;90112&lt;/td&gt;
+&lt;td&gt;32768&lt;/td&gt;
+&lt;td&gt;229376&lt;/td&gt;
+&lt;td&gt;204800&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;31&lt;/td&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td&gt;49152&lt;/td&gt;
+&lt;td&gt;49152&lt;/td&gt;
+&lt;td&gt;212992&lt;/td&gt;
+&lt;td&gt;393216&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;32&lt;/td&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;180224&lt;/td&gt;
+&lt;td&gt;65536&lt;/td&gt;
+&lt;td&gt;458752&lt;/td&gt;
+&lt;td&gt;409600&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;33&lt;/td&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td&gt;98304&lt;/td&gt;
+&lt;td&gt;98304&lt;/td&gt;
+&lt;td&gt;425984&lt;/td&gt;
+&lt;td&gt;786432&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;34&lt;/td&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;360448&lt;/td&gt;
+&lt;td&gt;131072&lt;/td&gt;
+&lt;td&gt;917504&lt;/td&gt;
+&lt;td&gt;819200&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;35&lt;/td&gt;
+&lt;td&gt;19&lt;/td&gt;
+&lt;td&gt;196608&lt;/td&gt;
+&lt;td&gt;196608&lt;/td&gt;
+&lt;td&gt;851968&lt;/td&gt;
+&lt;td&gt;1572864&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;36&lt;/td&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;720896&lt;/td&gt;
+&lt;td&gt;262144&lt;/td&gt;
+&lt;td&gt;1835008&lt;/td&gt;
+&lt;td&gt;1638400&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;37&lt;/td&gt;
+&lt;td&gt;20&lt;/td&gt;
+&lt;td&gt;393216&lt;/td&gt;
+&lt;td&gt;393216&lt;/td&gt;
+&lt;td&gt;1703936&lt;/td&gt;
+&lt;td&gt;3145728&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;38&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;1441792&lt;/td&gt;
+&lt;td&gt;524288&lt;/td&gt;
+&lt;td&gt;3670016&lt;/td&gt;
+&lt;td&gt;3276800&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;39&lt;/td&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td&gt;786432&lt;/td&gt;
+&lt;td&gt;786432&lt;/td&gt;
+&lt;td&gt;3407872&lt;/td&gt;
+&lt;td&gt;6291456&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;40&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;2883584&lt;/td&gt;
+&lt;td&gt;1048576&lt;/td&gt;
+&lt;td&gt;7340032&lt;/td&gt;
+&lt;td&gt;6553600&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;41&lt;/td&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td&gt;1572864&lt;/td&gt;
+&lt;td&gt;1572864&lt;/td&gt;
+&lt;td&gt;6815744&lt;/td&gt;
+&lt;td&gt;12582912&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;42&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;td&gt;5767168&lt;/td&gt;
+&lt;td&gt;2097152&lt;/td&gt;
+&lt;td&gt;14680064&lt;/td&gt;
+&lt;td&gt;13107200&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;43&lt;/td&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;td&gt;3145728&lt;/td&gt;
+&lt;td&gt;3145728&lt;/td&gt;
+&lt;td&gt;13631488&lt;/td&gt;
+&lt;td&gt;25165824&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;44&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;td&gt;11534336&lt;/td&gt;
+&lt;td&gt;4194304&lt;/td&gt;
+&lt;td&gt;29360128&lt;/td&gt;
+&lt;td&gt;26214400&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;45&lt;/td&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;td&gt;6291456&lt;/td&gt;
+&lt;td&gt;6291456&lt;/td&gt;
+&lt;td&gt;27262976&lt;/td&gt;
+&lt;td&gt;50331648&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;46&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;23068672&lt;/td&gt;
+&lt;td&gt;8388608&lt;/td&gt;
+&lt;td&gt;58720256&lt;/td&gt;
+&lt;td&gt;52428800&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;47&lt;/td&gt;
+&lt;td&gt;25&lt;/td&gt;
+&lt;td&gt;12582912&lt;/td&gt;
+&lt;td&gt;12582912&lt;/td&gt;
+&lt;td&gt;54525952&lt;/td&gt;
+&lt;td&gt;100663296&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;48&lt;/td&gt;
+&lt;td&gt;26&lt;/td&gt;
+&lt;td&gt;46137344&lt;/td&gt;
+&lt;td&gt;16777216&lt;/td&gt;
+&lt;td&gt;117440512&lt;/td&gt;
+&lt;td&gt;104857600&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;&lt;td&gt;49&lt;/td&gt;
+&lt;td&gt;26&lt;/td&gt;
+&lt;td&gt;25165824&lt;/td&gt;
+&lt;td&gt;25165824&lt;/td&gt;
+&lt;td&gt;109051904&lt;/td&gt;
+&lt;td&gt;201326592&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;法則としては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;偶数 &lt;code&gt;index&lt;/code&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;escape&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 4&lt;/code&gt; で &lt;code&gt;escape = 11 * 2^(init - 4)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scale&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 2&lt;/code&gt; で &lt;code&gt;escape = 2^(init - 2)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;aescape&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 2&lt;/code&gt; で &lt;code&gt;aescape = 7 * scale&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bias&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 4&lt;/code&gt; で &lt;code&gt;bias = 25 * 2^(init - 4)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;奇数 &lt;code&gt;index&lt;/code&gt;&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;escape&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 3&lt;/code&gt; で &lt;code&gt;escape = 6 * 2^(init - 3)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;scale&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 3&lt;/code&gt; で &lt;code&gt;scale = 2^(init - 3) + 2^(init - 2)&lt;/code&gt; （偶数の間を線形補間）&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;aescape&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 3&lt;/code&gt; で &lt;code&gt;aescape = scale + 10 * 2^(init - 2)&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;bias&lt;/code&gt; ： &lt;code&gt;init &amp;gt;= 3&lt;/code&gt; で &lt;code&gt;bias = 8 * scale&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;code&gt;init &amp;lt;= 2&lt;/code&gt; の領域では法則がほぼ当てはまらないが、この領域は非常に振幅が小さいので指数分布になっておらず、おそらく手探りで決めたのだろう。それ以外での法則は見えたが、背景の理論が見えてこない。&lt;/p&gt;
+&lt;p&gt;実質、 &lt;code&gt;init&lt;/code&gt; がRice符号、 &lt;code&gt;scale&lt;/code&gt; がGolomb符号のパラメータになっている。Rice符号だと2のべき乗だけになり、奇数 &lt;code&gt;index&lt;/code&gt; の要素は消えることになるが、ここでは補間してよりGolomb符号に近い挙動にしている？&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;コードを見ると、初手 &lt;code&gt;init&lt;/code&gt; 分のビットを取得しているのが目につく。これは剰余部を先に取得している。&lt;ul&gt;
+&lt;li&gt;剰余部はRice符号に近い形で実装している。または、再帰的Golomb-Rice符号の1段目を同時にやっている？&lt;/li&gt;
+&lt;li&gt;剰余部は線形量子化するが、商部はこだわっているように思える。α符号は最大9で止めて、それより長ければビット幅+データで表現。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="TAK"></category><category term="Golomb-Rice"></category></entry><entry><title>符号の検討(1)</title><link href="/fu-hao-nojian-tao-1.html" rel="alternate"></link><published>2022-02-07T10:00:00+09:00</published><updated>2022-02-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-02-07:/fu-hao-nojian-tao-1.html</id><summary type="html">&lt;p&gt;忙しく、だいぶ間が空いてしまった。まだ忙しい状態は続くが、研究は地味にエンジンをかけていきたい。&lt;/p&gt;
 &lt;p&gt;Macが故障して …&lt;/p&gt;</summary><content type="html">&lt;p&gt;忙しく、だいぶ間が空いてしまった。まだ忙しい状態は続くが、研究は地味にエンジンをかけていきたい。&lt;/p&gt;
 &lt;p&gt;Macが故障してpelican環境が壊れたのでブログを刷新。&lt;/p&gt;
 &lt;p&gt;これまでの動きをまとめる。まず12月下旬〜年明けは符号に突っ込んでいた。&lt;/p&gt;
@@ -8,15 +720,74 @@
 &lt;li&gt;Flake（FLACの最適化エンコーダ）（ &lt;a class="reference external" href="http://flake-enc.sourceforge.net"&gt;公式&lt;/a&gt;, &lt;a class="reference external" href="https://github.com/justinruggles/flake"&gt;GitHub&lt;/a&gt; ）に割と衝撃を受けている。最大圧縮設定で当時のTAKに迫っている。やっていることはブロック単位で符号長さが最小になるようにGolomb-Rice符号のパラメータとLPC次数を定めている。&lt;ul&gt;
 &lt;li&gt;次数が意外に重要な要因なのかも。多すぎて悪化要因になっている？&lt;/li&gt;
 &lt;li&gt;Partitioned-Rice（ブロックを分けてその範囲でパラメータを設定するアイデア）はいままで懐疑の目で見ていたけど、性能の良さから採用に傾いた。&lt;/li&gt;
+&lt;li&gt;また、 &lt;strong&gt;32bitのbitioもここに実装がある。&lt;/strong&gt; 参考にすべき。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;その後1月下旬は研究会があったのでその準備。そのあたりで並行してRustのお勉強、とても素晴らしい言語。商業的にも意味があると思うし、是非ともマスターしたい。&lt;/p&gt;
 &lt;p&gt;引き続き符号に着手。まずは近いと指摘があったblock Gilbert-Mooreの詳細を見ていく。記憶上ではレンジコーダの一種だと思ったが…？&lt;/p&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.438.232&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;CODING OF PREDICTION RESIDUAL IN MPEG-4 STANDARD FOR LOSSLESS AUDIO CODING (MPEG-4 ALS)&lt;/a&gt; 再帰的G-Rに似ている。小さい残差ではblock Gilbert-Moore、大きければ普通のG-R。&lt;/li&gt;
+&lt;li&gt;まずGilbert-Mooreはレンジコーダと思ってもらっていいはず。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.eit.lth.se/fileadmin/eit/courses/eitf01/2008/semin_arif.pdf"&gt;Arithmetic coding&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
-</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="ResNet"></category><category term="Auxiliary Function"></category></entry><entry><title>LPCの多段構成執筆(20)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-20.html" rel="alternate"></link><published>2021-12-13T10:00:00+09:00</published><updated>2021-12-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-12-13:/lpcnoduo-duan-gou-cheng-zhi-bi-20.html</id><summary type="html">&lt;p&gt;最適化に突っ込んでた。よくない。でも、畳み込み演算でインデックスの走査方向が異なるのは良くないことに気づけ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;最適化に突っ込んでた。よくない。でも、畳み込み演算でインデックスの走査方向が異なるのは良くないことに気づけたのは良かった。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.438.232&amp;amp;rep=rep1&amp;amp;type=pdf"&gt;CODING OF PREDICTION RESIDUAL IN MPEG-4 STANDARD FOR LOSSLESS AUDIO CODING (MPEG-4 ALS)&lt;/a&gt; 再帰的Golomb-Riceに似ている。小さい残差ではblock Gilbert-Moore、大きければ普通のGolomb-Rice。&lt;ul&gt;
+&lt;li&gt;これをBGMC(Block Gilbert-Moore Codes)と呼ぶらしい（Data Compresssion - The complete reference本より）&lt;/li&gt;
+&lt;li&gt;論文では、LSB部分を直接送ることもしている。&lt;/li&gt;
+&lt;li&gt;MPEG4-ALSの実装も多分この論文のとおりになっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;公開されているコードを見ると、やはりレンジコーダに見える。
+LSB部分を直接送ることで、頻度テーブル &lt;cite&gt;s_freq&lt;/cite&gt; が大きくなりすぎないようにしている。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="cm"&gt;/*&lt;/span&gt;
+&lt;span class="cm"&gt; * Encode a symbol using Gilbert-Moore code.&lt;/span&gt;
+&lt;span class="cm"&gt; * delta -- step size in the s_freq[] distribution.&lt;/span&gt;
+&lt;span class="cm"&gt; */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;static&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;void&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="nf"&gt;bgmc_encode&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;symbol&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;short&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;s_freq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;BITIO&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;register&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;unsigned&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* get current range: */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* narrow the code region to that allotted to this symbol: */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* aiki: ここがまさにレンジコーダ. 下限と上限をテーブル引きで高速に計算できるようにしている */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;s_freq&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;symbol&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FREQ_BITS&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FREQ_BITS&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt;  &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;range&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;s_freq&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="n"&gt;symbol&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;delta&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FREQ_BITS&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* renormalize interval: */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="k"&gt;for&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;HALF&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;put_bit_plus_follow&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cm"&gt;/* output 0 if in low half  */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;HALF&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt;              &lt;/span&gt;&lt;span class="cm"&gt;/* output 1 if in high half */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;put_bit_plus_follow&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;HALF&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;HALF&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;               &lt;/span&gt;&lt;span class="cm"&gt;/* move down by half        */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FIRST_QTR&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;THIRD_QTR&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="cm"&gt;/* middle  */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;bits_to_follow&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;     &lt;/span&gt;&lt;span class="cm"&gt;/* output an opposite bit   */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FIRST_QTR&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;           &lt;/span&gt;&lt;span class="cm"&gt;/* move down by a quarter   */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;FIRST_QTR&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;            &lt;/span&gt;&lt;span class="k"&gt;break&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;                      &lt;/span&gt;&lt;span class="cm"&gt;/* otherwise exit the loop  */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="cm"&gt;/* scale interval up: */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;        &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="cm"&gt;/* update encoder&amp;#39;s state: */&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;high&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;low&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;&lt;cite&gt;s_freq&lt;/cite&gt; を眺めていると、指数的に減少していく頻度テーブルで（おそらく幾何分布orラプラス分布から来ている）、TAKの &lt;cite&gt;xcodes&lt;/cite&gt; に似ているなと思う。TAKはレンジコーダを使っていたのか？？&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="LPC"></category><category term="TAK"></category><category term="Golomb-Rice"></category></entry><entry><title>LPCの多段構成執筆(20)</title><link href="/lpcnoduo-duan-gou-cheng-zhi-bi-20.html" rel="alternate"></link><published>2021-12-13T10:00:00+09:00</published><updated>2021-12-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-12-13:/lpcnoduo-duan-gou-cheng-zhi-bi-20.html</id><summary type="html">&lt;p&gt;最適化に突っ込んでた。よくない。でも、畳み込み演算でインデックスの走査方向が異なるのは良くないことに気づけ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;最適化に突っ込んでた。よくない。でも、畳み込み演算でインデックスの走査方向が異なるのは良くないことに気づけたのは良かった。&lt;/p&gt;
 &lt;p&gt;ブロックサイズが大きいので8192に変える→圧縮率・デコード速度悪化。当然か。圧縮率については8192に合った設定があるだろうし、デコード速度についてはブロックサイズが減るので畳み込み演算の効率が落ちる。&lt;/p&gt;
 &lt;p&gt;高速化の絡み。絶対値残差計算が重いので、分割設定にAICかMDLを使えないか考えている。&lt;/p&gt;
 &lt;ul class="simple"&gt;
