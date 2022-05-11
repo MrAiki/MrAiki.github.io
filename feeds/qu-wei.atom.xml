@@ -1,5 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2021-06-18T22:00:00+09:00</updated><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><summary type="html">&lt;ul class="simple"&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2022-05-11T10:00:00+09:00</updated><entry><title>リサンプラー作成</title><link href="/risanpurazuo-cheng.html" rel="alternate"></link><published>2022-05-11T10:00:00+09:00</published><updated>2022-05-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-11:/risanpurazuo-cheng.html</id><summary type="html">&lt;p&gt;ずっと前から線形補間リサンプラーに我慢がならない状況が続いていたので作ることを考えていた。大雑把には貴 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ずっと前から線形補間リサンプラーに我慢がならない状況が続いていたので作ることを考えていた。大雑把には貴家先生の『マルチレート信号処理』に従えばいいと考えていた。&lt;/p&gt;
+&lt;p&gt;実装に当たって考えたことは、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;なるべく高速な実装、でもエイリアシングはなるべく回避する。44.1k -&amp;gt; 48kをスムーズに変換したい。&lt;/li&gt;
+&lt;li&gt;マルチステージ構成&lt;/li&gt;
+&lt;li&gt;FIRフィルタ設計は窓関数法でいいかな（Remez法はワークメモリがいるのがつらい）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;お役立ちリンク&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ccrma.stanford.edu/‾jos/resample/Free_Resampling_Software.html"&gt;Free Resampling Software&lt;/a&gt; フリーのリサンプリングライブラリ集。実装し始めてから存在に気づいた。あるじゃん。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/chirlu/soxr"&gt;The SoX resampler library&lt;/a&gt; soxの一部分。かなり使われているらしいリサンプラ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ee.ic.ac.uk/hp/staff/dmb/courses/DSPDF/00600_WindowFIR.pdf"&gt;6: Window Filter Design&lt;/a&gt; 窓関数法。遷移幅から近似によりフィルタ次数を決める手法が載っている。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.finetune.co.jp/‾lyuka/technote/winfunc/"&gt;窓関数のダイナミックレンジと分解能&lt;/a&gt; 色々な窓がある。メインローブの太さとサイドローブの減衰が重要。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="趣味"></category><category term="リサンプラー"></category><category term="窓関数法"></category></entry><entry><title>変換符号化ベースのロスレス音声コーデック検討</title><link href="/bian-huan-fu-hao-hua-besunorosuresuyin-sheng-kodetsukujian-tao.html" rel="alternate"></link><published>2022-03-05T10:00:00+09:00</published><updated>2022-03-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-03-05:/bian-huan-fu-hao-hua-besunorosuresuyin-sheng-kodetsukujian-tao.html</id><summary type="html">&lt;p&gt;整数DCTベースでロスレス音声コーデックが構築できるはずで、試してみたい。
+整数DCT、やけにリフティングという単語 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;整数DCTベースでロスレス音声コーデックが構築できるはずで、試してみたい。
+整数DCT、やけにリフティングという単語が出てくるが、もしかしてウェーブレットとして考えられる？いや自明か。フーリエ変換はウェーブレット変換の一種なのだから。再構成条件を満たすようにフィルタを作るということになるんだろな。&lt;/p&gt;
+&lt;div class="section" id="section-2"&gt;
+&lt;h2&gt;記事&lt;/h2&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://stackoverflow.com/questions/18621167/dct-using-integer-only"&gt;DCT using integer only&lt;/a&gt; このあたりから探りを入れる&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://fgiesen.wordpress.com/2013/11/04/bink-2-2-integer-dct-design-part-1/"&gt;Bink 2.2 integer DCT design, part 1&lt;/a&gt; 整数DCTの手法比較が載っている&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/rygorous/dct_blog"&gt;rygorous/dct_blog&lt;/a&gt; そのソース&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+</content><category term="趣味"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category></entry><entry><title>リバーブ開発</title><link href="/ribabukai-fa.html" rel="alternate"></link><published>2021-06-18T12:00:00+09:00</published><updated>2021-06-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2021-06-18:/ribabukai-fa.html</id><summary type="html">&lt;ul class="simple"&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/index.html"&gt;FFT (高速フーリエ・コサイン・サイン変換) の概略と設計法&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;文字化けしてるのでEUCで読むべし&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.kurims.kyoto-u.ac.jp/~ooura/fftman/fft_note_s.pdf"&gt;pdf資料&lt;/a&gt;&lt;/li&gt;
@@ -21,7 +52,7 @@
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;統合すると、realft方式で行きたい。そして基板部のFFTは4基底のStockhamFFTで。&lt;/p&gt;
-</content><category term="趣味"></category><category term="リバーブ"></category><category term="エフェクター"></category></entry><entry><title>麻雀プログラミング</title><link href="/ma-que-puroguramingu.html" rel="alternate"></link><published>2020-11-14T12:00:00+09:00</published><updated>2020-11-22T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-14:/ma-que-puroguramingu.html</id><summary type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
+</content><category term="趣味"></category><category term="リバーブ"></category><category term="エフェクター"></category></entry><entry><title>麻雀プログラミング</title><link href="/ma-que-puroguramingu.html" rel="alternate"></link><published>2020-11-14T12:00:00+09:00</published><updated>2022-02-18T22:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-11-14:/ma-que-puroguramingu.html</id><summary type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
 すこし成果がまとまってきたので記事にしてみ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;秋口あたりから麻雀のプログラミングにハマっているフシがある。
 すこし成果がまとまってきたので記事にしてみよう。&lt;/p&gt;
 &lt;p&gt;なんと言っても、&lt;/p&gt;
@@ -39,7 +70,10 @@
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/mahjong-server/mahjong-server/tree/master/tsumogiri"&gt;mahjong-serverのクライアント実装例&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://www.logos.t.u-tokyo.ac.jp/~mizukami/"&gt;爆打の中の人&lt;/a&gt; ちゃんと研究に落とし込んでいる方。&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.amy.hi-ho.ne.jp/ishihata/maujong/"&gt;まうじゃん的空間&lt;/a&gt; フリーでプレーヤーを自前実装できる「まうじゃん」の配布サイト。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://github.com/nekobean/mahjong-cpp"&gt;mahjong-cpp&lt;/a&gt; C++17(+ boost)で美しく書かれたライブラリ。テストも充実。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/nekobean/mahjong-cpp"&gt;mahjong-cpp&lt;/a&gt; C++17(+ boost)で美しく書かれたライブラリ。テストも充実。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://pystyle.info/mahjong-expected-value-in-mahjong/"&gt;麻雀 - 何切る問題の期待値の計算方法について&lt;/a&gt; 期待値計算方法が載っている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://mahjong.ara.black"&gt;あらの（一人）麻雀研究所&lt;/a&gt; 一人麻雀とそのシミュレーション方法が示されている。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
