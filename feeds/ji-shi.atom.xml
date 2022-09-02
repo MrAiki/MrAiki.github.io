@@ -4624,7 +4624,7 @@ c_{1}   &amp;amp; c_{2} &amp;amp;  c_{3} &amp;amp;    ... &amp;amp; c_{0}   \\
     (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
     (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
 }
-&lt;/script&gt;</content><category term="記事"></category><category term="巡回行列"></category><category term="Criculant Matrix"></category></entry><entry><title>陰関数定理とその応用</title><link href="/yin-guan-shu-ding-li-tosonoying-yong.html" rel="alternate"></link><published>2020-06-05T18:00:00+09:00</published><updated>2020-06-05T18:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/yin-guan-shu-ding-li-tosonoying-yong.html</id><summary type="html">&lt;p class="first last"&gt;陰関数定理の成り立ちとその応用として逆写像定理と制約付き極値問題まで。&lt;/p&gt;
+&lt;/script&gt;</content><category term="記事"></category><category term="巡回行列"></category><category term="Circulant Matrix"></category></entry><entry><title>陰関数定理とその応用</title><link href="/yin-guan-shu-ding-li-tosonoying-yong.html" rel="alternate"></link><published>2020-06-05T18:00:00+09:00</published><updated>2020-06-05T18:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2020-06-05:/yin-guan-shu-ding-li-tosonoying-yong.html</id><summary type="html">&lt;p class="first last"&gt;陰関数定理の成り立ちとその応用として逆写像定理と制約付き極値問題まで。&lt;/p&gt;
 </summary><content type="html">&lt;div class="math"&gt;
 \begin{equation*}
 \newcommand\innerp[2]{\langle #1, #2 \rangle}

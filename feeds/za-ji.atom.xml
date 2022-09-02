@@ -1,5 +1,692 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2022-04-21T10:00:00+09:00</updated><entry><title>フィルタ考察(23)</title><link href="/huirutakao-cha-23.html" rel="alternate"></link><published>2022-04-21T10:00:00+09:00</published><updated>2022-04-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-04-21:/huirutakao-cha-23.html</id><summary type="html">&lt;p&gt;引き続き証明を追っていた。 &lt;a class="reference external" href="https://doc.lagout.org/science/0_Computer%20Science/2_Algorithms/Mathematical%20Methods%20and%20Algorithms%20for%20Signal%20Processing%20%5BMoon%20%26%20Stirling%201999-08-14%5D.pdf"&gt;Mathematical Methods and Algorithms for Signal&lt;/a&gt; は誤植が多く、また明らかに &lt;a class="reference external" href="https://ieeexplore.ieee.org/document/1054924"&gt;On the asymptotic eigenvalue distribution of Toeplitz matrices&lt;/a&gt; を引用している。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2022-09-02T10:00:00+09:00</updated><entry><title>圧縮率改善検討(11)</title><link href="/ya-suo-lu-gai-shan-jian-tao-11.html" rel="alternate"></link><published>2022-09-02T10:00:00+09:00</published><updated>2022-09-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-09-02:/ya-suo-lu-gai-shan-jian-tao-11.html</id><summary type="html">&lt;p&gt;予定が五月雨式に入っておりまとまった時間とれず。今SVRをやっているが、それまでの流れをメモ。&lt;/p&gt;
+&lt;p&gt;Hinge Lossに相当する損 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;予定が五月雨式に入っておりまとまった時間とれず。今SVRをやっているが、それまでの流れをメモ。&lt;/p&gt;
+&lt;p&gt;Hinge Lossに相当する損失はVapnik ε-sensitiveと論文にあったが、Vapnikの名前からSVMを思い出し、もう一度資料を見てみた所SVRによるFIRシステム同定にほかならないことに気づく。&lt;/p&gt;
+&lt;p&gt;SVRの双対問題による定式化ならば凸計画になるので安定している。Gram行列は直前までのp時刻サンプルの内積を取った線形カーネルになる。実装してみてそれなりの性能を示すことが分かった。好適に思えるが問題がいくつか。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Gram行列はNxN（N：サンプル数）なので巨大。8192サンプルとか考えると悲観的。&lt;ul&gt;
+&lt;li&gt;近似できないか考え、観察を続けた所pを大きくしたときに自己相関行列に近づくことに気づいた（ただし、遠い相関でもサンプル数が減らずに相関が減らない）。自己相関行列で近似してみたがGram行列はToeplitz行列でもないため性能が悪化。&lt;/li&gt;
+&lt;li&gt;計画行列Xを用いればGram行列はXX^Tと分解できるので、分解を使って計算することでO(N)程度に収まった&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Levinson-Durbin法で初期値を定めて、それをSVRで改善していく手段を取りたい&lt;ul&gt;
+&lt;li&gt;収束が遅い/学習係数を上げると不安定なため、実用性のためにも必須&lt;/li&gt;
+&lt;li&gt;観察していると、双対変数と残差信号が要素ごとに比例しているように見受けられる。理論的に示せないか見ている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;補助関数法を使えそう&lt;ul&gt;
+&lt;li&gt;双対変数のL1ロスを2次関数で近似すれば閉経式解を解くことによる効率的な手法が求まるかも？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://alex.smola.org/papers/2003/SmoSch03b.pdf"&gt;A Tutorial on Support Vector Regression&lt;/a&gt; SVRのイントロ。様々なロスに対応する密度が書いてある。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;勾配0条件を解くのにLASSOの知見が使えることを思い出す。勾配降下法を漁っていると見覚えのある式が。Glassoだ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ide-research.net/papers/2016_Iwanami_Ide.pdf"&gt;依存関係にスパース性を入れる — グラフィカル lasso の話&lt;/a&gt; で勾配0条件が&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(10)</title><link href="/ya-suo-lu-gai-shan-jian-tao-10.html" rel="alternate"></link><published>2022-08-21T10:00:00+09:00</published><updated>2022-08-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-08-21:/ya-suo-lu-gai-shan-jian-tao-10.html</id><summary type="html">&lt;p&gt;fastICAと勾配に基づくICAを実装して試してみたが、芳しくない&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;L-D法を初期値に設定すると、そこから改善していかない&lt;ul&gt;
+&lt;li&gt;か …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;fastICAと勾配に基づくICAを実装して試してみたが、芳しくない&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;L-D法を初期値に設定すると、そこから改善していかない&lt;ul&gt;
+&lt;li&gt;かといって適当に初期化するとL-D法よりも良くない統計量で止まってしまう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;fastICAの場合は尖度（あるいはネゲントロピー）が振動する&lt;ul&gt;
+&lt;li&gt;比較的良い状態と悪い状態を言ったり来たりする&lt;/li&gt;
+&lt;li&gt;ICAの符号の同定不能性にハマっている？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;勾配法は、尖度の絶対値は上昇しているが、負値が上昇しておりより分布が広がってしまう&lt;/li&gt;
+&lt;li&gt;白色化が不完全？&lt;ul&gt;
+&lt;li&gt;平均0分散1に正規化したら収束性が若干安定&lt;/li&gt;
+&lt;li&gt;時系列方向で白色化するならLPCをかませるしか無いが、完全な白色化にはならない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;LPC（orプリエンファシス）をかませたデータを散布図で表示したら見事に真円になってた。そりゃそうか。ガウス分布に近づけてんだもんな。
+つまり、LPCは情報をふっとばす作用としてはある意味最適なのか。&lt;/p&gt;
+&lt;p&gt;LPC（orプリエンファシス）を除いて直接ICAを適用したら、平均化フィルタが得られた。。。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;無論望ましくない。しかし、2次元散布図で見てもy=xに近い分布に対してw[0]=w[1]としているから、適切な射影になっている。&lt;ul&gt;
+&lt;li&gt;回転だけで考えてしまうのでICAはめちゃくちゃ厳しいのでは？？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;波形を見るとresidualが波形の再構成結果になっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;そもそも回転だけで残差がラプラスになるとは思えない。ICAを直接使うのではなく、ICAにインスパイアして優ガウス的な発想から攻めていくのが良いかと考え始める。&lt;/p&gt;
+&lt;p&gt;そこで考えているのがL1ロスの近似になる。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;logcosh。これは、双曲線正割分布の対数を取ったときに出てくる。logcoshを微分するとtanhが出てくる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/jappstat1971/35/1/35_1_17/_pdf/-char/ja"&gt;双曲線正割分布の応用&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Huber loss（絶対値が小さい区間で2乗誤差を適用している）&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p class="first"&gt;これ、再帰的Golomb-Riceに対応しているような…&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;少しありえる。 &lt;span class="math"&gt;\(2^{k_{1}}\)&lt;/span&gt; よりも小さいシンボルの長さは全て &lt;span class="math"&gt;\(1 + x\)&lt;/span&gt; としていて、それはすなわち一様分布となっている。&lt;ul&gt;
+&lt;li&gt;これHinge lossだわ。微分可能にしたのがHuber lossになるな。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;小さい領域では情報量が増えても構わないからガウスにする。発想として悪くない。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://openaccess.thecvf.com/content/CVPR2021/papers/Meyer_An_Alternative_Probabilistic_Interpretation_of_the_Huber_Loss_CVPR_2021_paper.pdf"&gt;An Alternative Probabilistic Interpretation of the Huber Loss&lt;/a&gt; Huber損失の近似 &lt;a class="reference external" href="https://gregmeyer.info/files/cvpr2021-poster.pdf"&gt;ポスター&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p class="first"&gt;Hinge loss&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;早速Hinge lossとHuber lossの周辺を調査。勾配法で求まることは自明。でも遅いのも自明。できれば閉経式で求めたい。L-D法を初期値として改善していく方向もあり。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/2108.12627.pdf"&gt;Generalized Huber Loss for Robust Learning and its Efficient Minimization for a Robust Statistics&lt;/a&gt; なめらかにしたPseudo-Huber loss&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;amp;arnumber=61759"&gt;Convergence of EM Image Reconstruction Algorithms with Gibbs Smoothing&lt;/a&gt; ポテンシャル関数として多数提案&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;そして既存研究に思い至る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.kecl.ntt.co.jp/people/kameoka.hirokazu/publications/Kameoka2008IEICEPaper.pdf"&gt;予測誤差のGolomb-Rice符号量を最小化する線形予測分析&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;補助関数法によりやっている。Huber lossも取り込んでいる。&lt;/li&gt;
+&lt;li&gt;ワンチャンHinge lossで攻められないか。Hinge lossの滑らかな上界を作って攻める方針。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/2103.00233.pdf"&gt;Learning with Smooth Hinge Losses&lt;/a&gt; のsmooth hinge lossがいいかも。必ず上界を与えているし、sigma-&amp;gt;0でhingelossに一致。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(9)</title><link href="/ya-suo-lu-gai-shan-jian-tao-9.html" rel="alternate"></link><published>2022-08-20T10:00:00+09:00</published><updated>2022-08-20T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-08-20:/ya-suo-lu-gai-shan-jian-tao-9.html</id><summary type="html">&lt;p&gt;skleranのfastICAを試してみた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;白色化もライブラリ側でやってくれる。逆にやらないとうまく分離できない&lt;/li&gt;
+&lt;li&gt;sklearn.decomposition.FastICAは瞬時混合 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;skleranのfastICAを試してみた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;白色化もライブラリ側でやってくれる。逆にやらないとうまく分離できない&lt;/li&gt;
+&lt;li&gt;sklearn.decomposition.FastICAは瞬時混合を解こうとしている&lt;ul&gt;
+&lt;li&gt;求まるのは混合行列&lt;/li&gt;
+&lt;li&gt;逆畳み込みは対応していない？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;畳み込み係数を得ようと思ったら、自分で頑張るしかない？&lt;/li&gt;
+&lt;li&gt;今やりたいのは1信号+雑音から1信号を取り出すやつ&lt;ul&gt;
+&lt;li&gt;白色化はいらなそう。雑音はガウスだから。&lt;/li&gt;
+&lt;li&gt;フィルタ残差の尖度（ネゲントロピー）最大化問題&lt;/li&gt;
+&lt;li&gt;理屈としては単純に思えるから実装してみるか。&lt;ul&gt;
+&lt;li&gt;しかし、白色化と係数の正規化が必要そうに思えるのが懸念&lt;/li&gt;
+&lt;li&gt;白色化はプリエンファシスや前段のLPCに期待すればもしかして良かったりする？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(8)</title><link href="/ya-suo-lu-gai-shan-jian-tao-8.html" rel="alternate"></link><published>2022-08-18T10:00:00+09:00</published><updated>2022-08-18T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-08-18:/ya-suo-lu-gai-shan-jian-tao-8.html</id><summary type="html">&lt;p&gt;用事のため間が空いた。優ガウス分布に従う過程で係数を決めたいと考え始めている。ひとまず研究をサーチ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://m-repo.lib.meiji.ac.jp/dspace/bitstream/10291/20858/1/tanji_2020_rikou.pdf"&gt;優ガ …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;用事のため間が空いた。優ガウス分布に従う過程で係数を決めたいと考え始めている。ひとまず研究をサーチ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://m-repo.lib.meiji.ac.jp/dspace/bitstream/10291/20858/1/tanji_2020_rikou.pdf"&gt;優ガウス性の確率分布を用いた統計モデルに基づく信号処理に関する研究&lt;/a&gt; これは特に近い。logcoshをロスに（ &lt;a class="reference external" href="https://ja.m.wikipedia.org/wiki/双曲線正割分布"&gt;双曲線正割分布&lt;/a&gt; 基準になる)して交互最適化。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;優ガウスという表現から、ICAの考え方を使って係数を決められないか考えてICA本を読んでいた。尖度でやるのはもちろん、尖度は外れ値に弱いのでネゲントロピー基準で係数を決められないか考える。最適化は不動点法(fastICA)ならば収束が早いし。妄想だが、初期値をL-D法で決めて、よりスパースになるようにICAの手法を適用することを考えている。&lt;/p&gt;
+&lt;p&gt;考え方はICA本の19.1.4節。FIRフィルタの畳み込みの行列表現から初め、入力信号の独立性を仮定してフィルタ係数（混合係数）を求める。&lt;/p&gt;
+&lt;p&gt;暗中（ブラインド）逆畳み込みで見ていると、適応フィルタ系が多いように思える。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/journalam1998/11/0/11_0_971/_pdf"&gt;独立成分分析 による橋梁振動のブラインド逆畳み込み同定&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1309.5004.pdf"&gt;Blind Deconvolution via Maximum Kurtosis Adaptive Filtering&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ICA本を読んでいる。尚更直接fastICAを適用しても良い気がしてきた。。。とにかくどうなるかを見たい。Pythonで試してみよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(7)</title><link href="/ya-suo-lu-gai-shan-jian-tao-7.html" rel="alternate"></link><published>2022-08-07T10:00:00+09:00</published><updated>2022-08-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-08-07:/ya-suo-lu-gai-shan-jian-tao-7.html</id><summary type="html">&lt;p&gt;執筆が忙しくなり7月は時間あまりとれず。書きながら思ったこと：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;マルチチャンネル処理はもっとよくできる。MSだ …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;執筆が忙しくなり7月は時間あまりとれず。書きながら思ったこと：&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;マルチチャンネル処理はもっとよくできる。MSだけだと心もとない。&lt;/li&gt;
+&lt;li&gt;今一度スパース理論に立ち戻って係数設定したい。注目しているのがICA。尖度とかネゲントロピー尺度で最適化したい。fastICAとか使えないか？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;また、最適符号割当て（音声符号化 p41）の歪みの導出がジャンプしすぎているので理論を探っていた。結果、fine quantizationというのが近いかも。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.icg.isy.liu.se/courses/tsbk02/material/lect5-6.pdf"&gt;Coding with distortion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://iphome.hhi.de/wiegand/assets/pdfs/DIC_rd_theory_quantization_07.pdf"&gt;Rate Distortion Theory &amp;amp; Quantization Rate Distortion Theory &amp;amp; Quantization&lt;/a&gt; これの28p&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;もっと見ていたら、ガウス分布に従う確率変数の歪み-レート関数に過ぎないことに気づいた。そうかビット幅がレートに対応する。。。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://reeves.ee.duke.edu/information_theory/lecture9-Rate_Distortion.pdf"&gt;ECE 587 / STA 563: Lecture 9 – Rate Distortion&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://yfa23308.a.la9.jp/2016LNs/IT12-20161210.pdf"&gt;情報理論(No.12)&lt;/a&gt; 尖度に関連して、ガウス分布は平均一定の元で最大のエントロピーを与える分布であることも載ってる。最大エントロピー原理ですな。懐かしい。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.ict.cei.uec.ac.jp/kawabata/kougi/data_compression/ratedistsec10.pdf"&gt;データ圧縮基礎資料&lt;/a&gt; 日本語講義資料。いちばんわかりやすい。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(6)</title><link href="/ya-suo-lu-gai-shan-jian-tao-6.html" rel="alternate"></link><published>2022-07-08T10:00:00+09:00</published><updated>2022-07-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-07-08:/ya-suo-lu-gai-shan-jian-tao-6.html</id><summary type="html">&lt;p&gt;適応的にマルチチャンネル処理を選ぶのは、粘ったが改善が見られないので取り下げる。&lt;/p&gt;
+&lt;p&gt;一方、符号の分割を決めると …&lt;/p&gt;</summary><content type="html">&lt;p&gt;適応的にマルチチャンネル処理を選ぶのは、粘ったが改善が見られないので取り下げる。&lt;/p&gt;
+&lt;p&gt;一方、符号の分割を決めるときに、平均符号帳の推定値ではなく本当の符号長を測ってきめたら、0.04%ほどの改善が見られた。これは大きい。エンコード速度は悪くなるが取り入れよう。&lt;/p&gt;
+&lt;p&gt;取り入れてみたが0.02%程度の改善であった。それに比してエンコード速度は0.5%悪化。取り入れてしまったがちょっと悲しい。
+いやでもここから高速化を考えればいいか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(5)</title><link href="/ya-suo-lu-gai-shan-jian-tao-5.html" rel="alternate"></link><published>2022-07-07T10:00:00+09:00</published><updated>2022-07-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-07-07:/ya-suo-lu-gai-shan-jian-tao-5.html</id><summary type="html">&lt;p&gt;エンコード時に自己相関の計算に30%掛かっているのを思い出して、FFTの採用に乗り切ってみた。
+当然全てFFTだと却っ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;エンコード時に自己相関の計算に30%掛かっているのを思い出して、FFTの採用に乗り切ってみた。
+当然全てFFTだと却って遅くなる（次数は低いから）。（『音声の線形予測』にあるように、次数128まではナイーブにやった方が早いので）次数64より大きい場合にFFTするようにしてみたら、負荷が30%が25%になった。うーん微妙。&lt;/p&gt;
+&lt;p&gt;また巡回畳み込み回避のためにメモリバッファが2倍いるのも気になる。今のところは導入を見送る。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(4)</title><link href="/ya-suo-lu-gai-shan-jian-tao-4.html" rel="alternate"></link><published>2022-07-06T10:00:00+09:00</published><updated>2022-07-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-07-06:/ya-suo-lu-gai-shan-jian-tao-4.html</id><summary type="html">&lt;p&gt;MS変換以外のチャンネル処理手法があったことを記憶していて、探っていたらLeft-Side(LS), Right-Side(RS)変換だった。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ietf.org/id/draft-ietf-cellar-flac-03.html#section-5.2"&gt;Free Lossless Audio Codec&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/xiph/flac/blob/633ab36ec51bada8737459e51cc54441544e63b2/src/libFLAC/stream_decoder.c#L3066-L3105"&gt;FLACのデ …&lt;/a&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;MS変換以外のチャンネル処理手法があったことを記憶していて、探っていたらLeft-Side(LS), Right-Side(RS)変換だった。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ietf.org/id/draft-ietf-cellar-flac-03.html#section-5.2"&gt;Free Lossless Audio Codec&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://github.com/xiph/flac/blob/633ab36ec51bada8737459e51cc54441544e63b2/src/libFLAC/stream_decoder.c#L3066-L3105"&gt;FLACのデコーダでの実装&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;やっつけで分散/絶対値log2の和（WavPackリスペクト。整数エントロピーに比例する値）/予測後分散推定値を使ってMS/LS/RSを切り替えるようにしてみた（最も値が低いのを採用するようにした）が、性能が悪化。0.2%オーダで悪化。まだ、固定でMSやるのが良いという状態になっている。&lt;/p&gt;
+&lt;p&gt;M,S,L,R成分を作って予測して、最も符号が短くなる組み合わせを選ぶ、というやり方はありで、確実に圧縮率は向上するだろう。しかし、負荷が2倍になるので戸惑う。それに見合った改善が得られる気がしない。事前情報でうまく判定できないか考えたい。&lt;/p&gt;
+&lt;p&gt;Sを選んでも性能悪化が見えるということは、MSのMに秘密がありそうな気がしてきた。
+実装から離れて、いつか書こうと思っていたチャンネル間相関を観察してみるか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(3)</title><link href="/ya-suo-lu-gai-shan-jian-tao-3.html" rel="alternate"></link><published>2022-07-05T10:00:00+09:00</published><updated>2022-07-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-07-05:/ya-suo-lu-gai-shan-jian-tao-3.html</id><summary type="html">&lt;p&gt;実験を積んでしまっているので色々試す。&lt;/p&gt;
+&lt;p&gt;まず、MSを2連続適用するのは圧縮率悪化の傾向。音源によっては1%オーダー …&lt;/p&gt;</summary><content type="html">&lt;p&gt;実験を積んでしまっているので色々試す。&lt;/p&gt;
+&lt;p&gt;まず、MSを2連続適用するのは圧縮率悪化の傾向。音源によっては1%オーダーで悪化。&lt;/p&gt;
+&lt;p&gt;また、1年前ぐらいのブログにMSとしてCDFウェーブレットを使ってみたのがあったか悪化を確認していた。しかしここでもう一度試してみる。やっぱ性能悪化だった。CDF22,CDF42で両方ともだめ。&lt;/p&gt;
+&lt;p&gt;MS変換は何故有効なんだろうか…&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(2)</title><link href="/ya-suo-lu-gai-shan-jian-tao-2.html" rel="alternate"></link><published>2022-07-02T10:00:00+09:00</published><updated>2022-07-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-07-02:/ya-suo-lu-gai-shan-jian-tao-2.html</id><summary type="html">&lt;p&gt;マルチチャンネル処理を処理後の分散から判断して見る実装を試した（処理後の分散が減るならMSを実行）が、RWCで0 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;マルチチャンネル処理を処理後の分散から判断して見る実装を試した（処理後の分散が減るならMSを実行）が、RWCで0.02%ほど圧縮率が悪化した。つまり、固定でMSやるのが性能が良いという結果。&lt;/p&gt;
+&lt;p&gt;分散を使ったのが良くなかったか。1次相関を使ってみて様子を見たが、分散よりも更に悪化。&lt;/p&gt;
+&lt;p&gt;重要なのは、MSによって何が大きく変わっているかという点でもある。MS変換後の波形の統計量とか周波数特性がどうなるか観察するといいかも？&lt;/p&gt;
+&lt;p&gt;急に思いついた手法：わざと分割時の予測を行わないことで入力を残し，ユニット方向の並列計算を高速化する。たとえば，1分割でもフレーム長/4間隔で次数分だけ予測せず残差を残す．当然圧縮率は落ちるが，4ユニット並列予測/合成が常にできる．&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;早速試してみたが、0.1%オーダで悪化した。取り下げるが、方向としては悪くなさそう。予測していない部分をどうするか考えるといいかも？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;MSの替わりにリフティング適用するとどうだったかを思い出している（たしか試していて、良くなかったはず）。そして同時にMSを2回かけるという頭のおかしい発想も浮かんだ。後で試す。&lt;/p&gt;
+&lt;p&gt;あと、自己相関の計算をFFTで高速化するというネタはあり。重要なのはどの次数でFFTを使い始めるかというところか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(1)</title><link href="/ya-suo-lu-gai-shan-jian-tao-1.html" rel="alternate"></link><published>2022-07-01T10:00:00+09:00</published><updated>2022-07-01T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-07-01:/ya-suo-lu-gai-shan-jian-tao-1.html</id><summary type="html">&lt;p&gt;ユニット並列の効果を確かめるために、2分割以上の探索（=フレームサイズを半減）で試したら、デコード速度はTTAを超 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ユニット並列の効果を確かめるために、2分割以上の探索（=フレームサイズを半減）で試したら、デコード速度はTTAを超えた。FLACの2倍程度の負荷になっている。一方、圧縮率も最大でもWavpack(-hh)と同等になっていた（ポジティブに言えばWavPackの上位互換にはなっているが。。。）。分割数1の最適化がかなり重要なようだ。&lt;/p&gt;
+&lt;p&gt;今日から投稿準備に入るので実装は一旦落ち着ける。&lt;/p&gt;
+&lt;p&gt;…と思ったが、マルチチャンネル処理にまだ改善の余地がある。適応的にMSか何もしないかを選ぶようにしてみた。
+減るはずだと思っていたが、どうも微妙。取り込まずに、ローカルの変更だけで圧縮率を見る。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(42)</title><link href="/huirutakao-cha-42.html" rel="alternate"></link><published>2022-06-30T10:00:00+09:00</published><updated>2022-06-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-30:/huirutakao-cha-42.html</id><summary type="html">&lt;p&gt;係数を静的ハフマンで圧縮した。狙い通り、ほぼエントロピーレート(6.5bit)に圧縮できて0.1%ほどの改善。あと、ねんがん …&lt;/p&gt;</summary><content type="html">&lt;p&gt;係数を静的ハフマンで圧縮した。狙い通り、ほぼエントロピーレート(6.5bit)に圧縮できて0.1%ほどの改善。あと、ねんがんの32bitビット入出力を実装できた。僅かに速度改善。&lt;/p&gt;
+&lt;p&gt;明日から投稿準備に入るので他に改善案はないか考えていた。補助関数法は負荷が重すぎるのがネック。もっと低い負荷でL1ロス最小化できないか考えていたら、NGSAの応用が思い浮かんだ。SAでも僅かに減少することは見ているので、ほぼ同様の負荷でより高い圧縮率が達成できるかもしれない。期待しつつやってみる。&lt;/p&gt;
+&lt;p&gt;うまくいかない。今、AR次数と係数次数が一致している状況になっている。それだと、どうしても更新式で全体更新ができない。。。&lt;/p&gt;
+&lt;p&gt;詰まったので、AVXでどれくらい早くなるか見ることにする。&lt;/p&gt;
+&lt;p&gt;最適化で粘っていたら、予測/合成のときのユニット方向の並列化が有効に思えた。2,4並列で計算するようにしてみたら、4/5くらいの高速化に見えた。その代わりとして、前ユニットを見ることをやめる必要がある。それによって圧縮率がどれくらい悪化するか見たら、手元の5分音源で0.01%未満の悪化であった（何故か圧縮率が上がる音源もあった。謎）。&lt;/p&gt;
+&lt;p&gt;ユニット方向の並列化は有効だからやってしまうか。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(41)</title><link href="/huirutakao-cha-41.html" rel="alternate"></link><published>2022-06-25T10:00:00+09:00</published><updated>2022-06-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-25:/huirutakao-cha-41.html</id><summary type="html">&lt;p&gt;係数をハフマンで圧縮する。&lt;/p&gt;
+&lt;p&gt;表題とずれている気もするけど、いちおう係数の分布を見ているということでフィルタ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;係数をハフマンで圧縮する。&lt;/p&gt;
+&lt;p&gt;表題とずれている気もするけど、いちおう係数の分布を見ているということでフィルタ考察に含める。&lt;/p&gt;
+&lt;p&gt;本を引っ張り出して読んでたら、『圧縮アルゴリズム』にあるWyle符号が非効率になっていることが &lt;a class="reference external" href="https://tkuro.hatenadiary.org/entry/20110221/1298311543"&gt;このブログ&lt;/a&gt; で指摘されていた。マジだ。しかし1始まりなのがちょっとな。-1しておけばいいんだけど。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(40)</title><link href="/huirutakao-cha-40.html" rel="alternate"></link><published>2022-06-24T10:00:00+09:00</published><updated>2022-06-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-24:/huirutakao-cha-40.html</id><summary type="html">&lt;p&gt;先頭ユニット以外では前ユニットのデータを参照するように修正。わずかに圧縮率向上。&lt;/p&gt;
+&lt;p&gt;係数の符号分布を見ると、や …&lt;/p&gt;</summary><content type="html">&lt;p&gt;先頭ユニット以外では前ユニットのデータを参照するように修正。わずかに圧縮率向上。&lt;/p&gt;
+&lt;p&gt;係数の符号分布を見ると、やはり単調減少の傾向でエントロピーは7程度。固定ハフマンで圧縮しようかと思っている。もし、うまく行けば7/8になるから0.1%の現象が見込める。週末で試してみる。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(39)</title><link href="/huirutakao-cha-39.html" rel="alternate"></link><published>2022-06-23T10:00:00+09:00</published><updated>2022-06-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-23:/huirutakao-cha-39.html</id><summary type="html">&lt;p&gt;正則化の探索をコーデックに組み込んだ。同時に補助関数法の繰り返し回数をコマンドラインで設定できるように …&lt;/p&gt;</summary><content type="html">&lt;p&gt;正則化の探索をコーデックに組み込んだ。同時に補助関数法の繰り返し回数をコマンドラインで設定できるようにした（分割探索時は負荷が大きすぎるので補助関数法は実行しない）&lt;/p&gt;
+&lt;p&gt;補助関数法の負荷が大きすぎるのが鼻につく。ちょっとSAの勾配法を試した見たが、圧縮率が改善するにはするけど補助関数法ほどではない。&lt;/p&gt;
+&lt;p&gt;理論的には行き詰まりを感じたので実装をまとめてコミット。そしてパラメータを弄ってたらパラメータを増やしても圧縮率向上の傾向が見られたので増やして再実験している。正則化が効いている。&lt;/p&gt;
+&lt;p&gt;また、プリエンファシスを3回適用してもさらに圧縮率がよくなっていたのを見た。これも要観察。要実験。&lt;/p&gt;
+&lt;p&gt;寝る前に、先頭ユニット以外では前のデータ参照してもいいことに気づいて予測に適用してみたら僅かに性能向上した。（10秒の音源で500バイトとか。）実装が複雑にならなければ取り込んでしまおう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(38)</title><link href="/huirutakao-cha-38.html" rel="alternate"></link><published>2022-06-22T10:00:00+09:00</published><updated>2022-06-22T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-22:/huirutakao-cha-38.html</id><summary type="html">&lt;p&gt;量子化誤差の揺り戻しの末、やはり係数L2ノルムは小さいほうがよいのではということで正則化が良さそうだと思 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;量子化誤差の揺り戻しの末、やはり係数L2ノルムは小さいほうがよいのではということで正則化が良さそうだと思っている。が、直後にそれでも量子化誤差は小さいということに気づく。すでに議論済み・実験確認済みのことであった。&lt;/p&gt;
+&lt;p&gt;そういえば（突飛で申し訳ない）、プリエンファシスを入れたLINNENetowrkの実験をやっていなかったのでやっている。傾向として、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;フレームサイズが小さいと（〜4096）、1層構成の方が性能が良い&lt;ul&gt;
+&lt;li&gt;今まで2層構成の性能が良かったのは、1層目がプリエンファシスなどの条件数を下げる処理が入っているののが大きいという示唆。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;フレームサイズが大きくなると2層以降のほうが高い性能&lt;ul&gt;
+&lt;li&gt;分割がうまく働いている？&lt;/li&gt;
+&lt;li&gt;それなら最初から細かくフレームサイズをとればいいだけでは…？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;predictive gainの式から見れるように、条件数と予測精度がどこかでトレードオフになっている。たとえばjazzとclassicは解析区間内で単純な正弦波の和になっていることが多い。従って条件数が悪く、正則化もプリエンファシスもしないと予測精度が悪い。しかしプリエンファシスで条件数を下げると予測によって分散を大いに減らせる。&lt;/p&gt;
+&lt;p&gt;しかしLINNEはプリエンファシスを2段かまして、さらに3段で動かしている。。。何故良いのか、尚更わからない。&lt;/p&gt;
+&lt;p&gt;非常に怖いのだが、フレームサイズを落として1層構成で勝負したほうが性能が良いかもしれない。フレームサイズを大きく取ることでフレーム数が減ってパラメータ効率が減るのが効いている用に思える。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;4096フレーム、かつ1層構成で試してみたが、大幅に悪化。謎。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(37)</title><link href="/huirutakao-cha-37.html" rel="alternate"></link><published>2022-06-21T10:00:00+09:00</published><updated>2022-06-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-21:/huirutakao-cha-37.html</id><summary type="html">&lt;p&gt;ネットワーク単位で同一の正則化パラメータを使ったら圧縮率が向上した。しかし、単層LPCでやるときのような単調 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ネットワーク単位で同一の正則化パラメータを使ったら圧縮率が向上した。しかし、単層LPCでやるときのような単調性は認められず。網羅探索が必要。それによってエンコード負荷がまた増えてしまう。&lt;/p&gt;
+&lt;p&gt;エンコードオプションで、固定1/512か、網羅探索か選べるようにするのが吉と見える。&lt;/p&gt;
+&lt;p&gt;また、今日は係数の分布に隔たりがあるように見えて、係数を圧縮しようとして係数の分布を見ていた。&lt;/p&gt;
+&lt;p&gt;結果は音源依存で、一部の音源ではほぼ幾何分布だったが、他ではほぼ一様で、符号無しで128以降で減少する分布が見られた（これはわかる。右シフトによって128以降は出づらくなっている）。エントロピーは6、低くて4とか出ていたが、平均が係数次数などでまちまちなので一般化が困難。次数ごとにHuffmanテーブル作るのは難しそう。また、一層目では明確に零平均ではない傾向が見られた。2層目以降は零平均っぽい分布を見せる。&lt;/p&gt;
+&lt;p&gt;書き捨てるのももったいないので一応スクリプトを残す。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;numpy&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;np&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;matplotlib.pyplot&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;plt&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="c1"&gt;# 係数ファイルを読み込み&lt;/span&gt;
+    &lt;span class="c1"&gt;# 列（次数）ごとに解析&lt;/span&gt;
+    &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;loadtxt&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;shape&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]):&lt;/span&gt;
+        &lt;span class="n"&gt;uniq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;return_counts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;counts&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prob&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;]),&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;[:,&lt;/span&gt; &lt;span class="n"&gt;col&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt;
+    &lt;span class="c1"&gt;# 全体で解析&lt;/span&gt;
+    &lt;span class="n"&gt;uniq&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;return_counts&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;counts&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;counts&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="nb"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prob&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;log2&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;prob&lt;/span&gt;&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;()),&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;var&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;()))&lt;/span&gt;
+    &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;hist&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;(),&lt;/span&gt; &lt;span class="n"&gt;bins&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;density&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kc"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="c1"&gt;# 幾何分布と重ねてみる&lt;/span&gt;
+    &lt;span class="n"&gt;mean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;mean&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flatten&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+    &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mf"&gt;1.0&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="n"&gt;mean&lt;/span&gt;
+    &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;np&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;arange&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;256&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;plot&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;p&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;**&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;plt&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;show&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;右シフトで最悪127だけ損するの、もったいないよなあと振り返る。といっても正規化定数を入れるのはどうなんだろうとも思う。最悪どんくらいの誤差が出るのかまた気になっている。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(36)</title><link href="/huirutakao-cha-36.html" rel="alternate"></link><published>2022-06-16T10:00:00+09:00</published><updated>2022-06-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-16:/huirutakao-cha-36.html</id><summary type="html">&lt;p&gt;コーデックに組み込んでみたが、圧縮率が悪化した。層ごとに正則化パラメータを最適化すると、かえって悪化につな …&lt;/p&gt;</summary><content type="html">&lt;p&gt;コーデックに組み込んでみたが、圧縮率が悪化した。層ごとに正則化パラメータを最適化すると、かえって悪化につながるようだ。&lt;/p&gt;
+&lt;p&gt;かくなる上はネットワーク単位で同一の正則化パラメータを使わざるを得ない。実装の修正にかかる。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(35)</title><link href="/huirutakao-cha-35.html" rel="alternate"></link><published>2022-06-09T10:00:00+09:00</published><updated>2022-06-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-09:/huirutakao-cha-35.html</id><summary type="html">&lt;p&gt;数値演算誤差の結果は理論を支持していたけど、真の係数との誤差は正則化パラメータを増やした方がよいという …&lt;/p&gt;</summary><content type="html">&lt;p&gt;数値演算誤差の結果は理論を支持していたけど、真の係数との誤差は正則化パラメータを増やした方がよいという結果になっていた。例えば、平均値フィルタを真の係数としたときでも、正則化パラメータ=0が最も誤差が大きく、パラメータを増やせば増やすほど誤差が減っていく傾向。&lt;/p&gt;
+&lt;p&gt;この原因は、LPCは最小位相特性（最速で反応するフィルタ）を持つように等価しているからと推測している。平均値フィルタは、計測される自己相関（パワースペクトル）はLPFのそれに近い。それに等価すると係数としてはインパルス応答に近い形（係数の前半部分にパワーが集中する）をとるから、それは真の解からは遠くなってしまう。要は、LPCでは表現できない係数が存在するということ。&lt;/p&gt;
+&lt;p&gt;議論の簡潔化や実験設定としても解ベクトルの誤差を判定した方がよい。理論的にも &amp;quot;数値演算誤差の軽減&amp;quot; を目的として議論した方がすっきりする。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(34)</title><link href="/huirutakao-cha-34.html" rel="alternate"></link><published>2022-06-04T10:00:00+09:00</published><updated>2022-06-04T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-06-04:/huirutakao-cha-34.html</id><summary type="html">&lt;p&gt;理論に突っ込み始め、まとめた。実験中。&lt;/p&gt;
+&lt;p&gt;数値誤差の分散和（誤差ベクトルのL2ノルム）はカイ二乗分布に従って出ている …&lt;/p&gt;</summary><content type="html">&lt;p&gt;理論に突っ込み始め、まとめた。実験中。&lt;/p&gt;
+&lt;p&gt;数値誤差の分散和（誤差ベクトルのL2ノルム）はカイ二乗分布に従って出ているように見える。正規分布の和の分布はカイ二乗分布に従うから、各軸の誤差は正規分布に従って出ていそうだ。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(33)</title><link href="/huirutakao-cha-33.html" rel="alternate"></link><published>2022-05-31T10:00:00+09:00</published><updated>2022-05-31T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-31:/huirutakao-cha-33.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\tr[1]{\mathrm{tr}\left[ #1 \right]}
+\newcommand\det[1]{\mathrm{det}\left[ #1 \right]}
+\newcommand\dfrac[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;条件数の理論的考察に突っ込み始 …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\tr[1]{\mathrm{tr}\left[ #1 \right]}
+\newcommand\det[1]{\mathrm{det}\left[ #1 \right]}
+\newcommand\dfrac[2]{\frac{\mathrm{d} #1}{\mathrm{d} #2}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;条件数の理論的考察に突っ込み始めた。『音声の線形予測』で、自己相関関数の固有値の算術平均と幾何平均の比&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\frac{\det{\ve{R}}^{\frac{1}{L}}}{\frac{1}{L} \tr{\ve{R}}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;は &lt;span class="math"&gt;\(L \to \infty\)&lt;/span&gt; でspetrum flatnessに収束することが言われていた（Sgezoの定理からいける。証明は省く）。これは条件数を示唆する尺度になっている（ 分子の行列式が &lt;span class="math"&gt;\(0\)&lt;/span&gt; のとき0, 固有値が全て同一で1）。&lt;/p&gt;
+&lt;p&gt;spectrum flatnessとの同一視から、上式の逆数は予測利得の近似を与えている。正則化パラメータ &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; との関連を見るため、正則化込みの利得近似を &lt;span class="math"&gt;\(G(\mu)\)&lt;/span&gt; とおく：&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+G(\mu) := \frac{\frac{1}{L} \tr{\ve{R} + \mu \ve{I}}}{\det{\ve{R} + \mu \ve{I}}^{\frac{1}{L}}}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(G(\mu)\)&lt;/span&gt; の最大化を考える。対数とその &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; による微分は、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\log G(\mu) &amp;amp;= \log\left[ \frac{1}{L} \sum_{i = 1}^{L} (\lambda_{i} + \mu) \right] - \frac{1}{L} \sum_{i = 1}^{L} \log(\lambda_{i} + \mu) \\
+\dfrac{\log G(\mu)}{\mu} &amp;amp;= \frac{1}{\frac{1}{L} \sum_{i = 1}^{L} (\lambda_{i} + \mu)} - \frac{1}{L} \sum_{i = 1}^{L} \frac{1}{\lambda_{i} + \mu} \\
+&amp;amp;= \left\{ \frac{1}{L} \sum_{i = 1}^{L} (\lambda_{i} + \mu) \right\}^{-1} - \left\{ \frac{L}{\sum_{i = 1}^{L} \frac{1}{\lambda_{i} + \mu}} \right\}^{-1} \\
+&amp;amp;\leq 0
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;最後の不等式は、&lt;span class="math"&gt;\(\text{算術平均} \geq \text{調和平均}\)&lt;/span&gt; から出てくる。 同時に &lt;span class="math"&gt;\(\dfrac{\log G(\mu)}{\mu} = 0\)&lt;/span&gt; となるのは固有値が全て等しいとき、かつそのときに限る。このことから、全ての &lt;span class="math"&gt;\(\mu &amp;gt; 0\)&lt;/span&gt; で予測利得は単調減少を続ける。&lt;/p&gt;
+&lt;p&gt;従って、正則化パラメータ &lt;span class="math"&gt;\(\mu\)&lt;/span&gt; はどの値に設定しても予測による利得は得られない事がわかる。量子化誤差に関する考察も踏まえて、ここまでは残差分散の減少は説明できない。&lt;/p&gt;
+&lt;p&gt;他のアプローチから、残差分散減少の原因を追うことを考える。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(32)</title><link href="/huirutakao-cha-32.html" rel="alternate"></link><published>2022-05-30T10:00:00+09:00</published><updated>2022-05-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-30:/huirutakao-cha-32.html</id><summary type="html">&lt;p&gt;条件数の評価尺度を正則化パラメータで微分して様子を見ている。&lt;/p&gt;
+&lt;p&gt;色々式を弄っていたが、結論は出てこない。しかし、一 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;条件数の評価尺度を正則化パラメータで微分して様子を見ている。&lt;/p&gt;
+&lt;p&gt;色々式を弄っていたが、結論は出てこない。しかし、一つ重要な定理として、Ridge回帰によって、最小二乗法よりもMSE（推定量の意味での）が減少するパラメータが存在するというのを思い出した。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.few.vu.nl/~wvanwie/Courses/HighdimensionalDataAnalysis/WNvanWieringen_HDDA_Lecture234_RidgeRegression_20182019.pdf"&gt;Ridge regression&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.statlect.com/fundamentals-of-statistics/ridge-regression"&gt;Ridge regression&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://arxiv.org/pdf/1509.09169.pdf"&gt;Lecture notes on ridge regression&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;だから、減るのはおそらく間違いなくて、通常の最尤推定よりバリアンス（真のパラメータからのずれ）が小さいパラメータを選ぶ可能性がある。Ridge回帰の結果は不偏推定とならないのでバイアスが乗る。しかし、この応用では問題ない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(31)</title><link href="/huirutakao-cha-31.html" rel="alternate"></link><published>2022-05-29T10:00:00+09:00</published><updated>2022-05-29T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-29:/huirutakao-cha-31.html</id><summary type="html">&lt;p&gt;構成固定で正則化パラメータだけ動かしたときに統計量がどうなるかを見よう。→パット見、やはり凸なトレンドを見 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;構成固定で正則化パラメータだけ動かしたときに統計量がどうなるかを見よう。→パット見、やはり凸なトレンドを見せた。しかも、パラメータ数に依存していない（層数だけに依存していそう）。&lt;/p&gt;
+&lt;p&gt;入力で決まりそうな統計量ってなんだろう…と考えたところ、variance of fit（推定の分散）が効いていそうな気がした。→量子化誤差解析のまとめから式を追ってみたら、予測誤差最小化の式で織り込み済みだった。&lt;/p&gt;
+&lt;p&gt;プリエンファシスに起因しているかと思っていたが、プリエンファシスを抜いても凸なトレンドを確認した。プリエンファシスによって露骨に現れるようになったというのが実態か。&lt;/p&gt;
+&lt;p&gt;何かしら正則化によって予測が改善する成分があるということを示しているが、謎だ。double精度で計算しているから量子化誤差ではないはず。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(30)</title><link href="/huirutakao-cha-30.html" rel="alternate"></link><published>2022-05-28T10:00:00+09:00</published><updated>2022-05-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-28:/huirutakao-cha-30.html</id><summary type="html">&lt;p&gt;正則化パラメータを変えたときの結果を並べてプロットするようにした。さらに窓サイズを小さくして観察してい …&lt;/p&gt;</summary><content type="html">&lt;p&gt;正則化パラメータを変えたときの結果を並べてプロットするようにした。さらに窓サイズを小さくして観察している。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;プリエンファシスを前処理に入れると1層構成で高いflatnessが出ている（プリエンファシスを含めれば2層だが）。&lt;ul&gt;
+&lt;li&gt;窓サイズを小さくしていくと性能差が顕著になる。2048ではっきり見え、16384以上では差がほぼなくなる。&lt;/li&gt;
+&lt;li&gt;正則化パラメータも高く取ると性能が向上する。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;LINNEは窓サイズを変えて最も良い窓サイズを選んでいるから、性能の解析ができていなかった。正則化パラメータ=1/512で良かったのは平均的に良い挙動を示すパラメータだったと想像。
+正則化については最適設定が気になり始めている。&lt;/p&gt;
+&lt;p&gt;LINNEが採用しているプリエンファシス2段も気になるので実験着手。その際にプリエンファシスでも正則化が動いてしまっている事に気づき修正（影響は僅かであった。）。&lt;/p&gt;
+&lt;p&gt;実験回しながら『音声の線形予測』を読んでいる。なぜプリエンファシスが良いのか触れている論文を見る&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;amp;arnumber=1162572"&gt;A Spectral-Flatness Measure for Studyingthe Autocorrelation Method of Linear Prediction of Speech Analysis&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;一次のプリエンファシスでspectral flatnessが向上することが示されている。条件数も改善する。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリエンファシスや正則化によって条件数は改善していることは間違いない。しかし、なぜ精度が上がっているのかはまだ不明。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;フレームサイズが絡んでいるような気がした。フレームサイズが小さいときにパラメータ数を大きくすると劣決定問題に近づくから、正則化が働きやすい。という想定&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;条件数を調べざるを得ない気がした。条件数のヒストグラムを作ってみたいと思う。
+同時に条件数についての資料を漁る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://na-inet.jp/nasoft/chap08.pdf"&gt;第 8 章 ノルム，条件数，連立一次方程式の誤差解析&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://noreply.sci.hokudai.ac.jp/~yomo/class/saito-notes.pdf"&gt;数値計算の常識&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;条件数を見ていたら行列L2ノルムが出てきて、正則化パラメータを動かしたときにどのようなトレンドを見せるのか興味が出てきた。量子化誤差解析のときと同じように、ある正則化パラメータでflatnessが最大（L2ノルムが最小）になると想定できる。こっちが優先に思えた。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(29)</title><link href="/huirutakao-cha-29.html" rel="alternate"></link><published>2022-05-27T10:00:00+09:00</published><updated>2022-05-27T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-27:/huirutakao-cha-29.html</id><summary type="html">&lt;p&gt;昨日出てきた結果がどういうことなのか考えている。窓サイズが2048など小さいと、局所的に定常とみなせるような解 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;昨日出てきた結果がどういうことなのか考えている。窓サイズが2048など小さいと、局所的に定常とみなせるような解析になり、周波数成分が明確に現れる。結果条件数が悪化してしまう。そこで正則化がうまく効く、というストーリーを考えている。また、窓サイズに応じて適切な正則化定数は変わってきそう。&lt;/p&gt;
+&lt;p&gt;しかし、多層にしたときに正則化がなぜうまく効くのか（単層と違って性能が落ちていかないのか）、そこがさっぱり。&lt;/p&gt;
+&lt;p&gt;パワースペクトルを弄っているのが効いているのか？と想像して板倉-斎藤擬距離を探る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&amp;amp;arnumber=1163421"&gt;Distortion Measures for Speech Processing&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;そうしたら『音声の線形予測』が参照されていた。早速読んでみるがあまり有益な示唆は得られず…。&lt;/p&gt;
+&lt;p&gt;と思ってパラパラめくっていたら、条件数についての記述が目に止まった。spectral flatnessは条件数と関連があることが示されていた（自己相関関数の固有値を使っても論じれる）。0に近い（有声音）だと悪条件になる。&lt;/p&gt;
+&lt;p&gt;もしかして精度落ちが起きているのだろうか、確かめるには1次のフィルタをかましてやればいい。→やってみたところ、単層が最もよい性能を叩き出すようになった。つまり悪条件であることが効いていたことになる。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;精度落ち以外で考えられるのは、『音声の線形予測』で言っていた、低いパワーを持つ帯域は小さい重みがついてマッチングする、という記述。低いパワーの帯域は相対的に無視されることを示唆している。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリエンファシスに加え、正則化を入れたときの単層が最も良い性能を出している。同時に、階層構成にしたときによくなる理由がわからなくなった。。。プリエンファシスを入れたら単層で良いのでは？という気がしている。&lt;/p&gt;
+&lt;p&gt;プロットグラフが多くなってきた。もう少しグラフに線を増やしてもいいかも（正則化パラメータを変えたときも並べて書いて良さそう。今はページ送りで見ている）。あす（今日）もう一度冷静に考察しよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(28)</title><link href="/huirutakao-cha-28.html" rel="alternate"></link><published>2022-05-26T10:00:00+09:00</published><updated>2022-05-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-26:/huirutakao-cha-28.html</id><summary type="html">&lt;p&gt;正則化と多段構成の謎を追っている。再度 &lt;a class="reference external" href="http://www-mmsp.ece.mcgill.ca/Documents/Reports/2021/KabalR2021b.pdf"&gt;Ill-Conditioning and Bandwidth Expansion in Linear Prediction of Speech&lt;/a&gt; を見ていたら、プリエンファシス（高域強調）も条件数向 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;正則化と多段構成の謎を追っている。再度 &lt;a class="reference external" href="http://www-mmsp.ece.mcgill.ca/Documents/Reports/2021/KabalR2021b.pdf"&gt;Ill-Conditioning and Bandwidth Expansion in Linear Prediction of Speech&lt;/a&gt; を見ていたら、プリエンファシス（高域強調）も条件数向上に寄与している（音声信号の高域のパワーが0になるのを阻止）のが書いてあった。&lt;/p&gt;
+&lt;p&gt;多段にすることでプリエンファシスのような操作になっているのだろうか？そこで、以前も試した気がするけど、LINNENetworkではなく単純なLPCの連結でどうなるか見ている。&lt;/p&gt;
+&lt;p&gt;正則化がない場合は、1層が最も良い傾向。正則化を入れると多層のほうがよい傾向。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;LINNENetworkと同一の傾向が見られた。しかし、1層構成が落ちただけにも見える&lt;/li&gt;
+&lt;li&gt;jazzとclassicは1層構成のときより高いflatness。これらの音源を見てみると単音で鳴っていた。（特定の周波数に成分が集中。popularやrightは全帯域で鳴っている。）&lt;ul&gt;
+&lt;li&gt;シンプルな正弦波に近い音源では条件数が高くなるから影響を大きく受ける？&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;窓サイズを変えてみる。窓が小さいと単一の周波数成分が入りやすくなって正則化の効果が大きくなる可能性がある。逆に大きいと多くの周波数成分が入るために正則化の効果が薄れる可能性があり、1層構成で十分、という結論になると予測。&lt;/p&gt;
+&lt;p&gt;LINNEは分割を行うから、各分割で周波数分解能の高い解析が起こり、そして条件数が悪くなっている。そこで正則化が効いている可能性を推したい。&lt;/p&gt;
+&lt;p&gt;窓サイズを大きくすると正則化が強く効く（全パワースペクトルが持ち上がるから）ので、1層における解析で大きな性能悪化が出ると考えている。しかし本当だろうか。もしかしたら影響度は変わらないのかもしれない。Ridge正則化を入れたとき、フレームサイズに応じてパワースペクトルがどのように変化するかは見るべき。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;もしフレームサイズに応じて正則化の効果が変わるなら、フレームサイズに応じて正則化パラメータを変えるべき。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(27)</title><link href="/huirutakao-cha-27.html" rel="alternate"></link><published>2022-05-25T10:00:00+09:00</published><updated>2022-05-25T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-25:/huirutakao-cha-27.html</id><summary type="html">&lt;p&gt;5/25、フレームサイズを4096, 窓関数適用しても8192の場合とほぼ同等の結果だった。&lt;/p&gt;
+&lt;p&gt;階層的LPCの解析として、フィルタをフ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;5/25、フレームサイズを4096, 窓関数適用しても8192の場合とほぼ同等の結果だった。&lt;/p&gt;
+&lt;p&gt;階層的LPCの解析として、フィルタをフーリエ変換すれば階層的にしてもフィルタの積でかけることが見えた（残差演算も &lt;span class="math"&gt;\(h_{0} = 1\)&lt;/span&gt; にすればOK）。分割してノルムが最小になる組み合わせを選ぶ操作もフィルタを通じて書けた。&lt;/p&gt;
+&lt;p&gt;総パラメータ数を &lt;span class="math"&gt;\(N\)&lt;/span&gt; 、層数を &lt;span class="math"&gt;\(L\)&lt;/span&gt; とすると、出力の経路の組み合わせ数は &lt;span class="math"&gt;\((\log_{2} N + 2 - L)^{L}\)&lt;/span&gt; となる。その中からロスが最小になるものを選んでいる。しかし、貪欲に層ごとに選択している点と、また最終層で経路が閉じる点があるから実質的な組み合わせ数は減る。&lt;/p&gt;
+&lt;p&gt;層数 &lt;span class="math"&gt;\(L\)&lt;/span&gt; を増やすと、組み合わせ数が指数オーダーで上昇する。このことと &lt;a class="reference external" href="https://arxiv.org/pdf/1605.06431.pdf"&gt;ResNetはアンサンブル(Residual Networks Behave Like Ensembles of Relatively Shallow Networks)&lt;/a&gt; がかなり親和性があり、性能向上に寄与しているのではないかと考え始める。&lt;/p&gt;
+&lt;p&gt;もう一度多層の実験結果を見ると、今解決すべき課題が2点あることに気付く。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;なぜ多層にしたときにロスが減るのか&lt;/li&gt;
+&lt;li&gt;なぜ正則化を入れて多層にするとロスが減るのか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;プリエンファシスの話はどっかにいってしまったが、多層の解析が重要であることは間違いないのでそちらを優先。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(26)</title><link href="/huirutakao-cha-26.html" rel="alternate"></link><published>2022-05-24T10:00:00+09:00</published><updated>2022-05-24T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-24:/huirutakao-cha-26.html</id><summary type="html">&lt;p&gt;昨日の(プリエンファシス後の最小分散)/(プリエンファシス前の最小分散)の尺度で再度解析してみたところ、以下の結 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;昨日の(プリエンファシス後の最小分散)/(プリエンファシス前の最小分散)の尺度で再度解析してみたところ、以下の結果。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;悪化する場合もあり。高域チャープとジャズ音源。&lt;ul&gt;
+&lt;li&gt;安易には高周波が入ってるとダメそう、という予測ができる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;1次のフィルタ一発を入れるところでほぼ決まる&lt;ul&gt;
+&lt;li&gt;多層（残差に対して予測する構成）にしてもあまり減らない&lt;/li&gt;
+&lt;li&gt;4層/1層あたり6パラメータくらいまで試したけどほぼ同じ傾向（0.1dBほど下がるが、全体から見るとごくわずかな変化）。&lt;/li&gt;
+&lt;li&gt;正則化を入れても同じ傾向。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ここで、 &lt;span class="math"&gt;\(G=(\text{プリエンファシス後の最小分散})/(\text{プリエンファシス前の最小分散})\)&lt;/span&gt; の式はいじってみても良さそう。プリエンファシス後の信号は伝達関数を使ってかける。&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+G &amp;amp;= \frac{\frac{1}{2\pi} \int_{0}^{2\pi} \log S^{\prime}(\omega) d\omega}{\frac{1}{2\pi} \int_{0}^{2\pi} \log S(\omega) d\omega} = \frac{\int_{0}^{2\pi} \log S^{\prime}(\omega) d\omega}{\int_{0}^{2\pi} \log S(\omega) d\omega} = \frac{\int_{0}^{2\pi} \log |H(\omega)|^{2} S(\omega) d\omega}{\int_{0}^{2\pi} \log S(\omega) d\omega} \\
+&amp;amp;= 1 + \frac{\int_{0}^{2\pi} \log |H(\omega)|^{2} d\omega}{\int_{0}^{2\pi} \log S(\omega) d\omega}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;第二項が負になればプリエンファシスが有効になる…と思ったら、『The Theory of Linear Prediction』の6.2節に、ARモデルのフィルタ（厳密に言うと、発散しないフィルタ係数）に対して&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\int_{0}^{2\pi} \log |H(\omega)|^{2} d\omega = 0
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;が成り立つと書いてある。つまり理論的には &lt;span class="math"&gt;\(G=1\)&lt;/span&gt; となる。これは、フィルタを連結させようとあるフィルタを用いて &lt;span class="math"&gt;\(H^{\ast}(\omega) = \prod_{i=1}^{N} H_{i}(\omega)\)&lt;/span&gt; と書けてしまうから、結局最小残差で抑えられてしまうことからうなずける。&lt;/p&gt;
+&lt;p&gt;しかし、実験結果はそうなっていない。。。演算誤差にしては無視できないくらい大きい。特に低域チャープでは &lt;span class="math"&gt;\(G=1/2\)&lt;/span&gt; 、つまり分散が半減している。&lt;/p&gt;
+&lt;p&gt;もしかして、定常ではない場合が効いてくるのか？？定常に近づけるため時間分解能を高める。フレームサイズを8192でやっていたけど4096に変え、更に窓適用して再度実験してみる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(25)</title><link href="/huirutakao-cha-25.html" rel="alternate"></link><published>2022-05-23T10:00:00+09:00</published><updated>2022-05-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-23:/huirutakao-cha-25.html</id><summary type="html">&lt;p&gt;階層的LPCを組んでみた。プリエンファシスにより残差分散最小値が減少していることも見た。評価尺度として、(最小分 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;階層的LPCを組んでみた。プリエンファシスにより残差分散最小値が減少していることも見た。評価尺度として、(最小分散)/(入力データ分散)を使っている。&lt;/p&gt;
+&lt;p&gt;しかし同時にプリエンファシスフィルタの次数を上げても残差分散が減っていく傾向。これに対しては、次数に対するペナルティ（符号長）を入れると公平な判断ができそうな印象。でも、これは知りたかったことではない。&lt;/p&gt;
+&lt;p&gt;階層的LPCで様々な構成での最小残差分散の変化を見る。概観は以下&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;1次のフィルタ一発を入れるところでほぼ決まる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;これでほぼ結果が決った…と思ったら、評価尺度が良くないことに気づく。(最小分散)/(入力データ分散)だとプリエンファシス後で減らせる分散も入ってしまう。(プリエンファシス後の最小分散)/(プリエンファシス前の最小分散)がプリエンファシスのみを測れる尺度になるはず。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(24)</title><link href="/huirutakao-cha-24.html" rel="alternate"></link><published>2022-05-19T10:00:00+09:00</published><updated>2022-05-19T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-19:/huirutakao-cha-24.html</id><summary type="html">&lt;p&gt;私用によりしばらく空けていた。結果をOverleafに纏めていたり、リサンプラーを作っていたのも要因。&lt;/p&gt;
+&lt;p&gt;結果を見ると、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;多層構 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;私用によりしばらく空けていた。結果をOverleafに纏めていたり、リサンプラーを作っていたのも要因。&lt;/p&gt;
+&lt;p&gt;結果を見ると、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;多層構造にすると（パラメータ総数が同一でも）残差が減る傾向&lt;/li&gt;
+&lt;li&gt;正則化を入れると、多層構造で残差が減る傾向&lt;ul&gt;
+&lt;li&gt;フレームサイズを大きくすると正則化による効果は小さくなる&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;さて、多層にした際に残差（分散）が減るのはなぜだろうか？&lt;/p&gt;
+&lt;p&gt;最小の残差となる分割を選んでいるからではないか？と考えたが、多層にしても選択回数は同一だから成り立たない気がする。&lt;/p&gt;
+&lt;p&gt;一方、ミニマムな例としてプリエンファシスを入れると残差が下がるケースを今まで度々見てきた。プリエンファシスを行ったデータに対して残差最小値が下がっているのではないかという予測が立つ。やってみよう。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>フィルタ考察(23)</title><link href="/huirutakao-cha-23.html" rel="alternate"></link><published>2022-04-21T10:00:00+09:00</published><updated>2022-04-21T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-04-21:/huirutakao-cha-23.html</id><summary type="html">&lt;p&gt;引き続き証明を追っていた。 &lt;a class="reference external" href="https://doc.lagout.org/science/0_Computer%20Science/2_Algorithms/Mathematical%20Methods%20and%20Algorithms%20for%20Signal%20Processing%20%5BMoon%20%26%20Stirling%201999-08-14%5D.pdf"&gt;Mathematical Methods and Algorithms for Signal&lt;/a&gt; は誤植が多く、また明らかに &lt;a class="reference external" href="https://ieeexplore.ieee.org/document/1054924"&gt;On the asymptotic eigenvalue distribution of Toeplitz matrices&lt;/a&gt; を引用している。&lt;/p&gt;
 &lt;p&gt;また、証明に …&lt;/p&gt;</summary><content type="html">&lt;p&gt;引き続き証明を追っていた。 &lt;a class="reference external" href="https://doc.lagout.org/science/0_Computer%20Science/2_Algorithms/Mathematical%20Methods%20and%20Algorithms%20for%20Signal%20Processing%20%5BMoon%20%26%20Stirling%201999-08-14%5D.pdf"&gt;Mathematical Methods and Algorithms for Signal&lt;/a&gt; は誤植が多く、また明らかに &lt;a class="reference external" href="https://ieeexplore.ieee.org/document/1054924"&gt;On the asymptotic eigenvalue distribution of Toeplitz matrices&lt;/a&gt; を引用している。&lt;/p&gt;
 &lt;p&gt;また、証明に当たってはWeierstrassの多項式近似定理が必要だった（多項式から連続関数への拡張にあたり）。以下の証明が簡明。&lt;/p&gt;
 &lt;ul class="simple"&gt;

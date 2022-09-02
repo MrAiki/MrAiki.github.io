@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2022-05-11T10:00:00+09:00</updated><entry><title>リサンプラー作成</title><link href="/risanpurazuo-cheng.html" rel="alternate"></link><published>2022-05-11T10:00:00+09:00</published><updated>2022-05-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-11:/risanpurazuo-cheng.html</id><summary type="html">&lt;p&gt;ずっと前から線形補間リサンプラーに我慢がならない状況が続いていたので作ることを考えていた。大雑把には貴 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ずっと前から線形補間リサンプラーに我慢がならない状況が続いていたので作ることを考えていた。大雑把には貴家先生の『マルチレート信号処理』に従えばいいと考えていた。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 趣味</title><link href="/" rel="alternate"></link><link href="/feeds/qu-wei.atom.xml" rel="self"></link><id>/</id><updated>2022-05-18T10:00:00+09:00</updated><entry><title>リサンプラー作成</title><link href="/risanpurazuo-cheng.html" rel="alternate"></link><published>2022-05-11T10:00:00+09:00</published><updated>2022-05-18T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-05-11:/risanpurazuo-cheng.html</id><summary type="html">&lt;p&gt;ずっと前から線形補間リサンプラーに我慢がならない状況が続いていたので作ることを考えていた。大雑把には貴 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ずっと前から線形補間リサンプラーに我慢がならない状況が続いていたので作ることを考えていた。大雑把には貴家先生の『マルチレート信号処理』に従えばいいと考えていた。&lt;/p&gt;
 &lt;p&gt;実装に当たって考えたことは、&lt;/p&gt;
 &lt;ul class="simple"&gt;
 &lt;li&gt;なるべく高速な実装、でもエイリアシングはなるべく回避する。44.1k -&amp;gt; 48kをスムーズに変換したい。&lt;/li&gt;
@@ -9,12 +9,21 @@
 &lt;div class="section" id="section-2"&gt;
 &lt;h2&gt;お役立ちリンク&lt;/h2&gt;
 &lt;ul class="simple"&gt;
-&lt;li&gt;&lt;a class="reference external" href="https://ccrma.stanford.edu/‾jos/resample/Free_Resampling_Software.html"&gt;Free Resampling Software&lt;/a&gt; フリーのリサンプリングライブラリ集。実装し始めてから存在に気づいた。あるじゃん。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ccrma.stanford.edu/~jos/resample/Free_Resampling_Software.html"&gt;Free Resampling Software&lt;/a&gt; フリーのリサンプリングライブラリ集。実装し始めてから存在に気づいた。あるじゃん。&lt;ul&gt;
 &lt;li&gt;&lt;a class="reference external" href="https://github.com/chirlu/soxr"&gt;The SoX resampler library&lt;/a&gt; soxの一部分。かなり使われているらしいリサンプラ&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;li&gt;&lt;a class="reference external" href="http://www.ee.ic.ac.uk/hp/staff/dmb/courses/DSPDF/00600_WindowFIR.pdf"&gt;6: Window Filter Design&lt;/a&gt; 窓関数法。遷移幅から近似によりフィルタ次数を決める手法が載っている。&lt;/li&gt;
-&lt;li&gt;&lt;a class="reference external" href="http://www.finetune.co.jp/‾lyuka/technote/winfunc/"&gt;窓関数のダイナミックレンジと分解能&lt;/a&gt; 色々な窓がある。メインローブの太さとサイドローブの減衰が重要。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.finetune.co.jp/~lyuka/technote/winfunc/"&gt;窓関数のダイナミックレンジと分解能&lt;/a&gt; 色々な窓がある。メインローブの太さとサイドローブの減衰が重要。&lt;/li&gt;
+&lt;li&gt;わかりやすいリサンプリングとポリフェーズフィルタの解説。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://edn.itmedia.co.jp/edn/articles/1009/01/news112.html"&gt;ポリフェーズフィルタの基本を知る&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://bfin.sakura.ne.jp/oldsite/2191/program/polyphase/polyphase06.shtml"&gt;ポリフェーズ・フィルタ&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;解説を見ていると、現在の計算方法（ダウンサンプル分出力を止める/アップサンプル分読み飛ばす）でよさそうな印象を受ける。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ryukau.github.io/filter_notes/downsampling/downsampling.html"&gt;ダウンサンプリング&lt;/a&gt; IIRの設計や最適なマルチステージ構成についても記述あり。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ryukau.github.io/filter_notes/index.html"&gt;波ノート&lt;/a&gt; 音声に関する包括的な実験ノート。大ボリューム。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://src.infinitewave.ca"&gt;SRC Comparisons&lt;/a&gt; リサンプラー性能比較。性能比較に使ったwavもある。入手すべき。&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 </content><category term="趣味"></category><category term="リサンプラー"></category><category term="窓関数法"></category></entry><entry><title>変換符号化ベースのロスレス音声コーデック検討</title><link href="/bian-huan-fu-hao-hua-besunorosuresuyin-sheng-kodetsukujian-tao.html" rel="alternate"></link><published>2022-03-05T10:00:00+09:00</published><updated>2022-03-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-03-05:/bian-huan-fu-hao-hua-besunorosuresuyin-sheng-kodetsukujian-tao.html</id><summary type="html">&lt;p&gt;整数DCTベースでロスレス音声コーデックが構築できるはずで、試してみたい。
