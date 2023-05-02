@@ -1,5 +1,971 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2022-09-02T10:00:00+09:00</updated><entry><title>圧縮率改善検討(11)</title><link href="/ya-suo-lu-gai-shan-jian-tao-11.html" rel="alternate"></link><published>2022-09-02T10:00:00+09:00</published><updated>2022-09-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-09-02:/ya-suo-lu-gai-shan-jian-tao-11.html</id><summary type="html">&lt;p&gt;予定が五月雨式に入っておりまとまった時間とれず。今SVRをやっているが、それまでの流れをメモ。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Aiki's Blog - 雑記</title><link href="/" rel="alternate"></link><link href="/feeds/za-ji.atom.xml" rel="self"></link><id>/</id><updated>2023-03-17T10:00:00+09:00</updated><entry><title>コーデック実装(11)</title><link href="/kodetsukushi-zhuang-11.html" rel="alternate"></link><published>2023-03-17T10:00:00+09:00</published><updated>2023-03-17T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-03-17:/kodetsukushi-zhuang-11.html</id><summary type="html">&lt;p&gt;ようやく落ち着いた。が、もう時間がない。
+ダイクストラ法を組み込み、最大ブロックサイズを8192まで上げたらLINNEの性能 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;ようやく落ち着いた。が、もう時間がない。
+ダイクストラ法を組み込み、最大ブロックサイズを8192まで上げたらLINNEの性能に近くなった。4096では頭打ちっぽいけど。
+何回もエンコードを打っているので処理負荷が爆増しているのは致し方ない。&lt;/p&gt;
+&lt;p&gt;でも負荷対策がしたい。アイディアとしては、推定符号長を使うのが有効とみている。
+推定符号長の計算に必要な自己相関系列を分割して計算し、順次マージしていくことで各分割での推定符号長が高速に計算できる。
+でも、マルチチャンネルとかプリエンファシスを組み込んだり、窓が無視されるので近似計算になったり、実装上の面倒が増えるので手が動かない。実際今日やろうと思ったけど萎えてしまった。&lt;/p&gt;
+&lt;p&gt;自己相関の計算が負荷なのは分かっているので、キャッシュ化するのが良かったりする？
+どこの負荷が大きいか、もう一度見てみよう→以外に最適符号パラメータを決めるlogの負荷が重い。あと符号長計算。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category></entry><entry><title>執筆中(23)とコーデック実装(10)</title><link href="/zhi-bi-zhong-23tokodetsukushi-zhuang-10.html" rel="alternate"></link><published>2023-01-19T10:00:00+09:00</published><updated>2023-01-19T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-19:/zhi-bi-zhong-23tokodetsukushi-zhuang-10.html</id><summary type="html">&lt;p&gt;いまデコード負荷が一番大きい部分は、再帰的Golomb-Riceの復号部分。これをもっと早くしたい。関数をインライン展開したり …&lt;/p&gt;</summary><content type="html">&lt;p&gt;いまデコード負荷が一番大きい部分は、再帰的Golomb-Riceの復号部分。これをもっと早くしたい。関数をインライン展開したり、4サンプル単位で処理してバッファセットをSIMD化したり、アルファ符号部分で加減算を減らしたり。&lt;/p&gt;
+&lt;p&gt;また、ブロックサイズの可変化もあり得ると思っている。4096でも1024, 2048で分割し得る。符号長の推定には次数選択で用いたやり方が通用する。ダイクストラ法で組み合わせが見つかるはず。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(22)とコーデック実装(9)</title><link href="/zhi-bi-zhong-22tokodetsukushi-zhuang-9.html" rel="alternate"></link><published>2023-01-15T10:00:00+09:00</published><updated>2023-01-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-15:/zhi-bi-zhong-22tokodetsukushi-zhuang-9.html</id><summary type="html">&lt;p&gt;フレッチャーのチェックサムを使用している。テストで0xFFのXORをとっているがそれの破損を検知できずに焦る。255の …&lt;/p&gt;</summary><content type="html">&lt;p&gt;フレッチャーのチェックサムを使用している。テストで0xFFのXORをとっているがそれの破損を検知できずに焦る。255の剰余だから1バイトで0xFFを足すと区別できないんだな…。不安はあるが、検出精度は折り紙つきではあるので採用。&lt;/p&gt;
+&lt;p&gt;デコード速度は向上したが、エンコード速度が遅くなることを確認している。謎。何か意図しない修正を入れた可能性がある。&lt;/p&gt;
+&lt;p&gt;いろいろなコーデックのフレームサイズを見ている．Monkey's Audioは(APECompressCreate.cpp)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c1"&gt;// initialize (creates the base classes)&lt;/span&gt;
+&lt;span class="n"&gt;m_nBlocksPerFrame&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;73728&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nCompressionLevel&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MAC_COMPRESSION_LEVEL_EXTRA_HIGH&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;m_nBlocksPerFrame&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="k"&gt;if&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nCompressionLevel&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;MAC_COMPRESSION_LEVEL_INSANE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;m_nBlocksPerFrame&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;16&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;なのででかい。TTA(tta.c)は&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;smp_size&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wave_hdr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_channels&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;wave_hdr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bits_per_sample&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;8&lt;/span&gt;&lt;span class="p"&gt;));&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;nch&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wave_hdr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_channels&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bps&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wave_hdr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;bits_per_sample&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sps&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wave_hdr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample_rate&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="n"&gt;info&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;format&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;でinfo.spsの値をほぼそのままフレームサイズとするので1秒。でかい。WavPack(pack_utils.c)は&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kt"&gt;int&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;flags&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;CONFIG_HIGH_FLAG&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;?&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;4&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample_rate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;block_samples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sample_rate&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;divisor&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;block_samples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;12000&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;int64_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;block_samples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_channels&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;75000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;block_samples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;/=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+
+&lt;span class="k"&gt;while&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="kt"&gt;int64_t&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;block_samples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;config&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;num_channels&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;20000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;span class="w"&gt;    &lt;/span&gt;&lt;span class="n"&gt;wpc&lt;/span&gt;&lt;span class="o"&gt;-&amp;gt;&lt;/span&gt;&lt;span class="n"&gt;block_samples&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="o"&gt;*=&lt;/span&gt;&lt;span class="w"&gt; &lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;&lt;span class="w"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;p&gt;なのでステレオならば1チャンネル当たり10000サンプル以上となる。でかい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(21)とコーデック実装(8)</title><link href="/zhi-bi-zhong-21tokodetsukushi-zhuang-8.html" rel="alternate"></link><published>2023-01-13T10:00:00+09:00</published><updated>2023-01-13T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-13:/zhi-bi-zhong-21tokodetsukushi-zhuang-8.html</id><summary type="html">&lt;p&gt;他のコーデックが誤り検出をどうしているか軽く調べたら、FLACはブロックヘッダ部分をCRC8で確認、WavPackは謎の独自CRCを …&lt;/p&gt;</summary><content type="html">&lt;p&gt;他のコーデックが誤り検出をどうしているか軽く調べたら、FLACはブロックヘッダ部分をCRC8で確認、WavPackは謎の独自CRCを使っていた。うーん、真面目にCRC16使っているのがバカらしくなってきた。&lt;/p&gt;
+&lt;p&gt;いっそ何らかのチェックサムでもいい気がしてきた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://softwareengineering.stackexchange.com/questions/96211/what-is-a-faster-alternative-to-a-crc"&gt;What is a faster alternative to a CRC?&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://users.ece.cmu.edu/‾koopman/thesis/maxino_ms.pdf"&gt;The Effectiveness of Checksums for Embedded Networks&lt;/a&gt; 色々なアルゴリズムの比較。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Fletcher%27s_checksum"&gt;Fletcher's checksum&lt;/a&gt; フレッチャーのチェックサム。 &lt;a class="reference external" href="https://stackoverflow.com/questions/51316768/error-detecting-performace-of-crc-8-vs-fletcher-16"&gt;CRC-8よりも検出能力が劣るとのこと&lt;/a&gt; 。でも、出力が16bitだし高速だからよさそう。&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mikio.hatenablog.com/entry/2021/06/23/011402"&gt;各種エラー検出符号のエラー検出率&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://stackoverflow.com/questions/68074457/efficient-modulo-255-computation"&gt;Efficient modulo-255 computation&lt;/a&gt; 255での剰余の高速化&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Bonkを入れるのを忘れていた。現役ではある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://logarithmic.net/pfh/bonk"&gt;Bonk&lt;/a&gt; PARCORメイン。ロッシーも可能。発散を防ぐためにPARCORを使っているらしい。&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(20)とコーデック実装(7)</title><link href="/zhi-bi-zhong-20tokodetsukushi-zhuang-7.html" rel="alternate"></link><published>2023-01-11T10:00:00+09:00</published><updated>2023-01-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-11:/zhi-bi-zhong-20tokodetsukushi-zhuang-7.html</id><summary type="html">&lt;p&gt;CRC16の計算負荷がデコード時の7%程度を占める。FLACに倣ってブロックフレームはCRC8で検査するのがいいのかも。&lt;/p&gt;
+&lt;p&gt;CRCの生 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;CRC16の計算負荷がデコード時の7%程度を占める。FLACに倣ってブロックフレームはCRC8で検査するのがいいのかも。&lt;/p&gt;
+&lt;p&gt;CRCの生成多項式はATM Headerがいいかも。 &lt;a class="reference external" href="https://github.com/xiph/flac/blob/10d7ce268b758b7cf62c3663338f180370a9a415/src/libFLAC/crc.c"&gt;FLACの実装はここ&lt;/a&gt;&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(19)とコーデック実装(6)</title><link href="/zhi-bi-zhong-19tokodetsukushi-zhuang-6.html" rel="alternate"></link><published>2023-01-09T10:00:00+09:00</published><updated>2023-01-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-09:/zhi-bi-zhong-19tokodetsukushi-zhuang-6.html</id><summary type="html">&lt;p&gt;畳み込みの高速化やって終わろうと思う。寝る前に思いついたリングバッファ導入を試したが、遅くなった。
+リングバ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;畳み込みの高速化やって終わろうと思う。寝る前に思いついたリングバッファ導入を試したが、遅くなった。
+リングバッファは適応フィルタのようなバッファをもう一度使う場合に有利になるのかもしれない。&lt;/p&gt;
+&lt;p&gt;SSE4.1を入れている。係数乗算を4並列にしたのではインパクト小（それどころか遅い）。AVXも試すが8並列乗算のケースが少ない（係数次数で8以上のケースが少ないと思われる）。サンプル方向への並列化が重要。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(18)とコーデック実装(5)</title><link href="/zhi-bi-zhong-18tokodetsukushi-zhuang-5.html" rel="alternate"></link><published>2023-01-08T10:00:00+09:00</published><updated>2023-01-08T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-08:/zhi-bi-zhong-18tokodetsukushi-zhuang-5.html</id><summary type="html">&lt;p&gt;係数次数選択で、係数領域サイズを考慮するようにしたら改善傾向が得られたのでとりこみ。同時に係数は8bit量子化 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;係数次数選択で、係数領域サイズを考慮するようにしたら改善傾向が得られたのでとりこみ。同時に係数は8bit量子化。
+次数を横軸、推定長を縦軸にとると典型的なAIC(MDL)のカーブが見えた。ただしビット長が大きいフレームでは次数を増やした方が推定長が減る傾向。&lt;/p&gt;
+&lt;p&gt;あとはブロックサイズの様子の観察と高速化に当てようかな。最後にバグとか警告潰ししたい。&lt;/p&gt;
+&lt;p&gt;ブロックサイズ調整は、恐らく先読み（8192サンプル確保して適切なブロックサイズを切り分ける）が有効。でもエンコード遅延が大きくなるし、ブロックサイズも大きくなりうるので取り下げ。&lt;/p&gt;
+&lt;p&gt;高速化に関して。いまや係数畳み込みよりも符号デコード負荷の方が高い。メインがゼロランレングスの取得、次に剰余の取得。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(17)とコーデック実装(4)</title><link href="/zhi-bi-zhong-17tokodetsukushi-zhuang-4.html" rel="alternate"></link><published>2023-01-06T10:00:00+09:00</published><updated>2023-01-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-06:/zhi-bi-zhong-17tokodetsukushi-zhuang-4.html</id><summary type="html">&lt;p&gt;fp:fastを指定したらバイナリサイズ大。エンコードデコード負荷は10%比で改善。ポピュラー音楽で圧縮率が悪化したが …&lt;/p&gt;</summary><content type="html">&lt;p&gt;fp:fastを指定したらバイナリサイズ大。エンコードデコード負荷は10%比で改善。ポピュラー音楽で圧縮率が悪化したが、これは演算精度が犠牲になっているのだろう。&lt;/p&gt;
+&lt;p&gt;係数反転の効果確認と次数選択着手が大事に思える。高速化は水物なので後回しでいい。&lt;/p&gt;
+&lt;p&gt;量子化順序を再度反転したら40バイトくらいの差。これは誤差だろう。&lt;/p&gt;
+&lt;p&gt;次数選択を実装した。残差分散は単調減少するので使えない。最大次数までで最も良い推定再帰的Golomb-Rice符号長を選ぶようにしている。結果は微妙に悪化する。取り下げを検討。&lt;/p&gt;
+&lt;p&gt;残りやるとしたらブロックサイズ選択とか高速化かねえ。。&lt;/p&gt;
+&lt;p&gt;係数ビット幅を下げると手元で性能向上。East 2 westとカレンダーガールで12より8のほうが良い。意味不明だと思っていたが、係数領域が大きいことに気付いた。また荒い量子化でも思ったより精度が落ちていない。8bitにすることで24bitPCMにも対応できるから変更してしまいたい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(16)とコーデック実装(3)</title><link href="/zhi-bi-zhong-16tokodetsukushi-zhuang-3.html" rel="alternate"></link><published>2023-01-05T10:00:00+09:00</published><updated>2023-01-05T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2023-01-05:/zhi-bi-zhong-16tokodetsukushi-zhuang-3.html</id><summary type="html">&lt;p&gt;マルチチャンネル処理をやったら刺さった。推定符号長でいけた。0.1%くらいのオーダーで減少。
+しっかしLINNEではうま …&lt;/p&gt;</summary><content type="html">&lt;p&gt;マルチチャンネル処理をやったら刺さった。推定符号長でいけた。0.1%くらいのオーダーで減少。
+しっかしLINNEではうまくいかなかったのでピンと来ないものはある。&lt;/p&gt;
+&lt;p&gt;あとは次数選択かな。LPCの拡張がいる。&lt;/p&gt;
+&lt;p&gt;畳み込みの高速化もやっていきたい、が、早くなるとは思ってない。
+FLACは畳み込みだけでなんであんなに早いのか…。やっつけでMSVCでAVX2指定したら1.3倍速くらいになった。
+CRC16と符号デコード負荷が無視できないくらい大きくなっている。AVX使うと符号デコード負荷と同じくらい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(16)とコーデック実装(2)</title><link href="/zhi-bi-zhong-16tokodetsukushi-zhuang-2.html" rel="alternate"></link><published>2022-12-30T10:00:00+09:00</published><updated>2022-12-30T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-12-30:/zhi-bi-zhong-16tokodetsukushi-zhuang-2.html</id><summary type="html">&lt;p&gt;実装してみた。案の定、FLAC-8は越えてない。3年前の追試になっている。
+しかし次数や予測モデルをこれ以上増やすわけに …&lt;/p&gt;</summary><content type="html">&lt;p&gt;実装してみた。案の定、FLAC-8は越えてない。3年前の追試になっている。
+しかし次数や予測モデルをこれ以上増やすわけにはいかない。以下を試す。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;マルチチャンネル処理追加&lt;ul&gt;
+&lt;li&gt;MS以外に、Left-Side, Right-Sideを追加する&lt;/li&gt;
+&lt;li&gt;選択基準をどうするか。FLACはleft, right, mid, side全部符号化したあとの長さで決めている。符号化の前に決められないか。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;次数選択&lt;ul&gt;
+&lt;li&gt;ブロックごとに係数次数を変える。flakeでは実際の符号長を計算して選択している。&lt;/li&gt;
+&lt;li&gt;L-D法で全部の係数が一気に求まるからやや効率的にやれる&lt;/li&gt;
+&lt;li&gt;flakeでは妙に気合入れているからやるべきか&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ブロックサイズ選択&lt;ul&gt;
+&lt;li&gt;レイテンシの観点からして4096は上限。しかしこれより短くすることはあり。&lt;/li&gt;
+&lt;li&gt;ブロックサイズを可変にすると負荷変動するので良くなさそう。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;FLACとのデコード速度差を埋めたくてswitch分FALLTRHUによるループアンローリングをしたが、アセンブリを見るとSIMDがまったくない。遅くなるのは明確。やるとしたら、ループアンローリングをやって自前でSIMDを書くしかない。&lt;/p&gt;
+&lt;p&gt;また、係数を順序反転した方が圧縮率高かったんだけどバグっぽいな。。。&lt;/p&gt;
+&lt;p&gt;もう一度怪文書を読み直していたら、再帰的Golomb-RiceとGolomb-Riceの使い分けをするのがいいのではないかと思えてきた。おそらく、符号パラメータで場合分けできる。あるパラメータより小さければ再帰的Golomb-Rice、大きければGolomb-Rice符号を使う。&lt;/p&gt;
+&lt;p&gt;そして、 &lt;span class="math"&gt;\(L_{\mathrm{GR}} = L_{\mathrm{RGR}}\)&lt;/span&gt; となる &lt;span class="math"&gt;\(k\)&lt;/span&gt; を見つければいいことを思いつく。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(15)とコーデック実装(1)</title><link href="/zhi-bi-zhong-15tokodetsukushi-zhuang-1.html" rel="alternate"></link><published>2022-12-26T10:00:00+09:00</published><updated>2022-12-26T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-12-26:/zhi-bi-zhong-15tokodetsukushi-zhuang-1.html</id><summary type="html">&lt;p&gt;必要な実験がひと段落したので、コーデック実装に入っている。
+LPCを使う単純なコーデックはOK。これを機能拡張して …&lt;/p&gt;</summary><content type="html">&lt;p&gt;必要な実験がひと段落したので、コーデック実装に入っている。
+LPCを使う単純なコーデックはOK。これを機能拡張してSVR-FIRを使う予定。&lt;/p&gt;
+&lt;p&gt;書いてて思ったのが、やっぱMS変換とプリエンファシスの数理はまとめたほうがいいということ。
+とくにプリエンファシスの効果は明文化されていない。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(14)</title><link href="/zhi-bi-zhong-14.html" rel="alternate"></link><published>2022-12-11T10:00:00+09:00</published><updated>2022-12-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-12-11:/zhi-bi-zhong-14.html</id><summary type="html">&lt;p&gt;別件でAffine写像アルゴリズムの実装の必要が生まれたので基礎を確認。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2012/Conference/papers/1569579637.pdf"&gt;AFFINE PROJECTION ALGORITHMS: EVOLUTION TO SMART AND FAST ALGORITHMS AND APPLICATIONS&lt;/a&gt; EUSIPCO2012のプロシーディン …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;別件でAffine写像アルゴリズムの実装の必要が生まれたので基礎を確認。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.eurasip.org/Proceedings/Eusipco/Eusipco2012/Conference/papers/1569579637.pdf"&gt;AFFINE PROJECTION ALGORITHMS: EVOLUTION TO SMART AND FAST ALGORITHMS AND APPLICATIONS&lt;/a&gt; EUSIPCO2012のプロシーディングス。良いまとめ。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ほか、Haykin本のp.336くらいに書いてある。素朴に実装すると逆行列演算が毎ステップいる。。でも、リファレンスとしてはそのまま実装したほうがよさそう。
+やるとしたら逆行列計算部分をSherman--Morrisonで計算するとか。&lt;/p&gt;
+&lt;p&gt;まじでふと思い立って固定小数についての資料を探したら2つ出てきた。いい感じ。これ、本にほとんど書いてないから博論に書きたいんだよなあ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.digitalsignallabs.com/fp.pdf"&gt;Fixed-Point Arithmetic: An Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.digitalsignallabs.com/fir.pdf"&gt;Practical Considerations in Fixed-Point FIR Filter Implementations&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;これらを書いているサイトがとても素晴らしい&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://www.digitalsignallabs.com/papers.htm"&gt;Digital Signal Labs&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(13)</title><link href="/zhi-bi-zhong-13.html" rel="alternate"></link><published>2022-12-02T10:00:00+09:00</published><updated>2022-12-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-12-02:/zhi-bi-zhong-13.html</id><summary type="html">&lt;p&gt;論文をぼーっと見ていたら、符号に関する文献を2つ見つけた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drive.google.com/file/d/17tF0vNqlUOQptglHYLpSeToiCjqg5U6O/view"&gt;Punctured Elias Codes for variable-length coding of the integers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drive.google.com/file/d/1SLqegaqZjvMDlq5Bflbytvw18S_s8Cn9/view"&gt;Variable-length Codes for Data Compression&lt;/a&gt; 可変長符号いろいろ …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;論文をぼーっと見ていたら、符号に関する文献を2つ見つけた。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drive.google.com/file/d/17tF0vNqlUOQptglHYLpSeToiCjqg5U6O/view"&gt;Punctured Elias Codes for variable-length coding of the integers&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drive.google.com/file/d/1SLqegaqZjvMDlq5Bflbytvw18S_s8Cn9/view"&gt;Variable-length Codes for Data Compression&lt;/a&gt; 可変長符号いろいろ&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ウェーブレットとか試している博論見つけた。しっかし既存コーデックと比較してない。残差の平均G-R符号長で比較しているっぽい。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://decoy.iki.fi/dsound/ambisonic/motherlode/source/kim_jonghwa.pdf"&gt;Lossless Wideband Audio Compression: Prediction and Transform&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(12)</title><link href="/zhi-bi-zhong-12.html" rel="alternate"></link><published>2022-11-28T10:00:00+09:00</published><updated>2022-11-28T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-28:/zhi-bi-zhong-12.html</id><summary type="html">&lt;p&gt;もろもろ忙しく厳しい。最近浮かんだ案をメモ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/itewac/2006/0/2006__1-11-1_/_pdf"&gt;ガウス情報源の最適符号&lt;/a&gt; fullは「ガウス性信号の高能率Golomb符号化方式 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;もろもろ忙しく厳しい。最近浮かんだ案をメモ。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.jstage.jst.go.jp/article/itewac/2006/0/2006__1-11-1_/_pdf"&gt;ガウス情報源の最適符号&lt;/a&gt; fullは「ガウス性信号の高能率Golomb符号化方式」だがどこにも上がってない。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;ガウス信号を2組にして &lt;span class="math"&gt;\(z = x_{1}^{2} + x_{2}^{2}\)&lt;/span&gt; と変数変換すると &lt;span class="math"&gt;\(z\)&lt;/span&gt; はラプラス分布にしたがうのでGolomb-Rice符号で効率的に符号化できる。という指摘。たしかにそうだ。拡大情報源の符号化になるので、効率が良くなりそうなのはすぐに分かる。&lt;/p&gt;
+&lt;p&gt;問題は2つ組を自然数に対応付ける写像だろう。この写像は対関数(pairing function)というらしい。いろいろある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.vertexfragment.com/ramblings/cantor-szudzik-pairing-functions/"&gt;Pairing Functions: Cantor &amp;amp; Szudzik&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://drhagen.com/blog/superior-pairing-function/"&gt;superior pairing function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://hbfs.wordpress.com/2011/09/27/pairing-functions/"&gt;Pairing Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://codepen.io/sachmata/post/elegant-pairing"&gt;Elegant Pairing Function (Szudzik)&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;気になるのが速度。復元で整数平方根を使っているのがつらい。ハッカーのたのしみを見るとNewton法を使うしかないと来ている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://takashiijiri.com/study/miscs/fastsqrt.html"&gt;高速根号計算 (fast sqrt algorithm)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://en.wikipedia.org/wiki/Methods_of_computing_square_roots#Binary_numeral_system_.28base_2.29"&gt;wikipedia&lt;/a&gt; ビットシフト使用。しかし、ループが入る。。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(11)</title><link href="/zhi-bi-zhong-11.html" rel="alternate"></link><published>2022-11-16T10:00:00+09:00</published><updated>2022-11-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-16:/zhi-bi-zhong-11.html</id><summary type="html">&lt;p&gt;一旦まとめ。受けた指摘としては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Hinge損失が不連続だからランドスケープががたがたしているかも。連続緩和したらど …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;一旦まとめ。受けた指摘としては、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Hinge損失が不連続だからランドスケープががたがたしているかも。連続緩和したらどうか？&lt;ul&gt;
+&lt;li&gt;たしかにsmoothed hingeは有効かもしれない。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;ロスとして再帰的Golomb-Rice符号の平均符号長を使う。相関が高いから問題ない。&lt;ul&gt;
+&lt;li&gt;平均符号長に最尤推定結果を突っ込むとどうなる？？&lt;/li&gt;
+&lt;li&gt;ちょっと手を出してみたけど複雑になりそう。 &lt;span class="math"&gt;\(x\)&lt;/span&gt; が小さいとき &lt;span class="math"&gt;\((1 - x)^y \approx \exp(-xy)\)&lt;/span&gt; という近似が成り立つのでそれをうまく使えないか &lt;a class="reference external" href="https://math.stackexchange.com/questions/831743/1-xy-%E2%89%88-e-xy"&gt;参考&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;符号長をロスに突っ込もうとして平均符号長をいじっていた（微分を考えていた）ら、符号長についてもっとやれそうな印象が。&lt;/p&gt;
+&lt;p&gt;再帰的Golomb-Riceの平均符号長をプロットしていたら、1つのパラメータ設定則が思い浮かんだ。k1 = k2 + 1としているから実質1パラメータになる。その時のパラメータを変えながら &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; を横軸、平均符号長を縦軸プロットしていくと、いくつも線が得られる。その中の最小をとる曲線を選べば最小になる。その曲線はk+1のパラメータの曲線と1点で交わるからそこが切り替えるべき &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; となる。交点はいったいどうなっている？&lt;/p&gt;
+&lt;p&gt;普通のGolomb-Rice符号との比較も気になるところ。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(10)</title><link href="/zhi-bi-zhong-10.html" rel="alternate"></link><published>2022-11-11T10:00:00+09:00</published><updated>2022-11-11T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-11:/zhi-bi-zhong-10.html</id><summary type="html">&lt;p&gt;そろそろ一旦まとめておきたい。スペクトルを観察すると、 &lt;span class="math"&gt;\(\yen epsilon \yen approx 0\)&lt;/span&gt; が多いためかかなり最小二乗解と近い。また、高 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;そろそろ一旦まとめておきたい。スペクトルを観察すると、 &lt;span class="math"&gt;\(\yen epsilon \yen approx 0\)&lt;/span&gt; が多いためかかなり最小二乗解と近い。また、高域でL-Dより大きいゲインを与えている。&lt;/p&gt;
+&lt;p&gt;入力スペクトルとの板倉斎藤(IS)距離を計算してみても最小二乗解の方が良い傾向。しかし、符号長最小の時に必ずしも板倉斎藤距離が小さくなる訳ではない。これは平均で見ないと何も言えなそう。&lt;/p&gt;
+&lt;p&gt;最善の &lt;span class="math"&gt;\(\yen epsilon\)&lt;/span&gt; を選んだ時の統計を示すのがいいかな。個別フレームで語っても一般性がない。結果、当然符号長は短く（短いものを選んでいるから）、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;L1ノルムは最小二乗解より悪化&lt;/li&gt;
+&lt;li&gt;L2ノルムは改善、L-Dより良い&lt;ul&gt;
+&lt;li&gt;これより、やはりHinge損失はラプラス分布より尖度が低く、ガウス分布に近くなっている。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;対数スペクトル距離、IS距離は改善&lt;/li&gt;
+&lt;li&gt;係数ノルムは改善&lt;ul&gt;
+&lt;li&gt;これは嬉しい。量子化誤差の改善に繋がるはず&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(9)</title><link href="/zhi-bi-zhong-9.html" rel="alternate"></link><published>2022-11-10T10:00:00+09:00</published><updated>2022-11-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-10:/zhi-bi-zhong-9.html</id><summary type="html">&lt;p&gt;マージン幅とL2正則化のグリッドサーチやってた。結論、ぐちゃぐちゃしてわからん。。。&lt;/p&gt;
+&lt;p&gt;目線を変えて、「符号量が改善した …&lt;/p&gt;</summary><content type="html">&lt;p&gt;マージン幅とL2正則化のグリッドサーチやってた。結論、ぐちゃぐちゃしてわからん。。。&lt;/p&gt;
+&lt;p&gt;目線を変えて、「符号量が改善したとき、入力や残差はどうなっているか」を調べている。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;L-D法で初期値設定しないと（全データがマージンに包まれてしまい）係数が0になってしまうケースがある。&lt;/li&gt;
+&lt;li&gt;L-D法で初期値設定して、かつマージンを大きく取ると勾配が消えるので係数がL-D法のままになる。&lt;/li&gt;
+&lt;li&gt;マージンを動かすことで、L-D法と最小二乗解をグラデーションする。0なら最小二乗解、残差最大絶対値ならL-D法&lt;/li&gt;
+&lt;li&gt;エントロピーとRGR符号長、どっちで評価すべきか…&lt;ul&gt;
+&lt;li&gt;エントロピーの方が一般に合意してもらえそうだけど、現実問題なのはRGR符号量。&lt;/li&gt;
+&lt;li&gt;&lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; -エントロピーの平均的な曲線を見ると、カテゴリ依存で &lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; でも悪化する場合があった。&lt;ul&gt;
+&lt;li&gt;平均的な曲線、滑らかに見える。これで議論できそう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;再帰的ゴロムライス符号長の場合は &lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; で良い傾向。 &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; を増やしていくとL-Dの符号量に一致していく。&lt;ul&gt;
+&lt;li&gt;最小二乗解とL-Dの解を &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; で調節していると見える。その間はどんな変化をするのか？&lt;ul&gt;
+&lt;li&gt;係数のインパルス応答を表示したり、freqzとかでフィルタ特性を並べてみるとか。これやってみるか。良い場合のフィルタの癖が見えるかもしれない。&lt;ul&gt;
+&lt;li&gt;やって観察中。インパルス応答に関しては、最小二乗解の方が係数のノルムが小さい印象。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;L-D法（+ &lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; ）と比べていつ良くなるのかを眺めている。&lt;ul&gt;
+&lt;li&gt;残差ヒストグラムを見つめると、良い場合は外れ値が少なそうな印象。（残差の外れ値がより0に向かっているように見える）&lt;/li&gt;
+&lt;li&gt;残差L2ノルムを見てみると低い傾向（傾向であって外れる時もある）。しかし尖度は法則見えず。&lt;/li&gt;
+&lt;li&gt;残差スペクトルを見ると、高域の情報がよりよく潰せている印象。（数サンプル間の相関をしっかり計算しているからかも。L-Dは弱定常性によりそれが失われる）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;外れ値が少ないのが目につく。これでかなり符号長が伸びている。対策するとよさそう。（SLAみたく、商がXX以上ならばガンマ符号とか）&lt;/li&gt;
+&lt;li&gt;一般の分布に対する再帰的Golomb-Rice符号長、計算しておいた方がいいな（メモ）。凸性の条件とか導けそう。（もし無記憶が条件だとすると、幾何分布に限られるが…）&lt;/li&gt;
+&lt;/ul&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(8)</title><link href="/zhi-bi-zhong-8.html" rel="alternate"></link><published>2022-11-07T10:00:00+09:00</published><updated>2022-11-07T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-07:/zhi-bi-zhong-8.html</id><summary type="html">&lt;p&gt;量子化誤差を組み込んだら挙動が変わらないか見てみる。が、挙動見えず。&lt;/p&gt;
+&lt;p&gt;しかし、符号量の改善量は大きいことを見て …&lt;/p&gt;</summary><content type="html">&lt;p&gt;量子化誤差を組み込んだら挙動が変わらないか見てみる。が、挙動見えず。&lt;/p&gt;
+&lt;p&gt;しかし、符号量の改善量は大きいことを見ている（元の80%になったり。）これは、係数の量子化幅を最も近い2の冪乗に切り上げていることが効いているだろう。。。LPCの時にも戦っていたが、それをどう対処するかは考えられない。。&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; を網羅探索すれば良くなる話ではある。しかし、それでは実用的ではない。
+一般論で攻めようかな。一般的なSVRはどうやって決めているかを見る。（νSVRは双対係数を保持しなければならないので却下）SVRの一般の論文を漁る。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.csie.ntu.edu.tw/~cjlin/libsvmtools/warm-start/svr-param.pdf"&gt;Parameter Selection for Linear Support Vector Regression&lt;/a&gt; 実践的にも &lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; が良いとのこと。&lt;ul&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.csie.ntu.edu.tw/~cjlin/papers/linear-svr.pdf"&gt;Large-scale Linear Support Vector Regression&lt;/a&gt; ここに実験結果。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="http://ntur.lib.ntu.edu.tw/bitstream/246246/155227/1/14.pdf"&gt;Training ν-Support Vector Regression: Theory and Algorithms&lt;/a&gt; &amp;quot;&amp;quot;Unfortunately, we have not been able to find an effective lower bound on &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; &amp;quot;&amp;quot; と言っている…明らかなこととして、出力絶対値の最大値に設定すると全てのサンプルが刈り込まれて最適係数はゼロベクトルになる、と言っている。自明。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;網羅探索はしたくない。しかし &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; と符号長の関係は複雑。符号長に基づく手法では最適点を求められないが、準最適ならば採用有りなのではと思う。だから、 &lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; の時の符号長と比べて平均的に優れたパラメータが求まればOKとするか。→実験したが、 &lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; と比べて悪化している。うーーーーーーーーーーーーーーーーーーーーーん。&lt;/p&gt;
+&lt;p&gt;&lt;span class="math"&gt;\(\epsilon=0\)&lt;/span&gt; で過学習するけど、それは別にいいんだよな・・・・・お手上げ感ある。悔しいが網羅探索するしかないような印象。ただ、網羅探索すると音源依存ではあるが1-5%の改善（符号長）が得られる。良いのを選んでいるから減るのは当然として、ゲインが大きい。。。同時に思ったことは、最小二乗法をRidge正則化しても同じじゃねと思うこと。やってみたらその通りだった。網羅探索で選んできた結果と同じ。そして、Ridgeのほうがパラメータ解釈性がいい。0から開始して悪化した瞬間に止めればいいように見える（と思ったらそれは係数量子化ビット数が大きいときの話だった。ビットを荒くすると挙動が不安定）。&lt;/p&gt;
+&lt;p&gt;これらの観察から、Ridge回帰のパラメータとSVRの &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; をグリッドサーチすりゃいいんじゃねとなる。今観察中。符号と残差L1ノルムの傾向が似ているように見える。要観察。&lt;/p&gt;
+&lt;p&gt;昨日寝る間際に、再帰的Golomb-Rice符号で &lt;span class="math"&gt;\(x &amp;lt; 2^{k_{1}}\)&lt;/span&gt; ならば &lt;span class="math"&gt;\(k &amp;lt; k_{1}\)&lt;/span&gt; でGolomb-Rice符号を適用すればより0集中した残差を符号化できそうだなあと考えていた。以前どこかでGolomb-Rice符号の商の分布を見たら2段階に分かれていたことを思い出している（0付近の急激な現象分布+裾の重い部分）。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(7)</title><link href="/zhi-bi-zhong-7.html" rel="alternate"></link><published>2022-11-06T10:00:00+09:00</published><updated>2022-11-06T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-06:/zhi-bi-zhong-7.html</id><summary type="html">&lt;p&gt;SVRで &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; を大きくすると正則化が掛かる傾向。&lt;/p&gt;
+&lt;p&gt;また、勾配の取り方は他にあると思っている（軟閾値作用素のみではない …&lt;/p&gt;</summary><content type="html">&lt;p&gt;SVRで &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; を大きくすると正則化が掛かる傾向。&lt;/p&gt;
+&lt;p&gt;また、勾配の取り方は他にあると思っている（軟閾値作用素のみではない）。実際にマージン内で比例する勾配とマージン内で符号（×定数）をかけた勾配を試してみた。比例する勾配がやや良い（勾配1がよい。2は大幅悪化するパターンあり）が、軟閾値作用素と似たり寄ったり。&lt;/p&gt;
+&lt;p&gt;苦しい。量子化誤差を組み込んだら挙動が変わらないか見てみる。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(6)</title><link href="/zhi-bi-zhong-6.html" rel="alternate"></link><published>2022-11-03T10:00:00+09:00</published><updated>2022-11-03T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-11-03:/zhi-bi-zhong-6.html</id><summary type="html">&lt;p&gt;ラプラス分布よりもheavy-tailな分布に対する符号はなんだろうか気になっている。&lt;/p&gt;
+&lt;p&gt;また、SVRの &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; は0にするのが良い傾向。。。 &lt;span class="math"&gt;\(\epsilon …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;ラプラス分布よりもheavy-tailな分布に対する符号はなんだろうか気になっている。&lt;/p&gt;
+&lt;p&gt;また、SVRの &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; は0にするのが良い傾向。。。 &lt;span class="math"&gt;\(\epsilon &amp;gt; 0\)&lt;/span&gt; としても、かなり残差は0に集中する。それに対して符号化を行うと、 &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; に関係ない符号化パラメータがセットされてしまう。よって、 &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; としたほうが符号長が短くなっている。真の符号長は本質的に損失に組み込めなくて、残差確定後に定まる。&lt;/p&gt;
+&lt;p&gt;当然のこととしては、 &lt;span class="math"&gt;\(\epsilon\)&lt;/span&gt; を上げると係数に正則化がかかることも見ている。これによって量子化誤差が減少して符号長が短くなることはあり得る。&lt;/p&gt;
+&lt;p&gt;また、残差L1ノルムを最小にするのは当然ながら &lt;span class="math"&gt;\(\epsilon = 0\)&lt;/span&gt; のとき。&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(5)</title><link href="/zhi-bi-zhong-5.html" rel="alternate"></link><published>2022-10-23T10:00:00+09:00</published><updated>2022-10-23T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-10-23:/zhi-bi-zhong-5.html</id><summary type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;よくなる条件 …&lt;/p&gt;</summary><content type="html">&lt;div class="math"&gt;
+\begin{equation*}
+\newcommand\innerp[2]{\langle #1, #2 \rangle}
+\newcommand\ve[1]{\boldsymbol{#1}}
+\newcommand\parfrac[2]{\frac{\partial #1}{\partial #2}}
+\newcommand\mean[2]{\mathrm{E}_{#1} \left[ #2 \right]}
+\newcommand\KL[2]{\mathrm{KL} \left[ #1 \ \middle| \middle| \ #2 \right]}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;よくなる条件はさっぱり。。&lt;/p&gt;
+&lt;p&gt;一方、再帰的Golomb-Rice符号は何が得意なんだろ、というのをまとめ直している。gnuplotで一様分布と幾何分布を重ねてみると、幾何分布の方が裾が重い（原理上台（サポート）が無限）。一様分布は急に確率が0になるので裾が軽い。&lt;/p&gt;
+&lt;p&gt;だからガウス分布に近い分布を効率的に符号化できる、ということになる。例の圧縮本と言ってることが逆になるんだが、大丈夫か・・・&lt;/p&gt;
+&lt;p&gt;同一の平均を持つ一様分布と幾何分布でエントロピーを計算してみると、圧倒的に幾何分布の方がエントロピーが高い。。。？？直感に反する。一様分布が最も高いケースは離散だけだっけ・・・&lt;/p&gt;
+&lt;p&gt;悶絶しながらエントロピー最大の分布を探っていたら、&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://mathoverflow.net/questions/194748/discrete-maximum-entropy-distribution-with-given-mean"&gt;Discrete Maximum Entropy Distribution with given mean&lt;/a&gt; 平均固定した上で最大のエントロピーを持つ、非負値の確率分布は幾何分布である&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;証明を示しておこう。（上のURLには概略のみ）&lt;/p&gt;
+&lt;p&gt;考えるべき問題は、以下の最適化問題である&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\max \sum_{n = 0}^{\infty} p_{n} \log p_{n} \quad \text{subject to:} \sum_{x = 0}^{\infty} n p_{n} = \mu,\ \sum_{x = 0}^{\infty} p_{n} = 1
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;ラグランジュの未定乗数法より、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\mathcal{L}(p_{1}, ..., p_{n}, \lambda_{1}, \lambda_{2}) &amp;amp;= \sum_{n = 0}^{\infty} p_{n} \log p_{n} + \lambda_{1} \left( \sum_{n = 0}^{\infty} n p_{n} - \mu \right) + \lambda_{2} \left( \sum_{n = 0}^{\infty} p_{n} - 1 \right) \\
+\parfrac{}{p_{i}} \mathcal{L} &amp;amp;= \log p_{i} + 1 + i\lambda_{1} + \lambda_{2} \tag{1} \\
+\parfrac{}{\lambda_{1}} \mathcal{L} &amp;amp;= \sum_{n = 0}^{\infty} n p_{n} - \mu = 0 \tag{2} \\
+\parfrac{}{\lambda_{2}} \mathcal{L} &amp;amp;= \sum_{n = 0}^{\infty} p_{n} - 1 = 0 \tag{3}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;(1)より、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+p_{i} = \exp(-1-i\lambda_{1}-\lambda_{2}) \tag{4}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;よって(3)より&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\sum_{n = 0}^{\infty} p_{n} = \sum_{n = 0}^{\infty} \exp(-1-n\lambda_{1}-\lambda_{2}) = 1 \implies \sum_{n = 0}^{\infty} \exp(-n\lambda_{1}) = \exp(1 + \lambda_{2})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;（この等式から、級数 &lt;span class="math"&gt;\(\sum_{n = 0}^{\infty} \exp(-n\lambda_{1})\)&lt;/span&gt; は有界なので &lt;span class="math"&gt;\(\lambda_{1} \geq 0\)&lt;/span&gt; ）これを(4)に代入すると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+p_{i} = \frac{\exp(-i\lambda_{1})}{\sum_{n = 0}^{\infty} \exp(-n\lambda_{1})} = \frac{a^{i}}{\sum_{n = 0}^{\infty} a^{n}} \quad a := \exp(-\lambda_{1})
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;これを(2)に代入すると&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{align*}
+\sum_{n = 0}^{\infty} n \frac{a^{n}}{\sum_{i = 0}^{\infty} a^{i}} = \mu \\
+\implies \sum_{n = 0} n a^{n} = \frac{a}{(1 - a)^{2}} = \mu \sum_{i = 0}^{\infty} a^{i} = \frac{\mu}{1 - a} \\
+\implies a = \mu(1 - a) \implies a = \frac{\mu}{1 + \mu}
+\end{align*}
+&lt;/div&gt;
+&lt;p&gt;この結果と&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+\sum_{n = 0}^{\infty} a^{n} = \frac{1}{1 - \frac{\mu}{1 + \mu}} = \frac{1 + \mu}{1 + \mu - \mu} = 1 + \mu
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;より、&lt;/p&gt;
+&lt;div class="math"&gt;
+\begin{equation*}
+p_{i} = \frac{1}{1 + \mu} \left( \frac{\mu}{1 + \mu} \right)^{i}
+\end{equation*}
+&lt;/div&gt;
+&lt;p&gt;となって、これは &lt;span class="math"&gt;\(\rho = \frac{1}{1 + \mu}\)&lt;/span&gt; の幾何分布である。&lt;/p&gt;
+&lt;p&gt;非負値整数の最もエントロピーが高い情報源を符号化できるのはGolomb-Rice符号ということになった。…となると、再帰的Golomb-Riceは何が得意なんだ。比較の結果、 &lt;span class="math"&gt;\(\rho\)&lt;/span&gt; が大きい（より0に集中した）分布で強いことがわかっている（クラシックやジャズで強く、ポップスで弱いのも納得）。結論としては、heavy-tailとは言わないけどより0集中した符号に有利である、というべきかもしれない。グラフの差し替えがいるかも。&lt;/p&gt;
+&lt;p&gt;上記の考察はWavPack作者の見解と真っ向から対立する。ちゃんと議論するなら、再帰的Golomb-Rice符号の確率分布、少なくともHinge損失の確率分布を議論し、それが真に幾何分布よりもheavy-tailであることを言わなければならないと思う。&lt;/p&gt;
+&lt;p&gt;散歩してたらKLダイバージェンス最小化基準で符号設定するのもありだなあと思った&lt;/p&gt;
+&lt;script type='text/javascript'&gt;if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var align = "center",
+        indent = "0em",
+        linebreak = "false";
+
+    if (false) {
+        align = (screen.width &lt; 768) ? "left" : align;
+        indent = (screen.width &lt; 768) ? "0em" : indent;
+        linebreak = (screen.width &lt; 768) ? 'true' : linebreak;
+    }
+
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.3/latest.js?config=TeX-AMS-MML_HTMLorMML';
+
+    var configscript = document.createElement('script');
+    configscript.type = 'text/x-mathjax-config';
+    configscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'none' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: '"+ align +"'," +
+        "    displayIndent: '"+ indent +"'," +
+        "    showMathMenu: true," +
+        "    messageStyle: 'normal'," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['\\\\(','\\\\)'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        "        availableFonts: ['STIX', 'TeX']," +
+        "        preferredFont: 'STIX'," +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'inherit ! important'} }," +
+        "        linebreaks: { automatic: "+ linebreak +", width: '90% container' }," +
+        "    }, " +
+        "}); " +
+        "if ('default' !== 'default') {" +
+            "MathJax.Hub.Register.StartupHook('HTML-CSS Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax['HTML-CSS'].FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+            "MathJax.Hub.Register.StartupHook('SVG Jax Ready',function () {" +
+                "var VARIANT = MathJax.OutputJax.SVG.FONTDATA.VARIANT;" +
+                "VARIANT['normal'].fonts.unshift('MathJax_default');" +
+                "VARIANT['bold'].fonts.unshift('MathJax_default-bold');" +
+                "VARIANT['italic'].fonts.unshift('MathJax_default-italic');" +
+                "VARIANT['-tex-mathit'].fonts.unshift('MathJax_default-italic');" +
+            "});" +
+        "}";
+
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(configscript);
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+&lt;/script&gt;</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(4)</title><link href="/zhi-bi-zhong-4.html" rel="alternate"></link><published>2022-10-16T10:00:00+09:00</published><updated>2022-10-16T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-10-16:/zhi-bi-zhong-4.html</id><summary type="html">&lt;p&gt;良くなるとき（ロスがL-D比較して減るとき）の条件を探している。ロスと統計量を並べて表示する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;条件数、自己相関行列 …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;良くなるとき（ロスがL-D比較して減るとき）の条件を探している。ロスと統計量を並べて表示する。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;条件数、自己相関行列ノルム、信号の分散、歪度、尖度は関係なさそう&lt;/li&gt;
+&lt;li&gt;勾配（予測前のHingeロスとマージンを入れたHingeロス）を見ても関係なさそう&lt;ul&gt;
+&lt;li&gt;L-D法による残差に変えても同様か&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;係数ノルムは関係ありそう&lt;ul&gt;
+&lt;li&gt;良くなるとき、提案手法の方が係数ノルムが大きくなる&lt;/li&gt;
+&lt;li&gt;フレームサイズを大きくすると関係性が見えなくなる（4096では関係してそうに見えるが、8192でほぼ見えない）&lt;/li&gt;
+&lt;li&gt;Jazzでは顕著だったが、ほかジャンルではあんまり傾向が見えない…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;良くなったり悪かったりが読めない。勾配があるということはいつでも良くなるはずなんだが。。。
+係数次数を2とかにして解の軌跡を追うべきかも。&lt;/p&gt;
+&lt;p&gt;見てみた。悪化するケース（聖者の行進2048 * 68サンプルから4096）では必ず悪化する。ロスも上がっている。&lt;/p&gt;
+&lt;p&gt;思ったのが、L-Dは弱定常を仮定して解を求めとるが、こっちは真面目に（テプリッツではないとして）解いてるからそもそも見えている解曲面がちがうかもしれないなあという予感。フレームサイズを上げると傾向が見えづらくなるのも整合性がある。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;自己相関行列にしてみたけど傾向変わらず。&lt;ul&gt;
+&lt;li&gt;係数次数を上げると収束特性が悪化している（収束が遅い）。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;弱定常とそうでないときの自己相関の差分を見てみるとか？&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(3)</title><link href="/zhi-bi-zhong-3.html" rel="alternate"></link><published>2022-10-14T10:00:00+09:00</published><updated>2022-10-14T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-10-14:/zhi-bi-zhong-3.html</id><summary type="html">&lt;p&gt;執筆の合間に妙に時間が空いたのでHingeLossの件を進める。収束性能はどうしても議論が進まん。&lt;/p&gt;
+&lt;p&gt;凸最適化だから最適値に …&lt;/p&gt;</summary><content type="html">&lt;p&gt;執筆の合間に妙に時間が空いたのでHingeLossの件を進める。収束性能はどうしても議論が進まん。&lt;/p&gt;
+&lt;p&gt;凸最適化だから最適値に収束しているのは間違いない。しかし、実験してみたところL-D法だと残差が0になってしまいロスとしても0に。ロスが0になる範囲が広い気がする。また、L-Dよりもロスが悪化するケースがあった。&lt;/p&gt;
+&lt;p&gt;既存研究漁ってみるか。Vapnik epsilon insensitiveとadaptive filterを混ぜて検索してみるも、なかなかヒットしない。&lt;/p&gt;
+&lt;p&gt;うーん、いいのか悪いのかすらもわからない。実験で性能比較するしかないか。&lt;/p&gt;
+&lt;p&gt;してみた。が、良くなったり悪くなったりの性能。あやしい。悪くなる理由もよくわからない。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;係数オーダー/窓幅を上げると改善の傾向&lt;ul&gt;
+&lt;li&gt;16と32くらいで検証するのが良かろう&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;マージンは大きすぎるとL-D法と変わらない/悪化&lt;ul&gt;
+&lt;li&gt;要検討&lt;/li&gt;
+&lt;li&gt;Golomb-Riceの最適設定を使うべきか？しかしマージンを動かすと解析が怪しくなる…&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;初期値はL-D法にしたほうが良い傾向？？&lt;ul&gt;
+&lt;li&gt;これは初期値L-D法で。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;プリエンファシスを入れると改善率が上がる…&lt;ul&gt;
+&lt;li&gt;プリエンファシスは追加要素だから一旦外す。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;変数が多すぎる。整理が必要。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Hinge Loss"></category></entry><entry><title>執筆中(2)</title><link href="/zhi-bi-zhong-2.html" rel="alternate"></link><published>2022-10-10T10:00:00+09:00</published><updated>2022-10-10T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-10-10:/zhi-bi-zhong-2.html</id><summary type="html">&lt;p&gt;TAKを倒すアイデアは今のところ3つ&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;マルチチャンネル処理を真面目にやる&lt;ul&gt;
+&lt;li&gt;場合分けを上手くやる or 良い組み合わ …&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;TAKを倒すアイデアは今のところ3つ&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;マルチチャンネル処理を真面目にやる&lt;ul&gt;
+&lt;li&gt;場合分けを上手くやる or 良い組み合わせを探す&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;算術符号を導入する&lt;/li&gt;
+&lt;li&gt;TAKを逆アセンブルする&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>執筆中(1)</title><link href="/zhi-bi-zhong-1.html" rel="alternate"></link><published>2022-10-09T10:00:00+09:00</published><updated>2022-10-09T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-10-09:/zhi-bi-zhong-1.html</id><summary type="html">&lt;p&gt;書いていて思ったのが、算術符号（Block-Gilbert-Mooreだっけ）も検討してみたいというところ。頭から否定するでなしに、もしかしたら早 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;書いていて思ったのが、算術符号（Block-Gilbert-Mooreだっけ）も検討してみたいというところ。頭から否定するでなしに、もしかしたら早くなるかもしれないというところに期待したい。&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(13)から執筆へ</title><link href="/ya-suo-lu-gai-shan-jian-tao-13karazhi-bi-he.html" rel="alternate"></link><published>2022-09-18T10:00:00+09:00</published><updated>2022-09-18T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-09-18:/ya-suo-lu-gai-shan-jian-tao-13karazhi-bi-he.html</id><summary type="html">&lt;p&gt;改善検討を一旦落ち着けて執筆を始めている。研究に関しては少し置く。&lt;/p&gt;
+&lt;p&gt;やっぱり書いていると色々見つかってくる。Golomb-Rice …&lt;/p&gt;</summary><content type="html">&lt;p&gt;改善検討を一旦落ち着けて執筆を始めている。研究に関しては少し置く。&lt;/p&gt;
+&lt;p&gt;やっぱり書いていると色々見つかってくる。Golomb-Rice符号の長さは任意の確率分布に対し，パラメータに関して凸になるというのが例のNASAに書いてあった。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://ipnpr.jpl.nasa.gov/progress_report/42-159/159E.pdf"&gt;Selecting the Golomb Parameter in Rice Coding&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;凸だからどこかに最適なパラメータがある．また，平均符号長をパラメータkに対して計算し、L(k) &amp;lt;= L(k - 1)となる条件から最適なパラメータkを見つけている。これは再帰的Golomb-Riceでも使えそう&lt;/p&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(12)</title><link href="/ya-suo-lu-gai-shan-jian-tao-12.html" rel="alternate"></link><published>2022-09-15T10:00:00+09:00</published><updated>2022-09-15T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-09-15:/ya-suo-lu-gai-shan-jian-tao-12.html</id><summary type="html">&lt;p&gt;再び予定が入り続けていた。しかし実験は断続的にやっていて、SVRから双対変数の勾配を近似（近似は少し厳密性があ …&lt;/p&gt;</summary><content type="html">&lt;p&gt;再び予定が入り続けていた。しかし実験は断続的にやっていて、SVRから双対変数の勾配を近似（近似は少し厳密性があやしい）して、それを主変数（フィルタ係数）の勾配に（連鎖律で）直して解く、というのを考えていた。&lt;/p&gt;
+&lt;p&gt;勾配近似で残差のソフトしきい値関数が出てくるが、やっぱり怪しい。直感で導出してしまったが&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://angms.science/doc/CVX/ISTA0.pdf"&gt;Derivation of the soft thresholding operator&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;実験した所やけに収束早い。適応フィルタに自己相関行列の逆を掛けているからかも？一次収束であることを示せれば有益な気がするわけ。&lt;/p&gt;
+&lt;p&gt;一方、Gram行列が大きいことの対処も考えている。アドバイスからランダムフーリエ特徴（Random Fourior Feature）が良いとの指摘有り。確かに。&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://gregorygundersen.com/blog/2019/12/23/random-fourier-features/#a3-expectation-of-costbcosmathbft--bcostb-is-zero"&gt;Random Fourier Features&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="雑記"></category><category term="Lossless Audio Codec"></category><category term="Golomb-Rice"></category><category term="ResNet"></category></entry><entry><title>圧縮率改善検討(11)</title><link href="/ya-suo-lu-gai-shan-jian-tao-11.html" rel="alternate"></link><published>2022-09-02T10:00:00+09:00</published><updated>2022-09-02T10:00:00+09:00</updated><author><name>aiki</name></author><id>tag:None,2022-09-02:/ya-suo-lu-gai-shan-jian-tao-11.html</id><summary type="html">&lt;p&gt;予定が五月雨式に入っておりまとまった時間とれず。今SVRをやっているが、それまでの流れをメモ。&lt;/p&gt;
 &lt;p&gt;Hinge Lossに相当する損 …&lt;/p&gt;</summary><content type="html">&lt;p&gt;予定が五月雨式に入っておりまとまった時間とれず。今SVRをやっているが、それまでの流れをメモ。&lt;/p&gt;
 &lt;p&gt;Hinge Lossに相当する損失はVapnik ε-sensitiveと論文にあったが、Vapnikの名前からSVMを思い出し、もう一度資料を見てみた所SVRによるFIRシステム同定にほかならないことに気づく。&lt;/p&gt;
 &lt;p&gt;SVRの双対問題による定式化ならば凸計画になるので安定している。Gram行列は直前までのp時刻サンプルの内積を取った線形カーネルになる。実装してみてそれなりの性能を示すことが分かった。好適に思えるが問題がいくつか。&lt;/p&gt;

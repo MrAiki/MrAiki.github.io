@@ -243,89 +243,77 @@ Aiki's Blog            </a>
     <div class="row">
         <div class="col-sm-9">
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-11.html">圧縮率改善検討(11)</a></h2>
-                <div class="summary"><p>予定が五月雨式に入っておりまとまった時間とれず。今SVRをやっているが、それまでの流れをメモ。</p>
-<p>Hinge Lossに相当する損 …</p>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-11.html">more ...</a>
+                <h2><a href="/kodetsukushi-zhuang-11.html">コーデック実装(11)</a></h2>
+                <div class="summary"><p>ようやく落ち着いた。が、もう時間がない。
+ダイクストラ法を組み込み、最大ブロックサイズを8192まで上げたらLINNEの性能 …</p>
+                    <a class="btn btn-default btn-xs" href="/kodetsukushi-zhuang-11.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-10.html">圧縮率改善検討(10)</a></h2>
-                <div class="summary"><p>fastICAと勾配に基づくICAを実装して試してみたが、芳しくない</p>
-<ul class="simple">
-<li>L-D法を初期値に設定すると、そこから改善していかない<ul>
-<li>か …</li></ul></li></ul>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-10.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-23tokodetsukushi-zhuang-10.html">執筆中(23)とコーデック実装(10)</a></h2>
+                <div class="summary"><p>いまデコード負荷が一番大きい部分は、再帰的Golomb-Riceの復号部分。これをもっと早くしたい。関数をインライン展開したり …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-23tokodetsukushi-zhuang-10.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-9.html">圧縮率改善検討(9)</a></h2>
-                <div class="summary"><p>skleranのfastICAを試してみた。</p>
-<ul class="simple">
-<li>白色化もライブラリ側でやってくれる。逆にやらないとうまく分離できない</li>
-<li>sklearn.decomposition.FastICAは瞬時混合 …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-9.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-22tokodetsukushi-zhuang-9.html">執筆中(22)とコーデック実装(9)</a></h2>
+                <div class="summary"><p>フレッチャーのチェックサムを使用している。テストで0xFFのXORをとっているがそれの破損を検知できずに焦る。255の …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-22tokodetsukushi-zhuang-9.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-8.html">圧縮率改善検討(8)</a></h2>
-                <div class="summary"><p>用事のため間が空いた。優ガウス分布に従う過程で係数を決めたいと考え始めている。ひとまず研究をサーチ。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://m-repo.lib.meiji.ac.jp/dspace/bitstream/10291/20858/1/tanji_2020_rikou.pdf">優ガ …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-8.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-21tokodetsukushi-zhuang-8.html">執筆中(21)とコーデック実装(8)</a></h2>
+                <div class="summary"><p>他のコーデックが誤り検出をどうしているか軽く調べたら、FLACはブロックヘッダ部分をCRC8で確認、WavPackは謎の独自CRCを …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-21tokodetsukushi-zhuang-8.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-7.html">圧縮率改善検討(7)</a></h2>
-                <div class="summary"><p>執筆が忙しくなり7月は時間あまりとれず。書きながら思ったこと：</p>
-<ul class="simple">
-<li>マルチチャンネル処理はもっとよくできる。MSだ …</li></ul>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-7.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-20tokodetsukushi-zhuang-7.html">執筆中(20)とコーデック実装(7)</a></h2>
+                <div class="summary"><p>CRC16の計算負荷がデコード時の7%程度を占める。FLACに倣ってブロックフレームはCRC8で検査するのがいいのかも。</p>
+<p>CRCの生 …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-20tokodetsukushi-zhuang-7.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-6.html">圧縮率改善検討(6)</a></h2>
-                <div class="summary"><p>適応的にマルチチャンネル処理を選ぶのは、粘ったが改善が見られないので取り下げる。</p>
-<p>一方、符号の分割を決めると …</p>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-6.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-19tokodetsukushi-zhuang-6.html">執筆中(19)とコーデック実装(6)</a></h2>
+                <div class="summary"><p>畳み込みの高速化やって終わろうと思う。寝る前に思いついたリングバッファ導入を試したが、遅くなった。
+リングバ …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-19tokodetsukushi-zhuang-6.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-5.html">圧縮率改善検討(5)</a></h2>
-                <div class="summary"><p>エンコード時に自己相関の計算に30%掛かっているのを思い出して、FFTの採用に乗り切ってみた。
-当然全てFFTだと却っ …</p>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-5.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-18tokodetsukushi-zhuang-5.html">執筆中(18)とコーデック実装(5)</a></h2>
+                <div class="summary"><p>係数次数選択で、係数領域サイズを考慮するようにしたら改善傾向が得られたのでとりこみ。同時に係数は8bit量子化 …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-18tokodetsukushi-zhuang-5.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-4.html">圧縮率改善検討(4)</a></h2>
-                <div class="summary"><p>MS変換以外のチャンネル処理手法があったことを記憶していて、探っていたらLeft-Side(LS), Right-Side(RS)変換だった。</p>
-<ul class="simple">
-<li><a class="reference external" href="https://www.ietf.org/id/draft-ietf-cellar-flac-03.html#section-5.2">Free Lossless Audio Codec</a></li>
-<li><a class="reference external" href="https://github.com/xiph/flac/blob/633ab36ec51bada8737459e51cc54441544e63b2/src/libFLAC/stream_decoder.c#L3066-L3105">FLACのデ …</a></li></ul>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-4.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-17tokodetsukushi-zhuang-4.html">執筆中(17)とコーデック実装(4)</a></h2>
+                <div class="summary"><p>fp:fastを指定したらバイナリサイズ大。エンコードデコード負荷は10%比で改善。ポピュラー音楽で圧縮率が悪化したが …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-17tokodetsukushi-zhuang-4.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-3.html">圧縮率改善検討(3)</a></h2>
-                <div class="summary"><p>実験を積んでしまっているので色々試す。</p>
-<p>まず、MSを2連続適用するのは圧縮率悪化の傾向。音源によっては1%オーダー …</p>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-3.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-16tokodetsukushi-zhuang-3.html">執筆中(16)とコーデック実装(3)</a></h2>
+                <div class="summary"><p>マルチチャンネル処理をやったら刺さった。推定符号長でいけた。0.1%くらいのオーダーで減少。
+しっかしLINNEではうま …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-16tokodetsukushi-zhuang-3.html">more ...</a>
                 </div>
             </article>
             <hr/>
             <article>
-                <h2><a href="/ya-suo-lu-gai-shan-jian-tao-2.html">圧縮率改善検討(2)</a></h2>
-                <div class="summary"><p>マルチチャンネル処理を処理後の分散から判断して見る実装を試した（処理後の分散が減るならMSを実行）が、RWCで0 …</p>
-                    <a class="btn btn-default btn-xs" href="/ya-suo-lu-gai-shan-jian-tao-2.html">more ...</a>
+                <h2><a href="/zhi-bi-zhong-16tokodetsukushi-zhuang-2.html">執筆中(16)とコーデック実装(2)</a></h2>
+                <div class="summary"><p>実装してみた。案の定、FLAC-8は越えてない。3年前の追試になっている。
+しかし次数や予測モデルをこれ以上増やすわけに …</p>
+                    <a class="btn btn-default btn-xs" href="/zhi-bi-zhong-16tokodetsukushi-zhuang-2.html">more ...</a>
                 </div>
             </article>
             <hr/>
@@ -396,6 +384,10 @@ Aiki's Blog            </a>
                             href="/index31.html">31</a></li>
                     <li class=""><a
                             href="/index32.html">32</a></li>
+                    <li class=""><a
+                            href="/index33.html">33</a></li>
+                    <li class=""><a
+                            href="/index34.html">34</a></li>
                 <li class="next"><a
                         href="/index2.html">&raquo;</a></li>
         </ul>
@@ -420,28 +412,13 @@ Aiki's Blog            </a>
   <a href="/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
   <ul class="list-group " id="tags">
     <li class="list-group-item tag-1">
-      <a href="/tag/wavelet.html">Wavelet</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lpc.html">LPC</a>
-    </li>
-    <li class="list-group-item tag-1">
       <a href="/tag/golomb-rice.html">Golomb-Rice</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/natural-gradient.html">Natural Gradient</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/lms.html">LMS</a>
     </li>
     <li class="list-group-item tag-1">
-      <a href="/tag/auto-correlation.html">Auto Correlation</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
-    </li>
-    <li class="list-group-item tag-1">
-      <a href="/tag/lifting.html">Lifting</a>
+      <a href="/tag/wavelet.html">Wavelet</a>
     </li>
     <li class="list-group-item tag-1">
       <a href="/tag/sign-algorithm.html">Sign Algorithm</a>
@@ -449,161 +426,179 @@ Aiki's Blog            </a>
     <li class="list-group-item tag-1">
       <a href="/tag/resnet.html">ResNet</a>
     </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lpc.html">LPC</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/natural-gradient.html">Natural Gradient</a>
+    </li>
+    <li class="list-group-item tag-1">
+      <a href="/tag/lossless-audio-codec.html">Lossless Audio Codec</a>
+    </li>
     <li class="list-group-item tag-2">
       <a href="/tag/signedlms.html">SignedLMS</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/lossless-audio.html">Lossless Audio</a>
+      <a href="/tag/hinge-loss.html">Hinge Loss</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/empirical-fisher.html">Empirical Fisher</a>
     </li>
     <li class="list-group-item tag-2">
-      <a href="/tag/signed-lms.html">Signed LMS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/regularization.html">Regularization</a>
-    </li>
-    <li class="list-group-item tag-2">
       <a href="/tag/auto-regressive.html">Auto Regressive</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/rls.html">RLS</a>
-    </li>
-    <li class="list-group-item tag-2">
-      <a href="/tag/lad.html">LAD</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/adpcm.html">ADPCM</a>
     </li>
     <li class="list-group-item tag-2">
+      <a href="/tag/lad.html">LAD</a>
+    </li>
+    <li class="list-group-item tag-2">
       <a href="/tag/inverse-auto-correlation.html">Inverse Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/auto-correlation.html">Auto Correlation</a>
+    </li>
+    <li class="list-group-item tag-2">
+      <a href="/tag/signed-lms.html">Signed LMS</a>
     </li>
     <li class="list-group-item tag-2">
       <a href="/tag/auxiliary-function.html">Auxiliary Function</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/irls.html">IRLS</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lifting.html">Lifting</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/ig.html">IG</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/regularization.html">Regularization</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/manifold.html">Manifold</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/rls.html">RLS</a>
     </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/tak.html">TAK</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/wavpack.html">WavPack</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/l1norumu.html">L1ノルム</a>
-    </li>
-    <li class="list-group-item tag-3">
-      <a href="/tag/hessian.html">Hessian</a>
+    <li class="list-group-item tag-2">
+      <a href="/tag/lossless-audio.html">Lossless Audio</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/ji-jie-xue-xi.html">機械学習</a>
     </li>
     <li class="list-group-item tag-3">
+      <a href="/tag/ig.html">IG</a>
+    </li>
+    <li class="list-group-item tag-3">
       <a href="/tag/sla.html">SLA</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/information-geometry.html">Information Geometry</a>
+      <a href="/tag/tak.html">TAK</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/xin-hao-chu-li.html">信号処理</a>
     </li>
     <li class="list-group-item tag-3">
-      <a href="/tag/cnn.html">CNN</a>
+      <a href="/tag/l1norumu.html">L1ノルム</a>
+    </li>
+    <li class="list-group-item tag-3">
+      <a href="/tag/manifold.html">Manifold</a>
     </li>
     <li class="list-group-item tag-3">
       <a href="/tag/bp.html">BP</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/test.html">test</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/cnn.html">CNN</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/sse.html">SSE</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/rosuresuyin-sheng.html">ロスレス音声</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/gu-shi-ji.html">古事記</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/hessian.html">Hessian</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/irls.html">IRLS</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/wavpack.html">WavPack</a>
     </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/poemu.html">ポエム</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ma-que.html">麻雀</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/tong-ji.html">統計</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/dft.html">DFT</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ribabu.html">リバーブ</a>
+    <li class="list-group-item tag-3">
+      <a href="/tag/information-geometry.html">Information Geometry</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/ehuekuta.html">エフェクター</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+      <a href="/tag/chuang-guan-shu-fa.html">窓関数法</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/supasufu-hao-hua.html">スパース符号化</a>
     </li>
     <li class="list-group-item tag-4">
-      <a href="/tag/githubio.html">githubio</a>
-    </li>
-    <li class="list-group-item tag-4">
       <a href="/tag/risanpura.html">リサンプラー</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/pelican.html">pelican</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/glasso.html">GLASSO</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/chuang-guan-shu-fa.html">窓関数法</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/c89.html">C89</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
-    </li>
-    <li class="list-group-item tag-4">
-      <a href="/tag/ji-chu.html">基礎</a>
     </li>
     <li class="list-group-item tag-4">
       <a href="/tag/circulant-matrix.html">Circulant Matrix</a>
     </li>
     <li class="list-group-item tag-4">
+      <a href="/tag/githubio.html">githubio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ma-que.html">麻雀</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/monkeys-audio.html">Monkey's Audio</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/test.html">test</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ribabu.html">リバーブ</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/glasso.html">GLASSO</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/pelican.html">pelican</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/poemu.html">ポエム</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/tong-ji.html">統計</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/sse.html">SSE</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fisher-information-matrix.html">Fisher Information Matrix</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xiang-ting-shu.html">向聴数</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/c89.html">C89</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/xun-hui-xing-lie.html">巡回行列</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/gu-shi-ji.html">古事記</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/ji-chu.html">基礎</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/dft.html">DFT</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/de-dian-ji-suan.html">得点計算</a>
+    </li>
+    <li class="list-group-item tag-4">
       <a href="/tag/jupyter.html">Jupyter</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/fuzzy-clustering.html">Fuzzy Clustering</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/qing-bao-ji-he.html">情報幾何</a>
+    </li>
+    <li class="list-group-item tag-4">
+      <a href="/tag/lms-algorithm.html">LMS Algorithm</a>
     </li>
   </ul>
 </li>
@@ -640,7 +635,7 @@ Aiki's Blog            </a>
    <div class="container">
       <hr>
       <div class="row">
-         <div class="col-xs-10">&copy; 2022 aiki
+         <div class="col-xs-10">&copy; 2023 aiki
             &middot; Powered by <a href="https://github.com/getpelican/pelican-themes/tree/master/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
             <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
             <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>              <p><small>Unless otherwise stated, all articles are published under the <a href="http://www.wtfpl.net/about/">WTFPL</a> license. ブログ記述は誤りを含むのでご注意ください。</small></p>
